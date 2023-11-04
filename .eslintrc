@@ -31,6 +31,17 @@
     "no-param-reassign": 0,
     "no-underscore-dangle": 0,
     "no-restricted-exports": 0,
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "react-i18next",
+            "message": "Please use next-i18next import instead to avoid hydration errors"
+          }
+        ]
+      }
+    ],
     "react/no-children-prop": 0,
     "react/react-in-jsx-scope": 0,
     "jsx-a11y/anchor-is-valid": 0,
