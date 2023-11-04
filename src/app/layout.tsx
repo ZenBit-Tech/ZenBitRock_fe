@@ -7,6 +7,12 @@ import { LocalizationProvider } from 'locales';
 export const metadata = {
   title: 'Agent wise',
   description: 'Agent wise website',
+  icons: [
+    {
+      rel: 'icon',
+      url: '/favicon/favicon.ico',
+    },
+  ],
 };
 
 type Props = {
