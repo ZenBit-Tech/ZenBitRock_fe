@@ -10,7 +10,7 @@ export const metadata = {
   icons: [
     {
       rel: 'icon',
-      url: '/favicon/favicon.ico',
+      url: '/favicon/icon.ico',
     },
   ],
 };
@@ -20,16 +20,18 @@ type Props = {
   params: { lang: Locale };
 };
 
-// export async function generateStaticParams() {
-//   return i18n.locales.map((locale) => ({ lang: locale }));
-// }
+export async function generateStaticParams() {
+  return i18n.locales.map((locale) => ({ lang: locale }));
+}
 
 export default function RootLayout({ children, params }: Props) {
   return (
     <html lang={params.lang}>
       <body>
-        <TestHeader lang={params.lang} />
-        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        <StyledComponentsRegistry>
+          <TestHeader lang={params.lang} />
+          {children}
+        </StyledComponentsRegistry>
       </body>
     </html>
   );
