@@ -12,11 +12,10 @@ const persistConfig = {
 };
 
 const reducers = combineReducers({
-  counter: counterReducer
+  counter: counterReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
-
 
 export const store = configureStore({
   reducer: persistedReducer,

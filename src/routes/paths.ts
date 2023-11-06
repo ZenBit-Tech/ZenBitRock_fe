@@ -9,4 +9,4 @@ export const paths = {
     newPassword: `${ROOTS.AUTH}/new-password`,
     forgotPassword: `${ROOTS.AUTH}/forgot-password`,
   },
-}
+};

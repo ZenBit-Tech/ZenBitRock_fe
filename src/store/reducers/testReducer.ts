@@ -2,11 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 
 type CounterState = {
   value: number;
-}
+};
 
 type CounterReducer = {
   value: number;
-}
+};
 
 const initialState: CounterState = {
   value: 0,

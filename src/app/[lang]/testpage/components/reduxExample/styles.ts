@@ -1,4 +1,4 @@
-import { styled } from '@mui/material'
+import { styled } from '@mui/material';
 import { colors } from 'constants/colors';
 
 export const ReduxWrapper = styled('div')`
@@ -6,7 +6,7 @@ export const ReduxWrapper = styled('div')`
   flex-direction: column;
   align-items: center;
   width: 150px;
-`
+`;
 
 export const Button = styled('button')`
   background: ${colors.TEST_BACKGROUND_COLOR};

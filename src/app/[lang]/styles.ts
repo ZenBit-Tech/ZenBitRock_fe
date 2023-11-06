@@ -1,4 +1,4 @@
-import { styled } from '@mui/material'
+import { styled } from '@mui/material';
 import { colors } from 'constants/colors';
 
 export const Wrapper = styled('div')`
@@ -7,9 +7,9 @@ export const Wrapper = styled('div')`
   display: flex;
   flex-direction: column;
   align-items: center;
-`
+`;
 
 export const Link = styled('a')`
   color: inherit;
   margin-top: 25px;
-`
+`;
