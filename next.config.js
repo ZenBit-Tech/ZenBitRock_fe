@@ -15,8 +15,4 @@ module.exports = {
     });
     return config;
   },
-  i18n: {
-    locales: ['en-US', 'de'],
-    defaultLocale: 'en-US',
-  },
 };
