@@ -3,6 +3,12 @@ build/*
 dist/*
 public/*
 **/out/*
+**/.next/*
+**/src/hooks/*
+**/src/components/*
+**/src/utils
+**/src/theme
+**/src/assets
 **/node_modules/*
 
 **/.next/*
