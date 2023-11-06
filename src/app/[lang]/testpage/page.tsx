@@ -1,5 +1,5 @@
-import { getDictionary } from 'lib/dictionary';
 import Main from './components/Main';
+import { Locale } from 'locales/i18n.config';
 
 type Props = {
   params: { lang: Locale };

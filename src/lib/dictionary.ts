@@ -1,4 +1,4 @@
-import type { Locale } from '../locales/i18n.config'
+import type { Locale } from 'locales/i18n.config'
 
 const dictionaries = {
   en: () => import('locales/langs/en.json').then(module => module.default),
