@@ -1,5 +1,15 @@
 {
+  "Home": {
+    "TestHeader": {
+      "title": "Agent Wise"
+    },
+    "Page": {
+      "title": "This is a Home page",
+      "link": "Go to Test page"
+    }
+  },
   "TestPage": {
-    "mainText": "This is a test page and a test form"
+    "maintext": "This is a Test page",
+    "reduxTitle": "Redux example"
   }
 }

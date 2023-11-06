@@ -1,5 +1,15 @@
 {
+  "Home": {
+    "TestHeader": {
+      "title": "Deutscher Agent Wise"
+    },
+    "Page": {
+      "title": "Dies ist eine Homepage",
+      "link": "Gehen Sie zur Testseite"
+    }
+  },
   "TestPage": {
-    "mainText": "Dies ist eine Testseite und ein Testformular"
+    "maintext": "Dies ist eine Testseite",
+    "reduxTitle": "Redux-Beispiel"
   }
 }
