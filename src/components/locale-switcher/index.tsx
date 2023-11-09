@@ -21,7 +21,8 @@ export default function LocaleSwitcher() {
           <Button key={locale}>
             <Link
               underline={'none'}
-              color={colors.TEST_MAIN_COLOR}
+              // color={colors.TEST_MAIN_COLOR}
+              color="primary"
               href={redirectedPathName(locale)}
             >
               {locale}
