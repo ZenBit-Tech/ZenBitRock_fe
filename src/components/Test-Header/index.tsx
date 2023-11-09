@@ -1,4 +1,3 @@
-'use client';
 import { Logo, TestHeaderItem } from './styles';
 import { Locale } from 'locales/i18n.config';
 import { getDictionary } from 'lib/dictionary';
