@@ -1,4 +1,4 @@
-'use client';
+'use client'
 import { Logo, HeaderItem } from './styles';
 import { Locale } from 'locales/i18n.config';
 import { getDictionary } from 'lib/dictionary';
@@ -12,7 +12,7 @@ export default async function Header({ lang }: Props) {
   const { Home } = await getDictionary(lang);
   return (
     <HeaderItem>
-      <Logo href="/">{Home.TestHeader.title}</Logo>
+      <Logo href="/">{Home.Header.title}</Logo>
       <LocaleSwitcher />
     </HeaderItem>
   );
