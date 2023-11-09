@@ -20,7 +20,7 @@ declare module '@mui/material/styles/createPalette' {
 
 // SETUP COLORS
 
-const GREY = {
+export const GREY = {
   0: '#FFFFFF',
   100: '#F9FAFB',
   200: '#F4F6F8',

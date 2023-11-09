@@ -4,8 +4,11 @@
       "title": "Deutscher Agent Wise"
     },
     "Page": {
-      "title": "Dies ist eine Homepage",
-      "link": "Gehen Sie zur Testseite"
+      "title": "Willkommen bei AgentWise - Ihrer Komplettlösung für effektives Vertriebsmanagement",
+      "link": "Gehen Sie zur Testseite",
+      "signUpLink": "Sign Up",
+      "signInLink": "Sign In",
+      "buttonTxt": "Jetzt loslegen"
     }
   },
   "TestPage": {
