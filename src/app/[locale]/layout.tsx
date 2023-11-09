@@ -1,7 +1,7 @@
 import './global.css';
 import 'modern-normalize/modern-normalize.css';
 import StyledComponentsRegistry from 'lib/registry';
-import { Locale, i18n } from 'locales/i18n.config';
+import { Locale, generateStaticParams } from 'locales/i18n.config';
 import TestHeader from 'components/Test-Header';
 
 export const metadata = {
@@ -17,19 +17,17 @@ export const metadata = {
 
 type Props = {
   children: React.ReactNode;
-  params: { lang: Locale };
+  params: { locale: Locale };
 };
 
-export async function generateStaticParams() {
-  return i18n.locales.map((locale) => ({ lang: locale }));
-}
+generateStaticParams();
 
-export default function RootLayout({ children, params }: Props) {
+export default async function RootLayout({ children, params }: Props) {
   return (
-    <html lang={params.lang}>
+    <html lang={params.locale}>
       <body>
         <StyledComponentsRegistry>
-          <TestHeader lang={params.lang} />
+          <TestHeader locale={params.locale} />
           {children}
         </StyledComponentsRegistry>
       </body>

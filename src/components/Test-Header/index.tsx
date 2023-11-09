@@ -2,16 +2,25 @@ import { Logo, TestHeaderItem } from './styles';
 import { Locale } from 'locales/i18n.config';
 import { getDictionary } from 'lib/dictionary';
 import LocaleSwitcher from 'components/locale-switcher';
+import { notFound } from 'next/navigation';
 
 type Props = {
-  lang: Locale;
+  locale: Locale;
 };
 
-export default async function TestHeader({ lang }: Props) {
-  const { Home } = await getDictionary(lang);
+export default async function TestHeader({ locale }: Props): Promise<JSX.Element> {
+  let localeData;
+
+  try {
+    const { Home } = await getDictionary(locale);
+    localeData = Home;
+  } catch (error) {
+    notFound();
+  }
+
   return (
     <TestHeaderItem>
-      <Logo href="/">{Home.TestHeader.title}</Logo>
+      <Logo href="/">{localeData.TestHeader.title}</Logo>
       <LocaleSwitcher />
     </TestHeaderItem>
   );
