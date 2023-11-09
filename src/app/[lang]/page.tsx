@@ -14,6 +14,7 @@ export default async function HomePage({ params: { lang } }: Props) {
     <Wrapper>
       <h1>{Home.Page.title}</h1>
       <Link href="testpage">{Home.Page.link}</Link>
+      <Link href="signinpage">{Home.Page.signInLink}</Link>
     </Wrapper>
   );
 }

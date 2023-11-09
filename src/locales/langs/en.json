@@ -5,11 +5,23 @@
     },
     "Page": {
       "title": "This is a Home page",
-      "link": "Go to Test page"
+      "link": "Go to Test page",
+      "signInLink": "Go to SignIn page"
     }
   },
   "TestPage": {
     "maintext": "This is a Test page",
     "reduxTitle": "Redux example"
+  },
+  "SignInPage": {
+    "termsLink": "Terms & Conditions",
+    "policyLink": "Privacy Policy",
+    "signUpLink": "Sign Up",
+    "doNot": "Don't have an account?",
+    "agree": "By continuing, you agree to AgentWise",
+    "and": "and"
+  },
+  "LoginForm": {
+    "title": "Sign in"
   }
 }
