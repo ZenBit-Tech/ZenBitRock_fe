@@ -6,7 +6,7 @@ import {
   LeftSection,
   LoginWrapper,
   RightSection,
-  ForgotPassword,
+  SignUpLink,
   Policy,
   Link,
 } from './styles';
@@ -23,15 +23,16 @@ export default async function SignInPage({ params: { lang } }: Props) {
       <LeftSection></LeftSection>
       <RightSection>
         <LoginWrapper>
-          <LoginForm lang={lang} />
-          <ForgotPassword>
+          <LoginForm />
+          <SignUpLink>
             {SignInPage.doNot}&nbsp;
             <Link href="/testpage">{SignInPage.signUpLink}</Link>
-          </ForgotPassword>
+          </SignUpLink>
 
           <Policy>
             {SignInPage.agree}&nbsp;
-            <Link href="/testpage">{SignInPage.termsLink}</Link>&nbsp;{SignInPage.and}&nbsp;
+            <Link href="/testpage">{SignInPage.termsLink}</Link>
+            &nbsp;{SignInPage.and}&nbsp;
             <Link href="/testpage">{SignInPage.policyLink}</Link>
           </Policy>
         </LoginWrapper>

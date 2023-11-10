@@ -15,8 +15,7 @@ type Props = {
   lang: Locale;
 };
 
-export default async function LoginForm({ lang }: Props) {
-  const { TestPage } = await getDictionary(lang);
+export default function LoginForm() {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [showPassword, setShowPassword] = useState(false);
   const {
@@ -38,7 +37,7 @@ export default async function LoginForm({ lang }: Props) {
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h3" sx={{ marginBottom: '30px' }}>
         Sign in
       </Typography>
 
@@ -52,39 +51,46 @@ export default async function LoginForm({ lang }: Props) {
         })}
         label="Email"
         fullWidth
-        margin="normal"
-        variant="outlined"
+        sx={{ marginBottom: '30px' }}
+        error={Boolean(errors?.email)}
+        helperText={errors?.email && <div>{errors.email.message}</div>}
       />
-      {errors?.email && <div>{errors.email.message}</div>}
 
       <TextField
         {...register('password', {
           required: 'This field is required',
           minLength: {
             value: 8,
-            message: 'Password must be at least 8 characters long',
+            message: 'Min 8 characters long',
           },
         })}
         label="Password"
         type={showPassword ? 'text' : 'password'}
         fullWidth
-        margin="normal"
-        variant="outlined"
+        sx={{ marginBottom: '20px' }}
+        error={Boolean(errors?.password)}
+        helperText={errors?.password && <div>{errors.password.message}</div>}
         InputProps={{
           endAdornment: (
             <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-              {showPassword ? <VisibilityOff /> : <Visibility />}
+              {showPassword ? <Visibility /> : <VisibilityOff />}
             </IconButton>
           ),
         }}
       />
-      {errors?.password && <div>{errors.password.message}</div>}
 
-      <Typography variant="body2">
+      <Typography variant="body2" sx={{ marginBottom: '10px' }}>
         <Link href="/testpage">Forgot password</Link>
       </Typography>
 
-      <Button type="submit" variant="contained" color="primary" fullWidth disabled={!isValid}>
+      <Button
+        sx={{ marginBottom: '20px' }}
+        type="submit"
+        variant="contained"
+        color="primary"
+        fullWidth
+        disabled={!isValid}
+      >
         Sign in
       </Button>
     </form>
