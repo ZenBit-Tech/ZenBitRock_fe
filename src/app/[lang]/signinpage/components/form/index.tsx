@@ -11,8 +11,12 @@ type FormValues = {
   email: string;
   password: string;
 };
+type Props = {
+  lang: Locale;
+};
 
-export default function LoginForm() {
+export default async function LoginForm({ lang }: Props) {
+  const { TestPage } = await getDictionary(lang);
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [showPassword, setShowPassword] = useState(false);
   const {

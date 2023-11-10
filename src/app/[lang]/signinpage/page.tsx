@@ -23,7 +23,7 @@ export default async function SignInPage({ params: { lang } }: Props) {
       <LeftSection></LeftSection>
       <RightSection>
         <LoginWrapper>
-          <LoginForm />
+          <LoginForm lang={lang} />
           <ForgotPassword>
             {SignInPage.doNot}&nbsp;
             <Link href="/testpage">{SignInPage.signUpLink}</Link>
