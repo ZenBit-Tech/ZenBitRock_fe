@@ -1,15 +1,42 @@
 {
   "Home": {
-    "TestHeader": {
+    "Header": {
       "title": "Agent Wise"
     },
     "Page": {
-      "title": "This is a Home page",
-      "link": "Go to Test page"
+      "title": "Welcome to AgentWise - your  all-in-one solution for effective sales management",
+      "link": "Go to Test page",
+      "signUpLink": "Sign Up",
+      "signInLink": "Sign In",
+      "buttonTxt": "Get started now"
     }
   },
   "TestPage": {
     "maintext": "This is a Test page",
     "reduxTitle": "Redux example"
+  },
+  "SignInPage": {
+    "termsLink": "Terms & Conditions",
+    "policyLink": "Privacy Policy",
+    "signUpLink": "Sign Up",
+    "doNot": "Don't have an account?",
+    "agree": "By continuing, you agree to AgentWise",
+    "and": "and"
+  },
+  "SignUpPage": {
+    "title": "Sign up",
+    "emailInput": "Email",
+    "emailInputPlaceholder": "name@domain.com",
+    "passwordInput": "Password",
+    "passwordInputPlaceholder": "Min 8 characters",
+    "repeatPasswordInput": "Repeat password",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Invalid email",
+    "passwordRequired": "Password is required",
+    "minChar": "Minimum 8 characters",
+    "repeatLabel": "Repeat password",
+    "unmatchPass": "Passwords do not match",
+    "haveAcc": "Already have an account?",
+    "signInLink": "Sign In"
   }
 }

@@ -1,9 +1,7 @@
 'use client';
-
 import { usePathname } from 'next/navigation';
 import { i18n } from 'locales/i18n.config';
 import { Button, Link } from '@mui/material';
-import { colors } from 'constants/colors';
 
 export default function LocaleSwitcher() {
   const pathName = usePathname();
@@ -20,11 +18,7 @@ export default function LocaleSwitcher() {
       {i18n.locales.map((locale) => {
         return (
           <Button key={locale}>
-            <Link
-              underline={'none'}
-              color={colors.TEST_MAIN_COLOR}
-              href={redirectedPathName(locale)}
-            >
+            <Link underline={'none'} color="primary" href={redirectedPathName(locale)}>
               {locale}
             </Link>
           </Button>

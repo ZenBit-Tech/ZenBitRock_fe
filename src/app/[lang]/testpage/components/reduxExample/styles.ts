@@ -1,16 +1,14 @@
-'use client';
-
-import styled from 'styled-components';
+import { styled } from '@mui/material';
 import { colors } from 'constants/colors';
 
-export const ReduxWrapper = styled.div`
+export const ReduxWrapper = styled('div')`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 150px;
 `;
 
-export const Button = styled.button`
+export const Button = styled('button')`
   background: ${colors.TEST_BACKGROUND_COLOR};
   color: ${colors.TEST_MAIN_COLOR};
   font-size: 1em;

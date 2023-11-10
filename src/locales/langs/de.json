@@ -1,15 +1,44 @@
 {
   "Home": {
-    "TestHeader": {
+    "Header": {
       "title": "Deutscher Agent Wise"
     },
     "Page": {
-      "title": "Dies ist eine Homepage",
-      "link": "Gehen Sie zur Testseite"
+      "title": "Willkommen bei AgentWise - Ihrer Komplettlösung für effektives Vertriebsmanagement",
+      "link": "Gehen Sie zur Testseite",
+      "signUpLink": "Sign Up",
+      "signInLink": "Sign In",
+      "buttonTxt": "Jetzt loslegen"
     }
   },
+
   "TestPage": {
     "maintext": "Dies ist eine Testseite",
     "reduxTitle": "Redux-Beispiel"
+  },
+
+  "SignInPage": {
+    "termsLink": "Terms & Bedingungen",
+    "policyLink": "Datenschutzrichtlinie",
+    "signUpLink": "Melden Sie sich an",
+    "doNot": "Sie haben noch kein Konto?",
+    "agree": "Indem Sie fortfahren, stimmen Sie AgentWise zu",
+    "and": "und"
+  },
+  "SignUpPage": {
+    "title": "Registrieren",
+    "emailInput": "Email",
+    "emailInputPlaceholder": "name@domain.com",
+    "passwordInput": "Passwort",
+    "passwordInputPlaceholder": "Min 8 Zeichen",
+    "repeatPasswordInput": "Passwort wiederholen",
+    "emailRequired": "E-Mail ist erforderlich",
+    "emailInvalid": "Ungültige E-Mail",
+    "passwordRequired": "Passwort wird benötigt",
+    "minChar": "Min 8 Zeichen",
+    "repeatLabel": "Passwort wiederholen",
+    "unmatchPass": "Passwörter stimmen nicht überein",
+    "haveAcc": "Sie haben bereits ein Konto?",
+    "signInLink": "Einloggen"
   }
 }

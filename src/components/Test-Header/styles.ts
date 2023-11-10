@@ -1,20 +1,17 @@
-'use client';
-
-import styled from 'styled-components';
+import { styled } from '@mui/material/styles';
 import { colors } from 'constants/colors';
 
-export const TestHeaderItem = styled.header`
+export const TestHeaderItem = styled('header')`
   background: ${colors.TEST_BACKGROUND_COLOR};
   color: white;
   padding: 0 25px;
   height: 80px;
-  width: 1440px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
 
-export const Logo = styled.a`
+export const Logo = styled('a')`
   color: ${colors.TEST_MAIN_COLOR};
   font-size: 25px;
 `;
