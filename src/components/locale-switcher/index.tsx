@@ -20,11 +20,7 @@ export default function LocaleSwitcher() {
       {i18n.locales.map((locale) => {
         return (
           <Button key={locale}>
-            <Link
-              underline={'none'}
-              color={colors.TEST_MAIN_COLOR}
-              href={redirectedPathName(locale)}
-            >
+            <Link underline={'none'} color="primary" href={redirectedPathName(locale)}>
               {locale}
             </Link>
           </Button>
