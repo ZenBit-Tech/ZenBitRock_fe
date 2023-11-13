@@ -11,5 +11,13 @@
   "TestPage": {
     "maintext": "Dies ist eine Testseite",
     "reduxTitle": "Redux-Beispiel"
+  },
+  "VerifyEmail": {
+    "title": "Email Verifizierung",
+    "EmailSent": "Wir haben einen OTP-Bestätigungscode an Ihre E-Mail-Adresse gesendet. Bitte geben Sie ihn hier ein:",
+    "code": "code",
+    "expire": "läuft um 01:35 ab",
+    "sendAgain": "Nochmals senden",
+    "verify": "Verifizieren"
   }
 }

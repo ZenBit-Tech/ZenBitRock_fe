@@ -11,5 +11,13 @@
   "TestPage": {
     "maintext": "This is a Test page",
     "reduxTitle": "Redux example"
+  },
+  "VerifyEmail": {
+    "title": "Email Verification",
+    "EmailSent": "We have sent an OTP verification code to your email, please enter it here:",
+    "code": "Code",
+    "expire": "will expire in 01:35",
+    "sendAgain": "Send Again",
+    "verify": "Verify"
   }
 }
