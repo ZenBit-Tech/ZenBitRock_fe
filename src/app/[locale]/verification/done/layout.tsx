@@ -1,6 +1,6 @@
-import { Locale, generateStaticParams } from 'locales/i18n.config';
 import { NextIntlClientProvider } from 'next-intl';
 import { notFound } from 'next/navigation';
+import { Locale, generateStaticParams } from 'locales/i18n.config';
 
 export const metadata = {
   title: 'Verification',

@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -16,7 +17,6 @@ import FormProvider, {
   RHFAutocomplete,
 } from 'components/hook-form';
 import { FormSchema } from './schema';
-import { useTranslations } from 'next-intl';
 import {
   getRoles,
   getGenders,
