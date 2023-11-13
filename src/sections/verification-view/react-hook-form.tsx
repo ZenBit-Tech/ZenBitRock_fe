@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -53,6 +54,8 @@ export const defaultValues = {
 export default function ReactHookForm() {
   const t = useTranslations('VerificationPage');
 
+  const { replace } = useRouter();
+
   const methods = useForm({
     resolver: yupResolver(FormSchema),
     defaultValues,
@@ -72,6 +75,7 @@ export default function ReactHookForm() {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
       console.info('DATA', data);
+      replace('/verification/done');
     } catch (error) {
       throw error;
     }

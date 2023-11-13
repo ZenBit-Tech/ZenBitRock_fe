@@ -13,7 +13,7 @@
     "reduxTitle": "Redux-Beispiel"
   },
   "VerificationPage": {
-    "mainTitle": "KYC Formular",
+    "mainTitle": "KYC formular",
     "identitySectionTitle": "A. Identitätsdetails",
     "nameOfTheApplicant": "1. Name des Antragstellers",
     "namePlaceholder": "Name",
@@ -51,6 +51,10 @@
     "declarationSectionTitle": "D. Erklärung",
     "declarationText": "Ich erkläre hiermit, dass die in diesem Formular bereitgestellten Informationen korrekt und vollständig sind. Ich bestätige, dass falsche und/oder unvollständige Informationen, die zu einem Verstoß gegen Vorschriften führen, rechtliche Maßnahmen auslösen können, und ich akzeptiere, dass ich für alle Gebühren, Strafen und Verstöße verantwortlich bin.",
     "signature": "Name des Antragstellers",
-    "submitButton": "Abschicken"
+    "submitButton": "Abschicken",
+    "doneTextFirstPart": "Ihre Bewerbung wurde erfolgreich übermittelt.",
+    "doneTextSecondPart": "Der Antrag wird in Kürze überprüft und Sie erhalten eine Bestätigungsnachricht an die E-Mail-Adresse, die Sie angegeben haben, nachdem der Antrag überprüft wurde.",
+    "doneTextThirdPart": "Vielen Dank, dass Sie sich AgentWise angeschlossen haben!",
+    "goHomeButton": "Nach Hause gehen"
   }
 }
