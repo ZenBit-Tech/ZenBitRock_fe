@@ -2,8 +2,8 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-
 import counterReducer from './reducers/testReducer';
+import authReducer from './authSlice';
 
 const persistConfig = {
   key: 'store',
@@ -13,6 +13,7 @@ const persistConfig = {
 
 const reducers = combineReducers({
   counter: counterReducer,
+  auth: authReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

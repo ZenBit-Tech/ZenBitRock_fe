@@ -47,5 +47,4 @@ export const Policy = styled('div')`
 
 export const Link = styled('a')`
   display: inline;
-  color: ${colors.SIGN_IN_LINKS_COLOR};
 `;

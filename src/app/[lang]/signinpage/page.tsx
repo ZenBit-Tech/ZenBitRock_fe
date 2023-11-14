@@ -1,15 +1,8 @@
 'use client';
 import { Locale } from 'locales/i18n.config';
 import { getDictionary } from 'lib/dictionary';
-import {
-  Wrapper,
-  LeftSection,
-  LoginWrapper,
-  RightSection,
-  SignUpLink,
-  Policy,
-  Link,
-} from './styles';
+import { Wrapper, LeftSection, LoginWrapper, RightSection, SignUpLink, Policy } from './styles';
+import { Link } from '@mui/material';
 import LoginForm from './components/form';
 
 type Props = {

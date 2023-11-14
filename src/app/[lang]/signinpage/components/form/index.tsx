@@ -5,7 +5,8 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useState } from 'react';
-import { Link } from './styles';
+/* import { Link } from './styles'; */
+import { Link } from '@mui/material';
 import { getDictionary } from 'lib/dictionary';
 type FormValues = {
   email: string;
@@ -80,7 +81,9 @@ export default function LoginForm() {
       />
 
       <Typography variant="body2" sx={{ marginBottom: '10px' }}>
-        <Link href="/testpage">Forgot password</Link>
+        <Link href="/testpage" color="primary">
+          Forgot password
+        </Link>
       </Typography>
 
       <Button
