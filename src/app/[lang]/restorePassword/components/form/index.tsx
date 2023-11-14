@@ -2,6 +2,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { TextField, Button, Typography } from '@mui/material';
 import { getDictionary } from 'lib/dictionary';
+import { Form } from './styles';
 
 type FormValues = {
   email: string;
@@ -31,8 +32,8 @@ export default function RestorePasswordForm() {
     reset();
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Typography variant="h4" sx={{ marginBottom: '40px' }}>
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <Typography variant="h3" sx={{ marginBottom: '30px' }}>
         Restore password
       </Typography>
       <Typography variant="h6" sx={{ marginBottom: '30px' }}>
@@ -49,7 +50,7 @@ export default function RestorePasswordForm() {
         })}
         label="Email"
         fullWidth
-        sx={{ marginBottom: '20px' }}
+        sx={{ marginBottom: '30px' }}
         error={Boolean(errors?.email)}
         helperText={errors?.email && <div>{errors.email.message}</div>}
       />
@@ -64,6 +65,6 @@ export default function RestorePasswordForm() {
       >
         Send Code
       </Button>
-    </form>
+    </Form>
   );
 }
