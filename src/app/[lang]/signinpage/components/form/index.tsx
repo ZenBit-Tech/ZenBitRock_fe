@@ -6,6 +6,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useState } from 'react';
 import { getDictionary } from 'lib/dictionary';
+import { Form } from './styles';
 type FormValues = {
   email: string;
   password: string;
@@ -35,7 +36,7 @@ export default function LoginForm() {
     reset();
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <Typography variant="h3" sx={{ marginBottom: '30px' }}>
         Sign in
       </Typography>
@@ -94,6 +95,6 @@ export default function LoginForm() {
       >
         Sign in
       </Button>
-    </form>
+    </Form>
   );
 }
