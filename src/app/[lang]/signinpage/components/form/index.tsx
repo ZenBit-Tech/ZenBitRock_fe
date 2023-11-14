@@ -1,12 +1,10 @@
 'use client';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { TextField, Button, Typography } from '@mui/material';
+import { TextField, Button, Typography, Link } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useState } from 'react';
-/* import { Link } from './styles'; */
-import { Link } from '@mui/material';
 import { getDictionary } from 'lib/dictionary';
 type FormValues = {
   email: string;
