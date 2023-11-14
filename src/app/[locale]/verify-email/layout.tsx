@@ -1,4 +1,3 @@
-'use client';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { Locale } from 'locales/i18n.config';
@@ -14,6 +13,7 @@ export default async function Layout({ children, params: { locale } }: Props) {
 
   try {
     localeData = (await import(`locales/langs/${locale}.json`)).default;
+    console.log(locale);
   } catch (error) {
     notFound();
   }
