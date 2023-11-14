@@ -2,7 +2,7 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-
+import { authApi } from './authApi';
 import counterReducer from './reducers/testReducer';
 
 const persistConfig = {
@@ -13,6 +13,7 @@ const persistConfig = {
 
 const reducers = combineReducers({
   counter: counterReducer,
+  [authApi.reducerPath]: authApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -23,7 +24,7 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: false,
       immutableCheck: false,
-    }),
+    }).concat(authApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
