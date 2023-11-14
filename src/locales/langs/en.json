@@ -38,7 +38,9 @@
       "repeatLabel": "Repeat password",
       "unmatchPass": "Passwords do not match",
       "haveAcc": "Already have an account?",
-      "signInLink": "Sign In"
+      "signInLink": "Sign In",
+      "agree": "By continuing, you agree to AgentWise",
+      "and": "and"
     },
     "Terms": {
       "TermsTitle": "Terms and Conditions",

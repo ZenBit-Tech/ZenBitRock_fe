@@ -40,7 +40,9 @@
       "repeatLabel": "Passwort wiederholen",
       "unmatchPass": "Passwörter stimmen nicht überein",
       "haveAcc": "Sie haben bereits ein Konto?",
-      "signInLink": "Einloggen"
+      "signInLink": "Einloggen",
+      "agree": "Indem Sie fortfahren, stimmen Sie AgentWise zu",
+      "and": "und"
     },
     "Terms": {
       "TermsTitle": "Allgemeine Geschäftsbedingungen",

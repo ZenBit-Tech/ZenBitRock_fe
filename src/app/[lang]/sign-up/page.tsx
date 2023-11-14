@@ -1,21 +1,55 @@
 'use client';
 
+import { notFound } from 'next/navigation';
+import { Link, Box } from '@mui/material';
 import { Locale } from 'locales/i18n.config';
 import { getDictionary } from 'lib/dictionary';
 import PagesContainer from 'components/PagesContainer/PagesContainer';
-import PageTitle from 'components/PageTitle/PageTitle';
-import SignUpForm from 'components/SignUpForm/SignUpForm';
-import { SignInLink, Policy } from './styles';
-import { Link, Box } from '@mui/material';
 import TermsDialog from 'components/TermsDialog/TermsDialog';
 import PrivacyPolicyDialog from 'components/PrivacyPolicyDialog/PrivacyPolicyDialog';
+import ReduxProvider from 'store/ReduxProvider';
+import PageTitle from 'components/PageTitle/PageTitle';
+import SignUpForm from 'components/SignUpForm/SignUpForm';
+import { pageLinks } from 'constants/pageLinks';
+import { SignInLink, Policy } from './styles';
+import { useEffect, useState } from 'react';
 
 type Props = {
   params: { lang: Locale };
 };
 
-export default async function SignUpPage({ params: { lang } }: Props) {
-  const { SignInPage, SignUpPage } = await getDictionary(lang);
+type SignUpPageType = {
+  Main: {
+    [key: string]: string;
+  };
+  Terms: {
+    [key: string]: string;
+  };
+  TermsContent: {
+    [key: string]: string;
+  };
+};
+
+export default function SignUpPage({ params: { lang } }: Props) {
+  const [data, setData] = useState<SignUpPageType | null>(null);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { SignUpPage } = await getDictionary(lang);
+        setData(SignUpPage);
+      } catch (error) {
+        notFound();
+      }
+    };
+
+    fetchData();
+  }, [lang]);
+
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <PagesContainer>
@@ -28,20 +62,22 @@ export default async function SignUpPage({ params: { lang } }: Props) {
             alignItems: 'center',
           }}
         >
-          <PageTitle title={SignUpPage.Main.title} />
-          <SignUpForm SignUpPage={SignUpPage} />
+          <PageTitle title={data.Main.title} />
+          <ReduxProvider>
+            <SignUpForm SignUpPage={data} />
+          </ReduxProvider>
           <SignInLink>
-            {SignUpPage.Main.haveAcc}&nbsp;
-            <Link href="/sign-in" color="primary">
-              {SignUpPage.Main.signInLink}
+            {data.Main.haveAcc}&nbsp;
+            <Link href={pageLinks.SIGN_IN_PAGE} color="primary">
+              {data.Main.signInLink}
             </Link>
           </SignInLink>
 
           <Policy>
-            {SignInPage.agree}&nbsp;
-            <TermsDialog SignUpPage={SignUpPage} />
-            &nbsp;{SignInPage.and}&nbsp;
-            <PrivacyPolicyDialog SignUpPage={SignUpPage} />
+            {data.Main.agree}&nbsp;
+            <TermsDialog SignUpPage={data} />
+            &nbsp;{data.Main.and}&nbsp;
+            <PrivacyPolicyDialog SignUpPage={data} />
           </Policy>
         </Box>
       </PagesContainer>
