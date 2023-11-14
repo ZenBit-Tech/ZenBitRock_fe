@@ -11,5 +11,15 @@
   "TestPage": {
     "maintext": "This is a Test page",
     "reduxTitle": "Redux example"
+  },
+  "VerifyEmail": {
+    "title": "Please check your email!",
+    "emailSent": "We have emailed a 6-digit confirmation code to acb@domain, please enter the code in below box to verify your email.",
+    "code": "Code",
+    "expire": "will expire in 01:35",
+    "sendAgain": "Resend code",
+    "verify": "Verify",
+    "noCode": "Don't have a code?",
+    "return": "Return"
   }
 }

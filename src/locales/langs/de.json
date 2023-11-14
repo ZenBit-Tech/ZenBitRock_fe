@@ -11,5 +11,15 @@
   "TestPage": {
     "maintext": "Dies ist eine Testseite",
     "reduxTitle": "Redux-Beispiel"
+  },
+  "VerifyEmail": {
+    "title": "Bitte überprüfen Sie Ihre E-Mails!",
+    "emailSent": "Wir haben einen 6-stelligen Bestätigungscode per E-Mail an acb@domain gesendet. Bitte geben Sie den Code unten ein Feld, um Ihre E-Mail-Adresse zu bestätigen.",
+    "code": "code",
+    "expire": "läuft um 01:35 ab",
+    "sendAgain": "Code erneut senden",
+    "verify": "Verifizieren",
+    "noCode": "Sie haben keinen code?",
+    "return": "Zurückkehren"
   }
 }
