@@ -1,12 +1,14 @@
-import './global.css';
 import 'modern-normalize/modern-normalize.css';
-import StyledComponentsRegistry from 'lib/registry';
-import { Locale, generateStaticParams } from 'locales/i18n.config';
+import { NextIntlClientProvider } from 'next-intl';
+import { notFound } from 'next/navigation';
 import TestHeader from 'components/Test-Header';
+import './global.css';
+import { Locale, generateStaticParams } from 'locales/i18n.config';
+import StyledComponentsRegistry from 'lib/registry';
 
 export const metadata = {
-  title: 'Agent wise',
-  description: 'Agent wise website',
+  title: 'ZenBitRock',
+  description: 'ZenBitRock website',
   icons: [
     {
       rel: 'icon',
@@ -22,13 +24,25 @@ type Props = {
 
 generateStaticParams();
 
-export default async function RootLayout({ children, params }: Props) {
+export default async function RootLayout({
+  children,
+  params: { locale },
+}: Props): Promise<JSX.Element> {
+  let localeData;
+
+  try {
+    localeData = (await import(`locales/langs/${locale}.json`)).default;
+  } catch (error) {
+    notFound();
+  }
   return (
-    <html lang={params.locale}>
+    <html lang={locale}>
       <body>
         <StyledComponentsRegistry>
-          <TestHeader locale={params.locale} />
-          {children}
+          <NextIntlClientProvider locale={locale} messages={localeData}>
+            <TestHeader />
+            {children}
+          </NextIntlClientProvider>
         </StyledComponentsRegistry>
       </body>
     </html>
