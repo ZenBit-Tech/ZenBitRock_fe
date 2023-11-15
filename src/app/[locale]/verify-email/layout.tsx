@@ -13,7 +13,6 @@ export default async function Layout({ children, params: { locale } }: Props) {
 
   try {
     localeData = (await import(`locales/langs/${locale}.json`)).default;
-    console.log(locale);
   } catch (error) {
     notFound();
   }
