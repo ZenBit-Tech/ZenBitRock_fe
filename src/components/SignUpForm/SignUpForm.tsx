@@ -4,11 +4,12 @@ import React from 'react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import { Button } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Box, IconButton, styled } from '@mui/material';
-import { Button } from '@mui/material';
+import { pageLinks } from 'constants/pageLinks';
 
 const StyledTextFiled = styled(TextField)`
   margin-bottom: 1.5 rem;
@@ -43,15 +44,15 @@ function SignUpForm({ SignUpPage }: SignUpProps) {
     mode: 'onBlur',
   });
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showRepeatPassword, setShowRepeatPassword] = useState<boolean>(false);
   const router = useRouter();
   const { register, handleSubmit, formState, watch } = form;
   const { errors } = formState;
 
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = (data: FormValues) => {
     console.log(data);
-    router.push('/verify-email');
+    router.push(pageLinks.VERIFY_PAGE);
   };
   return (
     <Box
@@ -64,7 +65,7 @@ function SignUpForm({ SignUpPage }: SignUpProps) {
       <StyledTextFiled
         variant="outlined"
         label={SignUpPage.Main.emailInput}
-        placeholder="name@domain.com"
+        placeholder={SignUpPage.Main.emailInputPlaceholder}
         type="email"
         autoFocus
         {...register('email', {

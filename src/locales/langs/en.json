@@ -43,7 +43,8 @@
     "Terms": {
       "TermsTitle": "Terms and Conditions",
       "termsLink": "Terms & Conditions",
-      "policyLink": "Privacy Policy"
+      "policyLink": "Privacy Policy",
+      "btnTxt": "Close"
     },
     "TermsContent": {
       "item1Title": "Acceptance of Terms",

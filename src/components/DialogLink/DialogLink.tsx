@@ -1,11 +1,10 @@
 import * as React from 'react';
+import { Link, List, ListItem, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog, { DialogProps } from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Link, List, ListItem, Typography } from '@mui/material';
 
 type DialogLinkProps = {
   linkText: string;
@@ -14,7 +13,7 @@ type DialogLinkProps = {
 };
 
 const DialogLink: React.FC<DialogLinkProps> = ({ linkText, dialogTitle, content }) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
   const scrollType: DialogProps['scroll'] = 'paper';
 
   const handleClickOpen = () => {
