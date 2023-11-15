@@ -24,7 +24,7 @@ type SignUpProps = {
 };
 
 export default function TermsDialog({ SignUpPage }: SignUpProps) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
   const scrollType: DialogProps['scroll'] = 'paper';
 
   const handleClickOpen = () => {

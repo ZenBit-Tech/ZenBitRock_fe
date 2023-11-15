@@ -1,19 +1,50 @@
 'use client';
-import { Locale } from 'locales/i18n.config';
-import { getDictionary } from 'lib/dictionary';
+
+import { useEffect, useState } from 'react';
+import { notFound } from 'next/navigation';
 import { Box } from '@mui/material';
 import { Button, Link } from '@mui/material';
-import { colors } from 'constants/colors';
 import Typography from '@mui/material/Typography';
 import { typography } from 'theme/typography';
 import PagesContainer from 'components/PagesContainer/PagesContainer';
+import { colors } from 'constants/colors';
+import { Locale } from 'locales/i18n.config';
+import { getDictionary } from 'lib/dictionary';
+import { LoadingScreen } from 'components/loading-screen';
+import { pageLinks } from 'constants/pageLinks';
 
 type Props = {
   params: { lang: Locale };
 };
+type HomePageType = {
+  Header: {
+    [key: string]: string;
+  };
+  Page: {
+    [key: string]: string;
+  };
+};
 
-export default async function HomePage({ params: { lang } }: Props) {
-  const { Home } = await getDictionary(lang);
+export default function HomePage({ params: { lang } }: Props) {
+  const [data, setData] = useState<HomePageType | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { Home } = await getDictionary(lang);
+        setData(Home);
+      } catch (error) {
+        notFound();
+      }
+    };
+
+    fetchData();
+  }, [lang]);
+
+  if (!data) {
+    return <LoadingScreen />;
+  }
+
   return (
     <PagesContainer>
       <Box maxWidth="sm" sx={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
@@ -25,13 +56,13 @@ export default async function HomePage({ params: { lang } }: Props) {
           }}
         >
           <Button variant="contained" sx={{ marginRight: '10px' }} size="large">
-            <Link underline={'none'} color={colors.TEST_MAIN_COLOR} href="sign-in">
-              {Home.Page.signInLink}
+            <Link underline={'none'} color={colors.TEST_MAIN_COLOR} href={pageLinks.SIGN_IN_PAGE}>
+              {data.Page.signInLink}
             </Link>
           </Button>
           <Button variant="contained" size="large">
-            <Link underline={'none'} color={colors.TEST_MAIN_COLOR} href="sign-up">
-              {Home.Page.signUpLink}
+            <Link underline={'none'} color={colors.TEST_MAIN_COLOR} href={pageLinks.SIGN_UP_PAGE}>
+              {data.Page.signUpLink}
             </Link>
           </Button>
         </Box>
@@ -46,11 +77,11 @@ export default async function HomePage({ params: { lang } }: Props) {
           }}
           maxWidth="500px"
         >
-          {Home.Page.title}
+          {data.Page.title}
         </Typography>
         <Button variant="contained" fullWidth size="large">
-          <Link underline={'none'} color={colors.TEST_MAIN_COLOR} href="sign-in">
-            {Home.Page.buttonTxt}
+          <Link underline={'none'} color={colors.TEST_MAIN_COLOR} href={pageLinks.SIGN_IN_PAGE}>
+            {data.Page.buttonTxt}
           </Link>
         </Button>
       </Box>

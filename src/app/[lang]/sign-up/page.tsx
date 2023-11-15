@@ -1,7 +1,8 @@
 'use client';
 
-import { Link, Box } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { notFound } from 'next/navigation';
+import { Link, Box } from '@mui/material';
 import PagesContainer from 'components/PagesContainer/PagesContainer';
 import PageTitle from 'components/PageTitle/PageTitle';
 import SignUpForm from 'components/SignUpForm/SignUpForm';
@@ -16,41 +17,66 @@ type Props = {
   params: { lang: Locale };
 };
 
-export default async function SignUpPage({ params: { lang } }: Props) {
-  try {
-    const { SignInPage, SignUpPage } = await getDictionary(lang);
-    return (
-      <>
-        <PagesContainer>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              flex: '1',
-              paddingTop: '2rem',
-              alignItems: 'center',
-            }}
-          >
-            <PageTitle title={SignUpPage.Main.title} />
-            <SignUpForm SignUpPage={SignUpPage} />
-            <SignInLink>
-              {SignUpPage.Main.haveAcc}&nbsp;
-              <Link href={pageLinks.SIGN_IN_PAGE} color="primary">
-                {SignUpPage.Main.signInLink}
-              </Link>
-            </SignInLink>
+type SignUpPageType = {
+  Main: {
+    [key: string]: string;
+  };
+  Terms: {
+    [key: string]: string;
+  };
+  TermsContent: {
+    [key: string]: string;
+  };
+};
 
-            <Policy>
-              {SignInPage.agree}&nbsp;
-              <TermsDialog SignUpPage={SignUpPage} />
-              &nbsp;{SignInPage.and}&nbsp;
-              <PrivacyPolicyDialog SignUpPage={SignUpPage} />
-            </Policy>
-          </Box>
-        </PagesContainer>
-      </>
-    );
-  } catch (error) {
-    notFound();
+export default function SignUpPage({ params: { lang } }: Props) {
+  const [data, setData] = useState<SignUpPageType | null>(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { SignUpPage } = await getDictionary(lang);
+        setData(SignUpPage);
+      } catch (error) {
+        notFound();
+      }
+    };
+
+    fetchData();
+  }, [lang]);
+
+  if (!data) {
+    return <div>Loading...</div>;
   }
+
+  return (
+    <>
+      <PagesContainer>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            flex: '1',
+            paddingTop: '2rem',
+            alignItems: 'center',
+          }}
+        >
+          <PageTitle title={data.Main.title} />
+          <SignUpForm SignUpPage={data} />
+          <SignInLink>
+            {data.Main.haveAcc}&nbsp;
+            <Link href={pageLinks.SIGN_IN_PAGE} color="primary">
+              {data.Main.signInLink}
+            </Link>
+          </SignInLink>
+
+          <Policy>
+            {data.Main.agree}&nbsp;
+            <TermsDialog SignUpPage={data} />
+            &nbsp;{data.Main.and}&nbsp;
+            <PrivacyPolicyDialog SignUpPage={data} />
+          </Policy>
+        </Box>
+      </PagesContainer>
+    </>
+  );
 }

@@ -4,7 +4,7 @@
       "title": "Deutscher Agent Wise"
     },
     "Page": {
-      "title": "Willkommen bei AgentWise - Ihrer Komplettlösung für effektives Vertriebsmanagement",
+      "title": "Willkommen bei AgentWise – der klügsten Immobilienplattform für Ihren beruflichen Erfolg",
       "link": "Gehen Sie zur Testseite",
       "signUpLink": "Sign Up",
       "signInLink": "Sign In",
@@ -40,7 +40,9 @@
       "repeatLabel": "Passwort wiederholen",
       "unmatchPass": "Passwörter stimmen nicht überein",
       "haveAcc": "Sie haben bereits ein Konto?",
-      "signInLink": "Einloggen"
+      "signInLink": "Einloggen",
+      "agree": "Indem Sie fortfahren, stimmen Sie AgentWise zu",
+      "and": "und"
     },
     "Terms": {
       "TermsTitle": "Allgemeine Geschäftsbedingungen",
