@@ -1,8 +1,10 @@
 'use client';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { TextField, Button, Typography } from '@mui/material';
-import { Form } from './styles';
+import { TextField, Button, Typography, Link } from '@mui/material';
+import { Form, FormHeaderBlock } from './styles';
 import { patterns } from 'constants/patterns';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import { links } from 'constants/links';
 
 type FormValues = {
   email: string;
@@ -37,9 +39,15 @@ export default function RestorePasswordForm({ RestorePasswordPage }: RestorePass
   };
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Typography variant="h3" sx={{ marginBottom: '30px' }}>
-        {RestorePasswordPage.RestorePasswordForm.title}
-      </Typography>
+      <FormHeaderBlock>
+        <Link href={links.STEP_BACK}>
+          <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
+        </Link>
+        <Typography variant="h3" sx={{ marginBottom: '30px' }}>
+          {RestorePasswordPage.RestorePasswordForm.title}
+        </Typography>
+      </FormHeaderBlock>
+
       <Typography variant="h6" sx={{ marginBottom: '30px' }}>
         {RestorePasswordPage.RestorePasswordForm.enterEmail}
       </Typography>
