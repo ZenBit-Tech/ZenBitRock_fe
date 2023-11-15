@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { patterns } from 'constants/patterns';
+import { links } from 'constants/links';
 
 type FormValues = {
   email: string;
@@ -89,8 +90,8 @@ export default function LoginForm({ SignInPage }: SignInProps) {
       />
 
       <Typography variant="body2" sx={{ marginBottom: '10px' }}>
-        <Link href="/testpage" color="primary">
-          Forgot password
+        <Link href={links.FORGOT_PASSWORD_PAGE} color="primary">
+          {SignInPage.LoginForm.forgotPasswordLinkTitle}
         </Link>
       </Typography>
 

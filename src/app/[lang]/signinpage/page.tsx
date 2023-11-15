@@ -6,6 +6,7 @@ import { Link } from '@mui/material';
 import LoginForm from './components/form';
 import { useEffect, useState } from 'react';
 import { notFound } from 'next/navigation';
+import { links } from 'constants/links';
 
 type Props = {
   params: { lang: Locale };
@@ -47,14 +48,14 @@ export default function SignInPage({ params: { lang } }: Props) {
           <LoginForm SignInPage={data} />
           <SignUpLink>
             {data.Main.doNot}&nbsp;
-            <Link href="/testpage">{data.Main.signUpLink}</Link>
+            <Link href={links.SIGN_UP_PAGE}>{data.Main.signUpLink}</Link>
           </SignUpLink>
 
           <Policy>
             {data.Main.agree}&nbsp;
-            <Link href="/testpage">{data.Main.termsLink}</Link>
+            <Link href={links.TERMS_CONDITIONS}>{data.Main.termsLink}</Link>
             &nbsp;{data.Main.and}&nbsp;
-            <Link href="/testpage">{data.Main.policyLink}</Link>
+            <Link href={links.PRIVACY_POLICY}>{data.Main.policyLink}</Link>
           </Policy>
         </LoginWrapper>
       </RightSection>
