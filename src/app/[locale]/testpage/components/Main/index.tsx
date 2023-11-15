@@ -13,7 +13,7 @@ export default function Main(): JSX.Element {
       <MainText>{t('maintext')}</MainText>
       <TestForm />
       <ReduxProvider>
-        <ReduxExample title={t('reduxTitle')} />
+        <ReduxExample />
       </ReduxProvider>
     </MainWrapper>
   );

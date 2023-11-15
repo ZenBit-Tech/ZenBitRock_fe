@@ -1,10 +1,12 @@
-import './global.css';
 import 'modern-normalize/modern-normalize.css';
+import { notFound } from 'next/navigation';
+import { NextIntlClientProvider } from 'next-intl';
 import StyledComponentsRegistry from 'lib/registry';
+import { LocalizationProvider } from 'locales';
 import { Locale, generateStaticParams } from 'locales/i18n.config';
 import TestHeader from 'components/Test-Header';
 import ThemeProvider from 'theme';
-import { LocalizationProvider } from 'locales';
+import './global.css';
 
 export const metadata = {
   title: 'Agent wise',
@@ -24,15 +26,28 @@ type Props = {
 
 generateStaticParams();
 
-export default async function RootLayout({ children, params }: Props) {
+export default async function RootLayout({
+  children,
+  params: { locale },
+}: Props): Promise<JSX.Element> {
+  let localeData;
+
+  try {
+    localeData = (await import(`locales/langs/${locale}.json`)).default;
+  } catch (error) {
+    notFound();
+  }
+
   return (
-    <html lang={params.locale}>
+    <html lang={locale}>
       <body>
         <LocalizationProvider>
           <ThemeProvider>
             <StyledComponentsRegistry>
-              <TestHeader locale={params.locale} />
-              {children}
+              <NextIntlClientProvider locale={locale} messages={localeData}>
+                <TestHeader />
+                {children}
+              </NextIntlClientProvider>
             </StyledComponentsRegistry>
           </ThemeProvider>
         </LocalizationProvider>
