@@ -4,29 +4,57 @@ import { getDictionary } from 'lib/dictionary';
 import { Wrapper, LeftSection, LoginWrapper, RightSection, SignUpLink, Policy } from './styles';
 import { Link } from '@mui/material';
 import LoginForm from './components/form';
+import { useEffect, useState } from 'react';
+import { notFound } from 'next/navigation';
 
 type Props = {
   params: { lang: Locale };
 };
+type SignInPageType = {
+  Main: {
+    [key: string]: string;
+  };
+  LoginForm: {
+    [key: string]: string;
+  };
+};
 
-export default async function SignInPage({ params: { lang } }: Props) {
-  const { SignInPage } = await getDictionary(lang);
+export default function SignInPage({ params: { lang } }: Props) {
+  const [data, setData] = useState<SignInPageType | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { SignInPage } = await getDictionary(lang);
+        setData(SignInPage);
+      } catch (error) {
+        notFound();
+      }
+    };
+
+    fetchData();
+  }, [lang]);
+
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Wrapper>
       <LeftSection></LeftSection>
       <RightSection>
         <LoginWrapper>
-          <LoginForm />
+          <LoginForm SignInPage={data} />
           <SignUpLink>
-            {SignInPage.doNot}&nbsp;
-            <Link href="/testpage">{SignInPage.signUpLink}</Link>
+            {data.Main.doNot}&nbsp;
+            <Link href="/testpage">{data.Main.signUpLink}</Link>
           </SignUpLink>
 
           <Policy>
-            {SignInPage.agree}&nbsp;
-            <Link href="/testpage">{SignInPage.termsLink}</Link>
-            &nbsp;{SignInPage.and}&nbsp;
-            <Link href="/testpage">{SignInPage.policyLink}</Link>
+            {data.Main.agree}&nbsp;
+            <Link href="/testpage">{data.Main.termsLink}</Link>
+            &nbsp;{data.Main.and}&nbsp;
+            <Link href="/testpage">{data.Main.policyLink}</Link>
           </Policy>
         </LoginWrapper>
       </RightSection>

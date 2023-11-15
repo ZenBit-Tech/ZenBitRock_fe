@@ -5,17 +5,27 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useState } from 'react';
-import { getDictionary } from 'lib/dictionary';
 import { Form } from './styles';
+
 type FormValues = {
   email: string;
   password: string;
 };
-type Props = {
-  lang: Locale;
+
+type SignInPageType = {
+  Main: {
+    [key: string]: string;
+  };
+  LoginForm: {
+    [key: string]: string;
+  };
 };
 
-export default function LoginForm() {
+type SignInProps = {
+  SignInPage: SignInPageType;
+};
+
+export default function LoginForm({ SignInPage }: SignInProps) {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [showPassword, setShowPassword] = useState(false);
   const {
@@ -32,24 +42,23 @@ export default function LoginForm() {
   });
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
     reset();
   };
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Typography variant="h3" sx={{ marginBottom: '30px' }}>
-        Sign in
+        {SignInPage.LoginForm.title}
       </Typography>
 
       <TextField
         {...register('email', {
-          required: 'This field is required',
+          required: SignInPage.LoginForm.requiredField,
           pattern: {
             value: emailPattern,
-            message: 'Invalid email address',
+            message: SignInPage.LoginForm.invalidEmail,
           },
         })}
-        label="Email"
+        label={SignInPage.LoginForm.emailLabel}
         fullWidth
         sx={{ marginBottom: '30px' }}
         error={Boolean(errors?.email)}
@@ -58,13 +67,13 @@ export default function LoginForm() {
 
       <TextField
         {...register('password', {
-          required: 'This field is required',
+          required: SignInPage.LoginForm.requiredField,
           minLength: {
             value: 8,
-            message: 'Min 8 characters long',
+            message: SignInPage.LoginForm.minPassword,
           },
         })}
-        label="Password"
+        label={SignInPage.LoginForm.passwordLabel}
         type={showPassword ? 'text' : 'password'}
         fullWidth
         sx={{ marginBottom: '20px' }}
@@ -93,7 +102,7 @@ export default function LoginForm() {
         fullWidth
         disabled={!isValid}
       >
-        Sign in
+        {SignInPage.LoginForm.btnTitle}
       </Button>
     </Form>
   );
