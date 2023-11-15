@@ -6,8 +6,8 @@ import TestHeader from 'components/Test-Header';
 import ThemeProvider from 'theme';
 
 export const metadata = {
-  title: 'Agent wise',
-  description: 'Agent wise website',
+  title: 'ZenBitRock',
+  description: 'ZenBitRock website',
   icons: [
     {
       rel: 'icon',

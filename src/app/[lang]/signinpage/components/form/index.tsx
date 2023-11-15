@@ -1,11 +1,12 @@
 'use client';
+import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { Form } from './styles';
 import { TextField, Button, Typography, Link } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { useState } from 'react';
-import { Form } from './styles';
+import { patterns } from 'constants/patterns';
 
 type FormValues = {
   email: string;
@@ -26,7 +27,6 @@ type SignInProps = {
 };
 
 export default function LoginForm({ SignInPage }: SignInProps) {
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,
@@ -54,7 +54,7 @@ export default function LoginForm({ SignInPage }: SignInProps) {
         {...register('email', {
           required: SignInPage.LoginForm.requiredField,
           pattern: {
-            value: emailPattern,
+            value: patterns.EMAIL_VALIDATION_PATTERN,
             message: SignInPage.LoginForm.invalidEmail,
           },
         })}
