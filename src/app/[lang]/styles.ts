@@ -1,7 +1,9 @@
-import { styled } from '@mui/material';
+'use client';
+
+import styled from 'styled-components';
 import { colors } from 'constants/colors';
 
-export const Wrapper = styled('div')`
+export const Wrapper = styled.div`
   color: ${colors.TEST_MAIN_COLOR};
   padding: 20px 0;
   display: flex;
@@ -9,7 +11,7 @@ export const Wrapper = styled('div')`
   align-items: center;
 `;
 
-export const Link = styled('a')`
+export const Link = styled.a`
   color: inherit;
   margin-top: 25px;
 `;
