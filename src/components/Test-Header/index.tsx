@@ -12,7 +12,7 @@ export default async function TestHeader({ lang }: Props) {
   const { Home } = await getDictionary(lang);
   return (
     <TestHeaderItem>
-      <Logo href="/">{Home.TestHeader.title}</Logo>
+      <Logo href="/">{Home.Header.title}</Logo>
       <LocaleSwitcher />
     </TestHeaderItem>
   );
