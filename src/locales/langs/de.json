@@ -53,8 +53,7 @@
     "signature": "Name des Antragstellers",
     "submitButton": "Abschicken",
     "doneTextFirstPart": "Ihre Bewerbung wurde erfolgreich übermittelt.",
-    "doneTextSecondPart": "Der Antrag wird in Kürze überprüft und Sie erhalten eine Bestätigungsnachricht an die E-Mail-Adresse, die Sie angegeben haben, nachdem der Antrag überprüft wurde.",
-    "doneTextThirdPart": "Vielen Dank, dass Sie sich AgentWise angeschlossen haben!",
+    "doneTextSecondPart": "Vielen Dank, dass Sie sich AgentWise angeschlossen haben!",
     "goHomeButton": "Nach Hause gehen"
   }
 }

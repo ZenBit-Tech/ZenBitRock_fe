@@ -42,10 +42,6 @@ export default function VerificationDoneView(): JSX.Element {
             {t('doneTextSecondPart')}
           </Typography>
 
-          <Typography align="center" variant="body1" fontSize={16}>
-            {t('doneTextThirdPart')}
-          </Typography>
-
           <LoadingButton
             fullWidth
             color="info"

@@ -53,8 +53,7 @@
     "signature": "Name of the Applicant",
     "submitButton": "Submit",
     "doneTextFirstPart": "Your application was submitted successfully.",
-    "doneTextSecondPart": "It will be reviewed shortly and you will recieve a confirmation message to the email you provided after the application is verified.",
-    "doneTextThirdPart": "Thank you for joining AgentWise!",
+    "doneTextSecondPart": "Thank you for joining AgentWise!",
     "goHomeButton": "Go home"
   }
 }
