@@ -11,7 +11,7 @@ export const Wrapper = styled('div')`
 
 export const LeftSection = styled('div')`
   flex: 2;
-  background-image: url('https://w.forfun.com/fetch/6c/6c0cf748db116fabaa70199a35327258.jpeg');
+  background-image: url(${colors.BG_LOGIN_PAGE});
   background-size: cover;
   background-position: center;
   display: flex;
