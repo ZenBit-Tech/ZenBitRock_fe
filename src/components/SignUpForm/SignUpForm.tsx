@@ -58,7 +58,7 @@ function SignUpForm({ SignUpPage }: SignUpProps) {
     const { email, password } = data;
     const credentials = { email, password, name: defaultName };
     signUp(credentials);
-    // router.push(pageLinks.VERIFY_PAGE);
+    router.push(pageLinks.VERIFY_PAGE);
   };
   return (
     <Box

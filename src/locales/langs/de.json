@@ -47,7 +47,8 @@
     "Terms": {
       "TermsTitle": "Allgemeine Geschäftsbedingungen",
       "termsLink": "Terms & Bedingungen",
-      "policyLink": "Datenschutzrichtlinie"
+      "policyLink": "Datenschutzrichtlinie",
+      "btnTxt": "Schließen"
     },
     "TermsContent": {
       "item1Title": "Akzeptanz der Bedingungen",

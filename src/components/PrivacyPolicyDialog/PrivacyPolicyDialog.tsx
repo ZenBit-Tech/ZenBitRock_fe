@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { Locale } from 'locales/i18n.config';
+import { Link, List, ListItem, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog, { DialogProps } from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Link, List, ListItem, Typography } from '@mui/material';
+import { Locale } from 'locales/i18n.config';
+
 
 type SignUpPageType = {
   Main: {
@@ -25,7 +25,7 @@ type SignUpProps = {
 };
 
 export default function PrivacyPolicyDialog({ SignUpPage }: SignUpProps) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
   const scrollType: DialogProps['scroll'] = 'paper';
 
   const handleClickOpen = () => {
@@ -93,7 +93,7 @@ export default function PrivacyPolicyDialog({ SignUpPage }: SignUpProps) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Close
+            {SignUpPage.Terms.btnTxt}
           </Button>
         </DialogActions>
       </Dialog>
