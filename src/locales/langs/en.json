@@ -11,5 +11,15 @@
   "TestPage": {
     "maintext": "This is a Test page",
     "reduxTitle": "Redux example"
+  },
+  "RestorePasswordPage": {
+    "RestorePasswordForm": {
+      "title": "Restore password",
+      "enterEmail": "Enter your email for restore",
+      "requiredField": "This field is required",
+      "invalidEmail": "Invalid email address",
+      "emailLabel": "Email",
+      "btnTitle": "Send Code"
+    }
   }
 }

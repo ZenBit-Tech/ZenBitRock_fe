@@ -11,5 +11,15 @@
   "TestPage": {
     "maintext": "Dies ist eine Testseite",
     "reduxTitle": "Redux-Beispiel"
+  },
+  "RestorePasswordPage": {
+    "RestorePasswordForm": {
+      "title": "Passwort wiederherstellen",
+      "enterEmail": "Geben Sie Ihre E-Mail-Adresse für die Wiederherstellung ein",
+      "requiredField": "Dieses Feld ist erforderlich",
+      "invalidEmail": "Ungültige E-Mail-Adresse",
+      "emailLabel": "Email",
+      "btnTitle": "Code senden"
+    }
   }
 }

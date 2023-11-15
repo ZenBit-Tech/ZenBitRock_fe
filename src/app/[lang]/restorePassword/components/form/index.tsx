@@ -1,20 +1,25 @@
 'use client';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { TextField, Button, Typography } from '@mui/material';
-import { getDictionary } from 'lib/dictionary';
 import { Form } from './styles';
+import { patterns } from 'constants/patterns';
 
 type FormValues = {
   email: string;
   password: string;
 };
-type Props = {
-  lang: Locale;
+
+type RestorePasswordPageType = {
+  RestorePasswordForm: {
+    [key: string]: string;
+  };
 };
 
-export default function RestorePasswordForm() {
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+type RestorePasswordPageProps = {
+  RestorePasswordPage: RestorePasswordPageType;
+};
 
+export default function RestorePasswordForm({ RestorePasswordPage }: RestorePasswordPageProps) {
   const {
     register,
     handleSubmit,
@@ -28,27 +33,26 @@ export default function RestorePasswordForm() {
   });
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
     reset();
   };
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Typography variant="h3" sx={{ marginBottom: '30px' }}>
-        Restore password
+        {RestorePasswordPage.RestorePasswordForm.title}
       </Typography>
       <Typography variant="h6" sx={{ marginBottom: '30px' }}>
-        Enter your email for restore
+        {RestorePasswordPage.RestorePasswordForm.enterEmail}
       </Typography>
 
       <TextField
         {...register('email', {
-          required: 'This field is required',
+          required: RestorePasswordPage.RestorePasswordForm.requiredField,
           pattern: {
-            value: emailPattern,
-            message: 'Invalid email address',
+            value: patterns.EMAIL_VALIDATION_PATTERN,
+            message: RestorePasswordPage.RestorePasswordForm.invalidEmail,
           },
         })}
-        label="Email"
+        label={RestorePasswordPage.RestorePasswordForm.emailLabel}
         fullWidth
         sx={{ marginBottom: '30px' }}
         error={Boolean(errors?.email)}
@@ -63,7 +67,7 @@ export default function RestorePasswordForm() {
         fullWidth
         disabled={!isValid}
       >
-        Send Code
+        {RestorePasswordPage.RestorePasswordForm.btnTitle}
       </Button>
     </Form>
   );
