@@ -40,7 +40,8 @@
       "haveAcc": "Already have an account?",
       "signInLink": "Sign In",
       "agree": "By continuing, you agree to AgentWise",
-      "and": "and"
+      "and": "and",
+      "loading": "Loading...",
     },
     "Terms": {
       "TermsTitle": "Terms and Conditions",
