@@ -11,8 +11,8 @@ import { SettingsProvider, SettingsValueProps } from 'components/settings';
 import ThemeProvider from 'theme';
 
 export const metadata = {
-  title: 'Agent wise',
-  description: 'Agent wise website',
+  title: 'ZenbitRock',
+  description: 'ZenbitRock website',
   icons: [
     {
       rel: 'icon',
