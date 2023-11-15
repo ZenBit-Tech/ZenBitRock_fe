@@ -48,7 +48,7 @@ export default function SignUpPage({ params: { lang } }: Props) {
   }, [lang]);
 
   if (!data) {
-    return <div>Loading...</div>;
+    return <div>{pageLinks.LOADING}</div>;
   }
 
   return (
