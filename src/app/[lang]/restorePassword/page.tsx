@@ -5,6 +5,7 @@ import { Wrapper, LeftSection, RestoreWrapper, RightSection } from './styles';
 import RestorePasswordForm from './components/form';
 import { useEffect, useState } from 'react';
 import { notFound } from 'next/navigation';
+import { LoadingScreen } from 'components/loading-screen';
 
 type Props = {
   params: { lang: Locale };
@@ -31,7 +32,7 @@ export default function RestorePasswordPage({ params: { lang } }: Props) {
   }, [lang]);
 
   if (!data) {
-    return <div>Loading...</div>;
+    return <LoadingScreen />;
   }
   return (
     <Wrapper>

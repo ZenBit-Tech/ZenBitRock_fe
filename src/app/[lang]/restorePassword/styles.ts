@@ -1,7 +1,7 @@
 'use client';
 
 import { styled } from '@mui/material';
-import { colors } from 'constants/colors';
+import { backgroundImages } from 'constants/backgroundImgLinks';
 
 export const Wrapper = styled('div')`
   display: flex;
@@ -11,7 +11,7 @@ export const Wrapper = styled('div')`
 
 export const LeftSection = styled('div')`
   flex: 2;
-  background-image: url(${colors.BG_LOGIN_PAGE});
+  background-image: url(${backgroundImages.BG_LOGIN_PAGE});
   background-size: cover;
   background-position: center;
   display: flex;
