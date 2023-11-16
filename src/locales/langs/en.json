@@ -1,11 +1,14 @@
 {
   "Home": {
-    "TestHeader": {
+    "Header": {
       "title": "Agent Wise"
     },
     "Page": {
-      "title": "This is a Home page",
-      "link": "Go to Test page"
+      "title": "Welcome to AgentWise - your  all-in-one solution for effective sales management",
+      "link": "Go to Test page",
+      "signUpLink": "Sign Up",
+      "signInLink": "Sign In",
+      "buttonTxt": "Get started now"
     }
   },
   "TestPage": {
