@@ -15,6 +15,7 @@ import FormProvider, {
   RHFTextField,
   RHFRadioGroup,
   RHFAutocomplete,
+  RHFCheckbox,
 } from 'components/hook-form';
 import { FormSchema } from './schema';
 import {
@@ -47,6 +48,7 @@ export const defaultValues = {
   countryAutocomplete: null,
   phone: '',
   singleUpload: null,
+  confirmationCheckbox: false,
   confirmationFirstName: '',
   confirmationLastName: '',
 };
@@ -274,10 +276,16 @@ export default function ReactHookForm() {
               {t('declarationSectionTitle')}
             </Typography>
 
-            <Typography align="justify" variant="body1" fontSize={16}>
-              {t('declarationText')}
-            </Typography>
-
+            <RHFCheckbox
+              name="confirmationCheckbox"
+              checked={false}
+              label={t('declarationText')}
+              style={{
+                textAlign: 'justify',
+                display: 'flex',
+                alignItems: 'start',
+              }}
+            />
             <Block label={t('signature')}>
               <Stack spacing={2} direction={{ xs: 'column', sm: 'row' }}>
                 <RHFTextField name="confirmationFirstName" label={t('namePlaceholder')} />

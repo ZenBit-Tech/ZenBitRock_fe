@@ -37,10 +37,7 @@ export const FormSchema = Yup.object().shape({
     .required('Street is required')
     .min(2, 'Mininum 2 characters')
     .max(32, 'Maximum 32 characters'),
-  state: Yup.string()
-    .required('Street is required')
-    .min(4, 'Mininum 4 characters')
-    .max(32, 'Maximum 32 characters'),
+  state: Yup.string().max(32, 'Maximum 32 characters'),
   zip: Yup.string()
     .required('Zip code is required')
     .min(4, 'Mininum 4 characters')
@@ -51,6 +48,7 @@ export const FormSchema = Yup.object().shape({
     .required('Phone number is required')
     .matches(phoneRegExp, 'Phone number is not valid'),
   singleUpload: Yup.mixed<any>().nullable().required('File is required'),
+  confirmationCheckbox: Yup.boolean().oneOf([true], 'Your agree is required'),
   confirmationFirstName: Yup.string()
     .required('Confirm Name is required')
     .oneOf([Yup.ref('firstName')], "Name's not match"),
