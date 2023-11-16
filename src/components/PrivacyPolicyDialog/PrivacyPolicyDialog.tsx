@@ -27,14 +27,6 @@ export default function PrivacyPolicyDialog({ SignUpPage }: SignUpProps) {
   const [open, setOpen] = React.useState<boolean>(false);
   const scrollType: DialogProps['scroll'] = 'paper';
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const descriptionElementRef = React.useRef<HTMLElement>(null);
   React.useEffect(() => {
     if (open) {
@@ -44,6 +36,14 @@ export default function PrivacyPolicyDialog({ SignUpPage }: SignUpProps) {
       }
     }
   }, [open]);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <React.Fragment>
