@@ -5,17 +5,18 @@ import { notFound } from 'next/navigation';
 import { Box } from '@mui/material';
 import { Button, Link } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { typography } from 'theme/typography';
-import PagesContainer from 'components/PagesContainer/PagesContainer';
-import { colors } from 'constants/colors';
 import { Locale } from 'locales/i18n.config';
 import { getDictionary } from 'lib/dictionary';
-import { LoadingScreen } from 'components/loading-screen';
+import { colors } from 'constants/colors';
 import { pageLinks } from 'constants/pageLinks';
+import { typography } from 'theme/typography';
+import PagesContainer from 'components/PagesContainer/PagesContainer';
+import { LoadingScreen } from 'components/loading-screen';
 
 type Props = {
   params: { lang: Locale };
 };
+
 type HomePageType = {
   Header: {
     [key: string]: string;

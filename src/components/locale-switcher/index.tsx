@@ -3,7 +3,6 @@
 import { usePathname } from 'next/navigation';
 import { i18n } from 'locales/i18n.config';
 import { Button, Link } from '@mui/material';
-import { colors } from 'constants/colors';
 
 export default function LocaleSwitcher() {
   const pathName = usePathname();
