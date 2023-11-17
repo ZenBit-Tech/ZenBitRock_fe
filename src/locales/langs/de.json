@@ -36,7 +36,7 @@
       "forgotPasswordLinkTitle": "Passwort vergessen"
     }
   },
-  "SignUpPage": {
+  "signUpPage": {
     "Main": {
       "title": "Registrieren",
       "emailInput": "Email",
