@@ -5,10 +5,10 @@ import './global.css';
 import 'modern-normalize/modern-normalize.css';
 import StyledComponentsRegistry from 'lib/registry';
 import { Locale, generateStaticParams } from 'locales/i18n.config';
-import TestHeader from 'components/Test-Header';
 import { LocalizationProvider } from 'locales';
 import { SettingsProvider, SettingsValueProps } from 'components/settings';
 import ThemeProvider from 'theme';
+import Header from 'components/Header/Header';
 
 export const metadata = {
   title: 'ZenbitRock',
@@ -45,7 +45,7 @@ export default function RootLayout({ children, params }: Props) {
           <SettingsProvider defaultSettings={defaultSettings}>
             <ThemeProvider>
               <StyledComponentsRegistry>
-                <TestHeader locale={params.locale} />
+                <Header lang={params.locale} />
                 {children}
               </StyledComponentsRegistry>
             </ThemeProvider>
