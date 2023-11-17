@@ -12,9 +12,9 @@ export function presets(presetsColor: string) {
     palette: {
       primary,
     },
-    // customShadows: {
-    //   primary: `0 8px 16px 0 ${alpha(`${primary?.main}`, 0.24)}`,
-    // },
+    customShadows: {
+      primary: `0 8px 16px 0 ${alpha(`${primary?.main}`, 0.24)}`,
+    },
   };
 
   return theme;

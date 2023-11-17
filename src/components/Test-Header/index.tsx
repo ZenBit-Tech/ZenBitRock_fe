@@ -20,7 +20,7 @@ export default async function TestHeader({ locale }: Props): Promise<JSX.Element
 
   return (
     <TestHeaderItem>
-      <Logo href="/">{localeData.TestHeader.title}</Logo>
+      <Logo href="/">{Home.Header.title}</Logo>
       <LocaleSwitcher />
     </TestHeaderItem>
   );
