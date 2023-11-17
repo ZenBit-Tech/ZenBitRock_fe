@@ -29,8 +29,8 @@ export default function SignInPage({ params: { lang } }: Props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { SignInPage } = await getDictionary(lang);
-        setData(SignInPage);
+        const { signInPage } = await getDictionary(lang);
+        setData(signInPage);
       } catch (error) {
         notFound();
       }
@@ -51,7 +51,7 @@ export default function SignInPage({ params: { lang } }: Props) {
       <RightSection>
         <LoginWrapper>
           <ReduxProvider>
-            <LoginForm SignInPage={data} />
+            <LoginForm signInPage={data} />
           </ReduxProvider>
           <SignUpLink>
             {data.Main.doNot}&nbsp;

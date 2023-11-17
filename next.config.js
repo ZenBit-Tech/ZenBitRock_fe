@@ -1,7 +1,7 @@
 module.exports = {
   trailingSlash: true,
   env: {
-    BASE_URL: process.env.NEXT_PUBLIC_LOGIN_BASE_URL,
+    BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
   },
   modularizeImports: {
     '@mui/material': {

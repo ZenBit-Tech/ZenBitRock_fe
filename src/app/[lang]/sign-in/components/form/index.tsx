@@ -31,10 +31,10 @@ type SignInPageType = {
 };
 
 type SignInProps = {
-  SignInPage: SignInPageType;
+  signInPage: SignInPageType;
 };
 
-export default function LoginForm({ SignInPage }: SignInProps) {
+export default function LoginForm({ signInPage }: SignInProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [signIn, { isError }] = useSignInMutation();
   const router = useRouter();
@@ -69,19 +69,19 @@ export default function LoginForm({ SignInPage }: SignInProps) {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Typography variant="h3" sx={{ marginBottom: '30px' }}>
-        {SignInPage.LoginForm.title}
+        {signInPage.LoginForm.title}
       </Typography>
 
       <TextField
         {...register('email', {
-          required: SignInPage.LoginForm.requiredField,
+          required: signInPage.LoginForm.requiredField,
           pattern: {
             value: patterns.EMAIL_VALIDATION_PATTERN,
-            message: SignInPage.LoginForm.invalidEmail,
+            message: signInPage.LoginForm.invalidEmail,
           },
         })}
         variant="outlined"
-        label={SignInPage.LoginForm.emailLabel}
+        label={signInPage.LoginForm.emailLabel}
         type="email"
         fullWidth
         sx={{ marginBottom: '30px' }}
@@ -91,14 +91,14 @@ export default function LoginForm({ SignInPage }: SignInProps) {
 
       <TextField
         {...register('password', {
-          required: SignInPage.LoginForm.requiredField,
+          required: signInPage.LoginForm.requiredField,
           minLength: {
             value: 8,
-            message: SignInPage.LoginForm.minPassword,
+            message: signInPage.LoginForm.minPassword,
           },
         })}
         variant="outlined"
-        label={SignInPage.LoginForm.passwordLabel}
+        label={signInPage.LoginForm.passwordLabel}
         type={showPassword ? 'text' : 'password'}
         fullWidth
         sx={{ marginBottom: '20px' }}
@@ -115,7 +115,7 @@ export default function LoginForm({ SignInPage }: SignInProps) {
 
       <Typography variant="body2" sx={{ marginBottom: '10px' }}>
         <Link href={links.FORGOT_PASSWORD_PAGE} color="primary">
-          {SignInPage.LoginForm.forgotPasswordLinkTitle}
+          {signInPage.LoginForm.forgotPasswordLinkTitle}
         </Link>
       </Typography>
 
@@ -127,7 +127,7 @@ export default function LoginForm({ SignInPage }: SignInProps) {
         fullWidth
         disabled={!isValid}
       >
-        {SignInPage.LoginForm.btnTitle}
+        {signInPage.LoginForm.btnTitle}
       </Button>
     </Form>
   );

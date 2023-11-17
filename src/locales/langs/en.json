@@ -13,7 +13,7 @@
     "maintext": "This is a Test page",
     "reduxTitle": "Redux example"
   },
-  "SignInPage": {
+  "signInPage": {
     "Main": {
       "termsLink": "Terms & Conditions",
       "policyLink": "Privacy Policy",
