@@ -9,7 +9,7 @@ import { Box, IconButton, styled } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { useRegisterMutation } from 'store/authApi';
+import { useSignUpMutation } from 'store/authApi';
 import { pageLinks } from 'constants/pageLinks';
 
 const StyledTextFiled = styled(TextField)`
@@ -35,9 +35,9 @@ type SignUpProps = {
   SignUpPage: SignUpPageType;
 };
 
-function SignUpForm({ SignUpPage }: SignUpProps) {
+function SignUpForm({ signUpPage }: SignUpProps) {
   
-  const [signUp] = useRegisterMutation(); 
+  const [signUp] = useSignUpMutation(); 
   const form = useForm<FormValues>({
     defaultValues: {
       email: '',
@@ -70,15 +70,15 @@ function SignUpForm({ SignUpPage }: SignUpProps) {
     >
       <StyledTextFiled
         variant="outlined"
-        label={SignUpPage.Main.emailInput}
-        placeholder={SignUpPage.Main.emailInputPlaceholder}
+        label={signUpPage.Main.emailInput}
+        placeholder={signUpPage.Main.emailInputPlaceholder}
         type="email"
         autoFocus
         {...register('email', {
-          required: SignUpPage.Main.emailRequired,
+          required: signUpPage.Main.emailRequired,
           pattern: {
             value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i,
-            message: SignUpPage.Main.emailInvalid,
+            message: signUpPage.Main.emailInvalid,
           },
         })}
         error={!!errors.email}
@@ -86,14 +86,14 @@ function SignUpForm({ SignUpPage }: SignUpProps) {
       />
       <StyledTextFiled
         variant="outlined"
-        label={SignUpPage.Main.passwordInput}
-        placeholder={SignUpPage.Main.minChar}
+        label={signUpPage.Main.passwordInput}
+        placeholder={signUpPage.Main.minChar}
         type={showPassword ? 'text' : 'password'}
         {...register('password', {
-          required: SignUpPage.Main.passwordRequired,
+          required: signUpPage.Main.passwordRequired,
           pattern: {
             value: /^.{8,}$/i,
-            message: SignUpPage.Main.minChar,
+            message: signUpPage.Main.minChar,
           },
         })}
         error={!!errors.password}
@@ -108,12 +108,12 @@ function SignUpForm({ SignUpPage }: SignUpProps) {
       />
       <StyledTextFiled
         variant="outlined"
-        label={SignUpPage.Main.repeatLabel}
-        placeholder={SignUpPage.Main.minChar}
+        label={signUpPage.Main.repeatLabel}
+        placeholder={signUpPage.Main.minChar}
         type={showRepeatPassword ? 'text' : 'password'}
         {...register('repeatPassword', {
-          required: SignUpPage.Main.passwordRequired,
-          validate: (value) => value === watch('password') || SignUpPage.Main.unmatchPass,
+          required: signUpPage.Main.passwordRequired,
+          validate: (value) => value === watch('password') || signUpPage.Main.unmatchPass,
         })}
         error={!!errors.repeatPassword}
         helperText={errors.repeatPassword?.message}
@@ -127,7 +127,7 @@ function SignUpForm({ SignUpPage }: SignUpProps) {
       />
       <Button type="submit" variant="contained" sx={{ my: '20px' }} fullWidth disabled={!isValid}>
 
-        {SignUpPage.Main.title}
+        {signUpPage.Main.title}
       </Button>
     </Box>
   );
