@@ -4,7 +4,7 @@
       "title": "Agent Wise"
     },
     "Page": {
-      "title": "Welcome to AgentWise - the wisest real estate platform aimed at your professional sucesss",
+      "title": "Welcome to AgentWise - the wisest real estate platform aimed at your professional success",
       "link": "Go to Test page",
       "signUpLink": "Sign Up",
       "signInLink": "Sign In",
@@ -35,7 +35,7 @@
       "forgotPasswordLinkTitle": "Forgot password"
     }
   },
-  "SignUpPage": {
+  "signUpPage": {
     "Main": {
       "title": "Sign up",
       "emailInput": "Email",
