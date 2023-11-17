@@ -14,7 +14,7 @@ import { pageLinks } from 'constants/pageLinks';
 import { SignInLink, Policy } from './styles';
 
 type Props = {
-  params: { lang: Locale };
+  params: { locale: Locale };
 };
 
 type SignUpPageType = {
@@ -29,12 +29,12 @@ type SignUpPageType = {
   };
 };
 
-export default function SignUpPage({ params: { lang } }: Props) {
+export default function SignUpPage({ params: { locale } }: Props) {
   const [data, setData] = useState<SignUpPageType | null>(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { SignUpPage } = await getDictionary(lang);
+        const { SignUpPage } = await getDictionary(locale);
         setData(SignUpPage);
       } catch (error) {
         notFound();
@@ -42,7 +42,7 @@ export default function SignUpPage({ params: { lang } }: Props) {
     };
 
     fetchData();
-  }, [lang]);
+  }, [locale]);
 
   if (!data) {
     return <div>Loading...</div>;
