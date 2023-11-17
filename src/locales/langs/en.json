@@ -5,11 +5,32 @@
     },
     "Page": {
       "title": "This is a Home page",
-      "link": "Go to Test page"
+      "link": "Go to Test page",
+      "signInLink": "Go to SignIn page"
     }
   },
   "TestPage": {
     "maintext": "This is a Test page",
     "reduxTitle": "Redux example"
+  },
+  "SignInPage": {
+    "Main": {
+      "termsLink": "Terms & Conditions",
+      "policyLink": "Privacy Policy",
+      "signUpLink": "Sign Up",
+      "doNot": "Don't have an account?",
+      "agree": "By continuing, you agree to AgentWise",
+      "and": "and"
+    },
+    "LoginForm": {
+      "title": "Sign in",
+      "minPassword": "Min 8 characters",
+      "invalidEmail": "Invalid email address",
+      "requiredField": "Field is required",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "btnTitle": "  Sign in",
+      "forgotPasswordLinkTitle": "Forgot password"
+    }
   }
 }

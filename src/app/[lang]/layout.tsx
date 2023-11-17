@@ -1,8 +1,9 @@
-import './global.css';
 import 'modern-normalize/modern-normalize.css';
 import StyledComponentsRegistry from 'lib/registry';
 import { Locale, i18n } from 'locales/i18n.config';
 import TestHeader from 'components/Test-Header';
+import ThemeProvider from 'theme';
+import './global.css';
 
 export const metadata = {
   title: 'Agent wise',
@@ -28,10 +29,12 @@ export default function RootLayout({ children, params }: Props) {
   return (
     <html lang={params.lang}>
       <body>
-        <StyledComponentsRegistry>
-          <TestHeader lang={params.lang} />
-          {children}
-        </StyledComponentsRegistry>
+        <ThemeProvider>
+          <StyledComponentsRegistry>
+            <TestHeader lang={params.lang} />
+            {children}
+          </StyledComponentsRegistry>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -1,17 +1,14 @@
 'use client';
 
 import { styled } from '@mui/material';
-import { backgroundImages } from 'constants/backgroundImgLinks';
 
 export const Wrapper = styled('div')`
   display: flex;
   height: calc(100vh - 80px);
-  max-width: 1440px;
 `;
 
 export const LeftSection = styled('div')`
   flex: 2;
-  background-image: url(${backgroundImages.BG_LOGIN_PAGE});
   background-size: cover;
   background-position: center;
   display: flex;

@@ -1,17 +1,20 @@
 'use client';
 import { useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { patterns } from 'constants/patterns';
-import { links } from 'constants/links';
-import { Form } from './styles';
+import { notFound, useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { useForm } from 'react-hook-form';
 import { Button, Typography, Link } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { AppDispatch } from 'store';
 import { useSignInMutation } from 'store/authApi';
+import { setCredentials } from 'store/reducers/authReducer';
+import { patterns } from 'constants/patterns';
+import { links } from 'constants/links';
 import { pageLinks } from 'constants/pageLinks';
-import { useRouter } from 'next/navigation';
+import { Form } from './styles';
 
 type FormValues = {
   email: string;
@@ -35,6 +38,7 @@ export default function LoginForm({ SignInPage }: SignInProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [signIn, { isError }] = useSignInMutation();
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
   const {
     register,
     handleSubmit,
@@ -48,17 +52,20 @@ export default function LoginForm({ SignInPage }: SignInProps) {
     },
   });
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+  const onSubmit = async (data: FormValues) => {
     try {
       const res = await signIn(data);
-      console.log(res.data.token);
+      if ('data' in res) {
+        const { email, token } = res.data;
+        dispatch(setCredentials({ email, token }));
+        router.push(pageLinks.VERIFY_PAGE);
+      }
     } catch (error) {
-      console.log(error.message);
+      notFound();
     }
-
-    // router.push(pageLinks.VERIFY_PAGE);
     reset();
   };
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Typography variant="h3" sx={{ marginBottom: '30px' }}>

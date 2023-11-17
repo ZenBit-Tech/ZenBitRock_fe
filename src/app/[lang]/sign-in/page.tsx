@@ -1,13 +1,14 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { notFound } from 'next/navigation';
 import Link from '@mui/material/Link';
+import ReduxProvider from 'store/ReduxProvider';
 import { Locale } from 'locales/i18n.config';
 import { getDictionary } from 'lib/dictionary';
-import { notFound } from 'next/navigation';
 import { links } from 'constants/links';
+import SeoIllustration from 'assets/illustrations/seo-illustration';
 import { LoadingScreen } from 'components/loading-screen';
 import LoginForm from './components/form';
-import ReduxProvider from 'store/ReduxProvider';
 import { Wrapper, LeftSection, LoginWrapper, RightSection, SignUpLink, Policy } from './styles';
 
 type Props = {
@@ -44,10 +45,14 @@ export default function SignInPage({ params: { lang } }: Props) {
 
   return (
     <Wrapper>
-      <LeftSection></LeftSection>
+      <LeftSection>
+        <SeoIllustration />
+      </LeftSection>
       <RightSection>
         <LoginWrapper>
-          <ReduxProvider><LoginForm SignInPage={data} /></ReduxProvider>
+          <ReduxProvider>
+            <LoginForm SignInPage={data} />
+          </ReduxProvider>
           <SignUpLink>
             {data.Main.doNot}&nbsp;
             <Link href={links.SIGN_UP_PAGE}>{data.Main.signUpLink}</Link>

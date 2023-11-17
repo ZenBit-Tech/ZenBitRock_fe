@@ -1,27 +1,34 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery, BaseQueryFn } from '@reduxjs/toolkit/query/react';
+
 
 export interface IUserData {
   email: string;
   password: string;
 }
 
-interface ILoginUserDataResponse {
-  user: {
-    email: string;
-    password?: string;
-    id: number;
+interface ILoginResData {
+  data: { email: string; id: string; token: string };
+}
+
+interface ILoginResError {
+  error: {
+    status: number;
+    data: {
+      message: string;
+      error: string;
+      statusCode: number;
+    };
   };
-  token: string;
 }
 
 export const authApi = createApi({
-  reducerPath: 'authApi',
+  reducerPath: 'auth',
   tagTypes: ['Users'],
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3300/api/v1/auth/login' }),
-  endpoints: (build) => ({
-    signIn: build.mutation<ILoginUserDataResponse, IUserData>({
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_LOGIN_BASE_URL }),
+  endpoints: (builder) => ({
+    signIn: builder.mutation<ILoginResData['data'], IUserData>({
       query: (body) => ({
-        url: '/',
+        url: 'auth/login',
         method: 'POST',
         body,
       }),
