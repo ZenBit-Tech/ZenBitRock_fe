@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { Link, List, ListItem, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog, { DialogProps } from '@mui/material/Dialog';
@@ -36,6 +37,7 @@ export default function TermsDialog({ SignUpPage }: SignUpProps) {
       }
     }
   }, [open]);
+
 
   const handleClickOpen = () => {
     setOpen(true);

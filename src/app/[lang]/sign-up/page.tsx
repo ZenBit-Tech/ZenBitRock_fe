@@ -3,15 +3,18 @@
 import { useEffect, useState } from 'react';
 import { notFound } from 'next/navigation';
 import { Link, Box } from '@mui/material';
-import PagesContainer from 'components/PagesContainer/PagesContainer';
-import PageTitle from 'components/PageTitle/PageTitle';
-import SignUpForm from 'components/SignUpForm/SignUpForm';
-import TermsDialog from 'components/TermsDialog/TermsDialog';
-import PrivacyPolicyDialog from 'components/PrivacyPolicyDialog/PrivacyPolicyDialog';
 import { Locale } from 'locales/i18n.config';
 import { getDictionary } from 'lib/dictionary';
+import ReduxProvider from 'store/ReduxProvider';
+import PagesContainer from 'components/PagesContainer/PagesContainer';
+import TermsDialog from 'components/TermsDialog/TermsDialog';
+import PrivacyPolicyDialog from 'components/PrivacyPolicyDialog/PrivacyPolicyDialog';
+import PageTitle from 'components/PageTitle/PageTitle';
+import SignUpForm from 'components/SignUpForm/SignUpForm';
+import { LoadingScreen } from 'components/loading-screen';
 import { pageLinks } from 'constants/pageLinks';
 import { SignInLink, Policy } from './styles';
+
 
 type Props = {
   params: { lang: Locale };
@@ -31,11 +34,12 @@ type SignUpPageType = {
 
 export default function SignUpPage({ params: { lang } }: Props) {
   const [data, setData] = useState<SignUpPageType | null>(null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { SignUpPage } = await getDictionary(lang);
-        setData(SignUpPage);
+        const { signUpPage } = await getDictionary(lang);
+        setData(signUpPage);
       } catch (error) {
         notFound();
       }
@@ -45,7 +49,7 @@ export default function SignUpPage({ params: { lang } }: Props) {
   }, [lang]);
 
   if (!data) {
-    return <div>Loading...</div>;
+    return <LoadingScreen />;
   }
 
   return (
@@ -61,7 +65,9 @@ export default function SignUpPage({ params: { lang } }: Props) {
           }}
         >
           <PageTitle title={data.Main.title} />
-          <SignUpForm SignUpPage={data} />
+          <ReduxProvider>
+            <SignUpForm signUpPage={data} />
+          </ReduxProvider>
           <SignInLink>
             {data.Main.haveAcc}&nbsp;
             <Link href={pageLinks.SIGN_IN_PAGE} color="primary">

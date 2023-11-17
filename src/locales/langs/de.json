@@ -11,6 +11,7 @@
       "buttonTxt": "Jetzt loslegen"
     }
   },
+  
   "TestPage": {
     "maintext": "Dies ist eine Testseite",
     "reduxTitle": "Redux-Beispiel"

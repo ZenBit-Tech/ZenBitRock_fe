@@ -20,6 +20,13 @@ interface ILoginResError {
   };
 }
 
+interface IUserDataResponse {
+  user: {
+    email: string;
+    password?: string;
+  };
+}
+
 export const authApi = createApi({
   reducerPath: 'auth',
   tagTypes: ['Users'],
@@ -33,7 +40,15 @@ export const authApi = createApi({
       }),
       invalidatesTags: [{ type: 'Users' }],
     }),
+    signUp: builder.mutation<IUserDataResponse, IUserData>({
+      query: (body) => ({
+        url: 'user',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: [{ type: 'Users' }],
+    }),
   }),
 });
 
-export const { useSignInMutation } = authApi;
+export const { useSignInMutation, useSignUpMutation } = authApi;
