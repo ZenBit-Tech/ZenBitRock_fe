@@ -27,7 +27,7 @@ export default function TermsDialog({ SignUpPage }: SignUpProps) {
   const [open, setOpen] = React.useState<boolean>(false);
   const scrollType: DialogProps['scroll'] = 'paper';
   const descriptionElementRef = React.useRef<HTMLElement>(null);
-  
+
   React.useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef;
