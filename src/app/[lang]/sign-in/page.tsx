@@ -1,3 +1,4 @@
+
 'use client';
 import { useEffect, useState } from 'react';
 import { notFound } from 'next/navigation';
@@ -69,3 +70,4 @@ export default function SignInPage({ params: { lang } }: Props) {
     </Wrapper>
   );
 }
+
