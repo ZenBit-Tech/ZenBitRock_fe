@@ -32,7 +32,7 @@ type SignUpPageType = {
 };
 
 type SignUpProps = {
-  SignUpPage: SignUpPageType;
+  signUpPage: SignUpPageType;
 };
 
 function SignUpForm({ signUpPage }: SignUpProps) {
