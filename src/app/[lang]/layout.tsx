@@ -1,4 +1,3 @@
-import './global.css';
 import 'modern-normalize/modern-normalize.css';
 import StyledComponentsRegistry from 'lib/registry';
 import { Locale, i18n } from 'locales/i18n.config';

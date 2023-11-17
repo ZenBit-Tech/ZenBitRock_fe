@@ -15,13 +15,25 @@
     "maintext": "This is a Test page",
     "reduxTitle": "Redux example"
   },
-  "SignInPage": {
-    "termsLink": "Terms & Conditions",
-    "policyLink": "Privacy Policy",
-    "signUpLink": "Sign Up",
-    "doNot": "Don't have an account?",
-    "agree": "By continuing, you agree to AgentWise",
-    "and": "and"
+  "signInPage": {
+    "Main": {
+      "termsLink": "Terms & Conditions",
+      "policyLink": "Privacy Policy",
+      "signUpLink": "Sign Up",
+      "doNot": "Don't have an account?",
+      "agree": "By continuing, you agree to AgentWise",
+      "and": "and"
+    },
+    "LoginForm": {
+      "title": "Sign in",
+      "minPassword": "Min 8 characters",
+      "invalidEmail": "Invalid email address",
+      "requiredField": "Field is required",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "btnTitle": "  Sign in",
+      "forgotPasswordLinkTitle": "Forgot password"
+    }
   },
   "SignUpPage": {
     "Main": {
