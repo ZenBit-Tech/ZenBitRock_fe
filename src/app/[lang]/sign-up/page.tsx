@@ -11,6 +11,7 @@ import TermsDialog from 'components/TermsDialog/TermsDialog';
 import PrivacyPolicyDialog from 'components/PrivacyPolicyDialog/PrivacyPolicyDialog';
 import PageTitle from 'components/PageTitle/PageTitle';
 import SignUpForm from 'components/SignUpForm/SignUpForm';
+import { LoadingScreen } from 'components/loading-screen';
 import { pageLinks } from 'constants/pageLinks';
 import { SignInLink, Policy } from './styles';
 
@@ -48,7 +49,7 @@ export default function SignUpPage({ params: { lang } }: Props) {
   }, [lang]);
 
   if (!data) {
-    return <div>Loading...</div>;
+    return <LoadingScreen />;
   }
 
   return (
@@ -65,7 +66,7 @@ export default function SignUpPage({ params: { lang } }: Props) {
         >
           <PageTitle title={data.Main.title} />
           <ReduxProvider>
-            <SignUpForm SignUpPage={data} />
+            <SignUpForm signUpPage={data} />
           </ReduxProvider>
           <SignInLink>
             {data.Main.haveAcc}&nbsp;

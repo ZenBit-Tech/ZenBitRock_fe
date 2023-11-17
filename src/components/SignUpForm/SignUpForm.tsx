@@ -4,11 +4,11 @@ import React from 'react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import { Button } from '@mui/material';
+import { Box, IconButton, styled } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { Box, IconButton, styled } from '@mui/material';
-import { Button } from '@mui/material';
 import { useRegisterMutation } from 'store/authApi';
 import { pageLinks } from 'constants/pageLinks';
 
@@ -36,7 +36,8 @@ type SignUpProps = {
 };
 
 function SignUpForm({ SignUpPage }: SignUpProps) {
-  const [signUp] = useRegisterMutation();
+  
+  const [signUp] = useRegisterMutation(); 
   const form = useForm<FormValues>({
     defaultValues: {
       email: '',
@@ -125,6 +126,7 @@ function SignUpForm({ SignUpPage }: SignUpProps) {
         }}
       />
       <Button type="submit" variant="contained" sx={{ my: '20px' }} fullWidth disabled={!isValid}>
+
         {SignUpPage.Main.title}
       </Button>
     </Box>
