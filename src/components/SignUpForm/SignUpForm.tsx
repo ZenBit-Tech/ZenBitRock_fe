@@ -52,14 +52,13 @@ function SignUpForm({ SignUpPage }: SignUpProps) {
   const { register, handleSubmit, formState, watch } = form;
   const { errors, isValid } = formState;
 
-  const defaultName = 'Default';
-
   const onSubmit = (data: FormValues) => {
     const { email, password } = data;
-    const credentials = { email, password, name: defaultName };
+    const credentials = { email, password };
     signUp(credentials);
     router.push(pageLinks.VERIFY_PAGE);
   };
+
   return (
     <Box
       component="form"

@@ -23,7 +23,7 @@
     "agree": "By continuing, you agree to AgentWise",
     "and": "and"
   },
-  "SignUpPage": {
+  "signUpPage": {
     "Main": {
       "title": "Sign up",
       "emailInput": "Email",

@@ -25,7 +25,7 @@
     "agree": "Indem Sie fortfahren, stimmen Sie AgentWise zu",
     "and": "und"
   },
-  "SignUpPage": {
+  "signUpPage": {
     "Main": {
       "title": "Registrieren",
       "emailInput": "Email",

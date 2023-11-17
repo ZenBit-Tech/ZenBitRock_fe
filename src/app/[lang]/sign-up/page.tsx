@@ -1,18 +1,19 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { notFound } from 'next/navigation';
 import { Link, Box } from '@mui/material';
 import { Locale } from 'locales/i18n.config';
 import { getDictionary } from 'lib/dictionary';
+import ReduxProvider from 'store/ReduxProvider';
 import PagesContainer from 'components/PagesContainer/PagesContainer';
 import TermsDialog from 'components/TermsDialog/TermsDialog';
 import PrivacyPolicyDialog from 'components/PrivacyPolicyDialog/PrivacyPolicyDialog';
-import ReduxProvider from 'store/ReduxProvider';
 import PageTitle from 'components/PageTitle/PageTitle';
 import SignUpForm from 'components/SignUpForm/SignUpForm';
 import { pageLinks } from 'constants/pageLinks';
 import { SignInLink, Policy } from './styles';
-import { useEffect, useState } from 'react';
+
 
 type Props = {
   params: { lang: Locale };
@@ -36,8 +37,8 @@ export default function SignUpPage({ params: { lang } }: Props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { SignUpPage } = await getDictionary(lang);
-        setData(SignUpPage);
+        const { signUpPage } = await getDictionary(lang);
+        setData(signUpPage);
       } catch (error) {
         notFound();
       }
