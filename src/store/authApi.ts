@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery, BaseQueryFn } from '@reduxjs/toolkit/query/react';
 
-
 export interface IUserData {
   email: string;
   password: string;
