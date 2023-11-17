@@ -11,11 +11,11 @@
       "buttonTxt": "Jetzt loslegen"
     }
   },
-
+  
   "TestPage": {
     "maintext": "Dies ist eine Testseite",
     "reduxTitle": "Redux-Beispiel"
-  },
+  }, 
   "signInPage": {
     "Main": {
       "termsLink": "Terms & Bedingungen",
@@ -24,7 +24,7 @@
       "doNot": "Sie haben noch kein Konto?",
       "agree": "Indem Sie fortfahren, stimmen Sie AgentWise zu",
       "and": "und"
-    },
+    }, 
     "LoginForm": {
       "title": "Anmelden",
       "minPassword": "Min 8 Zeichen",
@@ -36,7 +36,7 @@
       "forgotPasswordLinkTitle": "Passwort vergessen"
     }
   },
-  "signUpPage": {
+  "SignUpPage": {
     "Main": {
       "title": "Registrieren",
       "emailInput": "Email",
@@ -107,3 +107,4 @@
     }
   }
 }
+
