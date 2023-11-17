@@ -4,29 +4,39 @@
       "title": "Deutscher Agent Wise"
     },
     "Page": {
-      "title": "Willkommen bei AgentWise - Ihrer Komplettlösung für effektives Vertriebsmanagement",
+      "title": "Willkommen bei AgentWise - der klügsten Immobilienplattform, die auf Ihren beruflichen Erfolg ausgerichtet ist",
       "link": "Gehen Sie zur Testseite",
       "signUpLink": "Sign Up",
       "signInLink": "Sign In",
       "buttonTxt": "Jetzt loslegen"
     }
   },
-
+  
   "TestPage": {
     "maintext": "Dies ist eine Testseite",
     "reduxTitle": "Redux-Beispiel"
+  }, 
+  "signInPage": {
+    "Main": {
+      "termsLink": "Terms & Bedingungen",
+      "policyLink": "Datenschutzrichtlinie",
+      "signUpLink": "Melden Sie sich an",
+      "doNot": "Sie haben noch kein Konto?",
+      "agree": "Indem Sie fortfahren, stimmen Sie AgentWise zu",
+      "and": "und"
+    }, 
+    "LoginForm": {
+      "title": "Anmelden",
+      "minPassword": "Min 8 Zeichen",
+      "invalidEmail": "Ungültige E-Mail-Adresse",
+      "requiredField": "Feld ist erforderlich",
+      "emailLabel": "Email",
+      "passwordLabel": "Passwort",
+      "btnTitle": "Anmelden",
+      "forgotPasswordLinkTitle": "Passwort vergessen"
+    }
   },
-
-  "SignInPage": {
-    "termsLink": "Terms & Bedingungen",
-    "policyLink": "Datenschutzrichtlinie",
-    "signUpLink": "Melden Sie sich an",
-    "doNot": "Sie haben noch kein Konto?",
-    "agree": "Indem Sie fortfahren, stimmen Sie AgentWise zu",
-    "and": "und"
-  },
-  
-  "signUpPage": {
+  "SignUpPage": {
     "Main": {
       "title": "Registrieren",
       "emailInput": "Email",
