@@ -1,5 +1,4 @@
 'use client';
-
 import { useEffect, useState } from 'react';
 import { notFound } from 'next/navigation';
 import { Link, Box } from '@mui/material';
@@ -14,12 +13,9 @@ import SignUpForm from 'components/SignUpForm/SignUpForm';
 import { LoadingScreen } from 'components/loading-screen';
 import { pageLinks } from 'constants/pageLinks';
 import { SignInLink, Policy } from './styles';
-
-
 type Props = {
   params: { lang: Locale };
 };
-
 type SignUpPageType = {
   Main: {
     [key: string]: string;
@@ -31,27 +27,22 @@ type SignUpPageType = {
     [key: string]: string;
   };
 };
-
 export default function SignUpPage({ params: { lang } }: Props) {
   const [data, setData] = useState<SignUpPageType | null>(null);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { signUpPage } = await getDictionary(lang);
+        const { signUpPage } = await getDictionary('en');
         setData(signUpPage);
       } catch (error) {
         notFound();
       }
     };
-
     fetchData();
   }, [lang]);
-
   if (!data) {
     return <LoadingScreen />;
   }
-
   return (
     <>
       <PagesContainer>
@@ -74,7 +65,6 @@ export default function SignUpPage({ params: { lang } }: Props) {
               {data.Main.signInLink}
             </Link>
           </SignInLink>
-
           <Policy>
             {data.Main.agree}&nbsp;
             <TermsDialog SignUpPage={data} />

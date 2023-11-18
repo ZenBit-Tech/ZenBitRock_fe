@@ -1,4 +1,3 @@
-
 'use client';
 import { useEffect, useState } from 'react';
 import { notFound } from 'next/navigation';
@@ -11,7 +10,6 @@ import SeoIllustration from 'assets/illustrations/seo-illustration';
 import { LoadingScreen } from 'components/loading-screen';
 import LoginForm from './components/form';
 import { Wrapper, LeftSection, LoginWrapper, RightSection, SignUpLink, Policy } from './styles';
-
 type Props = {
   params: { lang: Locale };
 };
@@ -23,27 +21,22 @@ type SignInPageType = {
     [key: string]: string;
   };
 };
-
 export default function SignInPage({ params: { lang } }: Props) {
   const [data, setData] = useState<SignInPageType | null>(null);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { signInPage } = await getDictionary(lang);
+        const { signInPage } = await getDictionary('en');
         setData(signInPage);
       } catch (error) {
         notFound();
       }
     };
-
     fetchData();
   }, [lang]);
-
   if (!data) {
     return <LoadingScreen />;
   }
-
   return (
     <Wrapper>
       <LeftSection>
@@ -58,7 +51,6 @@ export default function SignInPage({ params: { lang } }: Props) {
             {data.Main.doNot}&nbsp;
             <Link href={links.SIGN_UP_PAGE}>{data.Main.signUpLink}</Link>
           </SignUpLink>
-
           <Policy>
             {data.Main.agree}&nbsp;
             <Link href={links.TERMS_CONDITIONS}>{data.Main.termsLink}</Link>
@@ -70,4 +62,3 @@ export default function SignInPage({ params: { lang } }: Props) {
     </Wrapper>
   );
 }
-

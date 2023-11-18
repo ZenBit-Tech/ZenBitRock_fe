@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { notFound, useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
@@ -30,13 +31,10 @@ type SignInPageType = {
   };
 };
 
-type SignInProps = {
-  signInPage: SignInPageType;
-};
-
-export default function LoginForm({ signInPage }: SignInProps) {
+export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [signIn, { isError }] = useSignInMutation();
+  const t = useTranslations('signInPage');
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const {
@@ -69,19 +67,19 @@ export default function LoginForm({ signInPage }: SignInProps) {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Typography variant="h3" sx={{ marginBottom: '30px' }}>
-        {signInPage.LoginForm.title}
+        {t('LoginForm.title')}
       </Typography>
 
       <TextField
         {...register('email', {
-          required: signInPage.LoginForm.requiredField,
+          required: t('LoginForm.requiredField'),
           pattern: {
             value: patterns.EMAIL_VALIDATION_PATTERN,
-            message: signInPage.LoginForm.invalidEmail,
+            message: t('LoginForm.invalidEmail'),
           },
         })}
         variant="outlined"
-        label={signInPage.LoginForm.emailLabel}
+        label={t('LoginForm.emailLabel')}
         type="email"
         fullWidth
         sx={{ marginBottom: '30px' }}
@@ -91,14 +89,14 @@ export default function LoginForm({ signInPage }: SignInProps) {
 
       <TextField
         {...register('password', {
-          required: signInPage.LoginForm.requiredField,
+          required: t('LoginForm.requiredField'),
           minLength: {
             value: 8,
-            message: signInPage.LoginForm.minPassword,
+            message: t('LoginForm.minPassword'),
           },
         })}
         variant="outlined"
-        label={signInPage.LoginForm.passwordLabel}
+        label={t('LoginForm.passwordLabel')}
         type={showPassword ? 'text' : 'password'}
         fullWidth
         sx={{ marginBottom: '20px' }}
@@ -115,7 +113,7 @@ export default function LoginForm({ signInPage }: SignInProps) {
 
       <Typography variant="body2" sx={{ marginBottom: '10px' }}>
         <Link href={links.FORGOT_PASSWORD_PAGE} color="primary">
-          {signInPage.LoginForm.forgotPasswordLinkTitle}
+          {t('LoginForm.forgotPasswordLinkTitle')}
         </Link>
       </Typography>
 
@@ -127,7 +125,7 @@ export default function LoginForm({ signInPage }: SignInProps) {
         fullWidth
         disabled={!isValid}
       >
-        {signInPage.LoginForm.btnTitle}
+        {t('LoginForm.btnTitle')}
       </Button>
     </Form>
   );
