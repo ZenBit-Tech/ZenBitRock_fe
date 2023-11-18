@@ -1,15 +1,109 @@
 {
   "Home": {
-    "TestHeader": {
+    "Header": {
       "title": "Deutscher Agent Wise"
     },
     "Page": {
-      "title": "Dies ist eine Homepage",
-      "link": "Gehen Sie zur Testseite"
+      "title": "Willkommen bei AgentWise - der klügsten Immobilienplattform, die auf Ihren beruflichen Erfolg ausgerichtet ist",
+      "link": "Gehen Sie zur Testseite",
+      "signUpLink": "Sign Up",
+      "signInLink": "Sign In",
+      "buttonTxt": "Jetzt loslegen"
     }
   },
+
   "TestPage": {
     "maintext": "Dies ist eine Testseite",
     "reduxTitle": "Redux-Beispiel"
+  },
+  "signInPage": {
+    "Main": {
+      "termsLink": "Terms & Bedingungen",
+      "policyLink": "Datenschutzrichtlinie",
+      "signUpLink": "Melden Sie sich an",
+      "doNot": "Sie haben noch kein Konto?",
+      "agree": "Indem Sie fortfahren, stimmen Sie AgentWise zu",
+      "and": "und"
+    },
+    "LoginForm": {
+      "title": "Anmelden",
+      "minPassword": "Min 8 Zeichen",
+      "invalidEmail": "Ungültige E-Mail-Adresse",
+      "requiredField": "Feld ist erforderlich",
+      "emailLabel": "Email",
+      "passwordLabel": "Passwort",
+      "btnTitle": "Anmelden",
+      "forgotPasswordLinkTitle": "Passwort vergessen"
+    }
+  },
+  "signUpPage": {
+    "Main": {
+      "title": "Registrieren",
+      "emailInput": "Email",
+      "emailInputPlaceholder": "name@domain.com",
+      "passwordInput": "Passwort",
+      "passwordInputPlaceholder": "Min 8 Zeichen",
+      "repeatPasswordInput": "Passwort wiederholen",
+      "emailRequired": "E-Mail ist erforderlich",
+      "emailInvalid": "Ungültige E-Mail",
+      "passwordRequired": "Passwort wird benötigt",
+      "minChar": "Min 8 Zeichen",
+      "repeatLabel": "Passwort wiederholen",
+      "unmatchPass": "Passwörter stimmen nicht überein",
+      "haveAcc": "Sie haben bereits ein Konto?",
+      "signInLink": "Einloggen",
+      "agree": "Indem Sie fortfahren, stimmen Sie AgentWise zu",
+      "and": "und"
+    },
+    "Terms": {
+      "TermsTitle": "Allgemeine Geschäftsbedingungen",
+      "termsLink": "Terms & Bedingungen",
+      "policyLink": "Datenschutzrichtlinie",
+      "btnTxt": "Schließen"
+    },
+    "TermsContent": {
+      "item1Title": "Akzeptanz der Bedingungen",
+      "item1Text": "Durch den Zugriff auf und die Nutzung der Dienste von AgentWise erklären Sie sich damit einverstanden, diese Allgemeinen Geschäftsbedingungen und alle hierin genannten zusätzlichen Bedingungen und Richtlinien einzuhalten.",
+      "item2Title": "Datenschutzerklärung",
+      "item2Text": "Bitte lesen Sie unsere Datenschutzrichtlinie, um zu verstehen, wie wir Ihre persönlichen Daten sammeln, verwenden und schützen.",
+      "item3Title": "Kontoregistrierung",
+      "item3Text": "Möglicherweise müssen Sie ein Konto erstellen, um auf bestimmte Dienste zuzugreifen. Sie sind dafür verantwortlich, die Vertraulichkeit Ihrer Kontoinformationen zu wahren und sicherzustellen, dass diese korrekt und aktuell sind.",
+      "item4Title": "Inhaltseigentum",
+      "item4Text": "Alle Inhalte auf unserer Plattform, einschließlich, aber nicht beschränkt auf Texte, Bilder und Logos, sind Eigentum von AgentWise und durch Urheberrecht und andere geltende Gesetze geschützt.",
+      "item5Title": "Benutzerverhalten",
+      "item5Text": "Sie erklären sich damit einverstanden, sich nicht an Aktivitäten zu beteiligen, die unsere Dienste stören oder beeinträchtigen oder gegen geltende Gesetze verstoßen könnten. Dazu gehören unter anderem: Spam, Hacking oder die Verbreitung schädlicher Inhalte.",
+      "item6Title": "Zahlung",
+      "item6Text": "Wenn Sie eine Zahlung auf unserer Plattform vornehmen, erklären Sie sich damit einverstanden, genaue Zahlungsinformationen anzugeben. Zahlungen unterliegen unseren Rückerstattungs- und Stornierungsrichtlinien.",
+      "item7Title": "Gewährleistungsausschluss",
+      "item7Text": "Unsere Dienstleistungen werden 'wie besehen' und ohne Gewährleistungen jeglicher Art, weder ausdrücklich noch stillschweigend, bereitgestellt.",
+      "item8Title": "Haftungsbeschränkung",
+      "item8Text": "AgenWise haftet nicht für direkte oder indirekte Schäden, die sich aus der Nutzung unserer Dienste oder Unterbrechungen, Fehlern oder Auslassungen in unseren Diensten ergeben.",
+      "item9Title": "Beendigung",
+      "item9Text": "Wir behalten uns das Recht vor, Ihren Zugang zu unseren Diensten nach unserem Ermessen und ohne vorherige Ankündigung zu beenden oder auszusetzen.",
+      "item10Title": "Änderungen der Allgemeinen Geschäftsbedingungen",
+      "item10Text": "Wir können diese Allgemeinen Geschäftsbedingungen von Zeit zu Zeit aktualisieren. Es liegt in Ihrer Verantwortung, nach Aktualisierungen zu suchen.",
+      "item11Title": "Geltendes Recht",
+      "item11Text": "Diese Allgemeinen Geschäftsbedingungen unterliegen den Gesetzen der Ukraine und werden in Übereinstimmung mit diesen ausgelegt. Alle Streitigkeiten unterliegen der ausschließlichen Zuständigkeit der Gerichte der Ukraine.",
+      "item12Title": "Kontaktinformationen",
+      "item12Text": "Wenn Sie Fragen oder Bedenken zu diesen Allgemeinen Geschäftsbedingungen haben, kontaktieren Sie uns bitte unter Welcome@zenbit.tech",
+      "item13Title": "Inhaltseigentum",
+      "item13Text": "Alle Inhalte auf unserer Plattform, einschließlich, aber nicht beschränkt auf Texte, Bilder und Logos, sind Eigentum von AgentWise und durch Urheberrecht und andere geltende Gesetze geschützt.",
+      "item14Title": "Benutzerverhalten",
+      "item14Text": "Sie erklären sich damit einverstanden, sich nicht an Aktivitäten zu beteiligen, die unsere Dienste stören oder beeinträchtigen oder gegen geltende Gesetze verstoßen könnten. Dazu gehören unter anderem: Spam, Hacking oder die Verbreitung schädlicher Inhalte.",
+      "item15Title": "Zahlung",
+      "item15Text": "Wenn Sie eine Zahlung auf unserer Plattform vornehmen, erklären Sie sich damit einverstanden, genaue Zahlungsinformationen anzugeben. Zahlungen unterliegen unseren Rückerstattungs- und Stornierungsrichtlinien.",
+      "item16Title": "Gewährleistungsausschluss",
+      "item16Text": "Unsere Dienstleistungen werden 'wie besehen' und ohne Gewährleistungen jeglicher Art, weder ausdrücklich noch stillschweigend, bereitgestellt.",
+      "item17Title": "Haftungsbeschränkung",
+      "item17Text": "AgentWise haftet nicht für direkte oder indirekte Schäden, die sich aus der Nutzung unserer Dienste oder Unterbrechungen, Fehlern oder Auslassungen in unseren Diensten ergeben.",
+      "item18Title": "Beendigung",
+      "item18Text": "Wir behalten uns das Recht vor, Ihren Zugang zu unseren Diensten nach unserem Ermessen und ohne vorherige Ankündigung zu beenden oder auszusetzen.",
+      "item19Title": "Änderungen der Allgemeinen Geschäftsbedingungen",
+      "item19Text": "Wir können diese Allgemeinen Geschäftsbedingungen von Zeit zu Zeit aktualisieren. Es liegt in Ihrer Verantwortung, nach Aktualisierungen zu suchen.",
+      "item20Title": "Geltendes Recht",
+      "item20Text": "Diese Allgemeinen Geschäftsbedingungen unterliegen den Gesetzen der Ukraine und werden in Übereinstimmung mit diesen ausgelegt. Alle Streitigkeiten unterliegen der ausschließlichen Zuständigkeit der Gerichte der Ukraine.",
+      "item21Title": "Kontaktinformationen",
+      "item21Text": "Wenn Sie Fragen oder Bedenken zu diesen Allgemeinen Geschäftsbedingungen haben, kontaktieren Sie uns bitte unter Welcome@zenbit.tech."
+    }
   }
 }
