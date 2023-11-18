@@ -1,11 +1,14 @@
 {
   "Home": {
-    "TestHeader": {
+    "Header": {
       "title": "Deutscher Agent Wise"
     },
     "Page": {
-      "title": "Dies ist eine Homepage",
-      "link": "Gehen Sie zur Testseite"
+      "title": "Willkommen bei AgentWise - der klügsten Immobilienplattform, die auf Ihren beruflichen Erfolg ausgerichtet ist",
+      "link": "Gehen Sie zur Testseite",
+      "signUpLink": "Sign Up",
+      "signInLink": "Sign In",
+      "buttonTxt": "Jetzt loslegen"
     }
   },
   "TestPage": {

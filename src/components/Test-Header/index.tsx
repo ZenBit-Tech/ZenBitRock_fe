@@ -9,7 +9,7 @@ export default function TestHeader(): JSX.Element {
 
   return (
     <TestHeaderItem>
-      <Logo href="/">{t('TestHeader.title')}</Logo>
+      <Logo href="/">{t('Header.title')}</Logo>
       <LocaleSwitcher />
     </TestHeaderItem>
   );

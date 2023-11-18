@@ -1,7 +1,7 @@
 'use client';
 
-import { Button, Link } from '@mui/material';
-import { usePathname } from 'next/navigation';
+import { Button } from '@mui/material';
+import { useParams, usePathname } from 'next/navigation';
 import { i18n } from 'locales/i18n.config';
 import { colors } from 'constants/colors';
 
@@ -15,18 +15,24 @@ export default function LocaleSwitcher() {
     return segments.join('/');
   };
 
+  function isActive(data: string): Boolean {
+    const params = useParams();
+    const isActive = data === params.locale;
+    return isActive;
+  }
+
   return (
     <div>
       {i18n.locales.map((locale) => {
         return (
-          <Button key={locale}>
-            <Link
-              underline={'none'}
-              color={colors.TEST_MAIN_COLOR}
-              href={redirectedPathName(locale)}
-            >
-              {locale}
-            </Link>
+          <Button
+            key={locale}
+            style={{
+              color: isActive(locale) ? colors.TEST_MAIN_COLOR : colors.TEST_SECOND_COLOR,
+            }}
+            href={redirectedPathName(locale)}
+          >
+            {locale.toUpperCase()}
           </Button>
         );
       })}
