@@ -1,8 +1,9 @@
 'use client';
-
-import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useEffect, useState } from 'react';
+import { notFound } from 'next/navigation';
 import { Link, Box } from '@mui/material';
+import { Locale } from 'locales/i18n.config';
+import { getDictionary } from 'lib/dictionary';
 import ReduxProvider from 'store/ReduxProvider';
 import PagesContainer from 'components/PagesContainer/PagesContainer';
 import TermsDialog from 'components/TermsDialog/TermsDialog';
@@ -12,7 +13,9 @@ import SignUpForm from 'components/SignUpForm/SignUpForm';
 import { LoadingScreen } from 'components/loading-screen';
 import { pageLinks } from 'constants/pageLinks';
 import { SignInLink, Policy } from './styles';
-
+type Props = {
+  params: { lang: Locale };
+};
 type SignUpPageType = {
   Main: {
     [key: string]: string;
@@ -24,15 +27,22 @@ type SignUpPageType = {
     [key: string]: string;
   };
 };
-
-export default function SignUpPage() {
+export default function SignUpPage({ params: { lang } }: Props) {
   const [data, setData] = useState<SignUpPageType | null>(null);
-  const t = useTranslations('signUpPage');
-
-  if (data) {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { signUpPage } = await getDictionary('en');
+        setData(signUpPage);
+      } catch (error) {
+        notFound();
+      }
+    };
+    fetchData();
+  }, [lang]);
+  if (!data) {
     return <LoadingScreen />;
   }
-
   return (
     <>
       <PagesContainer>
@@ -45,22 +55,21 @@ export default function SignUpPage() {
             alignItems: 'center',
           }}
         >
-          <PageTitle title={t('Main.title')} />
+          <PageTitle title={data.Main.title} />
           <ReduxProvider>
-            <SignUpForm />
+            <SignUpForm signUpPage={data} />
           </ReduxProvider>
           <SignInLink>
-            {t('Main.haveAcc')}&nbsp;
+            {data.Main.haveAcc}&nbsp;
             <Link href={pageLinks.SIGN_IN_PAGE} color="primary">
-              {t('Main.signInLink')}
+              {data.Main.signInLink}
             </Link>
           </SignInLink>
-
           <Policy>
-            {t('Main.agree')}&nbsp;
-            <TermsDialog />
-            &nbsp;{t('Main.and')}&nbsp;
-            <PrivacyPolicyDialog />
+            {data.Main.agree}&nbsp;
+            <TermsDialog SignUpPage={data} />
+            &nbsp;{data.Main.and}&nbsp;
+            <PrivacyPolicyDialog SignUpPage={data} />
           </Policy>
         </Box>
       </PagesContainer>

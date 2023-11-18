@@ -1,9 +1,10 @@
 import 'modern-normalize/modern-normalize.css';
 import { NextIntlClientProvider } from 'next-intl';
 import { notFound } from 'next/navigation';
-import TestHeader from 'components/Test-Header';
-import './global.css';
 import StyledComponentsRegistry from 'lib/registry';
+import Header from 'components/Header/Header';
+import './global.css';
+import ThemeProvider from 'theme';
 
 export const metadata = {
   title: 'ZenBitRock',
@@ -22,7 +23,6 @@ type Props = {
 
 export default async function RootLayout({ children }: Props): Promise<JSX.Element> {
   let localeData;
-
   try {
     localeData = (await import(`locales/langs/en.json`)).default;
   } catch (error) {
@@ -31,12 +31,14 @@ export default async function RootLayout({ children }: Props): Promise<JSX.Eleme
   return (
     <html lang="en">
       <body>
-        <StyledComponentsRegistry>
-          <NextIntlClientProvider locale="en" messages={localeData}>
-            <TestHeader />
-            {children}
-          </NextIntlClientProvider>
-        </StyledComponentsRegistry>
+        <ThemeProvider>
+          <StyledComponentsRegistry>
+            <NextIntlClientProvider locale="en" messages={localeData}>
+              <Header />
+              {children}
+            </NextIntlClientProvider>
+          </StyledComponentsRegistry>
+        </ThemeProvider>
       </body>
     </html>
   );
