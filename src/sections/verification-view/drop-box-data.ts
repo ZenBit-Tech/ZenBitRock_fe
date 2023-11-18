@@ -44,9 +44,9 @@ export function getStatuses(): Array<Values> {
   const t = useTranslations('VerificationPage');
 
   const statuses = [
-    { value: 'Passport', label: t('statusResident') },
-    { value: 'ID', label: t('statusNonResident') },
-    { value: 'Driving licence', label: t('statusForeign') },
+    { value: 'Resident Individual', label: t('statusResident') },
+    { value: 'Non Resident', label: t('statusNonResident') },
+    { value: 'Foreign National', label: t('statusForeign') },
   ];
 
   return statuses;
