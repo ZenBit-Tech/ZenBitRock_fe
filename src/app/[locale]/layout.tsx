@@ -7,6 +7,7 @@ import { Locale, generateStaticParams } from 'locales/i18n.config';
 import TestHeader from 'components/Test-Header';
 import ThemeProvider from 'theme';
 import './global.css';
+import ToastContainerWrapper from 'components/toast-container';
 
 export const metadata = {
   title: 'Agent wise',
@@ -51,6 +52,7 @@ export default async function RootLayout({
             </StyledComponentsRegistry>
           </ThemeProvider>
         </LocalizationProvider>
+        <ToastContainerWrapper />
       </body>
     </html>
   );
