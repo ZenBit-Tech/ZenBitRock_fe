@@ -1,17 +1,16 @@
 import 'modern-normalize/modern-normalize.css';
-import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import StyledComponentsRegistry from 'lib/registry';
 import { LocalizationProvider } from 'locales';
-import { Locale, generateStaticParams } from 'locales/i18n.config';
 import TestHeader from 'components/Test-Header';
-import ThemeProvider from 'theme';
-import './global.css';
 import ToastContainerWrapper from 'components/toast-container';
+import ThemeProvider from 'theme';
+import { Locale } from 'locales/i18n.config';
+import './global.css';
 
 export const metadata = {
-  title: 'Agent wise',
-  description: 'Agent wise website',
+  title: 'ZenBitRock',
+  description: 'ZenBitRock website',
   icons: [
     {
       rel: 'icon',
@@ -25,18 +24,15 @@ type Props = {
   params: { locale: Locale };
 };
 
-generateStaticParams();
-
 export default async function RootLayout({
   children,
   params: { locale },
 }: Props): Promise<JSX.Element> {
   let localeData;
-
   try {
     localeData = (await import(`locales/langs/${locale}.json`)).default;
   } catch (error) {
-    notFound();
+    throw error;
   }
 
   return (
