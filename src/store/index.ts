@@ -4,6 +4,7 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import counterReducer from './reducers/testReducer';
+import { VerificationApi } from './api/verificationApi';
 
 const persistConfig = {
   key: 'store',
@@ -12,6 +13,7 @@ const persistConfig = {
 };
 
 const reducers = combineReducers({
+  [VerificationApi.reducerPath]: VerificationApi.reducer,
   counter: counterReducer,
 });
 
@@ -23,7 +25,7 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: false,
       immutableCheck: false,
-    }),
+    }).concat(VerificationApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

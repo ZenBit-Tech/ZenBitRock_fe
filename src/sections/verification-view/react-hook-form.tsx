@@ -1,4 +1,5 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useForm, Controller } from 'react-hook-form';
@@ -26,18 +27,19 @@ import {
   getStatuses,
   getCountries,
 } from './drop-box-data';
+import { useCreateVerificationMutation } from 'store/api/verificationApi';
+import { datesFormats } from 'constants/dates-formats';
 
 type IOptions = {
   value: string;
   label: string;
 };
-
 export const defaultValues = {
   firstName: '',
   lastName: '',
   rolesAutocomplete: null,
   genderRadioGroup: '',
-  startDate: null,
+  dateOfBirth: null,
   nationalityAutocomplete: null,
   identityRadioGroup: '',
   statusRadioGroup: '',
@@ -55,14 +57,13 @@ export const defaultValues = {
 
 export default function ReactHookForm() {
   const t = useTranslations('VerificationPage');
-
+  const [createVerification, { isLoading }] = useCreateVerificationMutation();
+  const [formFilled, setFormFilled] = useState(true);
   const { replace } = useRouter();
-
   const methods = useForm({
     resolver: yupResolver(FormSchema),
     defaultValues,
   });
-
   const {
     watch,
     reset,
@@ -72,14 +73,61 @@ export default function ReactHookForm() {
     formState: { isSubmitting },
   } = methods;
 
+  const watchAllFields = watch();
+  useEffect(() => {
+    const fieldsToExclude = ['state'];
+    const isFormFilled = Object.entries(watchAllFields).every(
+      ([key, value]) => fieldsToExclude.includes(key) || Boolean(value)
+    );
+    setFormFilled(isFormFilled);
+  }, [watchAllFields]);
+
   const onSubmit = handleSubmit(async (data) => {
+    const {
+      firstName,
+      lastName,
+      rolesAutocomplete,
+      genderRadioGroup,
+      dateOfBirth,
+      nationalityAutocomplete,
+      identityRadioGroup,
+      statusRadioGroup,
+      street,
+      city,
+      state,
+      countryAutocomplete,
+      zip,
+      phone,
+      singleUpload,
+    } = data;
+    const formData = new FormData();
+    formData.append('file', singleUpload);
+    formData.append('userId', '343eb70c-f3dc-4046-91f4-a0b7bd2a9bf2');
+    formData.append('firstName', firstName);
+    formData.append('lastName', lastName);
+    formData.append('role', rolesAutocomplete.label);
+    formData.append('gender', genderRadioGroup);
+    formData.append('dateOfBirth', dateOfBirth.toDateString());
+    formData.append('nationality', nationalityAutocomplete.label);
+    formData.append('identity', identityRadioGroup);
+    formData.append('status', statusRadioGroup);
+    formData.append('street', street);
+    formData.append('city', city);
+    formData.append('state', state);
+    formData.append('zip', zip);
+    formData.append('country', countryAutocomplete.label);
+    formData.append('phone', phone);
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
-      console.info('DATA', data);
-      replace('/verification/done');
+      const newUser = await createVerification(formData);
+      if (newUser.data?.statusCode === 201) {
+        replace('/verification/done');
+      } else {
+        toast.error('Something went wrong, please try again');
+      }
     } catch (error) {
-      throw error;
+      return error;
     }
   });
 
@@ -100,7 +148,7 @@ export default function ReactHookForm() {
 
   return (
     <>
-      {isSubmitting && (
+      {(isSubmitting || isLoading) && (
         <Backdrop open sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}>
           <CircularProgress color="primary" />
         </Backdrop>
@@ -156,13 +204,14 @@ export default function ReactHookForm() {
             <Stack spacing={2} direction={{ xs: 'column', sm: 'row' }}>
               <Block label={t('dateOfBirth')}>
                 <Controller
-                  name="startDate"
+                  name="dateOfBirth"
                   control={control}
                   render={({ field, fieldState: { error } }) => (
                     <DatePicker
                       {...field}
                       label={t('dateOfBirthPlaceholder')}
-                      format="dd/MM/yyyy"
+                      maxDate={new Date()}
+                      format={datesFormats.verificationDatePicker}
                       slotProps={{
                         textField: {
                           fullWidth: true,
@@ -195,20 +244,24 @@ export default function ReactHookForm() {
               <RHFRadioGroup name="identityRadioGroup" options={getIdentities()} />
             </Block>
 
-            <Typography align="center" variant="body1" fontSize={38}>
-              {t('adressSectionTitle')}
-            </Typography>
-
             <Block label={t('status')}>
               <RHFRadioGroup name="statusRadioGroup" options={getStatuses()} />
             </Block>
 
+            <Typography align="center" variant="body1" fontSize={38}>
+              {t('adressSectionTitle')}
+            </Typography>
+
             <Block label={t('correspondenceAdress')}>
-              <RHFTextField name="street" label={t('street')} />
+              <RHFTextField name="street" label={t('street')} style={{ height: '80px' }} />
 
               <Stack spacing={2} direction={{ xs: 'column', sm: 'row' }}>
                 <Block>
-                  <RHFTextField name="city" label={t('cityPlaceholder')} />
+                  <RHFTextField
+                    name="city"
+                    label={t('cityPlaceholder')}
+                    style={{ height: '80px' }}
+                  />
                 </Block>
 
                 <Block>
@@ -302,6 +355,7 @@ export default function ReactHookForm() {
               variant="outlined"
               loading={isSubmitting}
               style={{ marginBottom: '70px' }}
+              disabled={!formFilled}
             >
               {t('submitButton')}
             </LoadingButton>
