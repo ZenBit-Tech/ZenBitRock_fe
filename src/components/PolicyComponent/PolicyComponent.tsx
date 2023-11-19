@@ -3,7 +3,6 @@ import TermsDialog from 'components/TermsDialog/TermsDialog';
 import PrivacyPolicyDialog from 'components/PrivacyPolicyDialog/PrivacyPolicyDialog';
 import { SignUpPageType } from 'types/auth';
 
-
 type PolicyProps = {
   signUpPage: SignUpPageType;
 };

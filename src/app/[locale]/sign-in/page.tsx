@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { notFound } from 'next/navigation';
 import Link from '@mui/material/Link';
+import { Box } from '@mui/material';
 import ReduxProvider from 'store/ReduxProvider';
 import { Locale } from 'locales/i18n.config';
 import { getDictionary } from 'lib/dictionary';
@@ -51,13 +52,23 @@ export default function SignInPage({ params: { lang } }: Props) {
               <LoginForm />
             </ReduxProvider>
           </SnackbarProvider>
-          <SignUpLink>
-            {data.Main.doNot}&nbsp;
-            <Link href={links.SIGN_UP_PAGE}>{data.Main.signUpLink}</Link>
-          </SignUpLink>
-          <Policy>
-            <PolicyComponent signUpPage={termsData} />
-          </Policy>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'column',
+              width: '90%',
+            }}
+          >
+            <SignUpLink>
+              {data.Main.doNot}&nbsp;
+              <Link href={links.SIGN_UP_PAGE}>{data.Main.signUpLink}</Link>
+            </SignUpLink>
+            <Policy>
+              <PolicyComponent signUpPage={termsData} />
+            </Policy>
+          </Box>
         </LoginWrapper>
       </RightSection>
     </Wrapper>
