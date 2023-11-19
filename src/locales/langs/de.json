@@ -16,16 +16,27 @@
     "maintext": "Dies ist eine Testseite",
     "reduxTitle": "Redux-Beispiel"
   },
-
-  "SignInPage": {
-    "termsLink": "Terms & Bedingungen",
-    "policyLink": "Datenschutzrichtlinie",
-    "signUpLink": "Melden Sie sich an",
-    "doNot": "Sie haben noch kein Konto?",
-    "agree": "Indem Sie fortfahren, stimmen Sie AgentWise zu",
-    "and": "und"
+  "signInPage": {
+    "Main": {
+      "termsLink": "Terms & Bedingungen",
+      "policyLink": "Datenschutzrichtlinie",
+      "signUpLink": "Melden Sie sich an",
+      "doNot": "Sie haben noch kein Konto?",
+      "agree": "Indem Sie fortfahren, stimmen Sie AgentWise zu",
+      "and": "und"
+    },
+    "LoginForm": {
+      "title": "Anmelden",
+      "minPassword": "Min 8 Zeichen",
+      "invalidEmail": "Ungültige E-Mail-Adresse",
+      "requiredField": "Feld ist erforderlich",
+      "emailLabel": "Email",
+      "passwordLabel": "Passwort",
+      "btnTitle": "Anmelden",
+      "forgotPasswordLinkTitle": "Passwort vergessen"
+    }
   },
-  "SignUpPage": {
+  "signUpPage": {
     "Main": {
       "title": "Registrieren",
       "emailInput": "Email",

@@ -4,7 +4,7 @@
       "title": "Agent Wise"
     },
     "Page": {
-      "title": "Welcome to AgentWise - the wisest real estate platform aimed at your professional sucesss",
+      "title": "Welcome to AgentWise - the wisest real estate platform aimed at your professional success",
       "link": "Go to Test page",
       "signUpLink": "Sign Up",
       "signInLink": "Sign In",
@@ -15,15 +15,27 @@
     "maintext": "This is a Test page",
     "reduxTitle": "Redux example"
   },
-  "SignInPage": {
-    "termsLink": "Terms & Conditions",
-    "policyLink": "Privacy Policy",
-    "signUpLink": "Sign Up",
-    "doNot": "Don't have an account?",
-    "agree": "By continuing, you agree to AgentWise",
-    "and": "and"
+  "signInPage": {
+    "Main": {
+      "termsLink": "Terms & Conditions",
+      "policyLink": "Privacy Policy",
+      "signUpLink": "Sign Up",
+      "doNot": "Don't have an account?",
+      "agree": "By continuing, you agree to AgentWise",
+      "and": "and"
+    },
+    "LoginForm": {
+      "title": "Sign in",
+      "minPassword": "Min 8 characters",
+      "invalidEmail": "Invalid email address",
+      "requiredField": "Field is required",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "btnTitle": "  Sign in",
+      "forgotPasswordLinkTitle": "Forgot password"
+    }
   },
-  "SignUpPage": {
+  "signUpPage": {
     "Main": {
       "title": "Sign up",
       "emailInput": "Email",
