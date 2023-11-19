@@ -15,6 +15,7 @@ import { useSignInMutation } from 'store/authApi';
 import { setCredentials } from 'store/reducers/authReducer';
 import { patterns } from 'constants/patterns';
 import { links } from 'constants/links';
+import { enqueueSnackbar } from 'notistack';
 
 const StyledTitle = styled(Typography)`
   @media (max-width: 1023px) {
@@ -37,7 +38,6 @@ export default function LoginForm() {
     register,
     handleSubmit,
     formState: { errors, isValid },
-    reset,
   } = useForm<FormValues>({
     mode: 'onBlur',
     defaultValues: {
@@ -52,8 +52,8 @@ export default function LoginForm() {
       if ('data' in res) {
         const { email, token } = res.data;
         dispatch(setCredentials({ email, token }));
+        enqueueSnackbar('Welcome back!', { variant: 'success' });
         router.push(links.VERIFY_PAGE);
-        reset();
       }
     } catch (error) {
       notFound();
