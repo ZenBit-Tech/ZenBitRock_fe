@@ -1,7 +1,6 @@
 'use client';
 
 import { styled } from '@mui/material';
-import { colors } from 'constants/colors';
 
 export const Form = styled('form')`
   width: 100%;

@@ -1,4 +1,5 @@
-import { createApi, fetchBaseQuery, BaseQueryFn } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { enqueueSnackbar } from 'notistack';
 
 export interface IUserData {
   email: string;
@@ -38,6 +39,15 @@ export const authApi = createApi({
         method: 'POST',
         body,
       }),
+      onQueryStarted: async (_, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          enqueueSnackbar('Please enter valid credentials!', {
+            variant: 'error',
+          });
+        }
+      },
       invalidatesTags: [{ type: 'Users' }],
     }),
     signUp: builder.mutation<IUserDataResponse, IUserData>({
@@ -46,6 +56,17 @@ export const authApi = createApi({
         method: 'POST',
         body,
       }),
+      onQueryStarted: async (_, { queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled;
+          console.log(data);
+          if (data) {
+            enqueueSnackbar('User added successfully!', { variant: 'success' });
+          }
+        } catch (err) {
+          enqueueSnackbar('User with this email already exists', { variant: 'error' });
+        }
+      },
       invalidatesTags: [{ type: 'Users' }],
     }),
   }),

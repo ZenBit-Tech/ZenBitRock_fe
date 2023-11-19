@@ -9,8 +9,10 @@ import { Box, IconButton, styled } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { useSnackbar } from 'notistack';
 import { useSignUpMutation } from 'store/authApi';
-import { pageLinks } from 'constants/pageLinks';
+import { links } from 'constants/links';
+import { SignUpPageType } from 'types/auth';
 
 const StyledTextFiled = styled(TextField)`
   margin-bottom: 1.5 rem;
@@ -22,21 +24,13 @@ type FormValues = {
   repeatPassword: string;
 };
 
-type SignUpPageType = {
-  Main: {
-    [key: string]: string;
-  };
-  TermsContent: {
-    [key: string]: string;
-  };
-};
-
 type SignUpProps = {
   signUpPage: SignUpPageType;
 };
 
 function SignUpForm({ signUpPage }: SignUpProps) {
-  const [signUp] = useSignUpMutation();
+  const { enqueueSnackbar } = useSnackbar();
+  const [signUp, { error }] = useSignUpMutation();
   const form = useForm<FormValues>({
     defaultValues: {
       email: '',
@@ -54,15 +48,17 @@ function SignUpForm({ signUpPage }: SignUpProps) {
 
   const onSubmit = (data: FormValues) => {
     const { email, password } = data;
-    const credentials = { email, password };
-    signUp(credentials);
-    router.push(pageLinks.VERIFY_PAGE);
+    const res = signUp({ email, password });
+    if ('data' in res) {
+      enqueueSnackbar('User added successfully!', { variant: 'success' });
+      router.push(links.VERIFY_PAGE);
+    }
   };
 
   return (
     <Box
       component="form"
-      sx={{ display: 'flex', flexDirection: 'column', width: '70%', gap: '0.9rem' }}
+      sx={{ display: 'flex', flexDirection: 'column', width: '90%', gap: '0.9rem' }}
       onSubmit={handleSubmit(onSubmit)}
       noValidate
       autoComplete="off"

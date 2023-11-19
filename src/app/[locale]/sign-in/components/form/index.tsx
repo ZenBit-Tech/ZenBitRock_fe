@@ -1,10 +1,11 @@
 'use client';
+
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { notFound, useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { Button, Typography, Link } from '@mui/material';
+import { Button, Typography, Link, Box, styled } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
@@ -14,21 +15,16 @@ import { useSignInMutation } from 'store/authApi';
 import { setCredentials } from 'store/reducers/authReducer';
 import { patterns } from 'constants/patterns';
 import { links } from 'constants/links';
-import { pageLinks } from 'constants/pageLinks';
-import { Form } from './styles';
+
+const StyledTitle = styled(Typography)`
+  @media (max-width: 1023px) {
+    align-self: center;
+  }
+`;
 
 type FormValues = {
   email: string;
   password: string;
-};
-
-type SignInPageType = {
-  Main: {
-    [key: string]: string;
-  };
-  LoginForm: {
-    [key: string]: string;
-  };
 };
 
 export default function LoginForm() {
@@ -56,19 +52,25 @@ export default function LoginForm() {
       if ('data' in res) {
         const { email, token } = res.data;
         dispatch(setCredentials({ email, token }));
-        router.push(pageLinks.VERIFY_PAGE);
+        router.push(links.VERIFY_PAGE);
+        reset();
       }
     } catch (error) {
       notFound();
     }
-    reset();
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
-      <Typography variant="h3" sx={{ marginBottom: '30px' }}>
+    <Box
+      component="form"
+      sx={{ display: 'flex', flexDirection: 'column', width: '90%' }}
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+      autoComplete="off"
+    >
+      <StyledTitle variant="h3" sx={{ marginBottom: '1.5rem' }}>
         {t('LoginForm.title')}
-      </Typography>
+      </StyledTitle>
 
       <TextField
         {...register('email', {
@@ -82,7 +84,7 @@ export default function LoginForm() {
         label={t('LoginForm.emailLabel')}
         type="email"
         fullWidth
-        sx={{ marginBottom: '30px' }}
+        sx={{ marginBottom: '0.9rem' }}
         error={Boolean(errors?.email)}
         helperText={errors?.email && <div>{errors.email.message}</div>}
       />
@@ -99,7 +101,7 @@ export default function LoginForm() {
         label={t('LoginForm.passwordLabel')}
         type={showPassword ? 'text' : 'password'}
         fullWidth
-        sx={{ marginBottom: '20px' }}
+        sx={{ marginBottom: '0.9rem' }}
         error={Boolean(errors?.password)}
         helperText={errors?.password && <div>{errors.password.message}</div>}
         InputProps={{
@@ -127,6 +129,6 @@ export default function LoginForm() {
       >
         {t('LoginForm.btnTitle')}
       </Button>
-    </Form>
+    </Box>
   );
 }
