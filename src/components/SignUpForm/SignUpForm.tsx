@@ -36,8 +36,7 @@ type SignUpProps = {
 };
 
 function SignUpForm({ SignUpPage }: SignUpProps) {
-  
-  const [signUp] = useRegisterMutation(); 
+  const [signUp] = useRegisterMutation();
   const form = useForm<FormValues>({
     defaultValues: {
       email: '',
@@ -126,7 +125,6 @@ function SignUpForm({ SignUpPage }: SignUpProps) {
         }}
       />
       <Button type="submit" variant="contained" sx={{ my: '20px' }} fullWidth disabled={!isValid}>
-
         {SignUpPage.Main.title}
       </Button>
     </Box>

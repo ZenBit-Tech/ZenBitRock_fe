@@ -28,7 +28,8 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: false,
       immutableCheck: false,
-    }).concat(VerificationApi.middleware)
+    })
+      .concat(VerificationApi.middleware)
       .concat(authApi.middleware),
 });
 export type RootState = ReturnType<typeof store.getState>;
