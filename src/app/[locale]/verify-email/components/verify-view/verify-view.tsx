@@ -34,7 +34,7 @@ type Props = {
 
 export function VerifyView({ email }: Props) {
   const [sendVerificationCode] = useSendVerificationCodeMutation();
-  const [verifyEmail, { error }] = useVerifyEmailMutation();
+  const [verifyEmail] = useVerifyEmailMutation();
   const router = useRouter();
 
   const handleSendCode = useCallback(() => {
