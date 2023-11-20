@@ -9,7 +9,7 @@ import { Box, IconButton, styled } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { useRegisterMutation } from 'store/authApi';
+import { useSignUpMutation } from 'store/authApi';
 import { pageLinks } from 'constants/pageLinks';
 
 const StyledTextFiled = styled(TextField)`
@@ -36,7 +36,7 @@ type SignUpProps = {
 };
 
 function SignUpForm({ SignUpPage }: SignUpProps) {
-  const [signUp] = useRegisterMutation();
+  const [signUp] = useSignUpMutation();
   const form = useForm<FormValues>({
     defaultValues: {
       email: '',
@@ -65,7 +65,6 @@ function SignUpForm({ SignUpPage }: SignUpProps) {
       sx={{ display: 'flex', flexDirection: 'column', width: '70%', gap: '0.9rem' }}
       onSubmit={handleSubmit(onSubmit)}
       noValidate
-      autoComplete="off"
     >
       <StyledTextFiled
         variant="outlined"
@@ -82,6 +81,7 @@ function SignUpForm({ SignUpPage }: SignUpProps) {
         })}
         error={!!errors.email}
         helperText={errors.email?.message}
+        autoComplete="new-email"
       />
       <StyledTextFiled
         variant="outlined"
@@ -103,6 +103,7 @@ function SignUpForm({ SignUpPage }: SignUpProps) {
               {showPassword ? <Visibility /> : <VisibilityOff />}
             </IconButton>
           ),
+          autoComplete: 'new-password',
         }}
       />
       <StyledTextFiled
@@ -122,6 +123,7 @@ function SignUpForm({ SignUpPage }: SignUpProps) {
               {showRepeatPassword ? <Visibility /> : <VisibilityOff />}
             </IconButton>
           ),
+          autoComplete: 'new-password',
         }}
       />
       <Button type="submit" variant="contained" sx={{ my: '20px' }} fullWidth disabled={!isValid}>

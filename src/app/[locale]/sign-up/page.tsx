@@ -32,8 +32,8 @@ export default function SignUpPage({ params: { lang } }: Props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { signUpPage } = await getDictionary('en');
-        setData(signUpPage);
+        const { SignUpPage } = await getDictionary('en');
+        setData(SignUpPage);
       } catch (error) {
         notFound();
       }
@@ -57,7 +57,7 @@ export default function SignUpPage({ params: { lang } }: Props) {
         >
           <PageTitle title={data.Main.title} />
           <ReduxProvider>
-            <SignUpForm signUpPage={data} />
+            <SignUpForm SignUpPage={data} />
           </ReduxProvider>
           <SignInLink>
             {data.Main.haveAcc}&nbsp;

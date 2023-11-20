@@ -7,7 +7,6 @@ import Header from 'components/Header/Header';
 import ThemeProvider from 'theme';
 import { Locale } from 'locales/i18n.config';
 import './global.css';
-import './global.css';
 
 export const metadata = {
   title: 'ZenBitRock',
