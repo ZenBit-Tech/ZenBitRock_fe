@@ -28,6 +28,16 @@ interface IUserDataResponse {
   };
 }
 
+interface ISignUpResData {
+  data: {
+    token: string;
+    user: {
+      email: string;
+      id: string;
+    };
+  };
+}
+
 export const authApi = createApi({
   reducerPath: 'auth',
   tagTypes: ['Users'],
@@ -50,7 +60,7 @@ export const authApi = createApi({
       },
       invalidatesTags: [{ type: 'Users' }],
     }),
-    signUp: builder.mutation<IUserDataResponse, IUserData>({
+    signUp: builder.mutation<ISignUpResData['data'], IUserData>({
       query: (body) => ({
         url: 'user',
         method: 'POST',
@@ -58,11 +68,6 @@ export const authApi = createApi({
       }),
       onQueryStarted: async (_, { queryFulfilled }) => {
         try {
-          const { data } = await queryFulfilled;
-          console.log(data);
-          if (data) {
-            enqueueSnackbar('User added successfully!', { variant: 'success' });
-          }
         } catch (err) {
           enqueueSnackbar('User with this email already exists', { variant: 'error' });
         }

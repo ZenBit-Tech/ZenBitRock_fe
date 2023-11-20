@@ -3,7 +3,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
+import { notFound, useRouter } from 'next/navigation';
 import { Button } from '@mui/material';
 import { Box, IconButton, styled } from '@mui/material';
 import TextField from '@mui/material/TextField';
@@ -13,6 +13,9 @@ import { useSnackbar } from 'notistack';
 import { useSignUpMutation } from 'store/authApi';
 import { links } from 'constants/links';
 import { SignUpPageType } from 'types/auth';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from 'store';
+import { setCredentials } from 'store/reducers/authReducer';
 
 const StyledTextFiled = styled(TextField)`
   margin-bottom: 1.5 rem;
@@ -43,15 +46,25 @@ function SignUpForm({ signUpPage }: SignUpProps) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState<boolean>(false);
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
   const { register, handleSubmit, formState, watch } = form;
   const { errors, isValid } = formState;
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async (data: FormValues) => {
     const { email, password } = data;
-    const res = signUp({ email, password });
-    if ('data' in res) {
-      enqueueSnackbar('User added successfully!', { variant: 'success' });
-      router.push(links.VERIFY_PAGE);
+    try {
+      const res = await signUp({ email, password });
+      if ('data' in res) {
+        const {
+          token,
+          user: { id, email },
+        } = res.data;
+        dispatch(setCredentials({ id, email, token }));
+        enqueueSnackbar('User added successfully!', { variant: 'success' });
+        router.push(links.VERIFY_PAGE);
+      }
+    } catch (error) {
+      notFound();
     }
   };
 
