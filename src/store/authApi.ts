@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery, BaseQueryFn } from '@reduxjs/toolkit/query/react';
+import { enqueueSnackbar } from 'notistack';
 
 export interface IUserData {
   email: string;
@@ -46,9 +47,37 @@ export const authApi = createApi({
         method: 'POST',
         body,
       }),
+      onQueryStarted: async (_, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          enqueueSnackbar('Something went wrong! Please, sign up first or check your password!', {
+            variant: 'error',
+          });
+        }
+      },
       invalidatesTags: [{ type: 'Users' }],
+    }),
+    sendVerificationCode: builder.mutation<Pick<IUserData, 'email'>, unknown>({
+      query: (body) => ({
+        url: 'email/confirm',
+        method: 'POST',
+        body,
+      }),
+    }),
+    verifyEmail: builder.mutation<{ email: string; code: string }, unknown>({
+      query: (body) => ({
+        url: 'auth/confirm-email',
+        method: 'POST',
+        body,
+      }),
     }),
   }),
 });
 
-export const { useSignInMutation, useSignUpMutation } = authApi;
+export const {
+  useSignInMutation,
+  useSignUpMutation,
+  useSendVerificationCodeMutation,
+  useVerifyEmailMutation,
+} = authApi;
