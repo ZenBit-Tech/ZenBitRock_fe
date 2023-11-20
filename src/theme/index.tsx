@@ -1,3 +1,5 @@
+// src/theme/index.tsx
+
 'use client';
 
 import { useMemo } from 'react';

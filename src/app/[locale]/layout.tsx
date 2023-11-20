@@ -1,11 +1,12 @@
-import 'modern-normalize/modern-normalize.css';
 import { NextIntlClientProvider } from 'next-intl';
+import 'modern-normalize/modern-normalize.css';
 import StyledComponentsRegistry from 'lib/registry';
 import { LocalizationProvider } from 'locales';
-import TestHeader from 'components/Test-Header';
 import ToastContainerWrapper from 'components/toast-container';
+import Header from 'components/Header/Header';
 import ThemeProvider from 'theme';
 import { Locale } from 'locales/i18n.config';
+import './global.css';
 import './global.css';
 
 export const metadata = {
@@ -42,7 +43,7 @@ export default async function RootLayout({
           <ThemeProvider>
             <StyledComponentsRegistry>
               <NextIntlClientProvider locale={locale} messages={localeData}>
-                <TestHeader />
+                <Header />
                 {children}
               </NextIntlClientProvider>
             </StyledComponentsRegistry>

@@ -1,5 +1,6 @@
 export const colors = {
   TEST_BACKGROUND_COLOR: '#172234',
   TEST_MAIN_COLOR: '#808080',
+  SIGN_IN_LINKS_COLOR: '#7a4100',
   TEST_SECOND_COLOR: '#FFFDDD',
 };

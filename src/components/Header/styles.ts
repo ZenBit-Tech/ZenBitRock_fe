@@ -1,12 +1,14 @@
 import styled from 'styled-components';
 import { colors } from 'constants/colors';
+import { palette as themePalette } from 'theme/palette';
 
-export const TestHeaderItem = styled.header`
-  background: ${colors.TEST_BACKGROUND_COLOR};
+const palette = themePalette('light');
+
+export const HeaderItem = styled.header`
+  background: ${palette.grey[800]};
   color: white;
   padding: 0 25px;
   height: 80px;
-  max-width: 1440px;
   display: flex;
   align-items: center;
   justify-content: space-between;
