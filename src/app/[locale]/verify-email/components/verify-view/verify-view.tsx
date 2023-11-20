@@ -15,8 +15,12 @@ import { EmailInboxIcon } from 'assets/icons';
 // components
 import Iconify from 'components/iconify';
 import { RouterLink } from 'routes/components';
-import FormProvider, { RHFCode, RHFTextField } from 'components/hook-form';
+import FormProvider, { RHFCode } from 'components/hook-form';
 import { VerifySchema } from './validation-schema';
+import { useSendVerificationCodeMutation, useVerifyEmailMutation } from 'store/authApi';
+import { useCallback, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { pageLinks } from 'constants/pageLinks';
 
 // ----------------------------------------------------------------------
 const defaultValues = {
@@ -24,7 +28,24 @@ const defaultValues = {
   email: '',
 };
 
-export function VerifyView() {
+type Props = {
+  email: string;
+};
+
+export function VerifyView({ email }: Props) {
+  const [sendVerificationCode] = useSendVerificationCodeMutation();
+  const [verifyEmail, { error }] = useVerifyEmailMutation();
+  const router = useRouter();
+
+  const handleSendCode = useCallback(() => {
+    sendVerificationCode({ email });
+  }, [email]);
+
+  useEffect(() => {
+    setValue('email', email);
+    handleSendCode();
+  }, [email]);
+
   const t = useTranslations('VerifyEmail');
 
   const methods = useForm({
@@ -35,22 +56,23 @@ export function VerifyView() {
 
   const {
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, isValid },
+    reset,
+    setValue,
   } = methods;
 
   const onSubmit = handleSubmit(async (data) => {
-    //ToDo
+    try {
+      await verifyEmail(data).unwrap();
+      router.push(pageLinks.HOME_PAGE);
+    } catch (error) {
+      reset();
+      setValue('email', email);
+    }
   });
 
   const renderForm = (
     <Stack spacing={3} alignItems="center">
-      <RHFTextField
-        name="email"
-        label="Email"
-        placeholder="example@gmail.com"
-        InputLabelProps={{ shrink: true }}
-      />
-
       <RHFCode name="code" />
 
       <LoadingButton
@@ -59,6 +81,7 @@ export function VerifyView() {
         type="submit"
         variant="contained"
         loading={isSubmitting}
+        disabled={!isValid}
       >
         {t('verify')}
       </LoadingButton>
@@ -70,6 +93,7 @@ export function VerifyView() {
           sx={{
             cursor: 'pointer',
           }}
+          onClick={handleSendCode}
         >
           {t('sendAgain')}
         </Link>
@@ -98,7 +122,7 @@ export function VerifyView() {
       <Stack spacing={1} sx={{ my: 5 }}>
         <Typography variant="h3">{t('title')}</Typography>
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {t('emailSent')}
+          {t('emailSent', { email })}
         </Typography>
       </Stack>
     </>
