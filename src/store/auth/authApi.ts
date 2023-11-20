@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery, BaseQueryFn } from '@reduxjs/toolkit/query/react';
 import { enqueueSnackbar } from 'notistack';
+import { SendVerificationCodeResponse, VerifyEmailResponse } from './lib/types';
 
 export interface IUserData {
   email: string;
@@ -58,14 +59,14 @@ export const authApi = createApi({
       },
       invalidatesTags: [{ type: 'Users' }],
     }),
-    sendVerificationCode: builder.mutation<Pick<IUserData, 'email'>, unknown>({
+    sendVerificationCode: builder.mutation<SendVerificationCodeResponse, Pick<IUserData, 'email'>>({
       query: (body) => ({
         url: 'email/confirm',
         method: 'POST',
         body,
       }),
     }),
-    verifyEmail: builder.mutation<{ email: string; code: string }, unknown>({
+    verifyEmail: builder.mutation<VerifyEmailResponse, { email: string; code: string }>({
       query: (body) => ({
         url: 'auth/confirm-email',
         method: 'POST',
