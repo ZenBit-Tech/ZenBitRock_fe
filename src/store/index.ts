@@ -2,9 +2,7 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import counterReducer from './reducers/testReducer';
-import { authApi } from './authApi';
-import authReducer from './reducers/authReducer';
+import { authApi, authReducer } from './auth';
 
 const persistConfig = {
   key: 'store',
@@ -13,7 +11,6 @@ const persistConfig = {
 };
 
 const reducers = combineReducers({
-  counter: counterReducer,
   authSlice: authReducer,
   [authApi.reducerPath]: authApi.reducer,
 });

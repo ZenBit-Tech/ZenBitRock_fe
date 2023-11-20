@@ -3,6 +3,8 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslations } from 'next-intl';
+import { useCallback, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 // @mui
 import LoadingButton from '@mui/lab/LoadingButton';
 import Link from '@mui/material/Link';
@@ -16,11 +18,9 @@ import { EmailInboxIcon } from 'assets/icons';
 import Iconify from 'components/iconify';
 import { RouterLink } from 'routes/components';
 import FormProvider, { RHFCode } from 'components/hook-form';
-import { VerifySchema } from './validation-schema';
-import { useSendVerificationCodeMutation, useVerifyEmailMutation } from 'store/authApi';
-import { useCallback, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { pageLinks } from 'constants/pageLinks';
+import { useSendVerificationCodeMutation, useVerifyEmailMutation } from 'store/auth';
+import { VerifySchema } from './validation-schema';
 
 // ----------------------------------------------------------------------
 const defaultValues = {
@@ -37,8 +37,8 @@ export function VerifyView({ email }: Props) {
   const [verifyEmail] = useVerifyEmailMutation();
   const router = useRouter();
 
-  const handleSendCode = useCallback(() => {
-    sendVerificationCode({ email });
+  const handleSendCode = useCallback(async () => {
+    await sendVerificationCode({ email });
   }, [email]);
 
   useEffect(() => {

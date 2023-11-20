@@ -10,12 +10,11 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { AppDispatch } from 'store';
-import { useSignInMutation } from 'store/authApi';
-import { setCredentials } from 'store/reducers/authReducer';
 import { patterns } from 'constants/patterns';
 import { links } from 'constants/links';
 import { pageLinks } from 'constants/pageLinks';
 import { Form } from './styles';
+import { setCredentials, useSignInMutation } from 'store/auth';
 
 type FormValues = {
   email: string;

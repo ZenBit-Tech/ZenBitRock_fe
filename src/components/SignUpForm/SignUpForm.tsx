@@ -9,8 +9,8 @@ import { Box, IconButton, styled } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { useSignUpMutation } from 'store/authApi';
 import { pageLinks } from 'constants/pageLinks';
+import { useSignUpMutation } from 'store/auth';
 
 const StyledTextFiled = styled(TextField)`
   margin-bottom: 1.5 rem;
