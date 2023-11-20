@@ -5,6 +5,7 @@ import StyledComponentsRegistry from 'lib/registry';
 import Header from 'components/Header/Header';
 import './global.css';
 import ThemeProvider from 'theme';
+import ReduxProvider from 'store/ReduxProvider';
 
 export const metadata = {
   title: 'ZenBitRock',
@@ -34,8 +35,10 @@ export default async function RootLayout({ children }: Props): Promise<JSX.Eleme
         <ThemeProvider>
           <StyledComponentsRegistry>
             <NextIntlClientProvider locale="en" messages={localeData}>
-              <Header />
-              {children}
+              <ReduxProvider>
+                <Header />
+                {children}
+              </ReduxProvider>
             </NextIntlClientProvider>
           </StyledComponentsRegistry>
         </ThemeProvider>
