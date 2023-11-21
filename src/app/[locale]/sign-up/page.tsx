@@ -11,7 +11,7 @@ import PrivacyPolicyDialog from 'components/PrivacyPolicyDialog/PrivacyPolicyDia
 import PageTitle from 'components/PageTitle/PageTitle';
 import SignUpForm from 'components/SignUpForm/SignUpForm';
 import { LoadingScreen } from 'components/loading-screen';
-import { pageLinks } from 'constants/pageLinks';
+import { links } from 'constants/links';
 import { SignInLink, Policy } from './styles';
 type Props = {
   params: { lang: Locale };
@@ -61,7 +61,7 @@ export default function SignUpPage({ params: { lang } }: Props) {
           </ReduxProvider>
           <SignInLink>
             {data.Main.haveAcc}&nbsp;
-            <Link href={pageLinks.SIGN_IN_PAGE} color="primary">
+            <Link href={links.SIGN_IN_PAGE} color="primary">
               {data.Main.signInLink}
             </Link>
           </SignInLink>

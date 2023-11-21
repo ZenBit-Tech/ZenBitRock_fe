@@ -6,7 +6,7 @@ import { Box } from '@mui/material';
 import { Button, Link } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { colors } from 'constants/colors';
-import { pageLinks } from 'constants/pageLinks';
+import { links } from 'constants/links';
 import { typography } from 'theme/typography';
 import PagesContainer from 'components/PagesContainer/PagesContainer';
 import { LoadingScreen } from 'components/loading-screen';
@@ -39,12 +39,12 @@ export default function HomePage() {
           }}
         >
           <Button variant="contained" sx={{ marginRight: '10px' }} size="large">
-            <Link underline={'none'} color={colors.TEST_MAIN_COLOR} href={pageLinks.SIGN_IN_PAGE}>
+            <Link underline={'none'} color={colors.TEST_MAIN_COLOR} href={links.SIGN_IN_PAGE}>
               {t('Page.signInLink')}
             </Link>
           </Button>
           <Button variant="contained" size="large">
-            <Link underline={'none'} color={colors.TEST_MAIN_COLOR} href={pageLinks.SIGN_UP_PAGE}>
+            <Link underline={'none'} color={colors.TEST_MAIN_COLOR} href={links.SIGN_UP_PAGE}>
               {t('Page.signUpLink')}
             </Link>
           </Button>
@@ -63,7 +63,7 @@ export default function HomePage() {
           {t('Page.title')}
         </Typography>
         <Button variant="contained" fullWidth size="large">
-          <Link underline={'none'} color={colors.TEST_MAIN_COLOR} href={pageLinks.SIGN_IN_PAGE}>
+          <Link underline={'none'} color={colors.TEST_MAIN_COLOR} href={links.SIGN_IN_PAGE}>
             {t('Page.buttonTxt')}
           </Link>
         </Button>

@@ -14,7 +14,6 @@ import { useSignInMutation } from 'store/authApi';
 import { setCredentials } from 'store/reducers/authReducer';
 import { patterns } from 'constants/patterns';
 import { links } from 'constants/links';
-import { pageLinks } from 'constants/pageLinks';
 import { Form } from './styles';
 
 type FormValues = {
@@ -56,7 +55,7 @@ export default function LoginForm() {
       if ('data' in res) {
         const { email, token } = res.data;
         dispatch(setCredentials({ email, token }));
-        router.push(pageLinks.VERIFY_PAGE);
+        router.push(links.VERIFY_PAGE);
       }
     } catch (error) {
       notFound();
@@ -114,7 +113,7 @@ export default function LoginForm() {
       />
 
       <Typography variant="body2" sx={{ marginBottom: '10px' }}>
-        <Link href={links.FORGOT_PASSWORD_PAGE} color="primary">
+        <Link href={links.RESTORE_PASSWORD_PAGE} color="primary">
           {t('LoginForm.forgotPasswordLinkTitle')}
         </Link>
       </Typography>

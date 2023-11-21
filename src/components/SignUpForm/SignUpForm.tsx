@@ -10,7 +10,7 @@ import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useSignUpMutation } from 'store/authApi';
-import { pageLinks } from 'constants/pageLinks';
+import { links } from 'constants/links';
 
 const StyledTextFiled = styled(TextField)`
   margin-bottom: 1.5 rem;
@@ -56,7 +56,7 @@ function SignUpForm({ SignUpPage }: SignUpProps) {
     const { email, password } = data;
     const credentials = { email, password };
     signUp(credentials);
-    router.push(pageLinks.VERIFY_PAGE);
+    router.push(links.VERIFY_PAGE);
   };
 
   return (
