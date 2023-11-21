@@ -5,16 +5,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslations } from 'next-intl';
 import { useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-// @mui
 import LoadingButton from '@mui/lab/LoadingButton';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-// routes
 import { paths } from 'routes/paths';
-// assets
 import { EmailInboxIcon } from 'assets/icons';
-// components
 import Iconify from 'components/iconify';
 import { RouterLink } from 'routes/components';
 import FormProvider, { RHFCode } from 'components/hook-form';
@@ -22,7 +18,6 @@ import { pageLinks } from 'constants/pageLinks';
 import { useSendVerificationCodeMutation, useVerifyEmailMutation } from 'store/auth';
 import { VerifySchema } from './validation-schema';
 
-// ----------------------------------------------------------------------
 const defaultValues = {
   code: '',
   email: '',
