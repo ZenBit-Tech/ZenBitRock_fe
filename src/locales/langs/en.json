@@ -1,19 +1,59 @@
 {
   "Home": {
     "Header": {
-      "title": "Agent Wise"
+      "title": "ZenBitRock"
     },
     "Page": {
-      "title": "Welcome to AgentWise - the wisest real estate platform aimed at your professional success",
+      "title": "Welcome to AgentWise - the wisest real estate platform aimed at your professional sucesss",
       "link": "Go to Test page",
       "signUpLink": "Sign Up",
       "signInLink": "Sign In",
       "buttonTxt": "Get started now"
     }
   },
-  "TestPage": {
-    "maintext": "This is a Test page",
-    "reduxTitle": "Redux example"
+  "VerificationPage": {
+    "mainTitle": "KYC form",
+    "identitySectionTitle": "A. Identity Details",
+    "nameOfTheApplicant": "* Name of the Applicant",
+    "namePlaceholder": "Name",
+    "surnamePlaceholder": "Surname",
+    "role": "* I am acting as:",
+    "rolePlaceholder": "Please select your role",
+    "roleAgent": "Agent",
+    "roleAgency": "Agency",
+    "gender": "* Gender",
+    "genderMale": "Male",
+    "genderFemale": "Female",
+    "genderOther": "Prefer not to say",
+    "dateOfBirth": "* Date of birth",
+    "dateOfBirthPlaceholder": "Select your date of birth",
+    "nationality": "* Nationality",
+    "nationalityPlaceholder": "Select your nationality",
+    "proofOfIdentity": "* Proof of identity",
+    "proofPassport": "Passport",
+    "proofId": "ID",
+    "proofDL": "Driving license",
+    "adressSectionTitle": "Address Details",
+    "status": "* Status",
+    "statusResident": "Resident Individual",
+    "statusNonResident": "Non Resident",
+    "statusForeign": "Foreign National",
+    "correspondenceAdress": "Correspondence address",
+    "street": "* Street address",
+    "cityPlaceholder": "* City",
+    "statePlaceholder": "State/Region/Province",
+    "zipPlaceholder": "* Postal/Zip Code",
+    "countryPlaceholder": "* Country",
+    "phoneNumber": "* Phone number",
+    "fileSectionTitle": "C. File Upload",
+    "drag&DropTitle": "* Please upload related documents",
+    "declarationSectionTitle": "D. Declaration",
+    "declarationText": "* I hereby declare that the information provided in this form is accurate and complete. I confirm that any information is found incorrect and/or incomplete that leads a violation of regulations may initiate legal actions, and I accept that I am the responsible party for any and all charges, penalties and violations.",
+    "signature": "Name of the Applicant",
+    "submitButton": "Submit",
+    "doneTextFirstPart": "Your application was submitted successfully.",
+    "doneTextSecondPart": "Thank you for joining AgentWise!",
+    "goHomeButton": "Go home"
   },
   "signInPage": {
     "Main": {
@@ -35,7 +75,7 @@
       "forgotPasswordLinkTitle": "Forgot password"
     }
   },
-  "signUpPage": {
+  "SignUpPage": {
     "Main": {
       "title": "Sign up",
       "emailInput": "Email",

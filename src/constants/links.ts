@@ -6,4 +6,5 @@ export const links = {
   FORGOT_PASSWORD_PAGE: '/forgot-password',
   TERMS_CONDITIONS: '/terms-conditions',
   PRIVACY_POLICY: '/privacy-policy',
+  ADD_VERIFICATION_DATA: '/verification/create',
 };

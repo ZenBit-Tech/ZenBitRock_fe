@@ -1,11 +1,13 @@
-import 'modern-normalize/modern-normalize.css';
 import { NextIntlClientProvider } from 'next-intl';
-import { notFound } from 'next/navigation';
+import 'modern-normalize/modern-normalize.css';
 import StyledComponentsRegistry from 'lib/registry';
+import { LocalizationProvider } from 'locales';
+import ToastContainerWrapper from 'components/toast-container';
 import Header from 'components/Header/Header';
-import './global.css';
 import ThemeProvider from 'theme';
 import ReduxProvider from 'store/ReduxProvider';
+import { Locale } from 'locales/i18n.config';
+import './global.css';
 
 export const metadata = {
   title: 'ZenBitRock',
@@ -20,28 +22,36 @@ export const metadata = {
 
 type Props = {
   children: React.ReactNode;
+  params: { locale: Locale };
 };
 
-export default async function RootLayout({ children }: Props): Promise<JSX.Element> {
+export default async function RootLayout({
+  children,
+  params: { locale },
+}: Props): Promise<JSX.Element> {
   let localeData;
   try {
-    localeData = (await import(`locales/langs/en.json`)).default;
+    localeData = (await import(`locales/langs/${locale}.json`)).default;
   } catch (error) {
-    notFound();
+    throw error;
   }
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body>
-        <ThemeProvider>
-          <StyledComponentsRegistry>
-            <NextIntlClientProvider locale="en" messages={localeData}>
-              <ReduxProvider>
-                <Header />
-                {children}
-              </ReduxProvider>
-            </NextIntlClientProvider>
-          </StyledComponentsRegistry>
-        </ThemeProvider>
+        <LocalizationProvider>
+          <ThemeProvider>
+            <StyledComponentsRegistry>
+              <NextIntlClientProvider locale={locale} messages={localeData}>
+                <ReduxProvider>
+                  <Header />
+                  {children}
+                </ReduxProvider>
+              </NextIntlClientProvider>
+            </StyledComponentsRegistry>
+          </ThemeProvider>
+        </LocalizationProvider>
+        <ToastContainerWrapper />
       </body>
     </html>
   );
