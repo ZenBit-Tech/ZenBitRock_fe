@@ -56,7 +56,7 @@ export const defaultValues = {
   confirmationLastName: '',
 };
 
-export default function ReactHookForm() {
+export default function Form() {
   const t = useTranslations('VerificationPage');
   const [createVerification, { isLoading }] = useCreateVerificationMutation();
   const [formFilled, setFormFilled] = useState(true);

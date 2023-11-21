@@ -1,7 +1,7 @@
 'use client';
 
 import Container from '@mui/material/Container';
-import ReactHookForm from './react-hook-form';
+import Form from './form';
 import ReduxProvider from 'store/ReduxProvider';
 
 export default function VerificationView() {
@@ -9,7 +9,7 @@ export default function VerificationView() {
     <>
       <ReduxProvider>
         <Container sx={{ my: 5 }}>
-          <ReactHookForm />
+          <Form />
         </Container>
       </ReduxProvider>
     </>
