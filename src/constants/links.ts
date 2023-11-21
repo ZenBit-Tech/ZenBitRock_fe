@@ -7,4 +7,5 @@ export const links = {
   TERMS_CONDITIONS: '/terms-conditions',
   PRIVACY_POLICY: '/privacy-policy',
   MAIN_PAGE: '/main-page',
+  ADD_VERIFICATION_DATA: '/verification/create',
 };

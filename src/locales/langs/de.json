@@ -11,10 +11,49 @@
       "buttonTxt": "Jetzt loslegen"
     }
   },
-
-  "TestPage": {
-    "maintext": "Dies ist eine Testseite",
-    "reduxTitle": "Redux-Beispiel"
+  "VerificationPage": {
+    "mainTitle": "KYC formular",
+    "identitySectionTitle": "A. Identitätsdetails",
+    "nameOfTheApplicant": "* Name des Antragstellers",
+    "namePlaceholder": "Name",
+    "surnamePlaceholder": "Nachname",
+    "role": "* Ich fungiere als:",
+    "rolePlaceholder": "Bitte wählen Sie Ihre Rolle aus",
+    "roleAgent": "Agent/Agentin",
+    "roleAgency": "Agentur",
+    "gender": "* Geschlecht",
+    "genderMale": "Männlich",
+    "genderFemale": "Weiblich",
+    "genderOther": "Möchte nicht angeben",
+    "dateOfBirth": "* Geburtsdatum",
+    "dateOfBirthPlaceholder": "Wählen Sie Ihr Geburtsdatum aus",
+    "nationality": "* Nationalität",
+    "nationalityPlaceholder": "Wählen Sie Ihre Nationalität aus",
+    "proofOfIdentity": "* Identitätsnachweis",
+    "proofPassport": "Reisepass",
+    "proofId": "Ausweis",
+    "proofDL": "Führerschein",
+    "adressSectionTitle": "B. Adressdetails",
+    "status": "* Status",
+    "statusResident": "Ansässige Einzelperson",
+    "statusNonResident": "Nicht ansässig",
+    "statusForeign": "Ausländischer Staatsbürger",
+    "correspondenceAdress": "Korrespondenzadresse",
+    "street": "* Straßenadresse",
+    "cityPlaceholder": "Stadt",
+    "statePlaceholder": "Bundesland/Region/Provinz",
+    "zipPlaceholder": "Postleitzahl",
+    "countryPlaceholder": "Land",
+    "phoneNumber": "* Telefonnummer",
+    "fileSectionTitle": "C. Datei Upload",
+    "drag&DropTitle": "* Bitte laden Sie entsprechende Dokumente hoch",
+    "declarationSectionTitle": "D. Erklärung",
+    "declarationText": "* Ich erkläre hiermit, dass die in diesem Formular bereitgestellten Informationen korrekt und vollständig sind. Ich bestätige, dass falsche und/oder unvollständige Informationen, die zu einem Verstoß gegen Vorschriften führen, rechtliche Maßnahmen auslösen können, und ich akzeptiere, dass ich für alle Gebühren, Strafen und Verstöße verantwortlich bin.",
+    "signature": "Name des Antragstellers",
+    "submitButton": "Abschicken",
+    "doneTextFirstPart": "Ihre Bewerbung wurde erfolgreich übermittelt.",
+    "doneTextSecondPart": "Vielen Dank, dass Sie sich AgentWise angeschlossen haben!",
+    "goHomeButton": "Nach Hause gehen"
   },
   "signInPage": {
     "Main": {
@@ -36,7 +75,7 @@
       "forgotPasswordLinkTitle": "Passwort vergessen"
     }
   },
-  "signUpPage": {
+  "SignUpPage": {
     "Main": {
       "title": "Registrieren",
       "emailInput": "Email",

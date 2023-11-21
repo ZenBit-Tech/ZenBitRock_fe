@@ -87,6 +87,7 @@ export default function LoginForm() {
         sx={{ marginBottom: '0.9rem' }}
         error={Boolean(errors?.email)}
         helperText={errors?.email && <div>{errors.email.message}</div>}
+        autoComplete="new-email"
       />
 
       <TextField
@@ -110,6 +111,7 @@ export default function LoginForm() {
               {showPassword ? <Visibility /> : <VisibilityOff />}
             </IconButton>
           ),
+          autoComplete: 'new-password',
         }}
       />
 
