@@ -5,5 +5,5 @@ export const patterns = {
   state: /^([a-zA-Z0-9\s,.\-]{2,100})?$/,
   phone: /^\+?\d{3,15}$/,
   zipCode: /^[a-zA-Z0-9,.\-]{5,15}$/,
-  EMAIL_VALIDATION_PATTERN: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
 };
