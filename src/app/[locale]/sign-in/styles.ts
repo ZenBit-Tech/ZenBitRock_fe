@@ -32,7 +32,6 @@ export const RightSection = styled('div')`
 `;
 
 export const LoginWrapper = styled('div')`
-  /* height: calc(100vh - 80px); */
   display: flex;
   align-items: center;
   flex-direction: column;
