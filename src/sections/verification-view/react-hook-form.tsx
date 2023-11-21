@@ -29,6 +29,7 @@ import {
 } from './drop-box-data';
 import { useCreateVerificationMutation } from 'store/api/verificationApi';
 import { datesFormats } from 'constants/dates-formats';
+import { links } from 'constants/links';
 
 type IOptions = {
   value: string;
@@ -122,7 +123,7 @@ export default function ReactHookForm() {
       reset();
       const newUser = await createVerification(formData);
       if (newUser.data?.statusCode === 201) {
-        replace('/verification/done');
+        replace(links.VERIFICATION_DONE_PAGE);
       } else {
         toast.error('Something went wrong, please try again');
       }
