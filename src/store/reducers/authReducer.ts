@@ -9,12 +9,13 @@ type AuthState = {
 
 export const authSlice = createSlice({
   name: 'auth',
-  initialState: { email: null, token: null } as AuthState,
+  initialState: { id: null, email: null, token: null } as AuthState,
   reducers: {
     setCredentials: (
       state,
-      { payload: { email, token } }: PayloadAction<{ email: string; token: string }>
+      { payload: { id, email, token } }: PayloadAction<{ id: string; email: string; token: string }>
     ) => {
+      state.id = id;
       state.email = email;
       state.token = token;
     },
