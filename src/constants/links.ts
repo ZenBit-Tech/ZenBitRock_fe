@@ -10,6 +10,7 @@ export const links = {
   RESTORE_PASSWORD_CHANGE_PASSWORD_PAGE: '/restore-password/change-password',
   PRIVACY_POLICY: '/privacy-policy',
   TERMS_CONDITIONS: '/terms-conditions',
+  MAIN_PAGE: '/main-page',
   ADD_VERIFICATION_DATA: '/verification/create',
   SEND_CODE_FOR_RESTORE_PASSWORD: '/email/forgot-password',
   CONFIRM_CODE_FOR_RESTORE_PASSWORD: '/auth/confirm-email',

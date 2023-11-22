@@ -3,14 +3,19 @@
 import React from 'react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
+import { notFound, useRouter } from 'next/navigation';
 import { Button } from '@mui/material';
 import { Box, IconButton, styled } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { useSnackbar } from 'notistack';
 import { useSignUpMutation } from 'store/authApi';
 import { links } from 'constants/links';
+import { SignUpPageType } from 'types/auth';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from 'store';
+import { setCredentials } from 'store/reducers/authReducer';
 
 const StyledTextFiled = styled(TextField)`
   margin-bottom: 1.5 rem;
@@ -22,21 +27,13 @@ type FormValues = {
   repeatPassword: string;
 };
 
-type SignUpPageType = {
-  Main: {
-    [key: string]: string;
-  };
-  TermsContent: {
-    [key: string]: string;
-  };
-};
-
 type SignUpProps = {
   SignUpPage: SignUpPageType;
 };
 
-function SignUpForm({ SignUpPage }: SignUpProps) {
-  const [signUp] = useSignUpMutation();
+function SignUpForm({ signUpPage }: SignUpProps) {
+  const { enqueueSnackbar } = useSnackbar();
+  const [signUp, { error }] = useSignUpMutation();
   const form = useForm<FormValues>({
     defaultValues: {
       email: '',
@@ -49,20 +46,32 @@ function SignUpForm({ SignUpPage }: SignUpProps) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState<boolean>(false);
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
   const { register, handleSubmit, formState, watch } = form;
   const { errors, isValid } = formState;
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async (data: FormValues) => {
     const { email, password } = data;
-    const credentials = { email, password };
-    signUp(credentials);
-    router.push(links.VERIFY_PAGE);
+    try {
+      const res = await signUp({ email, password });
+      if ('data' in res) {
+        const {
+          token,
+          user: { id, email },
+        } = res.data;
+        dispatch(setCredentials({ id, email, token }));
+        enqueueSnackbar('User added successfully!', { variant: 'success' });
+        router.push(links.VERIFY_PAGE);
+      }
+    } catch (error) {
+      notFound();
+    }
   };
 
   return (
     <Box
       component="form"
-      sx={{ display: 'flex', flexDirection: 'column', width: '70%', gap: '0.9rem' }}
+      sx={{ display: 'flex', flexDirection: 'column', width: '90%', gap: '0.9rem' }}
       onSubmit={handleSubmit(onSubmit)}
       noValidate
     >

@@ -1,32 +1,24 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import { notFound } from 'next/navigation';
-import { Link, Box } from '@mui/material';
+import { Link, Box, Typography } from '@mui/material';
 import { Locale } from 'locales/i18n.config';
 import { getDictionary } from 'lib/dictionary';
 import ReduxProvider from 'store/ReduxProvider';
 import PagesContainer from 'components/PagesContainer/PagesContainer';
-import TermsDialog from 'components/TermsDialog/TermsDialog';
-import PrivacyPolicyDialog from 'components/PrivacyPolicyDialog/PrivacyPolicyDialog';
-import PageTitle from 'components/PageTitle/PageTitle';
 import SignUpForm from 'components/SignUpForm/SignUpForm';
 import { LoadingScreen } from 'components/loading-screen';
 import { links } from 'constants/links';
-import { SignInLink, Policy } from './styles';
+import { PolicyComponent } from 'components/PolicyComponent/PolicyComponent';
+import { SnackbarProvider } from 'components/snackbar';
+import { SignUpPageType } from 'types/auth';
+import { SignInLink, Policy, StyledBox } from './styles';
+
 type Props = {
   params: { lang: Locale };
 };
-type SignUpPageType = {
-  Main: {
-    [key: string]: string;
-  };
-  Terms: {
-    [key: string]: string;
-  };
-  TermsContent: {
-    [key: string]: string;
-  };
-};
+
 export default function SignUpPage({ params: { lang } }: Props) {
   const [data, setData] = useState<SignUpPageType | null>(null);
   useEffect(() => {
@@ -40,38 +32,43 @@ export default function SignUpPage({ params: { lang } }: Props) {
     };
     fetchData();
   }, [lang]);
+
   if (!data) {
     return <LoadingScreen />;
   }
+
   return (
     <>
       <PagesContainer>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            flex: '1',
-            paddingTop: '2rem',
-            alignItems: 'center',
-          }}
-        >
-          <PageTitle title={data.Main.title} />
-          <ReduxProvider>
-            <SignUpForm SignUpPage={data} />
-          </ReduxProvider>
-          <SignInLink>
-            {data.Main.haveAcc}&nbsp;
-            <Link href={links.SIGN_IN_PAGE} color="primary">
-              {data.Main.signInLink}
-            </Link>
-          </SignInLink>
-          <Policy>
-            {data.Main.agree}&nbsp;
-            <TermsDialog SignUpPage={data} />
-            &nbsp;{data.Main.and}&nbsp;
-            <PrivacyPolicyDialog SignUpPage={data} />
-          </Policy>
-        </Box>
+        <StyledBox>
+          <Typography variant="h3" sx={{ marginBottom: '1.5rem' }}>
+            {data.Main.title}
+          </Typography>
+          <SnackbarProvider>
+            <ReduxProvider>
+              <SignUpForm signUpPage={data} />
+            </ReduxProvider>
+          </SnackbarProvider>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'column',
+              width: '90%',
+            }}
+          >
+            <SignInLink>
+              {data.Main.haveAcc}&nbsp;
+              <Link href={links.SIGN_IN_PAGE} color="primary">
+                {data.Main.signInLink}
+              </Link>
+            </SignInLink>
+            <Policy>
+              <PolicyComponent signUpPage={data} />
+            </Policy>
+          </Box>
+        </StyledBox>
       </PagesContainer>
     </>
   );
