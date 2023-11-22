@@ -4,7 +4,7 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import counterReducer from './reducers/testReducer';
 import { VerificationApi } from './api/verificationApi';
-import { RestoreEmailApi } from './api/restoreEmailApi';
+import { RestorePasswordApi } from './api/restorePasswordApi';
 import { authApi } from './authApi';
 import authReducer from './reducers/authReducer';
 import restorePasswordReducer from './reducers/restorePasswordReducer';
@@ -21,7 +21,7 @@ const reducers = combineReducers({
   restorePasswordSlice: restorePasswordReducer,
   [authApi.reducerPath]: authApi.reducer,
   [VerificationApi.reducerPath]: VerificationApi.reducer,
-  [RestoreEmailApi.reducerPath]: RestoreEmailApi.reducer,
+  [RestorePasswordApi.reducerPath]: RestorePasswordApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -35,7 +35,7 @@ export const store = configureStore({
     })
       .concat(authApi.middleware)
       .concat(VerificationApi.middleware)
-      .concat(RestoreEmailApi.middleware),
+      .concat(RestorePasswordApi.middleware),
 });
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

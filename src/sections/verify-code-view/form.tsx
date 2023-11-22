@@ -4,29 +4,29 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import { TextField, Button, Typography, Box, CircularProgress } from '@mui/material';
+import { Button, Typography, Box, CircularProgress, Link } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import Backdrop from '@mui/material/Backdrop';
 import Stack from '@mui/system/Stack';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from 'store';
-import { patterns } from 'constants/patterns';
-import FormProvider from 'components/hook-form';
-import { useSendCodeMutation } from 'store/api/restorePasswordApi';
-import { setEmail } from 'store/reducers/restorePasswordReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from 'store';
+import FormProvider, { RHFCode } from 'components/hook-form';
+import { useSendCodeMutation, useVerifyCodeMutation } from 'store/api/restorePasswordApi';
+import { setCode } from 'store/reducers/restorePasswordReducer';
 import { links } from 'constants/links';
 
 export default function RestorePasswordForm() {
-  const t = useTranslations('RestorePasswordPage');
-  const [sendCode, { isLoading }] = useSendCodeMutation();
+  const t = useTranslations('VerifyCodePage');
+  const [verifyCode, { isLoading }] = useVerifyCodeMutation();
+  const [sendCode] = useSendCodeMutation();
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { enqueueSnackbar } = useSnackbar();
-  const defaultValues = { email: '' };
+  const defaultValues = { code: '' };
+  const email = useSelector((state: RootState) => state.restorePasswordSlice.email);
   const methods = useForm({ defaultValues });
   const {
     reset,
-    register,
     formState,
     handleSubmit,
     formState: { isSubmitting },
@@ -37,14 +37,14 @@ export default function RestorePasswordForm() {
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
-      const email = await sendCode(data);
-      if ('data' in email) {
-        dispatch(setEmail({ email: data.email }));
-        router.push(links.RESTORE_PASSWORD_VERIFY_CODE_PAGE);
+      const payload = { email, code: data.code };
+      const response = await verifyCode(payload);
+      if (response.error.data.message === 'Email already activated') {
+        enqueueSnackbar('Success!', { variant: 'success' });
+        dispatch(setCode({ code: data.code }));
+        router.push(links.RESTORE_PASSWORD_CHANGE_PASSWORD_PAGE);
       } else {
-        dispatch(setEmail({ email: data.email }));
-        router.push(links.RESTORE_PASSWORD_VERIFY_CODE_PAGE);
-        enqueueSnackbar(email.error.data.error, {
+        enqueueSnackbar(response.error.data.message, {
           variant: 'error',
         });
       }
@@ -52,6 +52,21 @@ export default function RestorePasswordForm() {
       return error;
     }
   });
+
+  const handleClick = async () => {
+    try {
+      const response = await sendCode({ email });
+      if ('data' in response) {
+        enqueueSnackbar('Check your mail!', { variant: 'success' });
+      } else {
+        enqueueSnackbar(response.error.data.error, {
+          variant: 'error',
+        });
+      }
+    } catch (error) {
+      return error;
+    }
+  };
 
   return (
     <>
@@ -63,7 +78,7 @@ export default function RestorePasswordForm() {
 
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <Box
-          gap={7}
+          gap={4}
           display="flex"
           flexDirection="column"
           height="calc(100vh - 80px)"
@@ -85,16 +100,21 @@ export default function RestorePasswordForm() {
               {t('header')}
             </Typography>
 
-            <TextField
-              {...register('email', {
-                required: t('emailRequired'),
-                pattern: {
-                  value: patterns.email,
-                  message: t('emailValid'),
-                },
-              })}
-              label={t('emailPlaceholder')}
-            />
+            <RHFCode name="code" />
+          </Stack>
+
+          <Stack direction="row" justifyContent="space-between">
+            <Typography variant="body2">{t('dontHaveCode')}</Typography>
+
+            <Link
+              onClick={handleClick}
+              variant="subtitle2"
+              sx={{
+                cursor: 'pointer',
+              }}
+            >
+              {t('sendAgain')}
+            </Link>
           </Stack>
 
           <Button
