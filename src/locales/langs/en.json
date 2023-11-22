@@ -52,8 +52,18 @@
     "signature": "Name of the Applicant",
     "submitButton": "Submit",
     "doneTextFirstPart": "Your application was submitted successfully.",
-    "doneTextSecondPart": "Thank you for joining AgentWise!",
-    "goHomeButton": "Go home"
+    "doneTextSecondPart": "Thank you for joining AgentWise!"
+  },
+  "VerificationDonePage": {
+    "submitButton": "Go to sign in page"
+  },
+  "RestorePasswordPage": {
+    "title": "Restore password",
+    "header": "Enter your email for restore",
+    "emailPlaceholder": "name@domain.com",
+    "button": "Send Code",
+    "emailRequired": "Email is required",
+    "emailValid": "Email is not valid"
   },
   "signInPage": {
     "Main": {

@@ -10,4 +10,5 @@ export const links = {
   PRIVACY_POLICY: '/privacy-policy',
   TERMS_CONDITIONS: '/terms-conditions',
   ADD_VERIFICATION_DATA: '/verification/create',
+  SEND_CODE_FOR_RESTORE_PASSWORD: '/email/forgot-password',
 };
