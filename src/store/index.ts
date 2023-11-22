@@ -7,16 +7,18 @@ import { VerificationApi } from './api/verificationApi';
 import { RestoreEmailApi } from './api/restoreEmailApi';
 import { authApi } from './authApi';
 import authReducer from './reducers/authReducer';
+import restorePasswordReducer from './reducers/restorePasswordReducer';
 
 const persistConfig = {
   key: 'store',
-  whitelist: [],
+  whitelist: ['restorePasswordSlice'],
   storage,
 };
 
 const reducers = combineReducers({
   counter: counterReducer,
   authSlice: authReducer,
+  restorePasswordSlice: restorePasswordReducer,
   [authApi.reducerPath]: authApi.reducer,
   [VerificationApi.reducerPath]: VerificationApi.reducer,
   [RestoreEmailApi.reducerPath]: RestoreEmailApi.reducer,

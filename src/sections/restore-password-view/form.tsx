@@ -8,15 +8,19 @@ import { TextField, Button, Typography, Box, CircularProgress } from '@mui/mater
 import { useSnackbar } from 'notistack';
 import Backdrop from '@mui/material/Backdrop';
 import Stack from '@mui/system/Stack';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from 'store';
 import { patterns } from 'constants/patterns';
 import FormProvider from 'components/hook-form';
 import { useSendCodeMutation } from 'store/api/restoreEmailApi';
+import { setEmail } from 'store/reducers/restorePasswordReducer';
 import { links } from 'constants/links';
 
 export default function RestorePasswordForm() {
   const t = useTranslations('RestorePasswordPage');
-  const [createVerification, { isLoading }] = useSendCodeMutation();
+  const [sendCode, { isLoading }] = useSendCodeMutation();
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
   const { enqueueSnackbar } = useSnackbar();
   const defaultValues = { email: '' };
   const methods = useForm({ defaultValues });
@@ -33,10 +37,13 @@ export default function RestorePasswordForm() {
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
-      const email = await createVerification(data);
+      const email = await sendCode(data);
       if ('data' in email) {
+        dispatch(setEmail({ email: data.email }));
         router.push(links.RESTORE_PASSWORD_SEND_CODE_PAGE);
       } else {
+        dispatch(setEmail({ email: data.email }));
+        router.push(links.RESTORE_PASSWORD_SEND_CODE_PAGE);
         enqueueSnackbar(email.error.data.error, {
           variant: 'error',
         });
@@ -56,7 +63,7 @@ export default function RestorePasswordForm() {
 
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <Box
-          gap={4}
+          gap={7}
           display="flex"
           flexDirection="column"
           height="calc(100vh - 80px)"
@@ -90,7 +97,13 @@ export default function RestorePasswordForm() {
             />
           </Stack>
 
-          <Button type="submit" variant="contained" color="primary" disabled={!isDirty || !isValid}>
+          <Button
+            sx={{ padding: '14px' }}
+            type="submit"
+            variant="contained"
+            color="primary"
+            disabled={!isDirty || !isValid}
+          >
             {t('button')}
           </Button>
         </Box>

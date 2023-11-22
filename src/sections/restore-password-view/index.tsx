@@ -1,10 +1,10 @@
 'use client';
 
 import MaintenanceIllustration from 'assets/illustrations/maintenance-illustration';
-import { Wrapper, LeftSection, RightSection } from './styles';
-import Form from './form';
 import ReduxProvider from 'store/ReduxProvider';
 import { SnackbarProvider } from 'components/snackbar';
+import { Wrapper, LeftSection, RightSection } from './styles';
+import Form from './form';
 
 export default function RestorePasswordView(): JSX.Element {
   return (
