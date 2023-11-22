@@ -34,12 +34,13 @@ export default function RestorePasswordForm() {
   const { isDirty, isValid } = formState;
 
   const onSubmit = handleSubmit(async (data) => {
+    const EMAIL_ACTIVATED = 'Email already activated';
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
       const payload = { email, code: data.code };
       const response = await verifyCode(payload);
-      if (response.error.data.message === 'Email already activated') {
+      if (response.error.data.message === EMAIL_ACTIVATED) {
         enqueueSnackbar('Success!', { variant: 'success' });
         dispatch(setCode({ code: data.code }));
         router.push(links.RESTORE_PASSWORD_CHANGE_PASSWORD_PAGE);
