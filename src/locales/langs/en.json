@@ -154,5 +154,11 @@
     "verify": "Verify",
     "noCode": "Don't have a code?",
     "return": "Return"
+  },
+  "yup": {
+    "code_too_short": "Code must be at least 6 characters",
+    "code_is_required": "Code is required",
+    "email_is_required": "Email is required",
+    "valid_email": "Email must be a valid email address"
   }
 }
