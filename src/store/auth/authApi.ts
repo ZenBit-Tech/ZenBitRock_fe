@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery, BaseQueryFn } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { enqueueSnackbar } from 'notistack';
 import { SendVerificationCodeResponse, VerifyEmailResponse } from './lib/types';
 
@@ -29,6 +29,16 @@ interface IUserDataResponse {
   };
 }
 
+interface ISignUpResData {
+  data: {
+    token: string;
+    user: {
+      email: string;
+      id: string;
+    };
+  };
+}
+
 export const authApi = createApi({
   reducerPath: 'auth',
   tagTypes: ['Users'],
@@ -40,9 +50,18 @@ export const authApi = createApi({
         method: 'POST',
         body,
       }),
+      onQueryStarted: async (_, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          enqueueSnackbar('Please enter valid credentials!', {
+            variant: 'error',
+          });
+        }
+      },
       invalidatesTags: [{ type: 'Users' }],
     }),
-    signUp: builder.mutation<IUserDataResponse, IUserData>({
+    signUp: builder.mutation<ISignUpResData['data'], IUserData>({
       query: (body) => ({
         url: 'user',
         method: 'POST',
@@ -50,11 +69,8 @@ export const authApi = createApi({
       }),
       onQueryStarted: async (_, { queryFulfilled }) => {
         try {
-          await queryFulfilled;
         } catch (err) {
-          enqueueSnackbar('Something went wrong! Please, sign up first or check your password!', {
-            variant: 'error',
-          });
+          enqueueSnackbar('User with this email already exists', { variant: 'error' });
         }
       },
       invalidatesTags: [{ type: 'Users' }],
