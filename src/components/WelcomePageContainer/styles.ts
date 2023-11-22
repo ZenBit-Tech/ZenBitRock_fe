@@ -20,7 +20,7 @@ export const LeftSection = styled('div')`
   justify-content: center;
   align-items: center;
   align-self: center;
-  
+
   @media (min-width: 768px) {
     justify-content: flex-start;
   }
@@ -44,7 +44,7 @@ export const RightSection = styled(Box)`
 export const StyledBtnWrapper = styled(Box)`
   display: flex;
   align-self: center;
-  
+
   @media (min-width: 768px) {
     display: flex;
     align-self: flex-end;
