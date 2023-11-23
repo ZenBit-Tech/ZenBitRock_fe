@@ -15,10 +15,9 @@ export default function RestorePasswordDoneView(): JSX.Element {
   const t = useTranslations('RestorePasswordDonePage');
   const router = useRouter();
 
-
-const handleClick= () => {
-   router.push(links.SIGN_IN_PAGE);
-  }
+  const handleClick = () => {
+    router.push(links.SIGN_IN_PAGE);
+  };
 
   return (
     <Wrapper>

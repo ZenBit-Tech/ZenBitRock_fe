@@ -38,14 +38,11 @@ function ChangePasswordForm() {
   const router = useRouter();
   const { register, handleSubmit, formState, watch } = form;
   const { errors, isValid } = formState;
- 
+
   const onSubmit = () => {
     if (router) {
-        router.push(links.RESTORE_PASSWORD_DONE_PAGE);
-      }
-      else {
-        console.error('Router is undefined.');
-      }
+      router.push(links.RESTORE_PASSWORD_DONE_PAGE);
+    }
   };
 
   return (
