@@ -16,7 +16,7 @@ import { SignUpPageType } from 'types/auth';
 import { SignInLink, Policy, StyledBox } from './styles';
 
 type Props = {
-  params: { lang: Locale };
+  params: { locale: Locale };
 };
 
 export default function SignUpPage({ params: { lang } }: Props) {

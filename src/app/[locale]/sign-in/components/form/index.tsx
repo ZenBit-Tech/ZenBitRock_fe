@@ -12,8 +12,6 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { enqueueSnackbar } from 'notistack';
 import { AppDispatch } from 'store';
-import { useSignInMutation } from 'store/authApi';
-import { setCredentials } from 'store/reducers/authReducer';
 import { patterns } from 'constants/patterns';
 import { links } from 'constants/links';
 
@@ -22,6 +20,7 @@ const StyledTitle = styled(Typography)`
     align-self: center;
   }
 `;
+import { setCredentials, useSignInMutation } from 'store/auth';
 
 type FormValues = {
   email: string;

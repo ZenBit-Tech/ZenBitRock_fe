@@ -26,9 +26,9 @@ export default function SignInPage({ params: { lang } }: Props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { signInPage, signUpPage } = await getDictionary('en');
+        const { signInPage, SignUpPage } = await getDictionary('en');
         setData(signInPage);
-        setTermsData(signUpPage);
+        setTermsData(SignUpPage);
       } catch (error) {
         notFound();
       }
