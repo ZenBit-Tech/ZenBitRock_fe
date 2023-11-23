@@ -92,7 +92,8 @@
       "haveAcc": "Sie haben bereits ein Konto?",
       "signInLink": "Einloggen",
       "agree": "Indem Sie fortfahren, stimmen Sie AgentWise zu",
-      "and": "und"
+      "and": "und",
+      "success": "User added successfully!"
     },
     "Terms": {
       "TermsTitle": "Allgemeine Geschäftsbedingungen",

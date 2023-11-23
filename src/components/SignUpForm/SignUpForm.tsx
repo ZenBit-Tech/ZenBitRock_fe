@@ -15,7 +15,7 @@ import { useSignUpMutation } from 'store/auth';
 import { SignUpPageType } from 'types/auth';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from 'store';
-import { setCredentials } from 'store/reducers/authReducer';
+import { setCredentials } from 'store/auth/authReducer';
 
 const StyledTextFiled = styled(TextField)`
   margin-bottom: 1.5 rem;
@@ -28,7 +28,7 @@ type FormValues = {
 };
 
 type SignUpProps = {
-  SignUpPage: SignUpPageType;
+  signUpPage: SignUpPageType;
 };
 
 function SignUpForm({ signUpPage }: SignUpProps) {
@@ -77,15 +77,15 @@ function SignUpForm({ signUpPage }: SignUpProps) {
     >
       <StyledTextFiled
         variant="outlined"
-        label={SignUpPage.Main.emailInput}
-        placeholder={SignUpPage.Main.emailInputPlaceholder}
+        label={signUpPage.Main.emailInput}
+        placeholder={signUpPage.Main.emailInputPlaceholder}
         type="email"
         autoFocus
         {...register('email', {
-          required: SignUpPage.Main.emailRequired,
+          required: signUpPage.Main.emailRequired,
           pattern: {
             value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i,
-            message: SignUpPage.Main.emailInvalid,
+            message: signUpPage.Main.emailInvalid,
           },
         })}
         error={!!errors.email}
@@ -94,14 +94,14 @@ function SignUpForm({ signUpPage }: SignUpProps) {
       />
       <StyledTextFiled
         variant="outlined"
-        label={SignUpPage.Main.passwordInput}
-        placeholder={SignUpPage.Main.minChar}
+        label={signUpPage.Main.passwordInput}
+        placeholder={signUpPage.Main.minChar}
         type={showPassword ? 'text' : 'password'}
         {...register('password', {
-          required: SignUpPage.Main.passwordRequired,
+          required: signUpPage.Main.passwordRequired,
           pattern: {
             value: /^.{8,}$/i,
-            message: SignUpPage.Main.minChar,
+            message: signUpPage.Main.minChar,
           },
         })}
         error={!!errors.password}
@@ -117,12 +117,12 @@ function SignUpForm({ signUpPage }: SignUpProps) {
       />
       <StyledTextFiled
         variant="outlined"
-        label={SignUpPage.Main.repeatLabel}
-        placeholder={SignUpPage.Main.minChar}
+        label={signUpPage.Main.repeatLabel}
+        placeholder={signUpPage.Main.minChar}
         type={showRepeatPassword ? 'text' : 'password'}
         {...register('repeatPassword', {
-          required: SignUpPage.Main.passwordRequired,
-          validate: (value) => value === watch('password') || SignUpPage.Main.unmatchPass,
+          required: signUpPage.Main.passwordRequired,
+          validate: (value) => value === watch('password') || signUpPage.Main.unmatchPass,
         })}
         error={!!errors.repeatPassword}
         helperText={errors.repeatPassword?.message}
@@ -136,7 +136,7 @@ function SignUpForm({ signUpPage }: SignUpProps) {
         }}
       />
       <Button type="submit" variant="contained" sx={{ my: '20px' }} fullWidth disabled={!isValid}>
-        {SignUpPage.Main.title}
+        {signUpPage.Main.title}
       </Button>
     </Box>
   );

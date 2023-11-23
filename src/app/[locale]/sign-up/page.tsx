@@ -19,19 +19,19 @@ type Props = {
   params: { locale: Locale };
 };
 
-export default function SignUpPage({ params: { lang } }: Props) {
+export default function SignUpPage({ params: { locale } }: Props) {
   const [data, setData] = useState<SignUpPageType | null>(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { SignUpPage } = await getDictionary('en');
-        setData(SignUpPage);
+        const { signUpPage } = await getDictionary('en');
+        setData(signUpPage);
       } catch (error) {
         notFound();
       }
     };
     fetchData();
-  }, [lang]);
+  }, [locale]);
 
   if (!data) {
     return <LoadingScreen />;

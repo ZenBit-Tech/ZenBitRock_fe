@@ -92,7 +92,8 @@
       "haveAcc": "Already have an account?",
       "signInLink": "Sign In",
       "agree": "By continuing, you agree to ZenBitRock",
-      "and": "and"
+      "and": "and",
+      "success": "User added successfully!"
     },
     "Terms": {
       "TermsTitle": "Terms and Conditions",
