@@ -144,5 +144,24 @@
       "item21Title": "Contact Information",
       "item21Text": "If you have any questions or concerns about these Terms and Conditions, please contact us at welcome@zenbit.tech."
     }
+  },
+  "ChangePasswordPage": {
+      "title": "New password",
+      "passwordInput": "Password",
+      "passwordInputPlaceholder": "Min 8 characters",
+      "repeatPasswordInput": "Repeat password",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email",
+      "passwordRequired": "Password is required",
+      "minChar": "Minimum 8 characters",
+      "repeatLabel": "Repeat password",
+      "unmatchPass": "Passwords do not match",
+      "agree": "By continuing, you agree to AgentWise",
+      "and": "and"
+  },
+  "RestorePasswordDonePage":{
+    "title": "Password reset was successfull",
+    "text": "Your password has been successfully reset. Click below to log in magically",
+    "buttonText": "Log in"
   }
 }
