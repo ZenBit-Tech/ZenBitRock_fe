@@ -145,6 +145,22 @@
       "item21Text": "If you have any questions or concerns about these Terms and Conditions, please contact us at welcome@zenbit.tech."
     }
   },
+  "VerifyEmail": {
+    "title": "Please check your email!",
+    "emailSent": "We have emailed a 6-digit confirmation code to {email}, please enter the code in below box to verify your email.",
+    "code": "Code",
+    "expire": "will expire in 01:35",
+    "sendAgain": "Resend code",
+    "verify": "Verify",
+    "noCode": "Don't have a code?",
+    "return": "Return"
+  },
+  "yup": {
+    "code_too_short": "Code must be at least 6 characters",
+    "code_is_required": "Code is required",
+    "email_is_required": "Email is required",
+    "valid_email": "Email must be a valid email address"
+  },
   "ChangePasswordPage": {
       "title": "New password",
       "passwordInput": "Password",
