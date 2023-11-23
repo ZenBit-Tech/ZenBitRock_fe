@@ -41,7 +41,7 @@ interface ISignUpResData {
 export const authApi = createApi({
   reducerPath: 'auth',
   tagTypes: ['Users'],
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_LOGIN_BASE_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_BASE_URL }),
   endpoints: (builder) => ({
     signIn: builder.mutation<ILoginResData['data'], IUserData>({
       query: (body) => ({
