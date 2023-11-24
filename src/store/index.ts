@@ -4,6 +4,7 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { authApi, authReducer } from './auth';
 import { VerificationApi } from './api/verificationApi';
+import { tokenMiddleware } from './middlewares/token-middleware';
 
 const persistConfig = {
   key: 'store',
@@ -27,7 +28,8 @@ export const store = configureStore({
       immutableCheck: false,
     })
       .concat(VerificationApi.middleware)
-      .concat(authApi.middleware),
+      .concat(authApi.middleware)
+      .concat(tokenMiddleware.middleware),
 });
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
