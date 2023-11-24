@@ -10,10 +10,10 @@ import { getDictionary } from 'lib/dictionary';
 import { links } from 'constants/links';
 import SeoIllustration from 'assets/illustrations/seo-illustration';
 import { LoadingScreen } from 'components/loading-screen';
-import LoginForm from './components/form';
 import { PolicyComponent } from 'components/PolicyComponent/PolicyComponent';
 import { SnackbarProvider } from 'components/snackbar';
 import { SignInPageType, SignUpPageType } from 'types/auth';
+import LoginForm from './components/form';
 import { Wrapper, LeftSection, LoginWrapper, RightSection, SignUpLink, Policy } from './styles';
 
 type Props = {
@@ -33,6 +33,8 @@ export default function SignInPage({ params: { lang } }: Props) {
         notFound();
       }
     };
+    
+    // eslint-disable-next-line typesafe/promise-catch
     fetchData();
   }, [lang]);
 

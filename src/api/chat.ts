@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMemo } from 'react';
 import keyBy from 'lodash/keyBy';
 import useSWR, { mutate } from 'swr';
@@ -154,6 +155,7 @@ export async function createConversation(conversationData: IChatConversation) {
    * Work on server
    */
   const data = { conversationData };
+  // eslint-disable-next-line typesafe/no-await-without-trycatch
   const res = await axios.post(endpoints.chat, data);
 
   /**

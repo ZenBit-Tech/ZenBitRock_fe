@@ -21,7 +21,7 @@ type Props = {
 
 export default function SignUpPage({ params: { locale } }: Props) {
   const [data, setData] = useState<SignUpPageType | null>(null);
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -31,6 +31,7 @@ export default function SignUpPage({ params: { locale } }: Props) {
         notFound();
       }
     };
+    // eslint-disable-next-line typesafe/promise-catch
     fetchData();
   }, [locale]);
 
@@ -39,38 +40,36 @@ export default function SignUpPage({ params: { locale } }: Props) {
   }
 
   return (
-    <>
-      <PagesContainer>
-        <StyledBox>
-          <Typography variant="h3" sx={{ marginBottom: '1.5rem' }}>
-            {data.Main.title}
-          </Typography>
-          <SnackbarProvider>
-            <ReduxProvider>
-              <SignUpForm signUpPage={data} />
-            </ReduxProvider>
-          </SnackbarProvider>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexDirection: 'column',
-              width: '90%',
-            }}
-          >
-            <SignInLink>
-              {data.Main.haveAcc}&nbsp;
-              <Link href={pageLinks.SIGN_IN_PAGE} color="primary">
-                {data.Main.signInLink}
-              </Link>
-            </SignInLink>
-            <Policy>
-              <PolicyComponent signUpPage={data} />
-            </Policy>
-          </Box>
-        </StyledBox>
-      </PagesContainer>
-    </>
+    <PagesContainer>
+      <StyledBox>
+        <Typography variant="h3" sx={{ marginBottom: '1.5rem' }}>
+          {data.Main.title}
+        </Typography>
+        <SnackbarProvider>
+          <ReduxProvider>
+            <SignUpForm signUpPage={data} />
+          </ReduxProvider>
+        </SnackbarProvider>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+            width: '90%',
+          }}
+        >
+          <SignInLink>
+            {data.Main.haveAcc}&nbsp;
+            <Link href={pageLinks.SIGN_IN_PAGE} color="primary">
+              {data.Main.signInLink}
+            </Link>
+          </SignInLink>
+          <Policy>
+            <PolicyComponent signUpPage={data} />
+          </Policy>
+        </Box>
+      </StyledBox>
+    </PagesContainer>
   );
 }

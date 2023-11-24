@@ -15,7 +15,6 @@ import { AppDispatch } from 'store';
 import { setCredentials, useSignInMutation } from 'store/auth';
 import { patterns } from 'constants/patterns';
 import { links } from 'constants/links';
-import App from 'next/app';
 
 const StyledTitle = styled(Typography)`
   @media (max-width: 1023px) {
@@ -34,7 +33,7 @@ export default function LoginForm() {
   const t = useTranslations('signInPage');
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [signIn, { isError }] = useSignInMutation();
+  const [signIn] = useSignInMutation();
 
   const {
     register,
