@@ -31,7 +31,7 @@ export default function SignUpPage({ params: { locale } }: Props) {
         notFound();
       }
     };
-    // eslint-disable-next-line typesafe/promise-catch
+    
     fetchData();
   }, [locale]);
 
