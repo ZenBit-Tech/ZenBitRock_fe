@@ -162,22 +162,20 @@
     "valid_email": "Email must be a valid email address"
   },
   "ChangePasswordPage": {
-      "title": "New password",
-      "passwordInput": "Password",
-      "passwordInputPlaceholder": "Min 8 characters",
-      "repeatPasswordInput": "Repeat password",
-      "emailRequired": "Email is required",
-      "emailInvalid": "Invalid email",
-      "passwordRequired": "Password is required",
-      "minChar": "Minimum 8 characters",
-      "repeatLabel": "Repeat password",
-      "unmatchPass": "Passwords do not match",
-      "agree": "By continuing, you agree to AgentWise",
-      "and": "and"
-  },
-  "RestorePasswordDonePage":{
-    "title": "Password reset was successfull",
+    "title": "New password",
+    "passwordInput": "Password",
+    "passwordInputPlaceholder": "Min 8 characters",
+    "repeatPasswordInput": "Repeat password",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Invalid email",
+    "passwordRequired": "Password is required",
+    "minChar": "Minimum 8 characters",
+    "repeatLabel": "Repeat password",
+    "unmatchPass": "Passwords do not match"
+},
+"RestorePasswordDonePage": {
+    "title": "Password reset was successful",
     "text": "Your password has been successfully reset. Click below to log in magically",
     "buttonText": "Log in"
-  }
+}
 }

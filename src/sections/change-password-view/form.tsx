@@ -53,7 +53,7 @@ function ChangePasswordForm() {
         flexDirection: 'column',
         width: '70%',
         gap: '0.9rem',
-        height: 'calc(100vh-80px)',
+        height: 'calc(100vh-180px)',
         justifyContent: 'center',
       }}
       onSubmit={handleSubmit(onSubmit)}

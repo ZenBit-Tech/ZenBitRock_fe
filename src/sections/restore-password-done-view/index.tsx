@@ -4,12 +4,14 @@ import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import OrderCompleteIllustration from 'assets/illustrations/order-complete-illustration';
+import SeoIllustration from 'assets/illustrations/seo-illustration';
 import { Wrapper, LeftSection, RightSection } from './styles';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { links } from 'constants/links';
+
+
 
 export default function RestorePasswordDoneView(): JSX.Element {
   const t = useTranslations('RestorePasswordDonePage');
@@ -22,7 +24,7 @@ export default function RestorePasswordDoneView(): JSX.Element {
   return (
     <Wrapper>
       <LeftSection>
-        <OrderCompleteIllustration />
+        <SeoIllustration />
       </LeftSection>
       <RightSection>
         <Stack spacing={2} direction="row" alignItems="center">
@@ -38,8 +40,9 @@ export default function RestorePasswordDoneView(): JSX.Element {
           justifyContent="center"
           paddingRight="33px"
         >
+     
           <Stack spacing={2}>
-            <Typography align="center" variant="h2">
+            <Typography align="center" variant="h2" lineHeight={1.1}>
               {t('title')}
             </Typography>
 
