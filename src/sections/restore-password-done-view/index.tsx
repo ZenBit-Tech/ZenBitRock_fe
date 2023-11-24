@@ -11,8 +11,6 @@ import { Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { links } from 'constants/links';
 
-
-
 export default function RestorePasswordDoneView(): JSX.Element {
   const t = useTranslations('RestorePasswordDonePage');
   const router = useRouter();
@@ -40,7 +38,6 @@ export default function RestorePasswordDoneView(): JSX.Element {
           justifyContent="center"
           paddingRight="33px"
         >
-     
           <Stack spacing={2}>
             <Typography align="center" variant="h2" lineHeight={1.1}>
               {t('title')}

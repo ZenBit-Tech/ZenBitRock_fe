@@ -4,7 +4,7 @@ export const Wrapper = styled.div`
   display: flex;
   height: calc(100vh - 80px);
   width: 100%;
-  padding: 20px;
+  padding: 20px 0px;
 `;
 
 export const LeftSection = styled.div`
@@ -15,10 +15,8 @@ export const LeftSection = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  
 `;
 
 export const RightSection = styled.div`
   flex: 1;
-  
 `;
