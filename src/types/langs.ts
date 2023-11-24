@@ -6,7 +6,3 @@ type SignUpPageType = {
     [key: string]: string;
   };
 };
-
-type SignUpProps = {
-  SignUpPage: SignUpPageType;
-};
