@@ -50,7 +50,6 @@ export async function createEvent(eventData: ICalendarEvent) {
    */
   mutate(
     URL,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (currentData: any) => {
       const events: ICalendarEvent[] = [...currentData.events, eventData];
 
@@ -77,7 +76,6 @@ export async function updateEvent(eventData: Partial<ICalendarEvent>) {
    */
   mutate(
     URL,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (currentData: any) => {
       const events: ICalendarEvent[] = currentData.events.map((event: ICalendarEvent) =>
         event.id === eventData.id ? { ...event, ...eventData } : event
@@ -106,7 +104,6 @@ export async function deleteEvent(eventId: string) {
    */
   mutate(
     URL,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (currentData: any) => {
       const events: ICalendarEvent[] = currentData.events.filter(
         (event: ICalendarEvent) => event.id !== eventId
