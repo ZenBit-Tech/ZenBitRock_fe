@@ -15,32 +15,43 @@ import { useSendCodeMutation, useVerifyCodeMutation } from 'store/api/restorePas
 import { setCode } from 'store/reducers/restorePasswordReducer';
 import { links } from 'constants/links';
 
+const defaultValues = { code: '' };
+
 export default function RestorePasswordForm() {
   const t = useTranslations('VerifyCodePage');
+
   const [verifyCode, { isLoading }] = useVerifyCodeMutation();
+
   const [sendCode] = useSendCodeMutation();
+
   const router = useRouter();
+
   const dispatch = useDispatch<AppDispatch>();
+
   const { enqueueSnackbar } = useSnackbar();
-  const defaultValues = { code: '' };
+
   const email = useSelector((state: RootState) => state.restorePasswordSlice.email);
+
   const methods = useForm({ defaultValues });
+
   const {
     reset,
     formState,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
+
   const { isDirty, isValid } = formState;
 
   const onSubmit = handleSubmit(async (data) => {
-    const EMAIL_ACTIVATED = 'Email already activated';
+    const CODE = 409;
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
       const payload = { email, code: data.code };
       const response = await verifyCode(payload);
-      if (response.error.data.message === EMAIL_ACTIVATED) {
+
+      if (response.error.status === CODE) {
         enqueueSnackbar('Success!', { variant: 'success' });
         dispatch(setCode({ code: data.code }));
         router.push(links.RESTORE_PASSWORD_CHANGE_PASSWORD_PAGE);
@@ -57,6 +68,7 @@ export default function RestorePasswordForm() {
   const handleClick = async () => {
     try {
       const response = await sendCode({ email });
+
       if ('data' in response) {
         enqueueSnackbar('Check your mail!', { variant: 'success' });
       } else {

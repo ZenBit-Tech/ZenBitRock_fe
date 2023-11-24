@@ -16,14 +16,21 @@ import { useSendCodeMutation } from 'store/api/restorePasswordApi';
 import { setEmail } from 'store/reducers/restorePasswordReducer';
 import { links } from 'constants/links';
 
+const defaultValues = { email: '' };
+
 export default function RestorePasswordForm() {
   const t = useTranslations('RestorePasswordPage');
+
   const [sendCode, { isLoading }] = useSendCodeMutation();
+
   const router = useRouter();
+
   const dispatch = useDispatch<AppDispatch>();
+
   const { enqueueSnackbar } = useSnackbar();
-  const defaultValues = { email: '' };
+
   const methods = useForm({ defaultValues });
+
   const {
     reset,
     register,
@@ -31,6 +38,7 @@ export default function RestorePasswordForm() {
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
+
   const { isDirty, isValid } = formState;
 
   const onSubmit = handleSubmit(async (data) => {
@@ -38,6 +46,7 @@ export default function RestorePasswordForm() {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
       const email = await sendCode(data);
+
       if ('data' in email) {
         dispatch(setEmail({ email: data.email }));
         router.push(links.RESTORE_PASSWORD_VERIFY_CODE_PAGE);
