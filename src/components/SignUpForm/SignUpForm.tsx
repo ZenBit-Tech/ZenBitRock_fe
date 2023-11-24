@@ -10,12 +10,11 @@ import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useSnackbar } from 'notistack';
-import { links } from 'constants/links';
-import { useSignUpMutation } from 'store/auth';
+import { setCredentials, useSignUpMutation } from 'store/auth';
 import { SignUpPageType } from 'types/auth';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from 'store';
-import { setCredentials } from 'store/reducers/authReducer';
+import { AppRoute } from 'enums';
 
 const StyledTextFiled = styled(TextField)`
   margin-bottom: 1.5 rem;
@@ -31,7 +30,7 @@ type SignUpProps = {
   SignUpPage: SignUpPageType;
 };
 
-function SignUpForm({ signUpPage }: SignUpProps) {
+function SignUpForm({ SignUpPage }: SignUpProps) {
   const { enqueueSnackbar } = useSnackbar();
   const [signUp, { error }] = useSignUpMutation();
   const form = useForm<FormValues>({
@@ -61,7 +60,7 @@ function SignUpForm({ signUpPage }: SignUpProps) {
         } = res.data;
         dispatch(setCredentials({ id, email, token }));
         enqueueSnackbar('User added successfully!', { variant: 'success' });
-        router.push(links.VERIFY_PAGE);
+        router.push(AppRoute.VERIFY_PAGE);
       }
     } catch (error) {
       notFound();

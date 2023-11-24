@@ -13,7 +13,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { enqueueSnackbar } from 'notistack';
 import { AppDispatch } from 'store';
 import { patterns } from 'constants/patterns';
-import { links } from 'constants/links';
+import { AppRoute } from 'enums';
 
 const StyledTitle = styled(Typography)`
   @media (max-width: 1023px) {
@@ -29,7 +29,7 @@ type FormValues = {
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const [signIn, { isError }] = useSignInMutation();
+  const [signIn] = useSignInMutation();
   const t = useTranslations('signInPage');
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
@@ -52,7 +52,7 @@ export default function LoginForm() {
         const { id, email, token } = res.data;
         dispatch(setCredentials({ id, email, token }));
         enqueueSnackbar('Welcome back!', { variant: 'success' });
-        router.push(links.MAIN_PAGE);
+        router.push(AppRoute.MAIN_PAGE);
       }
     } catch (error) {
       notFound();
@@ -115,7 +115,7 @@ export default function LoginForm() {
       />
 
       <Typography variant="body2" sx={{ marginBottom: '10px' }}>
-        <Link href={links.FORGOT_PASSWORD_PAGE} color="primary">
+        <Link href={AppRoute.FORGOT_PASSWORD_PAGE} color="primary">
           {t('LoginForm.forgotPasswordLinkTitle')}
         </Link>
       </Typography>

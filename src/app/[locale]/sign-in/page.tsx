@@ -4,10 +4,9 @@ import { useEffect, useState } from 'react';
 import { notFound } from 'next/navigation';
 import Link from '@mui/material/Link';
 import { Box } from '@mui/material';
-import ReduxProvider from 'store/ReduxProvider';
 import { Locale } from 'locales/i18n.config';
 import { getDictionary } from 'lib/dictionary';
-import { links } from 'constants/links';
+import { AppRoute } from 'enums';
 import SeoIllustration from 'assets/illustrations/seo-illustration';
 import { LoadingScreen } from 'components/loading-screen';
 import LoginForm from './components/form';
@@ -48,9 +47,7 @@ export default function SignInPage({ params: { lang } }: Props) {
       <RightSection>
         <LoginWrapper>
           <SnackbarProvider>
-            <ReduxProvider>
-              <LoginForm />
-            </ReduxProvider>
+            <LoginForm />
           </SnackbarProvider>
           <Box
             sx={{
@@ -63,7 +60,7 @@ export default function SignInPage({ params: { lang } }: Props) {
           >
             <SignUpLink>
               {data.Main.doNot}&nbsp;
-              <Link href={links.SIGN_UP_PAGE}>{data.Main.signUpLink}</Link>
+              <Link href={AppRoute.SIGN_UP_PAGE}>{data.Main.signUpLink}</Link>
             </SignUpLink>
             <Policy>
               <PolicyComponent signUpPage={termsData} />
