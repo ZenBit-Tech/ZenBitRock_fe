@@ -34,7 +34,6 @@ export default function SignInPage({ params: { lang } }: Props) {
       }
     };
     
-    // eslint-disable-next-line typesafe/promise-catch
     fetchData();
   }, [lang]);
 
