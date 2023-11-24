@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { enqueueSnackbar } from 'notistack';
+import { StorageKey } from 'enums';
 import { SendVerificationCodeResponse, VerifyEmailResponse } from './lib/types';
 
 export interface IUserData {
@@ -89,6 +90,15 @@ export const authApi = createApi({
         body,
       }),
     }),
+    getProfile: builder.query<ILoginResData['data'], void>({
+      query: () => ({
+        url: 'auth/profile',
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem(StorageKey.TOKEN)}`,
+        },
+      }),
+    }),
   }),
 });
 
@@ -97,4 +107,5 @@ export const {
   useSignUpMutation,
   useSendVerificationCodeMutation,
   useVerifyEmailMutation,
+  useGetProfileQuery,
 } = authApi;
