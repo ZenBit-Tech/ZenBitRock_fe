@@ -6,6 +6,7 @@ export const links = {
   FORGOT_PASSWORD_PAGE: '/forgot-password',
   TERMS_CONDITIONS: '/terms-conditions',
   PRIVACY_POLICY: '/privacy-policy',
+  MAIN_PAGE: '/main-page',
   ADD_VERIFICATION_DATA: '/verification/create',
   RESTORE_PASSWORD_CHANGE_PASSWORD_PAGE: '/restore-password/change-password',
   RESTORE_PASSWORD_DONE_PAGE: '/restore-password/done',

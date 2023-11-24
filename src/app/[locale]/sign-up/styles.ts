@@ -1,6 +1,20 @@
 'use client';
-import { styled } from '@mui/material';
+import { Box, styled } from '@mui/material';
 import { colors } from 'constants/colors';
+
+export const StyledBox = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 1.5rem;
+  padding-top: 1.5rem;
+
+  @media (min-width: 1024px) {
+    align-items: flex-start;
+  }
+`;
 
 export const SignInLink = styled('div')`
   font-size: 14px;
@@ -13,7 +27,6 @@ export const Policy = styled('div')`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  width: 70%;
 `;
 
 export const Link = styled('a')`

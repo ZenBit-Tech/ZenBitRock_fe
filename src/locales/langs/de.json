@@ -75,7 +75,7 @@
       "forgotPasswordLinkTitle": "Passwort vergessen"
     }
   },
-  "SignUpPage": {
+  "signUpPage": {
     "Main": {
       "title": "Registrieren",
       "emailInput": "Email",
@@ -145,17 +145,7 @@
       "item21Text": "Wenn Sie Fragen oder Bedenken zu diesen Allgemeinen Geschäftsbedingungen haben, kontaktieren Sie uns bitte unter Welcome@zenbit.tech."
     }
   },
-  "VerifyEmail": {
-    "title": "Bitte überprüfen Sie Ihre E-Mails!",
-    "emailSent": "Wir haben einen 6-stelligen Bestätigungscode per E-Mail an acb@domain gesendet. Bitte geben Sie den Code unten ein Feld, um Ihre E-Mail-Adresse zu bestätigen.",
-    "code": "code",
-    "expire": "läuft um 01:35 ab",
-    "sendAgain": "Code erneut senden",
-    "verify": "Verifizieren",
-    "noCode": "Sie haben keinen code?",
-    "return": "Zurückkehren"
-  },
-  "ChangePasswordPage": {
+   "ChangePasswordPage": {
       "title": "New password",
       "passwordInput": "Password",
       "passwordInputPlaceholder": "Min 8 characters",
@@ -173,5 +163,15 @@
     "title": "Password reset was successfull",
     "text": "Your password has been successfully reset. Click below to log in magically",
     "buttonText": "Log in"
+  },
+  "VerifyEmail": {
+    "title": "Bitte überprüfen Sie Ihre E-Mails!",
+    "emailSent": "Wir haben einen 6-stelligen Bestätigungscode per E-Mail an acb@domain gesendet. Bitte geben Sie den Code unten ein Feld, um Ihre E-Mail-Adresse zu bestätigen.",
+    "code": "code",
+    "expire": "läuft um 01:35 ab",
+    "sendAgain": "Code erneut senden",
+    "verify": "Verifizieren",
+    "noCode": "Sie haben keinen code?",
+    "return": "Zurückkehren"
   }
 }
