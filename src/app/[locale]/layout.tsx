@@ -5,6 +5,7 @@ import { LocalizationProvider } from 'locales';
 import ToastContainerWrapper from 'components/toast-container';
 import Header from 'components/Header/Header';
 import ThemeProvider from 'theme';
+import ReduxProvider from 'store/ReduxProvider';
 import { Locale } from 'locales/i18n.config';
 import './global.css';
 
@@ -42,8 +43,10 @@ export default async function RootLayout({
           <ThemeProvider>
             <StyledComponentsRegistry>
               <NextIntlClientProvider locale={locale} messages={localeData}>
-                <Header />
-                {children}
+                <ReduxProvider>
+                  <Header />
+                  {children}
+                </ReduxProvider>
               </NextIntlClientProvider>
             </StyledComponentsRegistry>
           </ThemeProvider>

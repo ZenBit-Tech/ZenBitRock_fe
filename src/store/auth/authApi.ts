@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { enqueueSnackbar } from 'notistack';
+import { SendVerificationCodeResponse, VerifyEmailResponse } from './lib/types';
 
 export interface IUserData {
   email: string;
@@ -41,7 +42,7 @@ interface ISignUpResData {
 export const authApi = createApi({
   reducerPath: 'auth',
   tagTypes: ['Users'],
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_LOGIN_BASE_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_BASE_URL }),
   endpoints: (builder) => ({
     signIn: builder.mutation<ILoginResData['data'], IUserData>({
       query: (body) => ({
@@ -74,7 +75,26 @@ export const authApi = createApi({
       },
       invalidatesTags: [{ type: 'Users' }],
     }),
+    sendVerificationCode: builder.mutation<SendVerificationCodeResponse, Pick<IUserData, 'email'>>({
+      query: (body) => ({
+        url: 'email/confirm',
+        method: 'POST',
+        body,
+      }),
+    }),
+    verifyEmail: builder.mutation<VerifyEmailResponse, { email: string; code: string }>({
+      query: (body) => ({
+        url: 'auth/confirm-email',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useSignInMutation, useSignUpMutation } = authApi;
+export const {
+  useSignInMutation,
+  useSignUpMutation,
+  useSendVerificationCodeMutation,
+  useVerifyEmailMutation,
+} = authApi;

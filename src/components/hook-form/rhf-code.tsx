@@ -1,9 +1,7 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import { MuiOtpInput, MuiOtpInputProps } from 'mui-one-time-password-input';
-// @mui
 import FormHelperText from '@mui/material/FormHelperText';
-
-// ----------------------------------------------------------------------
+import { useTranslations } from 'next-intl';
 
 type RHFCodesProps = MuiOtpInputProps & {
   name: string;
@@ -11,6 +9,7 @@ type RHFCodesProps = MuiOtpInputProps & {
 
 export default function RHFCode({ name, ...other }: RHFCodesProps) {
   const { control } = useFormContext();
+  const t = useTranslations('yup');
 
   return (
     <Controller
@@ -32,7 +31,7 @@ export default function RHFCode({ name, ...other }: RHFCodesProps) {
 
           {error && (
             <FormHelperText sx={{ px: 2 }} error>
-              {error.message}
+              {t(error.message)}
             </FormHelperText>
           )}
         </div>
