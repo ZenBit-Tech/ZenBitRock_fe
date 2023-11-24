@@ -15,6 +15,7 @@ import { AppDispatch } from 'store';
 import { setCredentials, useSignInMutation } from 'store/auth';
 import { patterns } from 'constants/patterns';
 import { links } from 'constants/links';
+import App from 'next/app';
 
 const StyledTitle = styled(Typography)`
   @media (max-width: 1023px) {
@@ -28,11 +29,13 @@ type FormValues = {
 };
 
 export default function LoginForm() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [signIn, { isError }] = useSignInMutation();
-  const t = useTranslations('signInPage');
-  const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
+  const t = useTranslations('signInPage');
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [signIn, { isError }] = useSignInMutation();
+
   const {
     register,
     handleSubmit,

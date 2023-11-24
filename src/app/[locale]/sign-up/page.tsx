@@ -21,6 +21,7 @@ type Props = {
 
 export default function SignUpPage({ params: { locale } }: Props) {
   const [data, setData] = useState<SignUpPageType | null>(null);
+  
   useEffect(() => {
     const fetchData = async () => {
       try {

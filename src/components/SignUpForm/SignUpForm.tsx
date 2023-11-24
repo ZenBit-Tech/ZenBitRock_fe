@@ -32,8 +32,12 @@ type SignUpProps = {
 };
 
 function SignUpForm({ signUpPage }: SignUpProps) {
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
+  
   const { enqueueSnackbar } = useSnackbar();
   const [signUp, { error }] = useSignUpMutation();
+
   const form = useForm<FormValues>({
     defaultValues: {
       email: '',
@@ -45,8 +49,7 @@ function SignUpForm({ signUpPage }: SignUpProps) {
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState<boolean>(false);
-  const router = useRouter();
-  const dispatch = useDispatch<AppDispatch>();
+  
   const { register, handleSubmit, formState, watch } = form;
   const { errors, isValid } = formState;
 
