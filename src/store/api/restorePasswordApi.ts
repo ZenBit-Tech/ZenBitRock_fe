@@ -3,6 +3,16 @@ import { links } from 'constants/links';
 
 type SendCode = { email: string | null };
 type VerifyCode = { email: string | null; code: string };
+type ResponseData = {
+  error: {
+    data: {
+      message: string;
+      error: string;
+      statusCode: number;
+    };
+    status: number;
+  };
+};
 
 export const RestorePasswordApi = createApi({
   reducerPath: 'restorePasswordApi',
@@ -11,8 +21,8 @@ export const RestorePasswordApi = createApi({
   }),
   tagTypes: ['Restore password'],
   endpoints: (builder) => ({
-    sendCode: builder.mutation({
-      query: (body: SendCode) => {
+    sendCode: builder.mutation<ResponseData, SendCode>({
+      query: (body) => {
         return {
           url: links.SEND_CODE_FOR_RESTORE_PASSWORD,
           method: 'POST',
@@ -20,8 +30,8 @@ export const RestorePasswordApi = createApi({
         };
       },
     }),
-    verifyCode: builder.mutation({
-      query: (body: VerifyCode) => {
+    verifyCode: builder.mutation<ResponseData, VerifyCode>({
+      query: (body) => {
         return {
           url: links.CONFIRM_CODE_FOR_RESTORE_PASSWORD,
           method: 'POST',

@@ -17,22 +17,17 @@ import { links } from 'constants/links';
 
 const defaultValues = { code: '' };
 
-export default function RestorePasswordForm() {
+export default function RestorePasswordForm(): JSX.Element {
   const t = useTranslations('VerifyCodePage');
-
   const [verifyCode, { isLoading }] = useVerifyCodeMutation();
-
   const [sendCode] = useSendCodeMutation();
 
   const router = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
+  const methods = useForm({ defaultValues });
 
   const dispatch = useDispatch<AppDispatch>();
-
-  const { enqueueSnackbar } = useSnackbar();
-
   const email = useSelector((state: RootState) => state.restorePasswordSlice.email);
-
-  const methods = useForm({ defaultValues });
 
   const {
     reset,
@@ -43,7 +38,7 @@ export default function RestorePasswordForm() {
 
   const { isDirty, isValid } = formState;
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async (data): Promise<void> => {
     const CODE = 409;
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -51,33 +46,43 @@ export default function RestorePasswordForm() {
       const payload = { email, code: data.code };
       const response = await verifyCode(payload);
 
-      if (response.error.status === CODE) {
+      if ('error' in response && 'status' in response.error && response.error.status === CODE) {
         enqueueSnackbar('Success!', { variant: 'success' });
         dispatch(setCode({ code: data.code }));
         router.push(links.RESTORE_PASSWORD_CHANGE_PASSWORD_PAGE);
-      } else {
-        enqueueSnackbar(response.error.data.message, {
-          variant: 'error',
-        });
+      } else if (
+        'error' in response &&
+        'data' in response.error &&
+        response.error.data &&
+        typeof response.error.data === 'object' &&
+        'message' in response.error.data
+      ) {
+        console.log(response);
+        const message = response.error.data.message;
+        enqueueSnackbar(message, { variant: 'error' });
       }
     } catch (error) {
-      return error;
+      throw error;
     }
   });
 
-  const handleClick = async () => {
+  const handleClick = async (): Promise<void> => {
     try {
       const response = await sendCode({ email });
 
       if ('data' in response) {
         enqueueSnackbar('Check your mail!', { variant: 'success' });
-      } else {
-        enqueueSnackbar(response.error.data.error, {
-          variant: 'error',
-        });
+      } else if (
+        'data' in response.error &&
+        response.error.data &&
+        typeof response.error.data === 'object' &&
+        'error' in response.error.data
+      ) {
+        const message = response.error.data.error;
+        enqueueSnackbar(message, { variant: 'error' });
       }
     } catch (error) {
-      return error;
+      throw error;
     }
   };
 

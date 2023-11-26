@@ -18,7 +18,7 @@ import { links } from 'constants/links';
 
 const defaultValues = { email: '' };
 
-export default function RestorePasswordForm() {
+export default function RestorePasswordForm(): JSX.Element {
   const t = useTranslations('RestorePasswordPage');
 
   const [sendCode, { isLoading }] = useSendCodeMutation();
@@ -41,7 +41,7 @@ export default function RestorePasswordForm() {
 
   const { isDirty, isValid } = formState;
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async (data): Promise<void> => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
@@ -50,15 +50,17 @@ export default function RestorePasswordForm() {
       if ('data' in email) {
         dispatch(setEmail({ email: data.email }));
         router.push(links.RESTORE_PASSWORD_VERIFY_CODE_PAGE);
-      } else {
-        dispatch(setEmail({ email: data.email }));
-        router.push(links.RESTORE_PASSWORD_VERIFY_CODE_PAGE);
-        enqueueSnackbar(email.error.data.error, {
-          variant: 'error',
-        });
+      } else if (
+        'data' in email.error &&
+        email.error.data &&
+        typeof email.error.data === 'object' &&
+        'error' in email.error.data
+      ) {
+        const message = email.error.data.error;
+        enqueueSnackbar(message, { variant: 'error' });
       }
     } catch (error) {
-      return error;
+      throw error;
     }
   });
 

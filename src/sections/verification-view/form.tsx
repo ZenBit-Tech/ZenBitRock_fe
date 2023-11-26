@@ -122,7 +122,7 @@ export default function Form() {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
       const newUser = await createVerification(formData);
-      if (newUser.data?.statusCode === 201) {
+      if ('data' in newUser && newUser.data.statusCode === 201) {
         replace(links.VERIFICATION_DONE_PAGE);
       } else {
         toast.error('Something went wrong, please try again');
