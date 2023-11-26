@@ -11,11 +11,10 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useSnackbar } from 'notistack';
 import { links } from 'constants/links';
-import { useSignUpMutation } from 'store/auth';
+import { setCredentials, useSignUpMutation } from 'store/auth';
 import { SignUpPageType } from 'types/auth';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from 'store';
-import { setCredentials } from 'store/auth/authReducer';
 
 const StyledTextFiled = styled(TextField)`
   margin-bottom: 1.5 rem;
@@ -34,7 +33,7 @@ type SignUpProps = {
 function SignUpForm({ signUpPage }: SignUpProps) {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
-  
+
   const { enqueueSnackbar } = useSnackbar();
   const [signUp, { error }] = useSignUpMutation();
 
@@ -49,7 +48,7 @@ function SignUpForm({ signUpPage }: SignUpProps) {
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState<boolean>(false);
-  
+
   const { register, handleSubmit, formState, watch } = form;
   const { errors, isValid } = formState;
 
