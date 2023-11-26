@@ -11,7 +11,6 @@ import AvatarShape from 'assets/illustrations/avatar-shape';
 import Iconify from 'components/iconify';
 import { links } from 'constants/links';
 
-// ----------------------------------------------------------------------
 
 export default function ProfileCover({ name, avatarUrl }: IUserProfileCover) {
   const t = useTranslations('profilePage');
