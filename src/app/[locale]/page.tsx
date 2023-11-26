@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Button, Link } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { colors } from 'constants/colors';
-import { pageLinks } from 'constants/pageLinks';
+import { links } from 'constants/links';
 import { typography } from 'theme/typography';
 import { LoadingScreen } from 'components/loading-screen';
 import WelcomePageContainer from 'components/WelcomePageContainer/WelcomePageContainer';
@@ -33,12 +33,12 @@ export default function HomePage() {
       <RightSection maxWidth="sm">
         <StyledBtnWrapper>
           <Button variant="contained" sx={{ marginRight: '10px' }} size="large">
-            <Link underline={'none'} color={colors.TEST_MAIN_COLOR} href={pageLinks.SIGN_IN_PAGE}>
+            <Link underline={'none'} color={colors.TEST_MAIN_COLOR} href={links.SIGN_IN_PAGE}>
               {t('Page.signInLink')}
             </Link>
           </Button>
           <Button variant="contained" size="large">
-            <Link underline={'none'} color={colors.TEST_MAIN_COLOR} href={pageLinks.SIGN_UP_PAGE}>
+            <Link underline={'none'} color={colors.TEST_MAIN_COLOR} href={links.SIGN_UP_PAGE}>
               {t('Page.signUpLink')}
             </Link>
           </Button>
