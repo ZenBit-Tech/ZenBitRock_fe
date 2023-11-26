@@ -28,7 +28,6 @@ const TABS = [
   },
 ];
 
-// ----------------------------------------------------------------------
 
 export default function UserProfileView(): JSX.Element {
   const t = useTranslations('profilePage');
