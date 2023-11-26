@@ -78,7 +78,7 @@ export default function LoginForm() {
         {...register('email', {
           required: t('LoginForm.requiredField'),
           pattern: {
-            value: patterns.EMAIL_VALIDATION_PATTERN,
+            value: patterns.email,
             message: t('LoginForm.invalidEmail'),
           },
         })}
@@ -118,7 +118,7 @@ export default function LoginForm() {
       />
 
       <Typography variant="body2" sx={{ marginBottom: '10px' }}>
-        <Link href={links.FORGOT_PASSWORD_PAGE} color="primary">
+        <Link href={links.RESTORE_PASSWORD_PAGE} color="primary">
           {t('LoginForm.forgotPasswordLinkTitle')}
         </Link>
       </Typography>
