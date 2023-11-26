@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Button, Link } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { colors } from 'constants/colors';
-import { pageLinks } from 'constants/pageLinks';
+import { links } from 'constants/links';
 import { typography } from 'theme/typography';
 import WelcomePageContainer from 'components/WelcomePageContainer/WelcomePageContainer';
 import { RightSection, StyledBtnWrapper } from 'components/WelcomePageContainer/styles';
@@ -30,10 +30,10 @@ export default function HomePage() {
       <RightSection maxWidth="sm">
         <StyledBtnWrapper>
           <Button variant="contained" sx={{ marginRight: '10px' }} size="large">
-            <CustomLink href={pageLinks.SIGN_IN_PAGE}>{t('Page.signInLink')}</CustomLink>
+            <CustomLink href={links.SIGN_IN_PAGE}>{t('Page.signInLink')}</CustomLink>
           </Button>
           <Button variant="contained" size="large">
-            <CustomLink href={pageLinks.SIGN_UP_PAGE}>{t('Page.signUpLink')}</CustomLink>
+            <CustomLink href={links.SIGN_UP_PAGE}>{t('Page.signUpLink')}</CustomLink>
           </Button>
         </StyledBtnWrapper>
         <Typography
@@ -49,7 +49,7 @@ export default function HomePage() {
           {t('Page.title')}
         </Typography>
         <Button variant="contained" fullWidth size="large">
-          <CustomLink color="primary" href={pageLinks.SIGN_IN_PAGE}>
+          <CustomLink color="primary" href={links.SIGN_IN_PAGE}>
             {t('Page.buttonTxt')}
           </CustomLink>
         </Button>

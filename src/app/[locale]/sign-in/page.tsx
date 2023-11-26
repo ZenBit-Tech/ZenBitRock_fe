@@ -17,10 +17,10 @@ import LoginForm from './components/form';
 import { Wrapper, LeftSection, LoginWrapper, RightSection, SignUpLink, Policy } from './styles';
 
 type Props = {
-  params: { lang: Locale };
+  params: { locale: Locale };
 };
 
-export default function SignInPage({ params: { lang } }: Props) {
+export default function SignInPage({ params: { locale } }: Props) {
   const [data, setData] = useState<SignInPageType | null>(null);
   const [termsData, setTermsData] = useState<SignUpPageType | null>(null);
   useEffect(() => {
@@ -33,9 +33,9 @@ export default function SignInPage({ params: { lang } }: Props) {
         notFound();
       }
     };
-    
+
     fetchData();
-  }, [lang]);
+  }, [locale]);
 
   if (!data || !termsData) {
     return <LoadingScreen />;

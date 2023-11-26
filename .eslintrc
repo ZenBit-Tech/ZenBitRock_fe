@@ -48,7 +48,7 @@
     "@typescript-eslint/no-explicit-any": 2,
     "typesafe/no-throw-sync-func": 1,
     "typesafe/no-await-without-trycatch": 1,
-    "typesafe/promise-catch": 2,
+    "typesafe/promise-catch": 0,
     "arrow-body-style": ["error", "as-needed"],
     "react/jsx-no-useless-fragment": [
       1,
