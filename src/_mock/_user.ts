@@ -50,7 +50,6 @@ export const _userGallery = [...Array(12)].map((_, index) => ({
   id: _mock.id(index),
   postedAt: _mock.time(index),
   title: _mock.postTitle(index),
-  imageUrl: _mock.image.cover(index),
 }));
 
 export const _userFeeds = [...Array(3)].map((_, index) => ({

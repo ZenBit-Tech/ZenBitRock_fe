@@ -144,5 +144,24 @@
       "item21Title": "Contact Information",
       "item21Text": "If you have any questions or concerns about these Terms and Conditions, please contact us at welcome@zenbit.tech."
     }
+  },
+  "profilePage": {
+    "tabProfile": "Profile",
+    "tabSettings": "Settings",
+    "profileTitle": "My profile",
+    "aboutTitle": "About",
+    "socialTitle": "Social",
+    "aboutSubtitle1": "Contact information",
+    "aboutSubtitle2": "Personal information",
+    "years": "Years in industry",
+    "cover": "Market cover ",
+    "tel": "+380000000000",
+    "settingsTitle": "Settings",
+    "settingsSubtitle1": "Privacy settings",
+    "settingsSubtitle2": "Notifications",
+    "changePass": "Change password",
+    "deleteProfile": "Delete profile",
+    "recieveNotifications": "Recieve push notifications ",
+    "editLink": "Edit profile"
   }
 }

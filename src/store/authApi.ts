@@ -10,24 +10,6 @@ interface ILoginResData {
   data: { email: string; id: string; token: string };
 }
 
-interface ILoginResError {
-  error: {
-    status: number;
-    data: {
-      message: string;
-      error: string;
-      statusCode: number;
-    };
-  };
-}
-
-interface IUserDataResponse {
-  user: {
-    email: string;
-    password?: string;
-  };
-}
-
 interface ISignUpResData {
   data: {
     token: string;
@@ -68,6 +50,7 @@ export const authApi = createApi({
       }),
       onQueryStarted: async (_, { queryFulfilled }) => {
         try {
+          await queryFulfilled;
         } catch (err) {
           enqueueSnackbar('User with this email already exists', { variant: 'error' });
         }
