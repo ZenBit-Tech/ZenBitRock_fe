@@ -30,6 +30,7 @@ export default async function RootLayout({
   params: { locale },
 }: Props): Promise<JSX.Element> {
   let localeData;
+
   try {
     localeData = (await import(`locales/langs/${locale}.json`)).default;
   } catch (error) {

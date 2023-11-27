@@ -12,6 +12,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { enqueueSnackbar } from 'notistack';
 import { AppDispatch } from 'store';
+import { setCredentials, useSignInMutation } from 'store/auth';
 import { patterns } from 'constants/patterns';
 import { links } from 'constants/links';
 
@@ -20,7 +21,6 @@ const StyledTitle = styled(Typography)`
     align-self: center;
   }
 `;
-import { setCredentials, useSignInMutation } from 'store/auth';
 
 type FormValues = {
   email: string;
@@ -28,11 +28,14 @@ type FormValues = {
 };
 
 export default function LoginForm() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [signIn, { isError }] = useSignInMutation();
-  const t = useTranslations('signInPage');
-  const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
+  
+  const t = useTranslations('signInPage');
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [signIn] = useSignInMutation();
+
   const {
     register,
     handleSubmit,
