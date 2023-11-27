@@ -13,7 +13,7 @@ import { AppDispatch, RootState } from 'store';
 import FormProvider, { RHFCode } from 'components/hook-form';
 import { useSendCodeMutation, useVerifyCodeMutation } from 'store/api/restorePasswordApi';
 import { setCode } from 'store/reducers/restorePasswordReducer';
-import { links } from 'constants/links';
+import { AppRoute } from 'enums';
 
 const defaultValues = { code: '' };
 
@@ -49,7 +49,7 @@ export default function RestorePasswordForm(): JSX.Element {
       if ('error' in response && 'status' in response.error && response.error.status === CODE) {
         enqueueSnackbar('Success!', { variant: 'success' });
         dispatch(setCode({ code: data.code }));
-        router.push(links.RESTORE_PASSWORD_CHANGE_PASSWORD_PAGE);
+        router.push(AppRoute.RESTORE_PASSWORD_CHANGE_PASSWORD_PAGE);
       } else if (
         'error' in response &&
         'data' in response.error &&

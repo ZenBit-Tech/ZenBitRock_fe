@@ -5,5 +5,6 @@ export {
   useSignUpMutation,
   useSendVerificationCodeMutation,
   useVerifyEmailMutation,
+  useGetProfileQuery,
   authApi,
 } from './authApi';

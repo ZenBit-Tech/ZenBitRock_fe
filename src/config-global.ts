@@ -31,4 +31,3 @@ export const AUTH0_API = {
 export const MAPBOX_API = process.env.NEXT_PUBLIC_MAPBOX_API;
 
 // ROOT PATH AFTER LOGIN SUCCESSFUL
-

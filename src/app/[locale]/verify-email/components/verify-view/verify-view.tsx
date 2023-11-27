@@ -14,7 +14,7 @@ import { EmailInboxIcon } from 'assets/icons';
 import Iconify from 'components/iconify';
 import { RouterLink } from 'routes/components';
 import FormProvider, { RHFCode } from 'components/hook-form';
-import { pageLinks } from 'constants/pageLinks';
+import { AppRoute } from 'enums';
 import { useSendVerificationCodeMutation, useVerifyEmailMutation } from 'store/auth';
 import { VerifySchema } from './validation-schema';
 
@@ -59,7 +59,7 @@ export function VerifyView({ email }: Props) {
   const onSubmit = handleSubmit(async (data) => {
     try {
       await verifyEmail(data).unwrap();
-      router.push(pageLinks.HOME_PAGE);
+      router.push(AppRoute.HOME_PAGE);
     } catch (error) {
       reset();
       setValue('email', email);

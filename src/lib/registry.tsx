@@ -17,7 +17,7 @@ export default function StyledComponentsRegistry({
     const styles = styledComponentsStyleSheet.getStyleElement();
 
     styledComponentsStyleSheet.instance.clearTag();
-    
+
     return <>{styles}</>;
   });
 

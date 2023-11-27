@@ -12,7 +12,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Stack from '@mui/system/Stack';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { useTranslations } from 'next-intl';
-import { links } from 'constants/links';
+import { AppRoute } from 'enums';
 
 const StyledTextFiled = styled(TextField)`
   margin-bottom: 1.5 rem;
@@ -41,7 +41,7 @@ function ChangePasswordForm() {
 
   const onSubmit = () => {
     if (router) {
-      router.push(links.RESTORE_PASSWORD_DONE_PAGE);
+      router.push(AppRoute.RESTORE_PASSWORD_DONE_PAGE);
     }
   };
 

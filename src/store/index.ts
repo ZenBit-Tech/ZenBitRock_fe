@@ -4,6 +4,7 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { authApi, authReducer } from './auth';
 import { VerificationApi } from './api/verificationApi';
+import { tokenMiddleware } from './middlewares/token-middleware';
 import { RestorePasswordApi } from './api/restorePasswordApi';
 import restorePasswordReducer from './reducers/restorePasswordReducer';
 
@@ -32,7 +33,8 @@ export const store = configureStore({
     })
       .concat(authApi.middleware)
       .concat(VerificationApi.middleware)
-      .concat(RestorePasswordApi.middleware),
+      .concat(RestorePasswordApi.middleware)
+      .concat(tokenMiddleware.middleware),
 });
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

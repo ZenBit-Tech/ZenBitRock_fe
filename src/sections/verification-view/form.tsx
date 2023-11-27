@@ -29,7 +29,7 @@ import {
 } from './drop-box-data';
 import { useCreateVerificationMutation } from 'store/api/verificationApi';
 import { datesFormats } from 'constants/dates-formats';
-import { links } from 'constants/links';
+import { AppRoute } from 'enums';
 
 type IOptions = {
   value: string;
@@ -123,7 +123,7 @@ export default function Form() {
       reset();
       const newUser = await createVerification(formData);
       if ('data' in newUser && newUser.data.statusCode === 201) {
-        replace(links.VERIFICATION_DONE_PAGE);
+        replace(AppRoute.VERIFICATION_DONE_PAGE);
       } else {
         toast.error('Something went wrong, please try again');
       }

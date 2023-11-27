@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { VerifyView } from './components';
 import { RootState } from 'store';
 import { useRouter } from 'next/navigation';
-import { pageLinks } from 'constants/pageLinks';
+import { AppRoute } from 'enums';
 import { useEffect } from 'react';
 
 export default function ClassicVerifyPage() {
@@ -13,7 +13,7 @@ export default function ClassicVerifyPage() {
 
   useEffect(() => {
     if (!email) {
-      router.push(pageLinks.SIGN_IN_PAGE);
+      router.push(AppRoute.SIGN_IN_PAGE);
     }
   }, [email]);
 

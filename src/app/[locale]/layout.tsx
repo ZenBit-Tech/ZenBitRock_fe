@@ -8,6 +8,7 @@ import ThemeProvider from 'theme';
 import ReduxProvider from 'store/ReduxProvider';
 import { Locale } from 'locales/i18n.config';
 import './global.css';
+import { App } from 'components/custom';
 
 export const metadata = {
   title: 'ZenBitRock',
@@ -45,8 +46,10 @@ export default async function RootLayout({
             <StyledComponentsRegistry>
               <NextIntlClientProvider locale={locale} messages={localeData}>
                 <ReduxProvider>
-                  <Header />
-                  {children}
+                  <App>
+                    <Header />
+                    {children}
+                  </App>
                 </ReduxProvider>
               </NextIntlClientProvider>
             </StyledComponentsRegistry>
