@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { links } from 'constants/links';
+import { ApiRoute } from 'enums';
 
 type SendCode = { email: string | null };
 type VerifyCode = { email: string | null; code: string };
@@ -24,7 +24,7 @@ export const RestorePasswordApi = createApi({
     sendCode: builder.mutation<ResponseData, SendCode>({
       query: (body) => {
         return {
-          url: links.SEND_CODE_FOR_RESTORE_PASSWORD,
+          url: ApiRoute.SEND_CODE_FOR_RESTORE_PASSWORD,
           method: 'POST',
           body,
         };
@@ -33,7 +33,7 @@ export const RestorePasswordApi = createApi({
     verifyCode: builder.mutation<ResponseData, VerifyCode>({
       query: (body) => {
         return {
-          url: links.CONFIRM_CODE_FOR_RESTORE_PASSWORD,
+          url: ApiRoute.CONFIRM_CODE_FOR_RESTORE_PASSWORD,
           method: 'POST',
           body,
         };
