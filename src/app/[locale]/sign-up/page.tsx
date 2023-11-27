@@ -9,7 +9,7 @@ import ReduxProvider from 'store/ReduxProvider';
 import PagesContainer from 'components/PagesContainer/PagesContainer';
 import SignUpForm from 'components/SignUpForm/SignUpForm';
 import { LoadingScreen } from 'components/loading-screen';
-import { pageLinks } from 'constants/pageLinks';
+import { links } from 'constants/links';
 import { PolicyComponent } from 'components/PolicyComponent/PolicyComponent';
 import { SnackbarProvider } from 'components/snackbar';
 import { SignUpPageType } from 'types/auth';
@@ -60,7 +60,7 @@ export default function SignUpPage({ params: { lang } }: Props) {
           >
             <SignInLink>
               {data.Main.haveAcc}&nbsp;
-              <Link href={pageLinks.SIGN_IN_PAGE} color="primary">
+              <Link href={links.SIGN_IN_PAGE} color="primary">
                 {data.Main.signInLink}
               </Link>
             </SignInLink>
