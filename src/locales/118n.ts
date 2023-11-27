@@ -7,7 +7,6 @@ import { localStorageGetItem } from 'utils/storage-available';
 import { defaultLang } from './config-lang';
 import translationEn from './langs/en.json';
 
-
 const lng = localStorageGetItem('i18nextLng', defaultLang.value);
 
 i18n
@@ -16,7 +15,6 @@ i18n
   .init({
     resources: {
       en: { translations: translationEn },
-
     },
     lng,
     fallbackLng: lng,
