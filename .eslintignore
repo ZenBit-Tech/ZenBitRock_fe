@@ -9,6 +9,7 @@ public/*
 **/src/utils
 **/src/theme
 **/src/assets
+**/src/api
 **/node_modules/*
 
 **/.next/*

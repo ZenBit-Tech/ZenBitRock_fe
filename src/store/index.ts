@@ -5,8 +5,6 @@ import storage from 'redux-persist/lib/storage';
 import { authApi, authReducer } from './auth';
 import { VerificationApi } from './api/verificationApi';
 import { RestorePasswordApi } from './api/restorePasswordApi';
-import { authApi } from './authApi';
-import authReducer from './reducers/authReducer';
 import restorePasswordReducer from './reducers/restorePasswordReducer';
 
 const persistConfig = {
@@ -16,7 +14,6 @@ const persistConfig = {
 };
 
 const reducers = combineReducers({
-  counter: counterReducer,
   authSlice: authReducer,
   restorePasswordSlice: restorePasswordReducer,
   [authApi.reducerPath]: authApi.reducer,
