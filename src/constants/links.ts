@@ -1,5 +1,4 @@
 export const links = {
- 
   HOME_PAGE: '/',
   VERIFY_PAGE: '/verify-email',
   SIGN_IN_PAGE: '/sign-in',
@@ -15,5 +14,5 @@ export const links = {
   ADD_VERIFICATION_DATA: '/verification/create',
   SEND_CODE_FOR_RESTORE_PASSWORD: '/email/forgot-password',
   CONFIRM_CODE_FOR_RESTORE_PASSWORD: '/auth/confirm-email',
-  RESTORE_PASSWORD_DONE_PAGE: '/restore-password/done',
+  RESTORE_PASSWORD_DONE_PAGE: '/restore-password/restore-password-done',
 };
