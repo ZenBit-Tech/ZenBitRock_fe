@@ -4,7 +4,7 @@
     "browser": true,
     "es2021": true
   },
-  "plugins": ["unused-imports", "@typescript-eslint", "prettier", "typesafe", "typesafe"],
+  "plugins": ["unused-imports", "@typescript-eslint", "prettier", "typesafe"],
   "extends": ["airbnb", "airbnb-typescript", "airbnb/hooks", "prettier"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
