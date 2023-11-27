@@ -75,7 +75,7 @@ export default function LoginForm() {
         {...register('email', {
           required: t('LoginForm.requiredField'),
           pattern: {
-            value: patterns.EMAIL_VALIDATION_PATTERN,
+            value: patterns.email,
             message: t('LoginForm.invalidEmail'),
           },
         })}
