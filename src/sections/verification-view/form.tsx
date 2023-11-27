@@ -187,7 +187,7 @@ export default function Form() {
                 style={{ width: '290px' }}
                 name="rolesAutocomplete"
                 label={t('rolePlaceholder')}
-                options={getRoles()}
+                options={getRoles(t)}
                 getOptionLabel={(option: IOptions | string) => (option as IOptions).label}
                 isOptionEqualToValue={(option, value) => option.value === value.value}
                 renderOption={(props, option) => (
@@ -199,7 +199,7 @@ export default function Form() {
             </Block>
 
             <Block label={t('gender')}>
-              <RHFRadioGroup row name="genderRadioGroup" spacing={32} options={getGenders()} />
+              <RHFRadioGroup row name="genderRadioGroup" spacing={32} options={getGenders(t)} />
             </Block>
 
             <Stack spacing={2} direction={{ xs: 'column', sm: 'row' }}>
@@ -242,11 +242,11 @@ export default function Form() {
             </Stack>
 
             <Block label={t('proofOfIdentity')}>
-              <RHFRadioGroup name="identityRadioGroup" options={getIdentities()} />
+              <RHFRadioGroup name="identityRadioGroup" options={getIdentities(t)} />
             </Block>
 
             <Block label={t('status')}>
-              <RHFRadioGroup name="statusRadioGroup" options={getStatuses()} />
+              <RHFRadioGroup name="statusRadioGroup" options={getStatuses(t)} />
             </Block>
 
             <Typography align="center" variant="body1" fontSize={38}>

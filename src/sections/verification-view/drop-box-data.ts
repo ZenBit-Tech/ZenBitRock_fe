@@ -1,13 +1,9 @@
-import { useTranslations } from 'next-intl';
-
 type Values = {
   value: string;
   label: string;
 };
 
-export function getRoles(): Array<Values> {
-  const t = useTranslations('VerificationPage');
-
+export function getRoles(t: Function): Array<Values> {
   const roles = [
     { value: 'Agent', label: t('roleAgent') },
     { value: 'Agency', label: t('roleAgency') },
@@ -16,9 +12,7 @@ export function getRoles(): Array<Values> {
   return roles;
 }
 
-export function getGenders(): Array<Values> {
-  const t = useTranslations('VerificationPage');
-
+export function getGenders(t: Function): Array<Values> {
   const genders = [
     { value: 'Male', label: t('genderMale') },
     { value: 'Female', label: t('genderFemale') },
@@ -28,9 +22,7 @@ export function getGenders(): Array<Values> {
   return genders;
 }
 
-export function getIdentities(): Array<Values> {
-  const t = useTranslations('VerificationPage');
-
+export function getIdentities(t: Function): Array<Values> {
   const identities = [
     { value: 'Passport', label: t('proofPassport') },
     { value: 'ID', label: t('proofId') },
@@ -40,9 +32,7 @@ export function getIdentities(): Array<Values> {
   return identities;
 }
 
-export function getStatuses(): Array<Values> {
-  const t = useTranslations('VerificationPage');
-
+export function getStatuses(t: Function): Array<Values> {
   const statuses = [
     { value: 'Resident Individual', label: t('statusResident') },
     { value: 'Non Resident', label: t('statusNonResident') },
