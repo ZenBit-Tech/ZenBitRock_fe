@@ -3,6 +3,7 @@ import { links } from 'constants/links';
 
 type SendCode = { email: string | null };
 type VerifyCode = { email: string | null; code: string };
+type ResetPassword = { email: string | null; password: string; code: string | null };
 type ResponseData = {
   error: {
     data: {
@@ -39,7 +40,15 @@ export const RestorePasswordApi = createApi({
         };
       },
     }),
+    resetPassword: builder.mutation<ResponseData, ResetPassword>({
+      query: (body) => ({
+        url: links.CONFIRM_RESTORE_PASSWORD,
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useSendCodeMutation, useVerifyCodeMutation } = RestorePasswordApi;
+export const { useSendCodeMutation, useVerifyCodeMutation, useResetPasswordMutation } =
+  RestorePasswordApi;

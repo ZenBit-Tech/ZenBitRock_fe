@@ -3,9 +3,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 type restorePassword = {
   email: string | null;
   code: string | null;
+  newPassword: string | null;
 };
 
-const initialState = { email: null, code: null };
+const initialState = { email: null, code: null, newPassword: null };
 
 export const restorePasswordSlice = createSlice({
   name: 'restorePassword',
@@ -20,9 +21,15 @@ export const restorePasswordSlice = createSlice({
     setCode: (state: restorePassword, { payload: { code } }: PayloadAction<{ code: string }>) => {
       state.code = code;
     },
+    setNewPassword: (
+      state: restorePassword,
+      { payload: { newPassword } }: PayloadAction<{ newPassword: string }>
+    ) => {
+      state.newPassword = newPassword;
+    },
   },
 });
 
-export const { setEmail, setCode } = restorePasswordSlice.actions;
+export const { setEmail, setCode, setNewPassword } = restorePasswordSlice.actions;
 
 export default restorePasswordSlice.reducer;

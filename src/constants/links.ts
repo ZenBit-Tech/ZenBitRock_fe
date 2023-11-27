@@ -15,4 +15,5 @@ export const links = {
   SEND_CODE_FOR_RESTORE_PASSWORD: '/email/forgot-password',
   CONFIRM_CODE_FOR_RESTORE_PASSWORD: '/auth/confirm-email',
   RESTORE_PASSWORD_DONE_PAGE: '/restore-password/restore-password-done',
+  CONFIRM_RESTORE_PASSWORD: '/auth/restore-password',
 };

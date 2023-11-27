@@ -56,7 +56,7 @@ export default function HomePage() {
           {t('Page.title')}
         </Typography>
         <Button variant="contained" fullWidth size="large">
-          <Link underline={'none'} color="primary" href={pageLinks.SIGN_IN_PAGE}>
+          <Link underline={'none'} color="primary" href={links.SIGN_IN_PAGE}>
             {t('Page.buttonTxt')}
           </Link>
         </Button>
