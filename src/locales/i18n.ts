@@ -6,7 +6,6 @@ import { initReactI18next } from 'react-i18next';
 import { localStorageGetItem } from 'utils/storage-available';
 import { defaultLang } from './config-lang';
 import translationEn from './langs/en.json';
-import translationDe from './langs/de.json';
 
 const lng = localStorageGetItem('i18nextLng', defaultLang.value);
 
@@ -16,7 +15,6 @@ i18n
   .init({
     resources: {
       en: { translations: translationEn },
-      de: { translations: translationDe },
     },
     lng,
     fallbackLng: lng,

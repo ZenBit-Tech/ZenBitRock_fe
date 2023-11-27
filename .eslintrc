@@ -31,6 +31,7 @@
     "no-param-reassign": 0,
     "no-underscore-dangle": 0,
     "no-restricted-exports": 0,
+    "no-useless-catch": 0,
     "react/no-children-prop": 0,
     "react/react-in-jsx-scope": 0,
     "jsx-a11y/anchor-is-valid": 0,
@@ -47,7 +48,8 @@
     "@typescript-eslint/no-explicit-any": 2,
     "typesafe/no-throw-sync-func": 1,
     "typesafe/no-await-without-trycatch": 1,
-    "typesafe/promise-catch": 2,
+    "typesafe/promise-catch": 0,
+    "arrow-body-style": ["error", "as-needed"],
     "react/jsx-no-useless-fragment": [
       1,
       {
@@ -88,6 +90,19 @@
         "args": "after-used",
         "argsIgnorePattern": "^_"
       }
+    ],
+    "padding-line-between-statements": [
+      "warn",
+      { "blankLine": "always", "prev": "*", "next": "return" },
+      { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
+      {
+        "blankLine": "any",
+        "prev": ["const", "let", "var"],
+        "next": ["const", "let", "var"]
+      },
+      { "blankLine": "always", "prev": "directive", "next": "*" },
+      { "blankLine": "any", "prev": "directive", "next": "directive" },
+      { "blankLine": "always", "prev": ["case", "default"], "next": "*" }
     ]
   }
 }

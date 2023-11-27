@@ -1,33 +1,30 @@
 'use client';
 
-import { useState } from 'react';
+import { ReactNode, FC } from 'react';
 import { useTranslations } from 'next-intl';
 import { Button, Link } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { colors } from 'constants/colors';
 import { AppRoute } from 'enums';
 import { typography } from 'theme/typography';
-import { LoadingScreen } from 'components/loading-screen';
 import WelcomePageContainer from 'components/WelcomePageContainer/WelcomePageContainer';
 import { RightSection, StyledBtnWrapper } from 'components/WelcomePageContainer/styles';
 import { PublicRoute } from 'components/custom';
 
-type HomePageType = {
-  Header: {
-    [key: string]: string;
-  };
-  Page: {
-    [key: string]: string;
-  };
-};
+interface CustomLinkProps {
+  href: string;
+  color?: string;
+  children: ReactNode;
+}
+
+const CustomLink: FC<CustomLinkProps> = ({ href, color = colors.TEST_MAIN_COLOR, children }) => (
+  <Link underline="none" color={color} href={href}>
+    {children}
+  </Link>
+);
 
 export default function HomePage() {
-  const [data, setData] = useState<HomePageType | null>(null);
   const t = useTranslations('Home');
-
-  if (data) {
-    return <LoadingScreen />;
-  }
 
   return (
     <PublicRoute>

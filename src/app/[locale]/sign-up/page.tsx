@@ -20,6 +20,7 @@ type Props = {
 
 export default function SignUpPage({ params: { locale } }: Props) {
   const [data, setData] = useState<SignUpPageType | null>(null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -29,6 +30,7 @@ export default function SignUpPage({ params: { locale } }: Props) {
         notFound();
       }
     };
+
     fetchData();
   }, [locale]);
 
@@ -43,7 +45,7 @@ export default function SignUpPage({ params: { locale } }: Props) {
           {data.Main.title}
         </Typography>
         <SnackbarProvider>
-          <SignUpForm SignUpPage={data} />
+          <SignUpForm signUpPage={data} />
         </SnackbarProvider>
         <Box
           sx={{
