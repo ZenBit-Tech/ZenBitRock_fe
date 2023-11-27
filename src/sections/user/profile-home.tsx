@@ -17,6 +17,7 @@ type Props = {
 
 const RenderAbout = ({ info }: Props) => {
   const t = useTranslations('profilePage');
+  
   return (
     <Card>
       <CardHeader title={t('aboutTitle')} />
@@ -63,6 +64,7 @@ const RenderAbout = ({ info }: Props) => {
 
 const RenderSocials = ({ info }: Props) => {
   const t = useTranslations('profilePage');
+  
   return (
     <Card>
       <CardHeader title={t('socialTitle')} />

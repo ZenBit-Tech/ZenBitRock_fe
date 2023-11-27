@@ -23,10 +23,13 @@ type Props = {
 export default function SignInPage({ params: { locale } }: Props) {
   const [data, setData] = useState<SignInPageType | null>(null);
   const [termsData, setTermsData] = useState<SignUpPageType | null>(null);
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
+        
         const { signInPage, signUpPage } = await getDictionary('en');
+        
         setData(signInPage);
         setTermsData(signUpPage);
       } catch (error) {

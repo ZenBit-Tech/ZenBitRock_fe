@@ -57,6 +57,7 @@ const RenderSettings = ({ checked, handleChange, theme }: RenderProps) => {
     </Card>
   );
 };
+
 function ProfileSettings() {
   const [checked, setChecked] = useState<boolean>(true);
   const theme = useTheme();
@@ -64,6 +65,7 @@ function ProfileSettings() {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
+  
   return (
     <Grid container spacing={3}>
       <Grid xs={12} md={12}>
