@@ -5,6 +5,7 @@ import { LocalizationProvider } from 'locales';
 import ToastContainerWrapper from 'components/toast-container';
 import Header from 'components/Header/Header';
 import ThemeProvider from 'theme';
+import ReduxProvider from 'store/ReduxProvider';
 import { Locale } from 'locales/i18n.config';
 import './global.css';
 
@@ -29,6 +30,7 @@ export default async function RootLayout({
   params: { locale },
 }: Props): Promise<JSX.Element> {
   let localeData;
+
   try {
     localeData = (await import(`locales/langs/${locale}.json`)).default;
   } catch (error) {
@@ -42,8 +44,10 @@ export default async function RootLayout({
           <ThemeProvider>
             <StyledComponentsRegistry>
               <NextIntlClientProvider locale={locale} messages={localeData}>
-                <Header />
-                {children}
+                <ReduxProvider>
+                  <Header />
+                  {children}
+                </ReduxProvider>
               </NextIntlClientProvider>
             </StyledComponentsRegistry>
           </ThemeProvider>

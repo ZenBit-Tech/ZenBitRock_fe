@@ -1,46 +1,39 @@
 'use client';
 
-import { useState } from 'react';
+import { ReactNode, FC } from 'react';
 import { useTranslations } from 'next-intl';
 import { Button, Link } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { colors } from 'constants/colors';
-import { pageLinks } from 'constants/pageLinks';
+import { links } from 'constants/links';
 import { typography } from 'theme/typography';
-import { LoadingScreen } from 'components/loading-screen';
 import WelcomePageContainer from 'components/WelcomePageContainer/WelcomePageContainer';
 import { RightSection, StyledBtnWrapper } from 'components/WelcomePageContainer/styles';
 
-type HomePageType = {
-  Header: {
-    [key: string]: string;
-  };
-  Page: {
-    [key: string]: string;
-  };
-};
+interface CustomLinkProps {
+  href: string;
+  color?: string;
+  children: ReactNode;
+}
+
+const CustomLink: FC<CustomLinkProps> = ({ href, color = colors.TEST_MAIN_COLOR, children }) => (
+  <Link underline="none" color={color} href={href}>
+    {children}
+  </Link>
+);
 
 export default function HomePage() {
-  const [data, setData] = useState<HomePageType | null>(null);
   const t = useTranslations('Home');
-
-  if (data) {
-    return <LoadingScreen />;
-  }
 
   return (
     <WelcomePageContainer>
       <RightSection maxWidth="sm">
         <StyledBtnWrapper>
           <Button variant="contained" sx={{ marginRight: '10px' }} size="large">
-            <Link underline={'none'} color={colors.TEST_MAIN_COLOR} href={pageLinks.SIGN_IN_PAGE}>
-              {t('Page.signInLink')}
-            </Link>
+            <CustomLink href={links.SIGN_IN_PAGE}>{t('Page.signInLink')}</CustomLink>
           </Button>
           <Button variant="contained" size="large">
-            <Link underline={'none'} color={colors.TEST_MAIN_COLOR} href={pageLinks.SIGN_UP_PAGE}>
-              {t('Page.signUpLink')}
-            </Link>
+            <CustomLink href={links.SIGN_UP_PAGE}>{t('Page.signUpLink')}</CustomLink>
           </Button>
         </StyledBtnWrapper>
         <Typography
@@ -56,9 +49,9 @@ export default function HomePage() {
           {t('Page.title')}
         </Typography>
         <Button variant="contained" fullWidth size="large">
-          <Link underline={'none'} color="primary" href={pageLinks.SIGN_IN_PAGE}>
+          <CustomLink color="primary" href={links.SIGN_IN_PAGE}>
             {t('Page.buttonTxt')}
-          </Link>
+          </CustomLink>
         </Button>
       </RightSection>
     </WelcomePageContainer>

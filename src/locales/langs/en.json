@@ -52,8 +52,25 @@
     "signature": "Name of the Applicant",
     "submitButton": "Submit",
     "doneTextFirstPart": "Your application was submitted successfully.",
-    "doneTextSecondPart": "Thank you for joining AgentWise!",
-    "goHomeButton": "Go home"
+    "doneTextSecondPart": "Thank you for joining AgentWise!"
+  },
+  "VerificationDonePage": {
+    "submitButton": "Go to sign in page"
+  },
+  "RestorePasswordPage": {
+    "title": "Restore password",
+    "header": "Enter your email for restore",
+    "emailPlaceholder": "name@domain.com",
+    "button": "Send Code",
+    "emailRequired": "Email is required",
+    "emailValid": "Email is not valid"
+  },
+  "VerifyCodePage": {
+    "title": "Enter code",
+    "header": "We send OTP verification to your email this code",
+    "dontHaveCode": "Don't have a code?",
+    "sendAgain": "Send Again",
+    "button": "Verify"
   },
   "signInPage": {
     "Main": {
@@ -92,7 +109,8 @@
       "haveAcc": "Already have an account?",
       "signInLink": "Sign In",
       "agree": "By continuing, you agree to ZenBitRock",
-      "and": "and"
+      "and": "and",
+      "success": "User added successfully!"
     },
     "Terms": {
       "TermsTitle": "Terms and Conditions",
@@ -145,6 +163,39 @@
       "item21Text": "If you have any questions or concerns about these Terms and Conditions, please contact us at welcome@zenbit.tech."
     }
   },
+  "VerifyEmail": {
+    "title": "Please check your email!",
+    "emailSent": "We have emailed a 6-digit confirmation code to {email}, please enter the code in below box to verify your email.",
+    "code": "Code",
+    "expire": "will expire in 01:35",
+    "sendAgain": "Resend code",
+    "verify": "Verify",
+    "noCode": "Don't have a code?",
+    "return": "Return"
+  },
+  "yup": {
+    "code_too_short": "Code must be at least 6 characters",
+    "code_is_required": "Code is required",
+    "email_is_required": "Email is required",
+    "valid_email": "Email must be a valid email address"
+  },
+  "ChangePasswordPage": {
+    "title": "New password",
+    "passwordInput": "Password",
+    "passwordInputPlaceholder": "Min 8 characters",
+    "repeatPasswordInput": "Repeat password",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Invalid email",
+    "passwordRequired": "Password is required",
+    "minChar": "Minimum 8 characters",
+    "repeatLabel": "Repeat password",
+    "unmatchPass": "Passwords do not match"
+},
+"RestorePasswordDonePage": {
+    "title": "Password reset was successful",
+    "text": "Your password has been successfully reset. Click below to log in magically",
+    "buttonText": "Log in"
+  },
   "profilePage": {
     "tabProfile": "Profile",
     "tabSettings": "Settings",
@@ -163,5 +214,5 @@
     "deleteProfile": "Delete profile",
     "recieveNotifications": "Recieve push notifications ",
     "editLink": "Edit profile"
-  }
+}
 }

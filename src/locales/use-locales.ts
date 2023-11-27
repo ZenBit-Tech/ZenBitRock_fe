@@ -2,14 +2,9 @@
 
 import { useTranslation } from 'react-i18next';
 import { useCallback } from 'react';
-// utils
 import { localStorageGetItem } from 'utils/storage-available';
-// components
 import { useSettingsContext } from 'components/settings';
-//
 import { allLangs, defaultLang } from './config-lang';
-
-// ----------------------------------------------------------------------
 
 export default function useLocales() {
   const { i18n, t } = useTranslation();

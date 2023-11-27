@@ -6,14 +6,15 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { links } from 'constants/links';
 
 export default function VerificationDoneView(): JSX.Element {
-  const t = useTranslations('VerificationPage');
+  const t = useTranslations('VerificationDonePage');
 
   const { replace } = useRouter();
 
   function handleClick() {
-    replace('/');
+    replace(links.SIGN_IN_PAGE);
   }
 
   return (
@@ -50,7 +51,7 @@ export default function VerificationDoneView(): JSX.Element {
             style={{ marginBottom: '70px' }}
             onClick={handleClick}
           >
-            {t('goHomeButton')}
+            {t('submitButton')}
           </LoadingButton>
         </Stack>
       </Stack>

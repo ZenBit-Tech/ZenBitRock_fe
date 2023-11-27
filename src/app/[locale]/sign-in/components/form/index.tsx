@@ -12,8 +12,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { enqueueSnackbar } from 'notistack';
 import { AppDispatch } from 'store';
-import { useSignInMutation } from 'store/authApi';
-import { setCredentials } from 'store/reducers/authReducer';
+import { setCredentials, useSignInMutation } from 'store/auth';
 import { patterns } from 'constants/patterns';
 import { links } from 'constants/links';
 
@@ -29,11 +28,14 @@ type FormValues = {
 };
 
 export default function LoginForm() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [signIn, { isError }] = useSignInMutation();
-  const t = useTranslations('signInPage');
-  const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
+  
+  const t = useTranslations('signInPage');
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [signIn] = useSignInMutation();
+
   const {
     register,
     handleSubmit,
@@ -76,7 +78,7 @@ export default function LoginForm() {
         {...register('email', {
           required: t('LoginForm.requiredField'),
           pattern: {
-            value: patterns.EMAIL_VALIDATION_PATTERN,
+            value: patterns.email,
             message: t('LoginForm.invalidEmail'),
           },
         })}
@@ -116,7 +118,7 @@ export default function LoginForm() {
       />
 
       <Typography variant="body2" sx={{ marginBottom: '10px' }}>
-        <Link href={links.FORGOT_PASSWORD_PAGE} color="primary">
+        <Link href={links.RESTORE_PASSWORD_PAGE} color="primary">
           {t('LoginForm.forgotPasswordLinkTitle')}
         </Link>
       </Typography>
