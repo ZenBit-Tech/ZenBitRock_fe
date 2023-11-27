@@ -6,8 +6,6 @@ import { LocalizationProvider as MuiLocalizationProvider } from '@mui/x-date-pic
 //
 import useLocales from './use-locales';
 
-// ----------------------ß------------------------------------------------
-
 type Props = {
   children: React.ReactNode;
 };

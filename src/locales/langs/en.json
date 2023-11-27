@@ -4,7 +4,7 @@
       "title": "ZenBitRock"
     },
     "Page": {
-      "title": "Welcome to AgentWise - the wisest real estate platform aimed at your professional sucesss",
+      "title": "Welcome to ZenBitRock - the wisest real estate platform aimed at your professional success",
       "link": "Go to Test page",
       "signUpLink": "Sign Up",
       "signInLink": "Sign In",
@@ -61,7 +61,7 @@
       "policyLink": "Privacy Policy",
       "signUpLink": "Sign Up",
       "doNot": "Don't have an account?",
-      "agree": "By continuing, you agree to AgentWise",
+      "agree": "By continuing, you agree to ZenBitRock",
       "and": "and"
     },
     "LoginForm": {
@@ -75,7 +75,7 @@
       "forgotPasswordLinkTitle": "Forgot password"
     }
   },
-  "SignUpPage": {
+  "signUpPage": {
     "Main": {
       "title": "Sign up",
       "emailInput": "Email",
@@ -91,7 +91,7 @@
       "unmatchPass": "Passwords do not match",
       "haveAcc": "Already have an account?",
       "signInLink": "Sign In",
-      "agree": "By continuing, you agree to AgentWise",
+      "agree": "By continuing, you agree to ZenBitRock",
       "and": "and"
     },
     "Terms": {
@@ -102,13 +102,13 @@
     },
     "TermsContent": {
       "item1Title": "Acceptance of Terms",
-      "item1Text": "By accessing and using AgentWise's services, you agree to abide by these Terms and Conditions and any additional terms and policies referenced herein.",
+      "item1Text": "By accessing and using ZenBitRock's services, you agree to abide by these Terms and Conditions and any additional terms and policies referenced herein.",
       "item2Title": "Privacy Policy",
       "item2Text": "Please review our Privacy Policy to understand how we collect, use, and protect your personal information.",
       "item3Title": "Account Registration",
       "item3Text": "You may be required to create an account to access certain services. You are responsible for maintaining the confidentiality of your account information and ensuring that it is accurate and up-to-date.",
       "item4Title": "Content Ownership",
-      "item4Text": "All content on our platform, including but not limited to text, images, and logos, is the property of AgentWise and is protected by copyright and other applicable laws.",
+      "item4Text": "All content on our platform, including but not limited to text, images, and logos, is the property of ZenBitRock and is protected by copyright and other applicable laws.",
       "item5Title": "User Conduct",
       "item5Text": "You agree not to engage in any activity that may disrupt or interfere with our services or violate any applicable laws. This includes but is not limited to: spamming, hacking, or distributing harmful content.",
       "item6Title": "Payment",
@@ -126,7 +126,7 @@
       "item12Title": "Contact Information",
       "item12Text": "If you have any questions or concerns about these Terms and Conditions, please contact us at welcome@zenbit.tech",
       "item13Title": "Content Ownership",
-      "item13Text": "All content on our platform, including but not limited to text, images, and logos, is the property of AgentWise and is protected by copyright and other applicable laws.",
+      "item13Text": "All content on our platform, including but not limited to text, images, and logos, is the property of ZenBitRock and is protected by copyright and other applicable laws.",
       "item14Title": "User Conduct",
       "item14Text": "You agree not to engage in any activity that may disrupt or interfere with our services or violate any applicable laws. This includes but is not limited to: spamming, hacking, or distributing harmful content.",
       "item15Title": "Payment",
@@ -134,7 +134,7 @@
       "item16Title": "Disclaimer of Warranties",
       "item16Text": "Our services are provided 'as is' and without warranties of any kind, either expressed or implied.",
       "item17Title": "Limitation of Liability",
-      "item17Text": "AgentWise is not liable for any direct or indirect damages that result from the use of our services or any interruptions, errors, or omissions in our services.",
+      "item17Text": "ZenBitRock is not liable for any direct or indirect damages that result from the use of our services or any interruptions, errors, or omissions in our services.",
       "item18Title": "Termination",
       "item18Text": "We reserve the right to terminate or suspend your access to our services at our discretion, without prior notice.",
       "item19Title": "Changes to Terms and Conditions",
