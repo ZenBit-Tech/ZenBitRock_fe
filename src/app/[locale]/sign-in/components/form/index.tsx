@@ -118,7 +118,7 @@ export default function LoginForm() {
       />
 
       <Typography variant="body2" sx={{ marginBottom: '10px' }}>
-        <Link href={AppRoute.FORGOT_PASSWORD_PAGE} color="primary">
+        <Link href={AppRoute.RESTORE_PASSWORD_PAGE} color="primary">
           {t('LoginForm.forgotPasswordLinkTitle')}
         </Link>
       </Typography>

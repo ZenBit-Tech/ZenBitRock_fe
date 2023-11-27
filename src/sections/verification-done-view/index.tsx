@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { links } from 'constants/links';
+import { AppRoute } from 'enums';
 
 export default function VerificationDoneView(): JSX.Element {
   const t = useTranslations('VerificationDonePage');
@@ -14,7 +14,7 @@ export default function VerificationDoneView(): JSX.Element {
   const { replace } = useRouter();
 
   function handleClick() {
-    replace(links.SIGN_IN_PAGE);
+    replace(AppRoute.SIGN_IN_PAGE);
   }
 
   return (
