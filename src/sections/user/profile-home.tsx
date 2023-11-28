@@ -15,9 +15,16 @@ type Props = {
   info: IUserProfile;
 };
 
+const LINKS = {
+  FACEBOOK: 'facebook',
+  INSTAGRAM: 'instagram',
+  LINKEDIN: 'linkedin',
+  TWITTER: 'twitter',
+};
+
 const RenderAbout = ({ info }: Props) => {
   const t = useTranslations('profilePage');
-  
+
   return (
     <Card>
       <CardHeader title={t('aboutTitle')} />
@@ -64,7 +71,7 @@ const RenderAbout = ({ info }: Props) => {
 
 const RenderSocials = ({ info }: Props) => {
   const t = useTranslations('profilePage');
-  
+
   return (
     <Card>
       <CardHeader title={t('socialTitle')} />
@@ -86,10 +93,10 @@ const RenderSocials = ({ info }: Props) => {
               }}
             />
             <Link color="inherit">
-              {link.value === 'facebook' && info.socialLinks.facebook}
-              {link.value === 'instagram' && info.socialLinks.instagram}
-              {link.value === 'linkedin' && info.socialLinks.linkedin}
-              {link.value === 'twitter' && info.socialLinks.twitter}
+              {link.value === LINKS.FACEBOOK && info.socialLinks.facebook}
+              {link.value === LINKS.INSTAGRAM && info.socialLinks.instagram}
+              {link.value === LINKS.LINKEDIN && info.socialLinks.linkedin}
+              {link.value === LINKS.TWITTER && info.socialLinks.twitter}
             </Link>
           </Stack>
         ))}
