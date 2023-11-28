@@ -1,4 +1,5 @@
 'use client';
+
 import MaintenanceIllustration from 'assets/illustrations/maintenance-illustration';
 import ReduxProvider from 'store/ReduxProvider';
 import { SnackbarProvider } from 'components/snackbar';

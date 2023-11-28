@@ -18,7 +18,9 @@ import FormProvider, {
   RHFAutocomplete,
   RHFCheckbox,
 } from 'components/hook-form';
-import { FormSchema } from './schema';
+import { useCreateVerificationMutation } from 'store/api/verificationApi';
+import { datesFormats } from 'constants/dates-formats';
+import { AppRoute } from 'enums';
 import {
   getRoles,
   getGenders,
@@ -27,9 +29,7 @@ import {
   getStatuses,
   getCountries,
 } from './drop-box-data';
-import { useCreateVerificationMutation } from 'store/api/verificationApi';
-import { datesFormats } from 'constants/dates-formats';
-import { AppRoute } from 'enums';
+import { FormSchema } from './schema';
 
 type IOptions = {
   value: string;
@@ -75,11 +75,13 @@ export default function Form() {
   } = methods;
 
   const watchAllFields = watch();
+
   useEffect(() => {
     const fieldsToExclude = ['state'];
     const isFormFilled = Object.entries(watchAllFields).every(
       ([key, value]) => fieldsToExclude.includes(key) || Boolean(value)
     );
+
     setFormFilled(isFormFilled);
   }, [watchAllFields]);
 
@@ -102,6 +104,7 @@ export default function Form() {
       singleUpload,
     } = data;
     const formData = new FormData();
+
     formData.append('file', singleUpload);
     formData.append('userId', '9e6c600a-f42a-45ee-b77a-70fe4da5008a');
     formData.append('firstName', firstName);
@@ -122,11 +125,14 @@ export default function Form() {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
       const newUser = await createVerification(formData);
+
       if ('data' in newUser && newUser.data.statusCode === 201) {
         replace(AppRoute.VERIFICATION_DONE_PAGE);
       } else {
         toast.error('Something went wrong, please try again');
       }
+
+      return undefined;
     } catch (error) {
       return error;
     }

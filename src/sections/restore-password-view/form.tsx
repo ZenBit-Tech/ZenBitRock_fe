@@ -57,10 +57,13 @@ export default function RestorePasswordForm(): JSX.Element {
         'error' in email.error.data
       ) {
         const message = email.error.data.error;
+
         enqueueSnackbar(message, { variant: 'error' });
       }
+
+      return undefined;
     } catch (error) {
-      throw error;
+      return error;
     }
   });
 

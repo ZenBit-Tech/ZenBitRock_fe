@@ -1,5 +1,7 @@
 import * as Yup from 'yup';
 import { patterns } from 'constants/patterns';
+import { Values } from './drop-box-data';
+
 const LEGAL_AGE = 18;
 
 export const FormSchema = Yup.object().shape({
@@ -9,19 +11,20 @@ export const FormSchema = Yup.object().shape({
   lastName: Yup.string()
     .required('Surname name is required')
     .matches(patterns.name, 'Latin letters, spaces, 2-50 characters'),
-  rolesAutocomplete: Yup.mixed<any>().nullable().required('Role is required'),
+  rolesAutocomplete: Yup.mixed<Values>().nullable().required('Role is required'),
   genderRadioGroup: Yup.string().required('Choose one option'),
-  dateOfBirth: Yup.date<any>()
+  dateOfBirth: Yup.date<Date>()
     .nullable()
     .required('Date of birth is required')
     .max(new Date(), "You can't be born in the future!")
-    .test('dob', 'Should be greater than 18', function (value, ctx) {
+    .test('dob', 'Should be greater than 18', (value, ctx) => {
       const dob = new Date(value);
       const validDate = new Date();
       const valid = validDate.getFullYear() - dob.getFullYear() >= LEGAL_AGE;
+
       return !valid ? ctx.createError() : valid;
     }),
-  nationalityAutocomplete: Yup.mixed<any>().nullable().required('Nationality is required'),
+  nationalityAutocomplete: Yup.mixed<Values>().nullable().required('Nationality is required'),
   identityRadioGroup: Yup.string().required('Choose one option'),
   statusRadioGroup: Yup.string().required('Choose one option'),
   street: Yup.string()
@@ -36,11 +39,11 @@ export const FormSchema = Yup.object().shape({
   zip: Yup.string()
     .required('Zip code is required')
     .matches(patterns.zipCode, 'Zip code is not valid'),
-  countryAutocomplete: Yup.mixed<any>().nullable().required('Nationality is required'),
+  countryAutocomplete: Yup.mixed<Values>().nullable().required('Nationality is required'),
   phone: Yup.string()
     .required('Phone number is required')
     .matches(patterns.phone, 'Phone number is not valid'),
-  singleUpload: Yup.mixed<any>().nullable().required('File is required'),
+  singleUpload: Yup.mixed<File>().nullable().required('File is required'),
   confirmationCheckbox: Yup.boolean().oneOf([true], 'Your agree is required'),
   confirmationFirstName: Yup.string()
     .required('Confirm Name is required')

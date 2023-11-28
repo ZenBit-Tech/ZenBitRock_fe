@@ -26,6 +26,7 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder.addMatcher(getProfile.matchFulfilled, (state, action) => {
       const user = action.payload;
+
       state.id = user.id;
       state.email = user.email;
       state.token = user.token;

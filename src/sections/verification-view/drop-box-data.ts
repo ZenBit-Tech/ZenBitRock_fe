@@ -1,4 +1,4 @@
-type Values = {
+export type Values = {
   value: string;
   label: string;
 };
