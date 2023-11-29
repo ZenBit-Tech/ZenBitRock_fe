@@ -31,6 +31,7 @@ export const navHorizontalConfig = (config?: NavConfigProps) => ({
   itemRootHeight: config?.itemRootHeight || 32,
   itemSubHeight: config?.itemSubHeight || 34,
   itemPadding: config?.itemPadding || '0 6px 0 6px',
+  responsiveItemPadding: config?.responsiveItemPadding || '0 6px 0 6px',
   itemRadius: config?.itemRadius || 6,
   hiddenLabel: config?.hiddenLabel || false,
 });
