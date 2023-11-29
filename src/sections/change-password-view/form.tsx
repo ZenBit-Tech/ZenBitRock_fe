@@ -18,6 +18,7 @@ import { useResetPasswordMutation } from 'store/api/restorePasswordApi';
 
 import { useSnackbar } from 'notistack';
 import { RootState } from 'store';
+import { patterns } from 'constants/patterns';
 
 const StyledTextFiled = styled(TextField)`
   margin-bottom: 1.5 rem;
@@ -29,7 +30,6 @@ type FormValues = {
 };
 
 function ChangePasswordForm(): JSX.Element {
-
   const t = useTranslations('ChangePasswordPage');
   const form = useForm<FormValues>({
     defaultValues: {
@@ -58,7 +58,6 @@ function ChangePasswordForm(): JSX.Element {
       const response = await resetPassword({ email, code, password: data.password });
 
       if ('data' in response && response.data) {
-        
         router.push(AppRoute.RESTORE_PASSWORD_DONE_PAGE);
       }
     } catch (error) {
@@ -107,7 +106,7 @@ function ChangePasswordForm(): JSX.Element {
           {...register('password', {
             required: t('passwordRequired'),
             pattern: {
-              value: /^.{8,}$/i,
+              value: patterns.password,
               message: t('minChar'),
             },
           })}

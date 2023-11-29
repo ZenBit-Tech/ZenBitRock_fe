@@ -50,4 +50,5 @@ export const RestorePasswordApi = createApi({
   }),
 });
 
-export const { useSendCodeMutation, useVerifyCodeMutation, useResetPasswordMutation } = RestorePasswordApi;
+export const { useSendCodeMutation, useVerifyCodeMutation, useResetPasswordMutation } =
+  RestorePasswordApi;
