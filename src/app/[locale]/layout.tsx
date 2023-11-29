@@ -3,12 +3,11 @@ import 'modern-normalize/modern-normalize.css';
 import StyledComponentsRegistry from 'lib/registry';
 import { LocalizationProvider } from 'locales';
 import ToastContainerWrapper from 'components/toast-container';
-import Header from 'components/Header/Header';
+import { App, Header } from 'components/custom';
 import ThemeProvider from 'theme';
 import ReduxProvider from 'store/ReduxProvider';
 import { Locale } from 'locales/i18n.config';
 import './global.css';
-import { App } from 'components/custom';
 
 export const metadata = {
   title: 'ZenBitRock',
