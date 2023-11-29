@@ -10,12 +10,11 @@ import { SnackbarProvider } from 'components/snackbar';
 import UserNewEditForm from '../user-new-edit-form';
 import ProfileSettings from '../user-edit-settings';
 
-export default function UserEditView() {
+export default function UserEditView(): JSX.Element {
   const t = useTranslations('editProfilePage');
   const settings = useSettingsContext();
   const { user } = useMockedUser();
 
-  
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'} sx={{ paddingTop: '1rem' }}>
       <CustomBreadcrumbs

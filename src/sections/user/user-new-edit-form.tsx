@@ -25,7 +25,7 @@ type Props = {
   currentUser?: IUserEditItem;
 };
 
-function getRoles() {
+function getRoles(): string[] {
   const roles = ['Agent', 'Agency'];
 
   return roles;
