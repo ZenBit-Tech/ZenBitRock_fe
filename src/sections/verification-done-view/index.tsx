@@ -13,9 +13,9 @@ export default function VerificationDoneView(): JSX.Element {
 
   const { replace } = useRouter();
 
-  function handleClick() {
+  const handleClick = () => {
     replace(AppRoute.SIGN_IN_PAGE);
-  }
+  };
 
   return (
     <Box
@@ -49,7 +49,7 @@ export default function VerificationDoneView(): JSX.Element {
             size="large"
             variant="text"
             style={{ marginBottom: '70px' }}
-            onClick={() => handleClick}
+            onClick={handleClick}
           >
             {t('submitButton')}
           </LoadingButton>
