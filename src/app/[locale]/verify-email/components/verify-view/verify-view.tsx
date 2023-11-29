@@ -34,14 +34,7 @@ export function VerifyView({ email }: Props) {
 
   const handleSendCode = useCallback(async () => {
     await sendVerificationCode({ email });
-  }, [email]);
-
-  useEffect(() => {
-    setValue('email', email);
-    handleSendCode();
-  }, [email]);
-
-  const t = useTranslations('VerifyEmail');
+  }, [email, sendVerificationCode]);
 
   const methods = useForm({
     mode: 'onChange',
@@ -55,6 +48,13 @@ export function VerifyView({ email }: Props) {
     reset,
     setValue,
   } = methods;
+
+  useEffect(() => {
+    setValue('email', email);
+    handleSendCode();
+  }, [email, handleSendCode, setValue]);
+
+  const t = useTranslations('VerifyEmail');
 
   const onSubmit = handleSubmit(async (data) => {
     try {
