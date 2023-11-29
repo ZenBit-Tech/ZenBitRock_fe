@@ -26,6 +26,7 @@ export default function SignInPage({ params: { locale } }: Props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        
         const { signInPage, signUpPage } = await getDictionary('en');
 
         setData(signInPage);

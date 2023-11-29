@@ -196,5 +196,27 @@
     "title": "Password reset was successful",
     "text": "Your password has been successfully reset. Click below to log in magically",
     "buttonText": "Log in"
+  },
+  "profilePage": {
+    "tabProfile": "Profile",
+    "tabSettings": "Settings",
+    "profileTitle": "My profile",
+    "aboutTitle": "About",
+    "socialTitle": "Social",
+    "aboutSubtitle1": "Contact information",
+    "aboutSubtitle2": "Personal information",
+    "years": "Years in industry",
+    "cover": "Market cover ",
+    "tel": "+380000000000",
+    "settingsTitle": "Settings",
+    "settingsSubtitle1": "Privacy settings",
+    "settingsSubtitle2": "Notifications",
+    "changePass": "Change password",
+    "deleteProfile": "Delete profile",
+    "recieveNotifications": "Recieve push notifications ",
+    "editLink": "Edit profile",
+    "agencyLink": "https://blagovist.ua/",
+    "countryTxt": "Country",
+    "cityTxt": "City"
   }
 }
