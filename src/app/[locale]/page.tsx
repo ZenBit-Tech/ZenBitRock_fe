@@ -1,27 +1,12 @@
 'use client';
-
-import { ReactNode, FC } from 'react';
 import { useTranslations } from 'next-intl';
-import { Button, Link } from '@mui/material';
+import { Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { colors } from 'constants/colors';
 import { AppRoute } from 'enums';
 import { typography } from 'theme/typography';
 import WelcomePageContainer from 'components/WelcomePageContainer/WelcomePageContainer';
 import { RightSection, StyledBtnWrapper } from 'components/WelcomePageContainer/styles';
-import { PublicRoute } from 'components/custom';
-
-interface CustomLinkProps {
-  href: string;
-  color?: string;
-  children: ReactNode;
-}
-
-const CustomLink: FC<CustomLinkProps> = ({ href, color = colors.TEST_MAIN_COLOR, children }) => (
-  <Link underline="none" color={color} href={href}>
-    {children}
-  </Link>
-);
+import { CustomLink, PublicRoute } from 'components/custom';
 
 export default function HomePage() {
   const t = useTranslations('Home');
@@ -32,14 +17,10 @@ export default function HomePage() {
         <RightSection maxWidth="sm">
           <StyledBtnWrapper>
             <Button variant="contained" sx={{ marginRight: '10px' }} size="large">
-              <CustomLink color={colors.TEST_MAIN_COLOR} href={AppRoute.SIGN_IN_PAGE}>
-                {t('Page.signInLink')}
-              </CustomLink>
+              <CustomLink href={AppRoute.SIGN_IN_PAGE}>{t('Page.signInLink')}</CustomLink>
             </Button>
             <Button variant="contained" size="large">
-              <CustomLink color={colors.TEST_MAIN_COLOR} href={AppRoute.SIGN_UP_PAGE}>
-                {t('Page.signUpLink')}
-              </CustomLink>
+              <CustomLink href={AppRoute.SIGN_UP_PAGE}>{t('Page.signUpLink')}</CustomLink>
             </Button>
           </StyledBtnWrapper>
           <Typography
