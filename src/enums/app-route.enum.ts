@@ -13,6 +13,7 @@ const AppRoute = {
   MAIN_PAGE: '/main-page',
   ADD_VERIFICATION_DATA: '/verification/create',
   RESTORE_PASSWORD_DONE_PAGE: '/restore-password/restore-password-done',
+  PROFILE_PAGE: '/profile',
 } as const;
 
 export { AppRoute };
