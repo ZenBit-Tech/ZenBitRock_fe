@@ -1,7 +1,8 @@
 {
   "Home": {
     "Header": {
-      "title": "ZenBitRock"
+      "title": "ZenBitRock",
+      "avatar": "avatar"
     },
     "Page": {
       "title": "Welcome to ZenBitRock - the wisest real estate platform aimed at your professional success",
@@ -190,10 +191,10 @@
     "minChar": "Minimum 8 characters",
     "repeatLabel": "Repeat password",
     "unmatchPass": "Passwords do not match"
-},
-"RestorePasswordDonePage": {
+  },
+  "RestorePasswordDonePage": {
     "title": "Password reset was successful",
     "text": "Your password has been successfully reset. Click below to log in magically",
     "buttonText": "Log in"
-}
+  }
 }
