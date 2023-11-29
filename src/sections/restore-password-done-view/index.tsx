@@ -5,18 +5,18 @@ import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import SeoIllustration from 'assets/illustrations/seo-illustration';
-import { Wrapper, LeftSection, RightSection } from './styles';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { links } from 'constants/links';
+import { AppRoute } from 'enums';
+import { Wrapper, LeftSection, RightSection } from './styles';
 
 export default function RestorePasswordDoneView(): JSX.Element {
   const t = useTranslations('RestorePasswordDonePage');
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(links.SIGN_IN_PAGE);
+    router.push(AppRoute.SIGN_IN_PAGE);
   };
 
   return (

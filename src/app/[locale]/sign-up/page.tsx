@@ -5,11 +5,10 @@ import { notFound } from 'next/navigation';
 import { Link, Box, Typography } from '@mui/material';
 import { Locale } from 'locales/i18n.config';
 import { getDictionary } from 'lib/dictionary';
-import ReduxProvider from 'store/ReduxProvider';
 import PagesContainer from 'components/PagesContainer/PagesContainer';
 import SignUpForm from 'components/SignUpForm/SignUpForm';
 import { LoadingScreen } from 'components/loading-screen';
-import { links } from 'constants/links';
+import { AppRoute } from 'enums';
 import { PolicyComponent } from 'components/PolicyComponent/PolicyComponent';
 import { SnackbarProvider } from 'components/snackbar';
 import { SignUpPageType } from 'types/auth';
@@ -26,7 +25,7 @@ export default function SignUpPage({ params: { locale } }: Props) {
     const fetchData = async () => {
       try {
         const { signUpPage } = await getDictionary('en');
-        
+
         setData(signUpPage);
       } catch (error) {
         notFound();
@@ -47,9 +46,7 @@ export default function SignUpPage({ params: { locale } }: Props) {
           {data.Main.title}
         </Typography>
         <SnackbarProvider>
-          <ReduxProvider>
-            <SignUpForm signUpPage={data} />
-          </ReduxProvider>
+          <SignUpForm signUpPage={data} />
         </SnackbarProvider>
         <Box
           sx={{
@@ -62,7 +59,7 @@ export default function SignUpPage({ params: { locale } }: Props) {
         >
           <SignInLink>
             {data.Main.haveAcc}&nbsp;
-            <Link href={links.SIGN_IN_PAGE} color="primary">
+            <Link href={AppRoute.SIGN_IN_PAGE} color="primary">
               {data.Main.signInLink}
             </Link>
           </SignInLink>

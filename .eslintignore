@@ -8,9 +8,11 @@ public/*
 **/src/components/*
 **/src/utils
 **/src/theme
+**/src/api
 **/src/assets
 **/src/api
 **/node_modules/*
+**/coverage
 
 **/.next/*
 next.config.js

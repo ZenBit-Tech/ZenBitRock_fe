@@ -1,11 +1,9 @@
 'use client';
 
-import { useSelector } from 'react-redux';
-import { VerifyView } from './components';
 import { RootState } from 'store';
-import { useRouter } from 'next/navigation';
-import { pageLinks } from 'constants/pageLinks';
-import { useEffect } from 'react';
+import { AppRoute } from 'enums';
+import { useEffect, useRouter, useSelector } from 'hooks';
+import { VerifyView } from './components';
 
 export default function ClassicVerifyPage() {
   const email = useSelector((state: RootState) => state.authSlice.email);
@@ -13,9 +11,9 @@ export default function ClassicVerifyPage() {
 
   useEffect(() => {
     if (!email) {
-      router.push(pageLinks.SIGN_IN_PAGE);
+      router.push(AppRoute.SIGN_IN_PAGE);
     }
-  }, [email]);
+  }, [email, router]);
 
   return <>{email && <VerifyView email={email} />}</>;
 }

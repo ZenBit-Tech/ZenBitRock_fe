@@ -14,7 +14,7 @@ import { patterns } from 'constants/patterns';
 import FormProvider from 'components/hook-form';
 import { useSendCodeMutation } from 'store/api/restorePasswordApi';
 import { setEmail } from 'store/reducers/restorePasswordReducer';
-import { links } from 'constants/links';
+import { AppRoute } from 'enums';
 
 const defaultValues = { email: '' };
 
@@ -49,7 +49,7 @@ export default function RestorePasswordForm(): JSX.Element {
 
       if ('data' in email) {
         dispatch(setEmail({ email: data.email }));
-        router.push(links.RESTORE_PASSWORD_VERIFY_CODE_PAGE);
+        router.push(AppRoute.RESTORE_PASSWORD_VERIFY_CODE_PAGE);
       } else if (
         'data' in email.error &&
         email.error.data &&
@@ -57,10 +57,13 @@ export default function RestorePasswordForm(): JSX.Element {
         'error' in email.error.data
       ) {
         const message = email.error.data.error;
+
         enqueueSnackbar(message, { variant: 'error' });
       }
+
+      return undefined;
     } catch (error) {
-      throw error;
+      return error;
     }
   });
 

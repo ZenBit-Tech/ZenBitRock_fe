@@ -13,7 +13,7 @@ import { AppDispatch, RootState } from 'store';
 import FormProvider, { RHFCode } from 'components/hook-form';
 import { useSendCodeMutation, useVerifyCodeMutation } from 'store/api/restorePasswordApi';
 import { setCode } from 'store/reducers/restorePasswordReducer';
-import { links } from 'constants/links';
+import { AppRoute } from 'enums';
 
 const defaultValues = { code: '' };
 
@@ -40,6 +40,7 @@ export default function RestorePasswordForm(): JSX.Element {
 
   const onSubmit = handleSubmit(async (data): Promise<void> => {
     const CODE = 409;
+
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
@@ -49,20 +50,23 @@ export default function RestorePasswordForm(): JSX.Element {
       if ('error' in response && 'status' in response.error && response.error.status === CODE) {
         enqueueSnackbar('Success!', { variant: 'success' });
         dispatch(setCode({ code: data.code }));
-        router.push(links.RESTORE_PASSWORD_CHANGE_PASSWORD_PAGE);
+        router.push(AppRoute.RESTORE_PASSWORD_CHANGE_PASSWORD_PAGE);
       } else if (
         'error' in response &&
         'data' in response.error &&
         response.error.data &&
         typeof response.error.data === 'object' &&
-        'message' in response.error.data
+        'message' in response.error.data &&
+        response.error.data.message
       ) {
-        console.log(response);
-        const message = response.error.data.message;
+        const { message } = response.error.data;
+
         enqueueSnackbar(message, { variant: 'error' });
       }
+
+      return undefined;
     } catch (error) {
-      throw error;
+      return error;
     }
   });
 
@@ -79,10 +83,13 @@ export default function RestorePasswordForm(): JSX.Element {
         'error' in response.error.data
       ) {
         const message = response.error.data.error;
+
         enqueueSnackbar(message, { variant: 'error' });
       }
+
+      return undefined;
     } catch (error) {
-      throw error;
+      return error;
     }
   };
 

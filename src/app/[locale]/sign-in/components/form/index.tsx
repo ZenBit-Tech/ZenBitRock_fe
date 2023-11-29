@@ -14,7 +14,7 @@ import { enqueueSnackbar } from 'notistack';
 import { AppDispatch } from 'store';
 import { setCredentials, useSignInMutation } from 'store/auth';
 import { patterns } from 'constants/patterns';
-import { links } from 'constants/links';
+import { AppRoute } from 'enums';
 
 const StyledTitle = styled(Typography)`
   @media (max-width: 1023px) {
@@ -30,7 +30,7 @@ type FormValues = {
 export default function LoginForm() {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
-  
+
   const t = useTranslations('signInPage');
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -51,14 +51,14 @@ export default function LoginForm() {
   const onSubmit = async (data: FormValues) => {
     try {
       const res = await signIn(data);
-      
+
       if ('data' in res) {
         
         const { id, email, token } = res.data;
         
         dispatch(setCredentials({ id, email, token }));
         enqueueSnackbar('Welcome back!', { variant: 'success' });
-        router.push(links.MAIN_PAGE);
+        router.push(AppRoute.MAIN_PAGE);
       }
     } catch (error) {
       notFound();
@@ -121,7 +121,7 @@ export default function LoginForm() {
       />
 
       <Typography variant="body2" sx={{ marginBottom: '10px' }}>
-        <Link href={links.RESTORE_PASSWORD_PAGE} color="primary">
+        <Link href={AppRoute.RESTORE_PASSWORD_PAGE} color="primary">
           {t('LoginForm.forgotPasswordLinkTitle')}
         </Link>
       </Typography>

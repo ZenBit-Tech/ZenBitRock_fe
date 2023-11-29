@@ -1,18 +1,16 @@
 'use client';
 
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { Button, Typography } from '@mui/material';
-import { Box, IconButton, styled } from '@mui/material';
+import { Button, Typography, Box, IconButton, styled } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Stack from '@mui/system/Stack';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { useTranslations } from 'next-intl';
-import { links } from 'constants/links';
+import { AppRoute } from 'enums';
 
 const StyledTextFiled = styled(TextField)`
   margin-bottom: 1.5 rem;
@@ -41,7 +39,7 @@ function ChangePasswordForm() {
 
   const onSubmit = () => {
     if (router) {
-      router.push(links.RESTORE_PASSWORD_DONE_PAGE);
+      router.push(AppRoute.RESTORE_PASSWORD_DONE_PAGE);
     }
   };
 
