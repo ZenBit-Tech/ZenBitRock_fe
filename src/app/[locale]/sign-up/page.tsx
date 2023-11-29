@@ -25,7 +25,7 @@ export default function SignUpPage({ params: { locale } }: Props) {
     const fetchData = async () => {
       try {
         const { signUpPage } = await getDictionary('en');
-        
+
         setData(signUpPage);
       } catch (error) {
         notFound();

@@ -51,8 +51,9 @@ export default function LoginForm() {
   const onSubmit = async (data: FormValues) => {
     try {
       const res = await signIn(data);
-      
+
       if ('data' in res) {
+        
         const { id, email, token } = res.data;
         
         dispatch(setCredentials({ id, email, token }));
