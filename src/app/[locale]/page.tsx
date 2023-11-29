@@ -1,4 +1,5 @@
 'use client';
+
 import { useTranslations } from 'next-intl';
 import { Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
