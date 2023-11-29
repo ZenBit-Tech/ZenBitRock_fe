@@ -3,7 +3,14 @@
     "Header": {
       "title": "ZenBitRock",
       "avatar": "avatar",
-      "greeting": "Hi"
+      "greeting": "Hi",
+      "navbar": {
+        "main": "Main",
+        "agents": "Agents",
+        "calendar": "Calendar",
+        "leads": "Leads",
+        "content": "Content"
+      }
     },
     "Page": {
       "title": "Welcome to ZenBitRock - the wisest real estate platform aimed at your professional success",
