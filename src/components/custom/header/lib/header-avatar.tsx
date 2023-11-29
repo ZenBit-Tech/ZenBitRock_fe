@@ -6,7 +6,7 @@ type Props = {
   avatar: string;
 };
 
-const HeaderAvatar = ({ avatar }: Props) => {
+const HeaderAvatar = ({ avatar }: Props): JSX.Element => {
   const t = useTranslations('Home.Header');
   return (
     <Avatar

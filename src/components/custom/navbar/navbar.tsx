@@ -6,7 +6,7 @@ import { grey } from '@mui/material/colors';
 import { NavSectionHorizontal } from 'components/nav-section';
 import { NAV_ITEMS, defaultConfig } from './lib';
 
-const Navbar = () => {
+const Navbar = (): JSX.Element => {
   return (
     <>
       <AppBar

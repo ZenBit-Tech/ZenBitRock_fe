@@ -13,7 +13,7 @@ import { RootState } from 'store';
 import { HEADER, HeaderAvatar } from './lib';
 import { Logo } from './styles';
 
-function Header() {
+const Header = (): JSX.Element => {
   const theme = useTheme();
   const t = useTranslations('Home');
   const { user } = useMockedUser();
@@ -45,6 +45,6 @@ function Header() {
       </Toolbar>
     </AppBar>
   );
-}
+};
 
 export { Header };
