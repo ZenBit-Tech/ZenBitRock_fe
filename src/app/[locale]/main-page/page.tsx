@@ -3,6 +3,7 @@
 import { RootState } from 'store';
 import { useSelector } from 'hooks';
 import { ProtectedRoute } from 'components/custom';
+import PropertiesList from './components/properties-list/page';
 
 export default function MainPage() {
   const auth = useSelector((state: RootState) => state.authSlice);
@@ -10,6 +11,7 @@ export default function MainPage() {
   return (
     <ProtectedRoute>
       <p>{auth.email}</p>
+      <PropertiesList/>
     </ProtectedRoute>
   );
 }
