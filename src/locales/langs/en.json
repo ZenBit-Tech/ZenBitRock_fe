@@ -50,11 +50,12 @@
     "declarationSectionTitle": "D. Declaration",
     "declarationText": "* I hereby declare that the information provided in this form is accurate and complete. I confirm that any information is found incorrect and/or incomplete that leads a violation of regulations may initiate legal actions, and I accept that I am the responsible party for any and all charges, penalties and violations.",
     "signature": "Name of the Applicant",
-    "submitButton": "Submit",
-    "doneTextFirstPart": "Your application was submitted successfully.",
-    "doneTextSecondPart": "Thank you for joining AgentWise!"
+    "submitButton": "Submit"
   },
   "VerificationDonePage": {
+    "mainTitle": "KYC form",
+    "doneTextFirstPart": "Your application was submitted successfully.",
+    "doneTextSecondPart": "Thank you for joining AgentWise!",
     "submitButton": "Go to sign in page"
   },
   "RestorePasswordPage": {
@@ -190,10 +191,10 @@
     "minChar": "Minimum 8 characters",
     "repeatLabel": "Repeat password",
     "unmatchPass": "Passwords do not match"
-},
-"RestorePasswordDonePage": {
+  },
+  "RestorePasswordDonePage": {
     "title": "Password reset was successful",
     "text": "Your password has been successfully reset. Click below to log in magically",
     "buttonText": "Log in"
-}
+  }
 }

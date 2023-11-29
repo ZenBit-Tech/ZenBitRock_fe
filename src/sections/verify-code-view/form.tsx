@@ -40,6 +40,7 @@ export default function RestorePasswordForm(): JSX.Element {
 
   const onSubmit = handleSubmit(async (data): Promise<void> => {
     const CODE = 409;
+
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
@@ -55,14 +56,17 @@ export default function RestorePasswordForm(): JSX.Element {
         'data' in response.error &&
         response.error.data &&
         typeof response.error.data === 'object' &&
-        'message' in response.error.data
+        'message' in response.error.data &&
+        response.error.data.message
       ) {
-        console.log(response);
-        const message = response.error.data.message;
+        const { message } = response.error.data;
+
         enqueueSnackbar(message, { variant: 'error' });
       }
+
+      return undefined;
     } catch (error) {
-      throw error;
+      return error;
     }
   });
 
@@ -79,10 +83,13 @@ export default function RestorePasswordForm(): JSX.Element {
         'error' in response.error.data
       ) {
         const message = response.error.data.error;
+
         enqueueSnackbar(message, { variant: 'error' });
       }
+
+      return undefined;
     } catch (error) {
-      throw error;
+      return error;
     }
   };
 

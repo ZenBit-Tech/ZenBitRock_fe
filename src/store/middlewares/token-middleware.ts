@@ -16,6 +16,7 @@ startAppListening({
   matcher: isAnyOf(signIn.matchFulfilled, signUp.matchFulfilled),
   effect: (action) => {
     const { token } = action.payload;
+
     localStorage.setItem(StorageKey.TOKEN, token);
   },
 });

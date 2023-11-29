@@ -11,7 +11,6 @@ const AppRoute = {
   PRIVACY_POLICY: '/privacy-policy',
   TERMS_CONDITIONS: '/terms-conditions',
   MAIN_PAGE: '/main-page',
-  ADD_VERIFICATION_DATA: '/verification/create',
   RESTORE_PASSWORD_DONE_PAGE: '/restore-password/restore-password-done',
 } as const;
 
