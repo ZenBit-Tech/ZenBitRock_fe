@@ -32,14 +32,14 @@ export default function HomePage() {
         <RightSection maxWidth="sm">
           <StyledBtnWrapper>
             <Button variant="contained" sx={{ marginRight: '10px' }} size="large">
-              <Link underline="none" color={colors.TEST_MAIN_COLOR} href={AppRoute.SIGN_IN_PAGE}>
+              <CustomLink color={colors.TEST_MAIN_COLOR} href={AppRoute.SIGN_IN_PAGE}>
                 {t('Page.signInLink')}
-              </Link>
+              </CustomLink>
             </Button>
             <Button variant="contained" size="large">
-              <Link underline="none" color={colors.TEST_MAIN_COLOR} href={AppRoute.SIGN_UP_PAGE}>
+              <CustomLink color={colors.TEST_MAIN_COLOR} href={AppRoute.SIGN_UP_PAGE}>
                 {t('Page.signUpLink')}
-              </Link>
+              </CustomLink>
             </Button>
           </StyledBtnWrapper>
           <Typography
@@ -55,9 +55,9 @@ export default function HomePage() {
             {t('Page.title')}
           </Typography>
           <Button variant="contained" fullWidth size="large">
-            <Link underline="none" color="primary" href={AppRoute.SIGN_IN_PAGE}>
+            <CustomLink color="primary" href={AppRoute.SIGN_IN_PAGE}>
               {t('Page.buttonTxt')}
-            </Link>
+            </CustomLink>
           </Button>
         </RightSection>
       </WelcomePageContainer>
