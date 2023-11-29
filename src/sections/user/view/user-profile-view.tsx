@@ -21,7 +21,6 @@ const TABS = [
   },
 ];
 
-
 export default function UserProfileView(): JSX.Element {
   const t = useTranslations('profilePage');
   const settings = useSettingsContext();
@@ -70,13 +69,10 @@ export default function UserProfileView(): JSX.Element {
               },
             },
           }}
-        >
-
-        </Tabs>
+        />
       </Card>
 
       {currentTab === TABS[0].value && <ProfileHome info={_userAbout} />}
-
     </Container>
   );
 }
