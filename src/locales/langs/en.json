@@ -2,7 +2,8 @@
   "Home": {
     "Header": {
       "title": "ZenBitRock",
-      "avatar": "avatar"
+      "avatar": "avatar",
+      "greeting": "Hi"
     },
     "Page": {
       "title": "Welcome to ZenBitRock - the wisest real estate platform aimed at your professional success",
