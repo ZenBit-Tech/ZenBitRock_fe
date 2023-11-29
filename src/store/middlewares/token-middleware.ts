@@ -1,7 +1,7 @@
 import { isAnyOf, type TypedStartListening } from '@reduxjs/toolkit';
 import { createListenerMiddleware } from '@reduxjs/toolkit';
 import { StorageKey } from 'enums';
-import { AppDispatch, RootState } from 'store';
+import { type AppDispatch, type RootState } from 'store';
 import { authApi } from 'store/auth';
 
 const tokenMiddleware = createListenerMiddleware();
