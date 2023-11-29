@@ -31,7 +31,7 @@ function getRoles() {
   return roles;
 }
 
-export default function UserNewEditForm({ currentUser }: Props) {
+export default function UserNewEditForm({ currentUser }: Props): JSX.Element {
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const t = useTranslations('editProfilePage');
@@ -73,16 +73,15 @@ export default function UserNewEditForm({ currentUser }: Props) {
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async (): Promise<void> => {
     try {
       const message = t('updateText');
+
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       enqueueSnackbar(message, { variant: 'success' });
-      console.info('DATA', data);
     } catch (error) {
       enqueueSnackbar(error.message, { variant: 'error' });
-      console.error(error);
     }
   });
 

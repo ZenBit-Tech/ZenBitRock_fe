@@ -1,6 +1,5 @@
-import { PublicRoute } from 'components/custom';
 import { ProtectedRoute } from 'components/custom';
-import ReduxProvider from 'store/ReduxProvider';
+
 
 type Props = {
   children: React.ReactNode;

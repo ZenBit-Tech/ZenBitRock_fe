@@ -15,7 +15,7 @@ interface RenderProps {
   theme: Theme;
 }
 
-const RenderSettings = ({ checked, handleChange, theme }: RenderProps) => {
+const RenderSettings = ({ checked, handleChange, theme }: RenderProps): JSX.Element => {
   const t = useTranslations('editProfilePage');
 
   return (
@@ -57,13 +57,15 @@ const RenderSettings = ({ checked, handleChange, theme }: RenderProps) => {
     </Card>
   );
 };
-export function ProfileSettings() {
+
+function ProfileSettings(): JSX.Element {
   const [checked, setChecked] = useState<boolean>(true);
   const theme = useTheme();
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setChecked(event.target.checked);
   };
+
   return (
     <Grid container spacing={3}>
       <Grid xs={12} md={12}>

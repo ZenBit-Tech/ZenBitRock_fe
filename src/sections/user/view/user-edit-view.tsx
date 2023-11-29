@@ -3,7 +3,6 @@
 import { useTranslations } from 'next-intl';
 import Container from '@mui/material/Container';
 import { useMockedUser } from 'hooks/use-mocked-user';
-import { _userList } from '_mock';
 import { paths } from 'routes/paths';
 import { useSettingsContext } from 'components/settings';
 import CustomBreadcrumbs from 'components/custom-breadcrumbs';

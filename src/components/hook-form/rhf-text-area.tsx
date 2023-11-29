@@ -5,7 +5,7 @@ type Props = TextFieldProps & {
   name: string;
 };
 
-export default function RHFTextArea({ name, helperText, type, ...other }: Props) {
+export default function RHFTextArea({ name, helperText, type, ...other }: Props): JSX.Element {
   const { control } = useFormContext();
 
   return (
