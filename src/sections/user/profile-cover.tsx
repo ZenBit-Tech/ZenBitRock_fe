@@ -9,7 +9,7 @@ import { IUserProfileCover } from 'types/user';
 import { bgGradient } from 'theme/css';
 import AvatarShape from 'assets/illustrations/avatar-shape';
 import Iconify from 'components/iconify';
-import { links } from 'constants/links';
+import { AppRoute } from 'enums';
 
 export default function ProfileCover({ name, avatarUrl }: IUserProfileCover) {
   const t = useTranslations('profilePage');
@@ -74,7 +74,7 @@ export default function ProfileCover({ name, avatarUrl }: IUserProfileCover) {
       </Stack>
       <Stack direction="row" sx={{ position: 'absolute', bottom: 56, right: 16 }}>
         <Tooltip title={t('editLink')} placement="top">
-          <Link href={links.SIGN_IN_PAGE}>
+          <Link href={AppRoute.SIGN_IN_PAGE}>
             <Iconify icon="fa:edit" width={32} sx={{ color: 'background.paper' }} />
           </Link>
         </Tooltip>
