@@ -43,14 +43,23 @@ const RenderAbout = ({ info }: Props) => {
           <Link href={`mailto:${info.email}`}>{info.email}</Link>
         </Stack>
 
+        {info.agency && (
+          <Stack direction="row" sx={{ typography: 'body2' }}>
+            <Iconify icon="material-symbols-light:home-work-rounded" width={24} sx={{ mr: 2 }} />
+            <Link href={t('agencyLink')} target="_blank">
+              {info.agency}
+            </Link>
+          </Stack>
+        )}
+
         <Box sx={{ typography: 'subtitle2' }}>{t('aboutSubtitle2')}</Box>
 
         <Stack direction="row" spacing={2}>
-          <Iconify icon="ic:round-business-center" width={24} />
+          <Iconify icon="mingcute:location-fill" width={24} />
           <Box sx={{ typography: 'body2' }}>
-            {t('years')}
+            {t('countryTxt')}
             <Link variant="subtitle2" color="inherit">
-              10
+              {info.country}
             </Link>
           </Box>
         </Stack>
@@ -58,9 +67,9 @@ const RenderAbout = ({ info }: Props) => {
         <Stack direction="row" spacing={2}>
           <Iconify icon="mingcute:location-fill" width={24} />
           <Box sx={{ typography: 'body2' }}>
-            {t('cover')}
+            {t('cityTxt')}
             <Link variant="subtitle2" color="inherit">
-              {info.country}
+              {info.city}
             </Link>
           </Box>
         </Stack>

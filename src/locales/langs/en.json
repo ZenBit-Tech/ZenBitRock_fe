@@ -190,8 +190,8 @@
     "minChar": "Minimum 8 characters",
     "repeatLabel": "Repeat password",
     "unmatchPass": "Passwords do not match"
-},
-"RestorePasswordDonePage": {
+  },
+  "RestorePasswordDonePage": {
     "title": "Password reset was successful",
     "text": "Your password has been successfully reset. Click below to log in magically",
     "buttonText": "Log in"
@@ -213,6 +213,9 @@
     "changePass": "Change password",
     "deleteProfile": "Delete profile",
     "recieveNotifications": "Recieve push notifications ",
-    "editLink": "Edit profile"
-}
+    "editLink": "Edit profile",
+    "agencyLink": "https://blagovist.ua/",
+    "countryTxt": "Country",
+    "cityTxt": "City"
+  }
 }

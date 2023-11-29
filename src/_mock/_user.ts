@@ -17,6 +17,7 @@ export const _userAbout = {
   role: _mock.role(1),
   email: _mock.email(1),
   country: countries[1].label,
+  city: 'El Pas de la Casa',
   school: _mock.companyName(2),
   company: _mock.companyName(1),
   coverUrl: _mock.image.cover(3),
@@ -30,6 +31,7 @@ export const _userAbout = {
     linkedin: `https://www.linkedin.com/in/caitlyn.kerluke`,
     twitter: `https://www.twitter.com/caitlyn.kerluke`,
   },
+  agency: 'Blagovist',
 };
 
 export const _userFollowers = [...Array(18)].map((_, index) => ({

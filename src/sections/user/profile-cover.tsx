@@ -11,7 +11,6 @@ import AvatarShape from 'assets/illustrations/avatar-shape';
 import Iconify from 'components/iconify';
 import { links } from 'constants/links';
 
-
 export default function ProfileCover({ name, avatarUrl }: IUserProfileCover) {
   const t = useTranslations('profilePage');
   const theme = useTheme();
@@ -57,7 +56,6 @@ export default function ProfileCover({ name, avatarUrl }: IUserProfileCover) {
 
         <ListItemText
           sx={{
-            // mt: 3,
             ml: { xs: 2, md: 3 },
             textAlign: { xs: 'center', md: 'unset' },
           }}

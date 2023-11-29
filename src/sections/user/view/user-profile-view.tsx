@@ -2,7 +2,6 @@
 
 import { useState, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
-import Tab from '@mui/material/Tab';
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
@@ -13,18 +12,12 @@ import CustomBreadcrumbs from 'components/custom-breadcrumbs';
 import { useSettingsContext } from 'components/settings';
 import ProfileHome from '../profile-home';
 import ProfileCover from '../profile-cover';
-import ProfileSettings from '../profile-settings';
 
 const TABS = [
   {
     value: 'profile',
     label: 'Profile',
     icon: <Iconify icon="solar:user-id-bold" width={24} />,
-  },
-  {
-    value: 'settings',
-    label: 'Settings',
-    icon: <Iconify icon="solar:settings-bold" width={24} />,
   },
 ];
 
@@ -78,14 +71,12 @@ export default function UserProfileView(): JSX.Element {
             },
           }}
         >
-          {TABS.map((tab) => (
-            <Tab key={tab.value} value={tab.value} icon={tab.icon} label={tab.label} />
-          ))}
+
         </Tabs>
       </Card>
 
       {currentTab === TABS[0].value && <ProfileHome info={_userAbout} />}
-      {currentTab === TABS[1].value && <ProfileSettings />}
+
     </Container>
   );
 }
