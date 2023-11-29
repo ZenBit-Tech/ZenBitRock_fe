@@ -1,8 +1,8 @@
 'use client';
 
 import Container from '@mui/material/Container';
-import Form from './form';
 import ReduxProvider from 'store/ReduxProvider';
+import Form from './form';
 
 export default function VerificationView() {
   return (
