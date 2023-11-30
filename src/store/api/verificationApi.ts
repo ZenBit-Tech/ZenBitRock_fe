@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { AppRoute } from 'enums';
+import { ApiRoute } from 'enums';
 
 export const VerificationApi = createApi({
   reducerPath: 'verificationApi',
@@ -9,13 +9,11 @@ export const VerificationApi = createApi({
   tagTypes: ['Verification'],
   endpoints: (builder) => ({
     createVerification: builder.mutation({
-      query: (body) => {
-        return {
-          url: AppRoute.ADD_VERIFICATION_DATA,
-          method: 'POST',
-          body,
-        };
-      },
+      query: (body) => ({
+        url: ApiRoute.ADD_VERIFICATION_DATA,
+        method: 'POST',
+        body,
+      }),
     }),
   }),
 });

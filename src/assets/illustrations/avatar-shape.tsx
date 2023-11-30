@@ -1,28 +1,27 @@
 import { memo } from 'react';
-// @mui
 import Box, { BoxProps } from '@mui/material/Box';
 
-// ----------------------------------------------------------------------
 
 function AvatarShape({ sx, ...other }: BoxProps) {
   return (
     <Box
       component="svg"
-      width={144}
-      height={62}
+      width={128}
+      height={128}
       fill="none"
-      viewBox="0 0 144 62"
+      variant="circular"
+      viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       sx={{
         color: 'background.paper',
         ...sx,
+        borderRadius: '50%',
       }}
       {...other}
     >
       <path
-        d="m111.34 23.88c-10.62-10.46-18.5-23.88-38.74-23.88h-1.2c-20.24 0-28.12 13.42-38.74 23.88-7.72 9.64-19.44 11.74-32.66 12.12v26h144v-26c-13.22-.38-24.94-2.48-32.66-12.12z"
         fill="currentColor"
-        fillRule="evenodd"
+        d="M7.5 6.5C7.5 8.981 9.519 11 12 11s4.5-2.019 4.5-4.5S14.481 2 12 2S7.5 4.019 7.5 6.5zM20 21h1v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h17z"
       />
     </Box>
   );

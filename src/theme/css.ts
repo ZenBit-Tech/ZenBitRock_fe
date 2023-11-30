@@ -133,7 +133,7 @@ export function bgGradient(props?: BgGradientProps) {
   }
 
   return {
-    background: `linear-gradient(${direction}, ${startColor}, ${endColor})`,
+    background: `linear-gradient(${direction}, ${startColor || color}, ${endColor || color})`,
   };
 }
 
