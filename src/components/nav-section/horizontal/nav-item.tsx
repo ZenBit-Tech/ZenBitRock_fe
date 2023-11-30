@@ -1,18 +1,13 @@
 import { forwardRef } from 'react';
-// @mui
+import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Tooltip from '@mui/material/Tooltip';
 import ListItemText from '@mui/material/ListItemText';
-// routes
 import { RouterLink } from 'routes/components';
-//
-import Iconify from '../../iconify';
-//
+import Iconify from 'components/iconify';
 import { NavItemProps, NavConfigProps } from '../types';
 import { StyledItem, StyledIcon } from './styles';
-
-// ----------------------------------------------------------------------
 
 type Props = NavItemProps & {
   config: NavConfigProps;
@@ -21,6 +16,8 @@ type Props = NavItemProps & {
 const NavItem = forwardRef<HTMLDivElement, Props>(
   ({ item, depth, open, active, externalLink, config, ...other }, ref) => {
     const { title, path, icon, info, children, disabled, caption, roles } = item;
+
+    const t = useTranslations('Home.Header.navbar');
 
     const subItem = depth !== 1;
 
@@ -50,10 +47,10 @@ const NavItem = forwardRef<HTMLDivElement, Props>(
           <ListItemText
             sx={{
               ...(!subItem && {
-                ml: 1,
+                ml: { xs: 0, sm: 1 },
               }),
             }}
-            primary={title}
+            primary={t(title)}
             primaryTypographyProps={{
               noWrap: true,
               typography: 'body2',

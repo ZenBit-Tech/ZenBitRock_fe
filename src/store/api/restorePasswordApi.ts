@@ -3,6 +3,7 @@ import { ApiRoute } from 'enums';
 
 type SendCode = { email: string | null };
 type VerifyCode = { email: string | null; code: string };
+type ResetPassword = { email: string | null; password: string; code: string | null };
 type ResponseData = {
   data: {
     data: {
@@ -34,7 +35,15 @@ export const RestorePasswordApi = createApi({
         body,
       }),
     }),
+    resetPassword: builder.mutation<ResponseData, ResetPassword>({
+      query: (body) => ({
+        url: ApiRoute.CONFIRM_RESTORE_PASSWORD,
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useSendCodeMutation, useVerifyCodeMutation } = RestorePasswordApi;
+export const { useSendCodeMutation, useVerifyCodeMutation, useResetPasswordMutation } =
+  RestorePasswordApi;
