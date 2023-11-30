@@ -21,8 +21,8 @@ const HeaderAvatar = ({ avatar }: Props): JSX.Element => {
     >
       <AvatarShape
         sx={{
-          width: { xs: 48, md: 64 },
-          height: { xs: 48, md: 64 },
+          width: { xs: 36, md: 48 },
+          height: { xs: 36, md: 48 },
         }}
       />
     </Avatar>
