@@ -1,7 +1,16 @@
 {
   "Home": {
     "Header": {
-      "title": "ZenBitRock"
+      "title": "ZenBitRock",
+      "avatar": "avatar",
+      "greeting": "Hi",
+      "navbar": {
+        "main": "Main",
+        "agents": "Agents",
+        "calendar": "Calendar",
+        "leads": "Leads",
+        "content": "Content"
+      }
     },
     "Page": {
       "title": "Welcome to ZenBitRock - the wisest real estate platform aimed at your professional success",
@@ -196,6 +205,38 @@
     "title": "Password reset was successful",
     "text": "Your password has been successfully reset. Click below to log in magically",
     "buttonText": "Log in"
+  },
+  "editProfilePage": {
+    "rolePlaceholder": "Select Role",
+    "countryPlaceholder": "Country",
+    "pageTitle": "Edit profile",
+    "backLink": "Back to Profile",
+    "updateText": "Profile updated successfully!",
+    "nameMessage": "Latin letters, spaces, 2-50 characters",
+    "phoneMessage": "Phone number is not valid",
+    "roleMessage": "Role is required",
+    "helperText": "Allowed *.jpeg, *.jpg, *.png, *.gif",
+    "helperSubText": " max size of ",
+    "delBtnTxt": "Delete User",
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "phoneNumLabel": "Phone Number",
+    "companyLabel": "Agency",
+    "cancelBtnTxt": "Cancel",
+    "saveBtnTxt": "Save Changes",
+    "update": "Change photo",
+    "upload": "Upload photo",
+    "aboutLabel": "About",
+    "city": "City",
+    "changePass": "Change password",
+    "deleteProfile": "Delete profile",
+    "recieveNotifications": "Recieve push notifications ",
+    "settingsTitle": "Settings",
+    "settingsSubtitle1": "Privacy settings",
+    "settingsSubtitle2": "Notifications",
+    "aboutMessage": "About is required",
+    "phoneMessageReq": "Phone number is required",
+    "countryMessageReq": "Country is required"
   },
   "profilePage": {
     "tabProfile": "Profile",
