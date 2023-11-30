@@ -7,7 +7,6 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import { useRouter } from 'routes/hooks';
@@ -20,6 +19,7 @@ import Iconify from 'components/iconify';
 import { useSnackbar } from 'components/snackbar';
 import FormProvider, { RHFTextField, RHFUploadAvatar, RHFAutocomplete } from 'components/hook-form';
 import RHFTextArea from 'components/hook-form/rhf-text-area';
+import DeleteProfileDialog from './user-del-dialog';
 
 type Props = {
   currentUser?: IUserEditItem;
@@ -132,9 +132,7 @@ export default function UserNewEditForm({ currentUser }: Props): JSX.Element {
 
             {currentUser && (
               <Stack justifyContent="center" alignItems="center" sx={{ mt: 3 }}>
-                <Button variant="soft" color="error">
-                  {t('delBtnTxt')}
-                </Button>
+                <DeleteProfileDialog />
               </Stack>
             )}
           </Card>
