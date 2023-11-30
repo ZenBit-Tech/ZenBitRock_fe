@@ -22,8 +22,8 @@ import FormProvider, {
 import { useCreateVerificationMutation } from 'store/api/verificationApi';
 import { datesFormats } from 'constants/dates-formats';
 import { AppRoute } from 'enums';
-import { VerificationData } from 'types/verification-data';
 import { selectCurrentUser } from 'store/auth/authReducer';
+import { VerificationData } from 'types/verification-data';
 import { getRoles, getGenders, getIdentities, getStatuses, getCountries } from './drop-box-data';
 import { FormSchema } from './schema';
 
@@ -74,7 +74,7 @@ export default function Form(): JSX.Element {
   const authState = useSelector(selectCurrentUser);
   const userId = authState.id;
 
-  const methods = useForm<VerificationData>({
+  const methods = useForm({
     resolver: yupResolver(FormSchema),
     defaultValues,
   });
@@ -98,7 +98,7 @@ export default function Form(): JSX.Element {
     setFormFilled(isFormFilled);
   }, [watchAllFields]);
 
-  const onSubmit = handleSubmit(async (data: VerificationData): Promise<void> => {
+  const onSubmit = handleSubmit(async (data): Promise<void> => {
     const {
       firstName,
       lastName,
@@ -118,23 +118,22 @@ export default function Form(): JSX.Element {
     } = data;
     const formData = new FormData();
 
-    if (singleUpload) formData.append('file', singleUpload);
+    formData.append('file', singleUpload);
     if (userId) formData.append('userId', userId);
-    formData.append('firstName', firstName);
-    formData.append('lastName', lastName);
-    if (rolesAutocomplete) formData.append('role', rolesAutocomplete.value);
-    formData.append('gender', genderRadioGroup);
-    if (dateOfBirth) formData.append('dateOfBirth', formatDate(dateOfBirth));
-
-    if (nationalityAutocomplete) formData.append('nationality', nationalityAutocomplete.value);
-    formData.append('identity', identityRadioGroup);
-    formData.append('status', statusRadioGroup);
-    formData.append('street', street);
-    formData.append('city', city);
-    formData.append('state', state);
-    formData.append('zip', zip);
-    if (countryAutocomplete) formData.append('country', countryAutocomplete.value);
-    formData.append('phone', phone);
+    formData.append('firstName', firstName as VerificationData['firstName']);
+    formData.append('lastName', lastName as VerificationData['lastName']);
+    formData.append('role', rolesAutocomplete.value);
+    formData.append('gender', genderRadioGroup as VerificationData['genderRadioGroup']);
+    formData.append('dateOfBirth', formatDate(dateOfBirth));
+    formData.append('nationality', nationalityAutocomplete.value);
+    formData.append('identity', identityRadioGroup as VerificationData['identityRadioGroup']);
+    formData.append('status', statusRadioGroup as VerificationData['statusRadioGroup']);
+    formData.append('street', street as VerificationData['street']);
+    formData.append('city', city as VerificationData['city']);
+    formData.append('state', state as VerificationData['state']);
+    formData.append('zip', zip as VerificationData['zip']);
+    formData.append('country', countryAutocomplete.value);
+    formData.append('phone', phone as VerificationData['phone']);
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
