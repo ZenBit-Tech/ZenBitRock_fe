@@ -1,6 +1,5 @@
 import { ProtectedRoute } from 'components/custom';
 
-
 type Props = {
   children: React.ReactNode;
 };
