@@ -53,9 +53,8 @@ export default function LoginForm() {
       const res = await signIn(data);
 
       if ('data' in res) {
-        
         const { id, email, token } = res.data;
-        
+
         dispatch(setCredentials({ id, email, token }));
         enqueueSnackbar('Welcome back!', { variant: 'success' });
         router.push(AppRoute.MAIN_PAGE);

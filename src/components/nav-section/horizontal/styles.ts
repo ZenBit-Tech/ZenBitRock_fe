@@ -24,11 +24,20 @@ export const StyledItem = styled(ListItemButton, {
   return {
     // Root item
     flexShrink: 0,
-    padding: config.itemPadding,
+    padding: config.responsiveItemPadding,
     marginRight: config.itemGap,
     borderRadius: config.itemRadius,
     minHeight: config.itemRootHeight,
     color: theme.palette.text.secondary,
+    flexDirection: 'column',
+
+    [theme.breakpoints.up('sm')]: {
+      flexDirection: 'row',
+    },
+
+    [theme.breakpoints.up('sm')]: {
+      padding: config.itemPadding,
+    },
 
     // Active item
     ...(active && {

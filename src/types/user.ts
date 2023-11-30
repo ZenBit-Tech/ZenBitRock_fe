@@ -1,6 +1,5 @@
 import { CustomFile } from 'components/upload';
 
-
 export type IUserTableFilterValue = string | string[];
 
 export type IUserTableFilters = {
@@ -8,7 +7,6 @@ export type IUserTableFilters = {
   role: string[];
   status: string;
 };
-
 
 export type IUserSocialLink = {
   facebook: string;

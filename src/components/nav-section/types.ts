@@ -9,6 +9,7 @@ export type NavConfigProps = {
   iconSize?: number;
   itemRadius?: number;
   itemPadding?: string;
+  responsiveItemPadding?: string;
   currentRole?: string;
   itemSubHeight?: number;
   itemRootHeight?: number;
