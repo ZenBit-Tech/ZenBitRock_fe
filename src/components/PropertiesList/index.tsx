@@ -3,19 +3,10 @@
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { useGetProperties } from 'api/property';
-import { PropertyList } from 'types/properties';
+import { PropertyList, Params } from 'types/properties';
 // import ToastContainerWrapper from 'components/toast-container';
 // import { Toast } from 'react-toastify/dist/types';
 import Image from 'components/image';
-
-type Params = {
-  page: number;
-  limit: number;
-  fields: [string];
-  media: Boolean;
-  sort: [string];
-  search: string;
-};
 
 export default function PropertiesList(): JSX.Element {
   const [propertiesList, setPropertiesList] = useState<PropertyList>([]);

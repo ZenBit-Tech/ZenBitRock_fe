@@ -3,7 +3,7 @@ import useSWR from 'swr';
 // utils
 import { fetcher, endpoints } from 'utils/axios';
 // types
-import { PropertyItem, PropertyList } from 'types/properties';
+import { PropertyItem, PropertyList, Params } from 'types/properties';
 
 // ----------------------------------------------------------------------
 
@@ -21,14 +21,7 @@ const options = {
 
 const URL = endpoints.property;
 
-export function useGetProperties(params: {
-  page: number;
-  limit: number;
-  fields: [string];
-  media: Boolean;
-  sort: [string];
-  search: string;
-}) {
+export function useGetProperties(params: Params) {
   const { data, isLoading, error, isValidating } = useSWR(
     [URL.list, { ...options, ...params }],
     fetcher

@@ -14,3 +14,14 @@ export type PropertyItem = {
 // ----------------------------------------------------------------------
 
 export type PropertyList = PropertyItem[];
+
+// ----------------------------------------------------------------------
+
+export type Params = {
+  page: number;
+  limit: number;
+  fields: [string];
+  media: Boolean;
+  sort: [string];
+  search: string;
+};
