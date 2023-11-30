@@ -5,6 +5,7 @@ import { BreadcrumbsProps } from '@mui/material/Breadcrumbs';
 
 export type BreadcrumbsLinkProps = {
   name?: string;
+  email?: string;
   href?: string;
   icon?: React.ReactElement;
 };

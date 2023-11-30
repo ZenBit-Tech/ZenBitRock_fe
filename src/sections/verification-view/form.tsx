@@ -373,12 +373,12 @@ export default function Form() {
   );
 }
 
-interface BlockProps extends StackProps {
+export interface BlockProps extends StackProps {
   label?: string;
   children: React.ReactNode;
 }
 
-function Block({ label = '', sx, children }: BlockProps) {
+export function Block({ label = '', sx, children }: BlockProps) {
   return (
     <Stack spacing={1} sx={{ width: 1, ...sx }}>
       <Typography

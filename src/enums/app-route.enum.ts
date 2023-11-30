@@ -12,6 +12,7 @@ const AppRoute = {
   TERMS_CONDITIONS: '/terms-conditions',
   MAIN_PAGE: '/main-page',
   RESTORE_PASSWORD_DONE_PAGE: '/restore-password/restore-password-done',
+  PROFILE_PAGE: '/profile',
 } as const;
 
 export { AppRoute };

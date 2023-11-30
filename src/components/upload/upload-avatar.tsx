@@ -1,17 +1,13 @@
 import { useDropzone } from 'react-dropzone';
-// @mui
+import { useTranslations } from 'next-intl';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-//
-import Iconify from '../iconify';
-import Image from '../image';
-//
 import { UploadProps } from './types';
 import RejectionFiles from './errors-rejection-files';
-
-// ----------------------------------------------------------------------
+import Iconify from '../iconify';
+import Image from '../image';
 
 export default function UploadAvatar({
   error,
@@ -21,6 +17,8 @@ export default function UploadAvatar({
   sx,
   ...other
 }: UploadProps) {
+  const t = useTranslations('editProfilePage');
+
   const { getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
     multiple: false,
     disabled,
@@ -85,7 +83,7 @@ export default function UploadAvatar({
     >
       <Iconify icon="solar:camera-add-bold" width={32} />
 
-      <Typography variant="caption">{file ? 'Update photo' : 'Upload photo'}</Typography>
+      <Typography variant="caption">{file ? t('update') : t('upload')}</Typography>
     </Stack>
   );
 

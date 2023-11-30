@@ -236,7 +236,8 @@ export const _phoneNumbers = [
   '606-285-8928',
 ];
 
-// ----------------------------------------------------------------------
+
+export const _editFormRoles = ['Agent', 'Agency'];
 
 export const _roles = [
   'HR Manager',
