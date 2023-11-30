@@ -1,5 +1,5 @@
 export type GetUserRequest = {
-  id: string;
+  id: string | null;
 };
 
 export type UpdateUserRequest = {

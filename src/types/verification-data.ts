@@ -3,7 +3,7 @@ export interface VerificationData {
   lastName: string;
   rolesAutocomplete: { value: string; label: string } | null;
   genderRadioGroup: string;
-  dateOfBirth: Date;
+  dateOfBirth: Date | null;
   nationalityAutocomplete: { value: string; label: string } | null;
   identityRadioGroup: string;
   statusRadioGroup: string;
@@ -13,7 +13,7 @@ export interface VerificationData {
   countryAutocomplete: { value: string; label: string } | null;
   zip: string;
   phone: string;
-  singleUpload: string | null;
+  singleUpload: File | string | null;
   confirmationCheckbox: boolean;
   confirmationFirstName: string;
   confirmationLastName: string;

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
@@ -22,6 +23,7 @@ import { useCreateVerificationMutation } from 'store/api/verificationApi';
 import { datesFormats } from 'constants/dates-formats';
 import { AppRoute } from 'enums';
 import { VerificationData } from 'types/verification-data';
+import { selectCurrentUser } from 'store/auth/authReducer';
 import { getRoles, getGenders, getIdentities, getStatuses, getCountries } from './drop-box-data';
 import { FormSchema } from './schema';
 
@@ -35,7 +37,7 @@ export const defaultValues = {
   lastName: '',
   rolesAutocomplete: null,
   genderRadioGroup: '',
-  dateOfBirth: undefined,
+  dateOfBirth: null,
   nationalityAutocomplete: null,
   identityRadioGroup: '',
   statusRadioGroup: '',
@@ -68,6 +70,9 @@ export default function Form(): JSX.Element {
   const [formFilled, setFormFilled] = useState<boolean>(true);
 
   const { replace } = useRouter();
+
+  const authState = useSelector(selectCurrentUser);
+  const userId = authState.id;
 
   const methods = useForm<VerificationData>({
     resolver: yupResolver(FormSchema),
@@ -114,12 +119,12 @@ export default function Form(): JSX.Element {
     const formData = new FormData();
 
     if (singleUpload) formData.append('file', singleUpload);
-    formData.append('userId', '9f636858-1571-4655-a64e-ed24e5095175');
+    if (userId) formData.append('userId', userId);
     formData.append('firstName', firstName);
     formData.append('lastName', lastName);
     if (rolesAutocomplete) formData.append('role', rolesAutocomplete.value);
     formData.append('gender', genderRadioGroup);
-    formData.append('dateOfBirth', formatDate(dateOfBirth));
+    if (dateOfBirth) formData.append('dateOfBirth', formatDate(dateOfBirth));
 
     if (nationalityAutocomplete) formData.append('nationality', nationalityAutocomplete.value);
     formData.append('identity', identityRadioGroup);
@@ -130,19 +135,23 @@ export default function Form(): JSX.Element {
     formData.append('zip', zip);
     if (countryAutocomplete) formData.append('country', countryAutocomplete.value);
     formData.append('phone', phone);
+    console.log(data);
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
-      const response = await createVerification(formData);
+      const response = await createVerification(formData).unwrap();
 
-      if ('data' in response && response.data.statusCode === STATUS_CODE_SUCCESS) {
+      console.log(response);
+
+      if (response.statusCode === STATUS_CODE_SUCCESS) {
         replace(AppRoute.VERIFICATION_DONE_PAGE);
-      } else {
-        toast.error('Something went wrong, please try again');
       }
 
       return undefined;
     } catch (error) {
+      toast.error('Something went wrong, please try again');
+      console.log(error);
+
       return error;
     }
   });
@@ -156,7 +165,7 @@ export default function Form(): JSX.Element {
       });
 
       if (newFile) {
-        setValue('singleUpload', newFile.preview, { shouldValidate: true });
+        setValue('singleUpload', newFile, { shouldValidate: true });
       }
     },
     [setValue]
