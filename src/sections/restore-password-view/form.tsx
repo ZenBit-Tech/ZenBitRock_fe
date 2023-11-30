@@ -18,7 +18,6 @@ import { AppRoute } from 'enums';
 import { isFetchBaseQueryError, isErrorWithMessage } from 'services/rtq-helper';
 
 const defaultValues = { email: '' };
-const CODE_STATUS_SUCCESS: number = 201;
 
 export default function RestorePasswordForm(): JSX.Element {
   const t = useTranslations('RestorePasswordPage');
@@ -43,13 +42,13 @@ export default function RestorePasswordForm(): JSX.Element {
 
   const { isDirty, isValid } = formState;
 
-  const onSubmit = handleSubmit(async (data): Promise<void> => {
+  const onSubmit = handleSubmit(async (data: { email: string }): Promise<void> => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
-      const email = await sendCode(data).unwrap();
+      const response = await sendCode(data).unwrap();
 
-      if (email.status === CODE_STATUS_SUCCESS) {
+      if ('response' in response) {
         dispatch(setEmail({ email: data.email }));
         router.push(AppRoute.RESTORE_PASSWORD_VERIFY_CODE_PAGE);
       }
