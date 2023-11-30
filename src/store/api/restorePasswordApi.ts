@@ -14,6 +14,14 @@ type ResponseData = {
   };
 };
 
+type ResponseVerifyData = {
+  data: {
+    message: string;
+    statusCode: number;
+  };
+  status: number;
+};
+
 export const RestorePasswordApi = createApi({
   reducerPath: 'restorePasswordApi',
   baseQuery: fetchBaseQuery({
@@ -28,7 +36,7 @@ export const RestorePasswordApi = createApi({
         body,
       }),
     }),
-    verifyCode: builder.mutation<ResponseData, VerifyCode>({
+    verifyCode: builder.mutation<ResponseVerifyData['data'], VerifyCode>({
       query: (body) => ({
         url: ApiRoute.CONFIRM_CODE_FOR_RESTORE_PASSWORD,
         method: 'POST',
