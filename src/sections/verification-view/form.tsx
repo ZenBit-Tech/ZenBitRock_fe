@@ -135,13 +135,10 @@ export default function Form(): JSX.Element {
     formData.append('zip', zip);
     if (countryAutocomplete) formData.append('country', countryAutocomplete.value);
     formData.append('phone', phone);
-    console.log(data);
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
       const response = await createVerification(formData).unwrap();
-
-      console.log(response);
 
       if (response.statusCode === STATUS_CODE_SUCCESS) {
         replace(AppRoute.VERIFICATION_DONE_PAGE);
@@ -150,7 +147,6 @@ export default function Form(): JSX.Element {
       return undefined;
     } catch (error) {
       toast.error('Something went wrong, please try again');
-      console.log(error);
 
       return error;
     }
