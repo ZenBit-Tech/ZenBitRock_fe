@@ -3,7 +3,7 @@
 import { RootState } from 'store';
 import { useSelector } from 'hooks';
 import { ProtectedRoute } from 'components/custom';
-import PropertiesList from '../../../components/PropertiesList';
+import PropertiesList from 'components/PropertiesList';
 
 export default function MainPage() {
   const auth = useSelector((state: RootState) => state.authSlice);

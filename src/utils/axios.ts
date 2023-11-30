@@ -1,9 +1,9 @@
 import axios, { AxiosRequestConfig } from 'axios';
 // config
-import { CRM_API } from 'config-global';
+import { BASE_URL } from 'config-global';
 
 // ----------------------------------------------------------------------
-const axiosInstance = axios.create({ baseURL: CRM_API });
+const axiosInstance = axios.create({ baseURL: BASE_URL });
 
 axiosInstance.interceptors.response.use(
   (res) => res,
@@ -16,6 +16,7 @@ export default axiosInstance;
 
 export const fetcher = async (args: string | [string, AxiosRequestConfig]) => {
   const [url, config] = Array.isArray(args) ? args : [args];
+
   const res = await axiosInstance.get(url, { ...config });
   return res.data;
 };
@@ -48,6 +49,6 @@ export const endpoints = {
     search: '/api/product/search',
   },
   property: {
-    list: '/api/v2/properties',
+    list: '/qobrix-proxy/api/v2/properties',
   },
 };
