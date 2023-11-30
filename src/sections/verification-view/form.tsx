@@ -21,26 +21,21 @@ import FormProvider, {
 import { useCreateVerificationMutation } from 'store/api/verificationApi';
 import { datesFormats } from 'constants/dates-formats';
 import { AppRoute } from 'enums';
-import {
-  getRoles,
-  getGenders,
-  getNationalities,
-  getIdentities,
-  getStatuses,
-  getCountries,
-} from './drop-box-data';
+import { VerificationData } from 'types/verification-data';
+import { getRoles, getGenders, getIdentities, getStatuses, getCountries } from './drop-box-data';
 import { FormSchema } from './schema';
 
 type IOptions = {
   value: string;
   label: string;
 };
+
 export const defaultValues = {
   firstName: '',
   lastName: '',
   rolesAutocomplete: null,
   genderRadioGroup: '',
-  dateOfBirth: null,
+  dateOfBirth: undefined,
   nationalityAutocomplete: null,
   identityRadioGroup: '',
   statusRadioGroup: '',
@@ -56,12 +51,25 @@ export const defaultValues = {
   confirmationLastName: '',
 };
 
-export default function Form() {
+const STATUS_CODE_SUCCESS = 202;
+
+function formatDate(inputDate: Date): string {
+  const year = inputDate.getFullYear();
+  const month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
+  const day = inputDate.getDate().toString().padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
+
+export default function Form(): JSX.Element {
   const t = useTranslations('VerificationPage');
+
   const [createVerification, { isLoading }] = useCreateVerificationMutation();
-  const [formFilled, setFormFilled] = useState(true);
+  const [formFilled, setFormFilled] = useState<boolean>(true);
+
   const { replace } = useRouter();
-  const methods = useForm({
+
+  const methods = useForm<VerificationData>({
     resolver: yupResolver(FormSchema),
     defaultValues,
   });
@@ -85,7 +93,7 @@ export default function Form() {
     setFormFilled(isFormFilled);
   }, [watchAllFields]);
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async (data: VerificationData): Promise<void> => {
     const {
       firstName,
       lastName,
@@ -105,28 +113,29 @@ export default function Form() {
     } = data;
     const formData = new FormData();
 
-    formData.append('file', singleUpload);
-    formData.append('userId', '9e6c600a-f42a-45ee-b77a-70fe4da5008a');
+    if (singleUpload) formData.append('file', singleUpload);
+    formData.append('userId', '9f636858-1571-4655-a64e-ed24e5095175');
     formData.append('firstName', firstName);
     formData.append('lastName', lastName);
-    formData.append('role', rolesAutocomplete.label);
+    if (rolesAutocomplete) formData.append('role', rolesAutocomplete.value);
     formData.append('gender', genderRadioGroup);
-    formData.append('dateOfBirth', dateOfBirth.toDateString());
-    formData.append('nationality', nationalityAutocomplete.label);
+    formData.append('dateOfBirth', formatDate(dateOfBirth));
+
+    if (nationalityAutocomplete) formData.append('nationality', nationalityAutocomplete.value);
     formData.append('identity', identityRadioGroup);
     formData.append('status', statusRadioGroup);
     formData.append('street', street);
     formData.append('city', city);
     formData.append('state', state);
     formData.append('zip', zip);
-    formData.append('country', countryAutocomplete.label);
+    if (countryAutocomplete) formData.append('country', countryAutocomplete.value);
     formData.append('phone', phone);
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
-      const newUser = await createVerification(formData);
+      const response = await createVerification(formData);
 
-      if ('data' in newUser && newUser.data.statusCode === 201) {
+      if ('data' in response && response.data.statusCode === STATUS_CODE_SUCCESS) {
         replace(AppRoute.VERIFICATION_DONE_PAGE);
       } else {
         toast.error('Something went wrong, please try again');
@@ -147,7 +156,7 @@ export default function Form() {
       });
 
       if (newFile) {
-        setValue('singleUpload', newFile, { shouldValidate: true });
+        setValue('singleUpload', newFile.preview, { shouldValidate: true });
       }
     },
     [setValue]
@@ -235,11 +244,20 @@ export default function Form() {
                 <RHFAutocomplete
                   name="nationalityAutocomplete"
                   label={t('nationalityPlaceholder')}
-                  options={getNationalities()}
+                  options={getCountries()}
                   getOptionLabel={(option: IOptions | string) => (option as IOptions).label}
                   isOptionEqualToValue={(option, value) => option.value === value.value}
                   renderOption={(props, option) => (
                     <li {...props} key={option.value}>
+                      <img
+                        key={option.value}
+                        style={{ marginRight: '15px' }}
+                        loading="lazy"
+                        width="20"
+                        srcSet={`https://flagcdn.com/w40/${option.value.toLowerCase()}.png 2x`}
+                        src={`https://flagcdn.com/w20/${option.value.toLowerCase()}.png`}
+                        alt=""
+                      />
                       {option.label}
                     </li>
                   )}

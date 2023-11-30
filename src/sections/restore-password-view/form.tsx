@@ -15,6 +15,7 @@ import FormProvider from 'components/hook-form';
 import { useSendCodeMutation } from 'store/api/restorePasswordApi';
 import { setEmail } from 'store/reducers/restorePasswordReducer';
 import { AppRoute } from 'enums';
+import { isFetchBaseQueryError, isErrorWithMessage } from 'services/rtq-helper';
 
 const defaultValues = { email: '' };
 
@@ -45,25 +46,29 @@ export default function RestorePasswordForm(): JSX.Element {
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
-      const email = await sendCode(data);
+      const email = await sendCode(data).unwrap();
 
-      if ('data' in email) {
+      console.log(email);
+
+      if (email.status === 201) {
         dispatch(setEmail({ email: data.email }));
         router.push(AppRoute.RESTORE_PASSWORD_VERIFY_CODE_PAGE);
-      } else if (
-        'data' in email.error &&
-        email.error.data &&
-        typeof email.error.data === 'object' &&
-        'error' in email.error.data
-      ) {
-        const message = email.error.data.error;
-
-        enqueueSnackbar(message, { variant: 'error' });
       }
-
-      return undefined;
     } catch (error) {
-      return error;
+      if (
+        isFetchBaseQueryError(error) &&
+        'data' in error &&
+        error.data &&
+        typeof error.data === 'object' &&
+        'error' in error.data &&
+        error.data.error
+      ) {
+        const errorMsg = error.data.error;
+
+        enqueueSnackbar(errorMsg, { variant: 'error' });
+      } else if (isErrorWithMessage(error)) {
+        enqueueSnackbar(error.message, { variant: 'error' });
+      }
     }
   });
 

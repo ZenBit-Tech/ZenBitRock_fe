@@ -4,10 +4,9 @@ import { ApiRoute } from 'enums';
 type SendCode = { email: string | null };
 type VerifyCode = { email: string | null; code: string };
 type ResponseData = {
-  error: {
+  data: {
     data: {
       message: string;
-      error: string;
       statusCode: number;
     };
     status: number;
@@ -21,7 +20,7 @@ export const RestorePasswordApi = createApi({
   }),
   tagTypes: ['Restore password'],
   endpoints: (builder) => ({
-    sendCode: builder.mutation<ResponseData, SendCode>({
+    sendCode: builder.mutation<ResponseData['data'], SendCode>({
       query: (body) => ({
         url: ApiRoute.SEND_CODE_FOR_RESTORE_PASSWORD,
         method: 'POST',

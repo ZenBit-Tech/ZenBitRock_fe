@@ -23,6 +23,13 @@ export type UpdateUserRequest = {
   };
 };
 
+export type UpdateUserResponse = {
+  data: {
+    statusCode: number;
+    message: string;
+  };
+};
+
 export type GetUserResponse = {
   data: {
     country: string;
