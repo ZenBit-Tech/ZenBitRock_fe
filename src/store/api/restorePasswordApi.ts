@@ -5,14 +5,21 @@ type SendCode = { email: string | null };
 type VerifyCode = { email: string | null; code: string };
 type ResetPassword = { email: string | null; password: string; code: string | null };
 type ResponseData = {
-  error: {
+  data: {
     data: {
       message: string;
-      error: string;
       statusCode: number;
     };
     status: number;
   };
+};
+
+type ResponseVerifyData = {
+  data: {
+    message: string;
+    statusCode: number;
+  };
+  status: number;
 };
 
 export const RestorePasswordApi = createApi({
@@ -22,14 +29,14 @@ export const RestorePasswordApi = createApi({
   }),
   tagTypes: ['Restore password'],
   endpoints: (builder) => ({
-    sendCode: builder.mutation<ResponseData, SendCode>({
+    sendCode: builder.mutation<ResponseData['data'], SendCode>({
       query: (body) => ({
         url: ApiRoute.SEND_CODE_FOR_RESTORE_PASSWORD,
         method: 'POST',
         body,
       }),
     }),
-    verifyCode: builder.mutation<ResponseData, VerifyCode>({
+    verifyCode: builder.mutation<ResponseVerifyData['data'], VerifyCode>({
       query: (body) => ({
         url: ApiRoute.CONFIRM_CODE_FOR_RESTORE_PASSWORD,
         method: 'POST',
