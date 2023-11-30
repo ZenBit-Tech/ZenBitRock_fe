@@ -49,8 +49,6 @@ export default function RestorePasswordForm(): JSX.Element {
       reset();
       const email = await sendCode(data).unwrap();
 
-      console.log(email);
-
       if (email.status === CODE_STATUS_SUCCESS) {
         dispatch(setEmail({ email: data.email }));
         router.push(AppRoute.RESTORE_PASSWORD_VERIFY_CODE_PAGE);
