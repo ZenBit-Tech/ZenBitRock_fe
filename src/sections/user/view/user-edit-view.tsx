@@ -14,6 +14,7 @@ export default function UserEditView(): JSX.Element {
   const t = useTranslations('editProfilePage');
   const settings = useSettingsContext();
   const { user } = useMockedUser();
+  console.log(user);
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'} sx={{ paddingTop: '1rem' }}>

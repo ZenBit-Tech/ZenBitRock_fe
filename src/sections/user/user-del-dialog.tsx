@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useTranslations } from 'next-intl';
-import { DialogContentText, Typography } from '@mui/material';
+import { DialogContentText, Link, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -17,7 +17,7 @@ export default function DeleteProfileDialog() {
   React.useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef;
-      
+
       if (descriptionElement !== null) {
         descriptionElement.focus();
       }
@@ -34,9 +34,16 @@ export default function DeleteProfileDialog() {
 
   return (
     <>
-      <Button variant="soft" color="error" onClick={handleClickOpen}>
-        {t('delBtnTxt')}
-      </Button>
+      <Typography
+        variant="body2"
+        onClick={handleClickOpen}
+        sx={{
+          textDecoration: 'none',
+          '&:hover': { color: 'error.main', textDecoration: 'underline' },
+        }}
+      >
+        {t('deleteProfile')}
+      </Typography>
 
       <Dialog
         open={open}
@@ -65,7 +72,7 @@ export default function DeleteProfileDialog() {
           <Button onClick={handleClose} color="primary">
             {t('cancelBtnTxt')}
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color="primary" sx={{ '&:hover': { color: 'error.main' } }}>
             {t('confirmDelBtnTxt')}
           </Button>
         </DialogActions>

@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Switch, Theme } from '@mui/material';
+import { Link, Switch, Theme } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -8,6 +8,9 @@ import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 import CardHeader from '@mui/material/CardHeader';
 import Iconify from 'components/iconify';
+import { AppRoute } from 'enums';
+import DeleteProfileDialog from './user-del-dialog';
+
 
 interface RenderProps {
   checked: boolean;
@@ -26,12 +29,12 @@ const RenderSettings = ({ checked, handleChange, theme }: RenderProps): JSX.Elem
 
         <Stack direction="row" sx={{ typography: 'body2' }}>
           <Iconify icon="fluent:lock-closed-key-24-filled" width={24} sx={{ mr: 2 }} />
-          {t('changePass')}
+          <Link href={AppRoute.RESTORE_PASSWORD_PAGE}>{t('changePass')}</Link>
         </Stack>
 
-        <Stack direction="row" sx={{ typography: 'body2' }}>
+        <Stack direction="row">
           <Iconify icon="fluent:person-delete-24-filled" width={24} sx={{ mr: 2 }} />
-          {t('deleteProfile')}
+          <DeleteProfileDialog />
         </Stack>
 
         <Box sx={{ typography: 'subtitle2' }}>{t('settingsSubtitle2')}</Box>

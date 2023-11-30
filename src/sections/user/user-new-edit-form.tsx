@@ -19,7 +19,6 @@ import Iconify from 'components/iconify';
 import { useSnackbar } from 'components/snackbar';
 import FormProvider, { RHFTextField, RHFUploadAvatar, RHFAutocomplete } from 'components/hook-form';
 import RHFTextArea from 'components/hook-form/rhf-text-area';
-import DeleteProfileDialog from './user-del-dialog';
 
 type Props = {
   currentUser?: IUserEditItem;
@@ -129,12 +128,6 @@ export default function UserNewEditForm({ currentUser }: Props): JSX.Element {
                 }
               />
             </Box>
-
-            {currentUser && (
-              <Stack justifyContent="center" alignItems="center" sx={{ mt: 3 }}>
-                <DeleteProfileDialog />
-              </Stack>
-            )}
           </Card>
         </Grid>
 
