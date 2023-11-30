@@ -8,13 +8,7 @@ import { useGetProperties } from 'api/property';
 import { PropertyList, PropertyPagination, PropertyParamsList } from 'types/properties';
 import { getCountries } from 'sections/verification-view/drop-box-data';
 import { LoadingScreen } from 'components/loading-screen';
-import {
-  TitleStyled,
-  TypographyStyled,
-  LinkStyled,
-  ListItemStyled,
-  TextFieldStyled,
-} from './styles';
+import { Title, TypographyStyled, LinkStyled, ListItemStyled, TextFieldStyled } from './styles';
 import Image from 'components/image';
 import Iconify from 'components/iconify';
 
@@ -76,7 +70,9 @@ export default function PropertiesList(): JSX.Element {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '90%' }}>
-      <TitleStyled sx={{ marginBottom: '1.5rem' }}>{t('My properties')}</TitleStyled>
+      <Title variant="h2" sx={{ marginBottom: '1.5rem' }}>
+        {t('My properties')}
+      </Title>
       <p>Filter</p>
       {error && notify()}
       {isLoading && !error && <LoadingScreen />}

@@ -2,7 +2,7 @@
 
 import { styled, Typography, Link, ListItem, TextField } from '@mui/material';
 
-export const TitleStyled = styled(TextField)`
+export const Title = styled(Typography)`
   font-size: 1rem;
 `;
 
