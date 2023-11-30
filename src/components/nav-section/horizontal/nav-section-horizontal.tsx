@@ -1,20 +1,18 @@
 import { memo } from 'react';
-// @mui
 import Stack from '@mui/material/Stack';
-// theme
 import { hideScroll } from 'theme/css';
-//
 import { NavSectionProps, NavListProps, NavConfigProps } from '../types';
 import { navHorizontalConfig } from '../config';
 import NavList from './nav-list';
-
-// ----------------------------------------------------------------------
 
 function NavSectionHorizontal({ data, config, sx, ...other }: NavSectionProps) {
   return (
     <Stack
       direction="row"
       sx={{
+        width: 1,
+        maxWidth: '1000px',
+        justifyContent: 'space-between',
         mx: 'auto',
         ...hideScroll.y,
         ...sx,
