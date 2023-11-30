@@ -65,7 +65,7 @@ function ProfileSettings() {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
-  
+
   return (
     <Grid container spacing={3}>
       <Grid xs={12} md={12}>
