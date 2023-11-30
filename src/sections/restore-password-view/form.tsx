@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { TextField, Button, Typography, Box, CircularProgress } from '@mui/material';
-import { useSnackbar } from 'notistack';
+// import { useSnackbar } from 'notistack';
 import Backdrop from '@mui/material/Backdrop';
 import Stack from '@mui/system/Stack';
 import { useDispatch } from 'react-redux';
@@ -27,7 +27,7 @@ export default function RestorePasswordForm(): JSX.Element {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const { enqueueSnackbar } = useSnackbar();
+  // const { enqueueSnackbar } = useSnackbar();
 
   const methods = useForm({ defaultValues });
 
@@ -56,11 +56,15 @@ export default function RestorePasswordForm(): JSX.Element {
         typeof email.error.data === 'object' &&
         'error' in email.error.data
       ) {
-        const message = email.error.data.error;
-        enqueueSnackbar(message, { variant: 'error' });
+        // const message = email.error.data.error;
+
+        // enqueueSnackbar(message, { variant: 'error' });
+        console.log(email.error.data);
       }
+
+      return undefined;
     } catch (error) {
-      throw error;
+      return error;
     }
   });
 

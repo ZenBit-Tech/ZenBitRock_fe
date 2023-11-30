@@ -13,9 +13,9 @@ export default function VerificationDoneView(): JSX.Element {
 
   const { replace } = useRouter();
 
-  function handleClick() {
+  const handleClick = () => {
     replace(AppRoute.SIGN_IN_PAGE);
-  }
+  };
 
   return (
     <Box
