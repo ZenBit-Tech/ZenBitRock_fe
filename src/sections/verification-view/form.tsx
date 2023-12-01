@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
@@ -21,20 +22,16 @@ import FormProvider, {
 import { useCreateVerificationMutation } from 'store/api/verificationApi';
 import { datesFormats } from 'constants/dates-formats';
 import { AppRoute } from 'enums';
-import {
-  getRoles,
-  getGenders,
-  getNationalities,
-  getIdentities,
-  getStatuses,
-  getCountries,
-} from './drop-box-data';
+import { selectCurrentUser } from 'store/auth/authReducer';
+import { VerificationData } from 'types/verification-data';
+import { getRoles, getGenders, getIdentities, getStatuses, getCountries } from './drop-box-data';
 import { FormSchema } from './schema';
 
 type IOptions = {
   value: string;
   label: string;
 };
+
 export const defaultValues = {
   firstName: '',
   lastName: '',
@@ -56,11 +53,27 @@ export const defaultValues = {
   confirmationLastName: '',
 };
 
-export default function Form() {
+const STATUS_CODE_SUCCESS = 202;
+
+function formatDate(inputDate: Date): string {
+  const year = inputDate.getFullYear();
+  const month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
+  const day = inputDate.getDate().toString().padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
+
+export default function Form(): JSX.Element {
   const t = useTranslations('VerificationPage');
+
   const [createVerification, { isLoading }] = useCreateVerificationMutation();
-  const [formFilled, setFormFilled] = useState(true);
+  const [formFilled, setFormFilled] = useState<boolean>(true);
+
   const { replace } = useRouter();
+
+  const authState = useSelector(selectCurrentUser);
+  const userId = authState.id;
+
   const methods = useForm({
     resolver: yupResolver(FormSchema),
     defaultValues,
@@ -85,7 +98,7 @@ export default function Form() {
     setFormFilled(isFormFilled);
   }, [watchAllFields]);
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async (data): Promise<void> => {
     const {
       firstName,
       lastName,
@@ -106,34 +119,34 @@ export default function Form() {
     const formData = new FormData();
 
     formData.append('file', singleUpload);
-    formData.append('userId', '9e6c600a-f42a-45ee-b77a-70fe4da5008a');
-    formData.append('firstName', firstName);
-    formData.append('lastName', lastName);
-    formData.append('role', rolesAutocomplete.label);
-    formData.append('gender', genderRadioGroup);
-    formData.append('dateOfBirth', dateOfBirth.toDateString());
-    formData.append('nationality', nationalityAutocomplete.label);
-    formData.append('identity', identityRadioGroup);
-    formData.append('status', statusRadioGroup);
-    formData.append('street', street);
-    formData.append('city', city);
-    formData.append('state', state);
-    formData.append('zip', zip);
-    formData.append('country', countryAutocomplete.label);
-    formData.append('phone', phone);
+    if (userId) formData.append('userId', userId);
+    formData.append('firstName', firstName as VerificationData['firstName']);
+    formData.append('lastName', lastName as VerificationData['lastName']);
+    formData.append('role', rolesAutocomplete.value);
+    formData.append('gender', genderRadioGroup as VerificationData['genderRadioGroup']);
+    formData.append('dateOfBirth', formatDate(dateOfBirth));
+    formData.append('nationality', nationalityAutocomplete.value);
+    formData.append('identity', identityRadioGroup as VerificationData['identityRadioGroup']);
+    formData.append('status', statusRadioGroup as VerificationData['statusRadioGroup']);
+    formData.append('street', street as VerificationData['street']);
+    formData.append('city', city as VerificationData['city']);
+    formData.append('state', state as VerificationData['state']);
+    formData.append('zip', zip as VerificationData['zip']);
+    formData.append('country', countryAutocomplete.value);
+    formData.append('phone', phone as VerificationData['phone']);
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
-      const newUser = await createVerification(formData);
+      const response = await createVerification(formData).unwrap();
 
-      if ('data' in newUser && newUser.data.statusCode === 201) {
+      if (response.statusCode === STATUS_CODE_SUCCESS) {
         replace(AppRoute.VERIFICATION_DONE_PAGE);
-      } else {
-        toast.error('Something went wrong, please try again');
       }
 
       return undefined;
     } catch (error) {
+      toast.error('Something went wrong, please try again');
+
       return error;
     }
   });
@@ -235,11 +248,20 @@ export default function Form() {
                 <RHFAutocomplete
                   name="nationalityAutocomplete"
                   label={t('nationalityPlaceholder')}
-                  options={getNationalities()}
+                  options={getCountries()}
                   getOptionLabel={(option: IOptions | string) => (option as IOptions).label}
                   isOptionEqualToValue={(option, value) => option.value === value.value}
                   renderOption={(props, option) => (
                     <li {...props} key={option.value}>
+                      <img
+                        key={option.value}
+                        style={{ marginRight: '15px' }}
+                        loading="lazy"
+                        width="20"
+                        srcSet={`https://flagcdn.com/w40/${option.value.toLowerCase()}.png 2x`}
+                        src={`https://flagcdn.com/w20/${option.value.toLowerCase()}.png`}
+                        alt=""
+                      />
                       {option.label}
                     </li>
                   )}

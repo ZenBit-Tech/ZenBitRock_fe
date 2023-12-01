@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { TextField, Button, Typography, Box, CircularProgress } from '@mui/material';
-// import { useSnackbar } from 'notistack';
+import { useSnackbar } from 'notistack';
 import Backdrop from '@mui/material/Backdrop';
 import Stack from '@mui/system/Stack';
 import { useDispatch } from 'react-redux';
@@ -27,7 +27,7 @@ export default function RestorePasswordForm(): JSX.Element {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  // const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   const methods = useForm({ defaultValues });
 
@@ -41,29 +41,21 @@ export default function RestorePasswordForm(): JSX.Element {
 
   const { isDirty, isValid } = formState;
 
-  const onSubmit = handleSubmit(async (data): Promise<void> => {
+  const onSubmit = handleSubmit(async (data: { email: string }): Promise<void> => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
-      const email = await sendCode(data);
+      const response = await sendCode(data).unwrap();
 
-      if ('data' in email) {
+      if ('response' in response) {
         dispatch(setEmail({ email: data.email }));
         router.push(AppRoute.RESTORE_PASSWORD_VERIFY_CODE_PAGE);
-      } else if (
-        'data' in email.error &&
-        email.error.data &&
-        typeof email.error.data === 'object' &&
-        'error' in email.error.data
-      ) {
-        // const message = email.error.data.error;
-
-        // enqueueSnackbar(message, { variant: 'error' });
-        console.log(email.error.data);
       }
 
       return undefined;
     } catch (error) {
+      enqueueSnackbar('Something went wrong, please try again', { variant: 'error' });
+
       return error;
     }
   });

@@ -1,10 +1,28 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Yup from 'yup';
 import { patterns } from 'constants/patterns';
+import { VerificationData } from 'types/verification-data';
 import { Values } from './drop-box-data';
 
 const LEGAL_AGE = 18;
 
-export const FormSchema = Yup.object().shape({
+export type ConditionalSchema<T> = T extends string
+  ? Yup.StringSchema
+  : T extends number
+  ? Yup.NumberSchema
+  : T extends boolean
+  ? Yup.BooleanSchema
+  : T extends Record<any, any>
+  ? Yup.AnyObjectSchema
+  : T extends Array<any>
+  ? Yup.ArraySchema<any, any>
+  : Yup.AnySchema;
+
+export type Shape<Fields> = {
+  [Key in keyof Fields]: ConditionalSchema<Fields[Key]>;
+};
+
+export const FormSchema = Yup.object().shape<Shape<VerificationData>>({
   firstName: Yup.string()
     .required('Name is required')
     .matches(patterns.name, 'Latin letters, spaces, 2-50 characters'),
@@ -33,9 +51,10 @@ export const FormSchema = Yup.object().shape({
   city: Yup.string()
     .required('City is required')
     .matches(patterns.city, 'Latin letters, numbers, commas, periods, hyphens, 2-100 character'),
-  state: Yup.string()
-    .default('')
-    .matches(patterns.state, 'Latin letters, numbers, commas, periods, hyphens, 2-100 character'),
+  state: Yup.string().matches(
+    patterns.state,
+    'Latin letters, numbers, commas, periods, hyphens, 2-100 character'
+  ),
   zip: Yup.string()
     .required('Zip code is required')
     .matches(patterns.zipCode, 'Zip code is not valid'),
