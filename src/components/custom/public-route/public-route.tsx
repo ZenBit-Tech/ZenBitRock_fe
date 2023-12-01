@@ -12,7 +12,7 @@ type Properties = {
 
 const PublicRoute: React.FC<Properties> = ({ children, redirectPath = AppRoute.MAIN_PAGE }) => {
   const router = useRouter();
-  const user = useSelector((state: RootState) => state.authSlice.id);
+  const user = useSelector((state: RootState) => state.authSlice.user);
   const [authChecked, setAuthChecked] = useState(false);
 
   useEffect(() => {

@@ -1,45 +1,37 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import type { RootState } from 'store';
 import { authApi } from './authApi';
+import { UserProfileResponse } from './lib/types';
 
 type AuthState = {
-  email: string | null;
-  token: string | null;
-  id: string | null;
+  user: UserProfileResponse | null;
 };
 
-const { getProfile } = authApi.endpoints;
+const initialState: AuthState = {
+  user: null,
+};
+
+const { getProfile, signUp, signIn } = authApi.endpoints;
 
 export const authSlice = createSlice({
   name: 'auth',
-  initialState: { id: null, email: null, token: null } as AuthState,
-  reducers: {
-    setCredentials: (
-      state,
-      { payload: { id, email, token } }: PayloadAction<{ id: string; email: string; token: string }>
-    ) => {
-      state.id = id;
-      state.email = email;
-      state.token = token;
-    },
-  },
+  initialState,
+  reducers: {},
   extraReducers: (builder) => {
+    builder.addMatcher(signUp.matchFulfilled, (state, action) => {
+      state.user = action.payload.user;
+    });
+    builder.addMatcher(signIn.matchFulfilled, (state, action) => {
+      state.user = action.payload.user;
+    });
     builder.addMatcher(getProfile.matchFulfilled, (state, action) => {
-      const user = action.payload;
-
-      state.id = user.id;
-      state.email = user.email;
-      state.token = user.token;
+      state.user = action.payload;
     });
     builder.addMatcher(getProfile.matchRejected, (state) => {
-      state.id = null;
-      state.email = null;
-      state.token = null;
+      state.user = null;
     });
   },
 });
-
-export const { setCredentials } = authSlice.actions;
 
 export default authSlice.reducer;
 

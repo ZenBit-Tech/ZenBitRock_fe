@@ -6,14 +6,14 @@ import { useEffect, useRouter, useSelector } from 'hooks';
 import { VerifyView } from './components';
 
 export default function ClassicVerifyPage() {
-  const email = useSelector((state: RootState) => state.authSlice.email);
+  const user = useSelector((state: RootState) => state.authSlice.user);
   const router = useRouter();
 
   useEffect(() => {
-    if (!email) {
+    if (!user) {
       router.push(AppRoute.SIGN_IN_PAGE);
     }
-  }, [email, router]);
+  }, [user, router]);
 
-  return <>{email && <VerifyView email={email} />}</>;
+  return <>{user && <VerifyView email={user.email} />}</>;
 }

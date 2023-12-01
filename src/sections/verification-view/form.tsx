@@ -72,7 +72,7 @@ export default function Form(): JSX.Element {
   const { replace } = useRouter();
 
   const authState = useSelector(selectCurrentUser);
-  const userId = authState.id;
+  const userId = authState.user ? authState.user.id : null;
 
   const methods = useForm({
     resolver: yupResolver(FormSchema),
