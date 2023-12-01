@@ -16,6 +16,7 @@ import { setCode } from 'store/reducers/restorePasswordReducer';
 import { AppRoute } from 'enums';
 
 const defaultValues = { code: '' };
+const CODE_STATUS_SUCCESS: number = 202;
 
 export default function RestorePasswordForm(): JSX.Element {
   const t = useTranslations('VerifyCodePage');
@@ -39,33 +40,22 @@ export default function RestorePasswordForm(): JSX.Element {
   const { isDirty, isValid } = formState;
 
   const onSubmit = handleSubmit(async (data): Promise<void> => {
-    const CODE = 409;
-
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
       const payload = { email, code: data.code };
-      const response = await verifyCode(payload);
+      const response = await verifyCode(payload).unwrap();
 
-      if ('error' in response && 'status' in response.error && response.error.status === CODE) {
+      if (response.statusCode === CODE_STATUS_SUCCESS) {
         enqueueSnackbar('Success!', { variant: 'success' });
         dispatch(setCode({ code: data.code }));
         router.push(AppRoute.RESTORE_PASSWORD_CHANGE_PASSWORD_PAGE);
-      } else if (
-        'error' in response &&
-        'data' in response.error &&
-        response.error.data &&
-        typeof response.error.data === 'object' &&
-        'message' in response.error.data &&
-        response.error.data.message
-      ) {
-        const { message } = response.error.data;
-
-        enqueueSnackbar(message, { variant: 'error' });
       }
 
       return undefined;
     } catch (error) {
+      enqueueSnackbar('Something went wrong, please try again', { variant: 'error' });
+
       return error;
     }
   });
@@ -76,19 +66,12 @@ export default function RestorePasswordForm(): JSX.Element {
 
       if ('data' in response) {
         enqueueSnackbar('Check your mail!', { variant: 'success' });
-      } else if (
-        'data' in response.error &&
-        response.error.data &&
-        typeof response.error.data === 'object' &&
-        'error' in response.error.data
-      ) {
-        const message = response.error.data.error;
-
-        enqueueSnackbar(message, { variant: 'error' });
       }
 
       return undefined;
     } catch (error) {
+      enqueueSnackbar('Something went wrong, please try again', { variant: 'error' });
+
       return error;
     }
   };
