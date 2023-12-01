@@ -66,19 +66,12 @@ export default function RestorePasswordForm(): JSX.Element {
 
       if ('data' in response) {
         enqueueSnackbar('Check your mail!', { variant: 'success' });
-      } else if (
-        'data' in response.error &&
-        response.error.data &&
-        typeof response.error.data === 'object' &&
-        'error' in response.error.data
-      ) {
-        const message = response.error.data.error;
-
-        enqueueSnackbar(message, { variant: 'error' });
       }
 
       return undefined;
     } catch (error) {
+      enqueueSnackbar('Something went wrong, please try again', { variant: 'error' });
+
       return error;
     }
   };
