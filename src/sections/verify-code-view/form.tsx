@@ -14,7 +14,6 @@ import FormProvider, { RHFCode } from 'components/hook-form';
 import { useSendCodeMutation, useVerifyCodeMutation } from 'store/api/restorePasswordApi';
 import { setCode } from 'store/reducers/restorePasswordReducer';
 import { AppRoute } from 'enums';
-import { isErrorWithMessage, isFetchBaseQueryError } from 'services/rtq-helper';
 
 const defaultValues = { code: '' };
 const CODE_STATUS_SUCCESS: number = 202;
@@ -52,21 +51,12 @@ export default function RestorePasswordForm(): JSX.Element {
         dispatch(setCode({ code: data.code }));
         router.push(AppRoute.RESTORE_PASSWORD_CHANGE_PASSWORD_PAGE);
       }
-    } catch (error) {
-      if (
-        isFetchBaseQueryError(error) &&
-        'data' in error &&
-        error.data &&
-        typeof error.data === 'object' &&
-        'message' in error.data &&
-        error.data.message
-      ) {
-        const { message } = error.data;
 
-        enqueueSnackbar(message, { variant: 'error' });
-      } else if (isErrorWithMessage(error)) {
-        enqueueSnackbar(error.message, { variant: 'error' });
-      }
+      return undefined;
+    } catch (error) {
+      enqueueSnackbar('Something went wrong, please try again', { variant: 'error' });
+
+      return error;
     }
   });
 
@@ -76,19 +66,12 @@ export default function RestorePasswordForm(): JSX.Element {
 
       if ('data' in response) {
         enqueueSnackbar('Check your mail!', { variant: 'success' });
-      } else if (
-        'data' in response.error &&
-        response.error.data &&
-        typeof response.error.data === 'object' &&
-        'error' in response.error.data
-      ) {
-        const message = response.error.data.error;
-
-        enqueueSnackbar(message, { variant: 'error' });
       }
 
       return undefined;
     } catch (error) {
+      enqueueSnackbar('Something went wrong, please try again', { variant: 'error' });
+
       return error;
     }
   };
