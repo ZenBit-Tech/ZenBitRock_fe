@@ -7,7 +7,6 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import { useRouter } from 'routes/hooks';
@@ -129,14 +128,6 @@ export default function UserNewEditForm({ currentUser }: Props): JSX.Element {
                 }
               />
             </Box>
-
-            {currentUser && (
-              <Stack justifyContent="center" alignItems="center" sx={{ mt: 3 }}>
-                <Button variant="soft" color="error">
-                  {t('delBtnTxt')}
-                </Button>
-              </Stack>
-            )}
           </Card>
         </Grid>
 
