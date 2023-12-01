@@ -15,7 +15,7 @@ const ProtectedRoute: React.FC<Properties> = ({
   redirectPath = AppRoute.SIGN_IN_PAGE,
 }) => {
   const router = useRouter();
-  const user = useSelector((state: RootState) => state.authSlice.id);
+  const user = useSelector((state: RootState) => state.authSlice.user);
   const [authChecked, setAuthChecked] = useState(false);
 
   useEffect(() => {

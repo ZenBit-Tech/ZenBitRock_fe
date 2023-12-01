@@ -11,7 +11,7 @@ type Props = {
 };
 
 const App = ({ children }: Props) => {
-  const userId = useSelector((state: RootState) => state.authSlice.id);
+  const userId = useSelector((state: RootState) => state.authSlice.user);
   const [token, setToken] = useState<string | null>(null);
   const [authChecked, setAuthChecked] = useState(false);
 

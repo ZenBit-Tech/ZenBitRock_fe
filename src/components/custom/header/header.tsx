@@ -17,7 +17,7 @@ const Header = (): JSX.Element => {
   const theme = useTheme();
   const t = useTranslations('Home');
   const { user } = useMockedUser();
-  const auth = useSelector((state: RootState) => state.authSlice);
+  const authUser = useSelector((state: RootState) => state.authSlice.user);
 
   return (
     <AppBar position="static" sx={{ borderBottom: `1px solid ${grey[900]}` }}>
@@ -33,7 +33,7 @@ const Header = (): JSX.Element => {
         <Container maxWidth={false} sx={{ height: 1, display: 'flex', alignItems: 'center' }}>
           <Logo href={AppRoute.HOME_PAGE}>{t('Header.title')}</Logo>
           <Box sx={{ flexGrow: 1 }} />
-          {auth.id && (
+          {authUser && (
             <Box sx={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
               <Typography sx={{ textAlign: 'right', color: theme.palette.primary.main }}>{`${t(
                 'Header.greeting'
