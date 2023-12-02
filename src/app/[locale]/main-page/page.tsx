@@ -7,9 +7,9 @@ import PropertiesList from 'components/PropertiesList';
 
 export default function MainPage() {
   return (
-    <ProtectedRoute>
+    <>
       <Navbar />
       <PropertiesList />
-    </ProtectedRoute>
+    </>
   );
 }

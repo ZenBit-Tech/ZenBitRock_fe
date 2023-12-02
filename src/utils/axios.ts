@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 // config
-import { BASE_URL } from 'config-global';
+import { BASE_URL, QOBRIX_PROXY_URL } from 'config-global';
 
 // ----------------------------------------------------------------------
 const axiosInstance = axios.create({ baseURL: BASE_URL });
@@ -10,7 +10,16 @@ axiosInstance.interceptors.response.use(
   (error) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
 );
 
-export default axiosInstance;
+// ----------------------------------------------------------------------
+
+const axiosInstanceQobrix = axios.create({ baseURL: QOBRIX_PROXY_URL });
+
+axiosInstance.interceptors.response.use(
+  (res) => res,
+  (error) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
+);
+
+export default { axiosInstance, axiosInstanceQobrix };
 
 // ----------------------------------------------------------------------
 
@@ -18,6 +27,15 @@ export const fetcher = async (args: string | [string, AxiosRequestConfig]) => {
   const [url, config] = Array.isArray(args) ? args : [args];
 
   const res = await axiosInstance.get(url, { ...config });
+  return res.data;
+};
+
+// ----------------------------------------------------------------------
+
+export const fetcherQobrix = async (args: string | [string, AxiosRequestConfig]) => {
+  const [url, config] = Array.isArray(args) ? args : [args];
+
+  const res = await axiosInstanceQobrix.get(url, { ...config });
   return res.data;
 };
 
@@ -49,6 +67,6 @@ export const endpoints = {
     search: '/api/product/search',
   },
   property: {
-    list: '/qobrix-proxy/api/v2/properties',
+    list: '/properties',
   },
 };

@@ -5,5 +5,5 @@ type Props = {
 };
 
 export default function MainPageLayout({ children }: Props): JSX.Element {
-  return <ProtectedRoute>{children}</ProtectedRoute>;
+  return <>{children}</>;
 }

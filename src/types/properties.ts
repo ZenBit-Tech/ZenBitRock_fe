@@ -7,7 +7,7 @@ export type PropertyItem = {
   country: string;
   city: string;
   list_selling_price_amount: number;
-  media: { file: { href: string } }[];
+  media: { file: { thumbnails: { medium: string } } }[];
   photo: string;
 };
 
