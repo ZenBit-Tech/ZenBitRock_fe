@@ -63,7 +63,7 @@ export function VerifyView({ email }: Props) {
   const onSubmit = handleSubmit(async (data) => {
     try {
       await verifyEmail(data).unwrap();
-      router.push(AppRoute.HOME_PAGE);
+      router.push(AppRoute.VERIFICATION_PAGE);
     } catch (error) {
       reset();
       setValue('email', email);
