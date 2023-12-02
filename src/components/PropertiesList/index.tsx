@@ -32,41 +32,31 @@ type GetProperties = {
 
 export default function PropertiesList(): JSX.Element {
   const [params, setParams] = useState<PropertyParamsList>(INITIAL_PARAMS);
-  // const getProperties =
   const { properties, propertiesError } = useGetProperties({ params: params });
-
-  // const [getProperties] = useState<GetProperties>(useGetProperties({ params: params }));
   const [propertiesList, setPropertiesList] = useState<PropertyList>([]);
   const [propertiesPagination, setPropertiesPagination] = useState<PropertyPagination>();
-  // const [isLoading, setIsLoading] = useState<Boolean>(true);
   const [error, setError] = useState<any>(null);
   const [isFetching, setIsFetching] = useState(true);
 
   const t = useTranslations('properties');
 
-  // const getProperties = useGetProperties({ params: params });
-  // console.log(getProperties);
   useEffect(() => {
     isFetching &&
       (async () => {
         try {
-          console.log('click');
-
           setError(propertiesError);
-          // setIsLoading(propertiesLoading);
+
           if (!propertiesError && properties.data) {
             setPropertiesList((prev) => [...prev, ...properties.data]);
             setPropertiesPagination(properties.pagination);
             setIsFetching(false);
           }
-          propertiesPagination?.has_next_page &&
-            setParams((prev) => ({ ...prev, page: prev.page++ }));
         } catch (err) {
           console.error('Error fetching properties:', err);
           setError(`An error occurred while fetching properties. - ${err}`);
         }
       })();
-  });
+  }, [isFetching, properties, propertiesError]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -74,9 +64,13 @@ export default function PropertiesList(): JSX.Element {
   }, []);
 
   function handleScroll() {
-    if (window.innerHeight + window.scrollY < document.body.offsetHeight) {
-      return;
-    } else {
+    if (
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 200 &&
+      !isFetching &&
+      propertiesPagination?.has_next_page
+    ) {
+      // Increment the page number directly
+      setParams((prev) => ({ ...prev, page: prev.page + 1 }));
       setIsFetching(true);
     }
   }
@@ -124,18 +118,20 @@ export default function PropertiesList(): JSX.Element {
                     }}
                   >
                     <CardMedia
-                    // sx={{
-                    //   width: 'auto',
-                    //   height: 'auto',
-                    // }}
+                      sx={{
+                        width: '100%',
+                        height: '200px',
+                        objectFit: 'cover',
+                        overflow: 'hidden',
+                      }}
                     >
                       <img
                         src={`${QOBRIX_HOST}${photo}`}
                         alt={t('alt')}
-                        // height={'20rem'}
                         style={{
-                          objectFit: 'fill',
-                          overflow: 'hidden',
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
                         }}
                       />
                     </CardMedia>
