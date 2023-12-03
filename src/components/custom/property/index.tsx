@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import { Box, Card } from '@mui/material';
 import { useTranslations } from 'next-intl';
 import { useGetProperties } from 'api/property';
@@ -30,7 +29,7 @@ const INITIAL_PARAMS: PropertyParamsList = {
   media: true,
 };
 
-export default function PropertiesList(): JSX.Element {
+export default function Property(id: string): JSX.Element {
   const [params, setParams] = useState<PropertyParamsList>(INITIAL_PARAMS);
   const { properties, propertiesError } = useGetProperties({ params: params });
 
