@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslations } from 'next-intl';
 import Card from '@mui/material/Card';
@@ -10,9 +10,7 @@ import Iconify from 'components/iconify';
 import CustomBreadcrumbs from 'components/custom-breadcrumbs';
 import { useSettingsContext } from 'components/settings';
 import { LoadingScreen } from 'components/loading-screen';
-import { useGetUserByIdMutation } from 'store/api/getUserApi';
 import { RootState } from 'store';
-import { IUserUpdateProfile } from 'types/user';
 import { _userAbout } from '_mock';
 import ProfileHome from '../profile-home';
 import ProfileCover from '../profile-cover';
@@ -28,38 +26,12 @@ const TABS = [
 export default function UserProfileView(): JSX.Element {
   const t = useTranslations('profilePage');
   const settings = useSettingsContext();
-  const [getUserById] = useGetUserByIdMutation();
 
   const authUser = useSelector((state: RootState) => state.authSlice.user);
-
-  if (!authUser) {
-    return <LoadingScreen />;
-  }
-
-  const { id, firstName, lastName } = authUser;
-
-  const [data, setData] = useState<IUserUpdateProfile | null>(null);
+  const { firstName, lastName } = authUser || {};
   const [currentTab] = useState<string>('profile');
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const res = await getUserById({ id });
-
-        if ('data' in res) {
-          setData(res.data);
-        }
-      } catch (error) {
-        console.error('Error fetching user data', error);
-      }
-    };
-
-    if (id) {
-      fetchUserData();
-    }
-  }, [getUserById, id]);
-
-  if (!data) {
+  if (!authUser) {
     return <LoadingScreen />;
   }
 

@@ -1,5 +1,4 @@
 import { useCallback, useMemo } from 'react';
-import { useSelector } from 'react-redux';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
@@ -22,8 +21,11 @@ import { useSnackbar } from 'components/snackbar';
 import FormProvider, { RHFTextField, RHFUploadAvatar, RHFAutocomplete } from 'components/hook-form';
 import RHFTextArea from 'components/hook-form/rhf-text-area';
 import { findCountryCodeByLabel } from 'sections/verification-view/drop-box-data';
-import { LoadingScreen } from 'components/loading-screen';
-import { RootState } from 'store';
+import { UserProfileResponse } from 'store/auth/lib/types';
+
+type Props = {
+  user: UserProfileResponse;
+};
 
 function getRoles(): string[] {
   const roles = ['Agent', 'Agency', ''];
@@ -31,17 +33,13 @@ function getRoles(): string[] {
   return roles;
 }
 
-export default function UserNewEditForm(): JSX.Element {
+export default function UserNewEditForm({ user }: Props): JSX.Element {
   const router = useRouter();
+  const [updateUser] = useUpdateUserMutation();
   const { enqueueSnackbar } = useSnackbar();
   const t = useTranslations('editProfilePage');
 
-  const authUser = useSelector((state: RootState) => state.authSlice.user);
-
-  if (!authUser) {
-    return <LoadingScreen />;
-  }
-  const userId = authUser.id;
+  const userId = user.id;
 
   const {
     agencyName: stateAgency,
@@ -51,8 +49,7 @@ export default function UserNewEditForm(): JSX.Element {
     city: stateCity,
     phone: statePhone,
     description: stateDescription,
-  } = authUser;
-  const [updateUser] = useUpdateUserMutation();
+  } = user;
 
   const EditUserSchema = Yup.object().shape({
     phone: Yup.string().required(t('phoneMessageReq')).matches(patterns.phone, t('phoneMessage')),

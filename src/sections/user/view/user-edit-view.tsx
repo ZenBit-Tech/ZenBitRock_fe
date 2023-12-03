@@ -10,10 +10,10 @@ import { SnackbarProvider } from 'components/snackbar';
 import ReduxProvider from 'store/ReduxProvider';
 import Iconify from 'components/iconify';
 import { AppRoute } from 'enums';
-import UserNewEditForm from '../user-new-edit-form';
-import ProfileSettings from '../user-edit-settings';
 import { RootState } from 'store';
 import { LoadingScreen } from 'components/loading-screen';
+import UserNewEditForm from '../user-new-edit-form';
+import ProfileSettings from '../user-edit-settings';
 
 export default function UserEditView(): JSX.Element {
   const t = useTranslations('editProfilePage');
@@ -43,7 +43,7 @@ export default function UserEditView(): JSX.Element {
 
       <SnackbarProvider>
         <ReduxProvider>
-          <UserNewEditForm />
+          <UserNewEditForm user={authUser} />
         </ReduxProvider>
       </SnackbarProvider>
       <ProfileSettings />
