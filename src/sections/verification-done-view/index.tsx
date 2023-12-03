@@ -100,30 +100,20 @@ export default function VerificationDoneView(): JSX.Element {
       }}
     >
       <Stack spacing={5}>
-        <Typography align="center" variant="h2">
-          {t('mainTitle')}
+        <Typography align="center" variant="h3" fontSize={16}>
+          {t('doneText')}
         </Typography>
 
-        <Stack spacing={3}>
-          <Typography align="center" variant="body1" fontSize={16}>
-            {t('doneTextFirstPart')}
-          </Typography>
-
-          <Typography align="center" variant="body1" fontSize={16}>
-            {t('doneTextSecondPart')}
-          </Typography>
-
-          <LoadingButton
-            fullWidth
-            color="info"
-            size="large"
-            variant="text"
-            style={{ marginBottom: '70px' }}
-            onClick={handleClick}
-          >
-            {t('submitButton')}
-          </LoadingButton>
-        </Stack>
+        <LoadingButton
+          fullWidth
+          color="info"
+          size="large"
+          variant="text"
+          style={{ marginBottom: '70px' }}
+          onClick={handleClick}
+        >
+          {t('submitButton')}
+        </LoadingButton>
       </Stack>
     </Box>
   );
