@@ -4,6 +4,7 @@
       "title": "ZenBitRock",
       "avatar": "avatar",
       "greeting": "Hi",
+      "displayName": "Agent",
       "navbar": {
         "main": "Main",
         "agents": "Agents",
@@ -212,9 +213,12 @@
     "pageTitle": "Edit profile",
     "backLink": "Back to Profile",
     "updateText": "Profile updated successfully!",
+    "errorText": "Something went wrong!",
     "nameMessage": "Latin letters, spaces, 2-50 characters",
     "phoneMessage": "Phone number is not valid",
     "roleMessage": "Role is required",
+    "cityMessage": "Role is required",
+    "countryMessage": "Country is required",
     "helperText": "Allowed *.jpeg, *.jpg, *.png, *.gif",
     "helperSubText": " max size of ",
     "delBtnTxt": "Delete Profile",
@@ -242,7 +246,10 @@
     "pressing": "Pressing ",
     "delBold": "Delete my Profile",
     "delTxt2": " button will permanently delete your Profile. You will lose all your Profile data!",
-    "confirmDelBtnTxt": "Delete my Profile"
+    "confirmDelBtnTxt": "Delete my Profile",
+    "roleAgent": "Agent",
+    "roleAgency": "Agency",
+    "fetchErr": "Error fetching user data"
   },
   "profilePage": {
     "tabProfile": "Profile",
@@ -264,6 +271,7 @@
     "editLink": "Edit profile",
     "agencyLink": "https://blagovist.ua/",
     "countryTxt": "Country",
-    "cityTxt": "City"
+    "cityTxt": "City",
+    "loading": "Agent"
   }
 }

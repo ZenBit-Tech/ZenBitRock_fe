@@ -30,6 +30,7 @@
     "no-unused-vars": 0,
     "no-param-reassign": 0,
     "no-underscore-dangle": 0,
+    "no-unneeded-ternary": 0,
     "no-restricted-exports": 0,
     "no-useless-catch": 0,
     "react/no-children-prop": 0,
