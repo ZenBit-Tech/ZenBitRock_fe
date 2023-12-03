@@ -3,8 +3,8 @@ import { ApiRoute, StorageKey } from 'enums';
 import { IUserUpdateProfile } from 'types/user';
 import { GetUserRequest, GetUserResponse, UpdateUserResponse } from 'types/user-data';
 
-export const GetUserApi = createApi({
-  reducerPath: 'getUserApi',
+export const UserApi = createApi({
+  reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
     prepareHeaders: (headers) => {
@@ -34,4 +34,4 @@ export const GetUserApi = createApi({
   }),
 });
 
-export const { useGetUserByIdMutation, useUpdateUserMutation } = GetUserApi;
+export const { useGetUserByIdMutation, useUpdateUserMutation } = UserApi;

@@ -8,7 +8,7 @@ import { tokenMiddleware } from './middlewares/token-middleware';
 import { RestorePasswordApi } from './api/restorePasswordApi';
 import restorePasswordReducer from './reducers/restorePasswordReducer';
 import { QobrixApi } from './api/qobrixApi';
-import { GetUserApi } from './api/getUserApi';
+import { UserApi } from './api/userApi';
 
 const persistConfig = {
   key: 'store',
@@ -23,7 +23,7 @@ const reducers = combineReducers({
   [VerificationApi.reducerPath]: VerificationApi.reducer,
   [RestorePasswordApi.reducerPath]: RestorePasswordApi.reducer,
   [QobrixApi.reducerPath]: QobrixApi.reducer,
-  [GetUserApi.reducerPath]: GetUserApi.reducer,
+  [UserApi.reducerPath]: UserApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -40,7 +40,7 @@ export const store = configureStore({
       .concat(RestorePasswordApi.middleware)
       .concat(tokenMiddleware.middleware)
       .concat(QobrixApi.middleware)
-      .concat(GetUserApi.middleware),
+      .concat(UserApi.middleware),
 });
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

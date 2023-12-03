@@ -25,7 +25,7 @@ import { AppRoute } from 'enums';
 import { selectCurrentUser } from 'store/auth/authReducer';
 import { VerificationData } from 'types/verification-data';
 import { useCreateAgentMutation, useCreateContactMutation } from 'store/api/qobrixApi';
-import { useGetUserByIdMutation, useUpdateUserMutation } from 'store/api/getUserApi';
+import { useGetUserByIdMutation, useUpdateUserMutation } from 'store/api/userApi';
 import { enqueueSnackbar } from 'components/snackbar';
 import { getRoles, getGenders, getIdentities, getStatuses, getCountries } from './drop-box-data';
 import { FormSchema } from './schema';

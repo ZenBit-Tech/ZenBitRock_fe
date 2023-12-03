@@ -9,7 +9,7 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
-import { useUpdateUserMutation } from 'store/api/getUserApi';
+import { useUpdateUserMutation } from 'store/api/userApi';
 import { useRouter } from 'routes/hooks';
 import { patterns } from 'constants/patterns';
 import { AppRoute } from 'enums';
