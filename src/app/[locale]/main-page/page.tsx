@@ -3,7 +3,7 @@
 import { RootState } from 'store';
 import { useSelector } from 'hooks';
 import { Navbar, ProtectedRoute } from 'components/custom';
-import PropertiesList from 'components/PropertiesList';
+import PropertiesList from 'components/custom/propertiesList';
 
 export default function MainPage() {
   return (

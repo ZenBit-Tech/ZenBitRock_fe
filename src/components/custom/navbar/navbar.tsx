@@ -17,6 +17,8 @@ const Navbar = (): JSX.Element => {
           borderTop: `1px solid ${grey[900]} `,
           position: 'fixed',
           bottom: 0,
+          zIndex: '1',
+          backgroundColor: '#ffffff',
         }}
       >
         <Toolbar>

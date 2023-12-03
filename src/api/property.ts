@@ -26,7 +26,7 @@ export function useGetProperties(params: PropertyParams) {
   if (error) {
     console.error('Error fetching properties:', error);
   }
-  console.log(data);
+  // console.log(data);
   const memoizedValue = useMemo(() => {
     const properties = {
       data: data?.data.map((property: PropertyItem) => ({
