@@ -7,7 +7,7 @@ import Container from '@mui/material/Container';
 import { grey } from '@mui/material/colors';
 import { useTheme } from '@mui/material/styles';
 import { Link, Typography } from '@mui/material';
-import { useMockedUser, useSelector, useTranslations } from 'hooks';
+import { useSelector, useTranslations } from 'hooks';
 import { AppRoute } from 'enums';
 import { RootState } from 'store';
 import { HEADER, HeaderAvatar } from './lib';
@@ -16,9 +16,7 @@ import { Logo } from './styles';
 const Header = (): JSX.Element => {
   const theme = useTheme();
   const t = useTranslations('Home');
-  const { user } = useMockedUser();
-  const auth = useSelector((state: RootState) => state.authSlice);
-  const { firstName, lastName } = auth;
+  const authUser = useSelector((state: RootState) => state.authSlice.user);
 
   return (
     <AppBar position="static" sx={{ borderBottom: `1px solid ${grey[900]}` }}>
@@ -34,11 +32,15 @@ const Header = (): JSX.Element => {
         <Container maxWidth={false} sx={{ height: 1, display: 'flex', alignItems: 'center' }}>
           <Logo href={AppRoute.HOME_PAGE}>{t('Header.title')}</Logo>
           <Box sx={{ flexGrow: 1 }} />
-          {auth.id && (
+          {authUser && (
             <Box sx={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
               <Typography sx={{ textAlign: 'right', color: theme.palette.primary.main }}>{`${t(
                 'Header.greeting'
-              )}, ${firstName ? `${firstName} ${lastName}` : t('Header.displayName')}!`}</Typography>
+              )}, ${
+                authUser.firstName
+                  ? `${authUser.firstName} ${authUser.lastName}`
+                  : t('Header.displayName')
+              }!`}</Typography>
               <Link href={AppRoute.PROFILE_PAGE}>
                 <HeaderAvatar avatar={''} />
               </Link>

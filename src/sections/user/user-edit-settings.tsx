@@ -11,7 +11,6 @@ import Iconify from 'components/iconify';
 import { AppRoute } from 'enums';
 import DeleteProfileDialog from './user-del-dialog';
 
-
 interface RenderProps {
   checked: boolean;
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;

@@ -1,25 +1,16 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { enqueueSnackbar } from 'notistack';
 import { StorageKey } from 'enums';
-import { SendVerificationCodeResponse, VerifyEmailResponse } from './lib/types';
+import {
+  SendVerificationCodeResponse,
+  UserAuthResponse,
+  UserProfileResponse,
+  VerifyEmailResponse,
+} from './lib/types';
 
 export interface IUserData {
   email: string;
   password: string;
-}
-
-interface ILoginResData {
-  data: { email: string; id: string; token: string };
-}
-
-interface ISignUpResData {
-  data: {
-    token: string;
-    user: {
-      email: string;
-      id: string;
-    };
-  };
 }
 
 export const authApi = createApi({
@@ -27,7 +18,7 @@ export const authApi = createApi({
   tagTypes: ['Users'],
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_BASE_URL }),
   endpoints: (builder) => ({
-    signIn: builder.mutation<ILoginResData['data'], IUserData>({
+    signIn: builder.mutation<UserAuthResponse, IUserData>({
       query: (body) => ({
         url: 'auth/login',
         method: 'POST',
@@ -44,7 +35,7 @@ export const authApi = createApi({
       },
       invalidatesTags: [{ type: 'Users' }],
     }),
-    signUp: builder.mutation<ISignUpResData['data'], IUserData>({
+    signUp: builder.mutation<UserAuthResponse, IUserData>({
       query: (body) => ({
         url: 'user',
         method: 'POST',
@@ -73,7 +64,7 @@ export const authApi = createApi({
         body,
       }),
     }),
-    getProfile: builder.query<ILoginResData['data'], void>({
+    getProfile: builder.query<UserProfileResponse, void>({
       query: () => ({
         url: 'auth/profile',
         method: 'GET',

@@ -9,9 +9,10 @@ import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 import CardHeader from '@mui/material/CardHeader';
 import { _socials, _userAbout } from '_mock';
-import { selectCurrentUser } from 'store/auth/authReducer';
 import Iconify from 'components/iconify';
 import { findCountryLabelByCode } from 'sections/verification-view/drop-box-data';
+import { RootState } from 'store';
+import { LoadingScreen } from 'components/loading-screen';
 
 const LINKS = {
   FACEBOOK: 'facebook',
@@ -22,8 +23,13 @@ const LINKS = {
 
 const RenderAbout = (): JSX.Element => {
   const t = useTranslations('profilePage');
-  const authState = useSelector(selectCurrentUser);
-  const { agency, email, country, city, phone, description } = authState;
+  const authUser = useSelector((state: RootState) => state.authSlice.user);
+
+  if (!authUser) {
+    return <LoadingScreen />;
+  }
+
+  const { agencyName, email, country, city, phone, description } = authUser;
 
   return (
     <Card>
@@ -43,10 +49,10 @@ const RenderAbout = (): JSX.Element => {
           <Link href={`mailto:${email}`}>{email}</Link>
         </Stack>
 
-        {agency && (
+        {agencyName && (
           <Stack direction="row" sx={{ typography: 'body2' }}>
             <Iconify icon="material-symbols-light:home-work-rounded" width={24} sx={{ mr: 2 }} />
-            {agency}
+            {agencyName}
           </Stack>
         )}
 

@@ -11,7 +11,7 @@ import CustomBreadcrumbs from 'components/custom-breadcrumbs';
 import { useSettingsContext } from 'components/settings';
 import { LoadingScreen } from 'components/loading-screen';
 import { useGetUserByIdMutation } from 'store/api/getUserApi';
-import { selectCurrentUser } from 'store/auth/authReducer';
+import { RootState } from 'store';
 import { IUserUpdateProfile } from 'types/user';
 import { _userAbout } from '_mock';
 import ProfileHome from '../profile-home';
@@ -30,9 +30,13 @@ export default function UserProfileView(): JSX.Element {
   const settings = useSettingsContext();
   const [getUserById] = useGetUserByIdMutation();
 
-  const authState = useSelector(selectCurrentUser);
-  const userId = authState.id;
-  const { firstName, lastName } = authState;
+  const authUser = useSelector((state: RootState) => state.authSlice.user);
+
+  if (!authUser) {
+    return <LoadingScreen />;
+  }
+
+  const { id, firstName, lastName } = authUser;
 
   const [data, setData] = useState<IUserUpdateProfile | null>(null);
   const [currentTab] = useState<string>('profile');
@@ -40,7 +44,7 @@ export default function UserProfileView(): JSX.Element {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const res = await getUserById({ id: userId });
+        const res = await getUserById({ id });
 
         if ('data' in res) {
           setData(res.data);
@@ -50,10 +54,10 @@ export default function UserProfileView(): JSX.Element {
       }
     };
 
-    if (userId) {
+    if (id) {
       fetchUserData();
     }
-  }, [getUserById, userId]);
+  }, [getUserById, id]);
 
   if (!data) {
     return <LoadingScreen />;

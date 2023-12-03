@@ -7,19 +7,24 @@ import { Link, Stack } from '@mui/material';
 import { useSettingsContext } from 'components/settings';
 import CustomBreadcrumbs from 'components/custom-breadcrumbs';
 import { SnackbarProvider } from 'components/snackbar';
-import { selectCurrentUser } from 'store/auth/authReducer';
 import ReduxProvider from 'store/ReduxProvider';
 import Iconify from 'components/iconify';
 import { AppRoute } from 'enums';
 import UserNewEditForm from '../user-new-edit-form';
 import ProfileSettings from '../user-edit-settings';
+import { RootState } from 'store';
+import { LoadingScreen } from 'components/loading-screen';
 
 export default function UserEditView(): JSX.Element {
   const t = useTranslations('editProfilePage');
   const settings = useSettingsContext();
 
-  const authState = useSelector(selectCurrentUser);
-  const { firstName, lastName } = authState;
+  const authUser = useSelector((state: RootState) => state.authSlice.user);
+
+  if (!authUser) {
+    return <LoadingScreen />;
+  }
+  const { firstName, lastName } = authUser;
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'} sx={{ paddingTop: '1rem' }}>

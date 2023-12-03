@@ -10,7 +10,7 @@ import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useSnackbar } from 'notistack';
-import { setCredentials, useSignUpMutation } from 'store/auth';
+import { useSignUpMutation } from 'store/auth';
 import { SignUpPageType } from 'types/auth';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from 'store';
@@ -57,11 +57,6 @@ function SignUpForm({ signUpPage }: SignUpProps) {
     try {
       const res = await signUp({ email, password });
       if ('data' in res) {
-        const {
-          token,
-          user: { id, email },
-        } = res.data;
-        dispatch(setCredentials({ id, email, token }));
         enqueueSnackbar('User added successfully!', { variant: 'success' });
         router.push(AppRoute.VERIFY_PAGE);
       }

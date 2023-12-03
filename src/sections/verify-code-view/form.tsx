@@ -16,7 +16,6 @@ import { setCode } from 'store/reducers/restorePasswordReducer';
 import { AppRoute } from 'enums';
 
 const defaultValues = { code: '' };
-const CODE_STATUS_SUCCESS: number = 202;
 
 export default function RestorePasswordForm(): JSX.Element {
   const t = useTranslations('VerifyCodePage');
@@ -44,13 +43,12 @@ export default function RestorePasswordForm(): JSX.Element {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
       const payload = { email, code: data.code };
-      const response = await verifyCode(payload).unwrap();
 
-      if (response.statusCode === CODE_STATUS_SUCCESS) {
-        enqueueSnackbar('Success!', { variant: 'success' });
-        dispatch(setCode({ code: data.code }));
-        router.push(AppRoute.RESTORE_PASSWORD_CHANGE_PASSWORD_PAGE);
-      }
+      await verifyCode(payload).unwrap();
+
+      enqueueSnackbar('Success!', { variant: 'success' });
+      dispatch(setCode({ code: data.code }));
+      router.push(AppRoute.RESTORE_PASSWORD_CHANGE_PASSWORD_PAGE);
 
       return undefined;
     } catch (error) {

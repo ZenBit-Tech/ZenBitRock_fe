@@ -10,7 +10,6 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
-import { selectCurrentUser } from 'store/auth/authReducer';
 import { useUpdateUserMutation } from 'store/api/getUserApi';
 import { useRouter } from 'routes/hooks';
 import { patterns } from 'constants/patterns';
@@ -23,6 +22,8 @@ import { useSnackbar } from 'components/snackbar';
 import FormProvider, { RHFTextField, RHFUploadAvatar, RHFAutocomplete } from 'components/hook-form';
 import RHFTextArea from 'components/hook-form/rhf-text-area';
 import { findCountryCodeByLabel } from 'sections/verification-view/drop-box-data';
+import { LoadingScreen } from 'components/loading-screen';
+import { RootState } from 'store';
 
 function getRoles(): string[] {
   const roles = ['Agent', 'Agency', ''];
@@ -35,18 +36,22 @@ export default function UserNewEditForm(): JSX.Element {
   const { enqueueSnackbar } = useSnackbar();
   const t = useTranslations('editProfilePage');
 
-  const authState = useSelector(selectCurrentUser);
-  const userId = authState.id;
+  const authUser = useSelector((state: RootState) => state.authSlice.user);
+
+  if (!authUser) {
+    return <LoadingScreen />;
+  }
+  const userId = authUser.id;
 
   const {
-    agency: stateAgency,
+    agencyName: stateAgency,
     email: stateEmail,
     role: stateRole,
     country: stateCountry,
     city: stateCity,
     phone: statePhone,
     description: stateDescription,
-  } = authState;
+  } = authUser;
   const [updateUser] = useUpdateUserMutation();
 
   const EditUserSchema = Yup.object().shape({
@@ -98,7 +103,7 @@ export default function UserNewEditForm(): JSX.Element {
     if (inputAgency) {
       return role === 'Agent' ? 'individual_agent' : inputAgency.toLowerCase();
     }
-    
+
     return '';
   };
   const onSubmit = handleSubmit(async (data): Promise<void> => {
@@ -107,7 +112,7 @@ export default function UserNewEditForm(): JSX.Element {
     const countryCode = findCountryCodeByLabel(country);
 
     const updatedUser: IUserUpdateProfile = {};
-    
+
     updatedUser.userId = userId;
     updatedUser.country = countryCode ?? stateCountry;
     updatedUser.role = formatRole(role) ?? stateRole;
@@ -125,9 +130,8 @@ export default function UserNewEditForm(): JSX.Element {
 
       enqueueSnackbar(successMessage, { variant: 'success' });
     } catch (error) {
-      
       const errorMessage = t('errorText');
-      
+
       enqueueSnackbar(errorMessage, { variant: 'error' });
     }
   });
