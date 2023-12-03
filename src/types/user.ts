@@ -120,17 +120,6 @@ export type IUserItem = {
 };
 
 export type IUserEditItem = {
-  // id: string;
-  // firstName: string;
-  // lastName: string;
-  // role: string;
-  // email: string;
-  // country: string;
-  // city: string;
-  // agency?: string;
-  // avatarUrl?: string;
-  // phone: string;
-  // description: string;
   country?: string;
   city?: string;
   createdAt?: string;
