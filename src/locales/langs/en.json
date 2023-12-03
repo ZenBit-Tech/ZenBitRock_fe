@@ -217,7 +217,7 @@
     "roleMessage": "Role is required",
     "helperText": "Allowed *.jpeg, *.jpg, *.png, *.gif",
     "helperSubText": " max size of ",
-    "delBtnTxt": "Delete User",
+    "delBtnTxt": "Delete Profile",
     "nameLabel": "Name",
     "emailLabel": "Email",
     "phoneNumLabel": "Phone Number",
@@ -236,7 +236,13 @@
     "settingsSubtitle2": "Notifications",
     "aboutMessage": "About is required",
     "phoneMessageReq": "Phone number is required",
-    "countryMessageReq": "Country is required"
+    "countryMessageReq": "Country is required",
+    "delTitle": "Do you want to delete Profile?",
+    "delTxt": "Pressing Delete my Profile button will permanently delete your Profile. You will lose all your Profile data!",
+    "pressing": "Pressing ",
+    "delBold": "Delete my Profile",
+    "delTxt2": " button will permanently delete your Profile. You will lose all your Profile data!",
+    "confirmDelBtnTxt": "Delete my Profile"
   },
   "profilePage": {
     "tabProfile": "Profile",

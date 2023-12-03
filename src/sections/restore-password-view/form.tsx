@@ -45,12 +45,10 @@ export default function RestorePasswordForm(): JSX.Element {
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
-      const response = await sendCode(data).unwrap();
+      await sendCode(data).unwrap();
 
-      if ('response' in response) {
-        dispatch(setEmail({ email: data.email }));
-        router.push(AppRoute.RESTORE_PASSWORD_VERIFY_CODE_PAGE);
-      }
+      dispatch(setEmail({ email: data.email }));
+      router.push(AppRoute.RESTORE_PASSWORD_VERIFY_CODE_PAGE);
 
       return undefined;
     } catch (error) {

@@ -21,7 +21,7 @@ export default function VerificationDoneView(): JSX.Element {
   const { replace } = useRouter();
 
   const authState = useSelector(selectCurrentUser);
-  const userId = authState.id;
+  const userId = authState.user ? authState.user.id : null;
 
   async function createAgentQobrix(): Promise<void> {
     try {

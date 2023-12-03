@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { notFound, useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { Button, Typography, Link, Box, styled } from '@mui/material';
 import TextField from '@mui/material/TextField';
@@ -11,8 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { enqueueSnackbar } from 'notistack';
-import { AppDispatch } from 'store';
-import { setCredentials, useSignInMutation } from 'store/auth';
+import { useSignInMutation } from 'store/auth';
 import { patterns } from 'constants/patterns';
 import { AppRoute } from 'enums';
 
@@ -28,7 +26,6 @@ type FormValues = {
 };
 
 export default function LoginForm() {
-  const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
   const t = useTranslations('signInPage');
@@ -53,9 +50,6 @@ export default function LoginForm() {
       const res = await signIn(data);
 
       if ('data' in res) {
-        const { id, email, token } = res.data;
-
-        dispatch(setCredentials({ id, email, token }));
         enqueueSnackbar('Welcome back!', { variant: 'success' });
         router.push(AppRoute.MAIN_PAGE);
       }
