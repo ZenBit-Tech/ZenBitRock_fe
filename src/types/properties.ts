@@ -2,11 +2,11 @@
 
 export type PropertyItem = {
   id: string;
-  sale_rent: string | null;
+  saleRent: string | null;
   status: string | null;
   country: string;
   city: string;
-  list_selling_price_amount: number;
+  price: number;
   media: { file: { thumbnails: { medium: string } } }[];
   photo: string;
 };
@@ -42,10 +42,10 @@ export type PropertyParamsList = {
 // ----------------------------------------------------------------------
 
 export type PropertyPagination = {
-  page_count: number;
-  current_page: number;
-  has_next_page: Boolean;
-  has_prev_page: Boolean;
+  pageCount: number;
+  currentPage: number;
+  hasNextPage: Boolean;
+  hasPrevPage: Boolean;
   count: number;
   limit: number;
 };

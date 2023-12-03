@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import { Box, Card } from '@mui/material';
 import { useTranslations } from 'next-intl';
 import { useGetProperties } from 'api/property';
@@ -85,7 +84,7 @@ export default function PropertiesList(): JSX.Element {
     );
     const windowBottom = windowHeight + window.scrollY;
 
-    if (windowBottom >= docHeight - 200 && propertiesPagination.has_next_page) {
+    if (windowBottom >= docHeight - 200 && propertiesPagination.hasNextPage) {
       setIsFetching(true);
     }
   }
@@ -115,7 +114,7 @@ export default function PropertiesList(): JSX.Element {
           }}
         >
           {propertiesList.map((item, index) => {
-            const { id, sale_rent, status, country, city, list_selling_price_amount, photo } = item;
+            const { id, saleRent, status, country, city, price, photo } = item;
             return (
               <Card
                 key={`${id}${index}`}
@@ -162,7 +161,7 @@ export default function PropertiesList(): JSX.Element {
                       textShadow: '1px 1px 2px black',
                     }}
                   >
-                    {fCurrency(list_selling_price_amount)}
+                    {fCurrency(price)}
                   </TextStyled>
                 </Box>
                 <Box
@@ -191,7 +190,7 @@ export default function PropertiesList(): JSX.Element {
                         fontWeight: 'bold',
                       }}
                     >
-                      {t(sale_rent)}
+                      {t(saleRent)}
                     </TextStyled>
                     <TextStyled
                       sx={{
