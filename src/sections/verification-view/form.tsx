@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useForm, Controller } from 'react-hook-form';
@@ -24,6 +24,9 @@ import { datesFormats } from 'constants/dates-formats';
 import { AppRoute } from 'enums';
 import { selectCurrentUser } from 'store/auth/authReducer';
 import { VerificationData } from 'types/verification-data';
+import { useCreateAgentMutation, useCreateContactMutation } from 'store/api/qobrixApi';
+import { useGetUserByIdMutation, useUpdateUserMutation } from 'store/api/getUserApi';
+import { enqueueSnackbar } from 'components/snackbar';
 import { getRoles, getGenders, getIdentities, getStatuses, getCountries } from './drop-box-data';
 import { FormSchema } from './schema';
 
@@ -53,8 +56,6 @@ export const defaultValues = {
   confirmationLastName: '',
 };
 
-const STATUS_CODE_SUCCESS = 202;
-
 function formatDate(inputDate: Date): string {
   const year = inputDate.getFullYear();
   const month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
@@ -66,8 +67,14 @@ function formatDate(inputDate: Date): string {
 export default function Form(): JSX.Element {
   const t = useTranslations('VerificationPage');
 
-  const [createVerification, { isLoading }] = useCreateVerificationMutation();
+  const [createVerification] = useCreateVerificationMutation();
+  const [createContact] = useCreateContactMutation();
+  const [createAgent] = useCreateAgentMutation();
+  const [getUserById] = useGetUserByIdMutation();
+  const [updateUser] = useUpdateUserMutation();
+
   const [formFilled, setFormFilled] = useState<boolean>(true);
+  const [activeRequestsCount, setActiveRequestsCount] = useState<number>(0);
 
   const { replace } = useRouter();
 
@@ -99,6 +106,8 @@ export default function Form(): JSX.Element {
   }, [watchAllFields]);
 
   const onSubmit = handleSubmit(async (data): Promise<void> => {
+    setActiveRequestsCount((prevCount) => prevCount + 1);
+
     const {
       firstName,
       lastName,
@@ -134,20 +143,70 @@ export default function Form(): JSX.Element {
     formData.append('zip', zip as VerificationData['zip']);
     formData.append('country', countryAutocomplete.value);
     formData.append('phone', phone as VerificationData['phone']);
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      reset();
-      const response = await createVerification(formData).unwrap();
 
-      if (response.statusCode === STATUS_CODE_SUCCESS) {
-        replace(AppRoute.VERIFICATION_DONE_PAGE);
-      }
+    try {
+      reset();
+      await createVerification(formData).unwrap();
+
+      const user = await getUserById({ id: userId }).unwrap();
+
+      const {
+        city,
+        country,
+        dateOfBirth,
+        email,
+        firstName,
+        id,
+        lastName,
+        nationality,
+        phone,
+        role,
+        state,
+        street,
+        zip,
+      } = user;
+
+      const contactData = {
+        first_name: firstName,
+        last_name: lastName,
+        role,
+        birthdate: dateOfBirth,
+        nationality,
+        street,
+        country,
+        state,
+        city,
+        post_code: zip,
+        email,
+        phone,
+        legacy_id: id,
+      };
+
+      const contact = await createContact(contactData).unwrap();
+
+      const { role: agentRole, legacy_id, id: contactId } = contact.data;
+
+      const contactIdData = { userId, qobrixContactId: contactId };
+
+      await updateUser(contactIdData).unwrap();
+
+      const agentData = {
+        agent_type: agentRole,
+        legacy_id,
+        primary_contact: contactId,
+      };
+
+      createAgent(agentData).unwrap();
+
+      replace(AppRoute.VERIFICATION_DONE_PAGE);
 
       return undefined;
     } catch (error) {
-      toast.error('Something went wrong, please try again');
+      enqueueSnackbar('Something went wrong, please try again', { variant: 'error' });
 
       return error;
+    } finally {
+      setActiveRequestsCount((prevCount) => prevCount - 1);
     }
   });
 
@@ -168,7 +227,7 @@ export default function Form(): JSX.Element {
 
   return (
     <>
-      {(isSubmitting || isLoading) && (
+      {activeRequestsCount > 0 && (
         <Backdrop open sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}>
           <CircularProgress color="primary" />
         </Backdrop>
