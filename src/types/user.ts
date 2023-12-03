@@ -36,6 +36,19 @@ export type IUserProfile = {
   agency?: string;
 };
 
+export type IUserUpdateProfile = {
+  city?: string | null;
+  country?: string | null;
+  about?: string | null;
+  agencyName?: string | null;
+  phone?: string | null;
+  role?: string | null;
+  email?: string | null;
+  userId?: string | null;
+  qobrixContactId?: string | null;
+  description?: string | null;
+};
+
 export type IUserProfileFollower = {
   id: string;
   name: string;

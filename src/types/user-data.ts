@@ -23,6 +23,17 @@ export type UpdateUserRequest = {
   };
 };
 
+export type UpdateEditUserRequest = {
+  city?: string | null;
+  country?: string | null;
+  phone?: string | null;
+  role?: string | null;
+  agency?: string | null;
+  description?: string | null;
+  userId?: string | null;
+  qobrixContactId?: string | null;
+};
+
 export type UpdateUserResponse = {
   data: {
     statusCode: number;
