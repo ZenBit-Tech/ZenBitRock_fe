@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ApiRoute, StorageKey } from 'enums';
-import { GetUserRequest, GetUserResponse } from 'types/user-data';
+import { IUserUpdateProfile } from 'types/user';
+import { GetUserRequest, GetUserResponse, UpdateUserResponse } from 'types/user-data';
 
 export const GetUserApi = createApi({
   reducerPath: 'getUserApi',
@@ -23,7 +24,15 @@ export const GetUserApi = createApi({
         body,
       }),
     }),
+
+    updateUser: builder.mutation<UpdateUserResponse['data'], IUserUpdateProfile>({
+      query: (body) => ({
+        url: ApiRoute.UPDATE_PROFILE_DATA,
+        method: 'PATCH',
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useGetUserByIdMutation } = GetUserApi;
+export const { useGetUserByIdMutation, useUpdateUserMutation } = GetUserApi;
