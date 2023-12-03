@@ -117,20 +117,36 @@ export type IUserItem = {
   avatarUrl: string;
   phoneNumber: string;
   isVerified: boolean;
+  agency: string;
 };
 
 export type IUserEditItem = {
-  id: string;
-  name: string;
-  surname: string;
-  role: string;
-  email: string;
-  country: string;
-  city: string;
+  country?: string;
+  city?: string;
+  createdAt?: string;
+  dateOfBirth?: string;
+  email?: string;
+  fileName?: string;
+  fileUrl?: string;
+  firstName?: string;
+  gender?: string;
+  id?: string;
+  identity?: string;
+  isVerified: boolean;
+  lastName?: string;
+  nationality?: string;
+  password?: string;
+  phone?: string;
+  role?: string;
+  state?: string;
+  status?: string;
+  street?: string;
+  updatedAt?: string;
+  verificationCode?: string;
+  zip?: string;
   agency?: string;
+  description?: string;
   avatarUrl?: string;
-  phoneNumber: string;
-  about: string;
 };
 
 export type IUserAccount = {

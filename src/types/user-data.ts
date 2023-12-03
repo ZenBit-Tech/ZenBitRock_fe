@@ -20,6 +20,8 @@ export type UpdateUserRequest = {
     status: string;
     street: string;
     zip: string;
+    agency: string;
+    description: string;
   };
 };
 
@@ -44,7 +46,7 @@ export type UpdateUserResponse = {
 export type GetUserResponse = {
   data: {
     country: string;
-    city: string | null;
+    city: string;
     createdAt: string;
     dateOfBirth: string;
     email: string;
@@ -66,5 +68,7 @@ export type GetUserResponse = {
     updatedAt: string;
     verificationCode: string;
     zip: string;
+    agency: string;
+    description: string;
   };
 };

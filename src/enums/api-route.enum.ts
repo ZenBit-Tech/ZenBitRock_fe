@@ -5,6 +5,7 @@ const ApiRoute = {
   ADD_VERIFICATION_DATA: '/verification/update',
   UPDATE_PROFILE_DATA: '/user/update',
   GET_USER_BY_ID: '/user/id',
+  UPDATE_USER: '/user/id',
   QOBRIX_CREATE_CONTACT: '/contacts',
   QOBRIX_CREATE_AGENT: '/agents',
 } as const;

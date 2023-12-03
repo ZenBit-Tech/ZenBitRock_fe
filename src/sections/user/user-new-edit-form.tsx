@@ -9,55 +9,70 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
+import { useUpdateUserMutation } from 'store/api/getUserApi';
 import { useRouter } from 'routes/hooks';
 import { patterns } from 'constants/patterns';
 import { AppRoute } from 'enums';
-import { IUserEditItem } from 'types/user';
+import { IUserUpdateProfile } from 'types/user';
 import { fData } from 'utils/format-number';
 import { countries } from 'assets/data';
 import Iconify from 'components/iconify';
 import { useSnackbar } from 'components/snackbar';
 import FormProvider, { RHFTextField, RHFUploadAvatar, RHFAutocomplete } from 'components/hook-form';
 import RHFTextArea from 'components/hook-form/rhf-text-area';
+import { findCountryCodeByLabel } from 'sections/verification-view/drop-box-data';
+import { UserProfileResponse } from 'store/auth/lib/types';
 
 type Props = {
-  currentUser?: IUserEditItem;
+  user: UserProfileResponse;
 };
 
 function getRoles(): string[] {
-  const roles = ['Agent', 'Agency'];
+  const roles = ['Agent', 'Agency', ''];
 
   return roles;
 }
 
-export default function UserNewEditForm({ currentUser }: Props): JSX.Element {
+export default function UserNewEditForm({ user }: Props): JSX.Element {
   const router = useRouter();
+  const [updateUser] = useUpdateUserMutation();
   const { enqueueSnackbar } = useSnackbar();
   const t = useTranslations('editProfilePage');
 
+  const userId = user.id;
+
+  const {
+    agencyName: stateAgency,
+    email: stateEmail,
+    role: stateRole,
+    country: stateCountry,
+    city: stateCity,
+    phone: statePhone,
+    description: stateDescription,
+  } = user;
+
   const EditUserSchema = Yup.object().shape({
-    phoneNumber: Yup.string()
-      .required(t('phoneMessageReq'))
-      .matches(patterns.phone, t('phoneMessage')),
+    phone: Yup.string().required(t('phoneMessageReq')).matches(patterns.phone, t('phoneMessage')),
     country: Yup.string().required(t('countryMessageReq')),
     agency: Yup.string(),
     role: Yup.string().required(t('roleMessage')),
     about: Yup.string().required(t('aboutMessage')),
     avatarUrl: Yup.mixed().nullable(),
+    city: Yup.string().required(t('aboutMessage')),
   });
 
   const defaultValues = useMemo(
     () => ({
-      phoneNumber: currentUser?.phoneNumber || '',
-      email: currentUser?.email || '',
-      role: currentUser?.role || '',
-      country: currentUser?.country || '',
-      city: currentUser?.city || '',
-      agency: currentUser?.agency || '',
-      avatarUrl: currentUser?.avatarUrl || null,
-      about: currentUser?.about || '',
+      phone: statePhone || '',
+      email: stateEmail || '',
+      role: stateRole || '',
+      country: stateCountry || '',
+      city: stateCity || '',
+      agency: stateAgency || '',
+      avatarUrl: null,
+      about: stateDescription || '',
     }),
-    [currentUser]
+    [statePhone, stateEmail, stateRole, stateCountry, stateCity, stateAgency, stateDescription]
   );
 
   const methods = useForm({
@@ -66,21 +81,55 @@ export default function UserNewEditForm({ currentUser }: Props): JSX.Element {
   });
 
   const {
-    reset,
     setValue,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = handleSubmit(async (): Promise<void> => {
-    try {
-      const message = t('updateText');
+  const formatRole = (inputRole: string): string => {
+    switch (inputRole) {
+      case 'Agent':
+        return 'individual_agent';
 
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      reset();
-      enqueueSnackbar(message, { variant: 'success' });
+      default:
+        return inputRole ? inputRole.toLowerCase() : '';
+    }
+  };
+
+  const formatAgency = (inputAgency: string | undefined, role: string): string => {
+    if (inputAgency) {
+      return role === 'Agent' ? 'individual_agent' : inputAgency.toLowerCase();
+    }
+
+    return '';
+  };
+  const onSubmit = handleSubmit(async (data): Promise<void> => {
+    const { phone, role, country, city, agency, about } = data;
+
+    const countryCode = findCountryCodeByLabel(country);
+
+    const updatedUser: IUserUpdateProfile = {};
+
+    updatedUser.userId = userId;
+    updatedUser.country = countryCode ?? stateCountry;
+    updatedUser.role = formatRole(role) ?? stateRole;
+    updatedUser.phone = phone ? phone : statePhone;
+    updatedUser.city = city ? city : stateCity;
+    updatedUser.agencyName = formatAgency(agency, role) ?? stateAgency;
+    updatedUser.description = about ? about : stateDescription;
+
+    try {
+      const successMessage = t('updateText');
+
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      await updateUser(updatedUser);
+
+      enqueueSnackbar(successMessage, { variant: 'success' });
     } catch (error) {
-      enqueueSnackbar(error.message, { variant: 'error' });
+      const errorMessage = t('errorText');
+
+      enqueueSnackbar(errorMessage, { variant: 'error' });
     }
   });
 
@@ -143,13 +192,15 @@ export default function UserNewEditForm({ currentUser }: Props): JSX.Element {
               }}
             >
               <RHFTextField name="email" label={t('emailLabel')} disabled />
-              <RHFTextField name="phoneNumber" label={t('phoneNumLabel')} />
+              <RHFTextField name="phone" label={t('phoneNumLabel')} />
               <RHFAutocomplete
                 name="role"
                 label={t('rolePlaceholder')}
                 options={getRoles()}
                 getOptionLabel={(option) => option}
-                isOptionEqualToValue={(option, value) => option === value}
+                isOptionEqualToValue={(option, value) =>
+                  option.trim().toLowerCase() === value.trim().toLowerCase()
+                }
                 renderOption={(props, option) => {
                   const label = getRoles().filter((role) => role === option)[0];
 
