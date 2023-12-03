@@ -2,11 +2,11 @@
 
 export type PropertyItem = {
   id: string;
-  sale_rent: string | null;
+  saleRent: string | null;
   status: string | null;
   country: string;
   city: string;
-  list_selling_price_amount: number;
+  price: number;
   media: { file: { thumbnails: { medium: string } } }[];
   photo: string;
 };
@@ -42,10 +42,10 @@ export type PropertyParamsList = {
 // ----------------------------------------------------------------------
 
 export type PropertyPagination = {
-  page_count: number;
-  current_page: number;
-  has_next_page: Boolean;
-  has_prev_page: Boolean;
+  pageCount: number;
+  currentPage: number;
+  hasNextPage: Boolean;
+  hasPrevPage: Boolean;
   count: number;
   limit: number;
 };
@@ -57,35 +57,42 @@ export type PropertyDetailed = {
   status: string | null;
   country: string;
   city: string;
-  list_selling_price_amount: number;
-  media: { file: { thumbnails: { medium: string } } }[];
-      description: data?.data.description,
-      name: data?.data.name,
-      propertyType: data?.data.property_type,
-      bedrooms: data?.data.bedrooms,
-      bathrooms: data?.data.bathrooms,
-      kitchenType: data?.data.kitchen_type,
-      verandas: data?.data.verandas,
-      parking: data?.data.parking,
-      coordinates: data?.data.coordinates,
-      municipality: data?.data.municipality,
-      state: data?.data.state,
-      postCode: data?.data.post_code,
-      street: data?.data.street,
-      floorNumber: data?.data.floor_number,
-      seaView: data?.data.sea_view,
-      mountainView: data?.data.mountain_view,
-      privateSwimmingPool: data?.data.private_swimming_pool,
-      commonSwimmingPool: data?.data.common_swimming_pool,
-      petsAllowed: data?.data.pets_allowed,
-      elevator: data?.data.elevator,
-      listingDate: data?.data.listing_date,
-      internalAreaAmount: data?.data.internal_area_amount,
-      coveredVerandasAmount: data?.data.covered_verandas_amount,
-      sellerName: data?.data.seller_contact.name,
-      sellerEmail: data?.data.seller_contact.email,
-      sellerPhone: data?.data.seller_contact.phone,
-      salespersonUserName: data?.data.salesperson_user.name,
-      salespersonUserEmail: data?.data.salesperson_user.username,
-
+  price: number;
+  media: {
+    file: {
+      href: string;
+      thumbnails: { large: string };
+    };
+  }[];
+  description: string | null;
+  name: string | null;
+  propertyType: string | null;
+  bedrooms?: number | null;
+  bathrooms?: number | null;
+  livingrooms?: number | null;
+  kitchenType?: string | null;
+  verandas?: number | null;
+  parking?: number | null;
+  coordinates: string | null;
+  municipality?: string | null;
+  state?: string | null;
+  postCode?: string | null;
+  street?: string | null;
+  floorNumber?: number | null;
+  seaView?: Boolean | null;
+  mountainView?: Boolean | null;
+  privateSwimmingPool?: Boolean | null;
+  commonSwimmingPool?: Boolean | null;
+  petsAllowed?: Boolean | null;
+  elevator?: Boolean | null;
+  listingDate?: string | null;
+  internalAreaAmount?: number | null;
+  coveredVerandasAmount?: number | null;
+  tenancyType?: string | null;
+  communityFeatures?: string[];
+  sellerName?: string | null;
+  sellerEmail?: string | null;
+  sellerPhone?: string | null;
+  salespersonUserName?: string | null;
+  salespersonUserEmail?: string | null;
 };
