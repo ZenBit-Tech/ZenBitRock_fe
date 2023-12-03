@@ -90,8 +90,6 @@ export default function PropertiesList(): JSX.Element {
     }
   }
 
-  function handleClick() {}
-
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '90%', marginX: 'auto' }}>
       <Title variant="h3" sx={{ marginBottom: '1.5rem' }}>
@@ -206,7 +204,7 @@ export default function PropertiesList(): JSX.Element {
                   <TextMiddleStyled>
                     {getCountries().find((object) => object.value === country)?.label}, {city}
                   </TextMiddleStyled>
-                  <LinkStyled onClick={handleClick}>
+                  <LinkStyled href={`/property/${id}`}>
                     <TypographyStyled>{t('Description')}</TypographyStyled>
                     <Iconify icon={'ri:arrow-right-s-line'} height={'auto'} />
                   </LinkStyled>
