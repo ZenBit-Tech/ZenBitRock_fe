@@ -65,7 +65,7 @@
   "VerificationDonePage": {
     "mainTitle": "KYC form",
     "doneText": "AgentWise profile has been successfully created!",
-    "submitButton": "Go to sign in page"
+    "submitButton": "Go to main page"
   },
   "RestorePasswordPage": {
     "title": "Restore password",
