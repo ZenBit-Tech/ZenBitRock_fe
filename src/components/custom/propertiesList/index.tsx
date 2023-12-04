@@ -50,7 +50,7 @@ export default function PropertiesList(): JSX.Element {
             setPropertiesPagination((prev) => ({ ...prev, ...properties.pagination }));
             setIsFetching(false);
           }
-          propertiesPagination?.has_next_page &&
+          propertiesPagination?.hasNextPage &&
             setParams((prev) => ({ ...prev, page: prev.page + 1 }));
         } catch (err) {
           console.error('Error fetching properties:', err);
