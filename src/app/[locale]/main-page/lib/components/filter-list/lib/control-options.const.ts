@@ -1,22 +1,3 @@
-const PROPERTY_TYPES = [
-  {
-    value: 'house',
-    label: 'House',
-  },
-  {
-    value: 'apartment',
-    label: 'Apartment',
-  },
-  {
-    value: 'land',
-    label: 'Land',
-  },
-  {
-    value: 'retail',
-    label: 'Retail',
-  },
-];
-
 const PROPERTY_STATUS = [
   {
     value: 'pending',
@@ -66,4 +47,4 @@ const RENT_OR_SALE = [
   },
 ];
 
-export { PROPERTY_TYPES, PROPERTY_STATUS, BEDROOMS, RENT_OR_SALE };
+export { PROPERTY_STATUS, BEDROOMS, RENT_OR_SALE };
