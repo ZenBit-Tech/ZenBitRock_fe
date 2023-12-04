@@ -9,7 +9,9 @@ import FormProvider, {
   RHFTextField,
 } from 'components/hook-form';
 import { Block } from 'components/custom';
-import { BEDROOMS, PROPERTY_STATUS, PROPERTY_TYPES, RENT_OR_SALE, FilterSchema } from './lib';
+import { useGetPropertyTypesQuery } from 'store/api/qobrixApi';
+import { LoadingScreen } from 'components/loading-screen';
+import { BEDROOMS, PROPERTY_STATUS, RENT_OR_SALE, FilterSchema } from './lib';
 
 const defaultValues = {
   location: '',
@@ -20,7 +22,8 @@ const defaultValues = {
   rentOrSale: null,
 };
 
-const FilterList = () => {
+const FilterList = (): JSX.Element => {
+  const { data } = useGetPropertyTypesQuery(undefined);
   const t = useTranslations('mainPage.filters');
 
   const methods = useForm({
@@ -29,13 +32,17 @@ const FilterList = () => {
     defaultValues,
   });
 
+  if (!data) {
+    return <LoadingScreen />;
+  }
+
   const {
     handleSubmit,
     formState: { isSubmitting, isValid },
     reset,
   } = methods;
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async (formData) => {
     try {
       // Todo
     } catch (error) {
@@ -52,11 +59,12 @@ const FilterList = () => {
           </Block>
           <Block label={t('propertyType')}>
             <RHFSelect name="propertyType" size="small">
-              {PROPERTY_TYPES.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
+              {data &&
+                data.data.map((option) => (
+                  <MenuItem key={option.code} value={option.code}>
+                    {option.name}
+                  </MenuItem>
+                ))}
             </RHFSelect>
           </Block>
           <Block label={t('propertyStatus')}>
