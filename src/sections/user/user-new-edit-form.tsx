@@ -122,9 +122,11 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
 
     const formData = new FormData();
 
-    if (avatar instanceof Blob) {
+    if (avatar && avatar instanceof Blob) {
       formData.append('file', avatar);
+      formData.append('userId', userId);
     }
+
     formData.append('userId', userId);
 
     try {
@@ -134,7 +136,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
 
       await updateUser(updatedUser).unwrap();
 
-      await setAvatar(formData).unwrap();
+      if (avatar) await setAvatar(formData).unwrap();
 
       enqueueSnackbar(successMessage, { variant: 'success' });
     } catch (error) {
@@ -158,7 +160,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     },
     [setValue]
   );
- 
+
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
       <Grid container spacing={3}>
