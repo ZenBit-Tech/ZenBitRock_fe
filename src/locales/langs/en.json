@@ -271,7 +271,36 @@
     "editLink": "Edit profile",
     "agencyLink": "https://blagovist.ua/",
     "countryTxt": "Country",
-    "cityTxt": "City",
-    "loading": "Agent"
+    "cityTxt": "City"
+  },
+  "ResetPasswordPage": {
+    "pageTitle": "Reset Password",
+    "backLink": "Back to Profile",
+    "enterPassword":"Enter your current password",
+    "buttonVerify":"Verify",
+    "enterNewPassword": "Enter your new password",
+    "buttonReset": "Reset password",
+    "buttonToProfile": "Go back to my profile",
+    "text": "Your password has been successfully reset",
+    "passwordInput": "Password",
+    "passwordInputPlaceholder": "Min 8 characters",
+    "repeatPasswordInput": "Repeat password",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Invalid email",
+    "passwordRequired": "Password is required",
+    "minChar": "Minimum 8 characters",
+    "repeatLabel": "Repeat password",
+    "unmatchPass": "Passwords do not match",
+    "forgotPass": "Forgot password?"
+  },
+  "mainPage": {
+    "filters": {
+      "location": "Location",
+      "propertyType": "Property type",
+      "propertyStatus": "Status",
+      "priceRange": "Price range",
+      "bedrooms": "Bedrooms",
+      "apply": "Apply filters"
+    }
   }
 }
