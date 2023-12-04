@@ -19,6 +19,7 @@ const AppRoute = {
 
 
 
+  EDIT_PROFILE_PAGE: '/edit-profile',
 } as const;
 
 export { AppRoute };

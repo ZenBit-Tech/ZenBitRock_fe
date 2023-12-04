@@ -1,7 +1,6 @@
 const ROOTS = {
   AUTH: '/auth',
-  USER: `/profile`,
-  EDIT_USER: `/edit-profile`,
+  USER: '/profile',
 };
 
 export const paths = {
@@ -13,7 +12,7 @@ export const paths = {
     main: `${ROOTS.AUTH}/main-page`,
   },
   user: {
-    profile: `${ROOTS.USER}`,
-    editProfile: `${ROOTS.EDIT_USER}`,
+    profile: ROOTS.USER,
+    editProfile: `/edit-profile`,
   },
 };
