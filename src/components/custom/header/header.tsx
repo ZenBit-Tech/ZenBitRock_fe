@@ -17,6 +17,7 @@ const Header = (): JSX.Element => {
   const theme = useTheme();
   const t = useTranslations('Home');
   const authUser = useSelector((state: RootState) => state.authSlice.user);
+  const avatar = authUser?.avatarUrl ? authUser?.avatarUrl : '';
 
   return (
     <AppBar position="static" sx={{ borderBottom: `1px solid ${grey[900]}` }}>
@@ -42,7 +43,7 @@ const Header = (): JSX.Element => {
                   : t('Header.displayName')
               }!`}</Typography>
               <Link href={AppRoute.PROFILE_PAGE}>
-                <HeaderAvatar avatar={''} />
+                <HeaderAvatar avatar={avatar} />
               </Link>
             </Box>
           )}

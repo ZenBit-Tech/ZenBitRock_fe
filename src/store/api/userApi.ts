@@ -31,7 +31,14 @@ export const UserApi = createApi({
         body,
       }),
     }),
+    setAvatar: builder.mutation<UpdateUserResponse['data'], FormData>({
+      query: (body) => ({
+        url: ApiRoute.SET_AVATAR,
+        method: 'PATCH',
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useGetUserByIdMutation, useUpdateUserMutation } = UserApi;
+export const { useGetUserByIdMutation, useUpdateUserMutation, useSetAvatarMutation } = UserApi;

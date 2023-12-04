@@ -31,6 +31,8 @@ export default function UserProfileView(): JSX.Element {
   const { firstName, lastName } = authUser || {};
   const [currentTab] = useState<string>('profile');
 
+  const avatar = authUser?.avatarUrl ? authUser?.avatarUrl : '';
+
   if (!authUser) {
     return <LoadingScreen />;
   }
@@ -55,6 +57,7 @@ export default function UserProfileView(): JSX.Element {
         <ProfileCover
           name={firstName && lastName ? `${firstName} ${lastName}` : t('loading')}
           coverUrl={_userAbout.coverUrl}
+          avatarUrl={avatar}
         />
 
         <Tabs
