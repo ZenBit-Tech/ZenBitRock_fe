@@ -20,7 +20,20 @@ export type UpdateUserRequest = {
     status: string;
     street: string;
     zip: string;
+    agency: string;
+    description: string;
   };
+};
+
+export type UpdateEditUserRequest = {
+  city?: string | null;
+  country?: string | null;
+  phone?: string | null;
+  role?: string | null;
+  agency?: string | null;
+  description?: string | null;
+  userId?: string | null;
+  qobrixContactId?: string | null;
 };
 
 export type UpdateUserResponse = {
@@ -33,7 +46,7 @@ export type UpdateUserResponse = {
 export type GetUserResponse = {
   data: {
     country: string;
-    city: string | null;
+    city: string;
     createdAt: string;
     dateOfBirth: string;
     email: string;
@@ -55,5 +68,11 @@ export type GetUserResponse = {
     updatedAt: string;
     verificationCode: string;
     zip: string;
+    agency: string;
+    description: string;
   };
+};
+
+export type DeleteUserResponse = {
+  data: { statusCode: number; message: string };
 };

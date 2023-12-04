@@ -293,3 +293,17 @@ export function getCountries(): Array<Values> {
 
   return countries;
 }
+
+export function findCountryLabelByCode(code: string | null): string | undefined {
+  const countries = getCountries();
+  const foundCountry = countries.find((country) => country.value === code);
+
+  return foundCountry ? foundCountry.label : undefined;
+}
+
+export function findCountryCodeByLabel(label: string | null): string | undefined {
+  const countries = getCountries();
+  const foundCountry = countries.find((country) => country.label === label);
+
+  return foundCountry ? foundCountry.value : undefined;
+}
