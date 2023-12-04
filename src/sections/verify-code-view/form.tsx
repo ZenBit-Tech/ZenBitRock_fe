@@ -87,9 +87,8 @@ export default function RestorePasswordForm(): JSX.Element {
           gap={4}
           display="flex"
           flexDirection="column"
-          height="calc(100vh - 80px)"
           justifyContent="center"
-          paddingRight="33px"
+          sx={{ px: '40px' }}
         >
           <Stack spacing={2} direction="row" alignItems="center">
             <Button onClick={() => router.back()}>

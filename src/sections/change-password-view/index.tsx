@@ -3,7 +3,7 @@
 import MaintenanceIllustration from 'assets/illustrations/maintenance-illustration';
 import ReduxProvider from 'store/ReduxProvider';
 import { SnackbarProvider } from 'components/snackbar';
-import { Wrapper, LeftSection, RightSection } from './styles';
+import { Wrapper, LeftSection, RightSection, FormWrapper } from './styles';
 import Form from './form';
 
 export default function ChangePasswordView(): JSX.Element {
@@ -15,7 +15,9 @@ export default function ChangePasswordView(): JSX.Element {
       <RightSection>
         <SnackbarProvider>
           <ReduxProvider>
-            <Form />
+            <FormWrapper>
+              <Form />
+            </FormWrapper>
           </ReduxProvider>
         </SnackbarProvider>
       </RightSection>

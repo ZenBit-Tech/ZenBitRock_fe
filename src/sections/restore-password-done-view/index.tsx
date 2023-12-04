@@ -9,7 +9,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { AppRoute } from 'enums';
-import { Wrapper, LeftSection, RightSection } from './styles';
+import { Wrapper, LeftSection, RightSection, FormWrapper } from './styles';
 
 export default function RestorePasswordDoneView(): JSX.Element {
   const t = useTranslations('RestorePasswordDonePage');
@@ -25,23 +25,22 @@ export default function RestorePasswordDoneView(): JSX.Element {
         <SeoIllustration />
       </LeftSection>
       <RightSection>
-        <Stack spacing={2} direction="row" alignItems="center">
-          <Button onClick={() => router.back()}>
-            <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
-          </Button>
-        </Stack>
-        <Box
-          gap={2}
-          display="flex"
-          flexDirection="column"
-          height="calc(100vh - 80px)"
-          justifyContent="center"
-          paddingRight="33px"
-        >
-          <Stack spacing={2}>
-            <Typography align="center" variant="h2" lineHeight={1.1}>
-              {t('title')}
-            </Typography>
+        <FormWrapper>
+          <Box
+            gap={3}
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            sx={{ px: '40px' }}
+          >
+            <Stack spacing={2} direction="row" alignItems="center">
+              <Button onClick={() => router.back()}>
+                <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
+              </Button>
+              <Typography align="center" variant="h3">
+                {t('title')}
+              </Typography>
+            </Stack>
 
             <Stack spacing={2}>
               <Typography align="center" variant="body1" fontSize={16}>
@@ -59,8 +58,8 @@ export default function RestorePasswordDoneView(): JSX.Element {
                 {t('buttonText')}
               </Button>
             </Stack>
-          </Stack>
-        </Box>
+          </Box>
+        </FormWrapper>
       </RightSection>
     </Wrapper>
   );
