@@ -6,7 +6,7 @@ type restorePassword = {
   password: string | null;
 };
 
-const initialState = { email: null, code: null, password: null};
+const initialState = { email: null, code: null, password: null };
 
 export const restorePasswordSlice = createSlice({
   name: 'restorePassword',
@@ -21,7 +21,10 @@ export const restorePasswordSlice = createSlice({
     setCode: (state: restorePassword, { payload: { code } }: PayloadAction<{ code: string }>) => {
       state.code = code;
     },
-    setPassword: (state: restorePassword, { payload: { password } }: PayloadAction<{ password: string }>) => {
+    setPassword: (
+      state: restorePassword,
+      { payload: { password } }: PayloadAction<{ password: string }>
+    ) => {
       state.password = password;
     },
   },

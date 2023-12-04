@@ -12,7 +12,6 @@ import { ResetPasswordApi } from './api/resetPasswordApi';
 
 import { UserApi } from './api/userApi';
 
-
 const persistConfig = {
   key: 'store',
   whitelist: ['restorePasswordSlice'],

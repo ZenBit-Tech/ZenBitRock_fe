@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ApiRoute, StorageKey } from 'enums';
 
-type VerifyOldPassword = {oldPassword: string };
+type VerifyOldPassword = { oldPassword: string };
 type ChangePassword = { oldPassword: string | null; newPassword: string | null };
 type ResponseData = {
   data: {
@@ -12,7 +12,6 @@ type ResponseData = {
     status: number;
   };
 };
-
 
 export const ResetPasswordApi = createApi({
   reducerPath: 'resetPasswordApi',
@@ -45,5 +44,4 @@ export const ResetPasswordApi = createApi({
   }),
 });
 
-export const { useVerifyOldPasswordMutation, useChangePasswordMutation } =
-  ResetPasswordApi;
+export const { useVerifyOldPasswordMutation, useChangePasswordMutation } = ResetPasswordApi;
