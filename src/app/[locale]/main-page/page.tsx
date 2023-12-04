@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, Typography } from '@mui/material';
-import { Navbar, ProtectedRoute } from 'components/custom';
+import { ProtectedRoute } from 'components/custom';
 import { NotificationCenter, PropertyFilter } from './lib';
 
 export default function MainPage() {
@@ -14,7 +14,6 @@ export default function MainPage() {
         </Typography>
         <PropertyFilter />
       </Box>
-      <Navbar />
     </ProtectedRoute>
   );
 }
