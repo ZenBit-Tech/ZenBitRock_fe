@@ -16,8 +16,6 @@ export const QobrixApi = createApi({
       const token = localStorage.getItem(StorageKey.TOKEN);
 
       headers.set('Authorization', `Bearer ${token}`);
-      headers.set('X-Api-Key', process.env.NEXT_PUBLIC_QOBRIX_API_KEY || '');
-      headers.set('X-Api-User', process.env.NEXT_PUBLIC_QOBRIX_API_USER || '');
 
       return headers;
     },
