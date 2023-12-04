@@ -40,7 +40,7 @@ export const QobrixApi = createApi({
     }),
     getPropertyTypes: builder.query<QobrixPropertyType, undefined>({
       query: (body) => ({
-        url: '/property-types',
+        url: ApiRoute.QOBRIX_PROPERY_TYPES,
         method: 'GET',
         body,
       }),
