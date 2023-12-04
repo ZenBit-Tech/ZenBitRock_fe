@@ -1,7 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ApiRoute, StorageKey } from 'enums';
 import { IUserUpdateProfile } from 'types/user';
-import { GetUserRequest, GetUserResponse, UpdateUserResponse } from 'types/user-data';
+import {
+  DeleteUserResponse,
+  GetUserRequest,
+  GetUserResponse,
+  UpdateUserResponse,
+} from 'types/user-data';
 
 export const UserApi = createApi({
   reducerPath: 'userApi',
@@ -38,7 +43,19 @@ export const UserApi = createApi({
         body,
       }),
     }),
+    deleteUser: builder.mutation<DeleteUserResponse['data'], { id: string }>({
+      query: ({ id }) => ({
+        url: ApiRoute.DELETE_USER,
+        method: 'DELETE',
+        params: { id },
+      }),
+    }),
   }),
 });
 
-export const { useGetUserByIdMutation, useUpdateUserMutation, useSetAvatarMutation } = UserApi;
+export const {
+  useGetUserByIdMutation,
+  useUpdateUserMutation,
+  useSetAvatarMutation,
+  useDeleteUserMutation,
+} = UserApi;
