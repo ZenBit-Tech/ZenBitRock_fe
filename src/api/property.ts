@@ -36,7 +36,7 @@ export function useGetProperties(params: PropertyParams) {
         price: property.list_selling_price_amount,
         photo: property.media[0].file.thumbnails.medium,
       })),
-      pagination: { hasNextPage: data?.pagination.has_next_page, }
+      pagination: { hasNextPage: data?.pagination.has_next_page },
     };
 
     return {

@@ -63,7 +63,7 @@ export default function PropertiesList(): JSX.Element {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [propertiesPagination]);
-  console.log(propertiesPagination);
+
   function handleScroll() {
     if (!propertiesPagination) {
       return;
@@ -83,7 +83,7 @@ export default function PropertiesList(): JSX.Element {
       html.offsetHeight
     );
     const windowBottom = windowHeight + window.scrollY;
-    console.log(propertiesPagination.hasNextPage);
+
     if (windowBottom >= docHeight - 200 && propertiesPagination.hasNextPage) {
       setIsFetching(true);
     }
