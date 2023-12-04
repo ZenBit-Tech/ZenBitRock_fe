@@ -265,5 +265,15 @@
     "agencyLink": "https://blagovist.ua/",
     "countryTxt": "Country",
     "cityTxt": "City"
+  },
+  "mainPage": {
+    "filters": {
+      "location": "Location",
+      "propertyType": "Property type",
+      "propertyStatus": "Status",
+      "priceRange": "Price range",
+      "bedrooms": "Bedrooms",
+      "apply": "Apply filters"
+    }
   }
 }
