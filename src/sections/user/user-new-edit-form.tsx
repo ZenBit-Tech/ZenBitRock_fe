@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
@@ -86,6 +86,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
   });
 
   const {
+    setValue,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
@@ -129,6 +130,20 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     }
   });
 
+  const handleDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      const file = acceptedFiles[0];
+
+      const newFile = Object.assign(file, {
+        preview: URL.createObjectURL(file),
+      });
+
+      if (file) {
+        setValue('avatar', newFile, { shouldValidate: true });
+      }
+    },
+    [setValue]
+  );
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
       <Grid container spacing={3}>
@@ -137,6 +152,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
             <Box sx={{ mb: 5 }}>
               <RHFUploadAvatar
                 name="avatar"
+                onDrop={handleDrop}
                 maxSize={3145728}
                 helperText={
                   <Typography
