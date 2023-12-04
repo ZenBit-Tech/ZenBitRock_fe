@@ -16,11 +16,9 @@ import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Stack from '@mui/system/Stack';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { useTranslations } from 'next-intl';
 import { AppRoute } from 'enums';
 import { useSelector } from 'react-redux';
-
 
 import { useSnackbar } from 'notistack';
 import { RootState } from 'store';
@@ -47,8 +45,6 @@ function ResetPasswordForm(): JSX.Element {
   });
 
   const oldPassword = useSelector((state: RootState) => state.restorePasswordSlice.password);
-  
-
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState<boolean>(false);
@@ -93,14 +89,13 @@ function ResetPasswordForm(): JSX.Element {
           height: 'calc(100vh-180px)',
           justifyContent: 'center',
           maxWidth: '800px',
-        margin: '0 auto',
-        padding: '1rem',
+          margin: '0 auto',
+          padding: '1rem',
         }}
         onSubmit={handleSubmit(onSubmit)}
         noValidate
       >
         <Stack spacing={2} direction="row" alignItems="center">
-
           <Typography variant="h5" sx={{}}>
             {t('enterNewPassword')}
           </Typography>

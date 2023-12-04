@@ -17,11 +17,9 @@ import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Stack from '@mui/system/Stack';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { useTranslations } from 'next-intl';
 import { AppRoute } from 'enums';
-import { useDispatch, useSelector } from 'react-redux';
-import { useResetPasswordMutation } from 'store/api/restorePasswordApi';
+import { useDispatch } from 'react-redux';
 
 import { useSnackbar } from 'notistack';
 import { AppDispatch } from 'store';
@@ -47,9 +45,8 @@ function VerifyOldPasswordForm(): JSX.Element {
   });
 
   const dispatch = useDispatch<AppDispatch>();
- 
-  const [showPassword, setShowPassword] = useState<boolean>(false);
 
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const [verifyOldPassword, { isLoading }] = useVerifyOldPasswordMutation();
 
@@ -66,10 +63,9 @@ function VerifyOldPasswordForm(): JSX.Element {
       if ('data' in response && response.data) {
         dispatch(setPassword({ password: data.password }));
         router.push(AppRoute.RESET_PASSWORD_CHANGE_PASSWORD_PAGE);
-      }else {
+      } else {
         enqueueSnackbar('Enter valid password', { variant: 'error' });
       }
-
     } catch (error) {
       if (error?.data?.message) {
         enqueueSnackbar(error.data.message, { variant: 'error' });
@@ -101,8 +97,6 @@ function VerifyOldPasswordForm(): JSX.Element {
         noValidate
       >
         <Stack spacing={2} direction="row" alignItems="center">
-          
-
           <Typography variant="h5" sx={{}}>
             {t('enterPassword')}
           </Typography>
@@ -131,10 +125,10 @@ function VerifyOldPasswordForm(): JSX.Element {
           }}
         />
         <Typography variant="body2" sx={{ marginBottom: '10px' }}>
-        <Link href={AppRoute.RESTORE_PASSWORD_PAGE} color="primary">
-          {t('forgotPass')}
-        </Link>
-      </Typography>
+          <Link href={AppRoute.RESTORE_PASSWORD_PAGE} color="primary">
+            {t('forgotPass')}
+          </Link>
+        </Typography>
         <Button type="submit" variant="contained" sx={{ my: '20px' }} fullWidth disabled={!isValid}>
           {t('buttonVerify')}
         </Button>

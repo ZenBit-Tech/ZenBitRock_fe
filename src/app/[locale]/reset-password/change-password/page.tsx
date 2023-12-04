@@ -1,4 +1,3 @@
-
 import ResetPasswordView from 'sections/reset-password-view';
 
 

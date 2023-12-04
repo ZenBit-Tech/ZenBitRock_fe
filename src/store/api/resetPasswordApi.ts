@@ -13,13 +13,6 @@ type ResponseData = {
   };
 };
 
-/*type ResponseVerifyData = {
-  data: {
-    message: string;
-    statusCode: number;
-  };
-  status: number;
-};*/
 
 export const ResetPasswordApi = createApi({
   reducerPath: 'resetPasswordApi',
