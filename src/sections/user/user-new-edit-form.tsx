@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
@@ -20,8 +20,12 @@ import Iconify from 'components/iconify';
 import { useSnackbar } from 'components/snackbar';
 import FormProvider, { RHFTextField, RHFUploadAvatar, RHFAutocomplete } from 'components/hook-form';
 import RHFTextArea from 'components/hook-form/rhf-text-area';
-import { findCountryCodeByLabel } from 'sections/verification-view/drop-box-data';
+import {
+  findCountryCodeByLabel,
+  findCountryLabelByCode,
+} from 'sections/verification-view/drop-box-data';
 import { UserProfileResponse } from 'store/auth/lib/types';
+import { formatRole, revertFormatRole } from './service';
 
 type Props = {
   user: UserProfileResponse;
@@ -54,7 +58,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
   const EditUserSchema = Yup.object().shape({
     phone: Yup.string().required(t('phoneMessageReq')).matches(patterns.phone, t('phoneMessage')),
     country: Yup.string().required(t('countryMessageReq')),
-    agency: Yup.string(),
+    agency: Yup.string().required(t('agencyMessageReq')),
     role: Yup.string().required(t('roleMessage')),
     about: Yup.string().required(t('aboutMessage')),
     avatarUrl: Yup.mixed().nullable(),
@@ -65,8 +69,8 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     () => ({
       phone: statePhone || '',
       email: stateEmail || '',
-      role: stateRole || '',
-      country: stateCountry || '',
+      role: revertFormatRole(stateRole) || '',
+      country: findCountryLabelByCode(stateCountry) || '',
       city: stateCity || '',
       agency: stateAgency || '',
       avatarUrl: null,
@@ -81,28 +85,10 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
   });
 
   const {
-    setValue,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
 
-  const formatRole = (inputRole: string): string => {
-    switch (inputRole) {
-      case 'Agent':
-        return 'individual_agent';
-
-      default:
-        return inputRole ? inputRole.toLowerCase() : '';
-    }
-  };
-
-  const formatAgency = (inputAgency: string | undefined, role: string): string => {
-    if (inputAgency) {
-      return role === 'Agent' ? 'individual_agent' : inputAgency.toLowerCase();
-    }
-
-    return '';
-  };
   const onSubmit = handleSubmit(async (data): Promise<void> => {
     const { phone, role, country, city, agency, about } = data;
 
@@ -115,7 +101,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     updatedUser.role = formatRole(role) ?? stateRole;
     updatedUser.phone = phone ? phone : statePhone;
     updatedUser.city = city ? city : stateCity;
-    updatedUser.agencyName = formatAgency(agency, role) ?? stateAgency;
+    updatedUser.agencyName = agency ?? stateAgency;
     updatedUser.description = about ? about : stateDescription;
 
     try {
@@ -133,21 +119,6 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     }
   });
 
-  const handleDrop = useCallback(
-    (acceptedFiles: File[]) => {
-      const file = acceptedFiles[0];
-
-      const newFile = Object.assign(file, {
-        preview: URL.createObjectURL(file),
-      });
-
-      if (file) {
-        setValue('avatarUrl', newFile, { shouldValidate: true });
-      }
-    },
-    [setValue]
-  );
-
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
       <Grid container spacing={3}>
@@ -157,7 +128,6 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
               <RHFUploadAvatar
                 name="avatarUrl"
                 maxSize={3145728}
-                onDrop={handleDrop}
                 helperText={
                   <Typography
                     variant="caption"

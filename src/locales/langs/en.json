@@ -241,6 +241,7 @@
     "aboutMessage": "About is required",
     "phoneMessageReq": "Phone number is required",
     "countryMessageReq": "Country is required",
+    "agencyMessageReq": "Agency name is required",
     "delTitle": "Do you want to delete Profile?",
     "delTxt": "Pressing Delete my Profile button will permanently delete your Profile. You will lose all your Profile data!",
     "pressing": "Pressing ",

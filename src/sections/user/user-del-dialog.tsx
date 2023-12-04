@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { DialogContentText, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
@@ -6,11 +7,20 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import { useDeleteUserMutation } from 'store/api/getUserApi';
+import { enqueueSnackbar } from 'notistack';
+import { AppRoute, StorageKey } from 'enums';
 
-export default function DeleteProfileDialog() {
+type Props = {
+  id: string;
+};
+
+export default function DeleteProfileDialog({ id }: Props) {
   const t = useTranslations('editProfilePage');
+  const router = useRouter();
 
   const [open, setOpen] = React.useState<boolean>(false);
+  const [deleteUser] = useDeleteUserMutation();
 
   const descriptionElementRef = React.useRef<HTMLElement>(null);
 
@@ -30,6 +40,18 @@ export default function DeleteProfileDialog() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleDeleteUser = async (userId: string) => {
+    try {
+      await deleteUser({ id: userId });
+      localStorage.removeItem(StorageKey.TOKEN);
+      enqueueSnackbar('User deleted succesfully!', { variant: 'success' });
+      handleClose();
+      router.push(AppRoute.SIGN_UP_PAGE);
+    } catch (error) {
+      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+    }
   };
 
   return (
@@ -72,7 +94,11 @@ export default function DeleteProfileDialog() {
           <Button onClick={handleClose} color="primary">
             {t('cancelBtnTxt')}
           </Button>
-          <Button onClick={handleClose} color="primary" sx={{ '&:hover': { color: 'error.main' } }}>
+          <Button
+            onClick={() => handleDeleteUser(id)}
+            color="primary"
+            sx={{ '&:hover': { color: 'error.main' } }}
+          >
             {t('confirmDelBtnTxt')}
           </Button>
         </DialogActions>

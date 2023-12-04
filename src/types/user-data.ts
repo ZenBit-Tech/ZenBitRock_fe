@@ -71,3 +71,7 @@ export type GetUserResponse = {
     description: string;
   };
 };
+
+export type DeleteUserResponse = {
+  data: { statusCode: number; message: string };
+};
