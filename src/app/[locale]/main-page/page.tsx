@@ -1,11 +1,13 @@
 'use client';
 
-import { Navbar, ProtectedRoute } from 'components/custom';
+import { Navbar } from 'components/custom';
+import PropertiesList from 'components/custom/propertiesList';
 
 export default function MainPage() {
   return (
-    <ProtectedRoute>
+    <>
       <Navbar />
-    </ProtectedRoute>
+      <PropertiesList />
+    </>
   );
 }
