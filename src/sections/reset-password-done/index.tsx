@@ -7,13 +7,16 @@ import { paths } from 'routes/paths';
 import { useSettingsContext } from 'components/settings';
 import CustomBreadcrumbs from 'components/custom-breadcrumbs';
 import { Box, Button, Stack, Typography } from '@mui/material';
-import router from 'next/router';
+import { useRouter } from 'next/navigation';
 import { AppRoute } from 'enums';
 
 export default function ResetPasswordView(): JSX.Element {
   const t = useTranslations('ResetPasswordPage');
   const settings = useSettingsContext();
   const { user } = useMockedUser();
+
+  const router = useRouter();
+
   const handleClick = () => {
     router.push(AppRoute.PROFILE_PAGE);
   };
