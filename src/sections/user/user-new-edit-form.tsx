@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
@@ -44,7 +44,8 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
   const { enqueueSnackbar } = useSnackbar();
   const t = useTranslations('editProfilePage');
 
-  const userId = user.id;
+  const [selectedValue, setSelectedValue] = useState<string>('');
+  const shouldRenderAgency = selectedValue === getRoles()[1];
 
   const {
     agencyName: stateAgency,
@@ -56,10 +57,23 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     description: stateDescription,
   } = user;
 
+  const userId = user.id;
+
+  useEffect(() => {
+    if (stateRole) {
+      setSelectedValue(revertFormatRole(stateRole));
+    }
+  }, [stateRole]);
+
+  const handleRoleChange = (event: React.SyntheticEvent, newValue: string | string[] | null) => {
+    setSelectedValue(newValue as string);
+    setValue('role', newValue as string, { shouldValidate: true });
+  };
+
   const EditUserSchema = Yup.object().shape({
     phone: Yup.string().required(t('phoneMessageReq')).matches(patterns.phone, t('phoneMessage')),
     country: Yup.string().required(t('countryMessageReq')),
-    agency: Yup.string().required(t('agencyMessageReq')),
+    agency: Yup.string(),
     role: Yup.string().required(t('roleMessage')),
     about: Yup.string().required(t('aboutMessage')),
     avatar: Yup.mixed().nullable(),
@@ -108,9 +122,11 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
 
     const formData = new FormData();
 
-    if (avatar instanceof Blob) {
+    if (avatar && avatar instanceof Blob) {
       formData.append('file', avatar);
+      formData.append('userId', userId);
     }
+
     formData.append('userId', userId);
 
     try {
@@ -120,7 +136,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
 
       await updateUser(updatedUser).unwrap();
 
-      await setAvatar(formData).unwrap();
+      if (avatar) await setAvatar(formData).unwrap();
 
       enqueueSnackbar(successMessage, { variant: 'success' });
     } catch (error) {
@@ -198,6 +214,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
                 isOptionEqualToValue={(option, value) =>
                   option.trim().toLowerCase() === value.trim().toLowerCase()
                 }
+                onChange={handleRoleChange}
                 renderOption={(props, option) => {
                   const label = getRoles().filter((role) => role === option)[0];
 
@@ -212,7 +229,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
                   );
                 }}
               />
-              <RHFTextField name="agency" label={t('companyLabel')} />
+              {shouldRenderAgency && <RHFTextField name="agency" label={t('companyLabel')} />}
 
               <RHFAutocomplete
                 name="country"

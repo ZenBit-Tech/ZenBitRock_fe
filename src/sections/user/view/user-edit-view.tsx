@@ -46,7 +46,9 @@ export default function UserEditView(): JSX.Element {
           <UserNewEditForm user={authUser} />
         </ReduxProvider>
       </SnackbarProvider>
-      <ProfileSettings />
+      <ReduxProvider>
+        <ProfileSettings />
+      </ReduxProvider>
     </Container>
   );
 }
