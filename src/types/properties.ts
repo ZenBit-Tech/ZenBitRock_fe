@@ -2,11 +2,13 @@
 
 export type PropertyItem = {
   id: string;
+  sale_rent: string | null;
   saleRent: string | null;
   status: string | null;
   country: string;
   city: string;
   price: number;
+  list_selling_price_amount: number;
   media: { file: { thumbnails: { medium: string } } }[];
   photo: string;
 };
