@@ -71,7 +71,6 @@ export default function RestorePasswordForm(): JSX.Element {
           gap={7}
           display="flex"
           flexDirection="column"
-          height="calc(100vh - 80px)"
           justifyContent="center"
           paddingRight="33px"
         >
@@ -80,9 +79,7 @@ export default function RestorePasswordForm(): JSX.Element {
               <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
             </Button>
 
-            <Typography variant="h3" sx={{}}>
-              {t('title')}
-            </Typography>
+            <Typography variant="h3">{t('title')}</Typography>
           </Stack>
 
           <Stack>

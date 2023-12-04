@@ -127,8 +127,6 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
       formData.append('userId', userId);
     }
 
-    formData.append('userId', userId);
-
     try {
       const successMessage = t('updateText');
 
