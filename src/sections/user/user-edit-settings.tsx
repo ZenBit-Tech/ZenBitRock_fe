@@ -38,7 +38,7 @@ const RenderSettings = ({ checked, handleChange, theme }: RenderProps): JSX.Elem
 
         <Stack direction="row" sx={{ typography: 'body2' }}>
           <Iconify icon="fluent:lock-closed-key-24-filled" width={24} sx={{ mr: 2 }} />
-          <Link href={AppRoute.RESTORE_PASSWORD_PAGE}>{t('changePass')}</Link>
+          <Link href={AppRoute.RESTORE_PASSWORD_DONE_PAGE}>{t('changePass')}</Link>
         </Stack>
 
         <Stack direction="row">
