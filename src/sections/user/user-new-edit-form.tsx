@@ -45,7 +45,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
   const t = useTranslations('editProfilePage');
 
   const [selectedValue, setSelectedValue] = useState<string>('');
-   const shouldRenderAgency = selectedValue === getRoles()[1];
+  const shouldRenderAgency = selectedValue === getRoles()[1];
 
   const {
     agencyName: stateAgency,
@@ -70,7 +70,6 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     setValue('role', newValue as string, { shouldValidate: true });
   };
 
- 
   const EditUserSchema = Yup.object().shape({
     phone: Yup.string().required(t('phoneMessageReq')).matches(patterns.phone, t('phoneMessage')),
     country: Yup.string().required(t('countryMessageReq')),
@@ -159,7 +158,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     },
     [setValue]
   );
-  console.log(selectedValue);
+ 
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
       <Grid container spacing={3}>

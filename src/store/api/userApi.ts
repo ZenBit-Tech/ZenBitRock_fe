@@ -51,7 +51,6 @@ export const UserApi = createApi({
       }),
     }),
   }),
-  
 });
 
 export const {
