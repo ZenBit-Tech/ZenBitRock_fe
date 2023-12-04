@@ -1,6 +1,7 @@
 'use client';
 
-import { styled, Typography, Link, List, Box, CardMedia } from '@mui/material';
+import { styled, Typography, List, Box, CardMedia } from '@mui/material';
+import Link from 'next/link';
 
 export const CardMediaStyled = styled(CardMedia)`
   height: 100px;

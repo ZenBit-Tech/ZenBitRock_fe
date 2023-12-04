@@ -34,7 +34,8 @@ export const fetcher = async (args: string | [string, AxiosRequestConfig]) => {
 
 export const fetcherQobrix = async (args: string | [string, AxiosRequestConfig]) => {
   const [url, config] = Array.isArray(args) ? args : [args];
-
+  console.log(url);
+  console.log(config);
   const res = await axiosInstanceQobrix.get(url, { ...config });
   return res.data;
 };

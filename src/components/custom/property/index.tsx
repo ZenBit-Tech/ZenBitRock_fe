@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 import { Box, Card } from '@mui/material';
 import { useTranslations } from 'next-intl';
-import { useGetProperties } from 'api/property';
-import { PropertyList, PropertyPagination, PropertyParamsList } from 'types/properties';
-import { getCountries } from 'sections/verification-view/drop-box-data';
+import { useGetProperty } from 'api/property';
+import { PropertyDetailed } from 'types/properties';
+// import { getCountries } from 'sections/verification-view/drop-box-data';
 import { LoadingScreen } from 'components/loading-screen';
 import {
   Title,
@@ -22,198 +22,193 @@ import { SnackbarProvider, enqueueSnackbar } from 'notistack';
 import { QOBRIX_HOST } from 'config-global';
 import { fCurrency } from 'utils/format-number';
 
-const INITIAL_PARAMS: PropertyParamsList = {
-  page: 1,
-  limit: 10,
-  fields: ['id', 'sale_rent', 'status', 'country', 'city', 'list_selling_price_amount'],
-  media: true,
-};
+import { useRouter } from 'next/router';
 
-export default function Property(id: string): JSX.Element {
-  const [params, setParams] = useState<PropertyParamsList>(INITIAL_PARAMS);
-  const { properties, propertiesError } = useGetProperties({ params: params });
+export default function Property(): JSX.Element {
+  const router = useRouter();
 
-  const [propertiesList, setPropertiesList] = useState<PropertyList>([]);
-  const [propertiesPagination, setPropertiesPagination] = useState<PropertyPagination>();
+  console.log(router);
+  const { id } = router.query;
+  console.log(id);
+  const { property, propertyError } = useGetProperty(String(id));
+
+  const [propertyDetailed, setPropertyDetailed] = useState<PropertyDetailed>();
   const [error, setError] = useState<any>(null);
-  const [isFetching, setIsFetching] = useState(true);
 
   const t = useTranslations('properties');
 
   useEffect(() => {
-    isFetching &&
-      (async () => {
-        try {
-          setError(propertiesError);
-          if (!propertiesError && properties.data) {
-            setPropertiesList((prev) => [...prev, ...properties.data]);
-            setPropertiesPagination((prev) => ({ ...prev, ...properties.pagination }));
-            setIsFetching(false);
-          }
-          propertiesPagination?.has_next_page &&
-            setParams((prev) => ({ ...prev, page: prev.page + 1 }));
-        } catch (err) {
-          console.error('Error fetching properties:', err);
-          setError(`An error occurred while fetching properties. - ${err}`);
+    (async () => {
+      try {
+        setError(propertyError);
+        if (!propertyError && property) {
+          setPropertyDetailed(property);
         }
-      })();
-  }, [isFetching, properties, propertiesError, propertiesPagination]);
+      } catch (err) {
+        console.error('Error fetching property:', err);
+        setError(`An error occurred while fetching properties. - ${err}`);
+      }
+    })();
+  }, []);
 
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [propertiesPagination]);
-
-  function handleScroll() {
-    if (!propertiesPagination) {
-      return;
-    }
-
-    const windowHeight =
-      'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
-
-    const body = document.body;
-    const html = document.documentElement;
-
-    const docHeight = Math.max(
-      body.scrollHeight,
-      body.offsetHeight,
-      html.clientHeight,
-      html.scrollHeight,
-      html.offsetHeight
-    );
-    const windowBottom = windowHeight + window.scrollY;
-
-    if (windowBottom >= docHeight - 200 && propertiesPagination.has_next_page) {
-      setIsFetching(true);
-    }
-  }
+  const {
+    // saleRent,
+    status,
+    // country,
+    // city,
+    // price,
+    // media,
+    // description,
+    // name,
+    // propertyType,
+    // bedrooms,
+    // bathrooms,
+    // livingrooms,
+    // kitchenType,
+    // verandas,
+    // parking,
+    // coordinates,
+    // municipality,
+    // state,
+    // postCode,
+    // street,
+    // floorNumber,
+    // seaView,
+    // mountainView,
+    // privateSwimmingPool,
+    // commonSwimmingPool,
+    // petsAllowed,
+    // elevator,
+    // listingDate,
+    // internalAreaAmount,
+    // coveredVerandasAmount,
+    // tenancyType,
+    // communityFeatures,
+    // sellerName,
+    // sellerEmail,
+    // sellerPhone,
+    // salespersonUserName,
+    // salespersonUserEmail,
+  } = propertyDetailed;
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '90%', marginX: 'auto' }}>
       <Title variant="h3" sx={{ marginBottom: '1.5rem' }}>
         {t('title')}
       </Title>
-      <p>Filter</p>
       <SnackbarProvider />
       {error &&
         enqueueSnackbar(error, {
           variant: 'error',
           persist: true,
         })}
-      {propertiesList.length !== 0 && (
-        <ListStyled
+      {propertyDetailed && (
+        // <ListStyled
+        //   sx={{
+        //     display: 'flex',
+        //     justifyContent: 'center',
+        //     alignItems: 'center',
+        //     flexWrap: 'wrap',
+        //     gap: '5%',
+        //     width: '90%',
+        //     marginX: 'auto',
+        //   }}
+        // >
+        //   <Card
+        //     sx={{
+        //       display: 'flex',
+        //       justifyContent: 'center',
+        //       alignItems: 'center',
+        //       flexDirection: 'column',
+        //       width: '45%',
+        //       marginBottom: '2rem',
+        //     }}
+        //   >
+        //     <Box
+        //       sx={{
+        //         position: 'relative',
+        //         width: '100%',
+        //         height: '50%',
+        //       }}
+        //     >
+        //       <CardMediaStyled
+        //         sx={{
+        //           width: '100%',
+        //           objectFit: 'cover',
+        //           overflow: 'hidden',
+        //         }}
+        //       >
+        //         <img
+        //           src={`${QOBRIX_HOST}${photo}`}
+        //           alt={t('alt')}
+        //           style={{
+        //             width: '100%',
+        //             height: '100%',
+        //             objectFit: 'cover',
+        //           }}
+        //         />
+        //       </CardMediaStyled>
+        //       <TextStyled
+        //         sx={{
+        //           position: 'absolute',
+        //           bottom: '1rem',
+        //           right: '1rem',
+        //           fontWeight: 'bold',
+        //           color: 'white',
+        //           textShadow: '1px 1px 2px black',
+        //         }}
+        //       >
+        //         {fCurrency(list_selling_price_amount)}
+        //       </TextStyled>
+        //     </Box>
+        //     <Box
+        //       sx={{
+        //         display: 'flex',
+        //         justifyContent: 'flex-start',
+        //         alignContent: 'space-between',
+        //         flexDirection: 'column',
+        //         padding: '1rem',
+        //         width: '100%',
+        //         height: '50%',
+        //         maxHeight: '50%',
+        //         minHeight: '50%',
+        //       }}
+        //     >
+        //       <BoxStyled
+        //         sx={{
+        //           display: 'flex',
+        //           justifyContent: 'space-between',
+        //           alignItems: 'center',
+        //           width: '100%',
+        //         }}
+        //       >
+        //         <TextStyled
+        //           sx={{
+        //             fontWeight: 'bold',
+        //           }}
+        //         >
+        //           {t(sale_rent)}
+        //         </TextStyled>
+        <TextStyled
           sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: '5%',
-            width: '90%',
-            marginX: 'auto',
+            fontWeight: 'bold',
           }}
         >
-          {propertiesList.map((item, index) => {
-            const { id, sale_rent, status, country, city, list_selling_price_amount, photo } = item;
-            return (
-              <Card
-                key={`${id}${index}`}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  flexDirection: 'column',
-                  width: '45%',
-                  marginBottom: '2rem',
-                }}
-              >
-                <Box
-                  sx={{
-                    position: 'relative',
-                    width: '100%',
-                    height: '50%',
-                  }}
-                >
-                  <CardMediaStyled
-                    sx={{
-                      width: '100%',
-                      objectFit: 'cover',
-                      overflow: 'hidden',
-                    }}
-                  >
-                    <img
-                      src={`${QOBRIX_HOST}${photo}`}
-                      alt={t('alt')}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                      }}
-                    />
-                  </CardMediaStyled>
-                  <TextStyled
-                    sx={{
-                      position: 'absolute',
-                      bottom: '1rem',
-                      right: '1rem',
-                      fontWeight: 'bold',
-                      color: 'white',
-                      textShadow: '1px 1px 2px black',
-                    }}
-                  >
-                    {fCurrency(list_selling_price_amount)}
-                  </TextStyled>
-                </Box>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'flex-start',
-                    alignContent: 'space-between',
-                    flexDirection: 'column',
-                    padding: '1rem',
-                    width: '100%',
-                    height: '50%',
-                    maxHeight: '50%',
-                    minHeight: '50%',
-                  }}
-                >
-                  <BoxStyled
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      width: '100%',
-                    }}
-                  >
-                    <TextStyled
-                      sx={{
-                        fontWeight: 'bold',
-                      }}
-                    >
-                      {t(sale_rent)}
-                    </TextStyled>
-                    <TextStyled
-                      sx={{
-                        fontWeight: 'bold',
-                      }}
-                    >
-                      {t(status)}
-                    </TextStyled>
-                  </BoxStyled>
-                  <TextMiddleStyled>
-                    {getCountries().find((object) => object.value === country)?.label}, {city}
-                  </TextMiddleStyled>
-                  <LinkStyled href={`/property/${id}`}>
-                    <TypographyStyled>{t('Description')}</TypographyStyled>
-                    <Iconify icon={'ri:arrow-right-s-line'} height={'auto'} />
-                  </LinkStyled>
-                </Box>
-              </Card>
-            );
-          })}
-        </ListStyled>
+          {t(status)}
+        </TextStyled>
+        //       </BoxStyled>
+        //       <TextMiddleStyled>
+        //         {getCountries().find((object) => object.value === country)?.label}, {city}
+        //       </TextMiddleStyled>
+        //       <LinkStyled href={`/property/${id}`}>
+        //         <TypographyStyled>{t('Description')}</TypographyStyled>
+        //         <Iconify icon={'ri:arrow-right-s-line'} height={'auto'} />
+        //       </LinkStyled>
+        //     </Box>
+        //   </Card>
+        //   );
+        // </ListStyled>
       )}
-      {isFetching && !error && <LoadingScreen />}
     </Box>
   );
 }

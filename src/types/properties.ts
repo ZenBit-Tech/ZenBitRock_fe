@@ -55,7 +55,8 @@ export type PropertyPagination = {
 // ----------------------------------------------------------------------
 
 export type PropertyDetailed = {
-  sale_rent: string | null;
+  sale_rent?: string | null;
+  saleRent?: string | null;
   status: string | null;
   country: string;
   city: string;

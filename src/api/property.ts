@@ -53,8 +53,8 @@ export function useGetProperties(params: PropertyParams) {
 // ----------------------------------------------------------------------
 
 export function useGetProperty(id: string) {
-  const { data, error } = useSWR([`${URL.list}/${id}`, { ...options }], fetcherQobrix);
-
+  const { data, error, isLoading } = useSWR([`${URL.list}/${id}`, { ...options }], fetcherQobrix);
+  console.log(id);
   if (error) {
     console.error('Error fetching properties:', error);
   }
@@ -101,9 +101,10 @@ export function useGetProperty(id: string) {
 
     return {
       property: property as PropertyDetailed,
+      propertyLoading: isLoading,
       propertyError: error,
     };
-  }, [data, error]);
+  }, [data, error, isLoading]);
 
   return memoizedValue;
 }
