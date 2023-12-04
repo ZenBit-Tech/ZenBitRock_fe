@@ -4,6 +4,8 @@ const ApiRoute = {
   CONFIRM_RESTORE_PASSWORD: '/auth/restore-password',
   ADD_VERIFICATION_DATA: '/verification/update',
   GET_USER_BY_ID: '/user/id',
+  VERIFY_OLD_PASSWORD: '/auth/verify-password',
+  CHANGE_PASSWORD: '/auth/change-password',
   QOBRIX_CREATE_CONTACT: '/contacts',
   QOBRIX_CREATE_AGENT: '/agents',
 } as const;
