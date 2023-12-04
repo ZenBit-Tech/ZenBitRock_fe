@@ -18,10 +18,7 @@ const options = {
 const URL = endpoints.property;
 
 export function useGetProperties(params: PropertyParams) {
-  const { data, error } = useSWR(
-    [URL.list, { ...options, ...params }],
-    fetcherQobrix
-  );
+  const { data, error } = useSWR([URL.list, { ...options, ...params }], fetcherQobrix);
 
   if (error) {
     console.error('Error fetching properties:', error);
