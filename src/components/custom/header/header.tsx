@@ -6,8 +6,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import { grey } from '@mui/material/colors';
 import { useTheme } from '@mui/material/styles';
-import { Typography } from '@mui/material';
-import { useMockedUser, useSelector, useTranslations } from 'hooks';
+import { Link, Typography } from '@mui/material';
+import { useSelector, useTranslations } from 'hooks';
 import { AppRoute } from 'enums';
 import { RootState } from 'store';
 import { HEADER, HeaderAvatar } from './lib';
@@ -16,8 +16,8 @@ import { Logo } from './styles';
 const Header = (): JSX.Element => {
   const theme = useTheme();
   const t = useTranslations('Home');
-  const { user } = useMockedUser();
   const authUser = useSelector((state: RootState) => state.authSlice.user);
+  const avatar = authUser?.avatarUrl ? authUser?.avatarUrl : '';
 
   return (
     <AppBar position="static" sx={{ borderBottom: `1px solid ${grey[900]}` }}>
@@ -37,8 +37,14 @@ const Header = (): JSX.Element => {
             <Box sx={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
               <Typography sx={{ textAlign: 'right', color: theme.palette.primary.main }}>{`${t(
                 'Header.greeting'
-              )}, ${user.displayName}!`}</Typography>
-              <HeaderAvatar avatar={''} />
+              )}, ${
+                authUser.firstName
+                  ? `${authUser.firstName} ${authUser.lastName}`
+                  : t('Header.displayName')
+              }!`}</Typography>
+              <Link href={AppRoute.PROFILE_PAGE}>
+                <HeaderAvatar avatar={avatar} />
+              </Link>
             </Box>
           )}
         </Container>

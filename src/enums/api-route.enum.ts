@@ -3,9 +3,13 @@ const ApiRoute = {
   CONFIRM_CODE_FOR_RESTORE_PASSWORD: '/auth/confirm-email',
   CONFIRM_RESTORE_PASSWORD: '/auth/restore-password',
   ADD_VERIFICATION_DATA: '/verification/update',
+  UPDATE_PROFILE_DATA: '/user/update',
+  SET_AVATAR: '/user/set-avatar',
   GET_USER_BY_ID: '/user/id',
+  UPDATE_USER: '/user/id',
   QOBRIX_CREATE_CONTACT: '/contacts',
   QOBRIX_CREATE_AGENT: '/agents',
+  DELETE_USER: '/user',
 } as const;
 
 export { ApiRoute };
