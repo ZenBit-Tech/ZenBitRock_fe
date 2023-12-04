@@ -74,7 +74,7 @@ export default function ProfileCover({ name, avatarUrl }: IUserProfileCover) {
       </Stack>
       <Stack direction="row" sx={{ position: 'absolute', bottom: 56, right: 16 }}>
         <Tooltip title={t('editLink')} placement="top">
-          <Link href={AppRoute.SIGN_IN_PAGE}>
+          <Link href={AppRoute.EDIT_PROFILE_PAGE}>
             <Iconify icon="fa:edit" width={32} sx={{ color: 'background.paper' }} />
           </Link>
         </Tooltip>

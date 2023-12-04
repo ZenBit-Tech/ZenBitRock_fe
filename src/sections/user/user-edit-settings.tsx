@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslations } from 'next-intl';
 import { Link, Switch, Theme } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
@@ -9,6 +10,8 @@ import Grid from '@mui/material/Unstable_Grid2';
 import CardHeader from '@mui/material/CardHeader';
 import Iconify from 'components/iconify';
 import { AppRoute } from 'enums';
+import { RootState } from 'store';
+import { LoadingScreen } from 'components/loading-screen';
 import DeleteProfileDialog from './user-del-dialog';
 
 interface RenderProps {
@@ -19,6 +22,13 @@ interface RenderProps {
 
 const RenderSettings = ({ checked, handleChange, theme }: RenderProps): JSX.Element => {
   const t = useTranslations('editProfilePage');
+  const authUser = useSelector((state: RootState) => state.authSlice.user);
+
+  if (!authUser) {
+    return <LoadingScreen />;
+  }
+
+  const { id } = authUser;
 
   return (
     <Card>
@@ -28,12 +38,12 @@ const RenderSettings = ({ checked, handleChange, theme }: RenderProps): JSX.Elem
 
         <Stack direction="row" sx={{ typography: 'body2' }}>
           <Iconify icon="fluent:lock-closed-key-24-filled" width={24} sx={{ mr: 2 }} />
-          <Link href={AppRoute.RESTORE_PASSWORD_PAGE}>{t('changePass')}</Link>
+          <Link href={AppRoute.RESTORE_PASSWORD_DONE_PAGE}>{t('changePass')}</Link>
         </Stack>
 
         <Stack direction="row">
           <Iconify icon="fluent:person-delete-24-filled" width={24} sx={{ mr: 2 }} />
-          <DeleteProfileDialog />
+          <DeleteProfileDialog id={id} />
         </Stack>
 
         <Box sx={{ typography: 'subtitle2' }}>{t('settingsSubtitle2')}</Box>
