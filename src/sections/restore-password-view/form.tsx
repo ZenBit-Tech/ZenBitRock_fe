@@ -67,13 +67,7 @@ export default function RestorePasswordForm(): JSX.Element {
       )}
 
       <FormProvider methods={methods} onSubmit={onSubmit}>
-        <Box
-          gap={7}
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          paddingRight="33px"
-        >
+        <Box gap={7} display="flex" flexDirection="column" justifyContent="center">
           <Stack spacing={2} direction="row" alignItems="center">
             <Button onClick={() => router.back()}>
               <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
