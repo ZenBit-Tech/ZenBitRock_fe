@@ -8,7 +8,6 @@ import { tokenMiddleware } from './middlewares/token-middleware';
 import { RestorePasswordApi } from './api/restorePasswordApi';
 import restorePasswordReducer from './reducers/restorePasswordReducer';
 import { QobrixApi } from './api/qobrixApi';
-import { GetUserApi } from './api/getUserApi';
 import { ResetPasswordApi } from './api/resetPasswordApi';
 
 import { UserApi } from './api/userApi';
