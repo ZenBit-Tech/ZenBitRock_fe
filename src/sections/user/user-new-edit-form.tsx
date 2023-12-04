@@ -9,7 +9,7 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
-import { useUpdateUserMutation } from 'store/api/getUserApi';
+import { useUpdateUserMutation, useSetAvatarMutation } from 'store/api/userApi';
 import { useRouter } from 'routes/hooks';
 import { patterns } from 'constants/patterns';
 import { AppRoute } from 'enums';
@@ -40,6 +40,7 @@ function getRoles(): string[] {
 export default function UserNewEditForm({ user }: Props): JSX.Element {
   const router = useRouter();
   const [updateUser] = useUpdateUserMutation();
+  const [setAvatar] = useSetAvatarMutation();
   const { enqueueSnackbar } = useSnackbar();
   const t = useTranslations('editProfilePage');
 
@@ -61,7 +62,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     agency: Yup.string().required(t('agencyMessageReq')),
     role: Yup.string().required(t('roleMessage')),
     about: Yup.string().required(t('aboutMessage')),
-    avatarUrl: Yup.mixed().nullable(),
+    avatar: Yup.mixed().nullable(),
     city: Yup.string().required(t('aboutMessage')),
   });
 
@@ -73,7 +74,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
       country: findCountryLabelByCode(stateCountry) || '',
       city: stateCity || '',
       agency: stateAgency || '',
-      avatarUrl: null,
+      avatar: null,
       about: stateDescription || '',
     }),
     [statePhone, stateEmail, stateRole, stateCountry, stateCity, stateAgency, stateDescription]
@@ -90,7 +91,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
   } = methods;
 
   const onSubmit = handleSubmit(async (data): Promise<void> => {
-    const { phone, role, country, city, agency, about } = data;
+    const { phone, role, country, city, agency, about, avatar } = data;
 
     const countryCode = findCountryCodeByLabel(country);
 
@@ -104,12 +105,21 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     updatedUser.agencyName = agency ?? stateAgency;
     updatedUser.description = about ? about : stateDescription;
 
+    const formData = new FormData();
+
+    if (avatar instanceof Blob) {
+      formData.append('file', avatar);
+    }
+    formData.append('userId', userId);
+
     try {
       const successMessage = t('updateText');
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      await updateUser(updatedUser);
+      await updateUser(updatedUser).unwrap();
+
+      await setAvatar(formData).unwrap();
 
       enqueueSnackbar(successMessage, { variant: 'success' });
     } catch (error) {
@@ -126,7 +136,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
           <Card sx={{ pt: 5, pb: 5, px: 3, height: '100%' }}>
             <Box sx={{ mb: 5 }}>
               <RHFUploadAvatar
-                name="avatarUrl"
+                name="avatar"
                 maxSize={3145728}
                 helperText={
                   <Typography

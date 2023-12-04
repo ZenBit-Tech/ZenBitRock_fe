@@ -1,15 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ApiRoute, StorageKey } from 'enums';
 import { IUserUpdateProfile } from 'types/user';
-import {
-  DeleteUserResponse,
-  GetUserRequest,
-  GetUserResponse,
-  UpdateUserResponse,
-} from 'types/user-data';
+import { GetUserRequest, GetUserResponse, UpdateUserResponse } from 'types/user-data';
 
-export const GetUserApi = createApi({
-  reducerPath: 'getUserApi',
+export const UserApi = createApi({
+  reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
     prepareHeaders: (headers) => {
@@ -29,7 +24,6 @@ export const GetUserApi = createApi({
         body,
       }),
     }),
-
     updateUser: builder.mutation<UpdateUserResponse['data'], IUserUpdateProfile>({
       query: (body) => ({
         url: ApiRoute.UPDATE_PROFILE_DATA,
@@ -37,14 +31,14 @@ export const GetUserApi = createApi({
         body,
       }),
     }),
-    deleteUser: builder.mutation<DeleteUserResponse['data'], { id: string }>({
-      query: ({ id }) => ({
-        url: ApiRoute.DELETE_USER,
-        method: 'DELETE',
-        params: { id },
+    setAvatar: builder.mutation<UpdateUserResponse['data'], FormData>({
+      query: (body) => ({
+        url: ApiRoute.SET_AVATAR,
+        method: 'PATCH',
+        body,
       }),
     }),
   }),
 });
 
-export const { useGetUserByIdMutation, useUpdateUserMutation, useDeleteUserMutation } = GetUserApi;
+export const { useGetUserByIdMutation, useUpdateUserMutation, useSetAvatarMutation } = UserApi;
