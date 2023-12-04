@@ -5,13 +5,15 @@ import { useEffect, useSelector, useState } from 'hooks';
 import { RootState } from 'store';
 import { LoadingScreen } from 'components/loading-screen';
 import { useGetProfileQuery } from 'store/auth';
+import { Header } from '../header/header';
+import { Navbar } from '../navbar/navbar';
 
 type Props = {
   children: React.ReactNode;
 };
 
 const App = ({ children }: Props) => {
-  const userId = useSelector((state: RootState) => state.authSlice.user);
+  const user = useSelector((state: RootState) => state.authSlice.user);
   const [token, setToken] = useState<string | null>(null);
   const [authChecked, setAuthChecked] = useState(false);
 
@@ -20,14 +22,24 @@ const App = ({ children }: Props) => {
     setAuthChecked(true);
   }, []);
 
-  const shouldFetchProfile = !userId && token;
+  const shouldFetchProfile = !user && token;
   const { isLoading } = useGetProfileQuery(undefined, { skip: !shouldFetchProfile });
 
   if (!authChecked) {
     return <LoadingScreen />;
   }
 
-  return <>{!isLoading && children}</>;
+  return (
+    <>
+      {!isLoading && (
+        <>
+          <Header user={user} />
+          {children}
+          <Navbar user={user} />
+        </>
+      )}
+    </>
+  );
 };
 
 export { App };

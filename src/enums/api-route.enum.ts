@@ -9,6 +9,7 @@ const ApiRoute = {
   UPDATE_USER: '/user/id',
   QOBRIX_CREATE_CONTACT: '/contacts',
   QOBRIX_CREATE_AGENT: '/agents',
+  QOBRIX_PROPERY_TYPES: '/property-types',
   DELETE_USER: '/user',
 } as const;
 

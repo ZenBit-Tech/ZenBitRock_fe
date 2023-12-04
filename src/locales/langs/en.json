@@ -273,5 +273,15 @@
     "countryTxt": "Country",
     "cityTxt": "City",
     "loading": "Agent"
+  },
+  "mainPage": {
+    "filters": {
+      "location": "Location",
+      "propertyType": "Property type",
+      "propertyStatus": "Status",
+      "priceRange": "Price range",
+      "bedrooms": "Bedrooms",
+      "apply": "Apply filters"
+    }
   }
 }
