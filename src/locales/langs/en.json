@@ -64,9 +64,8 @@
   },
   "VerificationDonePage": {
     "mainTitle": "KYC form",
-    "doneTextFirstPart": "Your application was submitted successfully.",
-    "doneTextSecondPart": "Thank you for joining AgentWise!",
-    "submitButton": "Go to sign in page"
+    "doneText": "AgentWise profile has been successfully created!",
+    "submitButton": "Go to main page"
   },
   "RestorePasswordPage": {
     "title": "Restore password",

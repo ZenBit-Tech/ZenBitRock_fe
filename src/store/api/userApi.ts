@@ -3,8 +3,8 @@ import { ApiRoute, StorageKey } from 'enums';
 import { IUserUpdateProfile } from 'types/user';
 import { GetUserRequest, GetUserResponse, UpdateUserResponse } from 'types/user-data';
 
-export const GetUserApi = createApi({
-  reducerPath: 'getUserApi',
+export const UserApi = createApi({
+  reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
     prepareHeaders: (headers) => {
@@ -24,7 +24,6 @@ export const GetUserApi = createApi({
         body,
       }),
     }),
-
     updateUser: builder.mutation<UpdateUserResponse['data'], IUserUpdateProfile>({
       query: (body) => ({
         url: ApiRoute.UPDATE_PROFILE_DATA,
@@ -32,7 +31,14 @@ export const GetUserApi = createApi({
         body,
       }),
     }),
+    setAvatar: builder.mutation<UpdateUserResponse['data'], FormData>({
+      query: (body) => ({
+        url: ApiRoute.SET_AVATAR,
+        method: 'PATCH',
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useGetUserByIdMutation, useUpdateUserMutation } = GetUserApi;
+export const { useGetUserByIdMutation, useUpdateUserMutation, useSetAvatarMutation } = UserApi;

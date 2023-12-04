@@ -11,6 +11,7 @@ type UserProfileResponse = {
   agencyName: string;
   description: string;
   country: string;
+  avatarUrl: string;
 };
 
 export { type UserProfileResponse };

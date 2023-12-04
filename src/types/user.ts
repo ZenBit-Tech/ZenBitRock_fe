@@ -45,6 +45,7 @@ export type IUserUpdateProfile = {
   role?: string | null;
   email?: string | null;
   userId?: string | null;
+  qobrixContactId?: string | null;
   description?: string | null;
 };
 

@@ -33,6 +33,7 @@ export type UpdateEditUserRequest = {
   agency?: string | null;
   description?: string | null;
   userId?: string | null;
+  qobrixContactId?: string | null;
 };
 
 export type UpdateUserResponse = {
