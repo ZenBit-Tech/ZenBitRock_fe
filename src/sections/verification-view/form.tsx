@@ -185,7 +185,6 @@ export default function Form(): JSX.Element {
       const contact = await createContact(contactData).unwrap();
 
       const { role: agentRole, legacy_id, id: contactId } = contact.data;
-
       const contactIdData = { userId, qobrixContactId: contactId };
 
       await updateUser(contactIdData).unwrap();
@@ -197,7 +196,6 @@ export default function Form(): JSX.Element {
       };
 
       createAgent(agentData).unwrap();
-
       replace(AppRoute.VERIFICATION_DONE_PAGE);
 
       return undefined;
