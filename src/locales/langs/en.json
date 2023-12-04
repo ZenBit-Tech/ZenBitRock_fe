@@ -292,8 +292,6 @@
     "repeatLabel": "Repeat password",
     "unmatchPass": "Passwords do not match",
     "forgotPass": "Forgot password?"
-    "cityTxt": "City",
-    "loading": "Agent"
   },
   "mainPage": {
     "filters": {
