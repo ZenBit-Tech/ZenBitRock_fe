@@ -29,17 +29,14 @@ export default function RestorePasswordForm(): JSX.Element {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const methods = useForm({ defaultValues });
+  const methods = useForm({ defaultValues, mode: 'onBlur' });
 
   const {
     reset,
     register,
-    formState,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { errors, isSubmitting, isDirty, isValid },
   } = methods;
-
-  const { isDirty, isValid } = formState;
 
   const onSubmit = handleSubmit(async (data: { email: string }): Promise<void> => {
     try {
@@ -67,7 +64,10 @@ export default function RestorePasswordForm(): JSX.Element {
       )}
 
       <FormProvider methods={methods} onSubmit={onSubmit}>
-        <Box gap={7} display="flex" flexDirection="column" justifyContent="center">
+        <Box
+          gap={7}
+          sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', pb: '70px' }}
+        >
           <Stack spacing={2} direction="row" alignItems="center">
             <Button onClick={() => router.back()}>
               <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
@@ -89,7 +89,20 @@ export default function RestorePasswordForm(): JSX.Element {
                   message: t('emailValid'),
                 },
               })}
-              label={t('emailPlaceholder')}
+              label={t('emailLabel')}
+              placeholder={t('emailPlaceholder')}
+              error={!!errors.email}
+              helperText={errors.email?.message}
+              onBlur={() => {
+                methods.trigger('email');
+              }}
+              onChange={(e) => {
+                methods.setValue('email', e.target.value);
+                if (methods.formState.errors.email) {
+                  methods.clearErrors('email');
+                }
+              }}
+              sx={{ height: '50px' }}
             />
           </Stack>
 

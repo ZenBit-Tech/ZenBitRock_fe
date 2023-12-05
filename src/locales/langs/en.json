@@ -71,6 +71,7 @@
     "title": "Restore password",
     "header": "Enter your email for restore",
     "emailPlaceholder": "name@domain.com",
+    "emailLabel": "Email",
     "button": "Send Code",
     "emailRequired": "Email is required",
     "emailValid": "Email is not valid"
@@ -276,8 +277,8 @@
   "ResetPasswordPage": {
     "pageTitle": "Reset Password",
     "backLink": "Back to Profile",
-    "enterPassword":"Enter your current password",
-    "buttonVerify":"Verify",
+    "enterPassword": "Enter your current password",
+    "buttonVerify": "Verify",
     "enterNewPassword": "Enter your new password",
     "buttonReset": "Reset password",
     "buttonToProfile": "Go back to my profile",
