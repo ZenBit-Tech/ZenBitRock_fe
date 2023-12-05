@@ -1,11 +1,13 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import * as Yup from 'yup';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { Button, Typography, Box, CircularProgress, Link } from '@mui/material';
 import { useSnackbar } from 'notistack';
+import { yupResolver } from '@hookform/resolvers/yup';
 import Backdrop from '@mui/material/Backdrop';
 import Stack from '@mui/system/Stack';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,6 +18,11 @@ import { setCode } from 'store/reducers/restorePasswordReducer';
 import { AppRoute } from 'enums';
 
 const defaultValues = { code: '' };
+const CODE_LENGTH = 6;
+
+const VerifySchema = Yup.object().shape({
+  code: Yup.string().required('code_is_required').min(CODE_LENGTH, 'code_too_short'),
+});
 
 export default function RestorePasswordForm(): JSX.Element {
   const t = useTranslations('VerifyCodePage');
@@ -24,19 +31,16 @@ export default function RestorePasswordForm(): JSX.Element {
 
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
-  const methods = useForm({ defaultValues });
+  const methods = useForm({ resolver: yupResolver(VerifySchema), defaultValues, mode: 'onBlur' });
 
   const dispatch = useDispatch<AppDispatch>();
   const email = useSelector((state: RootState) => state.restorePasswordSlice.email);
 
   const {
     reset,
-    formState,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, isDirty, isValid },
   } = methods;
-
-  const { isDirty, isValid } = formState;
 
   const onSubmit = handleSubmit(async (data): Promise<void> => {
     try {
@@ -88,7 +92,7 @@ export default function RestorePasswordForm(): JSX.Element {
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          sx={{ px: '40px' }}
+          sx={{ px: '40px', pb: '70px' }}
         >
           <Stack spacing={2} direction="row" alignItems="center">
             <Button onClick={() => router.back()}>
@@ -100,7 +104,7 @@ export default function RestorePasswordForm(): JSX.Element {
             </Typography>
           </Stack>
 
-          <Stack>
+          <Stack sx={{ height: '150px' }}>
             <Typography variant="body1" sx={{ marginBottom: '25px' }}>
               {t('header')}
             </Typography>
