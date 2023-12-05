@@ -24,7 +24,7 @@ const VerifySchema = Yup.object().shape({
   code: Yup.string().required('code_is_required').min(CODE_LENGTH, 'code_too_short'),
 });
 
-export default function RestorePasswordForm(): JSX.Element {
+export default function VerifyCodeForm(): JSX.Element {
   const t = useTranslations('VerifyCodePage');
   const [verifyCode, { isLoading }] = useVerifyCodeMutation();
   const [sendCode] = useSendCodeMutation();
@@ -89,10 +89,14 @@ export default function RestorePasswordForm(): JSX.Element {
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <Box
           gap={4}
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          sx={{ px: '40px', pb: '70px' }}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            px: '20px',
+            pb: '70px',
+            maxWidth: '390px',
+          }}
         >
           <Stack spacing={2} direction="row" alignItems="center">
             <Button onClick={() => router.back()}>
