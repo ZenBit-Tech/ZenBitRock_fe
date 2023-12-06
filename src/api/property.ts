@@ -1,10 +1,7 @@
 import { useMemo } from 'react';
 import useSWR from 'swr';
-// utils
 import { endpoints, fetcherQobrix } from 'utils/axios';
-// types
 import { IPropertyItem, IProperties, IPropertyParams } from 'types/properties';
-// ----------------------------------------------------------------------
 
 const URL = endpoints.property;
 

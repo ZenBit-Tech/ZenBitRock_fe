@@ -1,5 +1,3 @@
-// ----------------------------------------------------------------------
-
 export type IPropertyItem = {
   id: string;
   sale_rent: string | null;
@@ -13,24 +11,16 @@ export type IPropertyItem = {
   photo: string;
 };
 
-// ----------------------------------------------------------------------
-
 export type IPropertyList = IPropertyItem[];
-
-// ----------------------------------------------------------------------
 
 export type IProperties = {
   data: IPropertyList;
   pagination: IPropertyPagination;
 };
 
-// ----------------------------------------------------------------------
-
 export type IPropertyParams = {
   params: IPropertyParamsList;
 };
-
-// ----------------------------------------------------------------------
 
 export type IPropertyParamsList = {
   page: number;
@@ -40,8 +30,6 @@ export type IPropertyParamsList = {
   sort?: string[];
   search?: string;
 };
-
-// ----------------------------------------------------------------------
 
 export type IPropertyPagination = {
   pageCount: number;
