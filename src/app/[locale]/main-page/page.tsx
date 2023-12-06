@@ -1,15 +1,23 @@
 'use client';
 
-import { RootState } from 'store';
-import { useSelector } from 'hooks';
-import { Navbar, ProtectedRoute } from 'components/custom';
 import PropertiesList from 'components/custom/propertiesList';
+import { Box, Typography } from '@mui/material';
+import { ProtectedRoute } from 'components/custom';
+import { NotificationCenter, PropertyFilter } from './lib';
 
-export default function MainPage() {
+function MainPage() {
   return (
-    <>
-      <Navbar />
-      <PropertiesList />
-    </>
+    <ProtectedRoute>
+      <Box sx={{ p: '10px', margin: '0 auto', maxWidth: '800px' }}>
+        <NotificationCenter />
+        <Typography variant="h3" sx={{ marginTop: 3 }}>
+          My properties
+        </Typography>
+        <PropertyFilter />
+        <PropertiesList />
+      </Box>
+    </ProtectedRoute>
   );
 }
+
+export default MainPage;

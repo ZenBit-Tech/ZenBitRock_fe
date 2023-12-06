@@ -1,7 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ApiRoute, StorageKey } from 'enums';
-import { QobrixAgentRequest, QobrixAgentResponse } from 'types/qobrix-agent';
-import { QobrixContactRequest, QobrixContactResponse } from 'types/qobrix-contact';
+import {
+  QobrixAgentRequest,
+  QobrixAgentResponse,
+  QobrixContactRequest,
+  QobrixContactResponse,
+  QobrixPropertyType,
+} from 'types';
 
 export const QobrixApi = createApi({
   reducerPath: 'QobrixApi',
@@ -11,8 +16,6 @@ export const QobrixApi = createApi({
       const token = localStorage.getItem(StorageKey.TOKEN);
 
       headers.set('Authorization', `Bearer ${token}`);
-      headers.set('X-Api-Key', process.env.NEXT_PUBLIC_QOBRIX_API_KEY || '');
-      headers.set('X-Api-User', process.env.NEXT_PUBLIC_QOBRIX_API_USER || '');
 
       return headers;
     },
@@ -33,7 +36,15 @@ export const QobrixApi = createApi({
         body,
       }),
     }),
+    getPropertyTypes: builder.query<QobrixPropertyType, undefined>({
+      query: (body) => ({
+        url: ApiRoute.QOBRIX_PROPERY_TYPES,
+        method: 'GET',
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useCreateContactMutation, useCreateAgentMutation } = QobrixApi;
+export const { useCreateContactMutation, useCreateAgentMutation, useGetPropertyTypesQuery } =
+  QobrixApi;

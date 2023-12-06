@@ -13,6 +13,10 @@ const AppRoute = {
   MAIN_PAGE: '/main-page',
   RESTORE_PASSWORD_DONE_PAGE: '/restore-password/restore-password-done',
   PROFILE_PAGE: '/profile',
+  VERIFY_OLD_PASSWORD: 'reset-password/verify-old-password',
+  RESET_PASSWORD_CHANGE_PASSWORD_PAGE: '/reset-password/change-password',
+  RESET_PASSWORD_DONE_PAGE: '/reset-password',
+
   EDIT_PROFILE_PAGE: '/edit-profile',
 } as const;
 

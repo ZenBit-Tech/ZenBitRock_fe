@@ -22,8 +22,9 @@ export default function VerificationDoneView(): JSX.Element {
       gap={5}
       display="grid"
       maxWidth="600px"
+      height="calc(100vh - 80px)"
       margin="0 auto"
-      sx={{ my: 5 }}
+      sx={{ mt: -10, justifyContent: 'center', alignItems: 'center' }}
       gridTemplateColumns={{
         xs: 'repeat(1, 1fr)',
         sm: 'repeat(1, 1fr)',

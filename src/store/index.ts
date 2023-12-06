@@ -8,6 +8,8 @@ import { tokenMiddleware } from './middlewares/token-middleware';
 import { RestorePasswordApi } from './api/restorePasswordApi';
 import restorePasswordReducer from './reducers/restorePasswordReducer';
 import { QobrixApi } from './api/qobrixApi';
+import { ResetPasswordApi } from './api/resetPasswordApi';
+
 import { UserApi } from './api/userApi';
 
 const persistConfig = {
@@ -22,6 +24,7 @@ const reducers = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
   [VerificationApi.reducerPath]: VerificationApi.reducer,
   [RestorePasswordApi.reducerPath]: RestorePasswordApi.reducer,
+  [ResetPasswordApi.reducerPath]: ResetPasswordApi.reducer,
   [QobrixApi.reducerPath]: QobrixApi.reducer,
   [UserApi.reducerPath]: UserApi.reducer,
 });
@@ -38,6 +41,7 @@ export const store = configureStore({
       .concat(authApi.middleware)
       .concat(VerificationApi.middleware)
       .concat(RestorePasswordApi.middleware)
+      .concat(ResetPasswordApi.middleware)
       .concat(tokenMiddleware.middleware)
       .concat(QobrixApi.middleware)
       .concat(UserApi.middleware),

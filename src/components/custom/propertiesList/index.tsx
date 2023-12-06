@@ -19,7 +19,7 @@ import {
   CardMediaStyled,
 } from './styles';
 import Iconify from 'components/iconify';
-import { SnackbarProvider, enqueueSnackbar } from 'notistack';
+import { enqueueSnackbar } from 'notistack';
 import { QOBRIX_HOST } from 'config-global';
 import { fCurrency } from 'utils/format-number';
 
@@ -30,7 +30,7 @@ const INITIAL_PARAMS: IPropertyParamsList = {
   media: true,
 };
 
-export default function PropertiesList(): JSX.Element {
+function PropertiesList(): JSX.Element {
   const [params, setParams] = useState<IPropertyParamsList>(INITIAL_PARAMS);
   const { properties, propertiesError } = useGetProperties({ params: params });
 
@@ -93,11 +93,6 @@ export default function PropertiesList(): JSX.Element {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '90%', marginX: 'auto' }}>
-      <Title variant="h3" sx={{ marginBottom: '1.5rem' }}>
-        {t('title')}
-      </Title>
-      <p>Filter</p>
-      <SnackbarProvider />
       {error &&
         enqueueSnackbar(error, {
           variant: 'error',
@@ -219,3 +214,5 @@ export default function PropertiesList(): JSX.Element {
     </Box>
   );
 }
+
+export default PropertiesList;

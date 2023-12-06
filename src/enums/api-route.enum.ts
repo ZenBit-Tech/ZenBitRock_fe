@@ -6,9 +6,13 @@ const ApiRoute = {
   UPDATE_PROFILE_DATA: '/user/update',
   SET_AVATAR: '/user/set-avatar',
   GET_USER_BY_ID: '/user/id',
+  VERIFY_OLD_PASSWORD: '/auth/verify-password',
+  CHANGE_PASSWORD: '/auth/change-password',
   UPDATE_USER: '/user/id',
+
   QOBRIX_CREATE_CONTACT: '/contacts',
   QOBRIX_CREATE_AGENT: '/agents',
+  QOBRIX_PROPERY_TYPES: '/property-types',
   DELETE_USER: '/user',
 } as const;
 
