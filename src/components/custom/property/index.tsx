@@ -24,72 +24,73 @@ import { fCurrency } from 'utils/format-number';
 
 export default function Property({ id }: { id: string }): JSX.Element {
   const { property, propertyError } = useGetProperty(id);
-
   const [propertyDetailed, setPropertyDetailed] = useState<IPropertyDetailed>();
   const [error, setError] = useState<any>(null);
-
+  const [isFetching, setIsFetching] = useState(true);
+  console.log(property);
   const t = useTranslations('properties');
 
   useEffect(() => {
-    (async () => {
-      try {
-        setError(propertyError);
-        if (!propertyError && property) {
-          setPropertyDetailed(property);
+    isFetching &&
+      (async () => {
+        try {
+          setError(propertyError);
+          if (!propertyError && property) {
+            setPropertyDetailed(property);
+            setIsFetching(false);
+          }
+        } catch (err) {
+          console.error('Error fetching property:', err);
+          setError(`An error occurred while fetching properties. - ${err}`);
         }
-      } catch (err) {
-        console.error('Error fetching property:', err);
-        setError(`An error occurred while fetching properties. - ${err}`);
-      }
-    })();
-  }, []);
+      })();
+  });
 
-  const {
-    // saleRent,
-    status,
-    // country,
-    // city,
-    // price,
-    // media,
-    // description,
-    // name,
-    // propertyType,
-    // bedrooms,
-    // bathrooms,
-    // livingrooms,
-    // kitchenType,
-    // verandas,
-    // parking,
-    // coordinates,
-    // municipality,
-    // state,
-    // postCode,
-    // street,
-    // floorNumber,
-    // seaView,
-    // mountainView,
-    // privateSwimmingPool,
-    // commonSwimmingPool,
-    // petsAllowed,
-    // elevator,
-    // listingDate,
-    // internalAreaAmount,
-    // coveredVerandasAmount,
-    // tenancyType,
-    // communityFeatures,
-    // sellerName,
-    // sellerEmail,
-    // sellerPhone,
-    // salespersonUserName,
-    // salespersonUserEmail,
-  } = propertyDetailed;
+  // const {
+  // saleRent,
+  // status,
+  // country,
+  // city,
+  // price,
+  // media,
+  // description,
+  // name,
+  // propertyType,
+  // bedrooms,
+  // bathrooms,
+  // livingrooms,
+  // kitchenType,
+  // verandas,
+  // parking,
+  // coordinates,
+  // municipality,
+  // state,
+  // postCode,
+  // street,
+  // floorNumber,
+  // seaView,
+  // mountainView,
+  // privateSwimmingPool,
+  // commonSwimmingPool,
+  // petsAllowed,
+  // elevator,
+  // listingDate,
+  // internalAreaAmount,
+  // coveredVerandasAmount,
+  // tenancyType,
+  // communityFeatures,
+  // sellerName,
+  // sellerEmail,
+  // sellerPhone,
+  // salespersonUserName,
+  // salespersonUserEmail,
+  // } = propertyDetailed;
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '90%', marginX: 'auto' }}>
       <Title variant="h3" sx={{ marginBottom: '1.5rem' }}>
         {t('title')}
       </Title>
-      <SnackbarProvider />
       {error &&
         enqueueSnackbar(error, {
           variant: 'error',
@@ -187,7 +188,7 @@ export default function Property({ id }: { id: string }): JSX.Element {
             fontWeight: 'bold',
           }}
         >
-          {t(status)}
+          {propertyDetailed?.status}
         </TextStyled>
         //       </BoxStyled>
         //       <TextMiddleStyled>
