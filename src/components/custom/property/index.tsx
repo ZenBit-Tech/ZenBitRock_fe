@@ -23,7 +23,6 @@ import { QOBRIX_HOST } from 'config-global';
 import { fCurrency } from 'utils/format-number';
 
 export default function Property({ id }: { id: string }): JSX.Element {
-
   const { property, propertyError } = useGetProperty(id);
 
   const [propertyDetailed, setPropertyDetailed] = useState<IPropertyDetailed>();

@@ -58,7 +58,7 @@ export function useGetProperty(id: string) {
   if (error) {
     console.error('Error fetching properties:', error);
   }
-  
+
   const data = mock;
   const memoizedValue = useMemo(() => {
     const property: IPropertyDetailed = {
