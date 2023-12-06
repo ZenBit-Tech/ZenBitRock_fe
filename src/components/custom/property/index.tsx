@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Box, Card } from '@mui/material';
 import { useTranslations } from 'next-intl';
 import { useGetProperty } from 'api/property';
-import { PropertyDetailed } from 'types/properties';
+import { IPropertyDetailed } from 'types/properties';
 // import { getCountries } from 'sections/verification-view/drop-box-data';
 import { LoadingScreen } from 'components/loading-screen';
 import {
@@ -22,17 +22,11 @@ import { SnackbarProvider, enqueueSnackbar } from 'notistack';
 import { QOBRIX_HOST } from 'config-global';
 import { fCurrency } from 'utils/format-number';
 
-import { useRouter } from 'next/router';
+export default function Property({ id }: { id: string }): JSX.Element {
 
-export default function Property(): JSX.Element {
-  const router = useRouter();
+  const { property, propertyError } = useGetProperty(id);
 
-  console.log(router);
-  const { id } = router.query;
-  console.log(id);
-  const { property, propertyError } = useGetProperty(String(id));
-
-  const [propertyDetailed, setPropertyDetailed] = useState<PropertyDetailed>();
+  const [propertyDetailed, setPropertyDetailed] = useState<IPropertyDetailed>();
   const [error, setError] = useState<any>(null);
 
   const t = useTranslations('properties');

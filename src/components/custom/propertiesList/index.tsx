@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Box, Card } from '@mui/material';
 import { useTranslations } from 'next-intl';
 import { useGetProperties } from 'api/property';
-import { PropertyList, PropertyPagination, PropertyParamsList } from 'types/properties';
+import { IPropertyList, IPropertyPagination, IPropertyParamsList } from 'types/properties';
 import { getCountries } from 'sections/verification-view/drop-box-data';
 import { LoadingScreen } from 'components/loading-screen';
 import {
@@ -18,11 +18,11 @@ import {
   CardMediaStyled,
 } from './styles';
 import Iconify from 'components/iconify';
-import { SnackbarProvider, enqueueSnackbar } from 'notistack';
+import { useSnackbar } from 'components/snackbar';
 import { QOBRIX_HOST } from 'config-global';
 import { fCurrency } from 'utils/format-number';
 
-const INITIAL_PARAMS: PropertyParamsList = {
+const INITIAL_PARAMS: IPropertyParamsList = {
   page: 1,
   limit: 10,
   fields: ['id', 'sale_rent', 'status', 'country', 'city', 'list_selling_price_amount'],
@@ -30,15 +30,16 @@ const INITIAL_PARAMS: PropertyParamsList = {
 };
 
 export default function PropertiesList(): JSX.Element {
-  const [params, setParams] = useState<PropertyParamsList>(INITIAL_PARAMS);
+  const [params, setParams] = useState<IPropertyParamsList>(INITIAL_PARAMS);
   const { properties, propertiesError } = useGetProperties({ params: params });
 
-  const [propertiesList, setPropertiesList] = useState<PropertyList>([]);
-  const [propertiesPagination, setPropertiesPagination] = useState<PropertyPagination>();
+  const [propertiesList, setPropertiesList] = useState<IPropertyList>([]);
+  const [propertiesPagination, setPropertiesPagination] = useState<IPropertyPagination>();
   const [error, setError] = useState<any>(null);
   const [isFetching, setIsFetching] = useState(true);
 
   const t = useTranslations('properties');
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     isFetching &&
@@ -95,7 +96,6 @@ export default function PropertiesList(): JSX.Element {
         {t('title')}
       </Title>
       <p>Filter</p>
-      <SnackbarProvider />
       {error &&
         enqueueSnackbar(error, {
           variant: 'error',

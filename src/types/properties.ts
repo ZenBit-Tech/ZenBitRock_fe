@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------
 
-export type PropertyItem = {
+export type IPropertyItem = {
   id: string;
   sale_rent: string | null;
   saleRent: string | null;
@@ -15,24 +15,24 @@ export type PropertyItem = {
 
 // ----------------------------------------------------------------------
 
-export type PropertyList = PropertyItem[];
+export type IPropertyList = IPropertyItem[];
 
 // ----------------------------------------------------------------------
 
-export type Properties = {
-  data: PropertyList;
-  pagination: PropertyPagination;
+export type IProperties = {
+  data: IPropertyList;
+  pagination: IPropertyPagination;
 };
 
 // ----------------------------------------------------------------------
 
-export type PropertyParams = {
-  params: PropertyParamsList;
+export type IPropertyParams = {
+  params: IPropertyParamsList;
 };
 
 // ----------------------------------------------------------------------
 
-export type PropertyParamsList = {
+export type IPropertyParamsList = {
   page: number;
   limit: number;
   fields: string[];
@@ -43,7 +43,7 @@ export type PropertyParamsList = {
 
 // ----------------------------------------------------------------------
 
-export type PropertyPagination = {
+export type IPropertyPagination = {
   pageCount: number;
   currentPage: number;
   hasNextPage: Boolean;
@@ -54,13 +54,14 @@ export type PropertyPagination = {
 
 // ----------------------------------------------------------------------
 
-export type PropertyDetailed = {
+export type IPropertyDetailed = {
   sale_rent?: string | null;
   saleRent?: string | null;
   status: string | null;
   country: string;
   city: string;
-  price: number;
+  price?: number;
+  list_selling_price_amount?: number;
   media: {
     file: {
       href: string;

@@ -1,12 +1,13 @@
 'use client';
 
 import Property from 'components/custom/property';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 export default function PropertyPage() {
   const router = useRouter();
+  const { id } = router.query;
 
-  console.log(router);
+  console.log(id);
 
-  return <Property />;
+  return <Property id={id && id} />;
 }

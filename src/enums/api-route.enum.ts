@@ -6,6 +6,7 @@ const ApiRoute = {
   GET_USER_BY_ID: '/user/id',
   QOBRIX_CREATE_CONTACT: '/contacts',
   QOBRIX_CREATE_AGENT: '/agents',
+  PROPERTY: '/property',
 } as const;
 
 export { ApiRoute };
