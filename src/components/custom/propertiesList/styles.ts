@@ -1,6 +1,6 @@
 'use client';
 
-import { styled, Typography, Link, List, Box, CardMedia } from '@mui/material';
+import { styled, Typography, Button, List, Box, CardMedia } from '@mui/material';
 
 export const CardMediaStyled = styled(CardMedia)`
   height: 100px;
@@ -47,7 +47,7 @@ export const TextMiddleStyled = styled(Typography)`
   }
 `;
 
-export const LinkStyled = styled(Link)`
+export const LinkStyled = styled(Button)`
   cursor: pointer;
   height: 2rem;
   width: 100%;

@@ -3,22 +3,13 @@ import useSWR from 'swr';
 // utils
 import { endpoints, fetcherQobrix } from 'utils/axios';
 // types
-import { PropertyItem, Properties, PropertyParams } from 'types/properties';
-import { QOBRIX_KEYS } from 'config-global';
-
+import { IPropertyItem, IProperties, IPropertyParams } from 'types/properties';
 // ----------------------------------------------------------------------
-
-const options = {
-  headers: {
-    'X-Api-User': QOBRIX_KEYS.apiUser,
-    'X-Api-Key': QOBRIX_KEYS.apiKey,
-  },
-};
 
 const URL = endpoints.property;
 
-export function useGetProperties(params: PropertyParams) {
-  const { data, error } = useSWR([URL.list, { ...options, ...params }], fetcherQobrix);
+export function useGetProperties(params: IPropertyParams) {
+  const { data, error } = useSWR([URL.list, params], fetcherQobrix);
 
   if (error) {
     console.error('Error fetching properties:', error);
@@ -26,7 +17,7 @@ export function useGetProperties(params: PropertyParams) {
 
   const memoizedValue = useMemo(() => {
     const properties = {
-      data: data?.data.map((property: PropertyItem) => ({
+      data: data?.data.map((property: IPropertyItem) => ({
         ...property,
         id: property.id,
         saleRent: property.sale_rent,
@@ -40,7 +31,7 @@ export function useGetProperties(params: PropertyParams) {
     };
 
     return {
-      properties: properties as Properties,
+      properties: properties as IProperties,
       propertiesError: error,
     };
   }, [data, error]);
