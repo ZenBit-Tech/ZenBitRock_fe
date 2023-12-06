@@ -2,28 +2,31 @@
 
 import { LoadingScreen } from 'components/loading-screen';
 import { AppRoute } from 'enums';
-import { useEffect, useRouter, useSelector, useState } from 'hooks';
-import { RootState } from 'store';
+import { useEffect, useRouter, useState, useVerification } from 'hooks';
+import { ValueOf } from 'types';
 
 type Properties = {
   children: React.ReactNode;
-  redirectPath?: keyof typeof AppRoute;
+  defaultRedirectPath?: ValueOf<typeof AppRoute>;
 };
 
-const PublicRoute: React.FC<Properties> = ({ children, redirectPath = AppRoute.MAIN_PAGE }) => {
+const PublicRoute: React.FC<Properties> = ({
+  children,
+  defaultRedirectPath = AppRoute.MAIN_PAGE,
+}) => {
   const router = useRouter();
-  const user = useSelector((state: RootState) => state.authSlice.user);
+  const { user, redirectPath } = useVerification({
+    defaultRedirectPath,
+  });
   const [authChecked, setAuthChecked] = useState(false);
 
   useEffect(() => {
-    const hasUser = Boolean(user);
-
-    if (hasUser) {
+    if (user) {
       router.replace(redirectPath);
     }
 
     setAuthChecked(true);
-  }, [user]);
+  }, [user, redirectPath]);
 
   const isRenderingOnServer = !authChecked && !user;
 

@@ -1,3 +1,5 @@
+import { ProtectedRoute } from 'components/custom';
+
 export const metadata = {
   title: 'Verification',
 };
@@ -7,5 +9,5 @@ type Props = {
 };
 
 export default function TestLayout({ children }: Props): JSX.Element {
-  return <>{children}</>;
+  return <ProtectedRoute>{children}</ProtectedRoute>;
 }
