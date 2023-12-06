@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Box, Card } from '@mui/material';
 import { useTranslations } from 'next-intl';
 import { useGetProperties } from 'api/property';
-import { IPropertyList, IPropertyPagination, IPropertyParamsList } from 'types/properties';
+import { IPropertyList, IPropertyPagination, IPropertyParamsList } from 'types/property';
 import { getCountries } from 'sections/verification-view/drop-box-data';
 import { LoadingScreen } from 'components/loading-screen';
 import {
@@ -22,6 +22,8 @@ import Iconify from 'components/iconify';
 import { enqueueSnackbar } from 'notistack';
 import { QOBRIX_HOST } from 'config-global';
 import { fCurrency } from 'utils/format-number';
+import { AxiosError } from 'axios';
+import { IPropertyItem } from 'types/property';
 
 const INITIAL_PARAMS: IPropertyParamsList = {
   page: 1,
@@ -36,7 +38,7 @@ function PropertiesList(): JSX.Element {
 
   const [propertiesList, setPropertiesList] = useState<IPropertyList>([]);
   const [propertiesPagination, setPropertiesPagination] = useState<IPropertyPagination>();
-  const [error, setError] = useState<any>(null);
+  const [error, setError] = useState<AxiosError | null>(null);
   const [isFetching, setIsFetching] = useState(true);
 
   const t = useTranslations('properties');
@@ -55,8 +57,7 @@ function PropertiesList(): JSX.Element {
           propertiesPagination?.hasNextPage &&
             setParams((prev) => ({ ...prev, page: prev.page + 1 }));
         } catch (err) {
-          console.error('Error fetching properties:', err);
-          setError(`An error occurred while fetching properties. - ${err}`);
+          setError(err);
         }
       })();
   }, [isFetching, properties, propertiesError, propertiesPagination]);
@@ -94,7 +95,7 @@ function PropertiesList(): JSX.Element {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '90%', marginX: 'auto' }}>
       {error &&
-        enqueueSnackbar(error, {
+        enqueueSnackbar(error?.message, {
           variant: 'error',
           persist: true,
         })}
@@ -110,7 +111,7 @@ function PropertiesList(): JSX.Element {
             marginX: 'auto',
           }}
         >
-          {propertiesList.map((item, index) => {
+          {propertiesList.map((item: IPropertyItem, index: number) => {
             const { id, saleRent, status, country, city, price, photo } = item;
             return (
               <Card
