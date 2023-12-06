@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Box, Card } from '@mui/material';
 import { useTranslations } from 'next-intl';
 import { useGetProperties } from 'api/property';
@@ -18,7 +19,7 @@ import {
   CardMediaStyled,
 } from './styles';
 import Iconify from 'components/iconify';
-import { useSnackbar } from 'components/snackbar';
+import { enqueueSnackbar } from 'notistack';
 import { QOBRIX_HOST } from 'config-global';
 import { fCurrency } from 'utils/format-number';
 
@@ -29,7 +30,7 @@ const INITIAL_PARAMS: IPropertyParamsList = {
   media: true,
 };
 
-export default function PropertiesList(): JSX.Element {
+function PropertiesList(): JSX.Element {
   const [params, setParams] = useState<IPropertyParamsList>(INITIAL_PARAMS);
   const { properties, propertiesError } = useGetProperties({ params: params });
 
@@ -39,7 +40,7 @@ export default function PropertiesList(): JSX.Element {
   const [isFetching, setIsFetching] = useState(true);
 
   const t = useTranslations('properties');
-  const { enqueueSnackbar } = useSnackbar();
+  const router = useRouter();
 
   useEffect(() => {
     isFetching &&
@@ -92,10 +93,6 @@ export default function PropertiesList(): JSX.Element {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '90%', marginX: 'auto' }}>
-      <Title variant="h3" sx={{ marginBottom: '1.5rem' }}>
-        {t('title')}
-      </Title>
-      <p>Filter</p>
       {error &&
         enqueueSnackbar(error, {
           variant: 'error',
@@ -203,7 +200,12 @@ export default function PropertiesList(): JSX.Element {
                   <TextMiddleStyled>
                     {getCountries().find((object) => object.value === country)?.label}, {city}
                   </TextMiddleStyled>
-                  <LinkStyled href={`/property/${id}`}>
+                  <LinkStyled
+                    sx={{ padding: '14px' }}
+                    variant="contained"
+                    color="primary"
+                    onClick={() => router.push(`/property/${id}`)}
+                  >
                     <TypographyStyled>{t('Description')}</TypographyStyled>
                     <Iconify icon={'ri:arrow-right-s-line'} height={'auto'} />
                   </LinkStyled>
@@ -217,3 +219,5 @@ export default function PropertiesList(): JSX.Element {
     </Box>
   );
 }
+
+export default PropertiesList;
