@@ -15,6 +15,4 @@ export interface VerificationData {
   phone: string;
   singleUpload: File | null;
   confirmationCheckbox: boolean;
-  confirmationFirstName: string;
-  confirmationLastName: string;
 }

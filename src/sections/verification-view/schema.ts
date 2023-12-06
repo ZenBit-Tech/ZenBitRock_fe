@@ -64,12 +64,4 @@ export const FormSchema = Yup.object().shape<Shape<VerificationData>>({
     .matches(patterns.phone, 'Phone number is not valid'),
   singleUpload: Yup.mixed<File>().nullable().required('File is required'),
   confirmationCheckbox: Yup.boolean().oneOf([true], 'Your agree is required'),
-  confirmationFirstName: Yup.string()
-    .required('Confirm Name is required')
-    .oneOf([Yup.ref('firstName')], "Name's not match")
-    .matches(patterns.name, 'Latin letters, spaces, 2-50 characters'),
-  confirmationLastName: Yup.string()
-    .required('Confirm Surname is required')
-    .oneOf([Yup.ref('lastName')], "Surname's not match")
-    .matches(patterns.name, 'Latin letters, spaces, 2-50 characters'),
 });
