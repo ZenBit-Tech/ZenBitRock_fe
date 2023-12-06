@@ -29,7 +29,7 @@ export default function RestorePasswordForm(): JSX.Element {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const methods = useForm({ defaultValues, mode: 'onBlur' });
+  const methods = useForm({ defaultValues, mode: 'onTouched' });
 
   const {
     reset,
@@ -72,6 +72,7 @@ export default function RestorePasswordForm(): JSX.Element {
             justifyContent: 'center',
             px: '20px',
             pb: '70px',
+            maxWidth: '390px',
           }}
         >
           <Stack spacing={2} direction="row" alignItems="center">
@@ -99,16 +100,7 @@ export default function RestorePasswordForm(): JSX.Element {
               placeholder={t('emailPlaceholder')}
               error={!!errors.email}
               helperText={errors.email?.message}
-              onBlur={() => {
-                methods.trigger('email');
-              }}
-              onChange={(e) => {
-                methods.setValue('email', e.target.value);
-                if (methods.formState.errors.email) {
-                  methods.clearErrors('email');
-                }
-              }}
-              sx={{ height: '50px' }}
+              sx={{ height: '40px' }}
             />
           </Stack>
 

@@ -31,7 +31,11 @@ export default function VerifyCodeForm(): JSX.Element {
 
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
-  const methods = useForm({ resolver: yupResolver(VerifySchema), defaultValues, mode: 'onBlur' });
+  const methods = useForm({
+    resolver: yupResolver(VerifySchema),
+    defaultValues,
+    mode: 'onTouched',
+  });
 
   const dispatch = useDispatch<AppDispatch>();
   const email = useSelector((state: RootState) => state.restorePasswordSlice.email);
