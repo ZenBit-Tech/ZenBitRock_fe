@@ -308,7 +308,29 @@
       "propertyStatus": "Status",
       "priceRange": "Price range",
       "bedrooms": "Bedrooms",
-      "apply": "Apply filters"
+      "apply": "Apply filters",
+      "filterOptions": {
+        "propertyStatus": {
+          "pending": "Pending",
+          "avaliable": "Avaliable",
+          "reserved": "Reserved",
+          "sold": "Sold",
+          "rented": "Rented",
+          "withdrawn": "Withdrawn",
+          "onboarding": "Onboarding",
+          "acquisition": "Acquisition",
+          "valuation": "Valuation",
+          "instructed": "Instructed",
+          "exchange": "Exchange",
+          "sale_agreed": "Sale agreed",
+          "under_offer": "Under offer",
+          "sold_subject_to_contract": "Sold subject to contract"
+        },
+        "rentOrSale": {
+          "for_rent": "For Rent",
+          "for_sale": "For Sale"
+        }
+      }
     }
   }
 }

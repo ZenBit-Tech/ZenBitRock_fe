@@ -6,8 +6,8 @@ import {
   SendVerificationCodeResponse,
   UserAuthResponse,
   UserProfileResponse,
-  VerifyEmailResponse,
 } from './lib/types';
+
 
 export interface IUserData {
   email: string;
@@ -66,7 +66,7 @@ export const authApi = createApi({
         body,
       }),
     }),
-    verifyEmail: builder.mutation<VerifyEmailResponse, { email: string; code: string }>({
+    verifyEmail: builder.mutation<UserProfileResponse, { email: string; code: string }>({
       query: (body) => ({
         url: 'auth/confirm-email',
         method: 'POST',

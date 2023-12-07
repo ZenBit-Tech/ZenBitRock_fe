@@ -5,3 +5,4 @@ export {
   type QobrixContactResponse,
   type QobrixPropertyType,
 } from './qobrix';
+export { type ValueOf } from './value-of-type';
