@@ -18,7 +18,11 @@ const { deleteUser } = UserApi.endpoints;
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    logoutUser: (state) => {
+      state.user = null;
+    },
+  },
   extraReducers: (builder) => {
     builder.addMatcher(signUp.matchFulfilled, (state, action) => {
       state.user = action.payload.user;
@@ -37,6 +41,8 @@ export const authSlice = createSlice({
     );
   },
 });
+
+export const { logoutUser } = authSlice.actions;
 
 export default authSlice.reducer;
 

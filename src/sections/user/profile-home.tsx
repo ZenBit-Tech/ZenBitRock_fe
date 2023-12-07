@@ -7,6 +7,7 @@ import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
+import { Typography } from '@mui/material';
 import CardHeader from '@mui/material/CardHeader';
 import { _socials, _userAbout } from '_mock';
 import Iconify from 'components/iconify';
@@ -62,9 +63,9 @@ const RenderAbout = (): JSX.Element => {
           <Iconify icon="mingcute:location-fill" width={24} />
           <Box sx={{ typography: 'body2' }}>
             {t('countryTxt')}
-            <Link variant="subtitle2" color="inherit">
+            <Typography variant="subtitle2" color="inherit">
               {findCountryLabelByCode(country)}
-            </Link>
+            </Typography>
           </Box>
         </Stack>
 
@@ -72,9 +73,9 @@ const RenderAbout = (): JSX.Element => {
           <Iconify icon="mingcute:location-fill" width={24} />
           <Box sx={{ typography: 'body2' }}>
             {t('cityTxt')}
-            <Link variant="subtitle2" color="inherit">
+            <Typography variant="subtitle2" color="inherit">
               {city}
-            </Link>
+            </Typography>
           </Box>
         </Stack>
       </Stack>
@@ -105,7 +106,7 @@ const RenderSocials = (): JSX.Element => {
                 color: link.color,
               }}
             />
-            <Link color="inherit">
+            <Link color="inherit" sx={{ cursor: 'pointer' }}>
               {link.value === LINKS.FACEBOOK && _userAbout.socialLinks.facebook}
               {link.value === LINKS.INSTAGRAM && _userAbout.socialLinks.instagram}
               {link.value === LINKS.LINKEDIN && _userAbout.socialLinks.linkedin}
