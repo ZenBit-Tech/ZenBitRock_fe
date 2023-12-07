@@ -10,6 +10,7 @@ import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import { useUpdateUserMutation, useSetAvatarMutation } from 'store/api/userApi';
+import ReduxProvider from 'store/ReduxProvider';
 import { useRouter } from 'routes/hooks';
 import { patterns } from 'constants/patterns';
 import { AppRoute } from 'enums';
@@ -24,7 +25,6 @@ import {
   findCountryCodeByLabel,
   findCountryLabelByCode,
 } from 'sections/verification-view/drop-box-data';
-import ReduxProvider from 'store/ReduxProvider';
 import { UserProfileResponse } from 'store/auth/lib/types';
 import { formatRole, revertFormatRole } from './service';
 import ProfileSettings from './user-edit-settings';
@@ -135,11 +135,6 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
 
     const formData = new FormData();
 
-    if (avatar && avatar instanceof Blob) {
-      formData.append('file', avatar);
-      formData.append('userId', userId);
-    }
-
     try {
       const successMessage = t('updateText');
 
@@ -147,7 +142,11 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
 
       await updateUser(updatedUser).unwrap();
 
-      if (avatar) await setAvatar(formData).unwrap();
+      if (avatar && avatar instanceof Blob) {
+        formData.append('file', avatar);
+        formData.append('userId', userId);
+        await setAvatar(formData).unwrap();
+      }
 
       enqueueSnackbar(successMessage, { variant: 'success' });
     } catch (error) {
@@ -289,25 +288,26 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
                 placeholder={t('aboutPlaceholder')}
               />
             </Box>
-
-            <ReduxProvider>
-              <ProfileSettings />
-            </ReduxProvider>
-
-            <Stack sx={{ mt: 3, flexDirection: 'row', justifyContent: 'flex-end', gap: '1rem' }}>
-              <Button
-                type="reset"
-                variant="contained"
-                color="primary"
-                onClick={() => router.push(AppRoute.PROFILE_PAGE)}
-              >
-                {t('cancelBtnTxt')}
-              </Button>
-              <Button type="submit" variant="contained" color="primary" disabled={!isValid}>
-                {t('saveBtnTxt')}
-              </Button>
-            </Stack>
           </Card>
+        </Grid>
+        <Grid xs={12} md={12}>
+          <ReduxProvider>
+            <ProfileSettings />
+          </ReduxProvider>
+
+          <Stack sx={{ mt: 5, flexDirection: 'row', justifyContent: 'flex-end', gap: '1rem' }}>
+            <Button
+              type="reset"
+              variant="contained"
+              color="primary"
+              onClick={() => router.push(AppRoute.PROFILE_PAGE)}
+            >
+              {t('cancelBtnTxt')}
+            </Button>
+            <Button type="submit" variant="contained" color="primary" disabled={!isValid}>
+              {t('saveBtnTxt')}
+            </Button>
+          </Stack>
         </Grid>
       </Grid>
     </FormProvider>

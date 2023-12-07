@@ -26,7 +26,7 @@ export default function UserEditView(): JSX.Element {
   const { firstName, lastName } = authUser;
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'lg'} sx={{ pt: '1rem', pb: '70px' }}>
+    <Container maxWidth={settings.themeStretch ? false : 'lg'} sx={{ pt: '1rem', pb: 14 }}>
       <CustomBreadcrumbs
         heading={t('pageTitle')}
         links={[{ name: `${firstName} ${lastName}` }]}
