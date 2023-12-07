@@ -11,7 +11,7 @@ import FormProvider, {
 import { Block } from 'components/custom';
 import { useGetPropertyTypesQuery } from 'store/api/qobrixApi';
 import { LoadingScreen } from 'components/loading-screen';
-import { BEDROOMS, PROPERTY_STATUS, RENT_OR_SALE, FilterSchema } from './lib';
+import { BEDROOMS, getPropertyStatus, getRentOrSaleOption, FilterSchema } from './lib';
 
 const defaultValues = {
   location: '',
@@ -25,6 +25,8 @@ const defaultValues = {
 const FilterList = (): JSX.Element => {
   const { data } = useGetPropertyTypesQuery(undefined);
   const t = useTranslations('mainPage.filters');
+  const propertyStatus = useTranslations('mainPage.filters.filterOptions.propertyStatus');
+  const rentOrSale = useTranslations('mainPage.filters.filterOptions.rentOrSale');
 
   const methods = useForm({
     mode: 'onChange',
@@ -69,7 +71,7 @@ const FilterList = (): JSX.Element => {
           </Block>
           <Block label={t('propertyStatus')}>
             <RHFSelect name="status" size="small">
-              {PROPERTY_STATUS.map((option) => (
+              {getPropertyStatus(propertyStatus).map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>
@@ -92,7 +94,7 @@ const FilterList = (): JSX.Element => {
             row
             name="rentOrSale"
             sx={{ display: 'flex', justifyContent: 'space-between' }}
-            options={RENT_OR_SALE}
+            options={getRentOrSaleOption(rentOrSale)}
           />
           <LoadingButton
             fullWidth
