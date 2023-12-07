@@ -11,15 +11,16 @@ import { bgGradient } from 'theme/css';
 import AvatarShape from 'assets/illustrations/avatar-shape';
 import Iconify from 'components/iconify';
 import { AppRoute, StorageKey } from 'enums';
+import { AppDispatch } from 'store';
 import { logoutUser } from 'store/auth/authReducer';
 
 export default function ProfileCover({ name, avatarUrl }: IUserProfileCover) {
   const t = useTranslations('profilePage');
   const theme = useTheme();
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const handleLogout = () => {
+  const handleLogout = (): void => {
     localStorage.removeItem(StorageKey.TOKEN);
     dispatch(logoutUser());
   };
