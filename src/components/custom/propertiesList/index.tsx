@@ -27,6 +27,7 @@ import {
   TextMiddleStyled,
   CardMediaStyled,
 } from './styles';
+import useInfinityScroll from './hooks/infinityScroll';
 
 const INITIAL_PARAMS: IPropertyParamsList = {
   page: 1,
@@ -34,8 +35,6 @@ const INITIAL_PARAMS: IPropertyParamsList = {
   fields: ['id', 'sale_rent', 'status', 'country', 'city', 'list_selling_price_amount'],
   media: true,
 };
-
-const FETCH_NEXT_BEFORE: number = 200;
 
 function PropertiesList(): JSX.Element {
   const [params, setParams] = useState<IPropertyParamsList>(INITIAL_PARAMS);
@@ -50,6 +49,13 @@ function PropertiesList(): JSX.Element {
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
 
+  useInfinityScroll({
+    callback: () => {
+      if (propertiesPagination && propertiesPagination.hasNextPage) {
+        setIsFetching(true);
+      }
+    },
+  });
   useEffect(() => {
     isFetching &&
       (async () => {
@@ -68,35 +74,35 @@ function PropertiesList(): JSX.Element {
       })();
   }, [isFetching, properties, propertiesError, propertiesPagination]);
 
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [propertiesPagination]);
+  // useEffect(() => {
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => window.removeEventListener('scroll', handleScroll);
+  // }, [propertiesPagination]);
 
-  function handleScroll(): void | undefined {
-    if (!propertiesPagination) {
-      return;
-    }
+  // function handleScroll(): void | undefined {
+  //   if (!propertiesPagination) {
+  //     return;
+  //   }
 
-    const windowHeight =
-      'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
+  //   const windowHeight =
+  //     'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
 
-    const body = document.body;
-    const html = document.documentElement;
+  //   const body = document.body;
+  //   const html = document.documentElement;
 
-    const docHeight = Math.max(
-      body.scrollHeight,
-      body.offsetHeight,
-      html.clientHeight,
-      html.scrollHeight,
-      html.offsetHeight
-    );
-    const windowBottom = windowHeight + window.scrollY;
+  //   const docHeight = Math.max(
+  //     body.scrollHeight,
+  //     body.offsetHeight,
+  //     html.clientHeight,
+  //     html.scrollHeight,
+  //     html.offsetHeight
+  //   );
+  //   const windowBottom = windowHeight + window.scrollY;
 
-    if (windowBottom >= docHeight - FETCH_NEXT_BEFORE && propertiesPagination.hasNextPage) {
-      setIsFetching(true);
-    }
-  }
+  //   if (windowBottom >= docHeight - FETCH_NEXT_BEFORE && propertiesPagination.hasNextPage) {
+  //     setIsFetching(true);
+  //   }
+  // }
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '90%', marginX: 'auto' }}>
