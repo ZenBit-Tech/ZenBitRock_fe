@@ -47,7 +47,9 @@ export default function PrivacyPolicyDialog({ SignUpPage }: SignUpProps) {
 
   return (
     <React.Fragment>
-      <Link onClick={handleClickOpen}>{SignUpPage.Terms.policyLink}</Link>
+      <Link onClick={handleClickOpen} sx={{ cursor: 'pointer' }}>
+        {SignUpPage.Terms.policyLink}
+      </Link>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -56,7 +58,11 @@ export default function PrivacyPolicyDialog({ SignUpPage }: SignUpProps) {
         aria-describedby="scroll-dialog-description"
         maxWidth="lg"
       >
-        <DialogTitle id="scroll-dialog-title" color="primary">
+        <DialogTitle
+          id="scroll-dialog-title"
+          color="primary"
+          sx={{ paddingTop: '2rem', paddingBottom: '1rem', marginLeft: '16px' }}
+        >
           {SignUpPage.Terms.policyLink}
         </DialogTitle>
         <DialogContent dividers={scrollType === 'paper'}>
@@ -91,7 +97,7 @@ export default function PrivacyPolicyDialog({ SignUpPage }: SignUpProps) {
           </DialogContent>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color="primary" variant="contained">
             {SignUpPage.Terms.btnTxt}
           </Button>
         </DialogActions>

@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import LoadingButton from '@mui/lab/LoadingButton';
+import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -262,16 +262,17 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
             </Box>
 
             <Stack sx={{ mt: 3, flexDirection: 'row', justifyContent: 'flex-end', gap: '1rem' }}>
-              <LoadingButton
+              <Button
                 type="reset"
                 variant="contained"
+                color="primary"
                 onClick={() => router.push(AppRoute.PROFILE_PAGE)}
               >
                 {t('cancelBtnTxt')}
-              </LoadingButton>
-              <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+              </Button>
+              <Button type="submit" variant="contained" color="primary">
                 {t('saveBtnTxt')}
-              </LoadingButton>
+              </Button>
             </Stack>
           </Card>
         </Grid>

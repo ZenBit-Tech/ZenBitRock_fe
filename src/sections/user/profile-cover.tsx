@@ -1,4 +1,5 @@
 import { useTranslations } from 'next-intl';
+import { useDispatch } from 'react-redux';
 import { Link, Tooltip } from '@mui/material';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -9,11 +10,19 @@ import { IUserProfileCover } from 'types/user';
 import { bgGradient } from 'theme/css';
 import AvatarShape from 'assets/illustrations/avatar-shape';
 import Iconify from 'components/iconify';
-import { AppRoute } from 'enums';
+import { AppRoute, StorageKey } from 'enums';
+import { logoutUser } from 'store/auth/authReducer';
 
 export default function ProfileCover({ name, avatarUrl }: IUserProfileCover) {
   const t = useTranslations('profilePage');
   const theme = useTheme();
+
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    localStorage.removeItem(StorageKey.TOKEN);
+    dispatch(logoutUser());
+  };
 
   return (
     <Box
@@ -71,6 +80,16 @@ export default function ProfileCover({ name, avatarUrl }: IUserProfileCover) {
             sx: { opacity: 0.48 },
           }}
         />
+      </Stack>
+      <Stack direction="row" sx={{ position: 'absolute', top: 14, right: 16 }}>
+        <Tooltip title={t('logoutLink')} placement="top">
+          <Iconify
+            onClick={handleLogout}
+            icon="lucide:log-out"
+            width={32}
+            sx={{ color: 'background.paper', cursor: 'pointer' }}
+          />
+        </Tooltip>
       </Stack>
       <Stack direction="row" sx={{ position: 'absolute', bottom: 56, right: 16 }}>
         <Tooltip title={t('editLink')} placement="top">

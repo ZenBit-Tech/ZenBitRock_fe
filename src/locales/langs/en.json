@@ -99,7 +99,13 @@
       "emailLabel": "Email",
       "passwordLabel": "Password",
       "btnTitle": "  Sign in",
-      "forgotPasswordLinkTitle": "Forgot password"
+      "forgotPasswordLinkTitle": "Forgot password",
+      "emailInputPlaceholder": "name@domain.com",
+      "passwordInputPlaceholder": "Min 8 characters",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Email format is incorrect. Please enter a valid email",
+      "passwordRequired": "Password is required",
+      "minChar": "Password needs to be at least 8 characters"
     }
   },
   "signUpPage": {
@@ -111,9 +117,9 @@
       "passwordInputPlaceholder": "Min 8 characters",
       "repeatPasswordInput": "Repeat password",
       "emailRequired": "Email is required",
-      "emailInvalid": "Invalid email",
+      "emailInvalid": "Email format is incorrect. Please enter a valid email",
       "passwordRequired": "Password is required",
-      "minChar": "Minimum 8 characters",
+      "minChar": "Password needs to be at least 8 characters",
       "repeatLabel": "Repeat password",
       "unmatchPass": "Passwords do not match",
       "haveAcc": "Already have an account?",
@@ -271,13 +277,15 @@
     "editLink": "Edit profile",
     "agencyLink": "https://blagovist.ua/",
     "countryTxt": "Country",
-    "cityTxt": "City"
+    "cityTxt": "City",
+    "loading": "Agent",
+    "logoutLink": "Log out"
   },
   "ResetPasswordPage": {
     "pageTitle": "Reset Password",
     "backLink": "Back to Profile",
-    "enterPassword":"Enter your current password",
-    "buttonVerify":"Verify",
+    "enterPassword": "Enter your current password",
+    "buttonVerify": "Verify",
     "enterNewPassword": "Enter your new password",
     "buttonReset": "Reset password",
     "buttonToProfile": "Go back to my profile",

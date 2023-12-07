@@ -3,4 +3,5 @@ export const colors = {
   TEST_MAIN_COLOR: '#808080',
   SIGN_IN_LINKS_COLOR: '#7a4100',
   TEST_SECOND_COLOR: '#FFFDDD',
+  PRIMARY_LIGHT_COLOR: '#FFFFFF',
 };
