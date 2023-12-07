@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { Box, Card } from '@mui/material';
 import { useTranslations } from 'next-intl';
 import { useGetProperties } from 'api/property';
-import { enqueueSnackbar } from 'notistack';
 import { AxiosError } from 'axios';
 import {
   IPropertyList,
@@ -13,6 +12,7 @@ import {
   IPropertyParamsList,
   IPropertyItem,
 } from 'types/property';
+import { useSnackbar } from 'components/snackbar';
 import { getCountries } from 'sections/verification-view/drop-box-data';
 import { LoadingScreen } from 'components/loading-screen';
 import Iconify from 'components/iconify';
@@ -48,6 +48,7 @@ function PropertiesList(): JSX.Element {
 
   const t = useTranslations('properties');
   const router = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     isFetching &&
@@ -57,10 +58,10 @@ function PropertiesList(): JSX.Element {
           if (!propertiesError && properties.data) {
             setPropertiesList((prev) => [...prev, ...properties.data]);
             setPropertiesPagination((prev) => ({ ...prev, ...properties.pagination }));
+            properties.pagination?.hasNextPage &&
+              setParams((prev) => ({ ...prev, page: prev.page + 1 }));
             setIsFetching(false);
           }
-          propertiesPagination?.hasNextPage &&
-            setParams((prev) => ({ ...prev, page: prev.page + 1 }));
         } catch (err) {
           setError(err);
         }
@@ -99,11 +100,7 @@ function PropertiesList(): JSX.Element {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '90%', marginX: 'auto' }}>
-      {error &&
-        enqueueSnackbar(error?.message, {
-          variant: 'error',
-          persist: true,
-        })}
+      {error && enqueueSnackbar('Something went wrong!', { variant: 'error' })}
       {propertiesList.length !== 0 && (
         <ListStyled
           sx={{
@@ -145,7 +142,11 @@ function PropertiesList(): JSX.Element {
                     }}
                   >
                     <img
-                      src={`${QOBRIX_HOST}${photo}`}
+                      src={
+                        photo
+                          ? `${QOBRIX_HOST}${photo}`
+                          : '/assets/images/home/properties_blank.jpg'
+                      }
                       alt={t('alt')}
                       style={{
                         width: '100%',
@@ -206,7 +207,12 @@ function PropertiesList(): JSX.Element {
                   <TextMiddleStyled>
                     {getCountries().find((object) => object.value === country)?.label}, {city}
                   </TextMiddleStyled>
-                  <LinkStyled onClick={() => router.push(`/property/${id}`)}>
+                  <LinkStyled
+                    sx={{ padding: '14px' }}
+                    variant="contained"
+                    color="primary"
+                    onClick={() => router.push(`/property/${id}`)}
+                  >
                     <TypographyStyled>{t('Description')}</TypographyStyled>
                     <Iconify icon={'ri:arrow-right-s-line'} height={'auto'} />
                   </LinkStyled>

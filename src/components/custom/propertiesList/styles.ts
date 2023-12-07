@@ -48,21 +48,12 @@ export const TextMiddleStyled = styled(Typography)`
 `;
 
 export const LinkStyled = styled(Button)`
-  cursor: pointer;
   height: 2rem;
   width: 100%;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  color: #212b36;
-  &:hover,
-  &:focus {
-    transform: scale(1.01);
-    text-decoration: none;
-    color: #00a76f;
-  }
 `;
 
 export const TypographyStyled = styled(Typography)`

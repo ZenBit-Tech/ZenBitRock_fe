@@ -22,7 +22,7 @@ export function useGetProperties(params: IPropertyParams) {
         country: property.country,
         city: property.city,
         price: property.list_selling_price_amount,
-        photo: property.media[0].file.thumbnails.medium,
+        photo: property.media?.[0]?.file?.thumbnails?.medium || null,
       })),
       pagination: { hasNextPage: data?.pagination.has_next_page },
     };
