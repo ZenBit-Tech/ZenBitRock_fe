@@ -5,11 +5,20 @@ import { useRouter } from 'next/navigation';
 import { Box, Card } from '@mui/material';
 import { useTranslations } from 'next-intl';
 import { useGetProperties } from 'api/property';
-import { IPropertyList, IPropertyPagination, IPropertyParamsList } from 'types/property';
+import { enqueueSnackbar } from 'notistack';
+import { AxiosError } from 'axios';
+import {
+  IPropertyList,
+  IPropertyPagination,
+  IPropertyParamsList,
+  IPropertyItem,
+} from 'types/property';
 import { getCountries } from 'sections/verification-view/drop-box-data';
 import { LoadingScreen } from 'components/loading-screen';
+import Iconify from 'components/iconify';
+import { QOBRIX_HOST } from 'config-global';
+import { fCurrency } from 'utils/format-number';
 import {
-  Title,
   TypographyStyled,
   LinkStyled,
   TextStyled,
@@ -18,12 +27,6 @@ import {
   TextMiddleStyled,
   CardMediaStyled,
 } from './styles';
-import Iconify from 'components/iconify';
-import { enqueueSnackbar } from 'notistack';
-import { QOBRIX_HOST } from 'config-global';
-import { fCurrency } from 'utils/format-number';
-import { AxiosError } from 'axios';
-import { IPropertyItem } from 'types/property';
 
 const INITIAL_PARAMS: IPropertyParamsList = {
   page: 1,
@@ -31,6 +34,8 @@ const INITIAL_PARAMS: IPropertyParamsList = {
   fields: ['id', 'sale_rent', 'status', 'country', 'city', 'list_selling_price_amount'],
   media: true,
 };
+
+const FETCH_NEXT_BEFORE: number = 200;
 
 function PropertiesList(): JSX.Element {
   const [params, setParams] = useState<IPropertyParamsList>(INITIAL_PARAMS);
@@ -67,7 +72,7 @@ function PropertiesList(): JSX.Element {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [propertiesPagination]);
 
-  function handleScroll() {
+  function handleScroll(): void | undefined {
     if (!propertiesPagination) {
       return;
     }
@@ -87,7 +92,7 @@ function PropertiesList(): JSX.Element {
     );
     const windowBottom = windowHeight + window.scrollY;
 
-    if (windowBottom >= docHeight - 200 && propertiesPagination.hasNextPage) {
+    if (windowBottom >= docHeight - FETCH_NEXT_BEFORE && propertiesPagination.hasNextPage) {
       setIsFetching(true);
     }
   }
