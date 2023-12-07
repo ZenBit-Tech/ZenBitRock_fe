@@ -24,15 +24,17 @@ import {
   findCountryCodeByLabel,
   findCountryLabelByCode,
 } from 'sections/verification-view/drop-box-data';
+import ReduxProvider from 'store/ReduxProvider';
 import { UserProfileResponse } from 'store/auth/lib/types';
 import { formatRole, revertFormatRole } from './service';
+import ProfileSettings from './user-edit-settings';
 
 type Props = {
   user: UserProfileResponse;
 };
 
 function getRoles(): string[] {
-  const roles = ['Agent', 'Agency', ''];
+  const roles = ['Independent Agent', 'Agency', ''];
 
   return roles;
 }
@@ -55,6 +57,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     city: stateCity,
     phone: statePhone,
     description: stateDescription,
+    avatarUrl: stateAvatar,
   } = user;
 
   const userId = user.id;
@@ -75,9 +78,9 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     country: Yup.string().required(t('countryMessageReq')),
     agency: Yup.string(),
     role: Yup.string().required(t('roleMessage')),
-    about: Yup.string().required(t('aboutMessage')),
+    about: Yup.string(),
     avatar: Yup.mixed().nullable(),
-    city: Yup.string().required(t('aboutMessage')),
+    city: Yup.string().required(t('cityMessage')),
   });
 
   const defaultValues = useMemo(
@@ -88,21 +91,31 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
       country: findCountryLabelByCode(stateCountry) || '',
       city: stateCity || '',
       agency: stateAgency || '',
-      avatar: null,
+      avatar: stateAvatar || null,
       about: stateDescription || '',
     }),
-    [statePhone, stateEmail, stateRole, stateCountry, stateCity, stateAgency, stateDescription]
+    [
+      statePhone,
+      stateEmail,
+      stateRole,
+      stateCountry,
+      stateCity,
+      stateAgency,
+      stateDescription,
+      stateAvatar,
+    ]
   );
 
   const methods = useForm({
     resolver: yupResolver(EditUserSchema),
+    mode: 'onTouched',
     defaultValues,
   });
 
   const {
     setValue,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isValid },
   } = methods;
 
   const onSubmit = handleSubmit(async (data): Promise<void> => {
@@ -203,10 +216,15 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
               }}
             >
               <RHFTextField name="email" label={t('emailLabel')} disabled />
-              <RHFTextField name="phone" label={t('phoneNumLabel')} />
+              <RHFTextField
+                name="phone"
+                label={t('phoneNumLabel')}
+                placeholder={t('phonePlaceholder')}
+              />
               <RHFAutocomplete
                 name="role"
-                label={t('rolePlaceholder')}
+                label={t('roleLabel')}
+                placeholder={t('rolePlaceholder')}
                 options={getRoles()}
                 getOptionLabel={(option) => option}
                 isOptionEqualToValue={(option, value) =>
@@ -227,11 +245,18 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
                   );
                 }}
               />
-              {shouldRenderAgency && <RHFTextField name="agency" label={t('companyLabel')} />}
+              {shouldRenderAgency && (
+                <RHFTextField
+                  name="agency"
+                  label={t('companyLabel')}
+                  placeholder={t('agencyPlaceholder')}
+                />
+              )}
 
               <RHFAutocomplete
                 name="country"
                 label={t('countryPlaceholder')}
+                placeholder={t('rolePlaceholder')}
                 options={countries.map((country) => country.label)}
                 getOptionLabel={(option) => option}
                 isOptionEqualToValue={(option, value) => option === value}
@@ -257,9 +282,17 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
                   );
                 }}
               />
-              <RHFTextField name="city" label={t('city')} />
-              <RHFTextArea name="about" label={t('aboutLabel')} />
+              <RHFTextField name="city" label={t('city')} placeholder={t('cityPlaceholder')} />
+              <RHFTextArea
+                name="about"
+                label={t('aboutLabel')}
+                placeholder={t('aboutPlaceholder')}
+              />
             </Box>
+
+            <ReduxProvider>
+              <ProfileSettings />
+            </ReduxProvider>
 
             <Stack sx={{ mt: 3, flexDirection: 'row', justifyContent: 'flex-end', gap: '1rem' }}>
               <Button
@@ -270,7 +303,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
               >
                 {t('cancelBtnTxt')}
               </Button>
-              <Button type="submit" variant="contained" color="primary">
+              <Button type="submit" variant="contained" color="primary" disabled={!isValid}>
                 {t('saveBtnTxt')}
               </Button>
             </Stack>

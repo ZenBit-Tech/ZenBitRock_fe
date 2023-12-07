@@ -13,7 +13,6 @@ import { AppRoute } from 'enums';
 import { RootState } from 'store';
 import { LoadingScreen } from 'components/loading-screen';
 import UserNewEditForm from '../user-new-edit-form';
-import ProfileSettings from '../user-edit-settings';
 
 export default function UserEditView(): JSX.Element {
   const t = useTranslations('editProfilePage');
@@ -46,9 +45,6 @@ export default function UserEditView(): JSX.Element {
           <UserNewEditForm user={authUser} />
         </ReduxProvider>
       </SnackbarProvider>
-      <ReduxProvider>
-        <ProfileSettings />
-      </ReduxProvider>
     </Container>
   );
 }
