@@ -38,7 +38,7 @@ export default function UserProfileView(): JSX.Element {
   }
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'lg'} sx={{ pb: '70px' }}>
+    <Container maxWidth={settings.themeStretch ? false : 'lg'} sx={{ pb: 14 }}>
       <CustomBreadcrumbs
         heading={t('profileTitle')}
         links={[{ name: `${firstName} ${lastName}` }]}
