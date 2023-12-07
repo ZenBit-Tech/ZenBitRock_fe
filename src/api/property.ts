@@ -1,15 +1,9 @@
 import { useMemo } from 'react';
 import useSWR from 'swr';
-// utils
 import { endpoints, fetcherQobrix } from 'utils/axios';
-// types
 import { IPropertyItem, IProperties, IPropertyParams, IPropertyDetailed } from 'types/properties';
 
-// ----------------------------------------------------------------------
-
 const URL = endpoints.property;
-
-// ----------------------------------------------------------------------
 
 export function useGetProperties(params: IPropertyParams) {
   const { data, error } = useSWR([URL.list, params], fetcherQobrix);
@@ -41,8 +35,6 @@ export function useGetProperties(params: IPropertyParams) {
 
   return memoizedValue;
 }
-
-// ----------------------------------------------------------------------
 
 export function useGetProperty(id: string) {
   const { data, error } = useSWR([`${URL.list}/${id}`, null], fetcherQobrix);

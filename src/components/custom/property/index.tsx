@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Box, Card } from '@mui/material';
+import { Box } from '@mui/material';
 import { useTranslations } from 'next-intl';
 import { useGetProperty } from 'api/property';
-import { IPropertyDetailed } from 'types/properties';
+import { IPropertyDetailed } from 'types/property';
 // import { getCountries } from 'sections/verification-view/drop-box-data';
 import { LoadingScreen } from 'components/loading-screen';
 import {
