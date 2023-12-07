@@ -10,7 +10,7 @@ axiosInstance.interceptors.response.use(
 
 const axiosInstanceQobrix = axios.create({ baseURL: QOBRIX_PROXY_URL });
 
-axiosInstance.interceptors.response.use(
+axiosInstanceQobrix.interceptors.response.use(
   (res) => res,
   (error) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
 );

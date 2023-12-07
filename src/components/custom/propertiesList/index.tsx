@@ -99,11 +99,7 @@ function PropertiesList(): JSX.Element {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '90%', marginX: 'auto' }}>
-      {error &&
-        enqueueSnackbar(error?.message, {
-          variant: 'error',
-          persist: true,
-        })}
+      {error && enqueueSnackbar('Something went wrong!', { variant: 'error' })}
       {propertiesList.length !== 0 && (
         <ListStyled
           sx={{
