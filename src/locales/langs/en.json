@@ -4,6 +4,7 @@
       "title": "ZenBitRock",
       "avatar": "avatar",
       "greeting": "Hi",
+      "displayName": "Agent",
       "navbar": {
         "main": "Main",
         "agents": "Agents",
@@ -63,9 +64,8 @@
   },
   "VerificationDonePage": {
     "mainTitle": "KYC form",
-    "doneTextFirstPart": "Your application was submitted successfully.",
-    "doneTextSecondPart": "Thank you for joining AgentWise!",
-    "submitButton": "Go to sign in page"
+    "doneText": "AgentWise profile has been successfully created!",
+    "submitButton": "Go to main page"
   },
   "RestorePasswordPage": {
     "title": "Restore password",
@@ -212,9 +212,12 @@
     "pageTitle": "Edit profile",
     "backLink": "Back to Profile",
     "updateText": "Profile updated successfully!",
+    "errorText": "Something went wrong!",
     "nameMessage": "Latin letters, spaces, 2-50 characters",
     "phoneMessage": "Phone number is not valid",
     "roleMessage": "Role is required",
+    "cityMessage": "Role is required",
+    "countryMessage": "Country is required",
     "helperText": "Allowed *.jpeg, *.jpg, *.png, *.gif",
     "helperSubText": " max size of ",
     "delBtnTxt": "Delete Profile",
@@ -237,12 +240,16 @@
     "aboutMessage": "About is required",
     "phoneMessageReq": "Phone number is required",
     "countryMessageReq": "Country is required",
+    "agencyMessageReq": "Agency name is required",
     "delTitle": "Do you want to delete Profile?",
     "delTxt": "Pressing Delete my Profile button will permanently delete your Profile. You will lose all your Profile data!",
     "pressing": "Pressing ",
     "delBold": "Delete my Profile",
     "delTxt2": " button will permanently delete your Profile. You will lose all your Profile data!",
-    "confirmDelBtnTxt": "Delete my Profile"
+    "confirmDelBtnTxt": "Delete my Profile",
+    "roleAgent": "Agent",
+    "roleAgency": "Agency",
+    "fetchErr": "Error fetching user data"
   },
   "profilePage": {
     "tabProfile": "Profile",
@@ -265,6 +272,36 @@
     "agencyLink": "https://blagovist.ua/",
     "countryTxt": "Country",
     "cityTxt": "City"
+  },
+  "ResetPasswordPage": {
+    "pageTitle": "Reset Password",
+    "backLink": "Back to Profile",
+    "enterPassword": "Enter your current password",
+    "buttonVerify": "Verify",
+    "enterNewPassword": "Enter your new password",
+    "buttonReset": "Reset password",
+    "buttonToProfile": "Go back to my profile",
+    "text": "Your password has been successfully reset",
+    "passwordInput": "Password",
+    "passwordInputPlaceholder": "Min 8 characters",
+    "repeatPasswordInput": "Repeat password",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Invalid email",
+    "passwordRequired": "Password is required",
+    "minChar": "Minimum 8 characters",
+    "repeatLabel": "Repeat password",
+    "unmatchPass": "Passwords do not match",
+    "forgotPass": "Forgot password?"
+  },
+  "mainPage": {
+    "filters": {
+      "location": "Location",
+      "propertyType": "Property type",
+      "propertyStatus": "Status",
+      "priceRange": "Price range",
+      "bedrooms": "Bedrooms",
+      "apply": "Apply filters"
+    }
   },
   "properties": {
     "title": "My properties",

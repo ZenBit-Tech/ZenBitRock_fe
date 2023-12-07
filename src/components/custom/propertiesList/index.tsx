@@ -5,11 +5,20 @@ import { useRouter } from 'next/navigation';
 import { Box, Card } from '@mui/material';
 import { useTranslations } from 'next-intl';
 import { useGetProperties } from 'api/property';
-import { IPropertyList, IPropertyPagination, IPropertyParamsList } from 'types/properties';
+import { enqueueSnackbar } from 'notistack';
+import { AxiosError } from 'axios';
+import {
+  IPropertyList,
+  IPropertyPagination,
+  IPropertyParamsList,
+  IPropertyItem,
+} from 'types/property';
 import { getCountries } from 'sections/verification-view/drop-box-data';
 import { LoadingScreen } from 'components/loading-screen';
+import Iconify from 'components/iconify';
+import { QOBRIX_HOST } from 'config-global';
+import { fCurrency } from 'utils/format-number';
 import {
-  Title,
   TypographyStyled,
   LinkStyled,
   TextStyled,
@@ -18,10 +27,6 @@ import {
   TextMiddleStyled,
   CardMediaStyled,
 } from './styles';
-import Iconify from 'components/iconify';
-import { enqueueSnackbar } from 'notistack';
-import { QOBRIX_HOST } from 'config-global';
-import { fCurrency } from 'utils/format-number';
 
 const INITIAL_PARAMS: IPropertyParamsList = {
   page: 1,
@@ -30,13 +35,15 @@ const INITIAL_PARAMS: IPropertyParamsList = {
   media: true,
 };
 
+const FETCH_NEXT_BEFORE: number = 200;
+
 function PropertiesList(): JSX.Element {
   const [params, setParams] = useState<IPropertyParamsList>(INITIAL_PARAMS);
   const { properties, propertiesError } = useGetProperties({ params: params });
 
   const [propertiesList, setPropertiesList] = useState<IPropertyList>([]);
   const [propertiesPagination, setPropertiesPagination] = useState<IPropertyPagination>();
-  const [error, setError] = useState<any>(null);
+  const [error, setError] = useState<AxiosError | null>(null);
   const [isFetching, setIsFetching] = useState(true);
 
   const t = useTranslations('properties');
@@ -55,8 +62,7 @@ function PropertiesList(): JSX.Element {
           propertiesPagination?.hasNextPage &&
             setParams((prev) => ({ ...prev, page: prev.page + 1 }));
         } catch (err) {
-          console.error('Error fetching properties:', err);
-          setError(`An error occurred while fetching properties. - ${err}`);
+          setError(err);
         }
       })();
   }, [isFetching, properties, propertiesError, propertiesPagination]);
@@ -66,7 +72,7 @@ function PropertiesList(): JSX.Element {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [propertiesPagination]);
 
-  function handleScroll() {
+  function handleScroll(): void | undefined {
     if (!propertiesPagination) {
       return;
     }
@@ -86,7 +92,7 @@ function PropertiesList(): JSX.Element {
     );
     const windowBottom = windowHeight + window.scrollY;
 
-    if (windowBottom >= docHeight - 200 && propertiesPagination.hasNextPage) {
+    if (windowBottom >= docHeight - FETCH_NEXT_BEFORE && propertiesPagination.hasNextPage) {
       setIsFetching(true);
     }
   }
@@ -94,7 +100,7 @@ function PropertiesList(): JSX.Element {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '90%', marginX: 'auto' }}>
       {error &&
-        enqueueSnackbar(error, {
+        enqueueSnackbar(error?.message, {
           variant: 'error',
           persist: true,
         })}
@@ -110,7 +116,7 @@ function PropertiesList(): JSX.Element {
             marginX: 'auto',
           }}
         >
-          {propertiesList.map((item, index) => {
+          {propertiesList.map((item: IPropertyItem, index: number) => {
             const { id, saleRent, status, country, city, price, photo } = item;
             return (
               <Card
@@ -200,12 +206,7 @@ function PropertiesList(): JSX.Element {
                   <TextMiddleStyled>
                     {getCountries().find((object) => object.value === country)?.label}, {city}
                   </TextMiddleStyled>
-                  <LinkStyled
-                    sx={{ padding: '14px' }}
-                    variant="contained"
-                    color="primary"
-                    onClick={() => router.push(`/property/${id}`)}
-                  >
+                  <LinkStyled onClick={() => router.push(`/property/${id}`)}>
                     <TypographyStyled>{t('Description')}</TypographyStyled>
                     <Iconify icon={'ri:arrow-right-s-line'} height={'auto'} />
                   </LinkStyled>

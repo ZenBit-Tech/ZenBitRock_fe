@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { UserApi } from 'store/api/userApi';
 import type { RootState } from 'store';
 import { authApi } from './authApi';
 import { UserProfileResponse } from './lib/types';
@@ -12,6 +13,7 @@ const initialState: AuthState = {
 };
 
 const { getProfile, signUp, signIn } = authApi.endpoints;
+const { deleteUser } = UserApi.endpoints;
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -28,6 +30,9 @@ export const authSlice = createSlice({
       state.user = action.payload;
     });
     builder.addMatcher(getProfile.matchRejected, (state) => {
+      state.user = null;
+    });
+    builder.addMatcher(deleteUser.matchFulfilled, (state) => {
       state.user = null;
     });
   },

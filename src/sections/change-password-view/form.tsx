@@ -147,7 +147,13 @@ function ChangePasswordForm(): JSX.Element {
             autoComplete: 'new-password',
           }}
         />
-        <Button type="submit" variant="contained" sx={{ my: '20px' }} fullWidth disabled={!isValid}>
+        <Button
+          type="submit"
+          variant="contained"
+          sx={{ my: '20px', padding: '14px' }}
+          fullWidth
+          disabled={!isValid}
+        >
           {t('title')}
         </Button>
       </Box>

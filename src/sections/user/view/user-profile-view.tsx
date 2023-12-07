@@ -1,15 +1,17 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslations } from 'next-intl';
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
-import { useMockedUser } from 'hooks/use-mocked-user';
-import { _userAbout } from '_mock';
 import Iconify from 'components/iconify';
 import CustomBreadcrumbs from 'components/custom-breadcrumbs';
 import { useSettingsContext } from 'components/settings';
+import { LoadingScreen } from 'components/loading-screen';
+import { RootState } from 'store';
+import { _userAbout } from '_mock';
 import ProfileHome from '../profile-home';
 import ProfileCover from '../profile-cover';
 
@@ -24,19 +26,22 @@ const TABS = [
 export default function UserProfileView(): JSX.Element {
   const t = useTranslations('profilePage');
   const settings = useSettingsContext();
-  const { user } = useMockedUser();
 
-  const [currentTab, setCurrentTab] = useState<string>('profile');
+  const authUser = useSelector((state: RootState) => state.authSlice.user);
+  const { firstName, lastName } = authUser || {};
+  const [currentTab] = useState<string>('profile');
 
-  const handleChangeTab = useCallback((event: React.SyntheticEvent, newValue: string) => {
-    setCurrentTab(newValue);
-  }, []);
+  const avatar = authUser?.avatarUrl ? authUser?.avatarUrl : '';
+
+  if (!authUser) {
+    return <LoadingScreen />;
+  }
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
         heading={t('profileTitle')}
-        links={[{ name: user?.displayName }]}
+        links={[{ name: `${firstName} ${lastName}` }]}
         sx={{
           mb: { xs: 3, md: 5 },
           mt: { xs: 3, md: 5 },
@@ -49,11 +54,14 @@ export default function UserProfileView(): JSX.Element {
           height: { xs: 180, md: 220 },
         }}
       >
-        <ProfileCover name={user?.displayName} coverUrl={_userAbout.coverUrl} />
+        <ProfileCover
+          name={firstName && lastName ? `${firstName} ${lastName}` : t('loading')}
+          coverUrl={_userAbout.coverUrl}
+          avatarUrl={avatar}
+        />
 
         <Tabs
           value={currentTab}
-          onChange={handleChangeTab}
           sx={{
             width: 1,
             bottom: 0,
@@ -72,7 +80,7 @@ export default function UserProfileView(): JSX.Element {
         />
       </Card>
 
-      {currentTab === TABS[0].value && <ProfileHome info={_userAbout} />}
+      {currentTab === TABS[0].value && <ProfileHome />}
     </Container>
   );
 }

@@ -3,7 +3,7 @@ import 'modern-normalize/modern-normalize.css';
 import StyledComponentsRegistry from 'lib/registry';
 import { LocalizationProvider } from 'locales';
 import ToastContainerWrapper from 'components/toast-container';
-import { App, Header } from 'components/custom';
+import { App } from 'components/custom';
 import ThemeProvider from 'theme';
 import ReduxProvider from 'store/ReduxProvider';
 import { Locale } from 'locales/i18n.config';
@@ -45,10 +45,7 @@ export default async function RootLayout({
             <StyledComponentsRegistry>
               <NextIntlClientProvider locale={locale} messages={localeData}>
                 <ReduxProvider>
-                  <App>
-                    <Header />
-                    {children}
-                  </App>
+                  <App>{children}</App>
                 </ReduxProvider>
               </NextIntlClientProvider>
             </StyledComponentsRegistry>
