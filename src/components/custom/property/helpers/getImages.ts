@@ -23,11 +23,3 @@ function getImages(inputArray: ArrayItem[] | null): Array<[string, string]> {
 }
 
 export default getImages;
-
-// Example usage:
-// const inputArray: ArrayItem[] = [
-//   // ... (your input array)
-// ];
-
-// const resultArray: Array<[string, string]> = transformArray(inputArray);
-// console.log(resultArray);

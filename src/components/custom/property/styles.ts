@@ -60,3 +60,11 @@ export const TypographyStyled = styled(Typography)`
     font-size: 1rem;
   }
 `;
+
+export const Wrapper = styled(Box)`
+  display: 'flex';
+  flex-direction: 'column';
+  width: '90%';
+  margin: '0 auto';
+  border-radius: '8px';
+`;

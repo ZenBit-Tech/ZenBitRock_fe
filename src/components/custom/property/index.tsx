@@ -17,20 +17,23 @@ import {
   BoxStyled,
   TextMiddleStyled,
   CardMediaStyled,
+  Wrapper,
 } from './styles';
 import Iconify from 'components/iconify';
 import { useSnackbar } from 'components/snackbar';
 import { QOBRIX_HOST } from 'config-global';
 import { fCurrency } from 'utils/format-number';
 import { AxiosError } from 'axios';
-import useViewOnMap from './hooks/useViewOnMap';
+import useViewOnMap from './components/ViewOnMap';
 import SlickSlider from './components/SlickSlider';
 import getImages from './helpers/getImages';
+import ViewOnMap from './components/ViewOnMap';
 
 export default function Property({ id }: { id: string }): JSX.Element {
   const { property, propertyError } = useGetProperty(id);
   const [propertyDetailed, setPropertyDetailed] = useState<IPropertyDetailed>();
   const [error, setError] = useState<AxiosError>();
+  const [openGoogle, setOpenGoogle] = useState(false);
 
   const t = useTranslations('property');
   const router = useRouter();
@@ -49,8 +52,20 @@ export default function Property({ id }: { id: string }): JSX.Element {
     })();
   }, [property]);
 
+  function closeModal() {
+    setOpenGoogle(!openGoogle);
+  }
+
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', width: '90%', marginX: 'auto' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '90%',
+        margin: '0 auto',
+        borderRadius: '8px',
+      }}
+    >
       <Title variant="h3" sx={{ marginBottom: '1.5rem' }}>
         {t('title')}
       </Title>
@@ -78,7 +93,7 @@ export default function Property({ id }: { id: string }): JSX.Element {
             sx={{ padding: '14px' }}
             variant="contained"
             color="primary"
-            onClick={() => useViewOnMap(propertyDetailed?.coordinates)}
+            onClick={() => setOpenGoogle(!openGoogle)}
           >
             <TypographyStyled>{t('maps')}</TypographyStyled>
           </ButtonStyled>
@@ -92,6 +107,9 @@ export default function Property({ id }: { id: string }): JSX.Element {
           </ButtonStyled>
         </Card>
       )}
-    </Box>
+      {openGoogle && (
+        <ViewOnMap coordinates={propertyDetailed?.coordinates} closeModal={closeModal} />
+      )}
+    </div>
   );
 }
