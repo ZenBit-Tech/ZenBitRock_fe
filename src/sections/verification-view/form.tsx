@@ -203,7 +203,7 @@ export default function VerificationForm(): JSX.Element {
 
       return undefined;
     } catch (error) {
-      enqueueSnackbar('Something went wrong, please try again', { variant: 'error' });
+      enqueueSnackbar(t('generalErrorMessage'), { variant: 'error' });
 
       return error;
     } finally {

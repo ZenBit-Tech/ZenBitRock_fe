@@ -1,5 +1,4 @@
-'use client';
-
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import * as Yup from 'yup';
 import { useRouter } from 'next/navigation';
@@ -25,12 +24,15 @@ const VerifySchema = Yup.object().shape({
 });
 
 export default function VerifyCodeForm(): JSX.Element {
-  const t = useTranslations('VerifyCodePage');
-  const [verifyCode, { isLoading }] = useVerifyCodeMutation();
+  const [verifyCode] = useVerifyCodeMutation();
   const [sendCode] = useSendCodeMutation();
 
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
+
+  const t = useTranslations('VerifyCodePage');
+  const [activeRequestsCount, setActiveRequestsCount] = useState<number>(0);
+
   const methods = useForm({
     resolver: yupResolver(VerifySchema),
     defaultValues,
@@ -43,10 +45,12 @@ export default function VerifyCodeForm(): JSX.Element {
   const {
     reset,
     handleSubmit,
-    formState: { isSubmitting, isDirty, isValid },
+    formState: { isDirty, isValid },
   } = methods;
 
   const onSubmit = handleSubmit(async (data): Promise<void> => {
+    setActiveRequestsCount((prevCount) => prevCount + 1);
+
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
@@ -54,37 +58,40 @@ export default function VerifyCodeForm(): JSX.Element {
 
       await verifyCode(payload).unwrap();
 
-      enqueueSnackbar('Success!', { variant: 'success' });
       dispatch(setCode({ code: data.code }));
       router.push(AppRoute.RESTORE_PASSWORD_CHANGE_PASSWORD_PAGE);
 
       return undefined;
     } catch (error) {
-      enqueueSnackbar('Something went wrong, please try again', { variant: 'error' });
+      enqueueSnackbar(t('errorMessageInvalidCode'), { variant: 'error' });
 
       return error;
+    } finally {
+      setActiveRequestsCount((prevCount) => prevCount - 1);
     }
   });
 
   const handleClick = async (): Promise<void> => {
-    try {
-      const response = await sendCode({ email });
+    setActiveRequestsCount((prevCount) => prevCount + 1);
 
-      if ('data' in response) {
-        enqueueSnackbar('Check your mail!', { variant: 'success' });
-      }
+    try {
+      await sendCode({ email }).unwrap();
+
+      enqueueSnackbar(t('successMessage'), { variant: 'success' });
 
       return undefined;
     } catch (error) {
-      enqueueSnackbar('Something went wrong, please try again', { variant: 'error' });
+      enqueueSnackbar(t('generalErrorMessage'), { variant: 'error' });
 
       return error;
+    } finally {
+      setActiveRequestsCount((prevCount) => prevCount - 1);
     }
   };
 
   return (
     <>
-      {(isSubmitting || isLoading) && (
+      {activeRequestsCount > 0 && (
         <Backdrop open sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}>
           <CircularProgress color="primary" />
         </Backdrop>
