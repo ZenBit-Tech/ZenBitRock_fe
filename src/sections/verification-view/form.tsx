@@ -12,6 +12,7 @@ import Backdrop from '@mui/material/Backdrop';
 import Typography from '@mui/material/Typography';
 import Stack, { StackProps } from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useSnackbar } from 'notistack';
 import FormProvider, {
   RHFUpload,
   RHFTextField,
@@ -26,7 +27,6 @@ import { selectCurrentUser } from 'store/auth/authReducer';
 import { VerificationData } from 'types/verification-data';
 import { useCreateAgentMutation, useCreateContactMutation } from 'store/api/qobrixApi';
 import { useGetUserByIdMutation, useUpdateUserMutation } from 'store/api/userApi';
-import { enqueueSnackbar } from 'components/snackbar';
 import { getRoles, getGenders, getIdentities, getStatuses, getCountries } from './drop-box-data';
 import { FormSchema } from './schema';
 
@@ -77,6 +77,7 @@ export default function VerificationForm(): JSX.Element {
   const [activeRequestsCount, setActiveRequestsCount] = useState<number>(0);
 
   const { replace } = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
 
   const authState = useSelector(selectCurrentUser);
   const userId = authState.user ? authState.user.id : null;
@@ -147,7 +148,6 @@ export default function VerificationForm(): JSX.Element {
     formData.append('phone', phone as VerificationData['phone']);
 
     try {
-      reset();
       await createVerification(formData).unwrap();
 
       const user = await getUserById({ id: userId }).unwrap();
@@ -198,6 +198,7 @@ export default function VerificationForm(): JSX.Element {
       };
 
       createAgent(agentData).unwrap();
+      reset();
       replace(AppRoute.VERIFICATION_DONE_PAGE);
 
       return undefined;
