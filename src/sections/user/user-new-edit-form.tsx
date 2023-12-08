@@ -76,11 +76,17 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
   const EditUserSchema = Yup.object().shape({
     phone: Yup.string().required(t('phoneMessageReq')).matches(patterns.phone, t('phoneMessage')),
     country: Yup.string().required(t('countryMessageReq')),
-    agency: Yup.string(),
+    agency: Yup.string()
+      .nullable()
+      .transform((curr, orig) => (orig === '' ? null : curr))
+      .matches(patterns.agency, t('agencyMatchText')),
     role: Yup.string().required(t('roleMessage')),
-    about: Yup.string(),
+    about: Yup.string()
+      .nullable()
+      .transform((curr, orig) => (orig === '' ? null : curr))
+      .matches(patterns.about, t('aboutMatchText')),
     avatar: Yup.mixed().nullable(),
-    city: Yup.string().required(t('cityMessage')),
+    city: Yup.string().required(t('cityMessage')).matches(patterns.city, t('cityMatchText')),
   });
 
   const defaultValues = useMemo(
@@ -149,6 +155,10 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
       }
 
       enqueueSnackbar(successMessage, { variant: 'success' });
+
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      router.push(AppRoute.PROFILE_PAGE);
     } catch (error) {
       const errorMessage = t('errorText');
 
@@ -203,10 +213,10 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
           </Card>
         </Grid>
 
-        <Grid xs={12} md={8}>
+        <Grid xs={12} md={12}>
           <Card sx={{ p: 3 }}>
             <Box
-              rowGap={3}
+              rowGap={1}
               columnGap={2}
               display="grid"
               gridTemplateColumns={{
@@ -214,16 +224,18 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
                 sm: 'repeat(2, 1fr)',
               }}
             >
-              <RHFTextField name="email" label={t('emailLabel')} disabled />
+              <RHFTextField name="email" label={t('emailLabel')} disabled sx={{ height: '90px' }} />
               <RHFTextField
                 name="phone"
                 label={t('phoneNumLabel')}
                 placeholder={t('phonePlaceholder')}
+                sx={{ height: '90px' }}
               />
               <RHFAutocomplete
                 name="role"
                 label={t('roleLabel')}
                 placeholder={t('rolePlaceholder')}
+                sx={{ height: '90px' }}
                 options={getRoles()}
                 getOptionLabel={(option) => option}
                 isOptionEqualToValue={(option, value) =>
@@ -249,6 +261,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
                   name="agency"
                   label={t('companyLabel')}
                   placeholder={t('agencyPlaceholder')}
+                  sx={{ height: '90px' }}
                 />
               )}
 
@@ -256,6 +269,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
                 name="country"
                 label={t('countryPlaceholder')}
                 placeholder={t('rolePlaceholder')}
+                sx={{ height: '90px' }}
                 options={countries.map((country) => country.label)}
                 getOptionLabel={(option) => option}
                 isOptionEqualToValue={(option, value) => option === value}
@@ -281,11 +295,17 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
                   );
                 }}
               />
-              <RHFTextField name="city" label={t('city')} placeholder={t('cityPlaceholder')} />
+              <RHFTextField
+                name="city"
+                label={t('city')}
+                placeholder={t('cityPlaceholder')}
+                sx={{ height: '90px' }}
+              />
               <RHFTextArea
                 name="about"
                 label={t('aboutLabel')}
                 placeholder={t('aboutPlaceholder')}
+                sx={{ gridColumn: { xs: 'span 1', sm: 'span 2' }, height: '140px' }}
               />
             </Box>
           </Card>
