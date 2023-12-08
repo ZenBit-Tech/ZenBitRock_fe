@@ -313,6 +313,7 @@ export default function VerificationForm(): JSX.Element {
                           fullWidth: true,
                           error: !!error,
                           helperText: error?.message,
+                          onBlur: () => field.onBlur(),
                         },
                       }}
                       sx={{ height: '70px' }}

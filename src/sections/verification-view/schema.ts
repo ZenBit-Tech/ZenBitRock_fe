@@ -37,8 +37,11 @@ export const FormSchema = Yup.object().shape<Shape<VerificationData>>({
     .max(new Date(), "You can't be born in the future!")
     .test('dob', 'Should be greater than 18', (value, ctx) => {
       const dob = new Date(value);
-      const validDate = new Date();
-      const valid = validDate.getFullYear() - dob.getFullYear() >= LEGAL_AGE;
+      const today = new Date();
+      const legalDate = new Date(today);
+
+      legalDate.setFullYear(legalDate.getFullYear() - LEGAL_AGE);
+      const valid = today >= dob && legalDate >= dob;
 
       return !valid ? ctx.createError() : valid;
     }),
