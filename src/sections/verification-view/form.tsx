@@ -433,7 +433,7 @@ export default function VerificationForm(): JSX.Element {
                 name="phone"
                 label={t('phoneNumberLabel')}
                 placeholder={t('phoneNumberPlaceholder')}
-                type="number"
+                type="tel"
                 inputProps={{
                   autoComplete: 'new-password', // disable autocomplete and autofill
                 }}
