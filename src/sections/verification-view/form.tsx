@@ -245,11 +245,11 @@ export default function VerificationForm(): JSX.Element {
           }}
         >
           <Stack spacing={7}>
-            <Typography align="center" variant="h2">
+            <Typography align="center" variant="h1" sx={{ mb: '15px' }}>
               {t('mainTitle')}
             </Typography>
 
-            <Typography align="center" variant="h3" mt={-3} fontStyle="normal">
+            <Typography align="center" variant="h3" mt={-3}>
               {t('identitySectionTitle')}
             </Typography>
 
@@ -357,7 +357,7 @@ export default function VerificationForm(): JSX.Element {
               <RHFRadioGroup name="statusRadioGroup" options={getStatuses(t)} />
             </Block>
 
-            <Typography align="center" variant="body1" fontSize={38}>
+            <Typography align="center" variant="h3">
               {t('adressSectionTitle')}
             </Typography>
 
@@ -445,7 +445,7 @@ export default function VerificationForm(): JSX.Element {
               />
             </Block>
 
-            <Typography align="center" variant="body1" fontSize={38}>
+            <Typography align="center" variant="h3">
               {t('fileSectionTitle')}
             </Typography>
 
@@ -458,7 +458,7 @@ export default function VerificationForm(): JSX.Element {
               />
             </Block>
 
-            <Typography align="center" variant="body1" fontSize={38}>
+            <Typography align="center" variant="h3">
               {t('declarationSectionTitle')}
             </Typography>
 
