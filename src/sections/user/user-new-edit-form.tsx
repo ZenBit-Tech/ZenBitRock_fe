@@ -201,7 +201,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     <FormProvider methods={methods} onSubmit={onSubmit}>
       <Grid container spacing={3}>
         <Grid xs={12} md={4}>
-          <Card sx={{ pt: 5, px: 3 }}>
+          <Card sx={{ pt: 5, pb: 5, px: 3, height: '100%' }}>
             <Box sx={{ mb: 5, minHeight: '260px' }}>
               <RHFUploadAvatar
                 name="avatar"
