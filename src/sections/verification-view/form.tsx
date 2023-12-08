@@ -307,6 +307,7 @@ export default function VerificationForm(): JSX.Element {
                     <DatePicker
                       {...field}
                       label={t('dateOfBirthPlaceholder')}
+                      minDate={new Date(1990, 0, 1)}
                       maxDate={new Date()}
                       format={datesFormats.verificationDatePicker}
                       slotProps={{
@@ -485,13 +486,13 @@ export default function VerificationForm(): JSX.Element {
 
             <LoadingButton
               fullWidth
-              color="info"
+              variant="contained"
+              color="primary"
               size="large"
               type="submit"
-              variant="outlined"
               loading={isSubmitting}
               disabled={!formFilled}
-              style={{ marginBottom: '70px' }}
+              sx={{ mb: '90px' }}
             >
               {t('submitButton')}
             </LoadingButton>
