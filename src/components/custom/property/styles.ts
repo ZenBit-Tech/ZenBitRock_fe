@@ -1,6 +1,6 @@
 'use client';
 
-import { styled, Typography, Link, List, Box, CardMedia } from '@mui/material';
+import { styled, Typography, Button, List, Box, CardMedia } from '@mui/material';
 
 export const CardMediaStyled = styled(CardMedia)`
   height: 100px;
@@ -47,22 +47,9 @@ export const TextMiddleStyled = styled(Typography)`
   }
 `;
 
-export const LinkStyled = styled(Link)`
-  cursor: pointer;
+export const ButtonStyled = styled(Button)`
   height: 2rem;
   width: 100%;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  color: #212b36;
-  &:hover,
-  &:focus {
-    transform: scale(1.01);
-    text-decoration: none;
-    color: #00a76f;
-  }
 `;
 
 export const TypographyStyled = styled(Typography)`

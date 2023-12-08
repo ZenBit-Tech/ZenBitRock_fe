@@ -27,7 +27,7 @@ import {
   TextMiddleStyled,
   CardMediaStyled,
 } from './styles';
-import useInfinityScroll from './hooks/infinityScroll';
+import useInfinityScroll from './hooks/useInfinityScroll';
 
 const INITIAL_PARAMS: IPropertyParamsList = {
   page: 1,
@@ -73,36 +73,6 @@ function PropertiesList(): JSX.Element {
         }
       })();
   }, [isFetching, properties, propertiesError, propertiesPagination]);
-
-  // useEffect(() => {
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => window.removeEventListener('scroll', handleScroll);
-  // }, [propertiesPagination]);
-
-  // function handleScroll(): void | undefined {
-  //   if (!propertiesPagination) {
-  //     return;
-  //   }
-
-  //   const windowHeight =
-  //     'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
-
-  //   const body = document.body;
-  //   const html = document.documentElement;
-
-  //   const docHeight = Math.max(
-  //     body.scrollHeight,
-  //     body.offsetHeight,
-  //     html.clientHeight,
-  //     html.scrollHeight,
-  //     html.offsetHeight
-  //   );
-  //   const windowBottom = windowHeight + window.scrollY;
-
-  //   if (windowBottom >= docHeight - FETCH_NEXT_BEFORE && propertiesPagination.hasNextPage) {
-  //     setIsFetching(true);
-  //   }
-  // }
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '90%', marginX: 'auto' }}>
