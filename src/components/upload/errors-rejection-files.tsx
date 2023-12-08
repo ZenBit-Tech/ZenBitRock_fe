@@ -1,4 +1,4 @@
-import { FileRejection } from 'react-dropzone';
+import { ErrorCode, FileRejection } from 'react-dropzone';
 // @mui
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -35,6 +35,15 @@ export default function RejectionFiles({ fileRejections }: Props) {
     >
       {fileRejections.map(({ file, errors }) => {
         const { path, size } = fileData(file);
+        const updatedErrors = errors.map((error) => {
+          if (error.code === ErrorCode.FileTooLarge) {
+            return {
+              ...error,
+              message: `File is larger than 5 Mb`,
+            };
+          }
+          return error;
+        });
 
         return (
           <Box key={path} sx={{ my: 1 }}>
@@ -42,7 +51,7 @@ export default function RejectionFiles({ fileRejections }: Props) {
               {path} - {size ? fData(size) : ''}
             </Typography>
 
-            {errors.map((error) => (
+            {updatedErrors.map((error) => (
               <Box key={error.code} component="span" sx={{ typography: 'caption' }}>
                 - {error.message}
               </Box>

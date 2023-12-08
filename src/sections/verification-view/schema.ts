@@ -37,8 +37,11 @@ export const FormSchema = Yup.object().shape<Shape<VerificationData>>({
     .max(new Date(), "You can't be born in the future!")
     .test('dob', 'Should be greater than 18', (value, ctx) => {
       const dob = new Date(value);
-      const validDate = new Date();
-      const valid = validDate.getFullYear() - dob.getFullYear() >= LEGAL_AGE;
+      const today = new Date();
+      const legalDate = new Date(today);
+
+      legalDate.setFullYear(legalDate.getFullYear() - LEGAL_AGE);
+      const valid = today >= dob && legalDate >= dob;
 
       return !valid ? ctx.createError() : valid;
     }),
@@ -64,12 +67,4 @@ export const FormSchema = Yup.object().shape<Shape<VerificationData>>({
     .matches(patterns.phone, 'Phone number is not valid'),
   singleUpload: Yup.mixed<File>().nullable().required('File is required'),
   confirmationCheckbox: Yup.boolean().oneOf([true], 'Your agree is required'),
-  confirmationFirstName: Yup.string()
-    .required('Confirm Name is required')
-    .oneOf([Yup.ref('firstName')], "Name's not match")
-    .matches(patterns.name, 'Latin letters, spaces, 2-50 characters'),
-  confirmationLastName: Yup.string()
-    .required('Confirm Surname is required')
-    .oneOf([Yup.ref('lastName')], "Surname's not match")
-    .matches(patterns.name, 'Latin letters, spaces, 2-50 characters'),
 });
