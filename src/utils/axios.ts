@@ -8,14 +8,7 @@ axiosInstance.interceptors.response.use(
   (error) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
 );
 
-const axiosInstanceQobrix = axios.create({ baseURL: QOBRIX_PROXY_URL });
-
-axiosInstanceQobrix.interceptors.response.use(
-  (res) => res,
-  (error) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
-);
-
-export default { axiosInstance, axiosInstanceQobrix };
+export default axiosInstance;
 
 export const fetcher = async (args: string | [string, AxiosRequestConfig]) => {
   const [url, config] = Array.isArray(args) ? args : [args];
@@ -23,6 +16,13 @@ export const fetcher = async (args: string | [string, AxiosRequestConfig]) => {
   const res = await axiosInstance.get(url, { ...config });
   return res.data;
 };
+
+const axiosInstanceQobrix = axios.create({ baseURL: QOBRIX_PROXY_URL });
+
+axiosInstanceQobrix.interceptors.response.use(
+  (res) => res,
+  (error) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
+);
 
 export const fetcherQobrix = async (args: string | [string, AxiosRequestConfig]) => {
   const [url, config] = Array.isArray(args) ? args : [args];

@@ -53,7 +53,7 @@ function VerifyOldPasswordForm(): JSX.Element {
   const { enqueueSnackbar } = useSnackbar();
   const router = useRouter();
 
-  const { register, handleSubmit, formState, watch } = form;
+  const { register, handleSubmit, formState } = form;
   const { errors, isValid } = formState;
 
   const onSubmit = async (data: FormValues) => {
