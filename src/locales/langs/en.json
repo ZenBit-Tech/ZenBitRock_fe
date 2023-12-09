@@ -342,6 +342,20 @@
     "null": "",
     "": "",
     "since": "Days on the market",
-    "floors": "Floor area"
+    "floors": "Floor area",
+    "back": "Back",
+    "left": "Left",
+    "right": "Right",
+    "close": "Close",
+    "type": "Type",
+    "area": "Floor area",
+    "price": "Price",
+    "description": "Description",
+    "internal": "Internal details",
+    "external": "External details",
+    "tenure": "Tenure",
+    "community": "Community",
+    "address": "Address",
+    "operation": "Operation"
   }
 }

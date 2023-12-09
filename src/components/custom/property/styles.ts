@@ -1,25 +1,20 @@
 'use client';
 
 import { styled, Typography, Button, List, Box, CardMedia } from '@mui/material';
+import Iconify from 'components/iconify';
 
-export const CardMediaStyled = styled(CardMedia)`
-  height: 100px;
-  @media (min-width: 1024px) {
-    height: 200px;
-  }
-`;
-
-export const BoxStyled = styled(Box)`
-  margin-bottom: 0.75rem;
-  @media (min-width: 1024px) {
-    margin-bottom: 1rem;
-  }
-`;
-
-export const ListStyled = styled(List)`
+export const Wrapper = styled(Box)`
   padding-bottom: 56px;
   @media (min-width: 1024px) {
     padding-bottom: 64px;
+  }
+`;
+
+export const BoxDescriptionItem = styled(Box)`
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  @media (min-width: 1024px) {
   }
 `;
 
@@ -61,10 +56,25 @@ export const TypographyStyled = styled(Typography)`
   }
 `;
 
-export const Wrapper = styled(Box)`
-  display: 'flex';
-  flex-direction: 'column';
-  width: '90%';
-  margin: '0 auto';
-  border-radius: '8px';
+export const TypographyDescriptionLeft = styled(Typography)`
+  white-space: nowrap;
+  font-size: 0.75rem;
+
+  @media (min-width: 1024px) {
+    font-size: 1rem;
+  }
+`;
+
+export const TypographyDescriptionRight = styled(Typography)`
+  font-size: 0.75rem;
+
+  @media (min-width: 1024px) {
+    font-size: 1rem;
+  }
+`;
+
+export const IconifyStyled = styled(Iconify)`
+  &:hover {
+    color: #007867;
+  }
 `;

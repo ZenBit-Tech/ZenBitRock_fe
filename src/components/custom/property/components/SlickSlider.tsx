@@ -1,131 +1,144 @@
+import React, { useState, useRef } from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import { Box, Button, Modal } from '@mui/material';
+import { TFunction } from 'i18next';
 import { QOBRIX_HOST } from 'config-global';
-import React, { useRef, useState, useEffect } from 'react';
-import styled from '@emotion/styled';
-import Slider, { Settings } from 'react-slick';
-import Image from 'next/image';
+import Image from 'components/image/image';
+import { IconifyStyled } from '../styles';
 
-const EACH_SLIDE_WIDTH = 176;
-
-interface ImageSliderProps {
-  data: { thumbnail: string; reach: number; comment: number }[];
+interface SlickSliderProps {
+  photos: string[][];
+  t: TFunction;
 }
 
-const ImageWrapper = styled.div`
-  width: 200px; // Set the desired width
-  height: auto;
-  overflow: hidden;
-`;
+const SlickSlider: React.FC<SlickSliderProps> = ({ photos, t }) => {
+  const [toggleModal, setToggleModal] = useState<Boolean>(false);
+  const [src, setSrc] = useState<string>('');
+  const [visibleArrows, setVisibleArrows] = useState<Boolean>(false);
 
-const CustomImage = styled(Image)`
-  display: block;
-`;
-
-const SlickSlider: React.FC<ImageSliderProps> = ({ photos }: { photos: string[][] }) => {
-  console.log(photos);
-  // const photos = [
-  //   [
-  //     'https://dummyimage.com/600x400/000/fff&text=1',
-  //     'https://dummyimage.com/600x400/000/fff&text=1',
-  //   ],
-  //   [
-  //     'https://dummyimage.com/600x400/000/fff&text=1',
-  //     'https://dummyimage.com/600x400/000/fff&text=1',
-  //   ],
-  //   [
-  //     'https://dummyimage.com/600x400/000/fff&text=1',
-  //     'https://dummyimage.com/600x400/000/fff&text=1',
-  //   ],
-  // ];
   const sliderRef = useRef<Slider>(null);
-  const sliderWrapperRef = useRef<HTMLDivElement>(null);
 
-  const [showRightArrow, setShowRightArrow] = useState<boolean>(false);
-  const [showLeftArrow, setShowLeftArrow] = useState<boolean>(false);
-  const [maxNumberOfCardsToShow, setMaxNumberOfCardsToShow] = useState<number>(0);
-
-  const settings: Settings = {
+  const settings = {
     dots: true,
-    lazyLoad: true,
+    arrows: false,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    initialSlide: 2,
+    outerHeight: 200,
+    innerHeight: 200,
   };
-
-  const handleChangeSlide = (currentSlide: number) => {
-    const leftArrowVisible = currentSlide !== 0;
-
-    const rightArrowVisible = currentSlide <= photos.length - maxNumberOfCardsToShow;
-
-    setShowLeftArrow(leftArrowVisible);
-
-    setShowRightArrow(rightArrowVisible);
-  };
-
-  useEffect(() => {
-    const wrapperWidth = sliderWrapperRef.current.clientWidth || 0;
-
-    const maxNumberOfCards = Math.ceil(wrapperWidth / EACH_SLIDE_WIDTH);
-
-    setMaxNumberOfCardsToShow(maxNumberOfCards);
-
-    setShowRightArrow(photos.length > maxNumberOfCards);
-  }, []);
 
   return (
-    <SliderWrapper ref={sliderWrapperRef}>
-      {showLeftArrow && <button onClick={() => sliderRef.current.slickPrev()}>left</button>}
+    <Box
+      sx={{
+        position: 'relative',
+        textShadow: '1px 1px 2px black',
+        height: '200px',
+        width: '100%',
+        borderTopRightRadius: '8px',
+        borderTopLeftRadius: '8px',
+        overflow: 'hidden',
+      }}
+      onMouseOut={() => setVisibleArrows(false)}
+      onMouseOver={() => setVisibleArrows(true)}
+    >
+      {visibleArrows && (
+        <>
+          <Button
+            title={t('left')}
+            sx={{
+              height: 'fit-content',
+              width: 'fit-content',
+              position: 'absolute',
+              zIndex: '10',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              left: '0.5rem',
+              backgroundColor: 'rgba(145, 158, 171, 0.08)',
+            }}
+            onClick={() => sliderRef?.current?.slickPrev()}
+          >
+            <IconifyStyled
+              icon={'iconamoon:arrow-left-2-bold'}
+              width={'4rem'}
+              height={'4rem'}
+              color="#00a76f"
+            />
+          </Button>
+          <Button
+            title={t('left')}
+            sx={{
+              width: 'fit-content',
+              height: 'fit-content',
+              position: 'absolute',
+              zIndex: '10',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              right: '0.5rem',
+              backgroundColor: 'rgba(145, 158, 171, 0.08)',
+            }}
+            onClick={() => sliderRef?.current?.slickNext()}
+          >
+            <IconifyStyled
+              icon={'iconamoon:arrow-right-2-bold'}
+              width={'4rem'}
+              height={'4rem'}
+              color="#00a76f"
+            />
+          </Button>
+        </>
+      )}
       <Slider {...settings} ref={sliderRef}>
-        {photos.map((photo, idx) => (
-          <ImageWrapper key={idx}>
-            <CustomImage
-              loader={(src) => `${QOBRIX_HOST}${photo[1]}`}
-              // src={`${QOBRIX_HOST}${photo[1]}`}
-              alt={`Property image ${idx + 1}`}
+        {photos.map((photo, index) => (
+          <Box key={index}>
+            <Image
+              src={`${QOBRIX_HOST}${photo[1]}`}
+              alt={`Slide ${index + 1}`}
               width={200}
               height={100}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', cursor: 'pointer' }}
+              onClick={(e) => {
+                setToggleModal(true);
+                setSrc(
+                  (e.currentTarget.children[0].children[0] as HTMLImageElement).src
+                    .split('large')
+                    .join('original')
+                );
+              }}
             />
-          </ImageWrapper>
+            {toggleModal && (
+              <Modal open={true}>
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    border: 'none',
+                  }}
+                >
+                  <Image
+                    src={src}
+                    alt={`Slide original ${index + 1}`}
+                    sx={{
+                      width: '100vw',
+                      height: 'auto',
+                      objectFit: 'cover',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => setToggleModal(false)}
+                  />
+                </Box>
+              </Modal>
+            )}
+          </Box>
         ))}
-      </Slider>{' '}
-      {showRightArrow && <button onClick={() => sliderRef.current.slickNext()}>right</button>}
-    </SliderWrapper>
+      </Slider>
+    </Box>
   );
 };
-
-const SliderWrapper = styled.div`
-  position: relative;
-`;
-// Inline styles generated from `react-slick` in here
-// const ImageWrapper = styled.div`
-//   &:focus {
-//     outline: none;
-//   }
-`;
-// const Image = styled.div<{ src: string | null }>`;
-//   width: 160px;
-//   height: 280px;
-//   margin-right: 16px;
-//   background-image: ${({ src }) => (!!src ? `url(${src})` : 'none')};
-//   display: flex;
-//   align-items: flex-end;
-// `;
-const EngagementInfo = styled.div`
-  color: #fff;
-  font-size: 11px;
-  font-weight: 600;
-  display: flex;
-  justify-content: space-between;
-  flex: 1;
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
-`;
-const InfoWrapper = styled.div`
-  padding: 0 8px 8px;
-`;
-const Label = styled.p`
-  margin-bottom: 3px;
-`;
-const Count = styled.p``;
 
 export default SlickSlider;
