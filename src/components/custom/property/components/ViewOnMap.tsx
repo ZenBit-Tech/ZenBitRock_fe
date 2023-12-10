@@ -3,15 +3,17 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { IconifyStyled } from '../styles';
+import { useTranslations } from 'next-intl';
 
 interface ViewOnMapProps {
-  coordinates: string;
+  coordinates: string | null | undefined;
   closeModal: () => void;
-  t: TFunction;
 }
 
-function ViewOnMap({ coordinates, closeModal, t }: ViewOnMapProps): JSX.Element {
-  const handleClose = () => closeModal();
+function ViewOnMap({ coordinates, closeModal }: ViewOnMapProps): JSX.Element {
+  const t = useTranslations('property');
+
+  const handleClose = (): void => closeModal();
   const src = `https://maps.google.com/maps?q=${coordinates}&z=15&output=embed`;
 
   return (

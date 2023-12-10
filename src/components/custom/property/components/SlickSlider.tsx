@@ -7,13 +7,15 @@ import { TFunction } from 'i18next';
 import { QOBRIX_HOST } from 'config-global';
 import Image from 'components/image/image';
 import { IconifyStyled } from '../styles';
+import { useTranslations } from 'next-intl';
 
 interface SlickSliderProps {
   photos: string[][];
-  t: TFunction;
 }
 
-const SlickSlider: React.FC<SlickSliderProps> = ({ photos, t }) => {
+const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
+  const t = useTranslations('property');
+
   const [toggleModal, setToggleModal] = useState<Boolean>(false);
   const [src, setSrc] = useState<string>('');
   const [visibleArrows, setVisibleArrows] = useState<Boolean>(false);
@@ -42,8 +44,8 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos, t }) => {
         borderTopLeftRadius: '8px',
         overflow: 'hidden',
       }}
-      onMouseOut={() => setVisibleArrows(false)}
-      onMouseOver={() => setVisibleArrows(true)}
+      onMouseOut={(): void => setVisibleArrows(false)}
+      onMouseOver={(): void => setVisibleArrows(true)}
     >
       {visibleArrows && (
         <>
@@ -59,7 +61,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos, t }) => {
               left: '0.5rem',
               backgroundColor: 'rgba(145, 158, 171, 0.08)',
             }}
-            onClick={() => sliderRef?.current?.slickPrev()}
+            onClick={(): void => sliderRef?.current?.slickPrev()}
           >
             <IconifyStyled
               icon={'iconamoon:arrow-left-2-bold'}
@@ -80,7 +82,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos, t }) => {
               right: '0.5rem',
               backgroundColor: 'rgba(145, 158, 171, 0.08)',
             }}
-            onClick={() => sliderRef?.current?.slickNext()}
+            onClick={(): void => sliderRef?.current?.slickNext()}
           >
             <IconifyStyled
               icon={'iconamoon:arrow-right-2-bold'}
@@ -100,7 +102,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos, t }) => {
               width={200}
               height={100}
               style={{ width: '100%', height: '100%', objectFit: 'cover', cursor: 'pointer' }}
-              onClick={(e) => {
+              onClick={(e): void => {
                 setToggleModal(true);
                 setSrc(
                   (e.currentTarget.children[0].children[0] as HTMLImageElement).src
@@ -129,7 +131,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos, t }) => {
                       objectFit: 'cover',
                       cursor: 'pointer',
                     }}
-                    onClick={() => setToggleModal(false)}
+                    onClick={(): void => setToggleModal(false)}
                   />
                 </Box>
               </Modal>

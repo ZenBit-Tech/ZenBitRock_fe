@@ -12,8 +12,6 @@ export const Wrapper = styled(Box)`
 
 export const BoxDescriptionItem = styled(Box)`
   display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
   @media (min-width: 1024px) {
   }
 `;
@@ -57,8 +55,13 @@ export const TypographyStyled = styled(Typography)`
 `;
 
 export const TypographyDescriptionLeft = styled(Typography)`
+  display: block;
+  flex: 2;
   white-space: nowrap;
   font-size: 0.75rem;
+  text-align: right;
+  font-weight: 700;
+  margin-right: 1rem;
 
   @media (min-width: 1024px) {
     font-size: 1rem;
@@ -66,6 +69,8 @@ export const TypographyDescriptionLeft = styled(Typography)`
 `;
 
 export const TypographyDescriptionRight = styled(Typography)`
+  display: block;
+  flex: 4;
   font-size: 0.75rem;
 
   @media (min-width: 1024px) {
@@ -76,5 +81,25 @@ export const TypographyDescriptionRight = styled(Typography)`
 export const IconifyStyled = styled(Iconify)`
   &:hover {
     color: #007867;
+  }
+`;
+
+export const TypographyInsert = styled(Typography)`
+  display: inline;
+  position: relative;
+  font-size: 0.75rem;
+  width: fit-content;
+
+  @media (min-width: 1024px) {
+    font-size: 1rem;
+  }
+
+  &:not(:last-child) {
+    margin-right: 1rem;
+    &::after {
+      content: '|';
+      position: absolute;
+      right: -0.5rem;
+    }
   }
 `;

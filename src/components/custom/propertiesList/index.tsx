@@ -58,7 +58,7 @@ function PropertiesList(): JSX.Element {
   });
   useEffect(() => {
     isFetching &&
-      (async () => {
+      (async (): Promise<void> => {
         try {
           setError(propertiesError);
           if (!propertiesError && properties.data) {
@@ -76,7 +76,7 @@ function PropertiesList(): JSX.Element {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '90%', marginX: 'auto' }}>
-      {error && enqueueSnackbar('Something went wrong!', { variant: 'error' })}
+      {error && enqueueSnackbar(t('error'), { variant: 'error' })}
       {propertiesList.length !== 0 && (
         <ListStyled
           sx={{
