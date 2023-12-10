@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Box, Card } from '@mui/material';
+import { Fab } from '@mui/material';
 import { useTranslations } from 'next-intl';
 import { useGetProperties } from 'api/property';
 import { AxiosError } from 'axios';
@@ -28,6 +29,8 @@ import {
   CardMediaStyled,
 } from './styles';
 import useInfinityScroll from './hooks/useInfinityScroll';
+import Image from 'components/image';
+import useScrollToTop from './hooks/useScrollToTop';
 
 const INITIAL_PARAMS: IPropertyParamsList = {
   page: 1,
@@ -48,6 +51,12 @@ function PropertiesList(): JSX.Element {
   const t = useTranslations('properties');
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
+
+  const isVisible = useScrollToTop();
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   useInfinityScroll({
     callback: () => {
@@ -75,7 +84,15 @@ function PropertiesList(): JSX.Element {
   }, [isFetching, properties, propertiesError, propertiesPagination]);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', width: '90%', marginX: 'auto' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '90%',
+        marginX: 'auto',
+        transition: 'easy-in 200 all',
+      }}
+    >
       {error && enqueueSnackbar(t('error'), { variant: 'error' })}
       {propertiesList.length !== 0 && (
         <ListStyled
@@ -117,14 +134,14 @@ function PropertiesList(): JSX.Element {
                       overflow: 'hidden',
                     }}
                   >
-                    <img
+                    <Image
                       src={
                         photo
                           ? `${QOBRIX_HOST}${photo}`
                           : '/assets/images/home/properties_blank.jpg'
                       }
                       alt={t('alt')}
-                      style={{
+                      sx={{
                         width: '100%',
                         height: '100%',
                         objectFit: 'cover',
@@ -199,6 +216,20 @@ function PropertiesList(): JSX.Element {
         </ListStyled>
       )}
       {isFetching && !error && <LoadingScreen />}
+      <Fab
+        color="primary"
+        aria-label="scroll to top"
+        onClick={scrollToTop}
+        sx={{
+          position: 'fixed',
+          bottom: '50px',
+          right: '20px',
+          display: isVisible ? 'block' : 'none',
+          transition: 'easy-in 200 all',
+        }}
+      >
+        ↑
+      </Fab>
     </Box>
   );
 }

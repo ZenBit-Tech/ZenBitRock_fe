@@ -430,6 +430,7 @@
     "livingrooms": "Livingrooms",
     "kitchenType": "Kitchen Type",
     "petsAllowed": "Pets Allowed",
-    "petsNotAllowed": "Pets Not Allowed"
+    "petsNotAllowed": "Pets Not Allowed",
+    "alt": "Property photo"
   }
 }

@@ -4,17 +4,20 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { IconifyStyled } from '../styles';
 import { useTranslations } from 'next-intl';
+import { useCloseModal } from '../hooks/useCloseModal';
 
 interface ViewOnMapProps {
   coordinates: string | null | undefined;
   closeModal: () => void;
+  openModal: boolean;
 }
 
-function ViewOnMap({ coordinates, closeModal }: ViewOnMapProps): JSX.Element {
+function ViewOnMap({ coordinates, closeModal, openModal }: ViewOnMapProps): JSX.Element {
   const t = useTranslations('property');
 
   const handleClose = (): void => closeModal();
   const src = `https://maps.google.com/maps?q=${coordinates}&z=15&output=embed`;
+  useCloseModal(openModal, () => closeModal());
 
   return (
     <Box sx={{ width: 'auto', height: 'auto', padding: '0', margin: '0' }}>

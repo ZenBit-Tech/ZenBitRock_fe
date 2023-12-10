@@ -1,16 +1,6 @@
-interface File {
-  href: string;
-  thumbnails: {
-    large: string;
-  };
-}
+import { IPropertyDetailed } from 'types/property';
 
-interface ArrayItem {
-  id: string;
-  file: File;
-}
-
-function getImages(inputArray: ArrayItem[] | null): Array<[string, string]> {
+function getImages(inputArray: IPropertyDetailed['media']): string[][] {
   if (!inputArray || !Array.isArray(inputArray)) {
     return [];
   }

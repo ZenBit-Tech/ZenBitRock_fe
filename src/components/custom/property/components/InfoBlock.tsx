@@ -11,8 +11,9 @@ import { useTranslations } from 'next-intl';
 import { IPropertyDetailed } from 'types/property';
 import { getCountries } from 'sections/verification-view/drop-box-data';
 import splitValue from '../helpers/splitValue';
+import firstUpperCase from '../helpers/firstUpperCase';
 
-function InfoBlock({ property }: { property: IPropertyDetailed }) {
+function InfoBlock({ property }: { property: IPropertyDetailed }): JSX.Element {
   const t = useTranslations('property');
   const {
     price,
@@ -68,42 +69,65 @@ function InfoBlock({ property }: { property: IPropertyDetailed }) {
       }}
     >
       {name && price && (
-        <BoxDescriptionItem>
-          <TypographyDescriptionLeft>{name}</TypographyDescriptionLeft>
-          <TypographyDescriptionRight>{fCurrency(price)}</TypographyDescriptionRight>
-        </BoxDescriptionItem>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '1.5rem',
+          }}
+        >
+          <TextStyled
+            sx={{
+              fontWeight: 'bold',
+            }}
+          >
+            {name}
+          </TextStyled>
+          <TextStyled
+            className="price"
+            sx={{
+              fontWeight: 'bold',
+            }}
+          >
+            {fCurrency(price)}
+          </TextStyled>
+        </Box>
       )}
 
       {status && (
         <TextStyled
+          className="underline"
           sx={{
             fontWeight: 'bold',
+            marginBottom: '1rem',
           }}
         >
-          {status}
+          {firstUpperCase(status)}
         </TextStyled>
       )}
       {city && (
         <BoxDescriptionItem>
           <TypographyDescriptionLeft>{t('address')}</TypographyDescriptionLeft>
           <TypographyDescriptionRight>
-            {postCode && <TypographyInsert>{`${postCode}`}</TypographyInsert>}
+            {postCode && <TypographyInsert as="span">{`${postCode}`}</TypographyInsert>}
             {
-              <TypographyInsert>{`${getCountries().find((object) => object.value === country)
-                ?.label}`}</TypographyInsert>
+              <TypographyInsert as="span">{`${getCountries().find(
+                (object) => object.value === country
+              )?.label}`}</TypographyInsert>
             }
-            {state && <TypographyInsert>{`${state}`}</TypographyInsert>}
-            {municipality && <TypographyInsert>{`${municipality}`}</TypographyInsert>}
-            {city && <TypographyInsert>{`${city}`}</TypographyInsert>}
-            {street && <TypographyInsert>{`${street}`}</TypographyInsert>}
-            {unit && <TypographyInsert>{`${unit}`}</TypographyInsert>}
+            {state && <TypographyInsert as="span">{`${state}`}</TypographyInsert>}
+            {municipality && <TypographyInsert as="span">{`${municipality}`}</TypographyInsert>}
+            {city && <TypographyInsert as="span">{`${city}`}</TypographyInsert>}
+            {street && <TypographyInsert as="span">{`${street}`}</TypographyInsert>}
+            {unit && <TypographyInsert as="span">{`${unit}`}</TypographyInsert>}
           </TypographyDescriptionRight>
         </BoxDescriptionItem>
       )}
       {propertyType && (
         <BoxDescriptionItem>
           <TypographyDescriptionLeft>{t('type')}</TypographyDescriptionLeft>
-          <TypographyDescriptionRight>{propertyType}</TypographyDescriptionRight>
+          <TypographyDescriptionRight>{firstUpperCase(propertyType)}</TypographyDescriptionRight>
         </BoxDescriptionItem>
       )}
       {internalAreaAmount && (
@@ -138,40 +162,56 @@ function InfoBlock({ property }: { property: IPropertyDetailed }) {
       <BoxDescriptionItem>
         <TypographyDescriptionLeft>{t('internal')}</TypographyDescriptionLeft>
         <TypographyDescriptionRight>
-          {bedrooms && <TypographyInsert>{`${t('bedrooms')}: ${bedrooms}pc`}</TypographyInsert>}
-          {bathrooms && <TypographyInsert>{`${t('bathrooms')}: ${bathrooms}pc`}</TypographyInsert>}
+          {bedrooms && (
+            <TypographyInsert as="span">{`${t('bedrooms')}: ${bedrooms}pc`}</TypographyInsert>
+          )}
+          {bathrooms && (
+            <TypographyInsert as="span">{`${t('bathrooms')}: ${bathrooms}pc`}</TypographyInsert>
+          )}
           {livingrooms && (
-            <TypographyInsert>{`${t('livingrooms')}: ${livingrooms}pc`}</TypographyInsert>
+            <TypographyInsert as="span">{`${t('livingrooms')}: ${livingrooms}pc`}</TypographyInsert>
           )}
           {kitchenType && (
-            <TypographyInsert>{`${t('kitchenType')}: ${splitValue(kitchenType)}`}</TypographyInsert>
+            <TypographyInsert as="span">{`${t('kitchenType')}: ${splitValue(
+              kitchenType
+            )}`}</TypographyInsert>
           )}
           {petsAllowed ? (
-            <TypographyInsert>{t('petsAllowed')}</TypographyInsert>
+            <TypographyInsert as="span">{t('petsAllowed')}</TypographyInsert>
           ) : (
-            <TypographyInsert>{t('petsNotAllowed')}</TypographyInsert>
+            <TypographyInsert as="span">{t('petsNotAllowed')}</TypographyInsert>
           )}
-          {electricity && <TypographyInsert>{t('electricity')}</TypographyInsert>}
-          {water && <TypographyInsert>{t('water')}</TypographyInsert>}
-          {air && <TypographyInsert>{t('air')}</TypographyInsert>}
-          {smart && <TypographyInsert>{t('smart')}</TypographyInsert>}
-          {alarm && <TypographyInsert>{t('alarm')}</TypographyInsert>}
-          {heating && <TypographyInsert>{`${t('heating')}: ${heating}`}</TypographyInsert>}
+          {electricity && <TypographyInsert as="span">{t('electricity')}</TypographyInsert>}
+          {water && <TypographyInsert as="span">{t('water')}</TypographyInsert>}
+          {air && <TypographyInsert as="span">{t('air')}</TypographyInsert>}
+          {smart && <TypographyInsert as="span">{t('smart')}</TypographyInsert>}
+          {alarm && <TypographyInsert as="span">{t('alarm')}</TypographyInsert>}
+          {heating && (
+            <TypographyInsert as="span">{`${t('heating')}: ${t(heating)}`}</TypographyInsert>
+          )}
         </TypographyDescriptionRight>
       </BoxDescriptionItem>
       <BoxDescriptionItem>
         <TypographyDescriptionLeft>{t('external')}</TypographyDescriptionLeft>
         <TypographyDescriptionRight>
-          {verandas && <TypographyInsert>{`${t('verandas')}: ${verandas}pc`}</TypographyInsert>}
-          {parking && <TypographyInsert>{`${t('parking')}: ${parking}pc`}</TypographyInsert>}
-          {seaView && <TypographyInsert>{`${t('seaView')}`}</TypographyInsert>}
-          {mountainView && <TypographyInsert>{t('mountainView')}</TypographyInsert>}
-          {privateSwimmingPool && <TypographyInsert>{t('privateSwimmingPool')}</TypographyInsert>}
-          {commonSwimmingPool && <TypographyInsert>{t('commonSwimmingPool')}</TypographyInsert>}
-          {elevator && <TypographyInsert>{t('elevator')}</TypographyInsert>}
-          {reception && <TypographyInsert>{t('reception')}</TypographyInsert>}
-          {fireplace && <TypographyInsert>{t('fireplace')}</TypographyInsert>}
-          {storage && <TypographyInsert>{t('storage')}</TypographyInsert>}
+          {verandas && (
+            <TypographyInsert as="span">{`${t('verandas')}: ${verandas}pc`}</TypographyInsert>
+          )}
+          {parking && (
+            <TypographyInsert as="span">{`${t('parking')}: ${parking}pc`}</TypographyInsert>
+          )}
+          {seaView && <TypographyInsert as="span">{`${t('seaView')}`}</TypographyInsert>}
+          {mountainView && <TypographyInsert as="span">{t('mountainView')}</TypographyInsert>}
+          {privateSwimmingPool && (
+            <TypographyInsert as="span">{t('privateSwimmingPool')}</TypographyInsert>
+          )}
+          {commonSwimmingPool && (
+            <TypographyInsert as="span">{t('commonSwimmingPool')}</TypographyInsert>
+          )}
+          {elevator && <TypographyInsert as="span">{t('elevator')}</TypographyInsert>}
+          {reception && <TypographyInsert as="span">{t('reception')}</TypographyInsert>}
+          {fireplace && <TypographyInsert as="span">{t('fireplace')}</TypographyInsert>}
+          {storage && <TypographyInsert as="span">{t('storage')}</TypographyInsert>}
         </TypographyDescriptionRight>
       </BoxDescriptionItem>
       {landType && (

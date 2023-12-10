@@ -1,13 +1,13 @@
 import React, { useState, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Box, Button, Modal } from '@mui/material';
-import { TFunction } from 'i18next';
 import { QOBRIX_HOST } from 'config-global';
 import Image from 'components/image/image';
 import { IconifyStyled } from '../styles';
-import { useTranslations } from 'next-intl';
+import { useCloseModal } from '../hooks/useCloseModal';
 
 interface SlickSliderProps {
   photos: string[][];
@@ -16,11 +16,13 @@ interface SlickSliderProps {
 const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
   const t = useTranslations('property');
 
-  const [toggleModal, setToggleModal] = useState<Boolean>(false);
+  const [toggleModal, setToggleModal] = useState<boolean>(false);
   const [src, setSrc] = useState<string>('');
-  const [visibleArrows, setVisibleArrows] = useState<Boolean>(false);
+  const [visibleArrows, setVisibleArrows] = useState<boolean>(false);
 
   const sliderRef = useRef<Slider>(null);
+
+  useCloseModal(toggleModal, () => setToggleModal(false));
 
   const settings = {
     dots: true,
@@ -43,6 +45,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
         borderTopRightRadius: '8px',
         borderTopLeftRadius: '8px',
         overflow: 'hidden',
+        transition: 'easy-in 200 all',
       }}
       onMouseOut={(): void => setVisibleArrows(false)}
       onMouseOver={(): void => setVisibleArrows(true)}
@@ -60,6 +63,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
               transform: 'translateY(-50%)',
               left: '0.5rem',
               backgroundColor: 'rgba(145, 158, 171, 0.08)',
+              transition: 'easy-in 200 all',
             }}
             onClick={(): void => sliderRef?.current?.slickPrev()}
           >
@@ -81,6 +85,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
               transform: 'translateY(-50%)',
               right: '0.5rem',
               backgroundColor: 'rgba(145, 158, 171, 0.08)',
+              transition: 'easy in 200 all',
             }}
             onClick={(): void => sliderRef?.current?.slickNext()}
           >
@@ -101,7 +106,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
               alt={`Slide ${index + 1}`}
               width={200}
               height={100}
-              style={{ width: '100%', height: '100%', objectFit: 'cover', cursor: 'pointer' }}
+              sx={{ width: '100%', height: '100%', objectFit: 'cover', cursor: 'pointer' }}
               onClick={(e): void => {
                 setToggleModal(true);
                 setSrc(
@@ -130,6 +135,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
                       height: 'auto',
                       objectFit: 'cover',
                       cursor: 'pointer',
+                      transition: 'easy-in 200 all',
                     }}
                     onClick={(): void => setToggleModal(false)}
                   />

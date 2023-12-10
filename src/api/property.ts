@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import useSWR from 'swr';
 import { endpoints, fetcherQobrix } from 'utils/axios';
-import { IPropertyItem, IProperties, IPropertyParams, IPropertyDetailed } from 'types/properties';
+import { IPropertyItem, IProperties, IPropertyParams, IPropertyDetailed } from 'types/property';
 
 const URL = endpoints.property;
 
@@ -75,11 +75,6 @@ export function useGetProperty(id: string) {
       coveredVerandasAmount: data?.data.covered_verandas_amount,
       landType: data?.data.land_type,
       communityFeatures: data?.data.community_features,
-      sellerName: data?.data.seller_contact.name,
-      sellerEmail: data?.data.seller_contact.email,
-      sellerPhone: data?.data.seller_contact.phone,
-      salespersonUserName: data?.data.salesperson_user.name,
-      salespersonUserEmail: data?.data.salesperson_user.username,
       unit: data?.data.unit_number,
       electricity: data?.data.electricity,
       reception: data?.data.reception,

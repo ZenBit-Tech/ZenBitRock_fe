@@ -1,4 +1,4 @@
-function splitValue(value: string) {
+function splitValue(value: string): string {
   return value
     .split('_')
     .map((a) =>
