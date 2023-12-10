@@ -10,7 +10,7 @@ export const revertFormatRole = (stateRole: string): string => {
 
 export const formatRole = (inputRole: string): string => {
   switch (inputRole) {
-    case 'independent Agent':
+    case 'Independent Agent':
       return 'individual_agent';
 
     default:
