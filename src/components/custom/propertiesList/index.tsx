@@ -39,6 +39,8 @@ const INITIAL_PARAMS: IPropertyParamsList = {
   media: true,
 };
 
+const DEFAULT_IMAGE = '/assets/images/home/properties_blank.jpg';
+
 function PropertiesList(): JSX.Element {
   const [params, setParams] = useState<IPropertyParamsList>(INITIAL_PARAMS);
   const { properties, propertiesError } = useGetProperties({ params: params });
@@ -135,11 +137,7 @@ function PropertiesList(): JSX.Element {
                     }}
                   >
                     <Image
-                      src={
-                        photo
-                          ? `${QOBRIX_HOST}${photo}`
-                          : '/assets/images/home/properties_blank.jpg'
-                      }
+                      src={photo ? `${QOBRIX_HOST}${photo}` : DEFAULT_IMAGE}
                       alt={t('alt')}
                       sx={{
                         width: '100%',

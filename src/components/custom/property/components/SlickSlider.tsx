@@ -23,24 +23,27 @@ const SETTINGS = {
   innerHeight: 200,
 };
 
+const MIN_SCALE = 1;
+const MAX_SCALE = 3;
+
 const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
   const t = useTranslations('property');
 
   const [toggleModal, setToggleModal] = useState<boolean>(false);
   const [src, setSrc] = useState<string>('');
   const [visibleArrows, setVisibleArrows] = useState<boolean>(false);
-  const [scale, setScale] = useState(1);
+  const [scale, setScale] = useState(MIN_SCALE);
 
   const sliderRef = useRef<Slider>(null);
 
   useCloseModal(toggleModal, () => setToggleModal(false));
 
   const handleZoomIn = () => {
-    setScale((prevScale) => Math.min(prevScale + 0.2, 3));
+    setScale((prevScale) => Math.min(prevScale + 0.2, MAX_SCALE));
   };
 
   const handleZoomOut = () => {
-    setScale((prevScale) => Math.max(prevScale - 0.2, 1));
+    setScale((prevScale) => Math.max(prevScale - 0.2, MIN_SCALE));
   };
 
   return (
@@ -166,7 +169,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
                       position: 'absolute',
                       top: '10px',
                       left: '10px',
-                      opacity: scale === 1 ? 0.1 : 1,
+                      opacity: scale === MIN_SCALE ? 0.1 : 1,
                     }}
                   >
                     <IconifyStyled
@@ -182,7 +185,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
                       position: 'absolute',
                       top: '10px',
                       left: '80px',
-                      opacity: scale === 3 ? 0.1 : 1,
+                      opacity: scale === MAX_SCALE ? 0.1 : 1,
                     }}
                   >
                     <IconifyStyled

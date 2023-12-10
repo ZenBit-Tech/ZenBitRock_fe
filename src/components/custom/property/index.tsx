@@ -17,6 +17,8 @@ import { Title, TypographyStyled, ButtonStyled, Wrapper } from './styles';
 import Image from 'components/image/image';
 import useScrollToTop from '../propertiesList/hooks/useScrollToTop';
 
+const DEFAULT_IMAGE = '/assets/images/home/properties_blank.jpg';
+
 export default function Property({ id }: { id: string }): JSX.Element {
   const { property, propertyError } = useGetProperty(id);
   const [propertyDetailed, setPropertyDetailed] = useState<IPropertyDetailed>();
@@ -86,7 +88,7 @@ export default function Property({ id }: { id: string }): JSX.Element {
             <SlickSlider photos={getImages(propertyDetailed.media)} />
           ) : (
             <Image
-              src={'/assets/images/home/properties_blank.jpg'}
+              src={DEFAULT_IMAGE}
               alt={t('alt')}
               sx={{
                 width: '100%',

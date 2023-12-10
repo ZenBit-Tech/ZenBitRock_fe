@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 
 export const useCloseModal = (isOpen: boolean, onClose: () => void) => {
+  const escapeButton = 'Escape';
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent): void => {
-      if (isOpen && event.key === 'Escape') {
+      if (isOpen && event.key === escapeButton) {
         onClose();
       }
     };
@@ -12,10 +13,10 @@ export const useCloseModal = (isOpen: boolean, onClose: () => void) => {
       const backdrop =
         event.target instanceof HTMLElement && event.target.closest('.MuiBackdrop-root');
       const modal = event.target instanceof HTMLElement && event.target.closest('.MuiDialog-root');
-
+      const nodeNameMatch = 'IMG';
       if (
         (isOpen && backdrop) ||
-        (isOpen && modal && (event.target as HTMLElement)?.nodeName === 'IMG')
+        (isOpen && modal && (event.target as HTMLElement)?.nodeName === nodeNameMatch)
       ) {
         onClose();
       }
