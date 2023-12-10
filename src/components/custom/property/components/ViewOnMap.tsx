@@ -1,10 +1,9 @@
-import { TFunction } from 'i18next';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
-import { IconifyStyled } from '../styles';
 import { useTranslations } from 'next-intl';
 import { useCloseModal } from '../hooks/useCloseModal';
+import { IconifyStyled } from '../styles';
 
 interface ViewOnMapProps {
   coordinates: string | null | undefined;

@@ -47,17 +47,6 @@ export const TextStyled = styled(Typography)`
   }
 `;
 
-export const TextMiddleStyled = styled(Typography)`
-  white-space: nowrap;
-  font-size: 0.75rem;
-  margin-bottom: 0.75rem;
-
-  @media (min-width: 1024px) {
-    font-size: 1rem;
-    margin-bottom: 1rem;
-  }
-`;
-
 export const ButtonStyled = styled(Button)`
   height: 2rem;
   width: 100%;

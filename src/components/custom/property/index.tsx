@@ -73,7 +73,7 @@ export default function Property({ id }: { id: string }): JSX.Element {
         <ButtonStyled
           title={t('back')}
           sx={{ padding: '14px', width: 'fit-content' }}
-          onClick={() => router.push(`/main-page`)}
+          onClick={(): void => router.push(`/main-page`)}
         >
           <Iconify icon={'solar:arrow-left-linear'} width={'2rem'} height={'2rem'} />
         </ButtonStyled>
@@ -100,7 +100,7 @@ export default function Property({ id }: { id: string }): JSX.Element {
             sx={{ padding: '14px', marginY: '1.5rem' }}
             variant="contained"
             color="primary"
-            onClick={() => setOpenModal(!openModal)}
+            onClick={(): void => setOpenModal(!openModal)}
           >
             <TypographyStyled>{t('maps')}</TypographyStyled>
           </ButtonStyled>
@@ -108,7 +108,7 @@ export default function Property({ id }: { id: string }): JSX.Element {
             sx={{ padding: '14px', marginBottom: '1.5rem' }}
             variant="contained"
             color="primary"
-            onClick={() => router.push(`/leads/${id}`)}
+            onClick={(): void => router.push(`/leads/${id}`)}
           >
             <TypographyStyled>{t('leads')}</TypographyStyled>
           </ButtonStyled>

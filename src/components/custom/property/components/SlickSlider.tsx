@@ -12,6 +12,16 @@ import { useCloseModal } from '../hooks/useCloseModal';
 interface SlickSliderProps {
   photos: string[][];
 }
+const SETTINGS = {
+  dots: true,
+  arrows: false,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  outerHeight: 200,
+  innerHeight: 200,
+};
 
 const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
   const t = useTranslations('property');
@@ -31,17 +41,6 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
 
   const handleZoomOut = () => {
     setScale((prevScale) => Math.max(prevScale - 0.2, 1));
-  };
-
-  const settings = {
-    dots: true,
-    arrows: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    outerHeight: 200,
-    innerHeight: 200,
   };
 
   return (
@@ -107,7 +106,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
           </Button>
         </>
       )}
-      <Slider {...settings} ref={sliderRef}>
+      <Slider {...SETTINGS} ref={sliderRef}>
         {photos.map((photo, index) => (
           <Box key={index}>
             <Image
