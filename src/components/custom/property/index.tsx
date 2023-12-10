@@ -29,7 +29,7 @@ export default function Property({ id }: { id: string }): JSX.Element {
 
   const isVisible = useScrollToTop();
 
-  const scrollToTop = () => {
+  const scrollToTop = (): void => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
