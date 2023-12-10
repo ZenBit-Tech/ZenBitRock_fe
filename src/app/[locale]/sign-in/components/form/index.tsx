@@ -5,7 +5,6 @@ import { useTranslations } from 'next-intl';
 import { notFound, useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { Button, Typography, Link, Box, styled } from '@mui/material';
-import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -13,6 +12,7 @@ import { enqueueSnackbar } from 'notistack';
 import { useSignInMutation } from 'store/auth';
 import { patterns } from 'constants/patterns';
 import { AppRoute } from 'enums';
+import { StyledTextField } from 'components/SignUpForm/SignUpForm';
 
 const StyledTitle = styled(Typography)`
   @media (max-width: 1023px) {
@@ -38,7 +38,7 @@ export default function LoginForm() {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<FormValues>({
-    mode: 'onBlur',
+    mode: 'onTouched',
     defaultValues: {
       email: '',
       password: '',
@@ -70,37 +70,39 @@ export default function LoginForm() {
         {t('LoginForm.title')}
       </StyledTitle>
 
-      <TextField
+      <StyledTextField
         {...register('email', {
-          required: t('LoginForm.requiredField'),
+          required: t('LoginForm.emailRequired'),
           pattern: {
             value: patterns.email,
-            message: t('LoginForm.invalidEmail'),
+            message: t('LoginForm.emailInvalid'),
           },
         })}
+        sx={{ height: '80px', mb: '0.9rem' }}
         variant="outlined"
         label={t('LoginForm.emailLabel')}
+        placeholder={t('LoginForm.emailInputPlaceholder')}
         type="email"
         fullWidth
-        sx={{ marginBottom: '0.9rem' }}
         error={Boolean(errors?.email)}
         helperText={errors?.email && <div>{errors.email.message}</div>}
         autoComplete="new-email"
       />
 
-      <TextField
+      <StyledTextField
         {...register('password', {
-          required: t('LoginForm.requiredField'),
+          required: t('LoginForm.passwordRequired'),
           minLength: {
             value: 8,
-            message: t('LoginForm.minPassword'),
+            message: t('LoginForm.minChar'),
           },
         })}
+        sx={{ height: '80px' }}
         variant="outlined"
+        placeholder={t('LoginForm.passwordInputPlaceholder')}
         label={t('LoginForm.passwordLabel')}
         type={showPassword ? 'text' : 'password'}
         fullWidth
-        sx={{ marginBottom: '0.9rem' }}
         error={Boolean(errors?.password)}
         helperText={errors?.password && <div>{errors.password.message}</div>}
         InputProps={{
@@ -120,7 +122,7 @@ export default function LoginForm() {
       </Typography>
 
       <Button
-        sx={{ marginBottom: '20px' }}
+        sx={{ mb: '20px', mt: '10px', padding: '14px' }}
         type="submit"
         variant="contained"
         color="primary"

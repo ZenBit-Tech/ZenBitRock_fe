@@ -1,7 +1,7 @@
 export const revertFormatRole = (stateRole: string): string => {
   switch (stateRole) {
     case 'individual_agent':
-      return 'Agent';
+      return 'Independent Agent';
 
     default:
       return stateRole ? stateRole[0].toUpperCase() + stateRole.slice(1).toLowerCase() : '';
@@ -10,7 +10,7 @@ export const revertFormatRole = (stateRole: string): string => {
 
 export const formatRole = (inputRole: string): string => {
   switch (inputRole) {
-    case 'Agent':
+    case 'independent Agent':
       return 'individual_agent';
 
     default:

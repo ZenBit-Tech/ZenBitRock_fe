@@ -12,6 +12,7 @@ import Backdrop from '@mui/material/Backdrop';
 import Typography from '@mui/material/Typography';
 import Stack, { StackProps } from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useSnackbar } from 'notistack';
 import FormProvider, {
   RHFUpload,
   RHFTextField,
@@ -26,7 +27,6 @@ import { selectCurrentUser } from 'store/auth/authReducer';
 import { VerificationData } from 'types/verification-data';
 import { useCreateAgentMutation, useCreateContactMutation } from 'store/api/qobrixApi';
 import { useGetUserByIdMutation, useUpdateUserMutation } from 'store/api/userApi';
-import { enqueueSnackbar } from 'components/snackbar';
 import { getRoles, getGenders, getIdentities, getStatuses, getCountries } from './drop-box-data';
 import { FormSchema } from './schema';
 
@@ -35,7 +35,7 @@ type IOptions = {
   label: string;
 };
 
-export const defaultValues = {
+const defaultValues = {
   firstName: '',
   lastName: '',
   rolesAutocomplete: null,
@@ -52,9 +52,9 @@ export const defaultValues = {
   phone: '',
   singleUpload: null,
   confirmationCheckbox: false,
-  confirmationFirstName: '',
-  confirmationLastName: '',
 };
+
+const FIVE_MEGABYTES: number = 5000000;
 
 function formatDate(inputDate: Date): string {
   const year = inputDate.getFullYear();
@@ -64,7 +64,7 @@ function formatDate(inputDate: Date): string {
   return `${year}-${month}-${day}`;
 }
 
-export default function Form(): JSX.Element {
+export default function VerificationForm(): JSX.Element {
   const t = useTranslations('VerificationPage');
 
   const [createVerification] = useCreateVerificationMutation();
@@ -77,6 +77,7 @@ export default function Form(): JSX.Element {
   const [activeRequestsCount, setActiveRequestsCount] = useState<number>(0);
 
   const { replace } = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
 
   const authState = useSelector(selectCurrentUser);
   const userId = authState.user ? authState.user.id : null;
@@ -84,7 +85,9 @@ export default function Form(): JSX.Element {
   const methods = useForm({
     resolver: yupResolver(FormSchema),
     defaultValues,
+    mode: 'onTouched',
   });
+
   const {
     watch,
     reset,
@@ -145,7 +148,6 @@ export default function Form(): JSX.Element {
     formData.append('phone', phone as VerificationData['phone']);
 
     try {
-      reset();
       await createVerification(formData).unwrap();
 
       const user = await getUserById({ id: userId }).unwrap();
@@ -196,6 +198,7 @@ export default function Form(): JSX.Element {
       };
 
       createAgent(agentData).unwrap();
+      reset();
       replace(AppRoute.VERIFICATION_DONE_PAGE);
 
       return undefined;
@@ -243,26 +246,37 @@ export default function Form(): JSX.Element {
           }}
         >
           <Stack spacing={7}>
-            <Typography align="center" variant="h2">
+            <Typography align="center" variant="h1" sx={{ mb: '15px' }}>
               {t('mainTitle')}
             </Typography>
 
-            <Typography align="center" variant="body1" mt={-3} fontSize={38}>
+            <Typography align="center" variant="h3" mt={-3}>
               {t('identitySectionTitle')}
             </Typography>
 
             <Block label={t('nameOfTheApplicant')}>
               <Stack spacing={2} direction={{ xs: 'column', sm: 'row' }}>
-                <RHFTextField name="firstName" label={t('namePlaceholder')} />
-                <RHFTextField name="lastName" label={t('surnamePlaceholder')} />
+                <RHFTextField
+                  name="firstName"
+                  label={t('nameLabel')}
+                  placeholder={t('namePlaceholder')}
+                  sx={{ height: '80px' }}
+                />
+
+                <RHFTextField
+                  name="lastName"
+                  label={t('surnameLabel')}
+                  placeholder={t('surnamePlaceholder')}
+                  sx={{ height: '80px' }}
+                />
               </Stack>
             </Block>
 
             <Block label={t('role')}>
               <RHFAutocomplete
-                style={{ width: '290px' }}
                 name="rolesAutocomplete"
-                label={t('rolePlaceholder')}
+                label={t('roleLabel')}
+                placeholder={t('rolePlaceholder')}
                 options={getRoles(t)}
                 getOptionLabel={(option: IOptions | string) => (option as IOptions).label}
                 isOptionEqualToValue={(option, value) => option.value === value.value}
@@ -271,6 +285,12 @@ export default function Form(): JSX.Element {
                     {option.label}
                   </li>
                 )}
+                sx={{
+                  '@media (min-width: 650px)': {
+                    width: '290px',
+                  },
+                  height: '70px',
+                }}
               />
             </Block>
 
@@ -294,8 +314,10 @@ export default function Form(): JSX.Element {
                           fullWidth: true,
                           error: !!error,
                           helperText: error?.message,
+                          onBlur: () => field.onBlur(),
                         },
                       }}
+                      sx={{ height: '70px' }}
                     />
                   )}
                 />
@@ -304,7 +326,8 @@ export default function Form(): JSX.Element {
               <Block label={t('nationality')}>
                 <RHFAutocomplete
                   name="nationalityAutocomplete"
-                  label={t('nationalityPlaceholder')}
+                  label={t('nationalityLabel')}
+                  placeholder={t('nationalityPlaceholder')}
                   options={getCountries()}
                   getOptionLabel={(option: IOptions | string) => (option as IOptions).label}
                   isOptionEqualToValue={(option, value) => option.value === value.value}
@@ -322,6 +345,7 @@ export default function Form(): JSX.Element {
                       {option.label}
                     </li>
                   )}
+                  sx={{ height: '70px' }}
                 />
               </Block>
             </Stack>
@@ -334,36 +358,53 @@ export default function Form(): JSX.Element {
               <RHFRadioGroup name="statusRadioGroup" options={getStatuses(t)} />
             </Block>
 
-            <Typography align="center" variant="body1" fontSize={38}>
+            <Typography align="center" variant="h3">
               {t('adressSectionTitle')}
             </Typography>
 
             <Block label={t('correspondenceAdress')}>
-              <RHFTextField name="street" label={t('street')} style={{ height: '80px' }} />
+              <RHFTextField
+                name="street"
+                label={t('streetLabel')}
+                placeholder={t('streetPlaceholder')}
+                sx={{ height: '90px' }}
+              />
 
               <Stack spacing={2} direction={{ xs: 'column', sm: 'row' }}>
                 <Block>
                   <RHFTextField
                     name="city"
-                    label={t('cityPlaceholder')}
-                    style={{ height: '80px' }}
+                    label={t('cityLabel')}
+                    placeholder={t('cityPlaceholder')}
+                    sx={{ height: '90px' }}
                   />
                 </Block>
 
                 <Block>
-                  <RHFTextField name="state" label={t('statePlaceholder')} />
+                  <RHFTextField
+                    name="state"
+                    label={t('stateLabel')}
+                    placeholder={t('statePlaceholder')}
+                    sx={{ height: '90px' }}
+                  />
                 </Block>
               </Stack>
 
               <Stack spacing={2} direction={{ xs: 'column', sm: 'row' }}>
                 <Block>
-                  <RHFTextField name="zip" label={t('zipPlaceholder')} />
+                  <RHFTextField
+                    name="zip"
+                    label={t('zipLabel')}
+                    placeholder={t('zipPlaceholder')}
+                    sx={{ height: '90px' }}
+                  />
                 </Block>
 
                 <Block>
                   <RHFAutocomplete
                     name="countryAutocomplete"
-                    label={t('countryPlaceholder')}
+                    label={t('countryLabel')}
+                    placeholder={t('countryPlaceholder')}
                     options={getCountries()}
                     getOptionLabel={(option: IOptions | string) => (option as IOptions).label}
                     isOptionEqualToValue={(option, value) => option.value === value.value}
@@ -381,6 +422,7 @@ export default function Form(): JSX.Element {
                         {option.label}
                       </li>
                     )}
+                    style={{ height: '70px' }}
                   />
                 </Block>
               </Stack>
@@ -388,49 +430,57 @@ export default function Form(): JSX.Element {
 
             <Block label={t('phoneNumber')}>
               <RHFTextField
-                style={{ width: '290px' }}
                 name="phone"
-                label="(000) 000-0000"
-                type="number"
+                label={t('phoneNumberLabel')}
+                placeholder={t('phoneNumberPlaceholder')}
+                type="tel"
                 inputProps={{
                   autoComplete: 'new-password', // disable autocomplete and autofill
+                }}
+                sx={{
+                  '@media (min-width: 650px)': {
+                    width: '290px',
+                  },
+                  height: '70px',
                 }}
               />
             </Block>
 
-            <Typography align="center" variant="body1" fontSize={38}>
+            <Typography align="center" variant="h3">
               {t('fileSectionTitle')}
             </Typography>
 
             <Block label={t('drag&DropTitle')}>
               <RHFUpload
                 name="singleUpload"
-                maxSize={5000000}
+                maxSize={FIVE_MEGABYTES}
                 onDrop={handleDropSingleFile}
                 onDelete={() => setValue('singleUpload', null, { shouldValidate: true })}
               />
             </Block>
 
-            <Typography align="center" variant="body1" fontSize={38}>
+            <Typography align="center" variant="h3">
               {t('declarationSectionTitle')}
             </Typography>
 
-            <RHFCheckbox
-              name="confirmationCheckbox"
-              checked={false}
-              label={t('declarationText')}
-              style={{
-                textAlign: 'justify',
-                display: 'flex',
-                alignItems: 'start',
+            <Block
+              sx={{
+                '@media (min-width: 500px)': {
+                  height: '130px',
+                },
+                height: '180px',
               }}
-            />
-            <Block label={t('signature')}>
-              <Stack spacing={2} direction={{ xs: 'column', sm: 'row' }}>
-                <RHFTextField name="confirmationFirstName" label={t('namePlaceholder')} />
-
-                <RHFTextField name="confirmationLastName" label={t('surnamePlaceholder')} />
-              </Stack>
+            >
+              <RHFCheckbox
+                name="confirmationCheckbox"
+                checked={false}
+                label={t('declarationText')}
+                sx={{
+                  textAlign: 'justify',
+                  display: 'flex',
+                  alignItems: 'start',
+                }}
+              />
             </Block>
 
             <LoadingButton
@@ -440,8 +490,8 @@ export default function Form(): JSX.Element {
               type="submit"
               variant="outlined"
               loading={isSubmitting}
-              style={{ marginBottom: '70px' }}
               disabled={!formFilled}
+              style={{ marginBottom: '70px' }}
             >
               {t('submitButton')}
             </LoadingButton>

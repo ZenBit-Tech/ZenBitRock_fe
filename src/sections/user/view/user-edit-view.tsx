@@ -13,7 +13,6 @@ import { AppRoute } from 'enums';
 import { RootState } from 'store';
 import { LoadingScreen } from 'components/loading-screen';
 import UserNewEditForm from '../user-new-edit-form';
-import ProfileSettings from '../user-edit-settings';
 
 export default function UserEditView(): JSX.Element {
   const t = useTranslations('editProfilePage');
@@ -27,7 +26,7 @@ export default function UserEditView(): JSX.Element {
   const { firstName, lastName } = authUser;
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'lg'} sx={{ paddingTop: '1rem' }}>
+    <Container maxWidth={settings.themeStretch ? false : 'lg'} sx={{ pt: '1rem', pb: 14 }}>
       <CustomBreadcrumbs
         heading={t('pageTitle')}
         links={[{ name: `${firstName} ${lastName}` }]}
@@ -46,9 +45,6 @@ export default function UserEditView(): JSX.Element {
           <UserNewEditForm user={authUser} />
         </ReduxProvider>
       </SnackbarProvider>
-      <ReduxProvider>
-        <ProfileSettings />
-      </ReduxProvider>
     </Container>
   );
 }

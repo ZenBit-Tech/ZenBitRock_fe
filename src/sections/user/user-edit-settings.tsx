@@ -36,12 +36,14 @@ const RenderSettings = ({ checked, handleChange, theme }: RenderProps): JSX.Elem
       <Stack spacing={2} sx={{ p: 3 }}>
         <Box sx={{ typography: 'subtitle2' }}>{t('settingsSubtitle1')}</Box>
 
-        <Stack direction="row" sx={{ typography: 'body2' }}>
+        <Stack direction="row" sx={{ typography: 'body2', alignItems: 'self-end' }}>
           <Iconify icon="fluent:lock-closed-key-24-filled" width={24} sx={{ mr: 2 }} />
-          <Link href={AppRoute.VERIFY_OLD_PASSWORD}>{t('changePass')}</Link>
+          <Link href={AppRoute.VERIFY_OLD_PASSWORD} sx={{ color: 'inherit' }}>
+            {t('changePass')}
+          </Link>
         </Stack>
 
-        <Stack direction="row">
+        <Stack direction="row" sx={{ alignItems: 'self-end' }}>
           <Iconify icon="fluent:person-delete-24-filled" width={24} sx={{ mr: 2 }} />
           <DeleteProfileDialog id={id} />
         </Stack>

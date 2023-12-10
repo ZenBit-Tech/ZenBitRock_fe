@@ -3,13 +3,14 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import LoadingButton from '@mui/lab/LoadingButton';
+import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import { useUpdateUserMutation, useSetAvatarMutation } from 'store/api/userApi';
+import ReduxProvider from 'store/ReduxProvider';
 import { useRouter } from 'routes/hooks';
 import { patterns } from 'constants/patterns';
 import { AppRoute } from 'enums';
@@ -26,13 +27,14 @@ import {
 } from 'sections/verification-view/drop-box-data';
 import { UserProfileResponse } from 'store/auth/lib/types';
 import { formatRole, revertFormatRole } from './service';
+import ProfileSettings from './user-edit-settings';
 
 type Props = {
   user: UserProfileResponse;
 };
 
 function getRoles(): string[] {
-  const roles = ['Agent', 'Agency', ''];
+  const roles = ['Independent Agent', 'Agency', ''];
 
   return roles;
 }
@@ -55,6 +57,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     city: stateCity,
     phone: statePhone,
     description: stateDescription,
+    avatarUrl: stateAvatar,
   } = user;
 
   const userId = user.id;
@@ -75,9 +78,9 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     country: Yup.string().required(t('countryMessageReq')),
     agency: Yup.string(),
     role: Yup.string().required(t('roleMessage')),
-    about: Yup.string().required(t('aboutMessage')),
+    about: Yup.string(),
     avatar: Yup.mixed().nullable(),
-    city: Yup.string().required(t('aboutMessage')),
+    city: Yup.string().required(t('cityMessage')),
   });
 
   const defaultValues = useMemo(
@@ -88,21 +91,31 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
       country: findCountryLabelByCode(stateCountry) || '',
       city: stateCity || '',
       agency: stateAgency || '',
-      avatar: null,
+      avatar: stateAvatar || null,
       about: stateDescription || '',
     }),
-    [statePhone, stateEmail, stateRole, stateCountry, stateCity, stateAgency, stateDescription]
+    [
+      statePhone,
+      stateEmail,
+      stateRole,
+      stateCountry,
+      stateCity,
+      stateAgency,
+      stateDescription,
+      stateAvatar,
+    ]
   );
 
   const methods = useForm({
     resolver: yupResolver(EditUserSchema),
+    mode: 'onTouched',
     defaultValues,
   });
 
   const {
     setValue,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isValid },
   } = methods;
 
   const onSubmit = handleSubmit(async (data): Promise<void> => {
@@ -122,11 +135,6 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
 
     const formData = new FormData();
 
-    if (avatar && avatar instanceof Blob) {
-      formData.append('file', avatar);
-      formData.append('userId', userId);
-    }
-
     try {
       const successMessage = t('updateText');
 
@@ -134,7 +142,11 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
 
       await updateUser(updatedUser).unwrap();
 
-      if (avatar) await setAvatar(formData).unwrap();
+      if (avatar && avatar instanceof Blob) {
+        formData.append('file', avatar);
+        formData.append('userId', userId);
+        await setAvatar(formData).unwrap();
+      }
 
       enqueueSnackbar(successMessage, { variant: 'success' });
     } catch (error) {
@@ -203,10 +215,15 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
               }}
             >
               <RHFTextField name="email" label={t('emailLabel')} disabled />
-              <RHFTextField name="phone" label={t('phoneNumLabel')} />
+              <RHFTextField
+                name="phone"
+                label={t('phoneNumLabel')}
+                placeholder={t('phonePlaceholder')}
+              />
               <RHFAutocomplete
                 name="role"
-                label={t('rolePlaceholder')}
+                label={t('roleLabel')}
+                placeholder={t('rolePlaceholder')}
                 options={getRoles()}
                 getOptionLabel={(option) => option}
                 isOptionEqualToValue={(option, value) =>
@@ -227,11 +244,18 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
                   );
                 }}
               />
-              {shouldRenderAgency && <RHFTextField name="agency" label={t('companyLabel')} />}
+              {shouldRenderAgency && (
+                <RHFTextField
+                  name="agency"
+                  label={t('companyLabel')}
+                  placeholder={t('agencyPlaceholder')}
+                />
+              )}
 
               <RHFAutocomplete
                 name="country"
                 label={t('countryPlaceholder')}
+                placeholder={t('rolePlaceholder')}
                 options={countries.map((country) => country.label)}
                 getOptionLabel={(option) => option}
                 isOptionEqualToValue={(option, value) => option === value}
@@ -257,23 +281,33 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
                   );
                 }}
               />
-              <RHFTextField name="city" label={t('city')} />
-              <RHFTextArea name="about" label={t('aboutLabel')} />
+              <RHFTextField name="city" label={t('city')} placeholder={t('cityPlaceholder')} />
+              <RHFTextArea
+                name="about"
+                label={t('aboutLabel')}
+                placeholder={t('aboutPlaceholder')}
+              />
             </Box>
-
-            <Stack sx={{ mt: 3, flexDirection: 'row', justifyContent: 'flex-end', gap: '1rem' }}>
-              <LoadingButton
-                type="reset"
-                variant="contained"
-                onClick={() => router.push(AppRoute.PROFILE_PAGE)}
-              >
-                {t('cancelBtnTxt')}
-              </LoadingButton>
-              <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {t('saveBtnTxt')}
-              </LoadingButton>
-            </Stack>
           </Card>
+        </Grid>
+        <Grid xs={12} md={12}>
+          <ReduxProvider>
+            <ProfileSettings />
+          </ReduxProvider>
+
+          <Stack sx={{ mt: 5, flexDirection: 'row', justifyContent: 'flex-end', gap: '1rem' }}>
+            <Button
+              type="reset"
+              variant="contained"
+              color="primary"
+              onClick={() => router.push(AppRoute.PROFILE_PAGE)}
+            >
+              {t('cancelBtnTxt')}
+            </Button>
+            <Button type="submit" variant="contained" color="primary" disabled={!isValid}>
+              {t('saveBtnTxt')}
+            </Button>
+          </Stack>
         </Grid>
       </Grid>
     </FormProvider>

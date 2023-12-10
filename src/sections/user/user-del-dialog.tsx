@@ -61,6 +61,7 @@ export default function DeleteProfileDialog({ id }: Props) {
         onClick={handleClickOpen}
         sx={{
           textDecoration: 'none',
+          cursor: 'pointer',
           '&:hover': { color: 'error.main', textDecoration: 'underline' },
         }}
       >
