@@ -19,10 +19,19 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
   const [toggleModal, setToggleModal] = useState<boolean>(false);
   const [src, setSrc] = useState<string>('');
   const [visibleArrows, setVisibleArrows] = useState<boolean>(false);
+  const [scale, setScale] = useState(1);
 
   const sliderRef = useRef<Slider>(null);
 
   useCloseModal(toggleModal, () => setToggleModal(false));
+
+  const handleZoomIn = () => {
+    setScale((prevScale) => Math.min(prevScale + 0.2, 3));
+  };
+
+  const handleZoomOut = () => {
+    setScale((prevScale) => Math.max(prevScale - 0.2, 1));
+  };
 
   const settings = {
     dots: true,
@@ -119,26 +128,71 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
             {toggleModal && (
               <Modal open={true}>
                 <Box
+                  className={'for-custom-scroll'}
                   sx={{
                     position: 'absolute',
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
                     border: 'none',
+                    overflow: 'auto',
                   }}
                 >
-                  <Image
-                    src={src}
-                    alt={`Slide original ${index + 1}`}
+                  <Box
                     sx={{
-                      width: '100vw',
-                      height: 'auto',
-                      objectFit: 'cover',
+                      transform: `scale(${scale})`,
+                      transition: 'transform 0.2s ease-out',
                       cursor: 'pointer',
-                      transition: 'easy-in 200 all',
                     }}
-                    onClick={(): void => setToggleModal(false)}
-                  />
+                  >
+                    <Image
+                      src={src}
+                      alt={`Slide original ${index + 1}`}
+                      sx={{
+                        width: '100vw',
+                        height: 'auto',
+                        objectFit: 'cover',
+                        cursor: 'pointer',
+                        transition: 'easy-in 200 all',
+                      }}
+                      onClick={(): void => {
+                        setToggleModal(false);
+                        setScale(1);
+                      }}
+                    />
+                  </Box>
+                  <Button
+                    onClick={handleZoomOut}
+                    sx={{
+                      position: 'absolute',
+                      top: '10px',
+                      left: '10px',
+                      opacity: scale === 1 ? 0.1 : 1,
+                    }}
+                  >
+                    <IconifyStyled
+                      icon={'pepicons-pencil:loop-minus-circle'}
+                      width={'3rem'}
+                      height={'3rem'}
+                      color="#00a76f"
+                    />
+                  </Button>
+                  <Button
+                    onClick={handleZoomIn}
+                    sx={{
+                      position: 'absolute',
+                      top: '10px',
+                      left: '80px',
+                      opacity: scale === 3 ? 0.1 : 1,
+                    }}
+                  >
+                    <IconifyStyled
+                      icon={'pepicons-pencil:loop-plus-circle'}
+                      width={'3rem'}
+                      height={'3rem'}
+                      color="#00a76f"
+                    />
+                  </Button>
                 </Box>
               </Modal>
             )}

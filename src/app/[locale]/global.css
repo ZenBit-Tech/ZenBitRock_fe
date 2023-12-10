@@ -27,10 +27,25 @@ a {
   display: block;
 }
 
+/* End Normalize */
+
 .slick-dots {
   top: 10rem;
   transform: scale(2);
   filter: invert(1);
   height: fit-content;
 }
-/* End Normalize */
+
+.for-custom-scroll {
+  &::-webkit-scrollbar {
+    background-color: transparent;
+    height: 10px;
+    width: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #007867;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-corner {
+  }
+}
