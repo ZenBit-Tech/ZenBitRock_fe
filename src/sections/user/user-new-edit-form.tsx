@@ -150,14 +150,6 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     updatedUser.agencyName = agency ?? stateAgency;
     updatedUser.description = about ? about : stateDescription;
 
-    const qobrixUser: IUserUpdateQobrix = {
-      city: updatedUser.city,
-      country: updatedUser.country,
-      description: updatedUser.description,
-      phone: updatedUser.phone,
-      role: updatedUser.role,
-    };
-
     const formData = new FormData();
 
     const qobrixUser: IUserUpdateQobrix = {
@@ -174,8 +166,6 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       await updateUser(updatedUser).unwrap();
-      await updateContact({ qobrixId, ...qobrixUser }).unwrap();
-
       await updateContact({ qobrixId, ...qobrixUser }).unwrap();
 
       if (avatar && avatar instanceof Blob) {
