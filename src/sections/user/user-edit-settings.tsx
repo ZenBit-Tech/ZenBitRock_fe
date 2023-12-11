@@ -28,7 +28,7 @@ const RenderSettings = ({ checked, handleChange, theme }: RenderProps): JSX.Elem
     return <LoadingScreen />;
   }
 
-  const { id } = authUser;
+  const { id, qobrixAgentId, qobrixContactId } = authUser;
 
   return (
     <Card>
@@ -45,7 +45,11 @@ const RenderSettings = ({ checked, handleChange, theme }: RenderProps): JSX.Elem
 
         <Stack direction="row" sx={{ alignItems: 'self-end' }}>
           <Iconify icon="fluent:person-delete-24-filled" width={24} sx={{ mr: 2 }} />
-          <DeleteProfileDialog id={id} />
+          <DeleteProfileDialog
+            id={id}
+            qobrixAgentId={qobrixAgentId}
+            qobrixContactId={qobrixContactId}
+          />
         </Stack>
 
         <Box sx={{ typography: 'subtitle2' }}>{t('settingsSubtitle2')}</Box>

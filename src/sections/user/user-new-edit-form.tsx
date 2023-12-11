@@ -10,11 +10,13 @@ import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import { useUpdateUserMutation, useSetAvatarMutation } from 'store/api/userApi';
+import { useUpdateContactMutation } from 'store/api/qobrixApi';
 import ReduxProvider from 'store/ReduxProvider';
+import { UserProfileResponse } from 'store/auth/lib/types';
 import { useRouter } from 'routes/hooks';
 import { patterns } from 'constants/patterns';
 import { AppRoute } from 'enums';
-import { IUserUpdateProfile } from 'types/user';
+import { IUserUpdateProfile, IUserUpdateQobrix } from 'types/user';
 import { fData } from 'utils/format-number';
 import { countries } from 'assets/data';
 import Iconify from 'components/iconify';
@@ -25,7 +27,6 @@ import {
   findCountryCodeByLabel,
   findCountryLabelByCode,
 } from 'sections/verification-view/drop-box-data';
-import { UserProfileResponse } from 'store/auth/lib/types';
 import { formatRole, revertFormatRole } from './service';
 import ProfileSettings from './user-edit-settings';
 
@@ -41,9 +42,13 @@ function getRoles(): string[] {
 
 export default function UserNewEditForm({ user }: Props): JSX.Element {
   const router = useRouter();
+
   const [updateUser] = useUpdateUserMutation();
+  const [updateContact] = useUpdateContactMutation();
   const [setAvatar] = useSetAvatarMutation();
+
   const { enqueueSnackbar } = useSnackbar();
+
   const t = useTranslations('editProfilePage');
 
   const [selectedValue, setSelectedValue] = useState<string>('');
@@ -61,6 +66,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
   } = user;
 
   const userId = user.id;
+  const qobrixId = user.qobrixContactId;
 
   useEffect(() => {
     if (stateRole) {
@@ -135,18 +141,28 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
 
     const formData = new FormData();
 
+    const qobrixUser: IUserUpdateQobrix = {
+      city: updatedUser.city,
+      country: updatedUser.country,
+      description: updatedUser.description,
+      phone: updatedUser.phone,
+      role: updatedUser.role,
+    };
+
     try {
       const successMessage = t('updateText');
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       await updateUser(updatedUser).unwrap();
+      await updateContact({ qobrixId, ...qobrixUser }).unwrap();
 
       if (avatar && avatar instanceof Blob) {
         formData.append('file', avatar);
         formData.append('userId', userId);
         await setAvatar(formData).unwrap();
       }
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       enqueueSnackbar(successMessage, { variant: 'success' });
     } catch (error) {

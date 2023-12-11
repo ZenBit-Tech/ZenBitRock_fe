@@ -7,6 +7,7 @@ import {
   QobrixContactResponse,
   QobrixPropertyType,
 } from 'types';
+import { IUserUpdateQobrix } from 'types/user';
 
 export const QobrixApi = createApi({
   reducerPath: 'QobrixApi',
@@ -43,8 +44,33 @@ export const QobrixApi = createApi({
         body,
       }),
     }),
+    updateContact: builder.mutation<QobrixContactResponse['data'], IUserUpdateQobrix>({
+      query: ({ qobrixId, ...body }) => ({
+        url: `${ApiRoute.QOBRIX_CREATE_CONTACT}/${qobrixId}`,
+        method: 'PATCH',
+        body,
+      }),
+    }),
+    deleteAgent: builder.mutation<QobrixAgentResponse['data'], { id: string }>({
+      query: ({ id }) => ({
+        url: `${ApiRoute.QOBRIX_CREATE_AGENT}/${id}`,
+        method: 'DELETE',
+      }),
+    }),
+    deleteContact: builder.mutation<QobrixContactResponse['data'], { id: string }>({
+      query: ({ id }) => ({
+        url: `${ApiRoute.QOBRIX_CREATE_CONTACT}/${id}`,
+        method: 'DELETE',
+      }),
+    }),
   }),
 });
 
-export const { useCreateContactMutation, useCreateAgentMutation, useGetPropertyTypesQuery } =
-  QobrixApi;
+export const {
+  useCreateContactMutation,
+  useCreateAgentMutation,
+  useGetPropertyTypesQuery,
+  useUpdateContactMutation,
+  useDeleteContactMutation,
+  useDeleteAgentMutation,
+} = QobrixApi;
