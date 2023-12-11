@@ -9,11 +9,11 @@ const ApiRoute = {
   VERIFY_OLD_PASSWORD: '/auth/verify-password',
   CHANGE_PASSWORD: '/auth/change-password',
   UPDATE_USER: '/user/id',
+  DELETE_USER: '/user',
 
   QOBRIX_CREATE_CONTACT: '/contacts',
   QOBRIX_CREATE_AGENT: '/agents',
   QOBRIX_PROPERY_TYPES: '/property-types',
-  DELETE_USER: '/user',
 } as const;
 
 export { ApiRoute };
