@@ -456,6 +456,8 @@ export default function VerificationForm(): JSX.Element {
                 maxSize={FIVE_MEGABYTES}
                 onDrop={handleDropSingleFile}
                 onDelete={() => setValue('singleUpload', null, { shouldValidate: true })}
+                helperText={t('fileHelperText')}
+                sx={{ height: '400px' }}
               />
             </Block>
 
