@@ -18,7 +18,7 @@ import ReduxProvider from 'store/ReduxProvider';
 import { useRouter } from 'routes/hooks';
 import { patterns } from 'constants/patterns';
 import { AppRoute } from 'enums';
-import { IUserUpdateProfile } from 'types/user';
+import { IUserUpdateProfile, IUserUpdateQobrix } from 'types/user';
 import { fData } from 'utils/format-number';
 import { countries } from 'assets/data';
 import Iconify from 'components/iconify';
@@ -30,6 +30,7 @@ import {
   findCountryLabelByCode,
 } from 'sections/verification-view/drop-box-data';
 import { UserProfileResponse } from 'store/auth/lib/types';
+import { useUpdateContactMutation } from 'store/api/qobrixApi';
 import { formatRole, revertFormatRole } from './service';
 import ProfileSettings from './user-edit-settings';
 
@@ -45,14 +46,18 @@ function getRoles(): string[] {
 
 export default function UserNewEditForm({ user }: Props): JSX.Element {
   const router = useRouter();
+
   const [updateUser] = useUpdateUserMutation();
+  const [updateContact] = useUpdateContactMutation();
   const [setAvatar] = useSetAvatarMutation();
   const [deleteAvatar] = useDeleteAvatarMutation();
+
   const { enqueueSnackbar } = useSnackbar();
   const t = useTranslations('editProfilePage');
 
   const [selectedValue, setSelectedValue] = useState<string>('');
   const [isAvatar, setIsAvatar] = useState<boolean>(false);
+
   const shouldRenderAgency = selectedValue === getRoles()[1];
 
   useEffect(() => {
@@ -71,6 +76,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
   } = user;
 
   const userId = user.id;
+  const qobrixId = user.qobrixContactId;
 
   useEffect(() => {
     if (stateRole) {
@@ -143,6 +149,14 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     updatedUser.agencyName = agency ?? stateAgency;
     updatedUser.description = about ? about : stateDescription;
 
+    const qobrixUser: IUserUpdateQobrix = {
+      city: updatedUser.city,
+      country: updatedUser.country,
+      description: updatedUser.description,
+      phone: updatedUser.phone,
+      role: updatedUser.role,
+    };
+
     const formData = new FormData();
 
     try {
@@ -151,6 +165,8 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       await updateUser(updatedUser).unwrap();
+
+      await updateContact({ qobrixId, ...qobrixUser }).unwrap();
 
       if (avatar && avatar instanceof Blob) {
         formData.append('file', avatar);
