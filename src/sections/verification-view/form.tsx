@@ -185,19 +185,21 @@ export default function VerificationForm(): JSX.Element {
       };
 
       const contact = await createContact(contactData).unwrap();
-
-      const { role: agentRole, legacy_id, id: contactId } = contact.data;
-      const contactIdData = { userId, qobrixContactId: contactId };
-
-      await updateUser(contactIdData).unwrap();
+      const { role: agentRole, legacy_id, id: qobrixContactId } = contact.data;
 
       const agentData = {
         agent_type: agentRole,
         legacy_id,
-        primary_contact: contactId,
+        primary_contact: qobrixContactId,
       };
 
-      createAgent(agentData).unwrap();
+      const agent = await createAgent(agentData).unwrap();
+      const { id: qobrixAgentId } = agent.data;
+
+      const newQobrixData = { userId, qobrixContactId, qobrixAgentId };
+
+      await updateUser(newQobrixData).unwrap();
+
       reset();
       replace(AppRoute.VERIFICATION_DONE_PAGE);
 
