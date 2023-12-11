@@ -9,7 +9,11 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
-import { useUpdateUserMutation, useSetAvatarMutation } from 'store/api/userApi';
+import {
+  useUpdateUserMutation,
+  useSetAvatarMutation,
+  useGetUserByIdMutation,
+} from 'store/api/userApi';
 import ReduxProvider from 'store/ReduxProvider';
 import { useRouter } from 'routes/hooks';
 import { patterns } from 'constants/patterns';
@@ -43,6 +47,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
   const router = useRouter();
   const [updateUser] = useUpdateUserMutation();
   const [setAvatar] = useSetAvatarMutation();
+  const [getUserById] = useGetUserByIdMutation();
   const { enqueueSnackbar } = useSnackbar();
   const t = useTranslations('editProfilePage');
 
@@ -143,8 +148,11 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
       await updateUser(updatedUser).unwrap();
 
       if (avatar && avatar instanceof Blob) {
+        const { avatarPublicId } = await getUserById({ id: userId }).unwrap();
+
         formData.append('file', avatar);
         formData.append('userId', userId);
+        if (avatarPublicId) formData.append('avatarPublicId', avatarPublicId);
         await setAvatar(formData).unwrap();
       }
 
