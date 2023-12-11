@@ -50,6 +50,15 @@ export type IUserUpdateProfile = {
   qobrixAgentId?: string | null;
 };
 
+export type IUserUpdateQobrix = {
+  city?: string | null;
+  country?: string | null;
+  description?: string | null;
+  phone?: string | null;
+  role?: string | null;
+  qobrixId?: string | null;
+};
+
 export type IUserProfileFollower = {
   id: string;
   name: string;
@@ -177,11 +186,3 @@ export type IUserAccountChangePassword = {
   confirmNewPassword: string;
 };
 
-export type IUserUpdateQobrix = {
-  city?: string | null;
-  country?: string | null;
-  description?: string | null;
-  phone?: string | null;
-  role?: string | null;
-  qobrixId?: string | null;
-};

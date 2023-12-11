@@ -9,7 +9,11 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
-import { useUpdateUserMutation, useSetAvatarMutation } from 'store/api/userApi';
+import {
+  useUpdateUserMutation,
+  useSetAvatarMutation,
+  useDeleteAvatarMutation,
+} from 'store/api/userApi';
 import { useUpdateContactMutation } from 'store/api/qobrixApi';
 import ReduxProvider from 'store/ReduxProvider';
 import { UserProfileResponse } from 'store/auth/lib/types';
@@ -46,13 +50,20 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
   const [updateUser] = useUpdateUserMutation();
   const [updateContact] = useUpdateContactMutation();
   const [setAvatar] = useSetAvatarMutation();
+  const [deleteAvatar] = useDeleteAvatarMutation();
 
   const { enqueueSnackbar } = useSnackbar();
 
   const t = useTranslations('editProfilePage');
 
   const [selectedValue, setSelectedValue] = useState<string>('');
+  const [isAvatar, setIsAvatar] = useState<boolean>(false);
+
   const shouldRenderAgency = selectedValue === getRoles()[1];
+
+  useEffect(() => {
+    if (user.avatarUrl) setIsAvatar(true);
+  }, [user]);
 
   const {
     agencyName: stateAgency,
@@ -139,6 +150,14 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     updatedUser.agencyName = agency ?? stateAgency;
     updatedUser.description = about ? about : stateDescription;
 
+    const qobrixUser: IUserUpdateQobrix = {
+      city: updatedUser.city,
+      country: updatedUser.country,
+      description: updatedUser.description,
+      phone: updatedUser.phone,
+      role: updatedUser.role,
+    };
+
     const formData = new FormData();
 
     const qobrixUser: IUserUpdateQobrix = {
@@ -157,10 +176,13 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
       await updateUser(updatedUser).unwrap();
       await updateContact({ qobrixId, ...qobrixUser }).unwrap();
 
+      await updateContact({ qobrixId, ...qobrixUser }).unwrap();
+
       if (avatar && avatar instanceof Blob) {
         formData.append('file', avatar);
         formData.append('userId', userId);
         await setAvatar(formData).unwrap();
+        setIsAvatar(true);
       }
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
@@ -182,17 +204,32 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
 
       if (file) {
         setValue('avatar', newFile, { shouldValidate: true });
+        setIsAvatar(true);
       }
     },
     [setValue]
   );
+
+  const handleClickDelete = async (): Promise<void> => {
+    try {
+      await deleteAvatar({ userId }).unwrap();
+      setValue('avatar', null);
+      setIsAvatar(false);
+
+      return undefined;
+    } catch (error) {
+      enqueueSnackbar(t('errorText'), { variant: 'error' });
+
+      return error;
+    }
+  };
 
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
       <Grid container spacing={3}>
         <Grid xs={12} md={4}>
           <Card sx={{ pt: 5, pb: 5, px: 3, height: '100%' }}>
-            <Box sx={{ mb: 5 }}>
+            <Box sx={{ mb: 5, minHeight: '260px' }}>
               <RHFUploadAvatar
                 name="avatar"
                 onDrop={handleDrop}
@@ -212,6 +249,17 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
                     <br />
                     {t('helperSubText')}
                     {fData(3145728)}
+                    <br />
+                    {isAvatar && (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleClickDelete}
+                        sx={{ mt: '10px', p: '10px' }}
+                      >
+                        {t('deleteAvatarBtnTxt')}
+                      </Button>
+                    )}
                   </Typography>
                 }
               />
