@@ -3,6 +3,7 @@ import { useFormContext, Controller } from 'react-hook-form';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import { Typography } from '@mui/material';
 import { colors } from 'constants/colors';
+import { values } from 'constants/textAreaValues';
 
 type Props = TextFieldProps & {
   name: string;
@@ -10,14 +11,12 @@ type Props = TextFieldProps & {
 
 export default function RHFTextArea({ name, helperText, type, ...other }: Props): JSX.Element {
   const { control } = useFormContext();
-  const MAX_CHARS = 300;
-  const CHAR_PART = 0.05;
 
-  const [charCount, setCharCount] = useState<number>(MAX_CHARS);
-  const color = charCount < CHAR_PART * MAX_CHARS ? colors.ERROR_COLOR : null;
+  const [charCount, setCharCount] = useState<number>(values.MAX_CHARS);
+  const color = charCount < values.CHAR_PART * values.MAX_CHARS ? colors.ERROR_COLOR : null;
 
   const updateCharCount = (value: string): void => {
-    const remainingChars = MAX_CHARS - value.length;
+    const remainingChars = values.MAX_CHARS - value.length;
     setCharCount(remainingChars);
   };
 
@@ -32,7 +31,7 @@ export default function RHFTextArea({ name, helperText, type, ...other }: Props)
             fullWidth
             multiline
             inputProps={{
-              maxLength: MAX_CHARS,
+              maxLength: values.MAX_CHARS,
             }}
             rows={4}
             sx={{
@@ -63,7 +62,7 @@ export default function RHFTextArea({ name, helperText, type, ...other }: Props)
               },
             }}
           >
-            {`${charCount} / ${MAX_CHARS}`}
+            {`${charCount} / ${values.MAX_CHARS}`}
           </Typography>
         </>
       )}
