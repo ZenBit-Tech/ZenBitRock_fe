@@ -1,4 +1,11 @@
 import { Box } from '@mui/material';
+import { fCurrency } from 'utils/format-number';
+import { useTranslations } from 'next-intl';
+import { IPropertyDetailed } from 'types/property';
+import { getCountries } from 'sections/verification-view/drop-box-data';
+import { colors } from 'constants/colors';
+import splitValue from '../helpers/splitValue';
+import firstUpperCase from '../helpers/firstUpperCase';
 import {
   BoxDescriptionItem,
   TextStyled,
@@ -6,12 +13,6 @@ import {
   TypographyDescriptionRight,
   TypographyInsert,
 } from '../styles';
-import { fCurrency } from 'utils/format-number';
-import { useTranslations } from 'next-intl';
-import { IPropertyDetailed } from 'types/property';
-import { getCountries } from 'sections/verification-view/drop-box-data';
-import splitValue from '../helpers/splitValue';
-import firstUpperCase from '../helpers/firstUpperCase';
 
 function InfoBlock({ property }: { property: IPropertyDetailed }): JSX.Element {
   const t = useTranslations('property');
@@ -62,9 +63,9 @@ function InfoBlock({ property }: { property: IPropertyDetailed }): JSX.Element {
       sx={{
         borderEndEndRadius: '8px',
         borderEndStartRadius: '8px',
-        borderLeft: '1px solid #00a76f',
-        borderRight: '1px solid #00a76f',
-        borderBottom: '1px solid #00a76f',
+        borderLeft: `1px solid ${colors.BUTTON_PRIMARY_COLOR}`,
+        borderRight: `1px solid ${colors.BUTTON_PRIMARY_COLOR}`,
+        borderBottom: `1px solid ${colors.BUTTON_PRIMARY_COLOR}`,
         p: '1.5rem',
       }}
     >

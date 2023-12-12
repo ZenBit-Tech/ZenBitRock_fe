@@ -2,6 +2,7 @@
 
 import { styled, Typography, Button, Box } from '@mui/material';
 import Iconify from 'components/iconify';
+import { colors } from 'constants/colors';
 
 export const Wrapper = styled(Box)`
   padding-bottom: 56px;
@@ -33,7 +34,12 @@ export const TextStyled = styled(Typography)`
       position: absolute;
       width: 100%;
       height: 1px;
-      background: linear-gradient(90deg, #ffffff 0%, #00a76f 50%, #ffffff 100%);
+      background: linear-gradient(
+        90deg,
+        ${colors.PRIMARY_LIGHT_COLOR} 0%,
+        ${colors.BUTTON_PRIMARY_COLOR} 50%,
+        ${colors.PRIMARY_LIGHT_COLOR} 100%
+      );
       left: 0;
       bottom: -0.5rem;
       z-index: 100;
@@ -89,7 +95,7 @@ export const IconifyStyled = styled(Iconify)`
   transition: 'easy in 200 all';
   &:hover {
     transition: 'easy in 200 all';
-    color: #007867;
+    color: ${colors.BUTTON_SECOND_COLOR};
   }
 `;
 

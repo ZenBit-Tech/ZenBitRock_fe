@@ -19,6 +19,7 @@ import { LoadingScreen } from 'components/loading-screen';
 import Iconify from 'components/iconify';
 import { QOBRIX_HOST } from 'config-global';
 import { fCurrency } from 'utils/format-number';
+import Image from 'components/image';
 import {
   TypographyStyled,
   LinkStyled,
@@ -29,7 +30,6 @@ import {
   CardMediaStyled,
 } from './styles';
 import useInfinityScroll from './hooks/useInfinityScroll';
-import Image from 'components/image';
 import useScrollToTop from './hooks/useScrollToTop';
 
 const INITIAL_PARAMS: IPropertyParamsList = {

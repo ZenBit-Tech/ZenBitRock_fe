@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { useTranslations } from 'next-intl';
+import { colors } from 'constants/colors';
 import { useCloseModal } from '../hooks/useCloseModal';
 import { IconifyStyled } from '../styles';
 
@@ -39,7 +40,7 @@ function ViewOnMap({ coordinates, closeModal, openModal }: ViewOnMapProps): JSX.
               icon={'mingcute:close-fill'}
               width={'3rem'}
               height={'3rem'}
-              color="#00a76f"
+              color={colors.BUTTON_PRIMARY_COLOR}
             />
           </Button>
           <iframe

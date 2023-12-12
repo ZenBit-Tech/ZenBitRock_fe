@@ -8,13 +8,13 @@ import { useTranslations } from 'next-intl';
 import { useGetProperty } from 'api/property';
 import { IPropertyDetailed } from 'types/property';
 import { useSnackbar } from 'components/snackbar';
+import Iconify from 'components/iconify';
+import Image from 'components/image/image';
 import SlickSlider from './components/SlickSlider';
 import getImages from './helpers/getImages';
 import ViewOnMap from './components/ViewOnMap';
-import Iconify from 'components/iconify';
 import InfoBlock from './components/InfoBlock';
 import { Title, TypographyStyled, ButtonStyled, Wrapper } from './styles';
-import Image from 'components/image/image';
 import useScrollToTop from '../propertiesList/hooks/useScrollToTop';
 
 const DEFAULT_IMAGE = '/assets/images/home/properties_blank.jpg';
@@ -23,7 +23,7 @@ export default function Property({ id }: { id: string }): JSX.Element {
   const { property, propertyError } = useGetProperty(id);
   const [propertyDetailed, setPropertyDetailed] = useState<IPropertyDetailed>();
   const [error, setError] = useState<AxiosError>();
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   const t = useTranslations('property');
   const router = useRouter();

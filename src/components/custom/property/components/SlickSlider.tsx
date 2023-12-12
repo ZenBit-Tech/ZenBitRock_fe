@@ -6,6 +6,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { Box, Button, Modal } from '@mui/material';
 import { QOBRIX_HOST } from 'config-global';
 import Image from 'components/image/image';
+import { colors } from 'constants/colors';
 import { IconifyStyled } from '../styles';
 import { useCloseModal } from '../hooks/useCloseModal';
 
@@ -82,7 +83,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
               icon={'iconamoon:arrow-left-2-bold'}
               width={'4rem'}
               height={'4rem'}
-              color="#00a76f"
+              color={colors.BUTTON_PRIMARY_COLOR}
             />
           </Button>
           <Button
@@ -104,7 +105,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
               icon={'iconamoon:arrow-right-2-bold'}
               width={'4rem'}
               height={'4rem'}
-              color="#00a76f"
+              color={colors.BUTTON_PRIMARY_COLOR}
             />
           </Button>
         </>
@@ -176,7 +177,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
                       icon={'pepicons-pencil:loop-minus-circle'}
                       width={'3rem'}
                       height={'3rem'}
-                      color="#00a76f"
+                      color={colors.BUTTON_PRIMARY_COLOR}
                     />
                   </Button>
                   <Button
@@ -192,7 +193,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
                       icon={'pepicons-pencil:loop-plus-circle'}
                       width={'3rem'}
                       height={'3rem'}
-                      color="#00a76f"
+                      color={colors.BUTTON_PRIMARY_COLOR}
                     />
                   </Button>
                 </Box>
