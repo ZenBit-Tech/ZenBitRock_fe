@@ -5,20 +5,10 @@ import { useRouter } from 'next/navigation';
 import { Box, Card } from '@mui/material';
 import { Fab } from '@mui/material';
 import { useTranslations } from 'next-intl';
-import { useGetProperties } from 'api/property';
+import { useGetLeads } from 'api/lead';
 import { AxiosError } from 'axios';
-import {
-  IPropertyList,
-  IPropertyPagination,
-  IPropertyParamsList,
-  IPropertyItem,
-} from 'types/property';
+import { ILeads, ILeadsPagination, ILeadsParamsList, ILead } from 'types/lead';
 import { useSnackbar } from 'components/snackbar';
-import { getCountries } from 'sections/verification-view/drop-box-data';
-import { LoadingScreen } from 'components/loading-screen';
-import Iconify from 'components/iconify';
-import { QOBRIX_HOST } from 'config-global';
-import { fCurrency } from 'utils/format-number';
 import {
   TypographyStyled,
   LinkStyled,
@@ -29,17 +19,12 @@ import {
   CardMediaStyled,
 } from './styles';
 import useInfinityScroll from './hooks/useInfinityScroll';
-import Image from 'components/image';
 import useScrollToTop from './hooks/useScrollToTop';
 
-const INITIAL_PARAMS: IPropertyParamsList = {
+const INITIAL_PARAMS: ILeadsParamsList = {
   page: 1,
   limit: 10,
-  fields: ['id', 'sale_rent', 'status', 'country', 'city', 'list_selling_price_amount'],
-  media: true,
 };
-
-const DEFAULT_IMAGE = '/assets/images/home/properties_blank.jpg';
 
 interface LeadsListProps {
   filter: string | undefined;
@@ -48,18 +33,15 @@ interface LeadsListProps {
 }
 
 function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
-  console.log(filter);
-  console.log(id);
-  console.log(name);
-  const [params, setParams] = useState<IPropertyParamsList>(INITIAL_PARAMS);
-  const { properties, propertiesError } = useGetProperties({ params: params });
+  const [params, setParams] = useState<ILeadsParamsList>(INITIAL_PARAMS);
+  const { leads, leadsError } = useGetLeads(id ? `/by-property/${id}` : '', { params: params });
 
-  const [propertiesList, setPropertiesList] = useState<IPropertyList>([]);
-  const [propertiesPagination, setPropertiesPagination] = useState<IPropertyPagination>();
+  const [leadsList, setLeadsList] = useState<ILeads>([]);
+  const [leadsPagination, setLeadsPagination] = useState<ILeadsPagination>();
   const [error, setError] = useState<AxiosError | null>(null);
-  const [isFetching, setIsFetching] = useState(true);
+  const [isFetching, setIsFetching] = useState<boolean>(true);
 
-  const t = useTranslations('properties');
+  const t = useTranslations('leads');
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -71,7 +53,7 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
 
   useInfinityScroll({
     callback: () => {
-      if (propertiesPagination && propertiesPagination.hasNextPage) {
+      if (leadsPagination && leadsPagination.hasNextPage) {
         setIsFetching(true);
       }
     },
@@ -80,19 +62,19 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
     isFetching &&
       (async (): Promise<void> => {
         try {
-          setError(propertiesError);
-          if (!propertiesError && properties.data) {
-            setPropertiesList((prev) => [...prev, ...properties.data]);
-            setPropertiesPagination((prev) => ({ ...prev, ...properties.pagination }));
-            properties.pagination?.hasNextPage &&
-              setParams((prev) => ({ ...prev, page: prev.page + 1 }));
+          setError(leadsError);
+          if (!leadsError && leads.data) {
+            setLeadsList((prev) => [...prev, ...leads.data]);
+            setLeadsPagination((prev) => ({ ...prev, ...leads.pagination }));
+            leads.pagination?.hasNextPage &&
+              setParams((prev) => ({ ...prev, page: prev.page + 1, filter: filter && filter }));
             setIsFetching(false);
           }
         } catch (err) {
           setError(err);
         }
       })();
-  }, [isFetching, properties, propertiesError, propertiesPagination]);
+  }, [isFetching, leads, leadsError, leadsPagination, filter]);
 
   return (
     <Box
@@ -104,68 +86,68 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
         transition: 'easy-in 200 all',
       }}
     >
+      {name && (
+        <Box
+          sx={{
+            width: '100%',
+            height: '50%',
+          }}
+        >
+          <TextStyled
+            sx={{
+              fontWeight: 'bold',
+            }}
+          >
+            {name}
+          </TextStyled>
+        </Box>
+      )}
+
       {error && enqueueSnackbar(t('error'), { variant: 'error' })}
-      {propertiesList.length !== 0 && (
+      {leadsList.length !== 0 && (
         <ListStyled
           sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: '5%',
             width: '90%',
             marginX: 'auto',
           }}
         >
-          {propertiesList.map((item: IPropertyItem, index: number) => {
-            const { id, saleRent, status, country, city, price, photo } = item;
+          {leadsList.map((item: ILead) => {
+            const { leadId, status, source, contactName, contactEmail, contactId, contactPhone } =
+              item;
             return (
               <Card
-                key={`${id}${index}`}
+                key={`${leadId}${contactId}`}
                 sx={{
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
                   flexDirection: 'column',
-                  width: '45%',
+                  width: '90%',
                   marginBottom: '2rem',
+                  cursor: 'pointer',
                 }}
+                onClick={() => router.push(`/leads/lead/${leadId}`)}
               >
                 <Box
                   sx={{
-                    position: 'relative',
                     width: '100%',
                     height: '50%',
                   }}
                 >
-                  <CardMediaStyled
-                    sx={{
-                      width: '100%',
-                      objectFit: 'cover',
-                      overflow: 'hidden',
-                    }}
-                  >
-                    <Image
-                      src={photo ? `${QOBRIX_HOST}${photo}` : DEFAULT_IMAGE}
-                      alt={t('alt')}
-                      sx={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                      }}
-                    />
-                  </CardMediaStyled>
                   <TextStyled
                     sx={{
-                      position: 'absolute',
-                      bottom: '1rem',
-                      right: '1rem',
                       fontWeight: 'bold',
-                      color: 'white',
-                      textShadow: '1px 1px 2px black',
                     }}
                   >
-                    {fCurrency(price)}
+                    {source}
+                  </TextStyled>
+
+                  <TextStyled
+                    sx={{
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    {t('status')}
                   </TextStyled>
                 </Box>
                 <Box
@@ -194,35 +176,23 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
                         fontWeight: 'bold',
                       }}
                     >
-                      {t(saleRent)}
+                      {contactName}
                     </TextStyled>
                     <TextStyled
                       sx={{
                         fontWeight: 'bold',
                       }}
                     >
-                      {t(status)}
+                      {contactEmail}
                     </TextStyled>
                   </BoxStyled>
-                  <TextMiddleStyled>
-                    {getCountries().find((object) => object.value === country)?.label}, {city}
-                  </TextMiddleStyled>
-                  <LinkStyled
-                    sx={{ padding: '14px' }}
-                    variant="contained"
-                    color="primary"
-                    onClick={() => router.push(`/property/${id}`)}
-                  >
-                    <TypographyStyled>{t('Description')}</TypographyStyled>
-                    <Iconify icon={'ri:arrow-right-s-line'} height={'auto'} />
-                  </LinkStyled>
+                  <TextMiddleStyled>{contactPhone}</TextMiddleStyled>
                 </Box>
               </Card>
             );
           })}
         </ListStyled>
       )}
-      {isFetching && !error && <LoadingScreen />}
       <Fab
         color="primary"
         aria-label="scroll to top"

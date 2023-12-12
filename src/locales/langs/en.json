@@ -432,5 +432,22 @@
     "petsAllowed": "Pets Allowed",
     "petsNotAllowed": "Pets Not Allowed",
     "alt": "Property photo"
+  },
+  "leads": {
+    "": "",
+    "direct": "Direct",
+    "agent": "Agent",
+    "qoetix": "Qoetix",
+    "null": "",
+    "new": "New",
+    "assigned": "Assigned",
+    "contact_made": "Contact Made",
+    "viewing": "Viewing",
+    "proposal": "Proposal",
+    "negotiation": "Negotiation",
+    "asleep": "Asleep",
+    "closed_won": "Closed Won",
+    "closed_lost": "Closed Lost",
+    "informative": "Informative"
   }
 }

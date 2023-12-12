@@ -3,7 +3,7 @@
 import { Box, Typography } from '@mui/material';
 import LeadsList from 'components/custom/leadsList';
 import { ProtectedRoute } from 'components/custom';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { ButtonAddNewLead, LeadsFilter } from '../..';
 
@@ -12,22 +12,18 @@ function Common(): JSX.Element {
   const [propertyId, setPropertyId] = useState<string | undefined>(undefined);
   const [filter, setFilter] = useState<string | undefined>(undefined);
 
-  const router = useRouter();
-
   const { id } = useParams();
 
   useEffect(() => {
     (() => {
       if (id) {
         const query = Array.isArray(id) ? id[0] : id;
-        console.log(query);
+
         setPropertyId(query.split('--')[0]);
         setName(query.split('--')[1].split('%20').join(' '));
-
-        router.replace(`/leads/${query.split('--')[0]}`);
       }
     })();
-  }, []);
+  }, [id]);
 
   return (
     <ProtectedRoute>

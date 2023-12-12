@@ -1,7 +1,14 @@
 'use client';
 
+import { ProtectedRoute } from 'components/custom';
 import { Common } from '../lib/components/common/common';
 
-export default function LeadPage(): JSX.Element {
-  return <Common />;
+function LeadPage(): JSX.Element {
+  return (
+    <ProtectedRoute>
+      <Common />
+    </ProtectedRoute>
+  );
 }
+
+export default LeadPage;

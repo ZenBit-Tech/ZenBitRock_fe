@@ -59,4 +59,7 @@ export const endpoints = {
   property: {
     list: '/properties',
   },
+  lead: {
+    list: '/opportunities',
+  },
 };
