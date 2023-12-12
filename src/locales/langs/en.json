@@ -118,6 +118,10 @@
       "emailInvalid": "Email format is incorrect. Please enter a valid email",
       "passwordRequired": "Password is required",
       "minChar": "Password needs to be at least 8 characters"
+    },
+    "Modal": {
+      "message": "Please Sign in using your mobile device!",
+      "btnTxt": "Close"
     }
   },
   "signUpPage": {
