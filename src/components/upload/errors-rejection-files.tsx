@@ -39,7 +39,7 @@ export default function RejectionFiles({ fileRejections }: Props) {
           if (error.code === ErrorCode.FileTooLarge) {
             return {
               ...error,
-              message: `File is larger than 5 Mb`,
+              message: `The file size exceeded`,
             };
           }
           return error;
