@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useFormContext, Controller } from 'react-hook-form';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import { Typography } from '@mui/material';
@@ -7,13 +7,23 @@ import { values } from 'constants/textAreaValues';
 
 type Props = TextFieldProps & {
   name: string;
+  stateValue: string;
 };
 
-export default function RHFTextArea({ name, helperText, type, ...other }: Props): JSX.Element {
+export default function RHFTextArea({
+  name,
+  helperText,
+  type,
+  stateValue,
+  ...other
+}: Props): JSX.Element {
   const { control } = useFormContext();
+  const [charCount, setCharCount] = useState<number>(() => values.MAX_CHARS - stateValue.length);
 
-  const [charCount, setCharCount] = useState<number>(values.MAX_CHARS);
-  const color = charCount < values.CHAR_PART * values.MAX_CHARS ? colors.ERROR_COLOR : null;
+  const color = useMemo(
+    () => (charCount < values.CHAR_PART * values.MAX_CHARS ? colors.ERROR_COLOR : null),
+    [charCount]
+  );
 
   const updateCharCount = (value: string): void => {
     const remainingChars = values.MAX_CHARS - value.length;
