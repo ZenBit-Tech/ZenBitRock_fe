@@ -1,13 +1,13 @@
 // @mui
-import Avatar from '@mui/material/Avatar';
-import Card from '@mui/material/Card';
-import IconButton from '@mui/material/IconButton';
-import MenuItem from '@mui/material/MenuItem';
 import { Theme, SxProps } from '@mui/material/styles';
+import Card from '@mui/material/Card';
+import Avatar from '@mui/material/Avatar';
+import MenuItem from '@mui/material/MenuItem';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 //
-import CustomPopover, { usePopover } from '../../custom-popover';
 import Iconify from '../../iconify';
+import CustomPopover, { usePopover } from '../../custom-popover';
 //
 import { ItemProps } from '../types';
 

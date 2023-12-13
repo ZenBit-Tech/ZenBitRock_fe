@@ -1,19 +1,18 @@
 'use client';
 
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { notFound, useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 import { Button, Typography, Link, Box, styled } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import { notFound, useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { enqueueSnackbar } from 'notistack';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-
-import { StyledTextField } from 'components/SignUpForm/SignUpForm';
+import { useSignInMutation } from 'store/auth';
 import { patterns } from 'constants/patterns';
 import { AppRoute } from 'enums';
-import { useSignInMutation } from 'store/auth';
+import { StyledTextField } from 'components/SignUpForm/SignUpForm';
 
 const StyledTitle = styled(Typography)`
   @media (max-width: 1023px) {

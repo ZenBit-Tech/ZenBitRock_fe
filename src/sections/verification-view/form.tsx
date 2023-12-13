@@ -1,22 +1,15 @@
-
+/* eslint-disable @typescript-eslint/no-shadow */
 import { useCallback, useEffect, useSelector, useState, useTranslations } from 'hooks';
 import { useForm, Controller } from 'react-hook-form';
-
 import { yupResolver } from '@hookform/resolvers/yup';
-import LoadingButton from '@mui/lab/LoadingButton';
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
-import Stack, { StackProps } from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import LoadingButton from '@mui/lab/LoadingButton';
+import Box from '@mui/material/Box';
+import Backdrop from '@mui/material/Backdrop';
+import Typography from '@mui/material/Typography';
+import Stack, { StackProps } from '@mui/material/Stack';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useSnackbar } from 'notistack';
-import { useCallback, useEffect, useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { useSelector } from 'react-redux';
-
 import FormProvider, {
   RHFUpload,
   RHFTextField,
@@ -24,19 +17,12 @@ import FormProvider, {
   RHFAutocomplete,
   RHFCheckbox,
 } from 'components/hook-form';
+import { useCreateVerificationMutation } from 'store/api/verificationApi';
 import { datesFormats } from 'constants/dates-formats';
-
-import { AppRoute } from 'enums';
-
 import { selectCurrentUser } from 'store/auth/authReducer';
 import { VerificationData } from 'types/verification-data';
-
 import { useCreateAgentMutation, useCreateContactMutation } from 'store/api/qobrixApi';
 import { useGetUserByIdMutation, useUpdateUserMutation } from 'store/api/userApi';
-import { useCreateVerificationMutation } from 'store/api/verificationApi';
-import { selectCurrentUser } from 'store/auth/authReducer';
-import { VerificationData } from 'types/verification-data';
-
 import { getRoles, getGenders, getIdentities, getStatuses, getCountries } from './drop-box-data';
 import { FormSchema } from './schema';
 

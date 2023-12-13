@@ -1,21 +1,19 @@
 'use client';
 
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useTranslations } from 'next-intl';
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
-import { useTranslations } from 'next-intl';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-
-import { _userAbout } from '_mock';
-import CustomBreadcrumbs from 'components/custom-breadcrumbs';
 import Iconify from 'components/iconify';
-import { LoadingScreen } from 'components/loading-screen';
+import CustomBreadcrumbs from 'components/custom-breadcrumbs';
 import { useSettingsContext } from 'components/settings';
+import { LoadingScreen } from 'components/loading-screen';
 import { RootState } from 'store';
-
-import ProfileCover from '../profile-cover';
+import { _userAbout } from '_mock';
 import ProfileHome from '../profile-home';
+import ProfileCover from '../profile-cover';
 
 const TABS = [
   {

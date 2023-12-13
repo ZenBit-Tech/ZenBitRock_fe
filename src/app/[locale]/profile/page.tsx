@@ -1,5 +1,4 @@
 import React from 'react';
-
 import UserProfileView from 'sections/user/view/user-profile-view';
 
 function Profile() {

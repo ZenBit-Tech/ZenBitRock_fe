@@ -1,11 +1,9 @@
 'use client';
 
-import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-
-import { useSettingsContext } from 'components/settings';
+import { useCallback } from 'react';
 import { localStorageGetItem } from 'utils/storage-available';
-
+import { useSettingsContext } from 'components/settings';
 import { allLangs, defaultLang } from './config-lang';
 
 export default function useLocales() {

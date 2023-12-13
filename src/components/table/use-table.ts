@@ -31,7 +31,6 @@ export default function useTable(props?: UseTableProps): ReturnType {
   const onSort = useCallback(
     (id: string) => {
       const isAsc = orderBy === id && order === 'asc';
-
       if (id !== '') {
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(id);
@@ -63,7 +62,6 @@ export default function useTable(props?: UseTableProps): ReturnType {
   const onSelectAllRows = useCallback((checked: boolean, inputValue: string[]) => {
     if (checked) {
       setSelected(inputValue);
-
       return;
     }
     setSelected([]);
@@ -110,7 +108,6 @@ export default function useTable(props?: UseTableProps): ReturnType {
           setPage(0);
         } else if (totalSelected > totalRowsInPage) {
           const newPage = Math.ceil((totalRows - totalSelected) / rowsPerPage) - 1;
-
           setPage(newPage);
         }
       }

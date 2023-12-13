@@ -1,7 +1,6 @@
 'use client';
 
 import { Box, styled } from '@mui/material';
-
 import { colors } from 'constants/colors';
 
 export const StyledBox = styled(Box)`
