@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
   Backdrop,
   Button,
@@ -14,16 +13,17 @@ import {
   Link,
 } from '@mui/material';
 import TextField from '@mui/material/TextField';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Stack from '@mui/system/Stack';
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { AppRoute } from 'enums';
+import { useSnackbar } from 'notistack';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
-import { useSnackbar } from 'notistack';
-import { AppDispatch } from 'store';
 import { patterns } from 'constants/patterns';
+import { AppRoute } from 'enums';
+import { AppDispatch } from 'store';
 import { useVerifyOldPasswordMutation } from 'store/api/resetPasswordApi';
 import { setPassword } from 'store/reducers/restorePasswordReducer';
 

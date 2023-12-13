@@ -58,5 +58,6 @@ export const endpoints = {
   },
   property: {
     list: '/properties',
+    details: '/property',
   },
 };

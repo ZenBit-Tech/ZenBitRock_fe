@@ -1,12 +1,13 @@
-import React, { ChangeEvent, useState } from 'react';
-import { useTranslations } from 'next-intl';
 import { Switch, Theme } from '@mui/material';
-import { alpha, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Grid from '@mui/material/Unstable_Grid2';
 import CardHeader from '@mui/material/CardHeader';
+import Stack from '@mui/material/Stack';
+import { alpha, useTheme } from '@mui/material/styles';
+import Grid from '@mui/material/Unstable_Grid2';
+import { useTranslations } from 'next-intl';
+import React, { ChangeEvent, useState } from 'react';
+
 import Iconify from 'components/iconify';
 
 interface RenderProps {

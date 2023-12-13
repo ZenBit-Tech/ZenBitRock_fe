@@ -1,19 +1,19 @@
 // utils
 import 'utils/highlight';
+import Link from '@mui/material/Link';
 import ReactMarkdown from 'react-markdown';
 // markdown plugins
+import rehypeHighlight from 'rehype-highlight';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
-import rehypeHighlight from 'rehype-highlight';
 // @mui
-import Link from '@mui/material/Link';
 // routes
 import { RouterLink } from 'routes/components';
 //
-import Image from '../image';
-//
 import StyledMarkdown from './styles';
 import { MarkdownProps } from './types';
+import Image from '../image';
+//
 
 // ----------------------------------------------------------------------
 

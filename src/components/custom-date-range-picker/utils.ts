@@ -23,8 +23,10 @@ export function shortDateLabel(startDate: Date | null, endDate: Date | null) {
       if (sameDay) {
         return fDate(endDate, 'dd MMM yy');
       }
+
       return `${fDate(startDate, 'dd')} - ${fDate(endDate, 'dd MMM yy')}`;
     }
+
     return `${fDate(startDate, 'dd MMM')} - ${fDate(endDate, 'dd MMM yy')}`;
   }
 

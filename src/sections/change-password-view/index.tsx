@@ -1,10 +1,11 @@
 'use client';
 
 import MaintenanceIllustration from 'assets/illustrations/maintenance-illustration';
-import ReduxProvider from 'store/ReduxProvider';
 import { SnackbarProvider } from 'components/snackbar';
-import { Wrapper, LeftSection, RightSection, FormWrapper } from './styles';
+import ReduxProvider from 'store/ReduxProvider';
+
 import Form from './form';
+import { Wrapper, LeftSection, RightSection, FormWrapper } from './styles';
 
 export default function ChangePasswordView(): JSX.Element {
   return (

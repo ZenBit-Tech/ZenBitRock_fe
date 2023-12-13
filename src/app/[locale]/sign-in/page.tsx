@@ -1,21 +1,23 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { notFound, useRouter } from 'next/navigation';
-import Link from '@mui/material/Link';
 import { Box } from '@mui/material';
-import { Locale } from 'locales/i18n.config';
-import { getDictionary } from 'lib/dictionary';
-import { AppRoute } from 'enums';
+import Link from '@mui/material/Link';
+import { notFound, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
 import SeoIllustration from 'assets/illustrations/seo-illustration';
 import { LoadingScreen } from 'components/loading-screen';
 import { PolicyComponent } from 'components/PolicyComponent/PolicyComponent';
 import { SnackbarProvider } from 'components/snackbar';
 import { dimensionValues } from 'constants/dimensionValues';
+import { AppRoute } from 'enums';
+import { getDictionary } from 'lib/dictionary';
+import { Locale } from 'locales/i18n.config';
 import { SignInPageType, SignUpPageType } from 'types/auth';
+
 import LoginForm from './components/form';
-import { Wrapper, LeftSection, LoginWrapper, RightSection, SignUpLink, Policy } from './styles';
 import DesktopDialog from './components/modal';
+import { Wrapper, LeftSection, LoginWrapper, RightSection, SignUpLink, Policy } from './styles';
 
 type Props = {
   params: { locale: Locale };
@@ -46,6 +48,7 @@ export default function SignInPage({ params: { locale } }: Props) {
   useEffect(() => {
     const handleResize = (): void => {
       const { innerWidth } = window;
+
       setOpen(innerWidth >= dimensionValues.DESKTOP_THRESHOLD_WIDTH);
     };
 

@@ -380,6 +380,7 @@
     "exchange": "Exchange",
     "sale_agreed": "Sale agreed",
     "sold_subject_to_contract": "Sold subject to contract",
-    "under_offer": "Under offer"
+    "under_offer": "Under offer",
+    "error": "Something went wrong!"
   }
 }
