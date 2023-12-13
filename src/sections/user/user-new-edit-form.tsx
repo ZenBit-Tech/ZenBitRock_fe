@@ -1,37 +1,39 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { useForm } from 'react-hook-form';
-import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Unstable_Grid2';
+import { useTranslations } from 'next-intl';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import * as Yup from 'yup';
+
+import { countries } from 'assets/data';
+import FormProvider, { RHFTextField, RHFUploadAvatar, RHFAutocomplete } from 'components/hook-form';
+import RHFTextArea from 'components/hook-form/rhf-text-area';
+import Iconify from 'components/iconify';
+import { useSnackbar } from 'components/snackbar';
+import { patterns } from 'constants/patterns';
+import { AppRoute } from 'enums';
+import { useRouter } from 'routes/hooks';
+import {
+  findCountryCodeByLabel,
+  findCountryLabelByCode,
+} from 'sections/verification-view/drop-box-data';
+import { useUpdateContactMutation } from 'store/api/qobrixApi';
 import {
   useUpdateUserMutation,
   useSetAvatarMutation,
   useGetUserByIdMutation,
   useDeleteAvatarMutation,
 } from 'store/api/userApi';
+import { UserProfileResponse } from 'store/auth/lib/types';
 import ReduxProvider from 'store/ReduxProvider';
-import { useRouter } from 'routes/hooks';
-import { patterns } from 'constants/patterns';
-import { AppRoute } from 'enums';
 import { IUserUpdateProfile, IUserUpdateQobrix } from 'types/user';
 import { fData } from 'utils/format-number';
-import { countries } from 'assets/data';
-import Iconify from 'components/iconify';
-import { useSnackbar } from 'components/snackbar';
-import FormProvider, { RHFTextField, RHFUploadAvatar, RHFAutocomplete } from 'components/hook-form';
-import RHFTextArea from 'components/hook-form/rhf-text-area';
-import {
-  findCountryCodeByLabel,
-  findCountryLabelByCode,
-} from 'sections/verification-view/drop-box-data';
-import { UserProfileResponse } from 'store/auth/lib/types';
-import { useUpdateContactMutation } from 'store/api/qobrixApi';
+
 import { formatRole, revertFormatRole } from './service';
 import ProfileSettings from './user-edit-settings';
 

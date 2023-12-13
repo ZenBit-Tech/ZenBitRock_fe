@@ -1,17 +1,20 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { notFound } from 'next/navigation';
 import { Link, Box, Typography } from '@mui/material';
-import { Locale } from 'locales/i18n.config';
-import { getDictionary } from 'lib/dictionary';
-import PagesContainer from 'components/PagesContainer/PagesContainer';
-import SignUpForm from 'components/SignUpForm/SignUpForm';
+import { notFound } from 'next/navigation';
+
+import { useEffect, useState } from 'react';
+
 import { LoadingScreen } from 'components/loading-screen';
-import { AppRoute } from 'enums';
+import PagesContainer from 'components/PagesContainer/PagesContainer';
 import { PolicyComponent } from 'components/PolicyComponent/PolicyComponent';
+import SignUpForm from 'components/SignUpForm/SignUpForm';
 import { SnackbarProvider } from 'components/snackbar';
+import { AppRoute } from 'enums';
+import { getDictionary } from 'lib/dictionary';
+import { Locale } from 'locales/i18n.config';
 import { SignUpPageType } from 'types/auth';
+
 import { SignInLink, Policy, StyledBox } from './styles';
 
 type Props = {

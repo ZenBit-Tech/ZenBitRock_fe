@@ -1,7 +1,7 @@
 // @mui
-import { styled } from '@mui/material/styles';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import { styled } from '@mui/material/styles';
 //
 import { NavItemProps, NavConfigProps } from '../types';
 

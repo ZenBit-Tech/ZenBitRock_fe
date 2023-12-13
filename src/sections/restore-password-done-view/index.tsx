@@ -1,14 +1,16 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import SeoIllustration from 'assets/illustrations/seo-illustration';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { Button } from '@mui/material';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+
+import SeoIllustration from 'assets/illustrations/seo-illustration';
 import { AppRoute } from 'enums';
+
 import { Wrapper, LeftSection, RightSection, FormWrapper } from './styles';
 
 export default function RestorePasswordDoneView(): JSX.Element {

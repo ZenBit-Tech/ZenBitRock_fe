@@ -1,7 +1,7 @@
+import GlobalStyles from '@mui/material/GlobalStyles';
+import { useTheme, styled } from '@mui/material/styles';
 import { Popup } from 'react-map-gl';
 // @mui
-import { useTheme, styled } from '@mui/material/styles';
-import GlobalStyles from '@mui/material/GlobalStyles';
 // theme
 import { bgBlur } from 'theme/css';
 

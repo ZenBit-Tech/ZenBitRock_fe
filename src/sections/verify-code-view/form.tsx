@@ -1,20 +1,29 @@
+'use client';
+
+import { yupResolver } from '@hookform/resolvers/yup';
+        
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import * as Yup from 'yup';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { Button, Typography, Box, CircularProgress, Link } from '@mui/material';
-import { useSnackbar } from 'notistack';
-import { yupResolver } from '@hookform/resolvers/yup';
 import Backdrop from '@mui/material/Backdrop';
 import Stack from '@mui/system/Stack';
+import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { useSnackbar } from 'notistack';
+import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from 'store';
+import * as Yup from 'yup';
+
 import FormProvider, { RHFCode } from 'components/hook-form';
+import { AppRoute } from 'enums';
+import { AppDispatch, RootState } from 'store';
 import { useSendCodeMutation, useVerifyCodeMutation } from 'store/api/restorePasswordApi';
 import { setCode } from 'store/reducers/restorePasswordReducer';
-import { AppRoute } from 'enums';
 
 const defaultValues = { code: '' };
 const CODE_LENGTH = 6;

@@ -1,19 +1,27 @@
+
+'use client';
+
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { TextField, Button, Typography, Box, CircularProgress } from '@mui/material';
-import { useSnackbar } from 'notistack';
 import Backdrop from '@mui/material/Backdrop';
 import Stack from '@mui/system/Stack';
+import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { useSnackbar } from 'notistack';
+import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from 'store';
-import { patterns } from 'constants/patterns';
+
 import FormProvider from 'components/hook-form';
+import { patterns } from 'constants/patterns';
+import { AppRoute } from 'enums';
+import { AppDispatch } from 'store';
 import { useSendCodeMutation } from 'store/api/restorePasswordApi';
 import { setEmail } from 'store/reducers/restorePasswordReducer';
-import { AppRoute } from 'enums';
 
 const defaultValues = { email: '' };
 

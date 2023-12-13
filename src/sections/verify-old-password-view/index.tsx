@@ -1,13 +1,15 @@
 'use client';
 
-import ReduxProvider from 'store/ReduxProvider';
-import { SnackbarProvider } from 'components/snackbar';
-import { useSettingsContext } from 'components/settings';
-import { useTranslations } from 'next-intl';
 import Container from '@mui/material/Container';
+import { useTranslations } from 'next-intl';
+
 import CustomBreadcrumbs from 'components/custom-breadcrumbs';
+import { useSettingsContext } from 'components/settings';
+import { SnackbarProvider } from 'components/snackbar';
 import { useMockedUser } from 'hooks/use-mocked-user';
 import { paths } from 'routes/paths';
+import ReduxProvider from 'store/ReduxProvider';
+
 import Form from './form';
 
 export default function VerifyOldPasswordView(): JSX.Element {

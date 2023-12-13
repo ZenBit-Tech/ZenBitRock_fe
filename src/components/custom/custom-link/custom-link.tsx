@@ -1,5 +1,5 @@
-import { ReactNode, FC } from 'react';
 import { Link } from '@mui/material';
+import { ReactNode, FC } from 'react';
 import { colors } from 'constants/colors';
 
 interface CustomLinkProps {
