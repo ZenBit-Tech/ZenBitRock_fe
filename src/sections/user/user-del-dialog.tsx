@@ -52,11 +52,11 @@ export default function DeleteProfileDialog({ id }: Props) {
       handleClose();
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
-        
+
       router.push(AppRoute.SIGN_UP_PAGE);
     } catch (error) {
       const errMessage = t('error');
-      
+
       enqueueSnackbar(errMessage, { variant: 'error' });
     }
   };

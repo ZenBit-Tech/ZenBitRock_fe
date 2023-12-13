@@ -86,6 +86,7 @@ export function getPosition(arrow: string) {
         transformOrigin: { vertical: 'bottom', horizontal: 'right' },
       };
       break;
+    
     // top-right
     default:
       props = {

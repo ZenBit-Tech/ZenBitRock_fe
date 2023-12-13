@@ -10,7 +10,6 @@ import { localStorageGetItem } from 'utils/storage-available';
 import { SettingsValueProps } from '../types';
 import { SettingsContext } from './settings-context';
 
-
 // ----------------------------------------------------------------------
 
 const STORAGE_KEY = 'settings';
