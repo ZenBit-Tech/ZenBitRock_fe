@@ -1,13 +1,13 @@
 // @mui
-import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
+import { useTheme } from '@mui/material/styles';
 // routes
 import { RouterLink } from 'routes/components';
 //
+import Carousel, { CarouselDots, CarouselArrows, useCarousel } from '../../carousel';
 import Image from '../../image';
 import TextMaxLine from '../../text-max-line';
-import Carousel, { CarouselDots, CarouselArrows, useCarousel } from '../../carousel';
 //
 import { MenuCarouselProps } from '../types';
 

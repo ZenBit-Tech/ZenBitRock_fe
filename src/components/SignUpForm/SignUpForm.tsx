@@ -1,19 +1,17 @@
 'use client';
 
-import React from 'react';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { notFound, useRouter } from 'next/navigation';
-import { Button } from '@mui/material';
-import { Box, IconButton, styled } from '@mui/material';
-import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { Button, Box, IconButton, styled } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import { notFound, useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { colors } from 'constants/colors';
+import { AppRoute } from 'enums';
 import { useSignUpMutation } from 'store/auth';
 import { SignUpPageType } from 'types/auth';
-import { AppRoute } from 'enums';
-import { colors } from 'constants/colors';
 
 export const StyledTextField = styled(TextField)`
   & .MuiOutlinedInput-input {
@@ -58,8 +56,10 @@ function SignUpForm({ signUpPage }: SignUpProps) {
 
   const onSubmit = async (data: FormValues) => {
     const { email, password } = data;
+
     try {
       const res = await signUp({ email, password });
+
       if ('data' in res) {
         enqueueSnackbar('User added successfully!', { variant: 'success' });
         router.push(AppRoute.VERIFY_PAGE);

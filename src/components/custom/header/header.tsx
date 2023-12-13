@@ -1,14 +1,14 @@
 'use client';
 
-import Box from '@mui/material/Box';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Container from '@mui/material/Container';
-import { grey } from '@mui/material/colors';
-import { useTheme } from '@mui/material/styles';
 import { Link, Typography } from '@mui/material';
-import { useTranslations } from 'hooks';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import { grey } from '@mui/material/colors';
+import Container from '@mui/material/Container';
+import { useTheme } from '@mui/material/styles';
+import Toolbar from '@mui/material/Toolbar';
 import { AppRoute } from 'enums';
+import { useTranslations } from 'hooks';
 import { UserProfileResponse } from 'store/auth/lib/types';
 import { HEADER, HeaderAvatar } from './lib';
 import { Logo } from './styles';
@@ -41,9 +41,7 @@ const Header = ({ user }: Props): JSX.Element => {
             <Box sx={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
               <Typography sx={{ textAlign: 'right', color: theme.palette.primary.main }}>{`${t(
                 'Header.greeting'
-              )}, ${
-                user.firstName ? `${user.firstName} ${user.lastName}` : t('Header.displayName')
-              }!`}</Typography>
+              )}, ${user.firstName ? `${user.firstName}` : t('Header.displayName')}!`}</Typography>
               <Link href={AppRoute.PROFILE_PAGE}>
                 <HeaderAvatar avatar={avatar} />
               </Link>

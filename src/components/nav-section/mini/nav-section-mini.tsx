@@ -1,9 +1,9 @@
-import { memo } from 'react';
 import Stack from '@mui/material/Stack';
+import { memo } from 'react';
 //
-import { NavSectionProps, NavListProps, NavConfigProps } from '../types';
-import { navMiniConfig } from '../config';
 import NavList from './nav-list';
+import { navMiniConfig } from '../config';
+import { NavSectionProps, NavListProps, NavConfigProps } from '../types';
 
 // ----------------------------------------------------------------------
 

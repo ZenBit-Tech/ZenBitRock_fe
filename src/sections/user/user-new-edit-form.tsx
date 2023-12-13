@@ -7,11 +7,12 @@ import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Unstable_Grid2';
 import {
   useUpdateUserMutation,
   useSetAvatarMutation,
+  useGetUserByIdMutation,
   useDeleteAvatarMutation,
 } from 'store/api/userApi';
 import { useUpdateContactMutation } from 'store/api/qobrixApi';
@@ -23,10 +24,10 @@ import { AppRoute } from 'enums';
 import { IUserUpdateProfile, IUserUpdateQobrix } from 'types/user';
 import { fData } from 'utils/format-number';
 import { countries } from 'assets/data';
-import Iconify from 'components/iconify';
-import { useSnackbar } from 'components/snackbar';
 import FormProvider, { RHFTextField, RHFUploadAvatar, RHFAutocomplete } from 'components/hook-form';
 import RHFTextArea from 'components/hook-form/rhf-text-area';
+import Iconify from 'components/iconify';
+import { useSnackbar } from 'components/snackbar';
 import {
   findCountryCodeByLabel,
   findCountryLabelByCode,
@@ -50,6 +51,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
   const [updateUser] = useUpdateUserMutation();
   const [updateContact] = useUpdateContactMutation();
   const [setAvatar] = useSetAvatarMutation();
+  const [getUserById] = useGetUserByIdMutation();
   const [deleteAvatar] = useDeleteAvatarMutation();
 
   const { enqueueSnackbar } = useSnackbar();
@@ -93,11 +95,17 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
   const EditUserSchema = Yup.object().shape({
     phone: Yup.string().required(t('phoneMessageReq')).matches(patterns.phone, t('phoneMessage')),
     country: Yup.string().required(t('countryMessageReq')),
-    agency: Yup.string(),
+    agency: Yup.string()
+      .nullable()
+      .transform((curr, orig) => (orig === '' ? null : curr))
+      .matches(patterns.agency, t('agencyMatchText')),
     role: Yup.string().required(t('roleMessage')),
-    about: Yup.string(),
+    about: Yup.string()
+      .nullable()
+      .transform((curr, orig) => (orig === '' ? null : curr))
+      .matches(patterns.about, t('aboutMatchText')),
     avatar: Yup.mixed().nullable(),
-    city: Yup.string().required(t('cityMessage')),
+    city: Yup.string().required(t('cityMessage')).matches(patterns.city, t('cityMatchText')),
   });
 
   const defaultValues = useMemo(
@@ -169,14 +177,21 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
       await updateContact({ qobrixId, ...qobrixUser }).unwrap();
 
       if (avatar && avatar instanceof Blob) {
+        const { avatarPublicId } = await getUserById({ id: userId }).unwrap();
+
         formData.append('file', avatar);
         formData.append('userId', userId);
+        if (avatarPublicId) formData.append('avatarPublicId', avatarPublicId);
         await setAvatar(formData).unwrap();
         setIsAvatar(true);
       }
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       enqueueSnackbar(successMessage, { variant: 'success' });
+
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      router.push(AppRoute.PROFILE_PAGE);
     } catch (error) {
       const errorMessage = t('errorText');
 
@@ -257,10 +272,10 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
           </Card>
         </Grid>
 
-        <Grid xs={12} md={8}>
+        <Grid xs={12} md={12}>
           <Card sx={{ p: 3 }}>
             <Box
-              rowGap={3}
+              rowGap={1}
               columnGap={2}
               display="grid"
               gridTemplateColumns={{
@@ -268,16 +283,18 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
                 sm: 'repeat(2, 1fr)',
               }}
             >
-              <RHFTextField name="email" label={t('emailLabel')} disabled />
+              <RHFTextField name="email" label={t('emailLabel')} disabled sx={{ height: '90px' }} />
               <RHFTextField
                 name="phone"
                 label={t('phoneNumLabel')}
                 placeholder={t('phonePlaceholder')}
+                sx={{ height: '90px' }}
               />
               <RHFAutocomplete
                 name="role"
                 label={t('roleLabel')}
                 placeholder={t('rolePlaceholder')}
+                sx={{ height: '90px' }}
                 options={getRoles()}
                 getOptionLabel={(option) => option}
                 isOptionEqualToValue={(option, value) =>
@@ -303,6 +320,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
                   name="agency"
                   label={t('companyLabel')}
                   placeholder={t('agencyPlaceholder')}
+                  sx={{ height: '90px' }}
                 />
               )}
 
@@ -310,6 +328,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
                 name="country"
                 label={t('countryPlaceholder')}
                 placeholder={t('rolePlaceholder')}
+                sx={{ height: '90px' }}
                 options={countries.map((country) => country.label)}
                 getOptionLabel={(option) => option}
                 isOptionEqualToValue={(option, value) => option === value}
@@ -335,11 +354,18 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
                   );
                 }}
               />
-              <RHFTextField name="city" label={t('city')} placeholder={t('cityPlaceholder')} />
+              <RHFTextField
+                name="city"
+                label={t('city')}
+                placeholder={t('cityPlaceholder')}
+                sx={{ height: '90px' }}
+              />
               <RHFTextArea
                 name="about"
                 label={t('aboutLabel')}
                 placeholder={t('aboutPlaceholder')}
+                stateValue={stateDescription || ""}
+                sx={{ gridColumn: { xs: 'span 1', sm: 'span 2' }, height: '140px' }}
               />
             </Box>
           </Card>

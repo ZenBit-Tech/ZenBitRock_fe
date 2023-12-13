@@ -1,7 +1,7 @@
-import { memo } from 'react';
-import dynamic from 'next/dynamic';
-// @mui
 import { alpha, styled } from '@mui/material/styles';
+import dynamic from 'next/dynamic';
+import { memo } from 'react';
+// @mui
 // theme
 import { bgBlur } from 'theme/css';
 

@@ -1,15 +1,16 @@
-import * as React from 'react';
-import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
 import { DialogContentText, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useDeleteUserMutation } from 'store/api/userApi';
+import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { enqueueSnackbar } from 'notistack';
+import * as React from 'react';
+
 import { AppRoute, StorageKey } from 'enums';
+import { useDeleteUserMutation } from 'store/api/userApi';
 
 type Props = {
   id: string;
@@ -52,7 +53,7 @@ export default function DeleteProfileDialog({ id }: Props) {
       handleClose();
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
-
+        
       router.push(AppRoute.SIGN_UP_PAGE);
     } catch (error) {
       const errMessage = t('error');
@@ -99,13 +100,16 @@ export default function DeleteProfileDialog({ id }: Props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} variant="contained" color="primary">
             {t('cancelBtnTxt')}
           </Button>
           <Button
             onClick={() => handleDeleteUser(id)}
             color="primary"
-            sx={{ '&:hover': { color: 'error.main' } }}
+            variant="contained"
+            sx={{
+              '&:hover': { color: 'error.main' },
+            }}
           >
             {t('confirmDelBtnTxt')}
           </Button>

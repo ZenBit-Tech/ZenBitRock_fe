@@ -1,6 +1,8 @@
 import { Box, IconButton, InputAdornment, TextField } from '@mui/material';
-import Iconify from 'components/iconify';
+
 import CustomPopover, { usePopover } from 'components/custom-popover';
+import Iconify from 'components/iconify';
+
 import { FilterList } from '../filter-list/filter-list';
 
 const PropertyFilter = () => {
