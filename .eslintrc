@@ -41,36 +41,6 @@
     "react/require-default-props": 0,
     "react/jsx-props-no-spreading": 0,
     "import/prefer-default-export": "off",
-    "import/order": [
-      "error",
-      {
-        "groups": ["external", "builtin", "internal", "sibling", "parent", "index"],
-        "pathGroups": [
-          {
-            "pattern": "components",
-            "group": "internal"
-          },
-          {
-            "pattern": "common",
-            "group": "internal"
-          },
-          {
-            "pattern": "routes/ **",
-            "group": "internal"
-          },
-          {
-            "pattern": "assets/**",
-            "group": "internal",
-            "position": "after"
-          }
-        ],
-        "pathGroupsExcludedImportTypes": ["internal"],
-        "alphabetize": {
-          "order": "asc",
-          "caseInsensitive": true
-        }
-      }
-    ],
     "react/function-component-definition": 0,
     "@typescript-eslint/explicit-function-return-type": 0,
     "@typescript-eslint/naming-convention": 0,

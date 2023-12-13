@@ -5,15 +5,11 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { TextField, Button, Typography, Box, CircularProgress } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
 import Stack from '@mui/system/Stack';
-import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
 import { useSnackbar } from 'notistack';
-import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
 import FormProvider from 'components/hook-form';
