@@ -1,20 +1,19 @@
 'use client';
 
-import { Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
 import Link from '@mui/material/Link';
+import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
-import { useTranslations } from 'next-intl';
-import { useSelector } from 'react-redux';
-
+import { Typography } from '@mui/material';
+import CardHeader from '@mui/material/CardHeader';
 import { _socials, _userAbout } from '_mock';
 import Iconify from 'components/iconify';
-import { LoadingScreen } from 'components/loading-screen';
 import { findCountryLabelByCode } from 'sections/verification-view/drop-box-data';
 import { RootState } from 'store';
+import { LoadingScreen } from 'components/loading-screen';
 
 const LINKS = {
   FACEBOOK: 'facebook',

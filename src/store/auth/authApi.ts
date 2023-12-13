@@ -1,9 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { enqueueSnackbar } from 'notistack';
-
-import { errMessages } from 'constants/errMessages';
 import { StorageKey } from 'enums';
-
+import { errMessages } from 'constants/errMessages';
 import { SendVerificationCodeResponse, UserAuthResponse, UserProfileResponse } from './lib/types';
 
 export interface IUserData {

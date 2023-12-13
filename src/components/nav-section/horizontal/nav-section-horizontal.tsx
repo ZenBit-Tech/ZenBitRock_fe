@@ -1,9 +1,9 @@
-import Stack from '@mui/material/Stack';
 import { memo } from 'react';
+import Stack from '@mui/material/Stack';
 import { hideScroll } from 'theme/css';
-import NavList from './nav-list';
-import { navHorizontalConfig } from '../config';
 import { NavSectionProps, NavListProps, NavConfigProps } from '../types';
+import { navHorizontalConfig } from '../config';
+import NavList from './nav-list';
 
 function NavSectionHorizontal({ data, config, sx, ...other }: NavSectionProps) {
   return (

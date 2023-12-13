@@ -1,12 +1,12 @@
 'use client';
 
-import { useTheme } from '@emotion/react';
 import AppBar from '@mui/material/AppBar';
-import { grey } from '@mui/material/colors';
 import Toolbar from '@mui/material/Toolbar';
+import { grey } from '@mui/material/colors';
 import { NavSectionHorizontal } from 'components/nav-section';
 import { UserProfileResponse } from 'store/auth/lib/types';
 import { NAV_ITEMS, defaultConfig } from './lib';
+import { useTheme } from '@emotion/react';
 
 type Props = {
   user: UserProfileResponse | null;
@@ -14,7 +14,6 @@ type Props = {
 
 const Navbar = ({ user }: Props): JSX.Element => {
   const theme = useTheme();
-
   return (
     <>
       {user && (
@@ -26,7 +25,6 @@ const Navbar = ({ user }: Props): JSX.Element => {
             borderTop: `1px solid ${grey[900]} `,
             top: 'auto',
             bottom: 0,
-            zIndex: '1',
             backgroundColor: (theme) => theme.palette.primary.contrastText,
           }}
         >

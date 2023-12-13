@@ -1,15 +1,14 @@
 'use client';
 
-import { Box, Button, Stack, Typography } from '@mui/material';
-import Container from '@mui/material/Container';
-import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-
-import CustomBreadcrumbs from 'components/custom-breadcrumbs';
-import { useSettingsContext } from 'components/settings';
-import { AppRoute } from 'enums';
+import Container from '@mui/material/Container';
 import { useMockedUser } from 'hooks/use-mocked-user';
 import { paths } from 'routes/paths';
+import { useSettingsContext } from 'components/settings';
+import CustomBreadcrumbs from 'components/custom-breadcrumbs';
+import { Box, Button, Stack, Typography } from '@mui/material';
+import { useRouter } from 'next/navigation';
+import { AppRoute } from 'enums';
 
 export default function ResetPasswordView(): JSX.Element {
   const t = useTranslations('ResetPasswordPage');

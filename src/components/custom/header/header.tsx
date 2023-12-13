@@ -1,14 +1,14 @@
 'use client';
 
-import { Link, Typography } from '@mui/material';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import { grey } from '@mui/material/colors';
-import Container from '@mui/material/Container';
-import { useTheme } from '@mui/material/styles';
+import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import { AppRoute } from 'enums';
+import Container from '@mui/material/Container';
+import { grey } from '@mui/material/colors';
+import { useTheme } from '@mui/material/styles';
+import { Link, Typography } from '@mui/material';
 import { useTranslations } from 'hooks';
+import { AppRoute } from 'enums';
 import { UserProfileResponse } from 'store/auth/lib/types';
 import { HEADER, HeaderAvatar } from './lib';
 import { Logo } from './styles';

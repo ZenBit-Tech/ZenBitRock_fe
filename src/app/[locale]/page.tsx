@@ -1,14 +1,13 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { useTranslations } from 'next-intl';
-
-import { CustomLink, PublicRoute } from 'components/custom';
-import { RightSection, StyledBtnWrapper } from 'components/WelcomePageContainer/styles';
-import WelcomePageContainer from 'components/WelcomePageContainer/WelcomePageContainer';
 import { AppRoute } from 'enums';
 import { typography } from 'theme/typography';
+import WelcomePageContainer from 'components/WelcomePageContainer/WelcomePageContainer';
+import { RightSection, StyledBtnWrapper } from 'components/WelcomePageContainer/styles';
+import { CustomLink, PublicRoute } from 'components/custom';
 
 export default function HomePage() {
   const t = useTranslations('Home');

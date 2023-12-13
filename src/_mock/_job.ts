@@ -1,6 +1,5 @@
 // assets
 import { countries } from 'assets/data';
-
 //
 import { _mock } from './_mock';
 
