@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import { useCallback, useEffect, useSelector, useState, useTranslations } from 'hooks';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -22,7 +19,6 @@ import FormProvider, {
 } from 'components/hook-form';
 import { useCreateVerificationMutation } from 'store/api/verificationApi';
 import { datesFormats } from 'constants/dates-formats';
-import { AppRoute } from 'enums';
 import { selectCurrentUser } from 'store/auth/authReducer';
 import { VerificationData } from 'types/verification-data';
 import { useCreateAgentMutation, useCreateContactMutation } from 'store/api/qobrixApi';
@@ -64,7 +60,11 @@ function formatDate(inputDate: Date): string {
   return `${year}-${month}-${day}`;
 }
 
-export default function VerificationForm(): JSX.Element {
+type Props = {
+  handleVerification: () => void;
+};
+
+export default function VerificationForm({ handleVerification }: Props): JSX.Element {
   const t = useTranslations('VerificationPage');
 
   const [createVerification] = useCreateVerificationMutation();
@@ -76,7 +76,6 @@ export default function VerificationForm(): JSX.Element {
   const [formFilled, setFormFilled] = useState<boolean>(true);
   const [activeRequestsCount, setActiveRequestsCount] = useState<number>(0);
 
-  const { replace } = useRouter();
   const { enqueueSnackbar } = useSnackbar();
 
   const authState = useSelector(selectCurrentUser);
@@ -199,8 +198,7 @@ export default function VerificationForm(): JSX.Element {
 
       createAgent(agentData).unwrap();
       reset();
-      replace(AppRoute.VERIFICATION_DONE_PAGE);
-
+      handleVerification();
       return undefined;
     } catch (error) {
       enqueueSnackbar(t('generalErrorMessage'), { variant: 'error' });
