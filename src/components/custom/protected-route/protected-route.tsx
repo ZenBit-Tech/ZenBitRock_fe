@@ -1,9 +1,9 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { LoadingScreen } from 'components/loading-screen';
 import { AppRoute } from 'enums';
 import { useEffect, useRouter, useState, useVerification } from 'hooks';
-import { usePathname } from 'next/navigation';
 import { ValueOf } from 'types';
 
 type Properties = {
@@ -14,7 +14,7 @@ type Properties = {
 const ProtectedRoute: React.FC<Properties> = ({
   children,
   defaultRedirectPath = AppRoute.SIGN_IN_PAGE,
-}) => {
+}: Properties) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -32,7 +32,7 @@ const ProtectedRoute: React.FC<Properties> = ({
       router.replace(redirectPath);
     }
     setAuthChecked(true);
-  }, [user, redirectPath, defaultRedirectPath]);
+  }, [user, redirectPath, defaultRedirectPath, pathname, router]);
 
   const isRenderingOnServer = (!authChecked && !user) || (user && pathname !== redirectPath);
 

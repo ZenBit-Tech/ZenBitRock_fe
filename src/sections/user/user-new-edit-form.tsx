@@ -15,23 +15,23 @@ import {
   useGetUserByIdMutation,
   useDeleteAvatarMutation,
 } from 'store/api/userApi';
+import { useUpdateContactMutation } from 'store/api/qobrixApi';
 import ReduxProvider from 'store/ReduxProvider';
+import { UserProfileResponse } from 'store/auth/lib/types';
 import { useRouter } from 'routes/hooks';
 import { patterns } from 'constants/patterns';
 import { AppRoute } from 'enums';
 import { IUserUpdateProfile, IUserUpdateQobrix } from 'types/user';
 import { fData } from 'utils/format-number';
 import { countries } from 'assets/data';
-import Iconify from 'components/iconify';
-import { useSnackbar } from 'components/snackbar';
 import FormProvider, { RHFTextField, RHFUploadAvatar, RHFAutocomplete } from 'components/hook-form';
 import RHFTextArea from 'components/hook-form/rhf-text-area';
+import Iconify from 'components/iconify';
+import { useSnackbar } from 'components/snackbar';
 import {
   findCountryCodeByLabel,
   findCountryLabelByCode,
 } from 'sections/verification-view/drop-box-data';
-import { UserProfileResponse } from 'store/auth/lib/types';
-import { useUpdateContactMutation } from 'store/api/qobrixApi';
 import { formatRole, revertFormatRole } from './service';
 import ProfileSettings from './user-edit-settings';
 
@@ -55,6 +55,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
   const [deleteAvatar] = useDeleteAvatarMutation();
 
   const { enqueueSnackbar } = useSnackbar();
+
   const t = useTranslations('editProfilePage');
 
   const [selectedValue, setSelectedValue] = useState<string>('');
@@ -157,6 +158,8 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     updatedUser.agencyName = agency ?? stateAgency;
     updatedUser.description = about ? about : stateDescription;
 
+    const formData = new FormData();
+
     const qobrixUser: IUserUpdateQobrix = {
       city: updatedUser.city,
       country: updatedUser.country,
@@ -165,15 +168,12 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
       role: updatedUser.role,
     };
 
-    const formData = new FormData();
-
     try {
       const successMessage = t('updateText');
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       await updateUser(updatedUser).unwrap();
-
       await updateContact({ qobrixId, ...qobrixUser }).unwrap();
 
       if (avatar && avatar instanceof Blob) {
@@ -185,6 +185,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
         await setAvatar(formData).unwrap();
         setIsAvatar(true);
       }
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       enqueueSnackbar(successMessage, { variant: 'success' });
 
@@ -363,7 +364,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
                 name="about"
                 label={t('aboutLabel')}
                 placeholder={t('aboutPlaceholder')}
-                stateValue={stateDescription || ""}
+                stateValue={stateDescription || ''}
                 sx={{ gridColumn: { xs: 'span 1', sm: 'span 2' }, height: '140px' }}
               />
             </Box>

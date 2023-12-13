@@ -10,6 +10,7 @@ export type QobrixAgentResponse = {
       agent_type: string;
       legacy_id: string;
       primary_contact: string;
+      id: string;
     };
   };
 };

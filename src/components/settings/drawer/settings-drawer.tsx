@@ -1,26 +1,26 @@
 'use client';
 
 // @mui
-import { useTheme } from '@mui/material/styles';
-import Stack from '@mui/material/Stack';
 import Badge from '@mui/material/Badge';
 import Divider from '@mui/material/Divider';
-import Tooltip from '@mui/material/Tooltip';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import Drawer, { drawerClasses } from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
+import { useTheme } from '@mui/material/styles';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 // theme
 import { paper } from 'theme/css';
 //
+import BaseOptions from './base-option';
+import FullScreenOption from './fullscreen-option';
+import LayoutOptions from './layout-options';
+import PresetsOptions from './presets-options';
+import StretchOptions from './stretch-options';
 import Iconify from '../../iconify';
 import Scrollbar from '../../scrollbar';
 //
 import { useSettingsContext } from '../context';
-import BaseOptions from './base-option';
-import LayoutOptions from './layout-options';
-import PresetsOptions from './presets-options';
-import StretchOptions from './stretch-options';
-import FullScreenOption from './fullscreen-option';
 
 // ----------------------------------------------------------------------
 

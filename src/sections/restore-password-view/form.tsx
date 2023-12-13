@@ -1,18 +1,18 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { TextField, Button, Typography, Box, CircularProgress } from '@mui/material';
-import { useSnackbar } from 'notistack';
 import Backdrop from '@mui/material/Backdrop';
 import Stack from '@mui/system/Stack';
-import { useDispatch } from 'react-redux';
+import { useSnackbar } from 'notistack';
 import { AppDispatch } from 'store';
-import { patterns } from 'constants/patterns';
-import FormProvider from 'components/hook-form';
 import { useSendCodeMutation } from 'store/api/restorePasswordApi';
 import { setEmail } from 'store/reducers/restorePasswordReducer';
+import { patterns } from 'constants/patterns';
+import FormProvider from 'components/hook-form';
 import { AppRoute } from 'enums';
 
 const defaultValues = { email: '' };
