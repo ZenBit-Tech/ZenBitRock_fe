@@ -7,14 +7,16 @@ import ReduxProvider from 'store/ReduxProvider';
 
 import Form from './form';
 
-export default function VerificationView() {
+type Props = {
+  handleVerification: () => void;
+};
+
+export function VerificationView({ handleVerification }: Props) {
   return (
-    <ReduxProvider>
-      <Container sx={{ my: 5 }}>
-        <SnackbarProvider>
-          <Form />
-        </SnackbarProvider>
-      </Container>
-    </ReduxProvider>
+    <Container sx={{ my: 5 }}>
+      <SnackbarProvider>
+        <Form handleVerification={handleVerification} />
+      </SnackbarProvider>
+    </Container>
   );
 }
