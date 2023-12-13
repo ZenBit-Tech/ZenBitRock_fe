@@ -13,6 +13,7 @@ const ApiRoute = {
   DELETE_USER: '/user',
   QOBRIX_CREATE_CONTACT: '/contacts',
   QOBRIX_CREATE_AGENT: '/agents',
+  PROPERTY: '/property',
   QOBRIX_PROPERY_TYPES: '/property-types',
 } as const;
 

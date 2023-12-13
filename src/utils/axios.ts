@@ -27,7 +27,7 @@ axiosInstanceQobrix.interceptors.response.use(
 export const fetcherQobrix = async (args: string | [string, AxiosRequestConfig]) => {
   const [url, config] = Array.isArray(args) ? args : [args];
 
-  const res = await axiosInstanceQobrix.get(url, { ...config });
+  const res = await axiosInstanceQobrix.get(url, config && { ...config });
   return res.data;
 };
 
@@ -59,5 +59,8 @@ export const endpoints = {
   property: {
     list: '/properties',
     details: '/property',
+  },
+  main: {
+    mainpage: '/main-page',
   },
 };
