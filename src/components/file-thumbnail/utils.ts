@@ -73,7 +73,6 @@ export function fileThumb(fileUrl: string) {
     case 'folder':
       thumb = iconUrl('ic_folder');
       break;
-
     case 'txt':
       thumb = iconUrl('ic_txt');
       break;
