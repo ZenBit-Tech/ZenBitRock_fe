@@ -1,4 +1,6 @@
-/* eslint-disable @typescript-eslint/no-shadow */
+
+import { useCallback, useEffect, useSelector, useState, useTranslations } from 'hooks';
+import { useForm, Controller } from 'react-hook-form';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -23,7 +25,12 @@ import FormProvider, {
   RHFCheckbox,
 } from 'components/hook-form';
 import { datesFormats } from 'constants/dates-formats';
+
 import { AppRoute } from 'enums';
+
+import { selectCurrentUser } from 'store/auth/authReducer';
+import { VerificationData } from 'types/verification-data';
+
 import { useCreateAgentMutation, useCreateContactMutation } from 'store/api/qobrixApi';
 import { useGetUserByIdMutation, useUpdateUserMutation } from 'store/api/userApi';
 import { useCreateVerificationMutation } from 'store/api/verificationApi';
@@ -67,7 +74,11 @@ function formatDate(inputDate: Date): string {
   return `${year}-${month}-${day}`;
 }
 
-export default function VerificationForm(): JSX.Element {
+type Props = {
+  handleVerification: () => void;
+};
+
+export default function VerificationForm({ handleVerification }: Props): JSX.Element {
   const t = useTranslations('VerificationPage');
 
   const [createVerification] = useCreateVerificationMutation();
@@ -79,7 +90,6 @@ export default function VerificationForm(): JSX.Element {
   const [formFilled, setFormFilled] = useState<boolean>(true);
   const [activeRequestsCount, setActiveRequestsCount] = useState<number>(0);
 
-  const { replace } = useRouter();
   const { enqueueSnackbar } = useSnackbar();
 
   const authState = useSelector(selectCurrentUser);
@@ -202,11 +212,10 @@ export default function VerificationForm(): JSX.Element {
 
       createAgent(agentData).unwrap();
       reset();
-      replace(AppRoute.VERIFICATION_DONE_PAGE);
-
+      handleVerification();
       return undefined;
     } catch (error) {
-      enqueueSnackbar('Something went wrong, please try again', { variant: 'error' });
+      enqueueSnackbar(t('generalErrorMessage'), { variant: 'error' });
 
       return error;
     } finally {
@@ -310,6 +319,7 @@ export default function VerificationForm(): JSX.Element {
                     <DatePicker
                       {...field}
                       label={t('dateOfBirthPlaceholder')}
+                      minDate={new Date(1990, 0, 1)}
                       maxDate={new Date()}
                       format={datesFormats.verificationDatePicker}
                       slotProps={{
@@ -490,13 +500,13 @@ export default function VerificationForm(): JSX.Element {
 
             <LoadingButton
               fullWidth
-              color="info"
+              variant="contained"
+              color="primary"
               size="large"
               type="submit"
-              variant="outlined"
               loading={isSubmitting}
               disabled={!formFilled}
-              style={{ marginBottom: '70px' }}
+              sx={{ mb: '90px' }}
             >
               {t('submitButton')}
             </LoadingButton>

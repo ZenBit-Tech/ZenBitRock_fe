@@ -70,6 +70,8 @@ export type GetUserResponse = {
     zip: string;
     agency: string;
     description: string;
+    avatarUrl: string;
+    avatarPublicId: string;
   };
 };
 

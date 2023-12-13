@@ -29,7 +29,7 @@ export const FormSchema = Yup.object().shape<Shape<VerificationData>>({
     .required('Name is required')
     .matches(patterns.name, 'Latin letters, spaces, 2-50 characters'),
   lastName: Yup.string()
-    .required('Surname name is required')
+    .required('Surname is required')
     .matches(patterns.name, 'Latin letters, spaces, 2-50 characters'),
   rolesAutocomplete: Yup.mixed<Values>().nullable().required('Role is required'),
   genderRadioGroup: Yup.string().required('Choose one option'),
@@ -46,6 +46,13 @@ export const FormSchema = Yup.object().shape<Shape<VerificationData>>({
       const valid = today >= dob && legalDate >= dob;
 
       return !valid ? ctx.createError() : valid;
+    })
+    .test('minDate', 'Should not be earlier than 01-01-1900', (value, ctx) => {
+      const dob = new Date(value);
+      const minDate = new Date(1900, 0, 1);
+      const validMinDate = dob >= minDate;
+
+      return validMinDate || ctx.createError({ message: 'Should not be earlier than 01-01-1900' });
     }),
   nationalityAutocomplete: Yup.mixed<Values>().nullable().required('Nationality is required'),
   identityRadioGroup: Yup.string().required('Choose one option'),

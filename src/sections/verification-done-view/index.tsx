@@ -1,21 +1,22 @@
 'use client';
 
-import LoadingButton from '@mui/lab/LoadingButton';
+import { AppRoute } from 'enums';
+
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { useGetProfileQuery } from 'store/auth';
+import { useState, useTranslations } from 'hooks';
 
-import { AppRoute } from 'enums';
-
-export default function VerificationDoneView(): JSX.Element {
+export function VerificationDoneView(): JSX.Element {
   const t = useTranslations('VerificationDonePage');
+  const [shouldFetchProfile, setShouldFetchProfile] = useState(false);
 
-  const { replace } = useRouter();
+  useGetProfileQuery(undefined, { skip: !shouldFetchProfile });
 
   const handleClick = () => {
-    replace(AppRoute.MAIN_PAGE);
+    setShouldFetchProfile(true);
   };
 
   return (
