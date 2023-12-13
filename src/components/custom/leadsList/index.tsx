@@ -1,14 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Box, Card } from '@mui/material';
-import { Fab } from '@mui/material';
-import { useTranslations } from 'next-intl';
-import { useGetLeads } from 'api/lead';
+import { Box, Card, Fab } from '@mui/material';
+
 import { AxiosError } from 'axios';
-import { ILeads, ILeadsPagination, ILeadsParamsList, ILead } from 'types/lead';
+import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { useEffect, useState } from 'react';
+import { useGetLeads } from 'api/lead';
 import { useSnackbar } from 'components/snackbar';
+import { ILeads, ILeadsPagination, ILeadsParamsList, ILead } from 'types/lead';
+import useInfinityScroll from './hooks/useInfinityScroll';
+import useScrollToTop from './hooks/useScrollToTop';
 import {
   TypographyStyled,
   LinkStyled,
@@ -18,8 +20,6 @@ import {
   TextMiddleStyled,
   CardMediaStyled,
 } from './styles';
-import useInfinityScroll from './hooks/useInfinityScroll';
-import useScrollToTop from './hooks/useScrollToTop';
 
 const INITIAL_PARAMS: ILeadsParamsList = {
   page: 1,
@@ -34,7 +34,7 @@ interface LeadsListProps {
 
 function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
   const [params, setParams] = useState<ILeadsParamsList>(INITIAL_PARAMS);
-  const { leads, leadsError } = useGetLeads(id ? `/by-property/${id}` : '', { params: params });
+  const { leads, leadsError } = useGetLeads(id ? `/by-property/${id}` : '', { params });
 
   const [leadsList, setLeadsList] = useState<ILeads>([]);
   const [leadsPagination, setLeadsPagination] = useState<ILeadsPagination>();
@@ -59,14 +59,14 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
     },
   });
   useEffect(() => {
-    isFetching &&
+    if (isFetching)
       (async (): Promise<void> => {
         try {
           setError(leadsError);
           if (!leadsError && leads.data) {
             setLeadsList((prev) => [...prev, ...leads.data]);
             setLeadsPagination((prev) => ({ ...prev, ...leads.pagination }));
-            leads.pagination?.hasNextPage &&
+            if (leads.pagination?.hasNextPage)
               setParams((prev) => ({ ...prev, page: prev.page + 1, filter: filter && filter }));
             setIsFetching(false);
           }
@@ -114,6 +114,7 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
           {leadsList.map((item: ILead) => {
             const { leadId, status, source, contactName, contactEmail, contactId, contactPhone } =
               item;
+
             return (
               <Card
                 key={`${leadId}${contactId}`}
@@ -139,7 +140,7 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
                       fontWeight: 'bold',
                     }}
                   >
-                    {source}
+                    {t(source)}
                   </TextStyled>
 
                   <TextStyled
@@ -147,7 +148,7 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
                       fontWeight: 'bold',
                     }}
                   >
-                    {t('status')}
+                    {t(status)}
                   </TextStyled>
                 </Box>
                 <Box

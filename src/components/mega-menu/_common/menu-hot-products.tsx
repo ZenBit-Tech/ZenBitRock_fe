@@ -1,6 +1,6 @@
 // @mui
-import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 // routes
 import { RouterLink } from 'routes/components';

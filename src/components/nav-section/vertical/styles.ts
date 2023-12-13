@@ -1,8 +1,8 @@
 // @mui
-import { alpha, styled } from '@mui/material/styles';
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListSubheader from '@mui/material/ListSubheader';
-import ListItemButton from '@mui/material/ListItemButton';
+import { alpha, styled } from '@mui/material/styles';
 //
 import { NavItemProps, NavConfigProps } from '../types';
 

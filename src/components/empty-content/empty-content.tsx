@@ -1,8 +1,8 @@
 // @mui
-import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Stack, { StackProps } from '@mui/material/Stack';
+import { alpha } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 
 // ----------------------------------------------------------------------
 

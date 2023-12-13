@@ -1,31 +1,38 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { useForm } from 'react-hook-form';
-import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
-import { useUpdateUserMutation, useSetAvatarMutation } from 'store/api/userApi';
-import ReduxProvider from 'store/ReduxProvider';
-import { useRouter } from 'routes/hooks';
-import { patterns } from 'constants/patterns';
-import { AppRoute } from 'enums';
-import { IUserUpdateProfile } from 'types/user';
-import { fData } from 'utils/format-number';
+import Grid from '@mui/material/Unstable_Grid2';
+import { useTranslations } from 'next-intl';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import * as Yup from 'yup';
+
 import { countries } from 'assets/data';
-import Iconify from 'components/iconify';
-import { useSnackbar } from 'components/snackbar';
 import FormProvider, { RHFTextField, RHFUploadAvatar, RHFAutocomplete } from 'components/hook-form';
 import RHFTextArea from 'components/hook-form/rhf-text-area';
+import Iconify from 'components/iconify';
+import { useSnackbar } from 'components/snackbar';
+import { patterns } from 'constants/patterns';
+import { AppRoute } from 'enums';
+import { useRouter } from 'routes/hooks';
 import {
   findCountryCodeByLabel,
   findCountryLabelByCode,
 } from 'sections/verification-view/drop-box-data';
+import { useUpdateContactMutation } from 'store/api/qobrixApi';
+import {
+  useUpdateUserMutation,
+  useSetAvatarMutation,
+  useDeleteAvatarMutation,
+} from 'store/api/userApi';
 import { UserProfileResponse } from 'store/auth/lib/types';
+import ReduxProvider from 'store/ReduxProvider';
+import { IUserUpdateProfile, IUserUpdateQobrix } from 'types/user';
+import { fData } from 'utils/format-number';
+
 import { formatRole, revertFormatRole } from './service';
 import ProfileSettings from './user-edit-settings';
 
@@ -41,13 +48,23 @@ function getRoles(): string[] {
 
 export default function UserNewEditForm({ user }: Props): JSX.Element {
   const router = useRouter();
+
   const [updateUser] = useUpdateUserMutation();
+  const [updateContact] = useUpdateContactMutation();
   const [setAvatar] = useSetAvatarMutation();
+  const [deleteAvatar] = useDeleteAvatarMutation();
+
   const { enqueueSnackbar } = useSnackbar();
   const t = useTranslations('editProfilePage');
 
   const [selectedValue, setSelectedValue] = useState<string>('');
+  const [isAvatar, setIsAvatar] = useState<boolean>(false);
+
   const shouldRenderAgency = selectedValue === getRoles()[1];
+
+  useEffect(() => {
+    if (user.avatarUrl) setIsAvatar(true);
+  }, [user]);
 
   const {
     agencyName: stateAgency,
@@ -61,6 +78,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
   } = user;
 
   const userId = user.id;
+  const qobrixId = user.qobrixContactId;
 
   useEffect(() => {
     if (stateRole) {
@@ -133,6 +151,14 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     updatedUser.agencyName = agency ?? stateAgency;
     updatedUser.description = about ? about : stateDescription;
 
+    const qobrixUser: IUserUpdateQobrix = {
+      city: updatedUser.city,
+      country: updatedUser.country,
+      description: updatedUser.description,
+      phone: updatedUser.phone,
+      role: updatedUser.role,
+    };
+
     const formData = new FormData();
 
     try {
@@ -142,10 +168,13 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
 
       await updateUser(updatedUser).unwrap();
 
+      await updateContact({ qobrixId, ...qobrixUser }).unwrap();
+
       if (avatar && avatar instanceof Blob) {
         formData.append('file', avatar);
         formData.append('userId', userId);
         await setAvatar(formData).unwrap();
+        setIsAvatar(true);
       }
 
       enqueueSnackbar(successMessage, { variant: 'success' });
@@ -166,17 +195,32 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
 
       if (file) {
         setValue('avatar', newFile, { shouldValidate: true });
+        setIsAvatar(true);
       }
     },
     [setValue]
   );
+
+  const handleClickDelete = async (): Promise<void> => {
+    try {
+      await deleteAvatar({ userId }).unwrap();
+      setValue('avatar', null);
+      setIsAvatar(false);
+
+      return undefined;
+    } catch (error) {
+      enqueueSnackbar(t('errorText'), { variant: 'error' });
+
+      return error;
+    }
+  };
 
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
       <Grid container spacing={3}>
         <Grid xs={12} md={4}>
           <Card sx={{ pt: 5, pb: 5, px: 3, height: '100%' }}>
-            <Box sx={{ mb: 5 }}>
+            <Box sx={{ mb: 5, minHeight: '260px' }}>
               <RHFUploadAvatar
                 name="avatar"
                 onDrop={handleDrop}
@@ -196,6 +240,17 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
                     <br />
                     {t('helperSubText')}
                     {fData(3145728)}
+                    <br />
+                    {isAvatar && (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleClickDelete}
+                        sx={{ mt: '10px', p: '10px' }}
+                      >
+                        {t('deleteAvatarBtnTxt')}
+                      </Button>
+                    )}
                   </Typography>
                 }
               />

@@ -1,25 +1,29 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Box, Card } from '@mui/material';
-import { Fab } from '@mui/material';
-import { useTranslations } from 'next-intl';
-import { useGetProperties } from 'api/property';
+import { Box, Card, Fab } from '@mui/material';
 import { AxiosError } from 'axios';
+import { useRouter } from 'next/navigation';
+
+import { useTranslations } from 'next-intl';
+import { useEffect, useState } from 'react';
+import { useGetProperties } from 'api/property';
+import Iconify from 'components/iconify';
+import Image from 'components/image';
+import { LoadingScreen } from 'components/loading-screen';
+import { useSnackbar } from 'components/snackbar';
+import { QOBRIX_HOST } from 'config-global';
+import { backgroundImages } from 'constants/backgroundImgLinks';
+import { getCountries } from 'sections/verification-view/drop-box-data';
 import {
   IPropertyList,
   IPropertyPagination,
   IPropertyParamsList,
   IPropertyItem,
 } from 'types/property';
-import { useSnackbar } from 'components/snackbar';
-import { getCountries } from 'sections/verification-view/drop-box-data';
-import { LoadingScreen } from 'components/loading-screen';
-import Iconify from 'components/iconify';
-import { QOBRIX_HOST } from 'config-global';
+import { endpoints } from 'utils/axios';
 import { fCurrency } from 'utils/format-number';
-import Image from 'components/image';
+import useInfinityScroll from './hooks/useInfinityScroll';
+import useScrollToTop from './hooks/useScrollToTop';
 import {
   TypographyStyled,
   LinkStyled,
@@ -29,8 +33,6 @@ import {
   TextMiddleStyled,
   CardMediaStyled,
 } from './styles';
-import useInfinityScroll from './hooks/useInfinityScroll';
-import useScrollToTop from './hooks/useScrollToTop';
 
 const INITIAL_PARAMS: IPropertyParamsList = {
   page: 1,
@@ -39,16 +41,16 @@ const INITIAL_PARAMS: IPropertyParamsList = {
   media: true,
 };
 
-const DEFAULT_IMAGE = '/assets/images/home/properties_blank.jpg';
+const URL = endpoints.property;
 
 function PropertiesList(): JSX.Element {
   const [params, setParams] = useState<IPropertyParamsList>(INITIAL_PARAMS);
-  const { properties, propertiesError } = useGetProperties({ params: params });
+  const { properties, propertiesError } = useGetProperties({ params });
 
   const [propertiesList, setPropertiesList] = useState<IPropertyList>([]);
   const [propertiesPagination, setPropertiesPagination] = useState<IPropertyPagination>();
   const [error, setError] = useState<AxiosError | null>(null);
-  const [isFetching, setIsFetching] = useState(true);
+  const [isFetching, setIsFetching] = useState<boolean>(true);
 
   const t = useTranslations('properties');
   const router = useRouter();
@@ -67,15 +69,16 @@ function PropertiesList(): JSX.Element {
       }
     },
   });
+
   useEffect(() => {
-    isFetching &&
+    if (isFetching)
       (async (): Promise<void> => {
         try {
           setError(propertiesError);
           if (!propertiesError && properties.data) {
             setPropertiesList((prev) => [...prev, ...properties.data]);
             setPropertiesPagination((prev) => ({ ...prev, ...properties.pagination }));
-            properties.pagination?.hasNextPage &&
+            if (properties.pagination?.hasNextPage)
               setParams((prev) => ({ ...prev, page: prev.page + 1 }));
             setIsFetching(false);
           }
@@ -86,15 +89,7 @@ function PropertiesList(): JSX.Element {
   }, [isFetching, properties, propertiesError, propertiesPagination]);
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '90%',
-        marginX: 'auto',
-        transition: 'easy-in 200 all',
-      }}
-    >
+    <Box sx={{ display: 'flex', flexDirection: 'column', width: '90%', marginX: 'auto' }}>
       {error && enqueueSnackbar(t('error'), { variant: 'error' })}
       {propertiesList.length !== 0 && (
         <ListStyled
@@ -110,6 +105,7 @@ function PropertiesList(): JSX.Element {
         >
           {propertiesList.map((item: IPropertyItem, index: number) => {
             const { id, saleRent, status, country, city, price, photo } = item;
+
             return (
               <Card
                 key={`${id}${index}`}
@@ -137,7 +133,7 @@ function PropertiesList(): JSX.Element {
                     }}
                   >
                     <Image
-                      src={photo ? `${QOBRIX_HOST}${photo}` : DEFAULT_IMAGE}
+                      src={photo ? `${QOBRIX_HOST}${photo}` : backgroundImages.BG_PROPERTIES_PAGE}
                       alt={t('alt')}
                       sx={{
                         width: '100%',
@@ -202,10 +198,10 @@ function PropertiesList(): JSX.Element {
                     sx={{ padding: '14px' }}
                     variant="contained"
                     color="primary"
-                    onClick={() => router.push(`/property/${id}`)}
+                    onClick={() => router.push(`${URL.details}/${id}`)}
                   >
                     <TypographyStyled>{t('Description')}</TypographyStyled>
-                    <Iconify icon={'ri:arrow-right-s-line'} height={'auto'} />
+                    <Iconify icon="ri:arrow-right-s-line" height="auto" />
                   </LinkStyled>
                 </Box>
               </Card>

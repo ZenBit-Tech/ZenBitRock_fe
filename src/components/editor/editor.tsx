@@ -1,12 +1,12 @@
 import 'utils/highlight';
-import dynamic from 'next/dynamic';
 // @mui
-import { alpha } from '@mui/material/styles';
 import Skeleton from '@mui/material/Skeleton';
+import { alpha } from '@mui/material/styles';
+import dynamic from 'next/dynamic';
 //
-import { EditorProps } from './types';
 import { StyledEditor } from './styles';
 import Toolbar, { formats } from './toolbar';
+import { EditorProps } from './types';
 
 const ReactQuill = dynamic(() => import('react-quill'), {
   ssr: false,

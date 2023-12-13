@@ -1,10 +1,10 @@
 'use client';
 
 import { Box, Typography } from '@mui/material';
-import LeadsList from 'components/custom/leadsList';
-import { ProtectedRoute } from 'components/custom';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { ProtectedRoute } from 'components/custom';
+import LeadsList from 'components/custom/leadsList';
 import { ButtonAddNewLead, LeadsFilter } from '../..';
 
 function Common(): JSX.Element {

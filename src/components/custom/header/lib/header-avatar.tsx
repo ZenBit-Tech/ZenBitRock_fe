@@ -8,6 +8,7 @@ type Props = {
 
 const HeaderAvatar = ({ avatar }: Props): JSX.Element => {
   const t = useTranslations('Home.Header');
+
   return (
     <Avatar
       src={avatar}
@@ -28,4 +29,5 @@ const HeaderAvatar = ({ avatar }: Props): JSX.Element => {
     </Avatar>
   );
 };
+
 export { HeaderAvatar };

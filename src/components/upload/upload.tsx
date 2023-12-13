@@ -1,20 +1,20 @@
-import { useDropzone } from 'react-dropzone';
 // @mui
-import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
+import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import { useDropzone } from 'react-dropzone';
 // assets
 import { UploadIllustration } from 'assets/illustrations';
 //
-import Iconify from '../iconify';
 //
-import { UploadProps } from './types';
 import RejectionFiles from './errors-rejection-files';
 import MultiFilePreview from './preview-multi-file';
 import SingleFilePreview from './preview-single-file';
+import { UploadProps } from './types';
+import Iconify from '../iconify';
 
 // ----------------------------------------------------------------------
 

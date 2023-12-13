@@ -1,11 +1,12 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import LoadingButton from '@mui/lab/LoadingButton';
+import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+
 import { AppRoute } from 'enums';
 
 export default function VerificationDoneView(): JSX.Element {

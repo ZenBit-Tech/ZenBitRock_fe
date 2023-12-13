@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { useTranslations } from 'next-intl';
 import { colors } from 'constants/colors';
+import { commonLinks } from 'constants/commonLinks';
 import { useCloseModal } from '../hooks/useCloseModal';
 import { IconifyStyled } from '../styles';
 
@@ -16,12 +17,12 @@ function ViewOnMap({ coordinates, closeModal, openModal }: ViewOnMapProps): JSX.
   const t = useTranslations('property');
 
   const handleClose = (): void => closeModal();
-  const src = `https://maps.google.com/maps?q=${coordinates}&z=15&output=embed`;
+
   useCloseModal(openModal, () => closeModal());
 
   return (
     <Box sx={{ width: 'auto', height: 'auto', padding: '0', margin: '0' }}>
-      <Modal open={true}>
+      <Modal open>
         <Box sx={{ position: 'relative', width: '100vw', height: '100vh' }}>
           <Button
             title={t('close')}
@@ -37,18 +38,19 @@ function ViewOnMap({ coordinates, closeModal, openModal }: ViewOnMapProps): JSX.
             onClick={handleClose}
           >
             <IconifyStyled
-              icon={'mingcute:close-fill'}
-              width={'3rem'}
-              height={'3rem'}
+              icon="mingcute:close-fill"
+              width="3rem"
+              height="3rem"
               color={colors.BUTTON_PRIMARY_COLOR}
             />
           </Button>
           <iframe
+            title={t('map')}
             width="100%"
             height="100%"
             style={{ border: '0' }}
             referrerPolicy="no-referrer-when-downgrade"
-            src={src}
+            src={`${commonLinks.PROPERTY_LOCATION}${coordinates}`}
             allowFullScreen
           />
         </Box>

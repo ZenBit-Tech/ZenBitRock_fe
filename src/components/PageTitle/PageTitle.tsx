@@ -1,4 +1,5 @@
 'use client';
+
 import { styled } from '@mui/material';
 
 export interface PageTitleProps {

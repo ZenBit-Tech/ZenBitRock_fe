@@ -12,7 +12,7 @@ function useInfinityScroll({ callback }: InfiniteScrollProps): void {
       const windowHeight =
         'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
 
-      const body = document.body;
+      const {body} = document;
       const html = document.documentElement;
 
       const docHeight = Math.max(
@@ -30,6 +30,7 @@ function useInfinityScroll({ callback }: InfiniteScrollProps): void {
     }
 
     window.addEventListener('scroll', handleScroll);
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, [callback]);
 }
