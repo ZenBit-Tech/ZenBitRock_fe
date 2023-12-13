@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
 import { ApiRoute } from 'enums';
 
 type SendCode = { email: string | null };

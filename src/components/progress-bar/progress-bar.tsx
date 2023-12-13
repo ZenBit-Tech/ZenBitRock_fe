@@ -1,7 +1,7 @@
 'use client';
 
-import NProgress from 'nprogress';
 import { useEffect } from 'react';
+import NProgress from 'nprogress';
 import StyledProgressBar from './styles';
 
 type PushStateInput = [data: any, unused: string, url?: string | URL | null | undefined];
@@ -13,7 +13,6 @@ export default function ProgressBar() {
     const handleAnchorClick = (event: MouseEvent) => {
       const targetUrl = (event.currentTarget as HTMLAnchorElement).href;
       const currentUrl = window.location.href;
-
       if (targetUrl !== currentUrl) {
         NProgress.start();
       }
@@ -24,7 +23,6 @@ export default function ProgressBar() {
 
       const filteredAnchors = Array.from(anchorElements).filter((element) => {
         const href = element.getAttribute('href');
-
         return href && href.startsWith('/');
       });
 
@@ -38,7 +36,6 @@ export default function ProgressBar() {
     window.history.pushState = new Proxy(window.history.pushState, {
       apply: (target, thisArg, argArray: PushStateInput) => {
         NProgress.done();
-
         return target.apply(thisArg, argArray);
       },
     });
