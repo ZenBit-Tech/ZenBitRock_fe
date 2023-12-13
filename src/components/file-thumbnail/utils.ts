@@ -27,51 +27,39 @@ export function fileFormat(fileUrl: string | undefined) {
     case FORMAT_TEXT.includes(fileTypeByUrl(fileUrl)):
       format = 'txt';
       break;
-
     case FORMAT_ZIP.includes(fileTypeByUrl(fileUrl)):
       format = 'zip';
       break;
-
     case FORMAT_AUDIO.includes(fileTypeByUrl(fileUrl)):
       format = 'audio';
       break;
-
     case FORMAT_IMG.includes(fileTypeByUrl(fileUrl)):
       format = 'image';
       break;
-
     case FORMAT_VIDEO.includes(fileTypeByUrl(fileUrl)):
       format = 'video';
       break;
-
     case FORMAT_WORD.includes(fileTypeByUrl(fileUrl)):
       format = 'word';
       break;
-
     case FORMAT_EXCEL.includes(fileTypeByUrl(fileUrl)):
       format = 'excel';
       break;
-
     case FORMAT_POWERPOINT.includes(fileTypeByUrl(fileUrl)):
       format = 'powerpoint';
       break;
-
     case FORMAT_PDF.includes(fileTypeByUrl(fileUrl)):
       format = 'pdf';
       break;
-
     case FORMAT_PHOTOSHOP.includes(fileTypeByUrl(fileUrl)):
       format = 'photoshop';
       break;
-
     case FORMAT_ILLUSTRATOR.includes(fileTypeByUrl(fileUrl)):
       format = 'illustrator';
       break;
-
     default:
       format = fileTypeByUrl(fileUrl);
   }
-
   return format;
 }
 
