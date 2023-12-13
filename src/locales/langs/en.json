@@ -455,6 +455,7 @@
     "asleep": "Asleep",
     "closed_won": "Closed Won",
     "closed_lost": "Closed Lost",
-    "informative": "Informative"
+    "informative": "Informative",
+    "create": "Add New"
   }
 }

@@ -10,16 +10,10 @@ import { useGetLeads } from 'api/lead';
 import { useSnackbar } from 'components/snackbar';
 import { ILeads, ILeadsPagination, ILeadsParamsList, ILead } from 'types/lead';
 import { endpoints } from 'utils/axios';
-import {
-  TypographyStyled,
-  LinkStyled,
-  TextStyled,
-  ListStyled,
-  BoxStyled,
-  TextMiddleStyled,
-} from './styles';
+import { TextStyled, ListStyled, BoxStyled, TextMiddleStyled } from './styles';
 import useInfinityScroll from '../propertiesList/hooks/useInfinityScroll';
 import useScrollToTop from '../propertiesList/hooks/useScrollToTop';
+import Link from 'next/link';
 
 const INITIAL_PARAMS: ILeadsParamsList = {
   page: 1,
@@ -87,7 +81,7 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        width: '90%',
+        width: '100%',
         marginX: 'auto',
         transition: 'easy-in 200 all',
       }}
@@ -104,7 +98,7 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
               fontWeight: 'bold',
             }}
           >
-            {name}
+            {`Filtered for the: ${name}`}
           </TextStyled>
         </Box>
       )}
@@ -113,7 +107,7 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
       {leadsList.length !== 0 && (
         <ListStyled
           sx={{
-            width: '90%',
+            width: '100%',
             marginX: 'auto',
           }}
         >
@@ -129,8 +123,9 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
                   justifyContent: 'center',
                   alignItems: 'center',
                   flexDirection: 'column',
-                  width: '90%',
+                  width: '100%',
                   marginBottom: '2rem',
+                  padding: '1rem',
                   cursor: 'pointer',
                 }}
                 onClick={() => router.push(`${URL.details}/${leadId}`)}
@@ -185,13 +180,15 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
                     >
                       {contactName}
                     </TextStyled>
-                    <TextStyled
-                      sx={{
-                        fontWeight: 'bold',
-                      }}
-                    >
-                      {contactEmail}
-                    </TextStyled>
+                    <Link href="mailto:">
+                      <TextStyled
+                        sx={{
+                          fontWeight: 'bold',
+                        }}
+                      >
+                        {contactEmail}
+                      </TextStyled>
+                    </Link>
                   </BoxStyled>
                   <TextMiddleStyled>{contactPhone}</TextMiddleStyled>
                 </Box>

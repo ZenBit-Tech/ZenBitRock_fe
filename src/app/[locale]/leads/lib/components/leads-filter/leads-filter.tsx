@@ -1,7 +1,7 @@
 'use client';
 
 function LeadsFilter(): JSX.Element {
-  return <p>LeadsFilter</p>;
+  return <p>LeadsFilter(for future)</p>;
 }
 
 export { LeadsFilter };

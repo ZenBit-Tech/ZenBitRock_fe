@@ -31,7 +31,14 @@ function Common(): JSX.Element {
         <Typography variant="h3" sx={{ marginTop: 3 }}>
           Leads
         </Typography>
-        <Box>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginY: '1.5rem',
+          }}
+        >
           <LeadsFilter />
           <ButtonAddNewLead />
         </Box>
