@@ -60,6 +60,7 @@ export function fileFormat(fileUrl: string | undefined) {
     default:
       format = fileTypeByUrl(fileUrl);
   }
+
   return format;
 }
 
@@ -76,51 +77,39 @@ export function fileThumb(fileUrl: string) {
     case 'txt':
       thumb = iconUrl('ic_txt');
       break;
-
     case 'zip':
       thumb = iconUrl('ic_zip');
       break;
-
     case 'audio':
       thumb = iconUrl('ic_audio');
       break;
-
     case 'video':
       thumb = iconUrl('ic_video');
       break;
-
     case 'word':
       thumb = iconUrl('ic_word');
       break;
-
     case 'excel':
       thumb = iconUrl('ic_excel');
       break;
-
     case 'powerpoint':
       thumb = iconUrl('ic_power_point');
       break;
-
     case 'pdf':
       thumb = iconUrl('ic_pdf');
       break;
-
     case 'photoshop':
       thumb = iconUrl('ic_pts');
       break;
-
     case 'illustrator':
       thumb = iconUrl('ic_ai');
       break;
-
     case 'image':
       thumb = iconUrl('ic_img');
       break;
-
     default:
       thumb = iconUrl('ic_file');
   }
-
   return thumb;
 }
 
