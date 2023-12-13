@@ -28,7 +28,7 @@ const RenderSettings = ({ checked, handleChange, theme }: RenderProps): JSX.Elem
     return <LoadingScreen />;
   }
 
-  const { id, qobrixAgentId, qobrixContactId } = authUser;
+  const { id } = authUser;
 
   return (
     <Card>

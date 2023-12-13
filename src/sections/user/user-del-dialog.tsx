@@ -56,6 +56,7 @@ export default function DeleteProfileDialog({ id }: Props) {
       router.push(AppRoute.SIGN_UP_PAGE);
     } catch (error) {
       const errMessage = t('error');
+      
       enqueueSnackbar(errMessage, { variant: 'error' });
     }
   };
