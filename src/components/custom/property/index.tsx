@@ -9,7 +9,9 @@ import { useGetProperty } from 'api/property';
 import Iconify from 'components/iconify';
 import Image from 'components/image/image';
 import { useSnackbar } from 'components/snackbar';
+import { backgroundImages } from 'constants/backgroundImgLinks';
 import { IPropertyDetailed } from 'types/property';
+import { endpoints } from 'utils/axios';
 import InfoBlock from './components/InfoBlock';
 import SlickSlider from './components/SlickSlider';
 import ViewOnMap from './components/ViewOnMap';
@@ -17,7 +19,7 @@ import getImages from './helpers/getImages';
 import { Title, TypographyStyled, ButtonStyled, Wrapper } from './styles';
 import useScrollToTop from '../propertiesList/hooks/useScrollToTop';
 
-const DEFAULT_IMAGE = '/assets/images/home/properties_blank.jpg';
+const URL = endpoints.main;
 
 export default function Property({ id }: { id: string }): JSX.Element {
   const { property, propertyError } = useGetProperty(id);
@@ -75,7 +77,7 @@ export default function Property({ id }: { id: string }): JSX.Element {
         <ButtonStyled
           title={t('back')}
           sx={{ padding: '14px', width: 'fit-content' }}
-          onClick={(): void => router.push(`/main-page`)}
+          onClick={(): void => router.push(`${URL.mainpage}`)}
         >
           <Iconify icon="solar:arrow-left-linear" width="2rem" height="2rem" />
         </ButtonStyled>
@@ -88,7 +90,7 @@ export default function Property({ id }: { id: string }): JSX.Element {
             <SlickSlider photos={getImages(propertyDetailed.media)} />
           ) : (
             <Image
-              src={DEFAULT_IMAGE}
+              src={backgroundImages.BG_PROPERTIES_PAGE}
               alt={t('alt')}
               sx={{
                 width: '100%',

@@ -60,4 +60,7 @@ export const endpoints = {
     list: '/properties',
     details: '/property',
   },
+  main: {
+    mainpage: '/main-page',
+  },
 };

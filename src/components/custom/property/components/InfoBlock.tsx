@@ -113,8 +113,8 @@ function InfoBlock({ property }: { property: IPropertyDetailed }): JSX.Element {
           <TypographyDescriptionRight>
             {postCode && <TypographyInsert as="span">{`${postCode}`}</TypographyInsert>}
             <TypographyInsert as="span">{`${getCountries().find(
-                (object) => object.value === country
-              )?.label}`}</TypographyInsert>
+              (object) => object.value === country
+            )?.label}`}</TypographyInsert>
             {state && <TypographyInsert as="span">{`${state}`}</TypographyInsert>}
             {municipality && <TypographyInsert as="span">{`${municipality}`}</TypographyInsert>}
             {city && <TypographyInsert as="span">{`${city}`}</TypographyInsert>}

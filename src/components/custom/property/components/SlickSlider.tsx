@@ -33,7 +33,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
   const [toggleModal, setToggleModal] = useState<boolean>(false);
   const [src, setSrc] = useState<string>('');
   const [visibleArrows, setVisibleArrows] = useState<boolean>(false);
-  const [scale, setScale] = useState(MIN_SCALE);
+  const [scale, setScale] = useState<number>(MIN_SCALE);
 
   const sliderRef = useRef<Slider>(null);
 
