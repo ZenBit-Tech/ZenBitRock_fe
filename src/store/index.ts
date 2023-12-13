@@ -2,15 +2,15 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-
+import { authApi, authReducer } from './auth';
+import { VerificationApi } from './api/verificationApi';
+import { tokenMiddleware } from './middlewares/token-middleware';
+import { RestorePasswordApi } from './api/restorePasswordApi';
+import restorePasswordReducer from './reducers/restorePasswordReducer';
 import { QobrixApi } from './api/qobrixApi';
 import { ResetPasswordApi } from './api/resetPasswordApi';
-import { RestorePasswordApi } from './api/restorePasswordApi';
+
 import { UserApi } from './api/userApi';
-import { VerificationApi } from './api/verificationApi';
-import { authApi, authReducer } from './auth';
-import { tokenMiddleware } from './middlewares/token-middleware';
-import restorePasswordReducer from './reducers/restorePasswordReducer';
 
 const persistConfig = {
   key: 'store',

@@ -1,22 +1,22 @@
+import { useState, useCallback } from 'react';
 // @mui
 import Masonry from '@mui/lab/Masonry';
-import Divider from '@mui/material/Divider';
-import Link from '@mui/material/Link';
+import { alpha, Theme } from '@mui/material/styles';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
+import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
-import { alpha, Theme } from '@mui/material/styles';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
 import Typography from '@mui/material/Typography';
-import { useState, useCallback } from 'react';
 // routes
 import { RouterLink } from 'routes/components';
 //
-//
-import MenuCarousel from './_common/menu-carousel';
-import MenuHotProducts from './_common/menu-hot-products';
-import { ParentItemProps, MegaMenuItemProps } from './types';
 import Iconify from '../iconify';
+//
+import MenuHotProducts from './_common/menu-hot-products';
+import MenuCarousel from './_common/menu-carousel';
+import { ParentItemProps, MegaMenuItemProps } from './types';
 
 // ----------------------------------------------------------------------
 

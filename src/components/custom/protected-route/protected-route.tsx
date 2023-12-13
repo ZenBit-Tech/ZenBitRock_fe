@@ -1,9 +1,9 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
 import { LoadingScreen } from 'components/loading-screen';
 import { AppRoute } from 'enums';
 import { useEffect, useRouter, useState, useVerification } from 'hooks';
+import { usePathname } from 'next/navigation';
 import { ValueOf } from 'types';
 
 type Properties = {

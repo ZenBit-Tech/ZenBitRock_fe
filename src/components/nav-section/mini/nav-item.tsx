@@ -1,16 +1,16 @@
-import Link from '@mui/material/Link';
-import ListItemText from '@mui/material/ListItemText';
-import { useTheme } from '@mui/material/styles';
-import Tooltip from '@mui/material/Tooltip';
 import { forwardRef } from 'react';
 // @mui
+import { useTheme } from '@mui/material/styles';
+import Link from '@mui/material/Link';
+import Tooltip from '@mui/material/Tooltip';
+import ListItemText from '@mui/material/ListItemText';
 // routes
 import { RouterLink } from 'routes/components';
 //
-import { StyledItem, StyledIcon } from './styles';
 import Iconify from '../../iconify';
 //
 import { NavItemProps, NavConfigProps } from '../types';
+import { StyledItem, StyledIcon } from './styles';
 
 // ----------------------------------------------------------------------
 

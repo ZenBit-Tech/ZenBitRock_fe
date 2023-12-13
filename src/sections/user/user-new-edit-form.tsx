@@ -7,8 +7,8 @@ import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
+import Typography from '@mui/material/Typography';
 import {
   useUpdateUserMutation,
   useSetAvatarMutation,
@@ -32,6 +32,8 @@ import {
   findCountryCodeByLabel,
   findCountryLabelByCode,
 } from 'sections/verification-view/drop-box-data';
+import { UserProfileResponse } from 'store/auth/lib/types';
+import { useUpdateContactMutation } from 'store/api/qobrixApi';
 import { formatRole, revertFormatRole } from './service';
 import ProfileSettings from './user-edit-settings';
 

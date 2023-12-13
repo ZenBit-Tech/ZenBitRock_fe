@@ -1,12 +1,12 @@
-import Collapse from '@mui/material/Collapse';
 import { useState, useEffect, useCallback } from 'react';
 // @mui
+import Collapse from '@mui/material/Collapse';
 // routes
 import { usePathname } from 'routes/hooks';
 import { useActiveLink } from 'routes/hooks/use-active-link';
 //
-import NavItem from './nav-item';
 import { NavListProps, NavConfigProps } from '../types';
+import NavItem from './nav-item';
 
 // ----------------------------------------------------------------------
 

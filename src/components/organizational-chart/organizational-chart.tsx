@@ -1,6 +1,6 @@
-import { useTheme } from '@mui/material/styles';
 import { Tree, TreeNode } from 'react-organizational-chart';
 // @mui
+import { useTheme } from '@mui/material/styles';
 // utils
 import { flattenArray } from 'utils/flatten-array';
 //
