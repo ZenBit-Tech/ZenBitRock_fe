@@ -9,8 +9,7 @@ import { useEffect, useState } from 'react';
 import { useGetLeads } from 'api/lead';
 import { useSnackbar } from 'components/snackbar';
 import { ILeads, ILeadsPagination, ILeadsParamsList, ILead } from 'types/lead';
-import useInfinityScroll from './hooks/useInfinityScroll';
-import useScrollToTop from './hooks/useScrollToTop';
+import { endpoints } from 'utils/axios';
 import {
   TypographyStyled,
   LinkStyled,
@@ -18,13 +17,16 @@ import {
   ListStyled,
   BoxStyled,
   TextMiddleStyled,
-  CardMediaStyled,
 } from './styles';
+import useInfinityScroll from '../propertiesList/hooks/useInfinityScroll';
+import useScrollToTop from '../propertiesList/hooks/useScrollToTop';
 
 const INITIAL_PARAMS: ILeadsParamsList = {
   page: 1,
   limit: 10,
 };
+
+const URL = endpoints.lead;
 
 interface LeadsListProps {
   filter: string | undefined;
@@ -34,7 +36,7 @@ interface LeadsListProps {
 
 function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
   const [params, setParams] = useState<ILeadsParamsList>(INITIAL_PARAMS);
-  const { leads, leadsError } = useGetLeads(id ? `/by-property/${id}` : '', { params });
+  const { leads, leadsError } = useGetLeads(id ? `${URL.byProperty}${id}` : '', { params });
 
   const [leadsList, setLeadsList] = useState<ILeads>([]);
   const [leadsPagination, setLeadsPagination] = useState<ILeadsPagination>();
@@ -67,7 +69,11 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
             setLeadsList((prev) => [...prev, ...leads.data]);
             setLeadsPagination((prev) => ({ ...prev, ...leads.pagination }));
             if (leads.pagination?.hasNextPage)
-              setParams((prev) => ({ ...prev, page: prev.page + 1, filter: filter && filter }));
+              if (filter) {
+                setParams((prev) => ({ ...prev, page: prev.page + 1, search: filter }));
+              } else {
+                setParams((prev) => ({ ...prev, page: prev.page + 1 }));
+              }
             setIsFetching(false);
           }
         } catch (err) {
@@ -127,7 +133,7 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
                   marginBottom: '2rem',
                   cursor: 'pointer',
                 }}
-                onClick={() => router.push(`/leads/lead/${leadId}`)}
+                onClick={() => router.push(`${URL.details}/${leadId}`)}
               >
                 <Box
                   sx={{

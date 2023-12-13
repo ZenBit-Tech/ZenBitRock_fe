@@ -65,5 +65,8 @@ export const endpoints = {
   },
   lead: {
     list: '/opportunities',
+    details: '/leads/lead',
+    create: '/leads/create',
+    byProperty: '/by-property/',
   },
 };
