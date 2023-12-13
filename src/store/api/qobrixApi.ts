@@ -51,18 +51,6 @@ export const QobrixApi = createApi({
         body,
       }),
     }),
-    deleteAgent: builder.mutation<QobrixAgentResponse['data'], { id: string }>({
-      query: ({ id }) => ({
-        url: `${ApiRoute.QOBRIX_CREATE_AGENT}/${id}`,
-        method: 'DELETE',
-      }),
-    }),
-    deleteContact: builder.mutation<QobrixContactResponse['data'], { id: string }>({
-      query: ({ id }) => ({
-        url: `${ApiRoute.QOBRIX_CREATE_CONTACT}/${id}`,
-        method: 'DELETE',
-      }),
-    }),
   }),
 });
 
@@ -71,6 +59,4 @@ export const {
   useCreateAgentMutation,
   useGetPropertyTypesQuery,
   useUpdateContactMutation,
-  useDeleteContactMutation,
-  useDeleteAgentMutation,
 } = QobrixApi;

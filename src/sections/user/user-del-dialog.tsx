@@ -8,24 +8,19 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useDeleteUserMutation } from 'store/api/userApi';
-import { useDeleteAgentMutation, useDeleteContactMutation } from 'store/api/qobrixApi';
 import { enqueueSnackbar } from 'notistack';
 import { AppRoute, StorageKey } from 'enums';
 
 type Props = {
   id: string;
-  qobrixContactId: string;
-  qobrixAgentId: string;
 };
 
-export default function DeleteProfileDialog({ id, qobrixContactId, qobrixAgentId }: Props) {
+export default function DeleteProfileDialog({ id }: Props) {
   const t = useTranslations('editProfilePage');
   const router = useRouter();
 
   const [open, setOpen] = React.useState<boolean>(false);
   const [deleteUser] = useDeleteUserMutation();
-  const [deleteContact] = useDeleteContactMutation();
-  const [deleteAgent] = useDeleteAgentMutation();
 
   const descriptionElementRef = React.useRef<HTMLElement>(null);
 
@@ -49,20 +44,19 @@ export default function DeleteProfileDialog({ id, qobrixContactId, qobrixAgentId
 
   const handleDeleteUser = async (userId: string) => {
     try {
+      const successMessage = t('success');
+
       await deleteUser({ id: userId });
-      await deleteAgent({ id: qobrixAgentId }).unwrap();
-      await deleteContact({ id: qobrixContactId }).unwrap();
-
       localStorage.removeItem(StorageKey.TOKEN);
-
-      enqueueSnackbar('User deleted succesfully!', { variant: 'success' });
+      enqueueSnackbar(successMessage, { variant: 'success' });
       handleClose();
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      
+
       router.push(AppRoute.SIGN_UP_PAGE);
     } catch (error) {
-      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+      const errMessage = t('error');
+      enqueueSnackbar(errMessage, { variant: 'error' });
     }
   };
 

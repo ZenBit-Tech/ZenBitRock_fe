@@ -45,11 +45,7 @@ const RenderSettings = ({ checked, handleChange, theme }: RenderProps): JSX.Elem
 
         <Stack direction="row" sx={{ alignItems: 'self-end' }}>
           <Iconify icon="fluent:person-delete-24-filled" width={24} sx={{ mr: 2 }} />
-          <DeleteProfileDialog
-            id={id}
-            qobrixAgentId={qobrixAgentId}
-            qobrixContactId={qobrixContactId}
-          />
+          <DeleteProfileDialog id={id} />
         </Stack>
 
         <Box sx={{ typography: 'subtitle2' }}>{t('settingsSubtitle2')}</Box>

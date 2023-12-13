@@ -274,7 +274,9 @@
     "confirmDelBtnTxt": "Delete my Profile",
     "roleAgent": "Agent",
     "roleAgency": "Agency",
-    "fetchErr": "Error fetching user data"
+    "fetchErr": "Error fetching user data",
+    "success": "User deleted successfully!",
+    "error": "Something went wrong!"
   },
   "profilePage": {
     "tabProfile": "Profile",
