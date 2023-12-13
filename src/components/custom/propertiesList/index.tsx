@@ -1,14 +1,12 @@
 'use client';
 
-import { Box, Card, Fab } from '@mui/material';
+import { Box, Card } from '@mui/material';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
-
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { useGetProperties } from 'api/property';
 import Iconify from 'components/iconify';
-import Image from 'components/image';
 import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
 import { QOBRIX_HOST } from 'config-global';
@@ -22,8 +20,7 @@ import {
 } from 'types/property';
 import { endpoints } from 'utils/axios';
 import { fCurrency } from 'utils/format-number';
-import useInfinityScroll from './hooks/useInfinityScroll';
-import useScrollToTop from './hooks/useScrollToTop';
+import useInfinityScroll from './hooks/infinityScroll';
 import {
   TypographyStyled,
   LinkStyled,
@@ -56,12 +53,6 @@ function PropertiesList(): JSX.Element {
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
 
-  const isVisible = useScrollToTop();
-
-  const scrollToTop = (): void => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   useInfinityScroll({
     callback: () => {
       if (propertiesPagination && propertiesPagination.hasNextPage) {
@@ -72,7 +63,7 @@ function PropertiesList(): JSX.Element {
 
   useEffect(() => {
     if (isFetching)
-      (async (): Promise<void> => {
+      (async () => {
         try {
           setError(propertiesError);
           if (!propertiesError && properties.data) {
@@ -132,10 +123,10 @@ function PropertiesList(): JSX.Element {
                       overflow: 'hidden',
                     }}
                   >
-                    <Image
+                    <img
                       src={photo ? `${QOBRIX_HOST}${photo}` : backgroundImages.BG_PROPERTIES_PAGE}
                       alt={t('alt')}
-                      sx={{
+                      style={{
                         width: '100%',
                         height: '100%',
                         objectFit: 'cover',
@@ -210,20 +201,6 @@ function PropertiesList(): JSX.Element {
         </ListStyled>
       )}
       {isFetching && !error && <LoadingScreen />}
-      <Fab
-        color="primary"
-        aria-label="scroll to top"
-        onClick={scrollToTop}
-        sx={{
-          position: 'fixed',
-          bottom: '50px',
-          right: '20px',
-          display: isVisible ? 'block' : 'none',
-          transition: 'easy-in 200 all',
-        }}
-      >
-        ↑
-      </Fab>
     </Box>
   );
 }
