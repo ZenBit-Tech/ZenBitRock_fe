@@ -1,5 +1,4 @@
 import { ProtectedRoute } from 'components/custom';
-
 import { CompactLayout } from './components';
 
 type Props = {
