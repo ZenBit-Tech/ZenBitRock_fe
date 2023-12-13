@@ -1,12 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { enqueueSnackbar } from 'notistack';
 import { StorageKey } from 'enums';
-import {
-  SendVerificationCodeResponse,
-  UserAuthResponse,
-  UserProfileResponse,
-  VerifyEmailResponse,
-} from './lib/types';
+import { errMessages } from 'constants/errMessages';
+import { SendVerificationCodeResponse, UserAuthResponse, UserProfileResponse } from './lib/types';
 
 export interface IUserData {
   email: string;
@@ -28,9 +24,13 @@ export const authApi = createApi({
         try {
           await queryFulfilled;
         } catch (err) {
-          enqueueSnackbar('Please enter valid credentials!', {
-            variant: 'error',
-          });
+          if (err.error.data.statusCode === 401) {
+            enqueueSnackbar(`${errMessages.SIGN_IN_ERR_MSG}`, {
+              variant: 'error',
+            });
+          } else {
+            enqueueSnackbar(`${err.error.data.message}`, { variant: 'error' });
+          }
         }
       },
       invalidatesTags: [{ type: 'Users' }],
@@ -45,7 +45,11 @@ export const authApi = createApi({
         try {
           await queryFulfilled;
         } catch (err) {
-          enqueueSnackbar('User with this email already exists', { variant: 'error' });
+          if (err.error.data.statusCode === 400) {
+            enqueueSnackbar(`${errMessages.SIGN_UP_ERR_MSG}`, { variant: 'error' });
+          } else {
+            enqueueSnackbar(`${err.error.data.message}`, { variant: 'error' });
+          }
         }
       },
       invalidatesTags: [{ type: 'Users' }],
@@ -57,7 +61,7 @@ export const authApi = createApi({
         body,
       }),
     }),
-    verifyEmail: builder.mutation<VerifyEmailResponse, { email: string; code: string }>({
+    verifyEmail: builder.mutation<UserProfileResponse, { email: string; code: string }>({
       query: (body) => ({
         url: 'auth/confirm-email',
         method: 'POST',

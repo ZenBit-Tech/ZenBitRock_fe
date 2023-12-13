@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { UserApi } from 'store/api/userApi';
 import type { RootState } from 'store';
 import { authApi } from './authApi';
@@ -12,13 +12,17 @@ const initialState: AuthState = {
   user: null,
 };
 
-const { getProfile, signUp, signIn } = authApi.endpoints;
+const { getProfile, signUp, signIn, verifyEmail } = authApi.endpoints;
 const { deleteUser } = UserApi.endpoints;
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    logoutUser: (state) => {
+      state.user = null;
+    },
+  },
   extraReducers: (builder) => {
     builder.addMatcher(signUp.matchFulfilled, (state, action) => {
       state.user = action.payload.user;
@@ -26,17 +30,19 @@ export const authSlice = createSlice({
     builder.addMatcher(signIn.matchFulfilled, (state, action) => {
       state.user = action.payload.user;
     });
-    builder.addMatcher(getProfile.matchFulfilled, (state, action) => {
-      state.user = action.payload;
-    });
-    builder.addMatcher(getProfile.matchRejected, (state) => {
+    builder.addMatcher(isAnyOf(getProfile.matchRejected, deleteUser.matchFulfilled), (state) => {
       state.user = null;
     });
-    builder.addMatcher(deleteUser.matchFulfilled, (state) => {
-      state.user = null;
-    });
+    builder.addMatcher(
+      isAnyOf(getProfile.matchFulfilled, verifyEmail.matchFulfilled),
+      (state, action) => {
+        state.user = action.payload;
+      }
+    );
   },
 });
+
+export const { logoutUser } = authSlice.actions;
 
 export default authSlice.reducer;
 

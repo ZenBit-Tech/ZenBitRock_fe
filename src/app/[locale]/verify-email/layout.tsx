@@ -1,3 +1,4 @@
+import { ProtectedRoute } from 'components/custom';
 import { CompactLayout } from './components';
 
 type Props = {
@@ -9,5 +10,9 @@ export const metadata = {
 };
 
 export default function Layout({ children }: Props) {
-  return <CompactLayout>{children}</CompactLayout>;
+  return (
+    <ProtectedRoute>
+      <CompactLayout>{children}</CompactLayout>
+    </ProtectedRoute>
+  );
 }

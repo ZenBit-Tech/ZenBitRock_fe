@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Link, List, ListItem, Typography } from '@mui/material';
-import Button from '@mui/material/Button';
+import { Button } from '@mui/material';
 import Dialog, { DialogProps } from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -48,7 +48,9 @@ export default function TermsDialog({ SignUpPage }: SignUpProps) {
 
   return (
     <React.Fragment>
-      <Link onClick={handleClickOpen}>{SignUpPage.Terms.termsLink}</Link>
+      <Link onClick={handleClickOpen} sx={{ cursor: 'pointer' }}>
+        {SignUpPage.Terms.termsLink}
+      </Link>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -57,7 +59,11 @@ export default function TermsDialog({ SignUpPage }: SignUpProps) {
         aria-describedby="scroll-dialog-description"
         maxWidth="lg"
       >
-        <DialogTitle id="scroll-dialog-title" color="primary">
+        <DialogTitle
+          id="scroll-dialog-title"
+          color="primary"
+          sx={{ paddingTop: '2rem', paddingBottom: '1rem', marginLeft: '16px' }}
+        >
           {SignUpPage.Terms.TermsTitle}
         </DialogTitle>
         <DialogContent dividers={scrollType === 'paper'}>
@@ -92,7 +98,7 @@ export default function TermsDialog({ SignUpPage }: SignUpProps) {
           </DialogContent>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} variant="contained" color="primary">
             {SignUpPage.Terms.btnTxt}
           </Button>
         </DialogActions>

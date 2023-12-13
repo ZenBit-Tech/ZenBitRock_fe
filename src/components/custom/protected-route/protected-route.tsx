@@ -2,33 +2,39 @@
 
 import { LoadingScreen } from 'components/loading-screen';
 import { AppRoute } from 'enums';
-import { useEffect, useRouter, useSelector, useState } from 'hooks';
-import { RootState } from 'store';
+import { useEffect, useRouter, useState, useVerification } from 'hooks';
+import { usePathname } from 'next/navigation';
+import { ValueOf } from 'types';
 
 type Properties = {
   children: React.ReactNode;
-  redirectPath?: keyof typeof AppRoute;
+  defaultRedirectPath?: ValueOf<typeof AppRoute>;
 };
 
 const ProtectedRoute: React.FC<Properties> = ({
   children,
-  redirectPath = AppRoute.SIGN_IN_PAGE,
+  defaultRedirectPath = AppRoute.SIGN_IN_PAGE,
 }) => {
   const router = useRouter();
-  const user = useSelector((state: RootState) => state.authSlice.user);
+  const pathname = usePathname();
+
+  const { user, redirectPath } = useVerification({
+    defaultRedirectPath: pathname as ValueOf<typeof AppRoute>,
+  });
   const [authChecked, setAuthChecked] = useState(false);
 
   useEffect(() => {
-    const hasUser = Boolean(user);
-
-    if (!hasUser) {
-      router.replace(redirectPath);
+    if (!user) {
+      router.replace(defaultRedirectPath);
     }
 
+    if (user && pathname !== redirectPath) {
+      router.replace(redirectPath);
+    }
     setAuthChecked(true);
-  }, [user]);
+  }, [user, redirectPath, defaultRedirectPath]);
 
-  const isRenderingOnServer = !authChecked && !user;
+  const isRenderingOnServer = (!authChecked && !user) || (user && pathname !== redirectPath);
 
   if (isRenderingOnServer) {
     return <LoadingScreen />;

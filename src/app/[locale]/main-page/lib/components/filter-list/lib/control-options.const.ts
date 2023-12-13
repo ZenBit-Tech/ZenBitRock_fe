@@ -1,19 +1,60 @@
-const PROPERTY_STATUS = [
+const getPropertyStatus = (t: (key: string) => string): { value: string; label: string }[] => [
   {
     value: 'pending',
-    label: 'Pending',
+    label: t('pending'),
   },
   {
     value: 'avaliable',
-    label: 'Avaliable',
+    label: t('avaliable'),
   },
   {
     value: 'reserved',
-    label: 'Reserved',
+    label: t('reserved'),
   },
   {
     value: 'sold',
-    label: 'Sold',
+    label: t('sold'),
+  },
+  {
+    value: 'rented',
+    label: t('rented'),
+  },
+  {
+    value: 'withdrawn',
+    label: t('withdrawn'),
+  },
+  {
+    value: 'onboarding',
+    label: t('onboarding'),
+  },
+  {
+    value: 'acquisition',
+    label: t('acquisition'),
+  },
+  {
+    value: 'valuation',
+    label: t('valuation'),
+  },
+  {
+    value: 'instructed',
+    label: t('instructed'),
+  },
+  {
+    value: 'exchange',
+    label: t('exchange'),
+  },
+
+  {
+    value: 'sale_agreed',
+    label: t('sale_agreed'),
+  },
+  {
+    value: 'under_offer',
+    label: t('under_offer'),
+  },
+  {
+    value: 'sold_subject_to_contract',
+    label: t('sold_subject_to_contract'),
   },
 ];
 
@@ -36,15 +77,15 @@ const BEDROOMS = [
   },
 ];
 
-const RENT_OR_SALE = [
+const getRentOrSaleOption = (t: (key: string) => string): { value: string; label: string }[] => [
   {
-    value: 'rent',
-    label: 'For Rent',
+    value: 'for_rent',
+    label: t('for_rent'),
   },
   {
-    value: 'sale',
-    label: 'For Sale',
+    value: 'for_sale',
+    label: t('for_sale'),
   },
 ];
 
-export { PROPERTY_STATUS, BEDROOMS, RENT_OR_SALE };
+export { getPropertyStatus, BEDROOMS, getRentOrSaleOption };

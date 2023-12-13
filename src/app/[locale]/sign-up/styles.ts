@@ -21,7 +21,7 @@ export const SignInLink = styled('div')`
   font-size: 14px;
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: 50px;
+  margin-bottom: 35px;
 `;
 export const Policy = styled('div')`
   font-size: 14px;

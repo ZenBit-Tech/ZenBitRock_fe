@@ -12,12 +12,16 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useSnackbar } from 'notistack';
 import { useSignUpMutation } from 'store/auth';
 import { SignUpPageType } from 'types/auth';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from 'store';
 import { AppRoute } from 'enums';
+import { colors } from 'constants/colors';
 
-const StyledTextFiled = styled(TextField)`
-  margin-bottom: 1.5 rem;
+export const StyledTextField = styled(TextField)`
+  & .MuiOutlinedInput-input {
+    &:-webkit-autofill {
+      box-shadow: 0 0 0 100px ${colors.PRIMARY_LIGHT_COLOR} inset;
+      -webkit-text-fill-color: default;
+    }
+  }
 `;
 
 type FormValues = {
@@ -31,11 +35,11 @@ type SignUpProps = {
 };
 
 function SignUpForm({ signUpPage }: SignUpProps) {
-  const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
   const { enqueueSnackbar } = useSnackbar();
-  const [signUp, { error }] = useSignUpMutation();
+
+  const [signUp] = useSignUpMutation();
 
   const form = useForm<FormValues>({
     defaultValues: {
@@ -43,7 +47,7 @@ function SignUpForm({ signUpPage }: SignUpProps) {
       password: '',
       repeatPassword: '',
     },
-    mode: 'onBlur',
+    mode: 'onTouched',
   });
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -72,11 +76,12 @@ function SignUpForm({ signUpPage }: SignUpProps) {
       onSubmit={handleSubmit(onSubmit)}
       noValidate
     >
-      <StyledTextFiled
+      <StyledTextField
         variant="outlined"
         label={signUpPage.Main.emailInput}
         placeholder={signUpPage.Main.emailInputPlaceholder}
         type="email"
+        sx={{ height: '80px' }}
         autoFocus
         {...register('email', {
           required: signUpPage.Main.emailRequired,
@@ -87,13 +92,14 @@ function SignUpForm({ signUpPage }: SignUpProps) {
         })}
         error={!!errors.email}
         helperText={errors.email?.message}
-        autoComplete="new-email"
+        autoComplete="off"
       />
-      <StyledTextFiled
+      <StyledTextField
         variant="outlined"
         label={signUpPage.Main.passwordInput}
-        placeholder={signUpPage.Main.minChar}
+        placeholder={signUpPage.Main.passwordInputPlaceholder}
         type={showPassword ? 'text' : 'password'}
+        sx={{ height: '80px' }}
         {...register('password', {
           required: signUpPage.Main.passwordRequired,
           pattern: {
@@ -109,14 +115,15 @@ function SignUpForm({ signUpPage }: SignUpProps) {
               {showPassword ? <Visibility /> : <VisibilityOff />}
             </IconButton>
           ),
-          autoComplete: 'new-password',
         }}
+        autoComplete="off"
       />
-      <StyledTextFiled
+      <StyledTextField
         variant="outlined"
         label={signUpPage.Main.repeatLabel}
-        placeholder={signUpPage.Main.minChar}
+        placeholder={signUpPage.Main.passwordInputPlaceholder}
         type={showRepeatPassword ? 'text' : 'password'}
+        sx={{ height: '80px' }}
         {...register('repeatPassword', {
           required: signUpPage.Main.passwordRequired,
           validate: (value) => value === watch('password') || signUpPage.Main.unmatchPass,
@@ -129,10 +136,18 @@ function SignUpForm({ signUpPage }: SignUpProps) {
               {showRepeatPassword ? <Visibility /> : <VisibilityOff />}
             </IconButton>
           ),
-          autoComplete: 'new-password',
+          autoComplete: 'off',
         }}
+        autoComplete="off"
       />
-      <Button type="submit" variant="contained" sx={{ my: '20px' }} fullWidth disabled={!isValid}>
+      <Button
+        type="submit"
+        variant="contained"
+        sx={{ mb: '20px', mt: '10px', padding: '14px' }}
+        color="primary"
+        fullWidth
+        disabled={!isValid}
+      >
         {signUpPage.Main.title}
       </Button>
     </Box>

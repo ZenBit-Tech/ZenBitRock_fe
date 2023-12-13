@@ -43,6 +43,13 @@ export const UserApi = createApi({
         body,
       }),
     }),
+    deleteAvatar: builder.mutation<UpdateUserResponse['data'], { userId: string }>({
+      query: (body) => ({
+        url: ApiRoute.DELETE_AVATAR,
+        method: 'PATCH',
+        body,
+      }),
+    }),
     deleteUser: builder.mutation<DeleteUserResponse['data'], { id: string }>({
       query: ({ id }) => ({
         url: ApiRoute.DELETE_USER,
@@ -58,4 +65,5 @@ export const {
   useUpdateUserMutation,
   useSetAvatarMutation,
   useDeleteUserMutation,
+  useDeleteAvatarMutation,
 } = UserApi;
