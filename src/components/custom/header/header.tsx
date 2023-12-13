@@ -41,9 +41,7 @@ const Header = ({ user }: Props): JSX.Element => {
             <Box sx={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
               <Typography sx={{ textAlign: 'right', color: theme.palette.primary.main }}>{`${t(
                 'Header.greeting'
-              )}, ${
-                user.firstName ? `${user.firstName} ${user.lastName}` : t('Header.displayName')
-              }!`}</Typography>
+              )}, ${user.firstName ? `${user.firstName}` : t('Header.displayName')}!`}</Typography>
               <Link href={AppRoute.PROFILE_PAGE}>
                 <HeaderAvatar avatar={avatar} />
               </Link>
