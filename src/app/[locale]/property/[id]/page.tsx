@@ -1,7 +1,7 @@
 'use client';
 
-import Property from 'components/custom/property';
 import { useParams } from 'next/navigation';
+import Property from 'components/custom/property';
 
 export default function PropertyPage(): JSX.Element {
   const { id } = useParams();

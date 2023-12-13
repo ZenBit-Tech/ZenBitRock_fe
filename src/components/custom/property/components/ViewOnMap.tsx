@@ -17,11 +17,12 @@ function ViewOnMap({ coordinates, closeModal, openModal }: ViewOnMapProps): JSX.
 
   const handleClose = (): void => closeModal();
   const src = `https://maps.google.com/maps?q=${coordinates}&z=15&output=embed`;
+
   useCloseModal(openModal, () => closeModal());
 
   return (
     <Box sx={{ width: 'auto', height: 'auto', padding: '0', margin: '0' }}>
-      <Modal open={true}>
+      <Modal open>
         <Box sx={{ position: 'relative', width: '100vw', height: '100vh' }}>
           <Button
             title={t('close')}
@@ -37,13 +38,14 @@ function ViewOnMap({ coordinates, closeModal, openModal }: ViewOnMapProps): JSX.
             onClick={handleClose}
           >
             <IconifyStyled
-              icon={'mingcute:close-fill'}
-              width={'3rem'}
-              height={'3rem'}
+              icon="mingcute:close-fill"
+              width="3rem"
+              height="3rem"
               color={colors.BUTTON_PRIMARY_COLOR}
             />
           </Button>
           <iframe
+            title={t('map')}
             width="100%"
             height="100%"
             style={{ border: '0' }}

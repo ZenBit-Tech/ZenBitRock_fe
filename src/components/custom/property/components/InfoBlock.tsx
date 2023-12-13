@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
-import { fCurrency } from 'utils/format-number';
 import { useTranslations } from 'next-intl';
-import { IPropertyDetailed } from 'types/property';
-import { getCountries } from 'sections/verification-view/drop-box-data';
 import { colors } from 'constants/colors';
-import splitValue from '../helpers/splitValue';
+import { getCountries } from 'sections/verification-view/drop-box-data';
+import { IPropertyDetailed } from 'types/property';
+import { fCurrency } from 'utils/format-number';
 import firstUpperCase from '../helpers/firstUpperCase';
+import splitValue from '../helpers/splitValue';
 import {
   BoxDescriptionItem,
   TextStyled,
@@ -112,11 +112,9 @@ function InfoBlock({ property }: { property: IPropertyDetailed }): JSX.Element {
           <TypographyDescriptionLeft>{t('address')}</TypographyDescriptionLeft>
           <TypographyDescriptionRight>
             {postCode && <TypographyInsert as="span">{`${postCode}`}</TypographyInsert>}
-            {
-              <TypographyInsert as="span">{`${getCountries().find(
+            <TypographyInsert as="span">{`${getCountries().find(
                 (object) => object.value === country
               )?.label}`}</TypographyInsert>
-            }
             {state && <TypographyInsert as="span">{`${state}`}</TypographyInsert>}
             {municipality && <TypographyInsert as="span">{`${municipality}`}</TypographyInsert>}
             {city && <TypographyInsert as="span">{`${city}`}</TypographyInsert>}

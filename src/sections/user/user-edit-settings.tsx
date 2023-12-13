@@ -1,17 +1,19 @@
-import React, { ChangeEvent, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useTranslations } from 'next-intl';
 import { Link, Switch, Theme } from '@mui/material';
-import { alpha, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Grid from '@mui/material/Unstable_Grid2';
 import CardHeader from '@mui/material/CardHeader';
+import Stack from '@mui/material/Stack';
+import { alpha, useTheme } from '@mui/material/styles';
+import Grid from '@mui/material/Unstable_Grid2';
+import { useTranslations } from 'next-intl';
+import React, { ChangeEvent, useState } from 'react';
+import { useSelector } from 'react-redux';
+
 import Iconify from 'components/iconify';
+import { LoadingScreen } from 'components/loading-screen';
 import { AppRoute } from 'enums';
 import { RootState } from 'store';
-import { LoadingScreen } from 'components/loading-screen';
+
 import DeleteProfileDialog from './user-del-dialog';
 
 interface RenderProps {

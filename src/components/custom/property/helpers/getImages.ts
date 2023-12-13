@@ -8,6 +8,7 @@ function getImages(inputArray: IPropertyDetailed['media']): string[][] {
   return inputArray.map((item) => {
     const href: string = item?.file?.href || '';
     const largeThumbnail: string = item?.file?.thumbnails?.large || '';
+
     return [href, largeThumbnail];
   });
 }

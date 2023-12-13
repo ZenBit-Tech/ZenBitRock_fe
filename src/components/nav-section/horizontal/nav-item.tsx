@@ -1,13 +1,13 @@
-import { forwardRef } from 'react';
-import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
-import Tooltip from '@mui/material/Tooltip';
 import ListItemText from '@mui/material/ListItemText';
-import { RouterLink } from 'routes/components';
+import Tooltip from '@mui/material/Tooltip';
+import { useTranslations } from 'next-intl';
+import { forwardRef } from 'react';
 import Iconify from 'components/iconify';
-import { NavItemProps, NavConfigProps } from '../types';
+import { RouterLink } from 'routes/components';
 import { StyledItem, StyledIcon } from './styles';
+import { NavItemProps, NavConfigProps } from '../types';
 
 type Props = NavItemProps & {
   config: NavConfigProps;

@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
   Backdrop,
   Button,
@@ -13,18 +13,18 @@ import {
   styled,
 } from '@mui/material';
 import TextField from '@mui/material/TextField';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Stack from '@mui/system/Stack';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { AppRoute } from 'enums';
-import { useSelector } from 'react-redux';
-import { useResetPasswordMutation } from 'store/api/restorePasswordApi';
-
 import { useSnackbar } from 'notistack';
-import { RootState } from 'store';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
+
 import { patterns } from 'constants/patterns';
+import { AppRoute } from 'enums';
+import { RootState } from 'store';
+import { useResetPasswordMutation } from 'store/api/restorePasswordApi';
 
 const StyledTextFiled = styled(TextField)`
   margin-bottom: 1.5 rem;

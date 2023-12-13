@@ -1,14 +1,13 @@
-import { memo, useState, useCallback } from 'react';
-// @mui
+import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
 import Stack from '@mui/material/Stack';
-import Collapse from '@mui/material/Collapse';
+import { memo, useState, useCallback } from 'react';
+// @mui
 //
-import { NavSectionProps, NavListProps, NavConfigProps } from '../types';
-import { navVerticalConfig } from '../config';
-import { StyledSubheader } from './styles';
-
 import NavList from './nav-list';
+import { StyledSubheader } from './styles';
+import { navVerticalConfig } from '../config';
+import { NavSectionProps, NavListProps, NavConfigProps } from '../types';
 
 // ----------------------------------------------------------------------
 

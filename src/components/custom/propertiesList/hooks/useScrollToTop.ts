@@ -6,6 +6,7 @@ const useScrollToTop = (): boolean => {
   useEffect(() => {
     const handleScroll = () => {
       const isPageScrolled = window.scrollY > window.innerHeight;
+
       setIsVisible(isPageScrolled);
     };
 

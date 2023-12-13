@@ -1,15 +1,15 @@
 // @mui
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
-import Tooltip from '@mui/material/Tooltip';
 import ListItemText from '@mui/material/ListItemText';
+import Tooltip from '@mui/material/Tooltip';
 // routes
 import { RouterLink } from 'routes/components';
 //
+import { StyledItem, StyledIcon, StyledDotIcon } from './styles';
 import Iconify from '../../iconify';
 //
 import { NavItemProps, NavConfigProps } from '../types';
-import { StyledItem, StyledIcon, StyledDotIcon } from './styles';
 
 // ----------------------------------------------------------------------
 

@@ -11,6 +11,7 @@ export function getPosition(arrow: string) {
         transformOrigin: { vertical: 'top', horizontal: 'left' },
       };
       break;
+
     case 'top-center':
       props = {
         style: {},
@@ -18,6 +19,7 @@ export function getPosition(arrow: string) {
         transformOrigin: { vertical: 'top', horizontal: 'center' },
       };
       break;
+
     case 'top-right':
       props = {
         style: { ml: 0.75 },
@@ -25,6 +27,7 @@ export function getPosition(arrow: string) {
         transformOrigin: { vertical: 'top', horizontal: 'right' },
       };
       break;
+
     case 'bottom-left':
       props = {
         style: { ml: -0.75 },
@@ -32,6 +35,7 @@ export function getPosition(arrow: string) {
         transformOrigin: { vertical: 'bottom', horizontal: 'left' },
       };
       break;
+
     case 'bottom-center':
       props = {
         style: {},
@@ -39,6 +43,7 @@ export function getPosition(arrow: string) {
         transformOrigin: { vertical: 'bottom', horizontal: 'center' },
       };
       break;
+
     case 'bottom-right':
       props = {
         style: { ml: 0.75 },
@@ -46,6 +51,7 @@ export function getPosition(arrow: string) {
         transformOrigin: { vertical: 'bottom', horizontal: 'right' },
       };
       break;
+
     case 'left-top':
       props = {
         style: { mt: -0.75 },
@@ -53,12 +59,14 @@ export function getPosition(arrow: string) {
         transformOrigin: { vertical: 'top', horizontal: 'left' },
       };
       break;
+
     case 'left-center':
       props = {
         anchorOrigin: { vertical: 'center', horizontal: 'right' },
         transformOrigin: { vertical: 'center', horizontal: 'left' },
       };
       break;
+
     case 'left-bottom':
       props = {
         style: { mt: 0.75 },
@@ -66,6 +74,7 @@ export function getPosition(arrow: string) {
         transformOrigin: { vertical: 'bottom', horizontal: 'left' },
       };
       break;
+
     case 'right-top':
       props = {
         style: { mt: -0.75 },
@@ -73,12 +82,14 @@ export function getPosition(arrow: string) {
         transformOrigin: { vertical: 'top', horizontal: 'right' },
       };
       break;
+
     case 'right-center':
       props = {
         anchorOrigin: { vertical: 'center', horizontal: 'left' },
         transformOrigin: { vertical: 'center', horizontal: 'right' },
       };
       break;
+
     case 'right-bottom':
       props = {
         style: { mt: 0.75 },

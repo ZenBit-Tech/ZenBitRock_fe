@@ -1,8 +1,10 @@
 'use client';
 
 import Container from '@mui/material/Container';
-import ReduxProvider from 'store/ReduxProvider';
 import { SnackbarProvider } from 'notistack';
+
+import ReduxProvider from 'store/ReduxProvider';
+
 import Form from './form';
 
 export default function VerificationView() {

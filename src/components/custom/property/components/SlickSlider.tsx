@@ -1,14 +1,14 @@
-import React, { useState, useRef } from 'react';
+import { Box, Button, Modal } from '@mui/material';
 import { useTranslations } from 'next-intl';
+import React, { useState, useRef } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { Box, Button, Modal } from '@mui/material';
-import { QOBRIX_HOST } from 'config-global';
 import Image from 'components/image/image';
+import { QOBRIX_HOST } from 'config-global';
 import { colors } from 'constants/colors';
-import { IconifyStyled } from '../styles';
 import { useCloseModal } from '../hooks/useCloseModal';
+import { IconifyStyled } from '../styles';
 
 interface SlickSliderProps {
   photos: string[][];
@@ -80,9 +80,9 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
             onClick={(): void => sliderRef?.current?.slickPrev()}
           >
             <IconifyStyled
-              icon={'iconamoon:arrow-left-2-bold'}
-              width={'4rem'}
-              height={'4rem'}
+              icon="iconamoon:arrow-left-2-bold"
+              width="4rem"
+              height="4rem"
               color={colors.BUTTON_PRIMARY_COLOR}
             />
           </Button>
@@ -102,9 +102,9 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
             onClick={(): void => sliderRef?.current?.slickNext()}
           >
             <IconifyStyled
-              icon={'iconamoon:arrow-right-2-bold'}
-              width={'4rem'}
-              height={'4rem'}
+              icon="iconamoon:arrow-right-2-bold"
+              width="4rem"
+              height="4rem"
               color={colors.BUTTON_PRIMARY_COLOR}
             />
           </Button>
@@ -129,9 +129,9 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
               }}
             />
             {toggleModal && (
-              <Modal open={true}>
+              <Modal open>
                 <Box
-                  className={'for-custom-scroll'}
+                  className="for-custom-scroll"
                   sx={{
                     position: 'absolute',
                     top: '50%',
@@ -174,9 +174,9 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
                     }}
                   >
                     <IconifyStyled
-                      icon={'pepicons-pencil:loop-minus-circle'}
-                      width={'3rem'}
-                      height={'3rem'}
+                      icon="pepicons-pencil:loop-minus-circle"
+                      width="3rem"
+                      height="3rem"
                       color={colors.BUTTON_PRIMARY_COLOR}
                     />
                   </Button>
@@ -190,9 +190,9 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
                     }}
                   >
                     <IconifyStyled
-                      icon={'pepicons-pencil:loop-plus-circle'}
-                      width={'3rem'}
-                      height={'3rem'}
+                      icon="pepicons-pencil:loop-plus-circle"
+                      width="3rem"
+                      height="3rem"
                       color={colors.BUTTON_PRIMARY_COLOR}
                     />
                   </Button>

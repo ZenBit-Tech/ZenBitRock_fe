@@ -5,8 +5,16 @@ public/*
 **/out/*
 **/.next/*
 **/src/hooks/*
-**/src/components/*
 **/src/utils
+**/src/components/hook-form
+**/src/components/locale-switcher
+**/src/components/nav-section
+**/src/components/organizational-chart
+**/src/components/progress-bar
+**/src/components/settings
+**/src/components/snackbar
+**/src/components/table
+**/src/components/text-max-line
 **/src/theme
 **/src/api
 **/src/assets

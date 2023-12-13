@@ -1,8 +1,10 @@
 'use client';
 
 import { Box, Typography } from '@mui/material';
-import PropertiesList from 'components/custom/propertiesList';
+
 import { ProtectedRoute } from 'components/custom';
+import PropertiesList from 'components/custom/propertiesList';
+
 import { NotificationCenter, PropertyFilter } from './lib';
 
 function MainPage(): JSX.Element {

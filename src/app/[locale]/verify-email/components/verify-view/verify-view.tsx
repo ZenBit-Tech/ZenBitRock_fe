@@ -1,20 +1,22 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useTranslations } from 'next-intl';
-import { useCallback, useEffect } from 'react';
-import { notFound } from 'next/navigation';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { paths } from 'routes/paths';
+import { notFound } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { useCallback, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+
 import { EmailInboxIcon } from 'assets/icons';
+import FormProvider, { RHFCode } from 'components/hook-form';
 import Iconify from 'components/iconify';
 import { RouterLink } from 'routes/components';
-import FormProvider, { RHFCode } from 'components/hook-form';
+import { paths } from 'routes/paths';
 import { useSendVerificationCodeMutation, useVerifyEmailMutation } from 'store/auth';
+
 import { VerifySchema } from './validation-schema';
 
 const defaultValues = {

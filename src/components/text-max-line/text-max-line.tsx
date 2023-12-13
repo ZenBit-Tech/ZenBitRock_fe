@@ -1,7 +1,7 @@
-import { forwardRef } from 'react';
 // @mui
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
+import { forwardRef } from 'react';
 //
 import { TextMaxLineProps } from './types';
 import useTypography from './use-typography';

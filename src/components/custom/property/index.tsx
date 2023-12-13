@@ -1,19 +1,19 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { AxiosError } from 'axios';
 import { Box, Fab } from '@mui/material';
+import { AxiosError } from 'axios';
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useEffect, useState } from 'react';
 import { useGetProperty } from 'api/property';
-import { IPropertyDetailed } from 'types/property';
-import { useSnackbar } from 'components/snackbar';
 import Iconify from 'components/iconify';
 import Image from 'components/image/image';
-import SlickSlider from './components/SlickSlider';
-import getImages from './helpers/getImages';
-import ViewOnMap from './components/ViewOnMap';
+import { useSnackbar } from 'components/snackbar';
+import { IPropertyDetailed } from 'types/property';
 import InfoBlock from './components/InfoBlock';
+import SlickSlider from './components/SlickSlider';
+import ViewOnMap from './components/ViewOnMap';
+import getImages from './helpers/getImages';
 import { Title, TypographyStyled, ButtonStyled, Wrapper } from './styles';
 import useScrollToTop from '../propertiesList/hooks/useScrollToTop';
 
@@ -46,7 +46,7 @@ export default function Property({ id }: { id: string }): JSX.Element {
         setError(err);
       }
     })();
-  }, [property]);
+  }, [property, propertyError]);
 
   function closeModal(): void {
     setOpenModal(!openModal);
@@ -77,7 +77,7 @@ export default function Property({ id }: { id: string }): JSX.Element {
           sx={{ padding: '14px', width: 'fit-content' }}
           onClick={(): void => router.push(`/main-page`)}
         >
-          <Iconify icon={'solar:arrow-left-linear'} width={'2rem'} height={'2rem'} />
+          <Iconify icon="solar:arrow-left-linear" width="2rem" height="2rem" />
         </ButtonStyled>
         <Title variant="h3">{t('title')}</Title>
       </Box>
@@ -123,7 +123,7 @@ export default function Property({ id }: { id: string }): JSX.Element {
               ? propertyDetailed?.coordinates
               : `${propertyDetailed?.city}, ${propertyDetailed?.street}`
           }
-          closeModal={closeModal}
+          closeModal={() => closeModal()}
           openModal={openModal}
         />
       )}
