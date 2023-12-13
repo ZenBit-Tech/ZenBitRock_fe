@@ -1,9 +1,12 @@
+import { useTranslations } from 'next-intl';
+
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
-import { useTranslations } from 'next-intl';
+
 import { colors } from 'constants/colors';
 import { commonLinks } from 'constants/commonLinks';
+
 import { useCloseModal } from '../hooks/useCloseModal';
 import { IconifyStyled } from '../styles';
 

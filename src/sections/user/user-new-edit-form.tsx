@@ -365,7 +365,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
                 name="about"
                 label={t('aboutLabel')}
                 placeholder={t('aboutPlaceholder')}
-                stateValue={stateDescription || ""}
+                stateValue={stateDescription || ''}
                 sx={{ gridColumn: { xs: 'span 1', sm: 'span 2' }, height: '140px' }}
               />
             </Box>

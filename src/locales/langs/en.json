@@ -463,6 +463,12 @@
     "closed_won": "Closed Won",
     "closed_lost": "Closed Lost",
     "informative": "Informative",
-    "create": "Add New"
+    "create": "Add New",
+    "source": "Source",
+    "contact": "Name",
+    "phone": "Phone",
+    "email": "Email",
+    "status": "Status",
+    "filtered": "Filtered for the: "
   }
 }

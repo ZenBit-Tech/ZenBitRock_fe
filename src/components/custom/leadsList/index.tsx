@@ -1,19 +1,24 @@
 'use client';
 
-import { Box, Card, Fab } from '@mui/material';
-
-import { AxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
+
+import { useRouter } from 'next/navigation';
+
+import { useTranslations } from 'next-intl';
+
+import { Box, Card, Fab } from '@mui/material';
+import { AxiosError } from 'axios';
+
 import { useGetLeads } from 'api/lead';
 import { useSnackbar } from 'components/snackbar';
+import { colors } from 'constants/colors';
 import { ILeads, ILeadsPagination, ILeadsParamsList, ILead } from 'types/lead';
 import { endpoints } from 'utils/axios';
-import { TextStyled, ListStyled, BoxStyled, TextMiddleStyled } from './styles';
+
 import useInfinityScroll from '../propertiesList/hooks/useInfinityScroll';
 import useScrollToTop from '../propertiesList/hooks/useScrollToTop';
-import Link from 'next/link';
+
+import { TextStyled, ListStyled } from './styles';
 
 const INITIAL_PARAMS: ILeadsParamsList = {
   page: 1,
@@ -54,6 +59,7 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
       }
     },
   });
+
   useEffect(() => {
     if (isFetching)
       (async (): Promise<void> => {
@@ -83,14 +89,19 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
         flexDirection: 'column',
         width: '100%',
         marginX: 'auto',
-        transition: 'easy-in 200 all',
+        transition: 'easy-in 200 display',
       }}
     >
       {name && (
         <Box
           sx={{
-            width: '100%',
-            height: '50%',
+            width: 'fit-content',
+            height: 'auto',
+            borderColor: colors.PRIMARY_DARK_COLOR,
+            borderStyle: 'solid',
+            borderWidth: '1px',
+            borderRadius: '0.375rem',
+            padding: '0.375rem',
           }}
         >
           <TextStyled
@@ -98,7 +109,8 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
               fontWeight: 'bold',
             }}
           >
-            {`Filtered for the: ${name}`}
+            <span>{t('filtered')}</span>
+            {name}
           </TextStyled>
         </Box>
       )}
@@ -126,6 +138,7 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
                   width: '100%',
                   marginBottom: '2rem',
                   padding: '1rem',
+                  paddingLeft: '3rem',
                   cursor: 'pointer',
                 }}
                 onClick={() => router.push(`${URL.details}/${leadId}`)}
@@ -136,61 +149,89 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
                     height: '50%',
                   }}
                 >
-                  <TextStyled
-                    sx={{
-                      fontWeight: 'bold',
-                    }}
-                  >
-                    {t(source)}
-                  </TextStyled>
-
-                  <TextStyled
-                    sx={{
-                      fontWeight: 'bold',
-                    }}
-                  >
-                    {t(status)}
-                  </TextStyled>
-                </Box>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'flex-start',
-                    alignContent: 'space-between',
-                    flexDirection: 'column',
-                    padding: '1rem',
-                    width: '100%',
-                    height: '50%',
-                    maxHeight: '50%',
-                    minHeight: '50%',
-                  }}
-                >
-                  <BoxStyled
+                  <Box
                     sx={{
                       display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      width: '100%',
+                      justifyContent: 'flex-start',
+                      alignItems: 'baseline',
+                      gap: '2rem',
+                      marginBottom: '1.5rem',
                     }}
                   >
                     <TextStyled
                       sx={{
                         fontWeight: 'bold',
+                        width: '3rem',
                       }}
                     >
-                      {contactName}
+                      {t('source')}:
                     </TextStyled>
-                    <Link href="mailto:">
-                      <TextStyled
-                        sx={{
-                          fontWeight: 'bold',
-                        }}
-                      >
-                        {contactEmail}
-                      </TextStyled>
-                    </Link>
-                  </BoxStyled>
-                  <TextMiddleStyled>{contactPhone}</TextMiddleStyled>
+                    <TextStyled
+                      sx={{
+                        fontSize: '1.5rem',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      {t(source)}
+                    </TextStyled>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'flex-start',
+                      alignItems: 'center',
+                      gap: '2rem',
+                      marginBottom: '1rem',
+                    }}
+                  >
+                    <TextStyled
+                      sx={{
+                        fontWeight: 'bold',
+                        width: '3rem',
+                      }}
+                    >
+                      {t('status')}:
+                    </TextStyled>
+                    <TextStyled>{t(status)}</TextStyled>{' '}
+                  </Box>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'flex-start',
+                      alignItems: 'center',
+                      gap: '2rem',
+                      marginBottom: '1rem',
+                    }}
+                  >
+                    <TextStyled
+                      sx={{
+                        fontWeight: 'bold',
+                        width: '3rem',
+                      }}
+                    >
+                      {t('contact')}:
+                    </TextStyled>
+                    <TextStyled>{contactName}</TextStyled>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'flex-start',
+                      alignItems: 'center',
+                      gap: '2rem',
+                      marginBottom: '1rem',
+                    }}
+                  >
+                    <TextStyled
+                      sx={{
+                        fontWeight: 'bold',
+                        width: '3rem',
+                      }}
+                    >
+                      {contactPhone ? t('phone') : t('email')}:
+                    </TextStyled>
+                    <TextStyled>{contactPhone ? contactPhone : contactEmail}</TextStyled>
+                  </Box>
                 </Box>
               </Card>
             );
@@ -203,10 +244,10 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
         onClick={scrollToTop}
         sx={{
           position: 'fixed',
-          bottom: '50px',
+          bottom: '70px',
           right: '20px',
           display: isVisible ? 'block' : 'none',
-          transition: 'easy-in 200 all',
+          transition: 'easy-in 200 display',
         }}
       >
         ↑

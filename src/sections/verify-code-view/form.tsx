@@ -1,7 +1,7 @@
 'use client';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-        
+
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import * as Yup from 'yup';

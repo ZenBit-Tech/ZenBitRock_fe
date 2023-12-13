@@ -68,5 +68,6 @@ export const endpoints = {
     details: '/leads/lead',
     create: '/leads/create',
     byProperty: '/by-property/',
+    mainleads: '/leads',
   },
 };

@@ -1,11 +1,14 @@
 'use client';
 
-import { Box, Card, Fab } from '@mui/material';
-import { AxiosError } from 'axios';
+import { useEffect, useState } from 'react';
+
 import { useRouter } from 'next/navigation';
 
 import { useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
+
+import { Box, Card, Fab } from '@mui/material';
+import { AxiosError } from 'axios';
+
 import { useGetProperties } from 'api/property';
 import Iconify from 'components/iconify';
 import Image from 'components/image';
@@ -22,6 +25,7 @@ import {
 } from 'types/property';
 import { endpoints } from 'utils/axios';
 import { fCurrency } from 'utils/format-number';
+
 import useInfinityScroll from './hooks/useInfinityScroll';
 import useScrollToTop from './hooks/useScrollToTop';
 import {
@@ -89,7 +93,15 @@ function PropertiesList(): JSX.Element {
   }, [isFetching, properties, propertiesError, propertiesPagination]);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', width: '90%', marginX: 'auto' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '90%',
+        marginX: 'auto',
+        transition: 'easy-in 200 display',
+      }}
+    >
       {error && enqueueSnackbar(t('error'), { variant: 'error' })}
       {propertiesList.length !== 0 && (
         <ListStyled
@@ -216,10 +228,10 @@ function PropertiesList(): JSX.Element {
         onClick={scrollToTop}
         sx={{
           position: 'fixed',
-          bottom: '50px',
+          bottom: '70px',
           right: '20px',
           display: isVisible ? 'block' : 'none',
-          transition: 'easy-in 200 all',
+          transition: 'easy-in 200 display',
         }}
       >
         ↑

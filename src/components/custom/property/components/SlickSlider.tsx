@@ -1,12 +1,16 @@
-import { Box, Button, Modal } from '@mui/material';
-import { useTranslations } from 'next-intl';
 import React, { useState, useRef } from 'react';
+
+import { useTranslations } from 'next-intl';
+
+import { Box, Button, Modal } from '@mui/material';
 import Slider from 'react-slick';
+
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Image from 'components/image/image';
 import { QOBRIX_HOST } from 'config-global';
 import { colors } from 'constants/colors';
+
 import { useCloseModal } from '../hooks/useCloseModal';
 import { IconifyStyled } from '../styles';
 

@@ -1,8 +1,11 @@
 'use client';
 
-import { Button } from '@mui/material';
 import { useRouter } from 'next/navigation';
+
 import { useTranslations } from 'next-intl';
+
+import { Button } from '@mui/material';
+
 import Iconify from 'components/iconify';
 import { endpoints } from 'utils/axios';
 
@@ -21,7 +24,7 @@ function ButtonAddNewLead() {
       color="primary"
       onClick={() => router.push(`${URL.create}`)}
     >
-      <Iconify icon="gala:add" height="auto" />
+      <Iconify icon="subway:add" height="auto" />
     </Button>
   );
 }

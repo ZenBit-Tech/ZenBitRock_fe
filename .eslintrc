@@ -44,27 +44,31 @@
     "import/order": [
       "error",
       {
-        "groups": ["external", "builtin", "internal", "sibling", "parent", "index"],
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
         "pathGroups": [
           {
-            "pattern": "components",
-            "group": "internal"
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
           },
           {
-            "pattern": "common",
-            "group": "internal"
+            "pattern": "next/**",
+            "group": "external",
+            "position": "before"
           },
           {
-            "pattern": "routes/ **",
-            "group": "internal"
+            "pattern": "next-**",
+            "group": "external",
+            "position": "before"
           },
           {
-            "pattern": "assets/**",
-            "group": "internal",
+            "pattern": "external",
+            "group": "external",
             "position": "after"
           }
         ],
-        "pathGroupsExcludedImportTypes": ["internal"],
+        "pathGroupsExcludedImportTypes": ["builtin"],
+        "newlines-between": "always",
         "alphabetize": {
           "order": "asc",
           "caseInsensitive": true

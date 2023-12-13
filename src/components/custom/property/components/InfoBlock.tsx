@@ -1,9 +1,12 @@
-import { Box } from '@mui/material';
 import { useTranslations } from 'next-intl';
+
+import { Box } from '@mui/material';
+
 import { colors } from 'constants/colors';
 import { getCountries } from 'sections/verification-view/drop-box-data';
 import { IPropertyDetailed } from 'types/property';
 import { fCurrency } from 'utils/format-number';
+
 import firstUpperCase from '../helpers/firstUpperCase';
 import splitValue from '../helpers/splitValue';
 import {

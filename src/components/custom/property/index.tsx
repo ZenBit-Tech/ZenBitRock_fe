@@ -1,10 +1,14 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
+import { useRouter } from 'next/navigation';
+
+import { useTranslations } from 'next-intl';
+
 import { Box, Fab } from '@mui/material';
 import { AxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
+
 import { useGetProperty } from 'api/property';
 import Iconify from 'components/iconify';
 import Image from 'components/image/image';
@@ -12,12 +16,14 @@ import { useSnackbar } from 'components/snackbar';
 import { backgroundImages } from 'constants/backgroundImgLinks';
 import { IPropertyDetailed } from 'types/property';
 import { endpoints } from 'utils/axios';
+
+import useScrollToTop from '../propertiesList/hooks/useScrollToTop';
+
 import InfoBlock from './components/InfoBlock';
 import SlickSlider from './components/SlickSlider';
 import ViewOnMap from './components/ViewOnMap';
 import getImages from './helpers/getImages';
 import { Title, TypographyStyled, ButtonStyled, Wrapper } from './styles';
-import useScrollToTop from '../propertiesList/hooks/useScrollToTop';
 
 const URL = endpoints.main;
 

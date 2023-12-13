@@ -1,6 +1,7 @@
 'use client';
 
 import { styled, Typography, Button, Box } from '@mui/material';
+
 import Iconify from 'components/iconify';
 import { colors } from 'constants/colors';
 
