@@ -1,15 +1,15 @@
 'use client';
 
+import { useRef } from 'react';
+import { SnackbarProvider as NotistackProvider, closeSnackbar } from 'notistack';
+// @mui
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
-import { SnackbarProvider as NotistackProvider, closeSnackbar } from 'notistack';
-import { useRef } from 'react';
-// @mui
 //
-import { StyledIcon, StyledNotistack } from './styles';
 import Iconify from '../iconify';
 import { useSettingsContext } from '../settings';
 //
+import { StyledIcon, StyledNotistack } from './styles';
 
 // ----------------------------------------------------------------------
 

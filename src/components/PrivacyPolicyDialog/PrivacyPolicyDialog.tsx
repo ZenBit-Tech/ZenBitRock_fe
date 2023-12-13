@@ -1,10 +1,10 @@
+import * as React from 'react';
 import { Link, List, ListItem, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog, { DialogProps } from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import * as React from 'react';
 import { Locale } from 'locales/i18n.config';
 
 type SignUpPageType = {
@@ -31,7 +31,6 @@ export default function PrivacyPolicyDialog({ SignUpPage }: SignUpProps) {
   React.useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef;
-
       if (descriptionElement !== null) {
         descriptionElement.focus();
       }
@@ -47,7 +46,7 @@ export default function PrivacyPolicyDialog({ SignUpPage }: SignUpProps) {
   };
 
   return (
-    <>
+    <React.Fragment>
       <Link onClick={handleClickOpen} sx={{ cursor: 'pointer' }}>
         {SignUpPage.Terms.policyLink}
       </Link>
@@ -103,6 +102,6 @@ export default function PrivacyPolicyDialog({ SignUpPage }: SignUpProps) {
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </React.Fragment>
   );
 }

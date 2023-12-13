@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Yup from 'yup';
-
 import { patterns } from 'constants/patterns';
 import { VerificationData } from 'types/verification-data';
-
 import { Values } from './drop-box-data';
 
 const LEGAL_AGE = 18;

@@ -13,10 +13,10 @@ import Backdrop from '@mui/material/Backdrop';
 import Stack from '@mui/system/Stack';
 import { useSnackbar } from 'notistack';
 import FormProvider, { RHFCode } from 'components/hook-form';
-import { AppRoute } from 'enums';
-import { AppDispatch, RootState } from 'store';
 import { useSendCodeMutation, useVerifyCodeMutation } from 'store/api/restorePasswordApi';
 import { setCode } from 'store/reducers/restorePasswordReducer';
+import { AppRoute } from 'enums';
+import { AppDispatch, RootState } from 'store';
 
 const defaultValues = { code: '' };
 const CODE_LENGTH = 6;

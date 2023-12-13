@@ -5,13 +5,13 @@ import { useSelector } from 'react-redux';
 import { useTranslations } from 'next-intl';
 import { useSnackbar } from 'notistack';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import LoadingButton from '@mui/lab/LoadingButton';
-import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
+import Backdrop from '@mui/material/Backdrop';
+import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 import Stack, { StackProps } from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 import FormProvider, {
   RHFUpload,
@@ -204,7 +204,7 @@ export default function VerificationForm({ handleVerification }: Props): JSX.Ele
 
       reset();
       handleVerification();
-      
+
       return undefined;
     } catch (error) {
       enqueueSnackbar(t('generalErrorMessage'), { variant: 'error' });

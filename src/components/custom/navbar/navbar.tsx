@@ -1,11 +1,12 @@
 'use client';
 
 import AppBar from '@mui/material/AppBar';
-import { grey } from '@mui/material/colors';
 import Toolbar from '@mui/material/Toolbar';
+import { grey } from '@mui/material/colors';
 import { NavSectionHorizontal } from 'components/nav-section';
 import { UserProfileResponse } from 'store/auth/lib/types';
 import { NAV_ITEMS, defaultConfig } from './lib';
+import { useTheme } from '@emotion/react';
 
 type Props = {
   user: UserProfileResponse | null;

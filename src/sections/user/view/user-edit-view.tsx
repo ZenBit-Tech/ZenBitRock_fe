@@ -1,19 +1,17 @@
 'use client';
 
-import { Link, Stack } from '@mui/material';
-import Container from '@mui/material/Container';
-import { useTranslations } from 'next-intl';
 import { useSelector } from 'react-redux';
-
-import CustomBreadcrumbs from 'components/custom-breadcrumbs';
-import Iconify from 'components/iconify';
-import { LoadingScreen } from 'components/loading-screen';
+import { useTranslations } from 'next-intl';
+import Container from '@mui/material/Container';
+import { Link, Stack } from '@mui/material';
 import { useSettingsContext } from 'components/settings';
+import CustomBreadcrumbs from 'components/custom-breadcrumbs';
 import { SnackbarProvider } from 'components/snackbar';
+import ReduxProvider from 'store/ReduxProvider';
+import Iconify from 'components/iconify';
 import { AppRoute } from 'enums';
 import { RootState } from 'store';
-import ReduxProvider from 'store/ReduxProvider';
-
+import { LoadingScreen } from 'components/loading-screen';
 import UserNewEditForm from '../user-new-edit-form';
 
 export default function UserEditView(): JSX.Element {

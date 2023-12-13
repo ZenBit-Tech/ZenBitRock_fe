@@ -1,18 +1,16 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Box, MenuItem, Stack } from '@mui/material';
-
-import { Block } from 'components/custom';
+import { useForm, useTranslations } from 'hooks';
 import FormProvider, {
   RHFRadioGroup,
   RHFSelect,
   RHFSlider,
   RHFTextField,
 } from 'components/hook-form';
-import { LoadingScreen } from 'components/loading-screen';
-import { useForm, useTranslations } from 'hooks';
+import { Block } from 'components/custom';
 import { useGetPropertyTypesQuery } from 'store/api/qobrixApi';
-
+import { LoadingScreen } from 'components/loading-screen';
 import { BEDROOMS, getPropertyStatus, getRentOrSaleOption, FilterSchema } from './lib';
 
 const defaultValues = {

@@ -7,8 +7,8 @@ import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
+import Typography from '@mui/material/Typography';
 import {
   useUpdateUserMutation,
   useSetAvatarMutation,
@@ -364,7 +364,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
                 name="about"
                 label={t('aboutLabel')}
                 placeholder={t('aboutPlaceholder')}
-                stateValue={stateDescription || ""}
+                stateValue={stateDescription || ''}
                 sx={{ gridColumn: { xs: 'span 1', sm: 'span 2' }, height: '140px' }}
               />
             </Box>
