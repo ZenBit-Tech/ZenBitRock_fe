@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import {
   useUpdateUserMutation,
   useSetAvatarMutation,
+  useGetUserByIdMutation,
   useDeleteAvatarMutation,
 } from 'store/api/userApi';
 import ReduxProvider from 'store/ReduxProvider';
@@ -50,6 +51,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
   const [updateUser] = useUpdateUserMutation();
   const [updateContact] = useUpdateContactMutation();
   const [setAvatar] = useSetAvatarMutation();
+  const [getUserById] = useGetUserByIdMutation();
   const [deleteAvatar] = useDeleteAvatarMutation();
 
   const { enqueueSnackbar } = useSnackbar();
@@ -169,8 +171,11 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
       await updateContact({ qobrixId, ...qobrixUser }).unwrap();
 
       if (avatar && avatar instanceof Blob) {
+        const { avatarPublicId } = await getUserById({ id: userId }).unwrap();
+
         formData.append('file', avatar);
         formData.append('userId', userId);
+        if (avatarPublicId) formData.append('avatarPublicId', avatarPublicId);
         await setAvatar(formData).unwrap();
         setIsAvatar(true);
       }

@@ -85,14 +85,18 @@
     "emailLabel": "Email",
     "button": "Send Code",
     "emailRequired": "Email is required",
-    "emailValid": "Email is not valid"
+    "emailValid": "Email is not valid",
+    "errorMessage": "Please enter email which you used for registration"
   },
   "VerifyCodePage": {
     "title": "Enter code",
     "header": "We send OTP verification to your email this code",
     "dontHaveCode": "Don't have a code?",
     "sendAgain": "Send Again",
-    "button": "Verify"
+    "button": "Verify",
+    "errorMessageInvalidCode": "Please enter the security code",
+    "generalErrorMessage": "Something went wrong, please try again",
+    "successMessage": "Check your mail!"
   },
   "signInPage": {
     "Main": {
