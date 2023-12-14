@@ -61,7 +61,6 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
         borderTopRightRadius: '8px',
         borderTopLeftRadius: '8px',
         overflow: 'hidden',
-        transition: 'easy-in 200 all',
       }}
       onMouseOut={(): void => setVisibleArrows(false)}
       onMouseOver={(): void => setVisibleArrows(true)}
@@ -101,7 +100,6 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
               transform: 'translateY(-50%)',
               right: '0.5rem',
               backgroundColor: 'rgba(145, 158, 171, 0.08)',
-              transition: 'easy in 200 all',
             }}
             onClick={(): void => sliderRef?.current?.slickNext()}
           >
@@ -148,7 +146,6 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
                   <Box
                     sx={{
                       transform: `scale(${scale})`,
-                      transition: 'transform 0.2s ease-out',
                       cursor: 'pointer',
                     }}
                   >
@@ -160,7 +157,6 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
                         height: 'auto',
                         objectFit: 'cover',
                         cursor: 'pointer',
-                        transition: 'easy-in 200 all',
                       }}
                       onClick={(): void => {
                         setToggleModal(false);
