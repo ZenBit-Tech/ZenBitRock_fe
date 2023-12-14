@@ -1,19 +1,18 @@
-import { Link, Tooltip } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import ListItemText from '@mui/material/ListItemText';
-import Stack from '@mui/material/Stack';
-import { useTheme, alpha } from '@mui/material/styles';
 import { useTranslations } from 'next-intl';
 import { useDispatch } from 'react-redux';
-
+import { Link, Tooltip } from '@mui/material';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Avatar from '@mui/material/Avatar';
+import ListItemText from '@mui/material/ListItemText';
+import { useTheme, alpha } from '@mui/material/styles';
+import { IUserProfileCover } from 'types/user';
+import { bgGradient } from 'theme/css';
 import AvatarShape from 'assets/illustrations/avatar-shape';
 import Iconify from 'components/iconify';
 import { AppRoute, StorageKey } from 'enums';
 import { AppDispatch } from 'store';
 import { logoutUser } from 'store/auth/authReducer';
-import { bgGradient } from 'theme/css';
-import { IUserProfileCover } from 'types/user';
 
 export default function ProfileCover({ name, avatarUrl }: IUserProfileCover) {
   const t = useTranslations('profilePage');

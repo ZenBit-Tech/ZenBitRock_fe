@@ -1,39 +1,37 @@
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { useForm } from 'react-hook-form';
+import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
-import { useTranslations } from 'next-intl';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import * as Yup from 'yup';
-
-import { countries } from 'assets/data';
-import FormProvider, { RHFTextField, RHFUploadAvatar, RHFAutocomplete } from 'components/hook-form';
-import RHFTextArea from 'components/hook-form/rhf-text-area';
-import Iconify from 'components/iconify';
-import { useSnackbar } from 'components/snackbar';
-import { patterns } from 'constants/patterns';
-import { AppRoute } from 'enums';
-import { useRouter } from 'routes/hooks';
-import {
-  findCountryCodeByLabel,
-  findCountryLabelByCode,
-} from 'sections/verification-view/drop-box-data';
-import { useUpdateContactMutation } from 'store/api/qobrixApi';
+import Typography from '@mui/material/Typography';
 import {
   useUpdateUserMutation,
   useSetAvatarMutation,
   useGetUserByIdMutation,
   useDeleteAvatarMutation,
 } from 'store/api/userApi';
-import { UserProfileResponse } from 'store/auth/lib/types';
+import { useUpdateContactMutation } from 'store/api/qobrixApi';
 import ReduxProvider from 'store/ReduxProvider';
+import { UserProfileResponse } from 'store/auth/lib/types';
+import { useRouter } from 'routes/hooks';
+import { patterns } from 'constants/patterns';
+import { AppRoute } from 'enums';
 import { IUserUpdateProfile, IUserUpdateQobrix } from 'types/user';
 import { fData } from 'utils/format-number';
-
+import { countries } from 'assets/data';
+import FormProvider, { RHFTextField, RHFUploadAvatar, RHFAutocomplete } from 'components/hook-form';
+import RHFTextArea from 'components/hook-form/rhf-text-area';
+import Iconify from 'components/iconify';
+import { useSnackbar } from 'components/snackbar';
+import {
+  findCountryCodeByLabel,
+  findCountryLabelByCode,
+} from 'sections/verification-view/drop-box-data';
 import { formatRole, revertFormatRole } from './service';
 import ProfileSettings from './user-edit-settings';
 
@@ -57,6 +55,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
   const [deleteAvatar] = useDeleteAvatarMutation();
 
   const { enqueueSnackbar } = useSnackbar();
+
   const t = useTranslations('editProfilePage');
 
   const [selectedValue, setSelectedValue] = useState<string>('');
@@ -159,6 +158,8 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     updatedUser.agencyName = agency ?? stateAgency;
     updatedUser.description = about ? about : stateDescription;
 
+    const formData = new FormData();
+
     const qobrixUser: IUserUpdateQobrix = {
       city: updatedUser.city,
       country: updatedUser.country,
@@ -167,15 +168,12 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
       role: updatedUser.role,
     };
 
-    const formData = new FormData();
-
     try {
       const successMessage = t('updateText');
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       await updateUser(updatedUser).unwrap();
-
       await updateContact({ qobrixId, ...qobrixUser }).unwrap();
 
       if (avatar && avatar instanceof Blob) {
@@ -187,6 +185,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
         await setAvatar(formData).unwrap();
         setIsAvatar(true);
       }
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       enqueueSnackbar(successMessage, { variant: 'success' });
 

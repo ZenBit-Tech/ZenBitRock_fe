@@ -1,18 +1,16 @@
 /* eslint-disable @typescript-eslint/no-shadow */
+import { useForm, Controller } from 'react-hook-form';
+import { useSnackbar } from 'notistack';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import LoadingButton from '@mui/lab/LoadingButton';
-import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
+import Backdrop from '@mui/material/Backdrop';
+import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 import Stack, { StackProps } from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
-import { useSnackbar } from 'notistack';
-import { useCallback, useEffect, useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { useSelector } from 'react-redux';
+import { useCallback, useEffect, useSelector, useState, useTranslations } from 'hooks';
+
 import FormProvider, {
   RHFUpload,
   RHFTextField,
@@ -21,12 +19,11 @@ import FormProvider, {
   RHFCheckbox,
 } from 'components/hook-form';
 import { datesFormats } from 'constants/dates-formats';
-import { AppRoute } from 'enums';
+import { selectCurrentUser } from 'store/auth/authReducer';
+import { VerificationData } from 'types/verification-data';
 import { useCreateAgentMutation, useCreateContactMutation } from 'store/api/qobrixApi';
 import { useGetUserByIdMutation, useUpdateUserMutation } from 'store/api/userApi';
 import { useCreateVerificationMutation } from 'store/api/verificationApi';
-import { selectCurrentUser } from 'store/auth/authReducer';
-import { VerificationData } from 'types/verification-data';
 import { getRoles, getGenders, getIdentities, getStatuses, getCountries } from './drop-box-data';
 import { FormSchema } from './schema';
 
@@ -185,21 +182,23 @@ export default function VerificationForm(): JSX.Element {
       };
 
       const contact = await createContact(contactData).unwrap();
-
-      const { role: agentRole, legacy_id, id: contactId } = contact.data;
-      const contactIdData = { userId, qobrixContactId: contactId };
-
-      await updateUser(contactIdData).unwrap();
+      const { role: agentRole, legacy_id, id: qobrixContactId } = contact.data;
 
       const agentData = {
         agent_type: agentRole,
         legacy_id,
-        primary_contact: contactId,
+        primary_contact: qobrixContactId,
       };
 
-      createAgent(agentData).unwrap();
+      const agent = await createAgent(agentData).unwrap();
+      const { id: qobrixAgentId } = agent.data;
+
+      const newQobrixData = { userId, qobrixContactId, qobrixAgentId };
+
+      await updateUser(newQobrixData).unwrap();
+
       reset();
-      replace(AppRoute.VERIFICATION_DONE_PAGE);
+      handleVerification();
 
       return undefined;
     } catch (error) {

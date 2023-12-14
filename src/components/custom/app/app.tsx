@@ -1,9 +1,9 @@
 'use client';
 
-import { LoadingScreen } from 'components/loading-screen';
 import { StorageKey } from 'enums';
 import { useEffect, useSelector, useState } from 'hooks';
 import { RootState } from 'store';
+import { LoadingScreen } from 'components/loading-screen';
 import { useGetProfileQuery } from 'store/auth';
 import { Header } from '../header/header';
 import { Navbar } from '../navbar/navbar';

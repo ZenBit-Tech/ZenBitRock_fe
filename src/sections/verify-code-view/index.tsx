@@ -1,11 +1,10 @@
 'use client';
 
-import { UploadIllustration } from 'assets/illustrations';
-import { SnackbarProvider } from 'components/snackbar';
 import ReduxProvider from 'store/ReduxProvider';
-
-import Form from './form';
+import { SnackbarProvider } from 'components/snackbar';
+import { UploadIllustration } from 'assets/illustrations';
 import { Wrapper, LeftSection, RightSection, FormWrapper } from './styles';
+import Form from './form';
 
 export default function VerifyCodeView(): JSX.Element {
   return (

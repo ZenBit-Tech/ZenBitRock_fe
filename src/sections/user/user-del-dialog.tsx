@@ -1,16 +1,15 @@
+import * as React from 'react';
+import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { DialogContentText, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
-import { enqueueSnackbar } from 'notistack';
-import * as React from 'react';
-
-import { AppRoute, StorageKey } from 'enums';
 import { useDeleteUserMutation } from 'store/api/userApi';
+import { enqueueSnackbar } from 'notistack';
+import { AppRoute, StorageKey } from 'enums';
 
 type Props = {
   id: string;
@@ -45,14 +44,20 @@ export default function DeleteProfileDialog({ id }: Props) {
 
   const handleDeleteUser = async (userId: string) => {
     try {
+      const successMessage = t('success');
+
       await deleteUser({ id: userId });
       localStorage.removeItem(StorageKey.TOKEN);
-      enqueueSnackbar('User deleted successfully!', { variant: 'success' });
+      enqueueSnackbar(successMessage, { variant: 'success' });
       handleClose();
+
       await new Promise((resolve) => setTimeout(resolve, 1000));
+
       router.push(AppRoute.SIGN_UP_PAGE);
     } catch (error) {
-      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+      const errMessage = t('error');
+
+      enqueueSnackbar(errMessage, { variant: 'error' });
     }
   };
 

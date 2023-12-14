@@ -1,7 +1,6 @@
 'use client';
 
 import { Box, Typography } from '@mui/material';
-
 import { CustomLink } from 'components/custom';
 import Iconify from 'components/iconify';
 

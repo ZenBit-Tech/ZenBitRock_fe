@@ -1,7 +1,10 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { BASE_URL, QOBRIX_PROXY_URL } from 'config-global';
+// config
+import { HOST_API } from 'config-global';
 
-const axiosInstance = axios.create({ baseURL: BASE_URL });
+// ----------------------------------------------------------------------
+
+const axiosInstance = axios.create({ baseURL: HOST_API });
 
 axiosInstance.interceptors.response.use(
   (res) => res,
@@ -10,26 +13,17 @@ axiosInstance.interceptors.response.use(
 
 export default axiosInstance;
 
+// ----------------------------------------------------------------------
+
 export const fetcher = async (args: string | [string, AxiosRequestConfig]) => {
   const [url, config] = Array.isArray(args) ? args : [args];
 
   const res = await axiosInstance.get(url, { ...config });
+
   return res.data;
 };
 
-const axiosInstanceQobrix = axios.create({ baseURL: QOBRIX_PROXY_URL });
-
-axiosInstanceQobrix.interceptors.response.use(
-  (res) => res,
-  (error) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
-);
-
-export const fetcherQobrix = async (args: string | [string, AxiosRequestConfig]) => {
-  const [url, config] = Array.isArray(args) ? args : [args];
-
-  const res = await axiosInstanceQobrix.get(url, config && { ...config });
-  return res.data;
-};
+// ----------------------------------------------------------------------
 
 export const endpoints = {
   chat: '/api/chat',
