@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslations } from 'next-intl';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { notFound } from 'next/navigation';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Link from '@mui/material/Link';
@@ -30,9 +30,14 @@ export function VerifyView({ email }: Props) {
   const [sendVerificationCode] = useSendVerificationCodeMutation();
   const [verifyEmail] = useVerifyEmailMutation();
 
+  const [remainingTime, setRemainingTime] = useState<number>(180);
+  const [isExpired, setIsExpired] = useState<boolean>(false);
+
   const handleSendCode = useCallback(async (): Promise<void> => {
     try {
       await sendVerificationCode({ email });
+      setRemainingTime(180);
+      setIsExpired(false);
     } catch (error) {
       notFound();
     }
@@ -66,6 +71,20 @@ export function VerifyView({ email }: Props) {
       setValue('email', email);
     }
   });
+  useEffect(() => {
+    const timerId: NodeJS.Timeout = setInterval(() => {
+      setRemainingTime((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
+    }, 1000);
+
+    if (remainingTime === 0) {
+      setIsExpired(true);
+      clearInterval(timerId);
+    }
+
+    return () => {
+      clearInterval(timerId);
+    };
+  }, [remainingTime]);
 
   const renderForm = (
     <Stack spacing={3} alignItems="center">
@@ -82,18 +101,35 @@ export function VerifyView({ email }: Props) {
         {t('verify')}
       </LoadingButton>
 
-      <Typography variant="body2">
-        {t('noCode')}
+      {isExpired ? (
         <Link
+          onClick={handleSendCode}
           variant="subtitle2"
           sx={{
             cursor: 'pointer',
           }}
-          onClick={handleSendCode}
         >
-          {t('sendAgain')}
+          {t('resendCodeButtonExpired')}
         </Link>
-      </Typography>
+      ) : (
+        <>
+          <Typography variant="body2">{t('timeRemaining', { remainingTime })}</Typography>
+
+          <Stack>
+            <Typography variant="body2">{t('dontHaveCode')}</Typography>
+
+            <Link
+              onClick={handleSendCode}
+              variant="subtitle2"
+              sx={{
+                cursor: 'pointer',
+              }}
+            >
+              {t('sendAgain')}
+            </Link>
+          </Stack>
+        </>
+      )}
 
       <Link
         component={RouterLink}
