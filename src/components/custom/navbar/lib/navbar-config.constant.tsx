@@ -34,7 +34,7 @@ const NAV_ITEMS = [
       },
       {
         title: TranslationKey.LEADS,
-        path: '#',
+        path: '/leads',
         icon: <Iconify icon="healthicons:people" width={1} />,
       },
       {
