@@ -355,5 +355,11 @@
         }
       }
     }
+  },
+  "leadDetailsPage": {
+    "title": "Lead Details",
+    "status": "Status",
+    "matchingProperties": "Matching properties",
+    "removeLead": "Remove lead"
   }
 }
