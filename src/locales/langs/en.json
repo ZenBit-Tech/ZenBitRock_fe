@@ -92,7 +92,13 @@
     "header": "We send OTP verification to your email this code",
     "dontHaveCode": "Don't have a code?",
     "sendAgain": "Send Again",
-    "button": "Verify"
+    "button": "Verify",
+    "timeRemaining": "The code expires in: {remainingTime} seconds",
+    "resendCodeButtonExpired": "Resend code",
+    "ErrorMessage":"Something went wrong, please try again",
+    "CheckEmail":"Check your mail!",
+    "Success":"Success!",
+    "CodeExpired":"Code has expired, please send another code"
   },
   "signInPage": {
     "Main": {
@@ -200,10 +206,15 @@
     "emailSent": "We have emailed a 6-digit confirmation code to {email}, please enter the code in below box to verify your email.",
     "code": "Code",
     "expire": "will expire in 01:35",
-    "sendAgain": "Resend code",
     "verify": "Verify",
     "noCode": "Don't have a code?",
-    "return": "Return"
+    "return": "Return",
+    "dontHaveCode": "Don't have a code?",
+    "sendAgain": "Send Again",
+    "button": "Verify",
+    "timeRemaining": "The code expires in: {remainingTime} seconds",
+    "resendCodeButtonExpired": "Resend code",
+    "ErrorMessage":"Something went wrong, please try again"
   },
   "yup": {
     "code_too_short": "Code must be at least 6 characters",

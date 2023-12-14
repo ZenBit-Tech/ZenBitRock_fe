@@ -16,6 +16,7 @@ import FormProvider, { RHFCode } from 'components/hook-form';
 import { useSendCodeMutation, useVerifyCodeMutation } from 'store/api/restorePasswordApi';
 import { setCode } from 'store/reducers/restorePasswordReducer';
 import { AppRoute } from 'enums';
+import { useEffect, useState } from 'react';
 
 const defaultValues = { code: '' };
 const CODE_LENGTH = 6;
@@ -28,6 +29,9 @@ export default function VerifyCodeForm(): JSX.Element {
   const t = useTranslations('VerifyCodePage');
   const [verifyCode, { isLoading }] = useVerifyCodeMutation();
   const [sendCode] = useSendCodeMutation();
+
+  const [remainingTime, setRemainingTime] = useState<number>(180);
+  const [isExpired, setIsExpired] = useState<boolean>(false);
 
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
@@ -48,19 +52,25 @@ export default function VerifyCodeForm(): JSX.Element {
 
   const onSubmit = handleSubmit(async (data): Promise<void> => {
     try {
+      if (isExpired) {
+        enqueueSnackbar(t('CodeExpired'), { variant: 'error' });
+        
+        return;
+      }
+
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
       const payload = { email, code: data.code };
 
       await verifyCode(payload).unwrap();
 
-      enqueueSnackbar('Success!', { variant: 'success' });
+      enqueueSnackbar(t('Success'), { variant: 'success' });
       dispatch(setCode({ code: data.code }));
       router.push(AppRoute.RESTORE_PASSWORD_CHANGE_PASSWORD_PAGE);
 
       return undefined;
     } catch (error) {
-      enqueueSnackbar('Something went wrong, please try again', { variant: 'error' });
+      enqueueSnackbar(t('ErrorMessage'), { variant: 'error' });
 
       return error;
     }
@@ -71,16 +81,33 @@ export default function VerifyCodeForm(): JSX.Element {
       const response = await sendCode({ email });
 
       if ('data' in response) {
-        enqueueSnackbar('Check your mail!', { variant: 'success' });
+        enqueueSnackbar(t('CheckEmail'), { variant: 'success' });
+        setRemainingTime(180);
+        setIsExpired(false);
       }
 
       return undefined;
     } catch (error) {
-      enqueueSnackbar('Something went wrong, please try again', { variant: 'error' });
+      enqueueSnackbar(t('ErrorMessage'), { variant: 'error' });
 
       return error;
     }
   };
+
+  useEffect(() => {
+    const timerId: NodeJS.Timeout = setInterval(() => {
+      setRemainingTime((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
+    }, 1000);
+
+    if (remainingTime === 0) {
+      setIsExpired(true);
+      clearInterval(timerId);
+    }
+
+    return () => {
+      clearInterval(timerId);
+    };
+  }, [remainingTime]);
 
   return (
     <>
@@ -120,9 +147,7 @@ export default function VerifyCodeForm(): JSX.Element {
             <RHFCode name="code" />
           </Stack>
 
-          <Stack direction="row" justifyContent="space-between">
-            <Typography variant="body2">{t('dontHaveCode')}</Typography>
-
+          {isExpired ? (
             <Link
               onClick={handleClick}
               variant="subtitle2"
@@ -130,10 +155,27 @@ export default function VerifyCodeForm(): JSX.Element {
                 cursor: 'pointer',
               }}
             >
-              {t('sendAgain')}
+              {t('resendCodeButtonExpired')}
             </Link>
-          </Stack>
+          ) : (
+            <>
+              <Typography variant="body2">{t('timeRemaining', { remainingTime })}</Typography>
 
+              <Stack direction="row" justifyContent="space-between">
+                <Typography variant="body2">{t('dontHaveCode')}</Typography>
+
+                <Link
+                  onClick={handleClick}
+                  variant="subtitle2"
+                  sx={{
+                    cursor: 'pointer',
+                  }}
+                >
+                  {t('sendAgain')}
+                </Link>
+              </Stack>
+            </>
+          )}
           <Button
             sx={{ padding: '14px' }}
             type="submit"
