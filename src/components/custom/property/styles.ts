@@ -87,7 +87,6 @@ export const TypographyDescriptionLeft = styled(Typography)`
   flex: 3;
   white-space: nowrap;
   font-size: 0.75rem;
-  /* text-align: right; */
   font-weight: 700;
   margin-right: 1rem;
 

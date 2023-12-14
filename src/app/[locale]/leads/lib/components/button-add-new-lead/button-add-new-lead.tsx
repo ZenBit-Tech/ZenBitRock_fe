@@ -11,7 +11,7 @@ import { endpoints } from 'utils/axios';
 
 const URL = endpoints.lead;
 
-function ButtonAddNewLead() {
+function ButtonAddNewLead(): JSX.Element {
   const t = useTranslations('leads');
 
   const router = useRouter();
