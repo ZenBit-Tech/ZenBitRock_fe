@@ -1,5 +1,18 @@
-import VerificationView from 'sections/verification-view';
+'use client';
+
+import { useCallback, useState } from 'hooks';
+import { VerificationDoneView, VerificationView } from 'sections';
 
 export default function Verification(): JSX.Element {
-  return <VerificationView />;
+  const [verified, setVerified] = useState(false);
+
+  const handleVerification = useCallback(() => {
+    setVerified(true);
+  }, [setVerified]);
+
+  return verified ? (
+    <VerificationDoneView />
+  ) : (
+    <VerificationView handleVerification={handleVerification} />
+  );
 }

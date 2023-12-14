@@ -1,9 +1,9 @@
-import { ErrorCode, FileRejection } from 'react-dropzone';
 // @mui
-import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
+import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import { ErrorCode, FileRejection } from 'react-dropzone';
 // utils
 import { fData } from 'utils/format-number';
 //
@@ -42,6 +42,7 @@ export default function RejectionFiles({ fileRejections }: Props) {
               message: `The file size exceeded`,
             };
           }
+
           return error;
         });
 

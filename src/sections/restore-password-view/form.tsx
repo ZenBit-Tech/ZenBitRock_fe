@@ -1,33 +1,31 @@
-'use client';
-
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { TextField, Button, Typography, Box, CircularProgress } from '@mui/material';
-import { useSnackbar } from 'notistack';
 import Backdrop from '@mui/material/Backdrop';
 import Stack from '@mui/system/Stack';
-import { useDispatch } from 'react-redux';
+import { useSnackbar } from 'notistack';
 import { AppDispatch } from 'store';
-import { patterns } from 'constants/patterns';
-import FormProvider from 'components/hook-form';
 import { useSendCodeMutation } from 'store/api/restorePasswordApi';
 import { setEmail } from 'store/reducers/restorePasswordReducer';
+import { patterns } from 'constants/patterns';
+import FormProvider from 'components/hook-form';
 import { AppRoute } from 'enums';
 
 const defaultValues = { email: '' };
 
 export default function RestorePasswordForm(): JSX.Element {
-  const t = useTranslations('RestorePasswordPage');
-
-  const [sendCode, { isLoading }] = useSendCodeMutation();
+  const dispatch = useDispatch<AppDispatch>();
+  const [sendCode] = useSendCodeMutation();
 
   const router = useRouter();
-
-  const dispatch = useDispatch<AppDispatch>();
-
   const { enqueueSnackbar } = useSnackbar();
+
+  const t = useTranslations('RestorePasswordPage');
+  const [activeRequestsCount, setActiveRequestsCount] = useState<number>(0);
 
   const methods = useForm({ defaultValues, mode: 'onTouched' });
 
@@ -35,10 +33,12 @@ export default function RestorePasswordForm(): JSX.Element {
     reset,
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isDirty, isValid },
+    formState: { errors, isDirty, isValid },
   } = methods;
 
   const onSubmit = handleSubmit(async (data: { email: string }): Promise<void> => {
+    setActiveRequestsCount((prevCount) => prevCount + 1);
+
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
@@ -49,15 +49,17 @@ export default function RestorePasswordForm(): JSX.Element {
 
       return undefined;
     } catch (error) {
-      enqueueSnackbar('Something went wrong, please try again', { variant: 'error' });
+      enqueueSnackbar(t('errorMessage'), { variant: 'error' });
 
       return error;
+    } finally {
+      setActiveRequestsCount((prevCount) => prevCount - 1);
     }
   });
 
   return (
     <>
-      {(isSubmitting || isLoading) && (
+      {activeRequestsCount > 0 && (
         <Backdrop open sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}>
           <CircularProgress color="primary" />
         </Backdrop>

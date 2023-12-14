@@ -1,22 +1,24 @@
 'use client';
 
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import * as Yup from 'yup';
 import { useRouter } from 'next/navigation';
+import { useDispatch, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { Button, Typography, Box, CircularProgress, Link } from '@mui/material';
-import { useSnackbar } from 'notistack';
-import { yupResolver } from '@hookform/resolvers/yup';
 import Backdrop from '@mui/material/Backdrop';
 import Stack from '@mui/system/Stack';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from 'store';
+import { useSnackbar } from 'notistack';
 import FormProvider, { RHFCode } from 'components/hook-form';
 import { useSendCodeMutation, useVerifyCodeMutation } from 'store/api/restorePasswordApi';
 import { setCode } from 'store/reducers/restorePasswordReducer';
 import { AppRoute } from 'enums';
 import { useEffect, useState } from 'react';
+import { AppDispatch, RootState } from 'store';
+
 
 const defaultValues = { code: '' };
 const CODE_LENGTH = 6;
@@ -26,8 +28,7 @@ const VerifySchema = Yup.object().shape({
 });
 
 export default function VerifyCodeForm(): JSX.Element {
-  const t = useTranslations('VerifyCodePage');
-  const [verifyCode, { isLoading }] = useVerifyCodeMutation();
+  const [verifyCode] = useVerifyCodeMutation();
   const [sendCode] = useSendCodeMutation();
 
   const [remainingTime, setRemainingTime] = useState<number>(180);
@@ -35,6 +36,10 @@ export default function VerifyCodeForm(): JSX.Element {
 
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
+
+  const t = useTranslations('VerifyCodePage');
+  const [activeRequestsCount, setActiveRequestsCount] = useState<number>(0);
+
   const methods = useForm({
     resolver: yupResolver(VerifySchema),
     defaultValues,
@@ -47,10 +52,12 @@ export default function VerifyCodeForm(): JSX.Element {
   const {
     reset,
     handleSubmit,
-    formState: { isSubmitting, isDirty, isValid },
+    formState: { isDirty, isValid },
   } = methods;
 
   const onSubmit = handleSubmit(async (data): Promise<void> => {
+    setActiveRequestsCount((prevCount) => prevCount + 1);
+
     try {
       if (isExpired) {
         enqueueSnackbar(t('CodeExpired'), { variant: 'error' });
@@ -73,12 +80,16 @@ export default function VerifyCodeForm(): JSX.Element {
       enqueueSnackbar(t('ErrorMessage'), { variant: 'error' });
 
       return error;
+    } finally {
+      setActiveRequestsCount((prevCount) => prevCount - 1);
     }
   });
 
   const handleClick = async (): Promise<void> => {
+    setActiveRequestsCount((prevCount) => prevCount + 1);
+
     try {
-      const response = await sendCode({ email });
+      await sendCode({ email }).unwrap();
 
       if ('data' in response) {
         enqueueSnackbar(t('CheckEmail'), { variant: 'success' });
@@ -87,10 +98,13 @@ export default function VerifyCodeForm(): JSX.Element {
       }
 
       return undefined;
+    
     } catch (error) {
-      enqueueSnackbar(t('ErrorMessage'), { variant: 'error' });
+      enqueueSnackbar(t('generalErrorMessage'), { variant: 'error' });
 
       return error;
+    } finally {
+      setActiveRequestsCount((prevCount) => prevCount - 1);
     }
   };
 
@@ -111,7 +125,7 @@ export default function VerifyCodeForm(): JSX.Element {
 
   return (
     <>
-      {(isSubmitting || isLoading) && (
+      {activeRequestsCount > 0 && (
         <Backdrop open sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}>
           <CircularProgress color="primary" />
         </Backdrop>
