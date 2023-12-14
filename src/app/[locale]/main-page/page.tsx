@@ -1,10 +1,13 @@
 'use client';
 
 import { Box, Typography } from '@mui/material';
+
 import { ProtectedRoute } from 'components/custom';
+import PropertiesList from 'components/custom/propertiesList';
+
 import { NotificationCenter, PropertyFilter } from './lib';
 
-export default function MainPage() {
+function MainPage(): JSX.Element {
   return (
     <ProtectedRoute>
       <Box sx={{ p: '10px', margin: '0 auto', maxWidth: '800px' }}>
@@ -13,7 +16,10 @@ export default function MainPage() {
           My properties
         </Typography>
         <PropertyFilter />
+        <PropertiesList />
       </Box>
     </ProtectedRoute>
   );
 }
+
+export default MainPage;

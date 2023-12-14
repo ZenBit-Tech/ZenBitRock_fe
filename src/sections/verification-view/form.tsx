@@ -1,18 +1,16 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
 import { useForm, Controller } from 'react-hook-form';
+import { useSnackbar } from 'notistack';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import Backdrop from '@mui/material/Backdrop';
 import Typography from '@mui/material/Typography';
-import Stack, { StackProps } from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress';
-import { useSnackbar } from 'notistack';
+import Stack, { StackProps } from '@mui/material/Stack';
+import { useCallback, useEffect, useSelector, useState, useTranslations } from 'hooks';
+
 import FormProvider, {
   RHFUpload,
   RHFTextField,
@@ -20,13 +18,12 @@ import FormProvider, {
   RHFAutocomplete,
   RHFCheckbox,
 } from 'components/hook-form';
-import { useCreateVerificationMutation } from 'store/api/verificationApi';
 import { datesFormats } from 'constants/dates-formats';
-import { AppRoute } from 'enums';
 import { selectCurrentUser } from 'store/auth/authReducer';
 import { VerificationData } from 'types/verification-data';
 import { useCreateAgentMutation, useCreateContactMutation } from 'store/api/qobrixApi';
 import { useGetUserByIdMutation, useUpdateUserMutation } from 'store/api/userApi';
+import { useCreateVerificationMutation } from 'store/api/verificationApi';
 import { getRoles, getGenders, getIdentities, getStatuses, getCountries } from './drop-box-data';
 import { FormSchema } from './schema';
 
@@ -64,7 +61,11 @@ function formatDate(inputDate: Date): string {
   return `${year}-${month}-${day}`;
 }
 
-export default function VerificationForm(): JSX.Element {
+type Props = {
+  handleVerification: () => void;
+};
+
+export default function VerificationForm({ handleVerification }: Props): JSX.Element {
   const t = useTranslations('VerificationPage');
 
   const [createVerification] = useCreateVerificationMutation();
@@ -76,7 +77,6 @@ export default function VerificationForm(): JSX.Element {
   const [formFilled, setFormFilled] = useState<boolean>(true);
   const [activeRequestsCount, setActiveRequestsCount] = useState<number>(0);
 
-  const { replace } = useRouter();
   const { enqueueSnackbar } = useSnackbar();
 
   const authState = useSelector(selectCurrentUser);
@@ -185,25 +185,27 @@ export default function VerificationForm(): JSX.Element {
       };
 
       const contact = await createContact(contactData).unwrap();
-
-      const { role: agentRole, legacy_id, id: contactId } = contact.data;
-      const contactIdData = { userId, qobrixContactId: contactId };
-
-      await updateUser(contactIdData).unwrap();
+      const { role: agentRole, legacy_id, id: qobrixContactId } = contact.data;
 
       const agentData = {
         agent_type: agentRole,
         legacy_id,
-        primary_contact: contactId,
+        primary_contact: qobrixContactId,
       };
 
-      createAgent(agentData).unwrap();
+      const agent = await createAgent(agentData).unwrap();
+      const { id: qobrixAgentId } = agent.data;
+
+      const newQobrixData = { userId, qobrixContactId, qobrixAgentId };
+
+      await updateUser(newQobrixData).unwrap();
+
       reset();
-      replace(AppRoute.VERIFICATION_DONE_PAGE);
+      handleVerification();
 
       return undefined;
     } catch (error) {
-      enqueueSnackbar('Something went wrong, please try again', { variant: 'error' });
+      enqueueSnackbar(t('generalErrorMessage'), { variant: 'error' });
 
       return error;
     } finally {
@@ -307,6 +309,7 @@ export default function VerificationForm(): JSX.Element {
                     <DatePicker
                       {...field}
                       label={t('dateOfBirthPlaceholder')}
+                      minDate={new Date(1990, 0, 1)}
                       maxDate={new Date()}
                       format={datesFormats.verificationDatePicker}
                       slotProps={{
@@ -487,13 +490,13 @@ export default function VerificationForm(): JSX.Element {
 
             <LoadingButton
               fullWidth
-              color="info"
+              variant="contained"
+              color="primary"
               size="large"
               type="submit"
-              variant="outlined"
               loading={isSubmitting}
               disabled={!formFilled}
-              style={{ marginBottom: '70px' }}
+              sx={{ mb: '90px' }}
             >
               {t('submitButton')}
             </LoadingButton>

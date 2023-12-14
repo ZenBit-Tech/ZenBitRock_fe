@@ -44,13 +44,20 @@ export default function DeleteProfileDialog({ id }: Props) {
 
   const handleDeleteUser = async (userId: string) => {
     try {
+      const successMessage = t('success');
+
       await deleteUser({ id: userId });
       localStorage.removeItem(StorageKey.TOKEN);
-      enqueueSnackbar('User deleted succesfully!', { variant: 'success' });
+      enqueueSnackbar(successMessage, { variant: 'success' });
       handleClose();
+
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       router.push(AppRoute.SIGN_UP_PAGE);
     } catch (error) {
-      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+      const errMessage = t('error');
+
+      enqueueSnackbar(errMessage, { variant: 'error' });
     }
   };
 
@@ -92,13 +99,16 @@ export default function DeleteProfileDialog({ id }: Props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} variant="contained" color="primary">
             {t('cancelBtnTxt')}
           </Button>
           <Button
             onClick={() => handleDeleteUser(id)}
             color="primary"
-            sx={{ '&:hover': { color: 'error.main' } }}
+            variant="contained"
+            sx={{
+              '&:hover': { color: 'error.main' },
+            }}
           >
             {t('confirmDelBtnTxt')}
           </Button>
