@@ -8,6 +8,7 @@ type UserProfileResponse = {
   city: string;
   phone: string;
   qobrixContactId: string;
+  qobrixAgentId: string;
   agencyName: string;
   description: string;
   country: string;

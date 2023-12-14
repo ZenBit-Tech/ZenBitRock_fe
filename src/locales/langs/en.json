@@ -351,5 +351,40 @@
         }
       }
     }
+  },
+  "CreateLeadPage": {
+    "mainTitle": "Add lead",
+    "offeringTypeLabel": "* Offering type",
+    "offeringTypePlaceholder": "For sale",
+    "offerTypeBuy": "For buy",
+    "offerTypeSale": "For sale",
+    "offerTypeRent": "For rent",
+    "offerTypeLet": "For let",
+    "offerTypeBuy&Rent": "For buy and rent",
+    "offerTypeManage": "For manage",
+    "enquiryTypeLabel": "* Looking for",
+    "enquiryTypePlaceholder": "Apartment",
+    "enquiryTypeHouse": "House",
+    "enquiryTypeApartment": "Apartment",
+    "enquiryTypeLand": "Land",
+    "enquiryTypeRetail": "Retail",
+    "enquiryTypeOffice": "Office",
+    "enquiryTypeIndustrial": "Industrial",
+    "enquiryTypeInvestment": "Investment",
+    "enquiryTypeBuilding": "Building",
+    "enquiryTypeParking": "Parking Lot",
+    "enquiryTypeHotel": "Hotel",
+    "enquiryTypeOther": "Other",
+    "leadSourceLabel": "Lead source (optional)",
+    "leadSourcePlaceholder": "Write some here",
+    "descriptionLabel": "Description (optional)",
+    "descriptionPlaceholder": "Write some here",
+    "countOfBedroomsLabel": "Miminum number of bedrooms (optional)",
+    "countOfBedroomsPlaceholder": "3",
+    "totalAreaLabel": "Floor area  sq.ft. (optional)",
+    "totalAreaFromPlaceHolder": "0",
+    "totalAreaToPlaceHolder": "100",
+    "submitButton": "Add lead",
+    "generalErrorMessage": "Something went wrong, please try again"
   }
 }
