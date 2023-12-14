@@ -46,7 +46,7 @@
     "@typescript-eslint/naming-convention": 0,
     "jsx-a11y/control-has-associated-label": 0,
     "@typescript-eslint/no-use-before-define": 0,
-    "@typescript-eslint/no-explicit-any": 2,
+    "@typescript-eslint/no-explicit-any": "error",
     "typesafe/no-throw-sync-func": 1,
     "typesafe/no-await-without-trycatch": 1,
     "typesafe/promise-catch": 0,

@@ -13,7 +13,7 @@ type Properties = {
 const PublicRoute: React.FC<Properties> = ({
   children,
   defaultRedirectPath = AppRoute.MAIN_PAGE,
-}) => {
+}: Properties) => {
   const router = useRouter();
   const { user, redirectPath } = useVerification({
     defaultRedirectPath,
@@ -26,7 +26,7 @@ const PublicRoute: React.FC<Properties> = ({
     }
 
     setAuthChecked(true);
-  }, [user, redirectPath]);
+  }, [user, redirectPath, router]);
 
   const isRenderingOnServer = !authChecked && !user;
 

@@ -1,9 +1,9 @@
 // @mui
-import { alpha, Theme, useTheme, SxProps } from '@mui/material/styles';
+import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
+import { alpha, Theme, useTheme, SxProps } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 // theme
 import { ColorSchema } from 'theme/palette';

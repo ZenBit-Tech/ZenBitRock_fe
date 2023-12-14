@@ -13,6 +13,7 @@ type UserProfileResponse = {
   description: string;
   country: string;
   avatarUrl: string;
+  qobrixAgentId: string;
 };
 
 export { type UserProfileResponse };
