@@ -63,11 +63,4 @@ export const endpoints = {
   main: {
     mainpage: '/main-page',
   },
-  lead: {
-    list: '/opportunities',
-    details: '/leads/lead',
-    create: '/leads/create',
-    byProperty: '/by-property/',
-    mainleads: '/leads',
-  },
 };
