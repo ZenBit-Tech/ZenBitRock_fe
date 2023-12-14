@@ -1,4 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { enqueueSnackbar } from 'notistack';
+import { errMessages } from 'constants/errMessages';
 import { ApiRoute, StorageKey } from 'enums';
 import { IUserUpdateProfile } from 'types/user';
 import {
@@ -56,6 +58,21 @@ export const UserApi = createApi({
         method: 'DELETE',
         params: { id },
       }),
+      onQueryStarted: async (_, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+          enqueueSnackbar(`${errMessages.DEL_USER_MSG}`, { variant: 'success' });
+        } catch (err) {
+          if (err.error.data.statusCode === 401) {
+            enqueueSnackbar(`${errMessages.SIGN_IN_ERR_MSG}`, {
+              variant: 'error',
+            });
+          } else {
+            enqueueSnackbar(`${err.error.data.message}`, { variant: 'error' });
+          }
+        }
+      },
+      invalidatesTags: [{ type: 'Get user by id' }],
     }),
   }),
 });
