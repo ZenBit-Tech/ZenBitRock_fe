@@ -1,5 +1,5 @@
 import { ProtectedRoute } from 'components/custom';
-import { CompactLayout } from './components';
+import { CompactLayout } from 'layouts';
 
 type Props = {
   children: React.ReactNode;
