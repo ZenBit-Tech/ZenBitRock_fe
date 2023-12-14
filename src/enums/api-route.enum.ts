@@ -14,6 +14,7 @@ const ApiRoute = {
   QOBRIX_CREATE_CONTACT: '/contacts',
   QOBRIX_CREATE_AGENT: '/agents',
   QOBRIX_PROPERY_TYPES: '/property-types',
+  GET_LEAD_DETAILS: '/lead/details/id',
 } as const;
 
 export { ApiRoute };
