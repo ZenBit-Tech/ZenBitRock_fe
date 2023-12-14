@@ -25,18 +25,19 @@ const defaultValues = {
 type Props = {
   email: string;
 };
+const TIMER = 180;
 
 export function VerifyView({ email }: Props) {
   const [sendVerificationCode] = useSendVerificationCodeMutation();
   const [verifyEmail] = useVerifyEmailMutation();
 
-  const [remainingTime, setRemainingTime] = useState<number>(180);
+  const [remainingTime, setRemainingTime] = useState<number>(TIMER);
   const [isExpired, setIsExpired] = useState<boolean>(false);
 
   const handleSendCode = useCallback(async (): Promise<void> => {
     try {
       await sendVerificationCode({ email });
-      setRemainingTime(180);
+      setRemainingTime(TIMER);
       setIsExpired(false);
     } catch (error) {
       notFound();

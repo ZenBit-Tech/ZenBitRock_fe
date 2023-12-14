@@ -20,6 +20,7 @@ import { AppDispatch, RootState } from 'store';
 
 const defaultValues = { code: '' };
 const CODE_LENGTH = 6;
+const TIMER = 180;
 
 const VerifySchema = Yup.object().shape({
   code: Yup.string().required('code_is_required').min(CODE_LENGTH, 'code_too_short'),
@@ -29,7 +30,7 @@ export default function VerifyCodeForm(): JSX.Element {
   const [verifyCode] = useVerifyCodeMutation();
   const [sendCode] = useSendCodeMutation();
 
-  const [remainingTime, setRemainingTime] = useState<number>(180);
+  const [remainingTime, setRemainingTime] = useState<number>(TIMER);
   const [isExpired, setIsExpired] = useState<boolean>(false);
 
   const router = useRouter();
@@ -87,7 +88,7 @@ export default function VerifyCodeForm(): JSX.Element {
       await sendCode({ email }).unwrap();
 
       enqueueSnackbar(t('CheckEmail'), { variant: 'success' });
-      setRemainingTime(180);
+      setRemainingTime(TIMER);
       setIsExpired(false);
 
       return undefined;
