@@ -4,7 +4,6 @@ import { endpoints, fetcherQobrix } from 'utils/axios';
 import { ILead, ILeadsFull, ILeadsParams } from 'types/lead';
 
 const URL = endpoints.lead;
-console.log(URL);
 
 export function useGetLeads(id: string, params: ILeadsParams) {
   const { data, error } = useSWR([`${URL.list}${id}`, params], fetcherQobrix);
