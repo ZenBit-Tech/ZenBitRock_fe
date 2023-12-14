@@ -22,6 +22,9 @@ export const authSlice = createSlice({
     logoutUser: (state) => {
       state.user = null;
     },
+    updateUserState: (state, action) => {
+      state.user = { ...state.user, ...action.payload };
+    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(signUp.matchFulfilled, (state, action) => {
@@ -42,7 +45,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { logoutUser } = authSlice.actions;
+export const { logoutUser, updateUserState } = authSlice.actions;
 
 export default authSlice.reducer;
 

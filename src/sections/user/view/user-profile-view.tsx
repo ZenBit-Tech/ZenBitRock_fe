@@ -1,16 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslations } from 'next-intl';
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
+import { useSnackbar } from 'notistack';
 import Iconify from 'components/iconify';
 import CustomBreadcrumbs from 'components/custom-breadcrumbs';
 import { useSettingsContext } from 'components/settings';
 import { LoadingScreen } from 'components/loading-screen';
 import { RootState } from 'store';
+import { useGetUserByIdMutation } from 'store/api/userApi';
 import { _userAbout } from '_mock';
 import ProfileHome from '../profile-home';
 import ProfileCover from '../profile-cover';
@@ -25,13 +27,30 @@ const TABS = [
 
 export default function UserProfileView(): JSX.Element {
   const t = useTranslations('profilePage');
+  const [getUserById] = useGetUserByIdMutation();
   const settings = useSettingsContext();
+  const { enqueueSnackbar } = useSnackbar();
 
   const authUser = useSelector((state: RootState) => state.authSlice.user);
-  const { firstName, lastName } = authUser || {};
+  const { firstName, lastName, id } = authUser || {};
   const [currentTab] = useState<string>('profile');
+  const [avatar, setAvatar] = useState<string>('');
 
-  const avatar = authUser?.avatarUrl ? authUser?.avatarUrl : '';
+  useEffect(() => {
+    const fetchAvatar = async () => {
+      if (id) {
+        try {
+          const { avatarUrl } = await getUserById({ id }).unwrap();
+          
+          setAvatar(avatarUrl);
+        } catch (error) {
+          enqueueSnackbar(t('avatarErrMsg'), { variant: 'error' });
+        }
+      }
+    };
+
+    fetchAvatar();
+  }, [id, enqueueSnackbar, getUserById, t]);
 
   if (!authUser) {
     return <LoadingScreen />;

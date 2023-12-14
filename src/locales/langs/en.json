@@ -311,7 +311,8 @@
     "countryTxt": "Country",
     "cityTxt": "City",
     "loading": "Agent",
-    "logoutLink": "Log out"
+    "logoutLink": "Log out",
+    "avatarErrMsg": "Error fetching user's avatar"
   },
   "ResetPasswordPage": {
     "pageTitle": "Reset Password",

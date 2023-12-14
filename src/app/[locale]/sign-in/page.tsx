@@ -46,6 +46,7 @@ export default function SignInPage({ params: { locale } }: Props) {
   useEffect(() => {
     const handleResize = (): void => {
       const { innerWidth } = window;
+
       setOpen(innerWidth >= dimensionValues.DESKTOP_THRESHOLD_WIDTH);
     };
 
