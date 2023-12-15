@@ -96,7 +96,13 @@
     "button": "Verify",
     "errorMessageInvalidCode": "Please enter the security code",
     "generalErrorMessage": "Something went wrong, please try again",
-    "successMessage": "Check your mail!"
+    "successMessage": "Check your mail!",
+    "timeRemaining": "The code expires in: {remainingTime} seconds",
+    "resendCodeButtonExpired": "Resend code",
+    "ErrorMessage":"Something went wrong, please try again",
+    "CheckEmail":"Check your mail!",
+    "Success":"Success!",
+    "CodeExpired":"Code has expired, please send another code"
   },
   "signInPage": {
     "Main": {
@@ -207,7 +213,10 @@
     "sendAgain": "Resend code",
     "verify": "Verify",
     "noCode": "Don't have a code?",
-    "return": "Return"
+    "return": "Return",
+    "timeRemaining": "The code expires in: {remainingTime} seconds",
+    "resendCodeButtonExpired": "Resend code",
+    "ErrorMessage":"Something went wrong, please try again"
   },
   "yup": {
     "code_too_short": "Code must be at least 6 characters",
