@@ -7,7 +7,7 @@ import {
   QobrixContactResponse,
   QobrixPropertyType,
   QobrixCreateLead,
-  QobrixCreateLeadResponse
+  QobrixCreateLeadResponse,
 } from 'types';
 import { IUserUpdateQobrix } from 'types/user';
 
@@ -68,5 +68,5 @@ export const {
   useCreateAgentMutation,
   useGetPropertyTypesQuery,
   useUpdateContactMutation,
-  useCreateLeadMutation
+  useCreateLeadMutation,
 } = QobrixApi;

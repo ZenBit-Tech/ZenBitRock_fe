@@ -13,7 +13,7 @@ export type QobrixCreateLead = {
   list_selling_price_to: number | null;
   list_rental_price_from: number | null;
   list_rental_price_to: number | null;
-}
+};
 
 export type QobrixCreateLeadResponse = {
   data: {
@@ -31,5 +31,5 @@ export type QobrixCreateLeadResponse = {
     list_selling_price_to: number | null;
     list_rental_price_from: number | null;
     list_rental_price_to: number | null;
-  }
-}
+  };
+};
