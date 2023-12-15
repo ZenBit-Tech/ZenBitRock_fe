@@ -5,6 +5,7 @@ import {
   DeleteUserResponse,
   GetUserRequest,
   GetUserResponse,
+  DeleteAvatarRequest,
   UpdateUserResponse,
 } from 'types/user-data';
 
@@ -43,7 +44,7 @@ export const UserApi = createApi({
         body,
       }),
     }),
-    deleteAvatar: builder.mutation<UpdateUserResponse['data'], { userId: string }>({
+    deleteAvatar: builder.mutation<UpdateUserResponse['data'], DeleteAvatarRequest>({
       query: (body) => ({
         url: ApiRoute.DELETE_AVATAR,
         method: 'PATCH',

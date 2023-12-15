@@ -76,6 +76,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     phone: statePhone,
     description: stateDescription,
     avatarUrl: stateAvatar,
+    avatarPublicId: stateAvatarPublicId,
   } = user;
 
   const userId = user.id;
@@ -217,7 +218,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
 
   const handleClickDelete = async (): Promise<void> => {
     try {
-      await deleteAvatar({ userId }).unwrap();
+      await deleteAvatar({ userId, avatarPublicId: stateAvatarPublicId }).unwrap();
       setValue('avatar', null);
       setIsAvatar(false);
 
