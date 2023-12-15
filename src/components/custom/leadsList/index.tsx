@@ -172,7 +172,7 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
                         fontWeight: 'bold',
                       }}
                     >
-                      {t(source)}
+                      {source ? t(source) : t('null')}
                     </TextStyled>
                   </Box>
                   <Box

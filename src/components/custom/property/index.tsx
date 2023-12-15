@@ -118,7 +118,7 @@ export default function Property({ id }: { id: string }): JSX.Element {
             sx={{ padding: '14px', marginBottom: '1.5rem' }}
             variant="contained"
             color="primary"
-            onClick={(): void => router.push(`/leads/${id}--${propertyDetailed.name}`)}
+            onClick={(): void => router.push(`/property/${id}/leads/${propertyDetailed.name}`)}
           >
             <TypographyStyled>{t('leads')}</TypographyStyled>
           </ButtonStyled>

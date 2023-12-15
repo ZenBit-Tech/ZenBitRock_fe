@@ -15,7 +15,7 @@ export function useGetLeads(id: string, params: ILeadsParams) {
   const memoizedValue = useMemo(() => {
     const leads = {
       data: data?.data.map((lead: ILead) => ({
-        ...lead,
+        // ...lead,
         leadId: lead.id,
         status: lead.status,
         source: lead.source,
