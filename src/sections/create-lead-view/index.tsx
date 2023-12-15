@@ -9,7 +9,7 @@ import { RootState } from 'store';
 import { LoadingScreen } from 'components/loading-screen';
 import { dimensionValues } from 'constants/dimensionValues';
 import { AppRoute } from 'enums';
-import DesktopDialog from 'app/[locale]/sign-in/components/modal';
+import { DesktopDialog } from 'components/custom';
 import Form from './form';
 
 export default function CreateLeadView(): JSX.Element {

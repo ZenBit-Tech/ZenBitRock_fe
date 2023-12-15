@@ -5,3 +5,4 @@ export { CustomLink } from './custom-link/custom-link';
 export { Navbar } from './navbar/navbar';
 export { Header } from './header/header';
 export { Block } from './block/block';
+export { DesktopDialog } from './desktop-dialog/desktop-dialog';
