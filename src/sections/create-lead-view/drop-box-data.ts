@@ -23,17 +23,17 @@ export function getOfferTypes(t: Function): Array<IValues> {
 
 export function getEnquiryTypes(t: Function): Array<IValues> {
   const appartmentTypes = [
-    { value: 'House', label: t('enquiryTypeHouse') },
-    { value: 'Apartment', label: t('enquiryTypeApartment') },
-    { value: 'Land', label: t('enquiryTypeLand') },
-    { value: 'Retail', label: t('enquiryTypeRetail') },
-    { value: 'Office', label: t('enquiryTypeOffice') },
-    { value: 'Industrial', label: t('enquiryTypeIndustrial') },
-    { value: 'Investment', label: t('enquiryTypeInvestment') },
-    { value: 'Building', label: t('enquiryTypeBuilding') },
-    { value: 'Parking Lot', label: t('enquiryTypeParking') },
-    { value: 'Hotel', label: t('enquiryTypeHotel') },
-    { value: 'Other', label: t('enquiryTypeOther') },
+    { value: 'house', label: t('enquiryTypeHouse') },
+    { value: 'apartment', label: t('enquiryTypeApartment') },
+    { value: 'land', label: t('enquiryTypeLand') },
+    { value: 'retail', label: t('enquiryTypeRetail') },
+    { value: 'office', label: t('enquiryTypeOffice') },
+    { value: 'industrial', label: t('enquiryTypeIndustrial') },
+    { value: 'investment', label: t('enquiryTypeInvestment') },
+    { value: 'building', label: t('enquiryTypeBuilding') },
+    { value: 'parking Lot', label: t('enquiryTypeParking') },
+    { value: 'hotel', label: t('enquiryTypeHotel') },
+    { value: 'other', label: t('enquiryTypeOther') },
   ];
 
   return appartmentTypes;

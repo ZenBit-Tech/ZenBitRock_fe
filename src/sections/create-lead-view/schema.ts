@@ -28,4 +28,8 @@ export const FormSchema = Yup.object().shape<Shape<ICreateLeadData>>({
   countOfBedrooms: Yup.mixed<ICountOfBedroomsValues>().nullable(),
   totalAreaFrom: Yup.number().min(0, 'Only positive value').max(10000, 'Max 10000'),
   totalAreaTo: Yup.number().min(0, 'Only positive value').max(10000, 'Max 10000'),
+  priceRahgeRentFrom: Yup.number().min(0, 'Only positive value').max(1000000, 'Max 1000000'),
+  priceRahgeRentTo: Yup.number().min(0, 'Only positive value').max(1000000, 'Max 10000000'),
+  priceRahgeSellFrom: Yup.number().min(0, 'Only positive value').max(1000000, 'Max 1000000'),
+  priceRahgeSellTo: Yup.number().min(0, 'Only positive value').max(1000000, 'Max 10000000'),
 });

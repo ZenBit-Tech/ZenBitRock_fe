@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import { useEffect, useState } from 'react';
-// import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -12,9 +12,9 @@ import Stack, { StackProps } from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useSnackbar } from 'notistack';
 import FormProvider, { RHFAutocomplete, RHFTextField } from 'components/hook-form';
-// import { AppRoute } from 'enums';
-import RHFTextArea from 'components/hook-form/rhf-text-area';
+import { AppRoute } from 'enums';
 import { UserProfileResponse } from 'store/auth/lib/types';
+import { useCreateLeadMutation } from 'store/api/qobrixApi';
 import {
   ICountOfBedroomsValues,
   IValues,
@@ -36,15 +36,25 @@ const defaultValues = {
   countOfBedrooms: null,
   totalAreaFrom: 0,
   totalAreaTo: 0,
+  priceRahgeRentFrom: 0,
+  priceRahgeRentTo: 0,
+  priceRahgeSellFrom: 0,
+  priceRahgeSellTo: 0,
 };
+
+const NEW_STATUS_ID = 'b041e847-a905-47c1-9f79-430e2fbd6db6';
 
 export default function Form({ user }: Props): JSX.Element {
   const t = useTranslations('CreateLeadPage');
 
-  const [formFilled, setFormFilled] = useState<boolean>(true);
   const [activeRequestsCount, setActiveRequestsCount] = useState<number>(0);
+  const [formFilled, setFormFilled] = useState<boolean>(true);
+  const [isEnquiryTypeRent, setIsEnquiryTypeRent] = useState<boolean>(false);
+  const [isEnquiryTypeSell, setIsEnquiryTypeSell] = useState<boolean>(false);
 
-  // const { replace } = useRouter();
+  const [createLead] = useCreateLeadMutation();
+
+  const { push } = useRouter();
   const { enqueueSnackbar } = useSnackbar();
 
   const { qobrixAgentId, qobrixContactId } = user;
@@ -57,27 +67,46 @@ export default function Form({ user }: Props): JSX.Element {
 
   const {
     watch,
-    // reset,
+    reset,
     handleSubmit,
+    setValue,
     formState: { isSubmitting, isValid },
   } = methods;
 
   const watchAllFields = watch();
 
   useEffect(() => {
-    const fieldsToExclude = [
-      'leadSource',
-      'description',
-      'countOfBedrooms',
-      'totalAreaFrom',
-      'totalAreaTo',
-    ];
-    const isFormFilled = Object.entries(watchAllFields).every(
-      ([key, value]) => fieldsToExclude.includes(key) || Boolean(value)
+    setIsEnquiryTypeRent(watchAllFields.offeringType?.value === 'to_rent');
+    setIsEnquiryTypeSell(watchAllFields.offeringType?.value === 'to_sell');
+  }, [watchAllFields.offeringType?.value]);
+
+  useEffect(() => {
+    if (!isEnquiryTypeRent) {
+      setValue('priceRahgeRentFrom', 0);
+      setValue('priceRahgeRentTo', 0);
+    }
+    if (!isEnquiryTypeSell) {
+      setValue('priceRahgeSellFrom', 0);
+      setValue('priceRahgeSellTo', 0);
+    }
+  }, [isEnquiryTypeRent, isEnquiryTypeSell, setValue]);
+
+  useEffect(() => {
+    let fieldsToInclude = [];
+
+    if (isEnquiryTypeRent) {
+      fieldsToInclude = ['offeringType', 'enquiryType', 'priceRahgeRentFrom', 'priceRahgeRentTo'];
+    } else if (isEnquiryTypeSell) {
+      fieldsToInclude = ['offeringType', 'enquiryType', 'priceRahgeSellFrom', 'priceRahgeSellTo'];
+    } else {
+      fieldsToInclude = ['offeringType', 'enquiryType'];
+    }
+    const isFormFilled = fieldsToInclude.every((key) =>
+      Boolean(watchAllFields[key as keyof typeof watchAllFields])
     );
 
     setFormFilled(isFormFilled);
-  }, [watchAllFields]);
+  }, [isEnquiryTypeRent, isEnquiryTypeSell, watchAllFields]);
 
   const onSubmit = handleSubmit(async (data): Promise<void> => {
     setActiveRequestsCount((prevCount) => prevCount + 1);
@@ -90,25 +119,33 @@ export default function Form({ user }: Props): JSX.Element {
       countOfBedrooms,
       totalAreaFrom,
       totalAreaTo,
+      priceRahgeRentFrom,
+      priceRahgeRentTo,
+      priceRahgeSellFrom,
+      priceRahgeSellTo,
     } = data;
 
     const requestData = {
+      conversion_status: NEW_STATUS_ID,
       agent: qobrixAgentId,
       contact_name: qobrixContactId,
       buy_rent: offeringType.value,
       description,
       source_description: leadSource,
       enquiry_type: enquiryType.value,
-      bedrooms_from: countOfBedrooms?.value || 0,
-      total_area_from_amount: totalAreaFrom,
-      total_area_to_amount: totalAreaTo,
+      bedrooms_from: countOfBedrooms?.value || null,
+      total_area_from_amount: totalAreaFrom || null,
+      total_area_to_amount: totalAreaTo || null,
+      list_selling_price_from: priceRahgeSellFrom || null,
+      list_selling_price_to: priceRahgeSellTo || null,
+      list_rental_price_from: priceRahgeRentFrom || null,
+      list_rental_price_to: priceRahgeRentTo || null,
     };
 
     try {
-      console.log(requestData);
-
-      // reset();
-      // replace(AppRoute.LEADS_PAGE);
+      await createLead(requestData).unwrap();
+      push(AppRoute.LEADS_PAGE);
+      reset();
 
       return undefined;
     } catch (error) {
@@ -161,19 +198,21 @@ export default function Form({ user }: Props): JSX.Element {
             </Block>
 
             <Block label={t('leadSourceLabel')}>
-              <RHFTextArea
+              <RHFTextField
                 name="leadSource"
                 placeholder={t('leadSourcePlaceholder')}
+                multiline
                 rows={3}
                 sx={{ height: '125px' }}
               />
             </Block>
 
             <Block label={t('descriptionLabel')}>
-              <RHFTextArea
+              <RHFTextField
                 name="description"
-                placeholder={t('descriptionPlaceholder')}
+                multiline
                 rows={3}
+                placeholder={t('descriptionPlaceholder')}
                 sx={{ height: '125px' }}
               />
             </Block>
@@ -229,7 +268,7 @@ export default function Form({ user }: Props): JSX.Element {
                   name="totalAreaTo"
                   type="number"
                   inputProps={{
-                    min: 0,
+                    min: watchAllFields.totalAreaFrom || 0,
                     max: 10000,
                   }}
                   placeholder={t('totalAreaToPlaceHolder')}
@@ -237,6 +276,62 @@ export default function Form({ user }: Props): JSX.Element {
                 />
               </Block>
             </Block>
+
+            {isEnquiryTypeRent ? (
+              <Block label={t('priceRahgeRentLabel')}>
+                <Block sx={{ display: 'flex', flexDirection: 'row', gap: '0' }}>
+                  <RHFTextField
+                    name="priceRahgeRentFrom"
+                    type="number"
+                    inputProps={{
+                      min: 0,
+                      max: 10000000,
+                    }}
+                    placeholder={t('priceRahgeRentFromPlaceholder')}
+                    sx={{ height: '80px', mr: '50px' }}
+                  />
+
+                  <RHFTextField
+                    name="priceRahgeRentTo"
+                    type="number"
+                    inputProps={{
+                      min: watchAllFields.priceRahgeRentFrom || 0,
+                      max: 10000000,
+                    }}
+                    placeholder={t('priceRahgeRentToPlaceholder')}
+                    sx={{ height: '80px' }}
+                  />
+                </Block>
+              </Block>
+            ) : null}
+
+            {isEnquiryTypeSell ? (
+              <Block label={t('priceRahgeSellLabel')}>
+                <Block sx={{ display: 'flex', flexDirection: 'row', gap: '0' }}>
+                  <RHFTextField
+                    name="priceRahgeSellFrom"
+                    type="number"
+                    inputProps={{
+                      min: 0,
+                      max: 10000000,
+                    }}
+                    placeholder={t('priceRahgeSellFromPlaceholder')}
+                    sx={{ height: '80px', mr: '50px' }}
+                  />
+
+                  <RHFTextField
+                    name="priceRahgeSellTo"
+                    type="number"
+                    inputProps={{
+                      min: watchAllFields.priceRahgeSellFrom || 0,
+                      max: 10000000,
+                    }}
+                    placeholder={t('priceRahgeSellToPlaceholder')}
+                    sx={{ height: '80px' }}
+                  />
+                </Block>
+              </Block>
+            ) : null}
 
             <LoadingButton
               fullWidth
