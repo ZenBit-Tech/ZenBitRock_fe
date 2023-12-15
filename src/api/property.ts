@@ -15,7 +15,6 @@ export function useGetProperties(params: IPropertyParams) {
   const memoizedValue = useMemo(() => {
     const properties = {
       data: data?.data.map((property: IPropertyItem) => ({
-        // ...property,
         id: property.id,
         saleRent: property.sale_rent,
         status: property.status,

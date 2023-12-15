@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 
 import { useTranslations } from 'next-intl';
 
-import { Box, Card, Fab } from '@mui/material';
+import { Box, Fab } from '@mui/material';
 import { AxiosError } from 'axios';
 
 import { useGetLeads } from 'api/lead';
@@ -14,11 +14,13 @@ import { useSnackbar } from 'components/snackbar';
 import { colors } from 'constants/colors';
 import { ILeads, ILeadsPagination, ILeadsParamsList, ILead } from 'types/lead';
 import { endpoints } from 'utils/axios';
+import uuidv4 from 'utils/uuidv4';
 
 import useInfinityScroll from '../propertiesList/hooks/useInfinityScroll';
 import useScrollToTop from '../propertiesList/hooks/useScrollToTop';
 
 import { TextStyled, ListStyled } from './styles';
+import Lead from './components/lead-item/lead-item';
 
 const INITIAL_PARAMS: ILeadsParamsList = {
   page: 1,
@@ -123,119 +125,9 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
             marginX: 'auto',
           }}
         >
-          {leadsList.map((item: ILead) => {
-            const { leadId, status, source, contactName, contactEmail, contactId, contactPhone } =
-              item;
-
-            return (
-              <Card
-                key={`${leadId}${contactId}`}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  flexDirection: 'column',
-                  width: '100%',
-                  marginBottom: '2rem',
-                  padding: '1rem',
-                  paddingLeft: '3rem',
-                  cursor: 'pointer',
-                }}
-                onClick={() => router.push(`${URL.details}/${leadId}`)}
-              >
-                <Box
-                  sx={{
-                    width: '100%',
-                    height: '50%',
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'flex-start',
-                      alignItems: 'baseline',
-                      gap: '2rem',
-                      marginBottom: '1.5rem',
-                    }}
-                  >
-                    <TextStyled
-                      sx={{
-                        fontWeight: 'bold',
-                        width: '3rem',
-                      }}
-                    >
-                      {t('source')}:
-                    </TextStyled>
-                    <TextStyled
-                      sx={{
-                        fontSize: '1.5rem',
-                        fontWeight: 'bold',
-                      }}
-                    >
-                      {source ? t(source) : t('null')}
-                    </TextStyled>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'flex-start',
-                      alignItems: 'center',
-                      gap: '2rem',
-                      marginBottom: '1rem',
-                    }}
-                  >
-                    <TextStyled
-                      sx={{
-                        fontWeight: 'bold',
-                        width: '3rem',
-                      }}
-                    >
-                      {t('status')}:
-                    </TextStyled>
-                    <TextStyled>{t(status)}</TextStyled>{' '}
-                  </Box>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'flex-start',
-                      alignItems: 'center',
-                      gap: '2rem',
-                      marginBottom: '1rem',
-                    }}
-                  >
-                    <TextStyled
-                      sx={{
-                        fontWeight: 'bold',
-                        width: '3rem',
-                      }}
-                    >
-                      {t('contact')}:
-                    </TextStyled>
-                    <TextStyled>{contactName}</TextStyled>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'flex-start',
-                      alignItems: 'center',
-                      gap: '2rem',
-                      marginBottom: '1rem',
-                    }}
-                  >
-                    <TextStyled
-                      sx={{
-                        fontWeight: 'bold',
-                        width: '3rem',
-                      }}
-                    >
-                      {contactPhone ? t('phone') : t('email')}:
-                    </TextStyled>
-                    <TextStyled>{contactPhone ? contactPhone : contactEmail}</TextStyled>
-                  </Box>
-                </Box>
-              </Card>
-            );
-          })}
+          {leadsList.map((lead: ILead) => (
+            <Lead lead={lead} key={uuidv4()} />
+          ))}
         </ListStyled>
       )}
       <Fab
