@@ -6,6 +6,8 @@ import {
   QobrixContactRequest,
   QobrixContactResponse,
   QobrixPropertyType,
+  QobrixCreateLead,
+  QobrixCreateLeadResponse
 } from 'types';
 import { IUserUpdateQobrix } from 'types/user';
 
@@ -51,6 +53,13 @@ export const QobrixApi = createApi({
         body,
       }),
     }),
+    createLead: builder.mutation<QobrixCreateLeadResponse['data'], QobrixCreateLead>({
+      query: (body) => ({
+        url: ApiRoute.QOBRIX_CREATE_LEAD,
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
@@ -59,4 +68,5 @@ export const {
   useCreateAgentMutation,
   useGetPropertyTypesQuery,
   useUpdateContactMutation,
+  useCreateLeadMutation
 } = QobrixApi;

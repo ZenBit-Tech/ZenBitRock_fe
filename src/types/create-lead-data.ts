@@ -6,4 +6,8 @@ export interface ICreateLeadData {
   countOfBedrooms: Object | null;
   totalAreaFrom: number;
   totalAreaTo: number;
+  priceRahgeRentFrom: number;
+  priceRahgeRentTo: number;
+  priceRahgeSellFrom: number;
+  priceRahgeSellTo: number;
 }
