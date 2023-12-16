@@ -19,7 +19,7 @@ const LeadDetailsPage = ({ params }: Props) => {
     return <LoadingScreen />;
   }
 
-  return <LeadDetailsView leadDetails={data.data} />;
+  return <LeadDetailsView leadDetails={data} />;
 };
 
 export default LeadDetailsPage;
