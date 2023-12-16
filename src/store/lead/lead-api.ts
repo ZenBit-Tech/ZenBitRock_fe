@@ -1,6 +1,6 @@
+import { QobrixLeadDetailsResponse } from 'types';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ApiRoute, StorageKey } from 'enums';
-import { QobrixLeadDetailsResponse } from 'types';
 
 export const LeadApi = createApi({
   reducerPath: 'LeadApi',
@@ -21,6 +21,16 @@ export const LeadApi = createApi({
         url: ApiRoute.GET_LEAD_DETAILS.replace('id', arg),
         method: 'GET',
       }),
+      transformResponse: (response: QobrixLeadDetailsResponse) => {
+        response.matchingProperties = response.matchingProperties.map((property) => ({
+          ...property,
+          saleRent: property.sale_rent,
+          price: property.list_selling_price_amount,
+          photo: property.media?.[0]?.file?.thumbnails?.medium || '',
+        }));
+
+        return response;
+      },
     }),
   }),
 });
