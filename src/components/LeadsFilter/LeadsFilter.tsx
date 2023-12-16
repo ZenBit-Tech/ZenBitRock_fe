@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { useTranslations } from 'next-intl';
 import { useForm, Controller } from 'react-hook-form';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -26,6 +27,8 @@ export default function LeadsFilter({
   // selectedPropertyId = '006251f6-39d4-4944-bb2f-c411e0b8d98b',
   selectedPropertyId = '',
 }: Props): JSX.Element {
+  const t = useTranslations('leads');
+
   const [filterLeads] = useFilterLeadsMutation();
   const [filterLeadsByProperty] = useFilterLeadsByPropertyMutation();
 
@@ -48,7 +51,12 @@ export default function LeadsFilter({
       });
 
       if ('data' in res) {
-        console.log('res with property id', res.data);
+        const mappedData = res.data.data.map((item) => ({
+          contact_name: item.contact_name,
+          status: item.status,
+          name: item.contact_name_contact ? item.contact_name_contact.name : null,
+        }));
+        console.log('res with property id', mappedData);
       }
     } else {
       const res = await filterLeads({ conversion_status: status, search: searchString });
@@ -74,7 +82,7 @@ export default function LeadsFilter({
             margin: '24px',
           }}
         >
-          <InputLabel id="demo-dialog-select-label">Status</InputLabel>
+          <InputLabel id="demo-dialog-select-label">{t('status')}</InputLabel>
           <Controller
             name="status"
             control={control}
@@ -82,12 +90,12 @@ export default function LeadsFilter({
               <Select
                 {...field}
                 labelId="demo-dialog-select-label"
-                input={<OutlinedInput label="Status" />}
+                input={<OutlinedInput label={t('status')} />}
                 variant="filled"
                 sx={{ minWidth: 120, borderRadius: ' 8px 0 0 8px' }}
               >
                 <MenuItem value="">
-                  <em>None</em>
+                  <em>{t('none')}</em>
                 </MenuItem>
                 {Object.entries(leadStatuses).map(([statusName, statusValue]) => (
                   <MenuItem key={statusName} value={statusValue.id}>
@@ -98,7 +106,7 @@ export default function LeadsFilter({
             )}
           />
           <TextField
-            placeholder="Enter lead name..."
+            placeholder={t('inputPlaceholder')}
             type="search"
             {...register('leadName')}
             sx={{

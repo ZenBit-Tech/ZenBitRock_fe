@@ -1,7 +1,7 @@
 import React from 'react';
 import LeadsFilter from 'components/LeadsFilter/LeadsFilter';
 
-function Leads() {
+function Leads(): JSX.Element {
   return (
     <>
       <div>Leads</div>
