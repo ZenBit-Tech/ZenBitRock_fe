@@ -3,7 +3,8 @@ export {
   type QobrixAgentResponse,
   type QobrixContactRequest,
   type QobrixContactResponse,
-  type QobrixPropertyType,
+  type QobrixPropertyTypeResponse,
   type QobrixLeadDetailsResponse,
+  type QobrixLead,
 } from './qobrix';
 export { type ValueOf } from './value-of-type';
