@@ -1,3 +1,4 @@
+import { QobrixProperty, QobrixPropertyType } from './property';
 import { QobrixContact } from './qobrix-contact';
 import { QobrixWorkflowStage } from './qobrix-workflow-stage.type';
 
@@ -11,22 +12,29 @@ type QobrixLead = {
   buy_rent: string | null;
   contact_name: string;
   created_by: string | null;
+  created: string | null;
   description: string | null;
+  enquiry_type: string | null;
   house_type: string | null;
   status: string | null;
   id: string;
   list_selling_price: number | null;
   list_selling_price_from: number | null;
   list_selling_price_to: number | null;
+  lowest_selling_price: number | null;
   list_rental_price_from: number | null;
   list_rental_price_to: number | null;
+  list_letting_price: number | null;
+  lowest_letting_price: number | null;
 };
 
 type QobrixLeadDetailsResponse = {
   data: QobrixLead & {
     contact_name_contact: QobrixContact;
     conversion_status_workflow_stage: QobrixWorkflowStage;
+    property_type: QobrixPropertyType;
   };
+  matchingProperties: QobrixProperty[];
 };
 
 export { type QobrixLead, type QobrixLeadDetailsResponse };
