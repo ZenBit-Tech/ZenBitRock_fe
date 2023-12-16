@@ -11,8 +11,11 @@ type QobrixLead = {
   bedrooms_to: number | null;
   buy_rent: string | null;
   contact_name: string;
+  covered_area_from_amount: number | null;
+  covered_area_to_amount: number | null;
   created_by: string | null;
   created: string | null;
+  construction_stage: string | null;
   description: string | null;
   enquiry_type: string | null;
   house_type: string | null;
