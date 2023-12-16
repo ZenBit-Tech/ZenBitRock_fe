@@ -477,6 +477,10 @@
     "title": "Lead Details",
     "status": "Status",
     "matchingProperties": "Matching properties",
-    "removeLead": "Remove lead"
+    "removeLead": "Remove lead",
+    "created": "Created",
+    "budget": "Budget & Necessities",
+    "buyRent": "Buy / Rent",
+    "enquiryType": "Enquiry Type"
   }
 }
