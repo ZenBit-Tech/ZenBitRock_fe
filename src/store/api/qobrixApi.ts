@@ -7,7 +7,8 @@ import {
   QobrixContactResponse,
   QobrixPropertyType,
 } from 'types';
-import { IUserUpdateQobrix } from 'types/user';
+import { QobrixLeadFilterResponse } from 'types/qobrix/qobrix-contact';
+import { ILeadsFilterRequest, IUserUpdateQobrix } from 'types/user';
 
 export const QobrixApi = createApi({
   reducerPath: 'QobrixApi',
@@ -51,6 +52,20 @@ export const QobrixApi = createApi({
         body,
       }),
     }),
+    filterLeads: builder.mutation<QobrixLeadFilterResponse['data'], ILeadsFilterRequest>({
+      query: ({ search }) => ({
+        url: ApiRoute.QOBRIX_OPPORTUNITIES,
+        method: 'GET',
+        params: { search },
+      }),
+    }),
+    filterLeadsByProperty: builder.mutation<QobrixLeadFilterResponse['data'], ILeadsFilterRequest>({
+      query: ({ search, propertyId }) => ({
+        url: `${ApiRoute.QOBRIX_OPPORTUNITIES}/related-with/Properties/${propertyId}/`,
+        method: 'GET',
+        params: { search },
+      }),
+    }),
   }),
 });
 
@@ -59,4 +74,6 @@ export const {
   useCreateAgentMutation,
   useGetPropertyTypesQuery,
   useUpdateContactMutation,
+  useFilterLeadsMutation,
+  useFilterLeadsByPropertyMutation,
 } = QobrixApi;

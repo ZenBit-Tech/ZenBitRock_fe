@@ -59,6 +59,12 @@ export type IUserUpdateQobrix = {
   qobrixId?: string | null;
 };
 
+export type ILeadsFilterRequest = {
+  conversion_status?: string;
+  search?: string;
+  propertyId?: string;
+};
+
 export type IUserProfileFollower = {
   id: string;
   name: string;

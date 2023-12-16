@@ -24,7 +24,7 @@ export const authApi = createApi({
         try {
           await queryFulfilled;
         } catch (err) {
-          if (err.error.data.statusCode === 401) {
+          if (err.error.data?.statusCode === 401) {
             enqueueSnackbar(`${errMessages.SIGN_IN_ERR_MSG}`, {
               variant: 'error',
             });

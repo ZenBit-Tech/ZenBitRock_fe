@@ -41,3 +41,17 @@ export type QobrixContactResponse = {
     };
   };
 };
+
+interface ContactNameContact {
+  name?: string;
+}
+
+export type QobrixLeadFilterResponse = {
+  data: {
+    data: {
+      contact_name_contact: ContactNameContact;
+      [key: string]: unknown;
+    }[];
+    pagination: { [key: string]: unknown };
+  };
+};
