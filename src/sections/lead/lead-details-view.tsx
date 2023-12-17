@@ -4,7 +4,11 @@ import { useCallback, useState, useTranslations } from 'hooks';
 import { RouterLink } from 'routes/components';
 import { QobrixLeadDetailsResponse } from 'types';
 import { MatchingPropertiesView } from './matching-properties-view';
-import { LeadDetailsBudgetSection, LeadDetailsFeaturesSection } from './components';
+import {
+  LeadDetailsBudgetSection,
+  LeadDetailsFeaturesSection,
+  LeadDetailsSourceSection,
+} from './components';
 
 type Props = {
   leadDetails: QobrixLeadDetailsResponse;
@@ -71,6 +75,7 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
               data.created ? new Date(data.created).toDateString() : ''
             }`}</Typography>
           </Stack>
+          <LeadDetailsSourceSection lead={data} />
           <LeadDetailsBudgetSection lead={data} />
           <LeadDetailsFeaturesSection lead={data} />
         </Stack>
