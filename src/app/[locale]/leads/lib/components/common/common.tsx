@@ -27,6 +27,10 @@ function Common(): JSX.Element {
   const { id, leads } = useParams();
   const router = useRouter();
 
+  function getFilter(searchString: string): void {
+    setFilter(searchString);
+  }
+
   useEffect(() => {
     (() => {
       if (id && leads) {
@@ -52,12 +56,13 @@ function Common(): JSX.Element {
             marginY: '1.5rem',
           }}
         >
-          <LeadsFilter />
+          <LeadsFilter getFilter={(searchString: string) => getFilter(searchString)} />
           <Button
             title={t('create')}
             sx={{ padding: '14px' }}
             variant="contained"
             color="primary"
+            type="button"
             onClick={() => router.push(`${URL.create}`)}
           >
             <Iconify icon="subway:add" height="auto" />

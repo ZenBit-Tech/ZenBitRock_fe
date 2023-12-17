@@ -12,6 +12,7 @@ import { AxiosError } from 'axios';
 import { useGetLeads } from 'api/lead';
 import { useSnackbar } from 'components/snackbar';
 import { colors } from 'constants/colors';
+import { NotMatchedView } from 'sections';
 import { ILeads, ILeadsPagination, ILeadsParamsList, ILead } from 'types/lead';
 import { endpoints } from 'utils/axios';
 import uuidv4 from 'utils/uuidv4';
@@ -37,7 +38,9 @@ interface LeadsListProps {
 
 function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
   const [params, setParams] = useState<ILeadsParamsList>(INITIAL_PARAMS);
-  const { leads, leadsError } = useGetLeads(id ? `${URL.byProperty}${id}` : '', { params });
+  const { leads, leadsError } = useGetLeads(id ? `${URL.byProperty}${id}` : '', {
+    params: { ...params, search: filter },
+  });
 
   const [leadsList, setLeadsList] = useState<ILeads>([]);
   const [leadsPagination, setLeadsPagination] = useState<ILeadsPagination>();
@@ -61,7 +64,7 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
       }
     },
   });
-
+  console.log(filter);
   useEffect(() => {
     if (isFetching)
       (async (): Promise<void> => {
@@ -71,11 +74,7 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
             setLeadsList((prev) => [...prev, ...leads.data]);
             setLeadsPagination((prev) => ({ ...prev, ...leads.pagination }));
             if (leads.pagination?.hasNextPage)
-              if (filter) {
-                setParams((prev) => ({ ...prev, page: prev.page + 1, search: filter }));
-              } else {
-                setParams((prev) => ({ ...prev, page: prev.page + 1 }));
-              }
+              setParams((prev) => ({ ...prev, page: prev.page + 1 }));
             setIsFetching(false);
           }
         } catch (err) {
@@ -83,6 +82,13 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
         }
       })();
   }, [isFetching, leads, leadsError, leadsPagination, filter]);
+
+  useEffect(() => {
+    setParams(INITIAL_PARAMS);
+    setLeadsList([]);
+    setLeadsPagination(undefined);
+    setIsFetching(true);
+  }, [filter]);
 
   return (
     <Box
@@ -95,26 +101,28 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
       }}
     >
       {name && (
-        <Box
-          sx={{
-            width: 'fit-content',
-            height: 'auto',
-            borderColor: colors.PRIMARY_DARK_COLOR,
-            borderStyle: 'solid',
-            borderWidth: '1px',
-            borderRadius: '0.375rem',
-            padding: '0.375rem',
-          }}
-        >
+        <>
           <TextStyled
             sx={{
               fontWeight: 'bold',
             }}
           >
-            <span>{t('filtered')}</span>
-            {name}
+            {t('filtered')}
           </TextStyled>
-        </Box>
+          <Box
+            sx={{
+              width: 'fit-content',
+              height: 'auto',
+              borderColor: colors.PRIMARY_DARK_COLOR,
+              borderStyle: 'solid',
+              borderWidth: '1px',
+              borderRadius: '0.375rem',
+              padding: '0.375rem',
+            }}
+          >
+            <TextStyled>{name}</TextStyled>
+          </Box>
+        </>
       )}
 
       {error && enqueueSnackbar(t('error'), { variant: 'error' })}
@@ -130,6 +138,7 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
           ))}
         </ListStyled>
       )}
+      {leadsList.length === 0 && filter && !isFetching && <NotMatchedView />}
       <Fab
         color="primary"
         aria-label="scroll to top"
