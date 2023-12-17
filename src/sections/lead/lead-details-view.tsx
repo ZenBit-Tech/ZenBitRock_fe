@@ -59,7 +59,11 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
                 {workflow.name}
               </Link>
             </Typography>
-            <Typography variant="body2">{`${t('enquiryType')} : ${propertyType.name}`}</Typography>
+            {propertyType && (
+              <Typography variant="body2">{`${t('enquiryType')} : ${
+                propertyType.name
+              }`}</Typography>
+            )}
             <Typography variant="body2">{`${t('matchingProperties')} : ${
               matchingPropertiesCount ?? ''
             }`}</Typography>

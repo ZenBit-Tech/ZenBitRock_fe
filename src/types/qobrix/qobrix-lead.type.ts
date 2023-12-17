@@ -35,7 +35,7 @@ type QobrixLeadDetailsResponse = {
   data: QobrixLead & {
     contact_name_contact: QobrixContact;
     conversion_status_workflow_stage: QobrixWorkflowStage;
-    property_type: QobrixPropertyType;
+    property_type: QobrixPropertyType | null;
   };
 };
 
