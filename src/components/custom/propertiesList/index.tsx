@@ -1,16 +1,12 @@
 'use client';
-
-import { useEffect, useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useEffect, useInfinityScroll, useState, useTranslations } from 'hooks';
 import { Box, Fab } from '@mui/material';
 import { AxiosError } from 'axios';
 import { useGetProperties } from 'api/property';
 import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
-import { IPropertyList, IPropertyPagination, IPropertyParamsList } from 'types/property';
-import { QobrixProperty } from 'types/qobrix';
-
-import useInfinityScroll from './hooks/useInfinityScroll';
+import { IPropertyParamsList } from 'types/property';
+import { QobrixPagination, QobrixProperty, QobrixPropertyList } from 'types/qobrix';
 import useScrollToTop from './hooks/useScrollToTop';
 import { ListStyled } from './styles';
 import { PropertyCard } from '../propery-card/property-card';
@@ -26,8 +22,8 @@ function PropertiesList(): JSX.Element {
   const [params, setParams] = useState<IPropertyParamsList>(INITIAL_PARAMS);
   const { properties, propertiesError } = useGetProperties({ params });
 
-  const [propertiesList, setPropertiesList] = useState<IPropertyList>([]);
-  const [propertiesPagination, setPropertiesPagination] = useState<IPropertyPagination>();
+  const [propertiesList, setPropertiesList] = useState<QobrixPropertyList>([]);
+  const [propertiesPagination, setPropertiesPagination] = useState<QobrixPagination>();
   const [error, setError] = useState<AxiosError | null>(null);
   const [isFetching, setIsFetching] = useState<boolean>(true);
 
@@ -91,7 +87,7 @@ function PropertiesList(): JSX.Element {
           }}
         >
           {propertiesList.map((item: QobrixProperty) => (
-            <PropertyCard property={item} />
+            <PropertyCard property={item} key={item.id} />
           ))}
         </ListStyled>
       )}
