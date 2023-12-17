@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import useSWR from 'swr';
 import { endpoints, fetcherQobrix } from 'utils/axios';
-import { IProperties, IPropertyParams, IPropertyDetailed } from 'types/property';
-import { QobrixProperty } from 'types/qobrix';
+import { IPropertyParams, IPropertyDetailed } from 'types/property';
+import { QobrixProperty, QobrixPropertyListResponse } from 'types/qobrix';
 
 const URL = endpoints.property;
 
@@ -29,7 +29,7 @@ export function useGetProperties(params: IPropertyParams) {
     };
 
     return {
-      properties: properties as IProperties,
+      properties: properties as QobrixPropertyListResponse,
       propertiesError: error,
     };
   }, [data, error]);
