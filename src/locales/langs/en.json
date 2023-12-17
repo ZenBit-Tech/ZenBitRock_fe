@@ -482,6 +482,9 @@
     "budget": "Budget & Necessities",
     "buyRent": "Buy / Rent",
     "enquiryType": "Enquiry Type",
-    "features": "Main Features"
+    "features": "Main Features",
+    "description": "Description",
+    "sourceDetails": "Source Details",
+    "source": "Source"
   }
 }
