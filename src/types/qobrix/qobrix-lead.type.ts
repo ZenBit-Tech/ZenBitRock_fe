@@ -29,6 +29,7 @@ type QobrixLead = {
   list_rental_price_to: number | null;
   list_letting_price: number | null;
   lowest_letting_price: number | null;
+  source: string | null;
 };
 
 type QobrixLeadDetailsResponse = {
