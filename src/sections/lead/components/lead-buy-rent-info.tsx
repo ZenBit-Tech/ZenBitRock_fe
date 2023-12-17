@@ -13,6 +13,8 @@ const LeadBuyRentInfo = ({ infoKeys, lead }: Props) => (
     {Object.keys(infoKeys).map((key) => {
       const value = lead[key as keyof QobrixLead];
 
+      if (!value) return undefined;
+
       return (
         <Grid item xs={12} sm={4} key={key}>
           <LeadDetailsInfoBlock
