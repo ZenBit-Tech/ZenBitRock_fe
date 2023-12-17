@@ -36,6 +36,7 @@ const MatchingPropertiesView = ({ lead, setMatchingPropertiesCount }: Props) => 
   if (!data || error) {
     return <LoadingScreen />;
   }
+
   return (
     <>
       {data.pagination.count > 0 && (

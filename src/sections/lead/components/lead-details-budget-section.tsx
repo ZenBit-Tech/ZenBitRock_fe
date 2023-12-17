@@ -28,6 +28,15 @@ const LeadDetailsBudgetSection = ({ lead }: Props) => {
               infoKeys={QobrixPriceKeysBuyRent[buyRent as ValueOf<typeof QobrixLeadBuyRent>]}
               lead={lead}
             />
+            {lead.description && (
+              <Grid item xs={12}>
+                <LeadDetailsInfoBlock
+                  label={t('description')}
+                  info={lead.description}
+                  display="block"
+                />
+              </Grid>
+            )}
           </Grid>
         </>
       )}
