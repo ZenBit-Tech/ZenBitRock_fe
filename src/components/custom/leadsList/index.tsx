@@ -48,7 +48,6 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
   const [isFetching, setIsFetching] = useState<boolean>(true);
 
   const t = useTranslations('leads');
-  const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
 
   const isVisible = useScrollToTop();
@@ -64,7 +63,7 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
       }
     },
   });
-  console.log(filter);
+
   useEffect(() => {
     if (isFetching)
       (async (): Promise<void> => {

@@ -12,12 +12,6 @@ import { TextStyled } from '../../styles';
 
 const URL = endpoints.lead;
 
-interface LeadsListProps {
-  filter: string | undefined;
-  id: string | undefined;
-  name: string | undefined;
-}
-
 function Lead({ lead }: { lead: ILead }): JSX.Element {
   const t = useTranslations('leads');
   const router = useRouter();
