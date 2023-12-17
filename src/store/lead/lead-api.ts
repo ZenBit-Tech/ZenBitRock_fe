@@ -1,6 +1,7 @@
 import { QobrixLeadDetailsResponse } from 'types';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ApiRoute, StorageKey } from 'enums';
+import { QobrixPropertyListResponse } from 'types/qobrix';
 
 export const LeadApi = createApi({
   reducerPath: 'LeadApi',
@@ -21,8 +22,18 @@ export const LeadApi = createApi({
         url: ApiRoute.GET_LEAD_DETAILS.replace('id', arg),
         method: 'GET',
       }),
-      transformResponse: (response: QobrixLeadDetailsResponse) => {
-        response.matchingProperties = response.matchingProperties.map((property) => ({
+    }),
+    getMatchingProperties: builder.query<
+      QobrixPropertyListResponse,
+      { search: string; page: number }
+    >({
+      query: (arg) => ({
+        url: ApiRoute.GET_MATCHING_PROPERTIES,
+        method: 'GET',
+        params: { search: arg.search, page: arg.page },
+      }),
+      transformResponse: (response: QobrixPropertyListResponse) => {
+        response.data = response.data.map((property) => ({
           ...property,
           saleRent: property.sale_rent,
           price: property.list_selling_price_amount,
@@ -31,8 +42,17 @@ export const LeadApi = createApi({
 
         return response;
       },
+      serializeQueryArgs: ({ endpointName }) => endpointName,
+
+      merge: (currentCache, newItems) => {
+        currentCache.data.push(...newItems.data);
+        currentCache.pagination = newItems.pagination;
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
     }),
   }),
 });
 
-export const { useGetLeadDetailsQuery } = LeadApi;
+export const { useGetLeadDetailsQuery, useGetMatchingPropertiesQuery } = LeadApi;

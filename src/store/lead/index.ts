@@ -1,1 +1,1 @@
-export { useGetLeadDetailsQuery, LeadApi } from './lead-api';
+export { useGetLeadDetailsQuery, useGetMatchingPropertiesQuery, LeadApi } from './lead-api';
