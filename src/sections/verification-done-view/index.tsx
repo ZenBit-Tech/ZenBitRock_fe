@@ -24,7 +24,7 @@ export function VerificationDoneView(): JSX.Element {
       maxWidth="600px"
       height="calc(100vh - 80px)"
       margin="0 auto"
-      sx={{ mt: -10, justifyContent: 'center', alignItems: 'center' }}
+      sx={{ mt: -10, justifyContent: 'center', alignItems: 'center', px: 2 }}
       gridTemplateColumns={{
         xs: 'repeat(1, 1fr)',
         sm: 'repeat(1, 1fr)',
@@ -37,9 +37,10 @@ export function VerificationDoneView(): JSX.Element {
 
         <LoadingButton
           fullWidth
-          color="info"
+          variant="contained"
+          color="primary"
           size="large"
-          variant="text"
+          type="submit"
           style={{ marginBottom: '70px' }}
           onClick={handleClick}
         >
