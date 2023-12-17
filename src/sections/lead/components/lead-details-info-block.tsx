@@ -6,9 +6,11 @@ type Props = {
   display?: 'flex' | 'block';
 };
 const LeadDetailsInfoBlock = ({ label, info, display = 'flex' }: Props): JSX.Element => (
-  <Box sx={{ display: { xs: display, sm: 'block' }, alignItems: 'center', gap: 2 }}>
+  <Box sx={{ display: { xs: display, sm: 'block' }, alignItems: 'center', gap: 1 }}>
     <Typography variant="caption">{`${label} :`}</Typography>
-    <Typography variant="subtitle2">{info}</Typography>
+    <Typography sx={{ wordWrap: 'break-word' }} variant="subtitle2">
+      {info}
+    </Typography>
   </Box>
 );
 
