@@ -36,10 +36,11 @@ const MatchingPropertiesView = ({ lead, setMatchingPropertiesCount }: Props) => 
   if (!data || error) {
     return <LoadingScreen />;
   }
+
   return (
     <>
       {data.pagination.count > 0 && (
-        <Box sx={{ m: 1, p: 1, border: '1px solid black', paddingBottom: '56px' }}>
+        <Box sx={{ m: 1, p: 1, border: '1px solid black' }}>
           <Stack spacing={1}>
             <Typography variant="h4" color="text.secondary">
               Matching Properties

@@ -16,6 +16,7 @@ const ApiRoute = {
   QOBRIX_PROPERY_TYPES: '/property-types',
   GET_LEAD_DETAILS: '/lead/details/id',
   GET_MATCHING_PROPERTIES: 'lead/properties',
+  DELETE_LEAD: '/opportunities',
 } as const;
 
 export { ApiRoute };

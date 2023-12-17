@@ -4,7 +4,11 @@ import { useCallback, useState, useTranslations } from 'hooks';
 import { RouterLink } from 'routes/components';
 import { QobrixLeadDetailsResponse } from 'types';
 import { MatchingPropertiesView } from './matching-properties-view';
-import { LeadDetailsBudgetSection, LeadDetailsFeaturesSection } from './components';
+import {
+  LeadDetailsBudgetSection,
+  LeadDetailsFeaturesSection,
+  LeadDeleteComponent,
+} from './components';
 
 type Props = {
   leadDetails: QobrixLeadDetailsResponse;
@@ -19,6 +23,7 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
   const contact = data.contact_name_contact;
   const workflow = data.conversion_status_workflow_stage;
   const propertyType = data.property_type;
+  const { id } = data;
 
   const handleSetPropertiesCount = useCallback(
     (count: number) => setMatchingPropertiesCount(count),
@@ -26,7 +31,7 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
   );
 
   return (
-    <Box sx={{ maxWidth: 800, margin: '0 auto' }}>
+    <Box sx={{ maxWidth: 800, margin: '0 auto', pb: 8 }}>
       <Link
         component={RouterLink}
         href="#"
@@ -75,15 +80,7 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
           <LeadDetailsFeaturesSection lead={data} />
         </Stack>
 
-        <Link
-          variant="subtitle2"
-          sx={{
-            cursor: 'pointer',
-            mt: 4,
-          }}
-        >
-          {t('removeLead')}
-        </Link>
+        <LeadDeleteComponent t={t} id={id} />
       </Box>
       <MatchingPropertiesView lead={data} setMatchingPropertiesCount={handleSetPropertiesCount} />
     </Box>
