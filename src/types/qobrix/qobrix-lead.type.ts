@@ -1,4 +1,4 @@
-import { QobrixProperty, QobrixPropertyType } from './property';
+import { QobrixPropertyType } from './property';
 import { QobrixContact } from './qobrix-contact';
 import { QobrixWorkflowStage } from './qobrix-workflow-stage.type';
 
@@ -37,7 +37,6 @@ type QobrixLeadDetailsResponse = {
     conversion_status_workflow_stage: QobrixWorkflowStage;
     property_type: QobrixPropertyType;
   };
-  matchingProperties: QobrixProperty[];
 };
 
 export { type QobrixLead, type QobrixLeadDetailsResponse };

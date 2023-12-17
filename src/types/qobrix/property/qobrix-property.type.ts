@@ -15,4 +15,6 @@ type QobrixProperty = {
   photo: string;
 };
 
-export { type QobrixProperty };
+type QobrixPropertyList = QobrixProperty[];
+
+export { type QobrixProperty, type QobrixPropertyList };

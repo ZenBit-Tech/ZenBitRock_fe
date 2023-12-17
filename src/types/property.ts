@@ -1,12 +1,3 @@
-import { QobrixProperty } from './qobrix';
-
-export type IPropertyList = QobrixProperty[];
-
-export type IProperties = {
-  data: IPropertyList;
-  pagination: IPropertyPagination;
-};
-
 export type IPropertyParams = {
   params: IPropertyParamsList;
 };
@@ -18,15 +9,6 @@ export type IPropertyParamsList = {
   media: boolean;
   sort?: string[];
   search?: string;
-};
-
-export type IPropertyPagination = {
-  pageCount: number;
-  currentPage: number;
-  hasNextPage: boolean;
-  hasPrevPage: boolean;
-  count: number;
-  limit: number;
 };
 
 export type IPropertyDetailed = {

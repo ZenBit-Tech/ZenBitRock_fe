@@ -8,6 +8,9 @@ export {
   type QobrixPropertyTypeResponse,
   type QobrixProperty,
   type QobrixPropertyType,
+  type QobrixPropertyList,
+  type QobrixPropertyListResponse,
 } from './property';
 export { type QobrixLeadDetailsResponse } from './qobrix-lead.type';
 export { type QobrixLead } from './qobrix-lead.type';
+export { type QobrixPagination } from './qobrix-pagination.type';
