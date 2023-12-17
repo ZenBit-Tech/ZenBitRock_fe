@@ -3,7 +3,6 @@ import { toTitleCase } from 'utils';
 import { Grid, Typography } from '@mui/material';
 import { useTranslations } from 'hooks';
 import { LeadFeaturesSectionKeys } from 'constants/lead-features-section-keys.const';
-
 import { LeadDetailsInfoBlock } from './lead-details-info-block';
 
 type Props = { lead: QobrixLead };
@@ -19,9 +18,10 @@ const LeadDetailsFeaturesSection = ({ lead }: Props) => {
       <Grid container spacing={1}>
         {LeadFeaturesSectionKeys.map((key) => {
           const value = lead[key];
+
           if (value) {
             return (
-              <Grid item xs={6} sm={4}>
+              <Grid item xs={6} sm={4} key={key}>
                 <LeadDetailsInfoBlock
                   label={toTitleCase(key)}
                   info={toTitleCase(value.toString())}
