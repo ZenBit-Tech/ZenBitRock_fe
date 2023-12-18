@@ -4,7 +4,7 @@ import { useEffect, useInfinityScroll, useState } from 'hooks';
 import { LoadingScreen } from 'components/loading-screen';
 import { Box, List, Stack, Typography } from '@mui/material';
 import { PropertyCard } from 'components/custom';
-import { getPropertySearchFilter } from './helpers';
+import { getPropertySearchFilter } from 'utils';
 
 type Props = {
   lead: QobrixLead;
