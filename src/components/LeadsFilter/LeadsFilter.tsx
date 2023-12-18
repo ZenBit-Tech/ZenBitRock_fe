@@ -10,6 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
+import { enqueueSnackbar } from 'notistack';
 import Iconify from 'components/iconify/iconify';
 import { leadStatuses } from 'constants/leadStatuses';
 import { useFilterLeadsMutation, useFilterLeadsByPropertyMutation } from 'store/api/qobrixApi';
@@ -23,20 +24,19 @@ type FormValues = {
   leadName: string;
 };
 
-export default function LeadsFilter({
-  // selectedPropertyId = '006251f6-39d4-4944-bb2f-c411e0b8d98b',
-  selectedPropertyId = '',
-}: Props): JSX.Element {
+const DEFAULT_VALUES = {
+  status: '',
+  leadName: '',
+};
+
+export default function LeadsFilter({ selectedPropertyId = '' }: Props): JSX.Element {
   const t = useTranslations('leads');
 
   const [filterLeads] = useFilterLeadsMutation();
   const [filterLeadsByProperty] = useFilterLeadsByPropertyMutation();
 
   const form = useForm<FormValues>({
-    defaultValues: {
-      status: '',
-      leadName: '',
-    },
+    defaultValues: DEFAULT_VALUES,
     mode: 'onTouched',
   });
   const { register, control, handleSubmit } = form;
@@ -44,30 +44,34 @@ export default function LeadsFilter({
   const onSubmit = async (data: FormValues): Promise<void> => {
     const { status, leadName } = data;
     const searchString = `ContactNameContacts.name contains '${leadName}' and Opportunities.conversion_status matches '${status}'`;
-    if (selectedPropertyId) {
-      const res = await filterLeadsByProperty({
-        search: searchString,
-        propertyId: selectedPropertyId,
-      });
+    try {
+      if (selectedPropertyId) {
+        const res = await filterLeadsByProperty({
+          search: searchString,
+          propertyId: selectedPropertyId,
+        });
 
-      if ('data' in res) {
-        const mappedData = res.data.data.map((item) => ({
-          contact_name: item.contact_name,
-          status: item.status,
-          name: item.contact_name_contact ? item.contact_name_contact.name : null,
-        }));
-        console.log('res with property id', mappedData);
+        if ('data' in res) {
+          const mappedData = res.data.data.map((item) => ({
+            contact_name: item.contact_name,
+            status: item.status,
+            name: item.contact_name_contact ? item.contact_name_contact.name : null,
+          }));
+          console.log('res with property id', mappedData);
+        }
+      } else {
+        const res = await filterLeads({ conversion_status: status, search: searchString });
+        if ('data' in res) {
+          const mappedData = res.data.data.map((item) => ({
+            contact_name: item.contact_name,
+            status: item.status,
+            name: item.contact_name_contact ? item.contact_name_contact.name : null,
+          }));
+          console.log('res without property id', mappedData);
+        }
       }
-    } else {
-      const res = await filterLeads({ conversion_status: status, search: searchString });
-      if ('data' in res) {
-        const mappedData = res.data.data.map((item) => ({
-          contact_name: item.contact_name,
-          status: item.status,
-          name: item.contact_name_contact ? item.contact_name_contact.name : null,
-        }));
-        console.log('res without property id', mappedData);
-      }
+    } catch (error) {
+      enqueueSnackbar('Something went wrong', { variant: 'error' });
     }
   };
 

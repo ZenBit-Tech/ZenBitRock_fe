@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { enqueueSnackbar } from 'notistack';
 import { StorageKey } from 'enums';
 import { errMessages } from 'constants/errMessages';
+import { statusCodes } from 'constants/statusCodes';
 import { SendVerificationCodeResponse, UserAuthResponse, UserProfileResponse } from './lib/types';
 
 export interface IUserData {
@@ -24,7 +25,7 @@ export const authApi = createApi({
         try {
           await queryFulfilled;
         } catch (err) {
-          if (err.error.data?.statusCode === 401) {
+          if (err.error.data?.statusCode === statusCodes.UNAUTHORIZED) {
             enqueueSnackbar(`${errMessages.SIGN_IN_ERR_MSG}`, {
               variant: 'error',
             });
@@ -45,7 +46,7 @@ export const authApi = createApi({
         try {
           await queryFulfilled;
         } catch (err) {
-          if (err.error.data.statusCode === 400) {
+          if (err.error.data.statusCode === statusCodes.UNAUTHORIZED) {
             enqueueSnackbar(`${errMessages.SIGN_UP_ERR_MSG}`, { variant: 'error' });
           } else {
             enqueueSnackbar(`${err.error.data.message}`, { variant: 'error' });
