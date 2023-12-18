@@ -309,7 +309,7 @@ export default function VerificationForm({ handleVerification }: Props): JSX.Ele
                     <DatePicker
                       {...field}
                       label={t('dateOfBirthPlaceholder')}
-                      minDate={new Date(1990, 0, 1)}
+                      minDate={new Date(1900, 0, 1)}
                       maxDate={new Date()}
                       format={datesFormats.verificationDatePicker}
                       slotProps={{

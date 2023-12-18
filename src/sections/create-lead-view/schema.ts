@@ -31,5 +31,5 @@ export const FormSchema = Yup.object().shape<Shape<ICreateLeadData>>({
   priceRahgeRentFrom: Yup.number().min(0, 'Only positive value').max(1000000, 'Max 1000000'),
   priceRahgeRentTo: Yup.number().min(0, 'Only positive value').max(1000000, 'Max 10000000'),
   priceRahgeSellFrom: Yup.number().min(0, 'Only positive value').max(1000000, 'Max 1000000'),
-  priceRahgeSellTo: Yup.number().min(0, 'Only positive value').max(1000000, 'Max 10000000'),
+  priceRahgeSellTo: Yup.number().min(0, 'Only positive value').max(1000000, 'Max 1000000'),
 });
