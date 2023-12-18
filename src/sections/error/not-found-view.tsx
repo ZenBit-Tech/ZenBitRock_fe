@@ -11,6 +11,7 @@ import { useTranslations } from 'hooks';
 
 export function NotFoundView() {
   const t = useTranslations('notFoundView');
+
   return (
     <CompactLayout>
       <MotionContainer>
