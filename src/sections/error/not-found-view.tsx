@@ -7,22 +7,21 @@ import { CompactLayout } from 'layouts';
 import { RouterLink } from 'routes/components';
 import { MotionContainer, varBounce } from 'components/animate';
 import { PageNotFoundIllustration } from 'assets/illustrations';
+import { useTranslations } from 'hooks';
 
 export function NotFoundView() {
+  const t = useTranslations('notFoundView');
   return (
     <CompactLayout>
       <MotionContainer>
         <m.div variants={varBounce().in}>
           <Typography variant="h3" sx={{ mb: 2 }}>
-            Sorry, Page Not Found!
+            {t('notFound')}
           </Typography>
         </m.div>
 
         <m.div variants={varBounce().in}>
-          <Typography sx={{ color: 'text.secondary' }}>
-            Sorry, we couldn’t find the page you’re looking for. Perhaps you’ve mistyped the URL? Be
-            sure to check your spelling.
-          </Typography>
+          <Typography sx={{ color: 'text.secondary' }}>{t('message')}</Typography>
         </m.div>
 
         <m.div variants={varBounce().in}>
@@ -35,7 +34,7 @@ export function NotFoundView() {
         </m.div>
 
         <Button component={RouterLink} href="/" size="large" variant="contained">
-          Go to Home
+          {t('home')}
         </Button>
       </MotionContainer>
     </CompactLayout>
