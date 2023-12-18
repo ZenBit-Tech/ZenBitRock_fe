@@ -57,8 +57,9 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
       filter = filter
         .concat(getBedroomsFilter(bedrooms ? Number(bedrooms) : null, null))
         .concat(getPropertyStatusFilter(status ?? null))
-        .concat(getBuyRentFilter(rent ?? null))
-        .substring(filter.indexOf('and') + 3);
+        .concat(getBuyRentFilter(rent ?? null));
+
+      filter = filter.substring(filter.indexOf('and') + 3);
 
       applyFilters(filter);
     } catch (error) {
