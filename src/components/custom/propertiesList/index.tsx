@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useInfinityScroll, useState, useTranslations } from 'hooks';
+import { useEffect, useInfinityScroll, useScrollToTop, useState, useTranslations } from 'hooks';
 import { Box, Fab } from '@mui/material';
 import { AxiosError } from 'axios';
 import { useGetProperties } from 'api/property';
@@ -7,7 +7,6 @@ import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
 import { IPropertyParamsList } from 'types/property';
 import { QobrixPagination, QobrixProperty, QobrixPropertyList } from 'types/qobrix';
-import useScrollToTop from './hooks/useScrollToTop';
 import { ListStyled } from './styles';
 import { PropertyCard } from '../propery-card/property-card';
 

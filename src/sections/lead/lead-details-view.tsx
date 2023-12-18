@@ -1,6 +1,6 @@
-import { Box, Link, Stack, Typography, useTheme } from '@mui/material';
+import { Box, Fab, Link, Stack, Typography, useTheme } from '@mui/material';
 import Iconify from 'components/iconify';
-import { useCallback, useState, useTranslations } from 'hooks';
+import { useCallback, useScrollToTop, useState, useTranslations } from 'hooks';
 import { RouterLink } from 'routes/components';
 import { QobrixLeadDetailsResponse } from 'types';
 import { MatchingPropertiesView } from './matching-properties-view';
@@ -18,6 +18,11 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
   const [matchingPropertiesCount, setMatchingPropertiesCount] = useState<number | null>(null);
   const t = useTranslations('leadDetailsPage');
   const theme = useTheme();
+  const isVisible = useScrollToTop();
+
+  const scrollToTop = (): void => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const { data } = leadDetails;
 
@@ -92,6 +97,20 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
         </Link>
       </Box>
       <MatchingPropertiesView lead={data} setMatchingPropertiesCount={handleSetPropertiesCount} />
+      <Fab
+        color="primary"
+        aria-label="scroll to top"
+        onClick={scrollToTop}
+        sx={{
+          position: 'fixed',
+          bottom: '70px',
+          right: '20px',
+          display: isVisible ? 'block' : 'none',
+          transition: 'easy-in 200 display',
+        }}
+      >
+        ↑
+      </Fab>
     </Box>
   );
 };
