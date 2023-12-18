@@ -13,6 +13,7 @@ import { IconButton, InputAdornment, TextField } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import Iconify from 'components/iconify/iconify';
 import { leadStatuses } from 'constants/leadStatuses';
+import { errMessages } from 'constants/errMessages';
 import { useFilterLeadsMutation, useFilterLeadsByPropertyMutation } from 'store/api/qobrixApi';
 
 type Props = {
@@ -71,7 +72,7 @@ export default function LeadsFilter({ selectedPropertyId = '' }: Props): JSX.Ele
         }
       }
     } catch (error) {
-      enqueueSnackbar('Something went wrong', { variant: 'error' });
+      enqueueSnackbar(errMessages.FILTER_ERR_MSG, { variant: 'error' });
     }
   };
 
