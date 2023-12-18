@@ -100,7 +100,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
               left: '0.5rem',
               transition: 'easy-in 200 all',
               backgroundColor: colors.ARROW_SECONDARY,
-              opacity: '0.08',
+              opacity: '0.3',
             }}
             onClick={() => sliderRef?.current?.slickPrev()}
           >
@@ -123,7 +123,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
               right: '0.5rem',
               transition: 'easy in 200 all',
               backgroundColor: colors.ARROW_SECONDARY,
-              opacity: '0.08',
+              opacity: '0.3',
             }}
             onClick={() => sliderRef?.current?.slickNext()}
           >
