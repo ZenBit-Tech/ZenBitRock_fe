@@ -72,10 +72,8 @@ export default function VerifyCodeForm(): JSX.Element {
 
       dispatch(setCode({ code: data.code }));
       router.push(AppRoute.RESTORE_PASSWORD_CHANGE_PASSWORD_PAGE);
-
     } catch (error) {
       enqueueSnackbar(t('errorMessageInvalidCode'), { variant: 'error' });
-
     } finally {
       setActiveRequestsCount((prevCount) => prevCount - 1);
     }
