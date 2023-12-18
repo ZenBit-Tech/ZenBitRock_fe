@@ -18,8 +18,13 @@ const INITIAL_PARAMS: IPropertyParamsList = {
   media: true,
 };
 
-function PropertiesList(): JSX.Element {
+type Props = {
+  search: string;
+};
+
+function PropertiesList({ search }: Props): JSX.Element {
   const [params, setParams] = useState<IPropertyParamsList>(INITIAL_PARAMS);
+
   const { properties, propertiesError } = useGetProperties({ params });
 
   const [propertiesList, setPropertiesList] = useState<QobrixPropertyList>([]);
@@ -44,6 +49,13 @@ function PropertiesList(): JSX.Element {
       }
     },
   });
+  useEffect(() => {
+    if (search) {
+      setPropertiesList([]);
+      setParams({ ...params, search, page: 1 });
+      setIsFetching(true);
+    }
+  }, [search, setParams]);
 
   useEffect(() => {
     if (isFetching)

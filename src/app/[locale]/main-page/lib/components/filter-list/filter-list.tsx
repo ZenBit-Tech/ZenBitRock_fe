@@ -11,6 +11,7 @@ import FormProvider, {
 import { Block } from 'components/custom';
 import { useGetPropertyTypesQuery } from 'store/api/qobrixApi';
 import { LoadingScreen } from 'components/loading-screen';
+import { getBedroomsFilter, getBuyRentFilter, getPropertyStatusFilter } from 'utils';
 import { BEDROOMS, getPropertyStatus, getRentOrSaleOption, FilterSchema } from './lib';
 
 const defaultValues = {
@@ -22,7 +23,11 @@ const defaultValues = {
   rentOrSale: null,
 };
 
-const FilterList = (): JSX.Element => {
+type Props = {
+  applyFilters: (filter: string) => void;
+};
+
+const FilterList = ({ applyFilters }: Props): JSX.Element => {
   const { data } = useGetPropertyTypesQuery(undefined);
   const t = useTranslations('mainPage.filters');
   const propertyStatus = useTranslations('mainPage.filters.filterOptions.propertyStatus');
@@ -46,7 +51,16 @@ const FilterList = (): JSX.Element => {
 
   const onSubmit = handleSubmit(async (formData) => {
     try {
-      console.log(formData);
+      const { bedrooms, status, rentOrSale: rent } = formData;
+      let filter = '';
+
+      filter = filter
+        .concat(getBedroomsFilter(bedrooms ? Number(bedrooms) : null, null))
+        .concat(getPropertyStatusFilter(status ?? null))
+        .concat(getBuyRentFilter(rent ?? null))
+        .substring(filter.indexOf('and') + 3);
+
+      applyFilters(filter);
     } catch (error) {
       reset();
     }
