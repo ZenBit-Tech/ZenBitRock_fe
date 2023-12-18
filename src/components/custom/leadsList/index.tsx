@@ -1,24 +1,17 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-
-import { useRouter } from 'next/navigation';
-
-import { useTranslations } from 'next-intl';
-
 import { Box, Fab } from '@mui/material';
 import { AxiosError } from 'axios';
 
 import { useGetLeads } from 'api/lead';
 import { useSnackbar } from 'components/snackbar';
 import { colors } from 'constants/colors';
+import { useEffect, useInfinityScroll, useScrollToTop, useState, useTranslations } from 'hooks';
 import { NotMatchedView } from 'sections';
 import { ILeads, ILeadsPagination, ILeadsParamsList, ILead } from 'types/lead';
 import { endpoints } from 'utils/axios';
 import uuidv4 from 'utils/uuidv4';
 
-import useInfinityScroll from '../propertiesList/hooks/useInfinityScroll';
-import useScrollToTop from '../propertiesList/hooks/useScrollToTop';
 
 import { TextStyled, ListStyled } from './styles';
 import Lead from './components/lead-item/lead-item';
