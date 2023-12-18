@@ -11,6 +11,14 @@ const QobrixFilterKeysSaleRent = {
     QobrixPropertySaleRent.FOR_SALE,
     QobrixPropertySaleRent.FOR_SALE_AND_RENT,
   ],
+  [QobrixPropertySaleRent.FOR_SALE]: [
+    QobrixPropertySaleRent.FOR_SALE,
+    QobrixPropertySaleRent.FOR_SALE_AND_RENT,
+  ],
+  [QobrixPropertySaleRent.FOR_RENT]: [
+    QobrixPropertySaleRent.FOR_RENT,
+    QobrixPropertySaleRent.FOR_SALE_AND_RENT,
+  ],
 } as const;
 
 export { QobrixFilterKeysSaleRent };
