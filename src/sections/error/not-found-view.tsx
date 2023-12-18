@@ -34,7 +34,7 @@ export function NotFoundView() {
           />
         </m.div>
 
-        <Button component={RouterLink} href="/" size="large" variant="contained">
+        <Button component={RouterLink} href="/" size="large" variant="contained" color="primary">
           {t('home')}
         </Button>
       </MotionContainer>
