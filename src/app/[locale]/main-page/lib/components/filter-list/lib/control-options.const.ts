@@ -4,7 +4,7 @@ const getPropertyStatus = (t: (key: string) => string): { value: string; label: 
     label: t('pending'),
   },
   {
-    value: 'avaliable',
+    value: 'available',
     label: t('avaliable'),
   },
   {

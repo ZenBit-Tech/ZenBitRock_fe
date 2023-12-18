@@ -1,27 +1,14 @@
 'use client';
-
-import { useEffect, useState } from 'react';
-
-import { useTranslations } from 'next-intl';
-
+import { useEffect, useInfinityScroll, useScrollToTop, useState, useTranslations } from 'hooks';
 import { Box, Fab } from '@mui/material';
 import { AxiosError } from 'axios';
-
 import { useGetProperties } from 'api/property';
 import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
-import {
-  IPropertyList,
-  IPropertyPagination,
-  IPropertyParamsList,
-  IPropertyItem,
-} from 'types/property';
-import uuidv4 from 'utils/uuidv4';
-
-import useInfinityScroll from './hooks/useInfinityScroll';
-import useScrollToTop from './hooks/useScrollToTop';
+import { IPropertyParamsList } from 'types/property';
+import { QobrixPagination, QobrixProperty, QobrixPropertyList } from 'types/qobrix';
 import { ListStyled } from './styles';
-import Property from './componets/property-item/property-item';
+import { PropertyCard } from '../propery-card/property-card';
 
 const INITIAL_PARAMS: IPropertyParamsList = {
   page: 1,
@@ -30,16 +17,22 @@ const INITIAL_PARAMS: IPropertyParamsList = {
   media: true,
 };
 
-function PropertiesList(): JSX.Element {
+type Props = {
+  search: string;
+};
+
+function PropertiesList({ search }: Props): JSX.Element {
   const [params, setParams] = useState<IPropertyParamsList>(INITIAL_PARAMS);
+
   const { properties, propertiesError } = useGetProperties({ params });
 
-  const [propertiesList, setPropertiesList] = useState<IPropertyList>([]);
-  const [propertiesPagination, setPropertiesPagination] = useState<IPropertyPagination>();
+  const [propertiesList, setPropertiesList] = useState<QobrixPropertyList>([]);
+  const [propertiesPagination, setPropertiesPagination] = useState<QobrixPagination>();
   const [error, setError] = useState<AxiosError | null>(null);
   const [isFetching, setIsFetching] = useState<boolean>(true);
 
   const t = useTranslations('properties');
+
   const { enqueueSnackbar } = useSnackbar();
 
   const isVisible = useScrollToTop();
@@ -55,6 +48,13 @@ function PropertiesList(): JSX.Element {
       }
     },
   });
+  useEffect(() => {
+    if (search) {
+      setPropertiesList([]);
+      setParams({ ...params, search, page: 1 });
+      setIsFetching(true);
+    }
+  }, [search, setParams]);
 
   useEffect(() => {
     if (isFetching)
@@ -97,8 +97,8 @@ function PropertiesList(): JSX.Element {
             marginX: 'auto',
           }}
         >
-          {propertiesList.map((property: IPropertyItem) => (
-            <Property property={property} key={uuidv4()} />
+          {propertiesList.map((item: QobrixProperty) => (
+            <PropertyCard property={item} key={item.id} />
           ))}
         </ListStyled>
       )}
