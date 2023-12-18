@@ -1,22 +1,21 @@
-import React, { useState, useRef } from 'react';
-
+// components/SlickSlider.tsx
+import React, { useState, useRef, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-
 import { Box, Button, Modal } from '@mui/material';
 import Slider from 'react-slick';
-
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Image from 'components/image/image';
 import { QOBRIX_HOST } from 'config-global';
 import { colors } from 'constants/colors';
-
 import { useCloseModal } from '../hooks/useCloseModal';
+import useZoomCircle from '../hooks/useZoomCircle';
 import { IconifyStyled } from '../styles';
 
 interface SlickSliderProps {
   photos: string[][];
 }
+
 const SETTINGS = {
   dots: true,
   arrows: false,
@@ -28,28 +27,36 @@ const SETTINGS = {
   innerHeight: 200,
 };
 
-const MIN_SCALE = 1;
-const MAX_SCALE = 3;
+const DEFAULT_POSITION = 0;
 
 const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
   const t = useTranslations('property');
 
   const [toggleModal, setToggleModal] = useState<boolean>(false);
-  const [src, setSrc] = useState<string>('');
+  const [center, setCenter] = useState<number>(DEFAULT_POSITION);
   const [visibleArrows, setVisibleArrows] = useState<boolean>(false);
-  const [scale, setScale] = useState<number>(MIN_SCALE);
 
   const sliderRef = useRef<Slider>(null);
+  const modalContainerRef = useRef<HTMLDivElement>(null);
 
   useCloseModal(toggleModal, () => setToggleModal(false));
+  const { circleRef, imageRef, position } = useZoomCircle({
+    radius: 50,
+    scale: 1.2,
+    loupeSize: 200, // Added loupeSize option for the size of the magnifying glass
+  });
 
-  const handleZoomIn = () => {
-    setScale((prevScale) => Math.min(prevScale + 0.2, MAX_SCALE));
-  };
-
-  const handleZoomOut = () => {
-    setScale((prevScale) => Math.max(prevScale - 0.2, MIN_SCALE));
-  };
+  useEffect(() => {
+    if (toggleModal) {
+      setTimeout(
+        () =>
+          (document.querySelector(`#image-${center}`) as HTMLDivElement)?.scrollIntoView({
+            behavior: 'smooth',
+          }),
+        200
+      );
+    }
+  }, [toggleModal]);
 
   return (
     <Box
@@ -116,96 +123,67 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
       )}
       <Slider {...SETTINGS} ref={sliderRef}>
         {photos.map((photo, index) => (
-          <Box key={index}>
-            <Image
-              src={`${QOBRIX_HOST}${photo[1]}`}
-              alt={`Slide ${index + 1}`}
-              width={200}
-              height={100}
-              sx={{ width: '100%', height: '100%', objectFit: 'cover', cursor: 'pointer' }}
-              onClick={(e): void => {
-                setToggleModal(true);
-                setSrc(
-                  (e.currentTarget.children[0].children[0] as HTMLImageElement).src
-                    .split('large')
-                    .join('original')
-                );
-              }}
-            />
-            {toggleModal && (
-              <Modal open>
-                <Box
-                  className="for-custom-scroll"
-                  sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    border: 'none',
-                    overflow: 'auto',
-                  }}
-                >
-                  <Box
-                    sx={{
-                      transform: `scale(${scale})`,
-                      transition: 'transform 0.2s ease-out',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <Image
-                      src={src}
-                      alt={`Slide original ${index + 1}`}
-                      sx={{
-                        width: '100vw',
-                        height: 'auto',
-                        objectFit: 'cover',
-                        cursor: 'pointer',
-                        transition: 'easy-in 200 all',
-                      }}
-                      onClick={(): void => {
-                        setToggleModal(false);
-                        setScale(1);
-                      }}
-                    />
-                  </Box>
-                  <Button
-                    onClick={handleZoomOut}
-                    sx={{
-                      position: 'absolute',
-                      top: '10px',
-                      left: '10px',
-                      opacity: scale === MIN_SCALE ? 0.1 : 1,
-                    }}
-                  >
-                    <IconifyStyled
-                      icon="pepicons-pencil:loop-minus-circle"
-                      width="3rem"
-                      height="3rem"
-                      color={colors.BUTTON_PRIMARY_COLOR}
-                    />
-                  </Button>
-                  <Button
-                    onClick={handleZoomIn}
-                    sx={{
-                      position: 'absolute',
-                      top: '10px',
-                      left: '80px',
-                      opacity: scale === MAX_SCALE ? 0.1 : 1,
-                    }}
-                  >
-                    <IconifyStyled
-                      icon="pepicons-pencil:loop-plus-circle"
-                      width="3rem"
-                      height="3rem"
-                      color={colors.BUTTON_PRIMARY_COLOR}
-                    />
-                  </Button>
-                </Box>
-              </Modal>
-            )}
-          </Box>
+          <Image
+            key={index}
+            src={`${QOBRIX_HOST}${photo[1]}`}
+            alt={`Slide ${index + 1}`}
+            width={200}
+            height={100}
+            sx={{ width: '100%', height: '100%', objectFit: 'cover', cursor: 'pointer' }}
+            onClick={(): void => {
+              setToggleModal(true);
+              setCenter(index);
+            }}
+          />
         ))}
       </Slider>
+      {toggleModal && (
+        <Modal open sx={{ overflow: 'scroll' }} ref={imageRef}>
+          <Box ref={modalContainerRef} sx={{ height: 'fit-content' }}>
+            <div
+              ref={circleRef}
+              style={{
+                position: 'absolute',
+                width: `${200}px`,
+                height: `${200}px`,
+                borderRadius: '50%',
+                border: '2px solid red',
+                transform: 'translate(-50%, -50%)',
+                pointerEvents: 'none',
+                left: `${position.x}px`,
+                top: `${position.y}px`,
+                zIndex: 1,
+              }}
+            ></div>
+
+            {photos.map((photo, index) => (
+              <Box
+                key={index}
+                id={`image-${index}`}
+                sx={{
+                  display: 'block',
+                  width: '100%',
+                  height: 'auto',
+                  objectFit: 'cover',
+                }}
+              >
+                <Image
+                  src={`${QOBRIX_HOST}${photo[0]}`}
+                  alt={`Slide ${index * 100 + 1}`}
+                  width={200}
+                  height={100}
+                  sx={{
+                    display: 'block',
+                    width: '100%',
+                    height: 'auto',
+                    objectFit: 'cover',
+                  }}
+                />
+              </Box>
+            ))}
+          </Box>
+        </Modal>
+      )}
     </Box>
   );
 };
