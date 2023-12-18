@@ -12,7 +12,6 @@ import { ILeads, ILeadsPagination, ILeadsParamsList, ILead } from 'types/lead';
 import { endpoints } from 'utils/axios';
 import uuidv4 from 'utils/uuidv4';
 
-
 import { TextStyled, ListStyled } from './styles';
 import Lead from './components/lead-item/lead-item';
 
