@@ -8,3 +8,4 @@ export { useResponsive } from './use-responsive';
 export { useMockedUser } from './use-mocked-user';
 export { useVerification } from './use-verification.hook';
 export { useInfinityScroll } from './useInfinityScroll';
+export { useScrollToTop } from './use-scroll-to-top';
