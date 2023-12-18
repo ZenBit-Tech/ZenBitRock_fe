@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useDispatch } from 'react-redux';
+import { enqueueSnackbar } from 'notistack';
 import { DialogContentText, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -8,8 +9,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useDeleteUserMutation } from 'store/api/userApi';
-import { enqueueSnackbar } from 'notistack';
-import { AppRoute, StorageKey } from 'enums';
+import { delUserFromState } from 'store/auth/authReducer';
+import { StorageKey } from 'enums';
 
 type Props = {
   id: string;
@@ -17,10 +18,10 @@ type Props = {
 
 export default function DeleteProfileDialog({ id }: Props) {
   const t = useTranslations('editProfilePage');
-  const router = useRouter();
+  const dispatch = useDispatch();
+  const [deleteUser] = useDeleteUserMutation();
 
   const [open, setOpen] = React.useState<boolean>(false);
-  const [deleteUser] = useDeleteUserMutation();
 
   const descriptionElementRef = React.useRef<HTMLElement>(null);
 
@@ -34,26 +35,28 @@ export default function DeleteProfileDialog({ id }: Props) {
     }
   }, [open]);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (): void => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (): void => {
     setOpen(false);
   };
 
-  const handleDeleteUser = async (userId: string) => {
+  const handleDeleteUser = async (userId: string): Promise<void> => {
     try {
       const successMessage = t('success');
 
-      await deleteUser({ id: userId });
-      localStorage.removeItem(StorageKey.TOKEN);
-      enqueueSnackbar(successMessage, { variant: 'success' });
-      handleClose();
+      const res = await deleteUser({ id: userId });
 
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      router.push(AppRoute.SIGN_UP_PAGE);
+      if ('data' in res) {
+        enqueueSnackbar(`${successMessage}`, { variant: 'success' });
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        dispatch(delUserFromState());
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        localStorage.removeItem(StorageKey.TOKEN);
+        handleClose();
+      }
     } catch (error) {
       const errMessage = t('error');
 
