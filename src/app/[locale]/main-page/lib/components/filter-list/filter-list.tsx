@@ -18,7 +18,7 @@ const defaultValues = {
   propertyType: '',
   status: '',
   priceRange: null,
-  bedrooms: null,
+  bedrooms: '',
   rentOrSale: null,
 };
 
@@ -46,7 +46,7 @@ const FilterList = (): JSX.Element => {
 
   const onSubmit = handleSubmit(async (formData) => {
     try {
-      // Todo
+      console.log(formData);
     } catch (error) {
       reset();
     }
@@ -82,7 +82,7 @@ const FilterList = (): JSX.Element => {
             <RHFSlider name="priceRange" sx={{ width: '92%', margin: '0 auto', height: 4 }} />
           </Block>
           <Block label={t('bedrooms')}>
-            <RHFSelect name="status" size="small">
+            <RHFSelect name="bedrooms" size="small">
               {BEDROOMS.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
