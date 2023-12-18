@@ -1,4 +1,4 @@
-import { Box, Link, Stack, Typography } from '@mui/material';
+import { Box, Link, Stack, Typography, useTheme } from '@mui/material';
 import Iconify from 'components/iconify';
 import { useCallback, useState, useTranslations } from 'hooks';
 import { RouterLink } from 'routes/components';
@@ -17,6 +17,7 @@ type Props = {
 const LeadDetailsView = ({ leadDetails }: Props) => {
   const [matchingPropertiesCount, setMatchingPropertiesCount] = useState<number | null>(null);
   const t = useTranslations('leadDetailsPage');
+  const theme = useTheme();
 
   const { data } = leadDetails;
 
@@ -46,7 +47,7 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
         <Iconify icon="eva:arrow-ios-back-fill" width={20} />
         {t('title')}
       </Link>
-      <Box sx={{ m: 1, p: 1, border: '1px solid black' }}>
+      <Box sx={{ m: 1, p: 1, border: `1px solid ${theme.palette.primary.main}` }}>
         <Stack spacing={2}>
           <Stack spacing={1}>
             <Typography variant="h4" color="text.secondary">
