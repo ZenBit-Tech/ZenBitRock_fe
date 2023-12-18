@@ -471,7 +471,12 @@
     "phone": "Phone",
     "email": "Email",
     "status": "Status",
-    "filtered": "Filtered for the: "
+    "filtered": "Selected property",
+    "none": "None",
+    "inputPlaceholder": "Enter lead name...",
+    "sorry": "Sorry, No Matched Results Found!",
+    "try": "Try to find something else.",
+    "reset": "Reset all filters"
   },
   "leadDetailsPage": {
     "title": "Lead Details",

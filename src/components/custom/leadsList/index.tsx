@@ -4,6 +4,7 @@ import { Box, Fab } from '@mui/material';
 import { AxiosError } from 'axios';
 
 import { useGetLeads } from 'api/lead';
+import Iconify from 'components/iconify';
 import { useSnackbar } from 'components/snackbar';
 import { colors } from 'constants/colors';
 import { useEffect, useInfinityScroll, useScrollToTop, useState, useTranslations } from 'hooks';
@@ -12,7 +13,7 @@ import { ILeads, ILeadsPagination, ILeadsParamsList, ILead } from 'types/lead';
 import { endpoints } from 'utils/axios';
 import uuidv4 from 'utils/uuidv4';
 
-import { TextStyled, ListStyled } from './styles';
+import { TextStyled, ListStyled, BoxStyledWithName, LinkStyled } from './styles';
 import Lead from './components/lead-item/lead-item';
 
 const INITIAL_PARAMS: ILeadsParamsList = {
@@ -100,19 +101,23 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
           >
             {t('filtered')}
           </TextStyled>
-          <Box
-            sx={{
-              width: 'fit-content',
-              height: 'auto',
-              borderColor: colors.PRIMARY_DARK_COLOR,
-              borderStyle: 'solid',
-              borderWidth: '1px',
-              borderRadius: '0.375rem',
-              padding: '0.375rem',
-            }}
-          >
+          <BoxStyledWithName>
             <TextStyled>{name}</TextStyled>
-          </Box>
+            <LinkStyled href={'/leads'} title={t('reset')}>
+              <Iconify
+                icon="carbon:close-outline"
+                color={colors.PRIMARY_DARK_COLOR}
+                width="1rem"
+                height="1rem"
+                sx={{
+                  position: 'absolute',
+                  bottom: '-0.5rem',
+                  right: '-0.5rem',
+                  backgroundColor: colors.PRIMARY_LIGHT_COLOR,
+                }}
+              />
+            </LinkStyled>
+          </BoxStyledWithName>
         </>
       )}
 
@@ -129,7 +134,8 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
           ))}
         </ListStyled>
       )}
-      {leadsList.length === 0 && filter && !isFetching && <NotMatchedView />}
+      {(leadsList.length === 0 && filter && !isFetching) ||
+        (leadsList.length === 0 && name && !isFetching && <NotMatchedView />)}
       <Fab
         color="primary"
         aria-label="scroll to top"
