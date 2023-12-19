@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
@@ -10,7 +9,7 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
-import { AppDispatch } from 'store';
+import { UserProfileResponse } from 'types';
 import {
   useUpdateUserMutation,
   useSetAvatarMutation,
@@ -19,8 +18,6 @@ import {
 } from 'store/api/userApi';
 import { useUpdateContactMutation } from 'store/api/qobrixApi';
 import ReduxProvider from 'store/ReduxProvider';
-import { updateUserState } from 'store/auth/authReducer';
-import { UserProfileResponse } from 'store/auth/lib/types';
 import { useRouter } from 'routes/hooks';
 import { patterns } from 'constants/patterns';
 import { AppRoute } from 'enums';
@@ -50,7 +47,6 @@ function getRoles(): string[] {
 
 export default function UserNewEditForm({ user }: Props): JSX.Element {
   const router = useRouter();
-  const dispatch = useDispatch<AppDispatch>();
 
   const [updateUser] = useUpdateUserMutation();
   const [updateContact] = useUpdateContactMutation();
@@ -190,19 +186,11 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
         setIsAvatar(true);
       }
 
-      dispatch(updateUserState(updatedUser));
-
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
       enqueueSnackbar(successMessage, { variant: 'success' });
-
-      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       router.push(AppRoute.PROFILE_PAGE);
     } catch (error) {
-      const errorMessage = t('errorText');
-
-      enqueueSnackbar(errorMessage, { variant: 'error' });
+      enqueueSnackbar(t('errorText'), { variant: 'error' });
     }
   });
 
