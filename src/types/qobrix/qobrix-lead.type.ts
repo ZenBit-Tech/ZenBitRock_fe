@@ -29,21 +29,14 @@ type QobrixLead = {
   list_rental_price_to: number | null;
   list_letting_price: number | null;
   lowest_letting_price: number | null;
+  source: string | null;
 };
 
 type QobrixLeadDetailsResponse = {
   data: QobrixLead & {
     contact_name_contact: QobrixContact;
     conversion_status_workflow_stage: QobrixWorkflowStage;
-    property_type: QobrixPropertyType;
-  };
-};
-
-type QobrixLeadTasksResponse = {
-  data: {
-    id: QobrixContact;
-    subject: QobrixWorkflowStage;
-    start_date: QobrixPropertyType;
+    property_type: QobrixPropertyType | null;
   };
 };
 

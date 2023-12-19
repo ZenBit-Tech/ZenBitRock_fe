@@ -1,10 +1,22 @@
 import { Box, IconButton, InputAdornment, TextField } from '@mui/material';
 import Iconify from 'components/iconify';
+import { useCallback } from 'hooks';
 import CustomPopover, { usePopover } from 'components/custom-popover';
 import { FilterList } from '../filter-list/filter-list';
 
-const PropertyFilter = () => {
+type Props = {
+  setFilter: (filter: string) => void;
+};
+const PropertyFilter = ({ setFilter }: Props) => {
   const popover = usePopover();
+
+  const handleApplyFilters = useCallback(
+    (filter: string) => {
+      setFilter(filter);
+      popover.onClose();
+    },
+    [setFilter, popover]
+  );
 
   return (
     <Box sx={{ marginTop: 2, display: 'flex', alignItems: 'center' }}>
@@ -29,7 +41,7 @@ const PropertyFilter = () => {
         arrow="top-left"
         sx={{ width: '100%', mt: 1 }}
       >
-        <FilterList />
+        <FilterList applyFilters={handleApplyFilters} />
       </CustomPopover>
     </Box>
   );

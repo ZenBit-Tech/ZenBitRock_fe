@@ -9,4 +9,5 @@ export const colors = {
   PRIMARY_DARK_COLOR: '#OOOOOO',
   DELETE_PROFILE_HOVER: '#00a76f14',
   ERROR_COLOR: '#FF5630',
+  ARROW_SECONDARY: '#919eab',
 };

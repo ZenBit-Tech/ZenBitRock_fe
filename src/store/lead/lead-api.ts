@@ -52,14 +52,7 @@ export const LeadApi = createApi({
         return currentArg !== previousArg;
       },
     }),
-    getTasksByLead: builder.query<QobrixLeadDetailsResponse, string>({
-      query: (arg) => ({
-        url: ApiRoute.GET_TASKS_BY_LEAD.replace('id', arg),
-        method: 'GET',
-      }),
-    }),
   }),
 });
 
-export const { useGetLeadDetailsQuery, useGetMatchingPropertiesQuery, useGetTasksByLeadQuery } =
-  LeadApi;
+export const { useGetLeadDetailsQuery, useGetMatchingPropertiesQuery } = LeadApi;
