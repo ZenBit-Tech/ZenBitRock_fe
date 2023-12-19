@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
+import { useScrollToTop } from 'hooks';
 import { useRouter } from 'next/navigation';
 
 import { useTranslations } from 'next-intl';
@@ -16,8 +16,6 @@ import { useSnackbar } from 'components/snackbar';
 import { backgroundImages } from 'constants/backgroundImgLinks';
 import { IPropertyDetailed } from 'types/property';
 import { endpoints } from 'utils/axios';
-
-import useScrollToTop from '../propertiesList/hooks/useScrollToTop';
 
 import InfoBlock from './components/InfoBlock';
 import SlickSlider from './components/SlickSlider';
@@ -118,7 +116,7 @@ export default function Property({ id }: { id: string }): JSX.Element {
             sx={{ padding: '14px', marginBottom: '1.5rem' }}
             variant="contained"
             color="primary"
-            onClick={(): void => router.push(`/leads/${id}--${propertyDetailed.name}`)}
+            onClick={(): void => router.push(`/property/${id}/leads/${propertyDetailed.name}`)}
           >
             <TypographyStyled>{t('leads')}</TypographyStyled>
           </ButtonStyled>

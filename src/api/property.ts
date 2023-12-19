@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import useSWR from 'swr';
 import { endpoints, fetcherQobrix } from 'utils/axios';
-import { IPropertyItem, IProperties, IPropertyParams, IPropertyDetailed } from 'types/property';
+import { IPropertyParams, IPropertyDetailed } from 'types/property';
+import { QobrixProperty, QobrixPropertyListResponse } from 'types/qobrix';
 
 const URL = endpoints.property;
 
@@ -14,7 +15,7 @@ export function useGetProperties(params: IPropertyParams) {
 
   const memoizedValue = useMemo(() => {
     const properties = {
-      data: data?.data.map((property: IPropertyItem) => ({
+      data: data?.data.map((property: QobrixProperty) => ({
         ...property,
         id: property.id,
         saleRent: property.sale_rent,
@@ -28,7 +29,7 @@ export function useGetProperties(params: IPropertyParams) {
     };
 
     return {
-      properties: properties as IProperties,
+      properties: properties as QobrixPropertyListResponse,
       propertiesError: error,
     };
   }, [data, error]);

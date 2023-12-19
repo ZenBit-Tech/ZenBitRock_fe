@@ -131,7 +131,7 @@ export function defaultProps(theme: Theme) {
     },
     MuiLink: {
       defaultProps: {
-        underline: 'hover',
+        underline: 'none',
       },
     },
     MuiListItemText: {

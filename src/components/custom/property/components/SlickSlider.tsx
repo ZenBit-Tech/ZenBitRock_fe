@@ -81,7 +81,6 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
         borderTopRightRadius: '8px',
         borderTopLeftRadius: '8px',
         overflow: 'hidden',
-        transition: 'easy-in 200 all',
       }}
       onMouseOut={() => setVisibleArrows(false)}
       onMouseOver={() => setVisibleArrows(true)}

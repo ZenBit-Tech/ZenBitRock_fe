@@ -36,4 +36,4 @@ function useInfinityScroll({ callback }: InfiniteScrollProps): void {
   }, [callback]);
 }
 
-export default useInfinityScroll;
+export { useInfinityScroll };

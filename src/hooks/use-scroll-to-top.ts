@@ -20,4 +20,4 @@ const useScrollToTop = (): boolean => {
   return isVisible;
 };
 
-export default useScrollToTop;
+export { useScrollToTop };

@@ -5,7 +5,7 @@ import {
   QobrixAgentResponse,
   QobrixContactRequest,
   QobrixContactResponse,
-  QobrixPropertyType,
+  QobrixPropertyTypeResponse,
 } from 'types';
 import { IUserUpdateQobrix } from 'types/user';
 
@@ -37,7 +37,7 @@ export const QobrixApi = createApi({
         body,
       }),
     }),
-    getPropertyTypes: builder.query<QobrixPropertyType, undefined>({
+    getPropertyTypes: builder.query<QobrixPropertyTypeResponse, undefined>({
       query: (body) => ({
         url: ApiRoute.QOBRIX_PROPERY_TYPES,
         method: 'GET',

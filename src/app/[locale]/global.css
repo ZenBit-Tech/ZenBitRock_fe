@@ -24,7 +24,8 @@ img {
 
 a {
   text-decoration: none;
-  display: block;
+  color: black;
+  cursor: pointer;
 }
 
 /* End Normalize */

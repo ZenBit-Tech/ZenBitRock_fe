@@ -7,6 +7,7 @@ import { LoadingScreen } from 'components/loading-screen';
 import { useGetProfileQuery } from 'store/auth';
 import { Header } from '../header/header';
 import { Navbar } from '../navbar/navbar';
+import { SnackbarProvider } from 'components/snackbar';
 
 type Props = {
   children: React.ReactNode;
@@ -33,9 +34,11 @@ const App = ({ children }: Props) => {
     <>
       {!isLoading && (
         <>
-          <Header user={user} />
-          {children}
-          <Navbar user={user} />
+          <SnackbarProvider>
+            <Header user={user} />
+            {children}
+            <Navbar user={user} />
+          </SnackbarProvider>
         </>
       )}
     </>
