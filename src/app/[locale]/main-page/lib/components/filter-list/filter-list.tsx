@@ -18,7 +18,7 @@ const defaultValues = {
   location: '',
   propertyType: '',
   status: '',
-  priceRange: null,
+  priceRange: [0, 100000000],
   bedrooms: '',
   rentOrSale: null,
 };
@@ -94,7 +94,13 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
             </RHFSelect>
           </Block>
           <Block label={t('priceRange')}>
-            <RHFSlider name="priceRange" sx={{ width: '92%', margin: '0 auto', height: 4 }} />
+            <RHFSlider
+              name="priceRange"
+              sx={{ width: '92%', margin: '0 auto', height: 4 }}
+              min={0}
+              max={100000}
+              step={10}
+            />
           </Block>
           <Block label={t('bedrooms')}>
             <RHFSelect name="bedrooms" size="small">
