@@ -8,7 +8,6 @@ import { useGetProfileQuery } from 'store/auth';
 import { SnackbarProvider } from 'components/snackbar';
 import { Header } from '../header/header';
 import { Navbar } from '../navbar/navbar';
-import { SnackbarProvider } from 'components/snackbar';
 
 type Props = {
   children: React.ReactNode;
