@@ -9,7 +9,7 @@ import { useTheme } from '@mui/material/styles';
 import { Link, Typography } from '@mui/material';
 import { useTranslations } from 'hooks';
 import { AppRoute } from 'enums';
-import { UserProfileResponse } from 'store/auth/lib/types';
+import { UserProfileResponse } from 'types';
 import { HEADER, HeaderAvatar } from './lib';
 import { Logo } from './styles';
 
