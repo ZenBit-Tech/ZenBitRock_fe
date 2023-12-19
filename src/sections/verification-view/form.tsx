@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import { useForm, Controller } from 'react-hook-form';
 import { useSnackbar } from 'notistack';
+import { MuiTelInput, matchIsValidTel } from 'mui-tel-input';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -309,7 +310,7 @@ export default function VerificationForm({ handleVerification }: Props): JSX.Ele
                     <DatePicker
                       {...field}
                       label={t('dateOfBirthPlaceholder')}
-                      minDate={new Date(1990, 0, 1)}
+                      minDate={new Date(1900, 0, 1)}
                       maxDate={new Date()}
                       format={datesFormats.verificationDatePicker}
                       slotProps={{
@@ -432,20 +433,32 @@ export default function VerificationForm({ handleVerification }: Props): JSX.Ele
             </Block>
 
             <Block label={t('phoneNumber')}>
-              <RHFTextField
+              <Controller
                 name="phone"
-                label={t('phoneNumberLabel')}
-                placeholder={t('phoneNumberPlaceholder')}
-                type="tel"
-                inputProps={{
-                  autoComplete: 'new-password', // disable autocomplete and autofill
+                control={control}
+                rules={{
+                  validate: (value) => matchIsValidTel(value),
                 }}
-                sx={{
-                  '@media (min-width: 650px)': {
-                    width: '290px',
-                  },
-                  height: '70px',
-                }}
+                render={({ field, fieldState }) => (
+                  <MuiTelInput
+                    {...field}
+                    label={t('phoneNumberLabel')}
+                    placeholder={t('phoneNumberPlaceholder')}
+                    defaultCountry={
+                      watchAllFields.countryAutocomplete
+                        ? watchAllFields.countryAutocomplete.value
+                        : 'US'
+                    }
+                    helperText={fieldState.invalid ? t('phoneInvalidMessage') : ''}
+                    error={fieldState.invalid}
+                    sx={{
+                      '@media (min-width: 650px)': {
+                        width: '290px',
+                      },
+                      height: '70px',
+                    }}
+                  />
+                )}
               />
             </Block>
 

@@ -65,7 +65,8 @@
     "countryPlaceholder": "United States",
     "phoneNumber": "* Phone number",
     "phoneNumberLabel": "Phone number",
-    "phoneNumberPlaceholder": "(000) 000-0000",
+    "phoneNumberPlaceholder": "+1 000 000 0000",
+    "phoneInvalidMessage": "Phone number is not valid",
     "fileSectionTitle": "C. File Upload",
     "fileHelperText": "Allowed *.jpeg, *.jpg, *.pdf, max size of 5 MB",
     "drag&DropTitle": "* Please upload related documents",
@@ -99,10 +100,10 @@
     "successMessage": "Check your mail!",
     "timeRemaining": "The code expires in: {remainingTime} seconds",
     "resendCodeButtonExpired": "Resend code",
-    "ErrorMessage":"Something went wrong, please try again",
-    "CheckEmail":"Check your mail!",
-    "Success":"Success!",
-    "CodeExpired":"Code has expired, please send another code"
+    "ErrorMessage": "Something went wrong, please try again",
+    "CheckEmail": "Check your mail!",
+    "Success": "Success!",
+    "CodeExpired": "Code has expired, please send another code"
   },
   "signInPage": {
     "Main": {
@@ -216,7 +217,7 @@
     "return": "Return",
     "timeRemaining": "The code expires in: {remainingTime} seconds",
     "resendCodeButtonExpired": "Resend code",
-    "ErrorMessage":"Something went wrong, please try again"
+    "ErrorMessage": "Something went wrong, please try again"
   },
   "yup": {
     "code_too_short": "Code must be at least 6 characters",
