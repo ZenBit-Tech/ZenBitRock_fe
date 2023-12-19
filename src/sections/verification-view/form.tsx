@@ -53,6 +53,7 @@ const defaultValues = {
 };
 
 const FIVE_MEGABYTES: number = 5000000;
+const DEFAULT_COUNTRY_CODE: string = 'US';
 
 function formatDate(inputDate: Date): string {
   const year = inputDate.getFullYear();
@@ -447,7 +448,7 @@ export default function VerificationForm({ handleVerification }: Props): JSX.Ele
                     defaultCountry={
                       watchAllFields.countryAutocomplete
                         ? watchAllFields.countryAutocomplete.value
-                        : 'US'
+                        : DEFAULT_COUNTRY_CODE
                     }
                     helperText={fieldState.invalid ? t('phoneInvalidMessage') : ''}
                     error={fieldState.invalid}
