@@ -4,7 +4,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import { grey } from '@mui/material/colors';
 import { NavSectionHorizontal } from 'components/nav-section';
-import { UserProfileResponse } from 'store/auth/lib/types';
+import { UserProfileResponse } from 'types';
 import { defaultConfig } from './lib';
 import { UseNavItems } from './lib/useNavItems.hook';
 
