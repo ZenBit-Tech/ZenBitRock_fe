@@ -4,7 +4,7 @@ import LeadsFilter from 'components/LeadsFilter/LeadsFilter';
 function Leads(): JSX.Element {
   return (
     <>
-      <div>Leads</div>
+      <div>{randomValues.LEADS_PAGE}</div>
       <LeadsFilter />
     </>
   );
