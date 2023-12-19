@@ -72,6 +72,7 @@ export function VerifyView({ email }: Props) {
       setValue('email', email);
     }
   });
+
   useEffect(() => {
     const timerId: NodeJS.Timeout = setInterval(() => {
       setRemainingTime((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
