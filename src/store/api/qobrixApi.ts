@@ -184,6 +184,48 @@ export const QobrixApi = createApi({
         return currentArg !== previousArg;
       },
     }),
+    getSmses: builder.query<QobrixPropertyResponse, string>({
+      query: (arg) => ({
+        url: ApiRoute.QOBRIX_GET_LEADS_SMSES.replace('id', arg),
+        method: 'GET',
+      }),
+    }),
+    getEmails: builder.query<QobrixPropertyResponse, string>({
+      query: (arg) => ({
+        url: ApiRoute.QOBRIX_GET_LEADS_EMAILS.replace('id', arg),
+        method: 'GET',
+      }),
+    }),
+    getCalls: builder.query<QobrixPropertyResponse, string>({
+      query: (arg) => ({
+        url: ApiRoute.QOBRIX_GET_LEADS_CALLS.replace('id', arg),
+        method: 'GET',
+      }),
+    }),
+    getMeetings: builder.query<QobrixPropertyResponse, string>({
+      query: (arg) => ({
+        url: ApiRoute.QOBRIX_GET_LEADS_MEETINGS.replace('id', arg),
+        method: 'GET',
+      }),
+    }),
+    getTasks: builder.query<QobrixPropertyResponse, string>({
+      query: (arg) => ({
+        url: ApiRoute.QOBRIX_GET_LEADS_TASKS.replace('id', arg),
+        method: 'GET',
+      }),
+    }),
+    getTasksWorkflow: builder.query<QobrixPropertyResponse, string>({
+      query: (arg) => ({
+        url: ApiRoute.QOBRIX_GET_LEADS_TASKS_WORKFLOW.replace('id', arg),
+        method: 'GET',
+      }),
+    }),
+    getChangelogs: builder.query<QobrixPropertyResponse, string>({
+      query: (arg) => ({
+        url: ApiRoute.QOBRIX_GET_LEADS_CHANGELOG.replace('id', arg),
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
@@ -195,4 +237,11 @@ export const {
   useGetPropertiesQuery,
   useGetPropertyQuery,
   useGetLeadsQuery,
+  useGetCallsQuery,
+  useGetChangelogsQuery,
+  useGetEmailsQuery,
+  useGetMeetingsQuery,
+  useGetSmsesQuery,
+  useGetTasksQuery,
+  useGetTasksWorkflowQuery,
 } = QobrixApi;

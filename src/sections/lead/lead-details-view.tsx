@@ -9,6 +9,7 @@ import {
   LeadDetailsFeaturesSection,
   LeadDetailsSourceSection,
 } from './components';
+import { LeadHistorySection } from './components/lead-history';
 
 type Props = {
   leadDetails: QobrixLeadDetailsResponse;
@@ -85,7 +86,7 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
           <LeadDetailsBudgetSection lead={data} />
           <LeadDetailsFeaturesSection lead={data} />
         </Stack>
-
+        <LeadHistorySection lead={data} />
         <Link
           variant="subtitle2"
           sx={{
