@@ -6,13 +6,14 @@ import { useTranslations } from 'next-intl';
 
 import { Box, Card } from '@mui/material';
 import { ILead } from 'types/lead';
+import { QobrixLeadItem } from 'types';
 import { endpoints } from 'utils/axios';
 
 import { TextStyled } from '../../styles';
 
 const URL = endpoints.lead;
 
-function Lead({ lead }: { lead: ILead }): JSX.Element {
+function Lead({ lead }: { lead: QobrixLeadItem }): JSX.Element {
   const t = useTranslations('leads');
   const router = useRouter();
 

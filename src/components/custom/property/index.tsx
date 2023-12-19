@@ -1,20 +1,17 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useScrollToTop } from 'hooks';
 import { useRouter } from 'next/navigation';
 
 import { useTranslations } from 'next-intl';
 
 import { Box, Fab } from '@mui/material';
-import { AxiosError } from 'axios';
 
-import { useGetProperty } from 'api/property';
 import Iconify from 'components/iconify';
 import Image from 'components/image/image';
 import { useSnackbar } from 'components/snackbar';
 import { backgroundImages } from 'constants/backgroundImgLinks';
-import { IPropertyDetailed } from 'types/property';
 import { endpoints } from 'utils/axios';
 
 import InfoBlock from './components/InfoBlock';
@@ -22,13 +19,11 @@ import SlickSlider from './components/SlickSlider';
 import ViewOnMap from './components/ViewOnMap';
 import getImages from './helpers/getImages';
 import { Title, TypographyStyled, ButtonStyled, Wrapper } from './styles';
+import { useGetPropertyQuery } from 'store/api/qobrixApi';
 
 const URL = endpoints.main;
 
 export default function Property({ id }: { id: string }): JSX.Element {
-  const { property, propertyError } = useGetProperty(id);
-  const [propertyDetailed, setPropertyDetailed] = useState<IPropertyDetailed>();
-  const [error, setError] = useState<AxiosError>();
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   const t = useTranslations('property');
@@ -41,19 +36,9 @@ export default function Property({ id }: { id: string }): JSX.Element {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  useEffect(() => {
-    (async (): Promise<void> => {
-      try {
-        setError(propertyError);
-        if (!propertyError && property) {
-          setPropertyDetailed(property);
-        }
-      } catch (err) {
-        setError(err);
-      }
-    })();
-  }, [property, propertyError]);
+  const { data, error, isFetching } = useGetPropertyQuery(id);
 
+  const propertyDetailed = data?.data;
   function closeModal(): void {
     setOpenModal(!openModal);
   }
