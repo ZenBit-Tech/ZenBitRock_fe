@@ -437,7 +437,7 @@ export default function VerificationForm({ handleVerification }: Props): JSX.Ele
                 name="phone"
                 control={control}
                 rules={{
-                  validate: (value) => matchIsValidTel(value),
+                  validate: (value) => (value ? matchIsValidTel(value) : true),
                 }}
                 render={({ field, fieldState }) => (
                   <MuiTelInput
