@@ -16,3 +16,4 @@ export {
   type QobrixLeadListResponse,
 } from './qobrix';
 export { type ValueOf } from './value-of-type';
+export { type UserSetAvatarResponse, type UserProfileResponse } from './user-backend';

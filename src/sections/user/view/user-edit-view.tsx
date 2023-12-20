@@ -6,8 +6,6 @@ import Container from '@mui/material/Container';
 import { Link, Stack } from '@mui/material';
 import { useSettingsContext } from 'components/settings';
 import CustomBreadcrumbs from 'components/custom-breadcrumbs';
-import { SnackbarProvider } from 'components/snackbar';
-import ReduxProvider from 'store/ReduxProvider';
 import Iconify from 'components/iconify';
 import { AppRoute } from 'enums';
 import { RootState } from 'store';
@@ -40,11 +38,7 @@ export default function UserEditView(): JSX.Element {
         <Link href={AppRoute.PROFILE_PAGE}>{t('backLink')}</Link>
       </Stack>
 
-      <SnackbarProvider>
-        <ReduxProvider>
-          <UserNewEditForm user={authUser} />
-        </ReduxProvider>
-      </SnackbarProvider>
+      <UserNewEditForm user={authUser} />
     </Container>
   );
 }
