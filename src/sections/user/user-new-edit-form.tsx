@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { MuiTelInput } from 'mui-tel-input';
 import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -138,6 +139,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
   });
 
   const {
+    control,
     setValue,
     handleSubmit,
     formState: { isValid },
@@ -279,11 +281,19 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
               }}
             >
               <RHFTextField name="email" label={t('emailLabel')} disabled sx={{ height: '90px' }} />
-              <RHFTextField
+              <Controller
                 name="phone"
-                label={t('phoneNumLabel')}
-                placeholder={t('phonePlaceholder')}
-                sx={{ height: '90px' }}
+                control={control}
+                render={({ field, fieldState }) => (
+                  <MuiTelInput
+                    {...field}
+                    placeholder={t('phonePlaceholder')}
+                    label={t('phoneNumLabel')}
+                    helperText={fieldState.error ? fieldState.error.message : ''}
+                    error={!!fieldState.error}
+                    sx={{ height: '90px' }}
+                  />
+                )}
               />
               <RHFAutocomplete
                 name="role"
