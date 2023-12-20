@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,7 +20,6 @@ import { AppDispatch, RootState } from 'store';
 
 const defaultValues = { code: '' };
 const CODE_LENGTH = 6;
-const TIMER = 180;
 
 const VerifySchema = Yup.object().shape({
   code: Yup.string().required('code_is_required').min(CODE_LENGTH, 'code_too_short'),
@@ -29,9 +28,6 @@ const VerifySchema = Yup.object().shape({
 export default function VerifyCodeForm(): JSX.Element {
   const [verifyCode] = useVerifyCodeMutation();
   const [sendCode] = useSendCodeMutation();
-
-  const [remainingTime, setRemainingTime] = useState<number>(TIMER);
-  const [isExpired, setIsExpired] = useState<boolean>(false);
 
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
@@ -58,11 +54,6 @@ export default function VerifyCodeForm(): JSX.Element {
     setActiveRequestsCount((prevCount) => prevCount + 1);
 
     try {
-      if (isExpired) {
-        enqueueSnackbar(t('CodeExpired'), { variant: 'error' });
-
-        return;
-      }
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
       const payload = { email, code: data.code };
@@ -86,8 +77,6 @@ export default function VerifyCodeForm(): JSX.Element {
       await sendCode({ email }).unwrap();
 
       enqueueSnackbar(t('CheckEmail'), { variant: 'success' });
-      setRemainingTime(TIMER);
-      setIsExpired(false);
 
       return undefined;
     } catch (error) {
@@ -98,21 +87,6 @@ export default function VerifyCodeForm(): JSX.Element {
       setActiveRequestsCount((prevCount) => prevCount - 1);
     }
   };
-
-  useEffect(() => {
-    const timerId: NodeJS.Timeout = setInterval(() => {
-      setRemainingTime((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
-    }, 1000);
-
-    if (remainingTime === 0) {
-      setIsExpired(true);
-      clearInterval(timerId);
-    }
-
-    return () => {
-      clearInterval(timerId);
-    };
-  }, [remainingTime]);
 
   return (
     <>
@@ -152,35 +126,21 @@ export default function VerifyCodeForm(): JSX.Element {
             <RHFCode name="code" />
           </Stack>
 
-          {isExpired ? (
-            <Link
-              onClick={handleClick}
-              variant="subtitle2"
-              sx={{
-                cursor: 'pointer',
-              }}
-            >
-              {t('resendCodeButtonExpired')}
-            </Link>
-          ) : (
-            <>
-              <Typography variant="body2">{t('timeRemaining', { remainingTime })}</Typography>
+        
+            <Stack direction="row" justifyContent="space-between">
+              <Typography variant="body2">{t('dontHaveCode')}</Typography>
 
-              <Stack direction="row" justifyContent="space-between">
-                <Typography variant="body2">{t('dontHaveCode')}</Typography>
-
-                <Link
-                  onClick={handleClick}
-                  variant="subtitle2"
-                  sx={{
-                    cursor: 'pointer',
-                  }}
-                >
-                  {t('sendAgain')}
-                </Link>
-              </Stack>
-            </>
-          )}
+              <Link
+                onClick={handleClick}
+                variant="subtitle2"
+                sx={{
+                  cursor: 'pointer',
+                }}
+              >
+                {t('sendAgain')}
+              </Link>
+            </Stack>
+          
 
           <Button
             sx={{ padding: '14px' }}
