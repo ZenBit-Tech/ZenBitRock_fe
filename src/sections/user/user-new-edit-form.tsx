@@ -98,9 +98,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
   };
 
   const EditUserSchema = Yup.object().shape({
-    phone: Yup.string()
-      .required(t('phoneMessageReq'))
-      .matches(patterns.phoneEdit, t('phoneMessage')),
+    phone: Yup.string().required(t('phoneMessageReq')).matches(patterns.phone, t('phoneMessage')),
     country: Yup.string().required(t('countryMessageReq')),
     agency: Yup.string()
       .nullable()
