@@ -6,6 +6,7 @@ import { useEffect, useRouter, useSelector } from 'hooks';
 import { SnackbarProvider } from 'components/snackbar';
 import { VerifyView } from './components';
 
+
 export default function ClassicVerifyPage() {
   const user = useSelector((state: RootState) => state.authSlice.user);
   const router = useRouter();

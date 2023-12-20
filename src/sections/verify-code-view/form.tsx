@@ -139,7 +139,21 @@ export default function VerifyCodeForm(): JSX.Element {
               {t('sendAgain')}
             </Link>
           </Stack>
+        
+            <Stack direction="row" justifyContent="space-between">
+              <Typography variant="body2">{t('dontHaveCode')}</Typography>
 
+              <Link
+                onClick={handleClick}
+                variant="subtitle2"
+                sx={{
+                  cursor: 'pointer',
+                }}
+              >
+                {t('sendAgain')}
+              </Link>
+            </Stack>
+          
           <Button
             sx={{ padding: '14px' }}
             type="submit"

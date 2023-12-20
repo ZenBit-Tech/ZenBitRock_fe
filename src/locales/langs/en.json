@@ -221,7 +221,12 @@
     "sentCode": "Verification code sent successfully",
     "codeExpired": "Code is expired",
     "emailVerified": "Email verified successfully",
-    "notValid": "Please enter the security code"
+    "notValid": "Please enter the security code",
+    "ErrorMessage":"Something went wrong, please try again",
+    "sentCode":"Verification code sent successfully",
+    "codeExpired":"Code is expired",
+    "emailVerified":"Email verified successfully",
+    "notValid":"Please enter the security code"
   },
   "yup": {
     "code_too_short": "Code must be at least 6 characters",
