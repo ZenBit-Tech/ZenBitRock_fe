@@ -3,7 +3,8 @@ import { enqueueSnackbar } from 'notistack';
 import { StorageKey } from 'enums';
 import { errMessages } from 'constants/errMessages';
 import { statusCodes } from 'constants/statusCodes';
-import { SendVerificationCodeResponse, UserAuthResponse, UserProfileResponse } from './lib/types';
+import { UserProfileResponse } from 'types';
+import { SendVerificationCodeResponse, UserAuthResponse } from './lib/types';
 
 
 export interface IUserData {
