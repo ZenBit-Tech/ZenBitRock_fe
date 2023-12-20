@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { enqueueSnackbar } from 'notistack';
 import { errMessages } from 'constants/errMessages';
 import { ApiRoute, StorageKey } from 'enums';
+import { UserProfileResponse, UserSetAvatarResponse } from 'types';
 import { IUserUpdateProfile } from 'types/user';
 import {
   DeleteUserResponse,
@@ -31,14 +32,14 @@ export const UserApi = createApi({
         body,
       }),
     }),
-    updateUser: builder.mutation<UpdateUserResponse['data'], IUserUpdateProfile>({
+    updateUser: builder.mutation<UserProfileResponse, IUserUpdateProfile>({
       query: (body) => ({
         url: ApiRoute.UPDATE_PROFILE_DATA,
         method: 'PATCH',
         body,
       }),
     }),
-    setAvatar: builder.mutation<UpdateUserResponse['data'], FormData>({
+    setAvatar: builder.mutation<UserSetAvatarResponse, FormData>({
       query: (body) => ({
         url: ApiRoute.SET_AVATAR,
         method: 'PATCH',
