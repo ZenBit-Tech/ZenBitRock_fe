@@ -5,6 +5,7 @@ import { errMessages } from 'constants/errMessages';
 import { statusCodes } from 'constants/statusCodes';
 import { SendVerificationCodeResponse, UserAuthResponse, UserProfileResponse } from './lib/types';
 
+
 export interface IUserData {
   email: string;
   password: string;

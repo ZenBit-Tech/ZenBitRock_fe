@@ -1,4 +1,4 @@
-import { type UserProfileResponse } from './user-profile-response.type';
+import { UserProfileResponse } from 'types';
 
 type UserAuthResponse = {
   user: UserProfileResponse;

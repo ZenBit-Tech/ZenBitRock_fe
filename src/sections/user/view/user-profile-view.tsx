@@ -41,7 +41,7 @@ export default function UserProfileView(): JSX.Element {
       if (id) {
         try {
           const { avatarUrl } = await getUserById({ id }).unwrap();
-          
+
           setAvatar(avatarUrl);
         } catch (error) {
           enqueueSnackbar(t('avatarErrMsg'), { variant: 'error' });
