@@ -5,6 +5,7 @@ import { useEffect, useSelector, useState } from 'hooks';
 import { RootState } from 'store';
 import { LoadingScreen } from 'components/loading-screen';
 import { useGetProfileQuery } from 'store/auth';
+import { SnackbarProvider } from 'components/snackbar';
 import { Header } from '../header/header';
 import { Navbar } from '../navbar/navbar';
 
@@ -33,9 +34,11 @@ const App = ({ children }: Props) => {
     <>
       {!isLoading && (
         <>
-          <Header user={user} />
-          {children}
-          <Navbar user={user} />
+          <SnackbarProvider>
+            <Header user={user} />
+            {children}
+            <Navbar user={user} />
+          </SnackbarProvider>
         </>
       )}
     </>
