@@ -217,7 +217,11 @@
     "return": "Return",
     "timeRemaining": "The code expires in: {remainingTime} seconds",
     "resendCodeButtonExpired": "Resend code",
-    "ErrorMessage": "Something went wrong, please try again"
+    "ErrorMessage": "Something went wrong, please try again",
+    "sentCode": "Verification code sent successfully",
+    "codeExpired": "Code is expired",
+    "emailVerified": "Email verified successfully",
+    "notValid": "Please enter the security code"
   },
   "yup": {
     "code_too_short": "Code must be at least 6 characters",

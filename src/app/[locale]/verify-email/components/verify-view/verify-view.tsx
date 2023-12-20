@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslations } from 'next-intl';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { notFound } from 'next/navigation';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Link from '@mui/material/Link';
@@ -15,6 +15,7 @@ import Iconify from 'components/iconify';
 import { RouterLink } from 'routes/components';
 import FormProvider, { RHFCode } from 'components/hook-form';
 import { useSendVerificationCodeMutation, useVerifyEmailMutation } from 'store/auth';
+import { useSnackbar } from 'notistack';
 import { VerifySchema } from './validation-schema';
 
 const defaultValues = {
@@ -25,24 +26,23 @@ const defaultValues = {
 type Props = {
   email: string;
 };
-const TIMER = 180;
 
 export function VerifyView({ email }: Props) {
   const [sendVerificationCode] = useSendVerificationCodeMutation();
   const [verifyEmail] = useVerifyEmailMutation();
 
-  const [remainingTime, setRemainingTime] = useState<number>(TIMER);
-  const [isExpired, setIsExpired] = useState<boolean>(false);
+  const t = useTranslations('VerifyEmail');
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleSendCode = useCallback(async (): Promise<void> => {
     try {
       await sendVerificationCode({ email });
-      setRemainingTime(TIMER);
-      setIsExpired(false);
+      enqueueSnackbar(t('sentCode'), { variant: 'success' });
     } catch (error) {
       notFound();
     }
-  }, [email, sendVerificationCode]);
+  }, [email, sendVerificationCode, enqueueSnackbar, t]);
 
   const methods = useForm({
     mode: 'onChange',
@@ -62,31 +62,16 @@ export function VerifyView({ email }: Props) {
     handleSendCode();
   }, [email, handleSendCode, setValue]);
 
-  const t = useTranslations('VerifyEmail');
-
   const onSubmit = handleSubmit(async (data) => {
     try {
       await verifyEmail(data).unwrap();
+      enqueueSnackbar(t('emailVerified'), { variant: 'success' });
     } catch (error) {
       reset();
       setValue('email', email);
+      enqueueSnackbar(t('notValid'), { variant: 'error' });
     }
   });
-
-  useEffect(() => {
-    const timerId: NodeJS.Timeout = setInterval(() => {
-      setRemainingTime((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
-    }, 1000);
-
-    if (remainingTime === 0) {
-      setIsExpired(true);
-      clearInterval(timerId);
-    }
-
-    return () => {
-      clearInterval(timerId);
-    };
-  }, [remainingTime]);
 
   const renderForm = (
     <Stack spacing={3} alignItems="center">
@@ -103,7 +88,9 @@ export function VerifyView({ email }: Props) {
         {t('verify')}
       </LoadingButton>
 
-      {isExpired ? (
+      <Stack>
+        <Typography variant="body2">{t('noCode')}</Typography>
+
         <Link
           onClick={handleSendCode}
           variant="subtitle2"
@@ -111,27 +98,9 @@ export function VerifyView({ email }: Props) {
             cursor: 'pointer',
           }}
         >
-          {t('resendCodeButtonExpired')}
+          {t('sendAgain')}
         </Link>
-      ) : (
-        <>
-          <Typography variant="body2">{t('timeRemaining', { remainingTime })}</Typography>
-
-          <Stack>
-            <Typography variant="body2">{t('dontHaveCode')}</Typography>
-
-            <Link
-              onClick={handleSendCode}
-              variant="subtitle2"
-              sx={{
-                cursor: 'pointer',
-              }}
-            >
-              {t('sendAgain')}
-            </Link>
-          </Stack>
-        </>
-      )}
+      </Stack>
 
       <Link
         component={RouterLink}
