@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import { useForm, Controller } from 'react-hook-form';
 import { useSnackbar } from 'notistack';
-import { MuiTelInput, matchIsValidTel } from 'mui-tel-input';
+import { MuiTelInput } from 'mui-tel-input';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -53,7 +53,6 @@ const defaultValues = {
 };
 
 const FIVE_MEGABYTES: number = 5000000;
-const DEFAULT_COUNTRY_CODE: string = 'US';
 
 function formatDate(inputDate: Date): string {
   const year = inputDate.getFullYear();
@@ -437,9 +436,6 @@ export default function VerificationForm({ handleVerification }: Props): JSX.Ele
               <Controller
                 name="phone"
                 control={control}
-                rules={{
-                  validate: (value) => (value ? matchIsValidTel(value) : true),
-                }}
                 render={({ field, fieldState }) => (
                   <MuiTelInput
                     {...field}
@@ -448,10 +444,10 @@ export default function VerificationForm({ handleVerification }: Props): JSX.Ele
                     defaultCountry={
                       watchAllFields.countryAutocomplete
                         ? watchAllFields.countryAutocomplete.value
-                        : DEFAULT_COUNTRY_CODE
+                        : ''
                     }
-                    helperText={fieldState.invalid ? t('phoneInvalidMessage') : ''}
-                    error={fieldState.invalid}
+                    helperText={fieldState.error ? fieldState.error.message : ''}
+                    error={!!fieldState.error}
                     sx={{
                       '@media (min-width: 650px)': {
                         width: '290px',
