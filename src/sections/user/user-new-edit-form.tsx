@@ -13,7 +13,6 @@ import { UserProfileResponse } from 'types';
 import {
   useUpdateUserMutation,
   useSetAvatarMutation,
-  useGetUserByIdMutation,
   useDeleteAvatarMutation,
 } from 'store/api/userApi';
 import { useUpdateContactMutation } from 'store/api/qobrixApi';
@@ -51,7 +50,6 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
   const [updateUser] = useUpdateUserMutation();
   const [updateContact] = useUpdateContactMutation();
   const [setAvatar] = useSetAvatarMutation();
-  const [getUserById] = useGetUserByIdMutation();
   const [deleteAvatar] = useDeleteAvatarMutation();
 
   const { enqueueSnackbar } = useSnackbar();
@@ -76,6 +74,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     phone: statePhone,
     description: stateDescription,
     avatarUrl: stateAvatar,
+    avatarPublicId,
   } = user;
 
   const userId = user.id;
@@ -177,8 +176,6 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
       await updateContact({ qobrixId, ...qobrixUser }).unwrap();
 
       if (avatar && avatar instanceof Blob) {
-        const { avatarPublicId } = await getUserById({ id: userId }).unwrap();
-
         formData.append('file', avatar);
         formData.append('userId', userId);
         if (avatarPublicId) formData.append('avatarPublicId', avatarPublicId);
@@ -204,7 +201,6 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
 
       if (file) {
         setValue('avatar', newFile, { shouldValidate: true });
-        setIsAvatar(true);
       }
     },
     [setValue]
@@ -212,7 +208,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
 
   const handleClickDelete = async (): Promise<void> => {
     try {
-      await deleteAvatar({ userId }).unwrap();
+      await deleteAvatar({ userId, avatarPublicId }).unwrap();
       setValue('avatar', null);
       setIsAvatar(false);
 

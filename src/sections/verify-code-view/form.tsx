@@ -126,21 +126,19 @@ export default function VerifyCodeForm(): JSX.Element {
             <RHFCode name="code" />
           </Stack>
 
-        
-            <Stack direction="row" justifyContent="space-between">
-              <Typography variant="body2">{t('dontHaveCode')}</Typography>
+          <Stack direction="row" justifyContent="space-between">
+            <Typography variant="body2">{t('dontHaveCode')}</Typography>
 
-              <Link
-                onClick={handleClick}
-                variant="subtitle2"
-                sx={{
-                  cursor: 'pointer',
-                }}
-              >
-                {t('sendAgain')}
-              </Link>
-            </Stack>
-          
+            <Link
+              onClick={handleClick}
+              variant="subtitle2"
+              sx={{
+                cursor: 'pointer',
+              }}
+            >
+              {t('sendAgain')}
+            </Link>
+          </Stack>
 
           <Button
             sx={{ padding: '14px' }}
