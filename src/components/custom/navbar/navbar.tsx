@@ -28,7 +28,7 @@ const Navbar = ({ user }: Props): JSX.Element => {
           }}
         >
           <Toolbar>
-            <NavSectionHorizontal data={navItems} config={defaultConfig} />
+            <NavSectionHorizontal data={NAV_ITEMS} config={defaultConfig} />
           </Toolbar>
         </AppBar>
       )}

@@ -99,10 +99,10 @@
     "successMessage": "Check your mail!",
     "timeRemaining": "The code expires in: {remainingTime} seconds",
     "resendCodeButtonExpired": "Resend code",
-    "ErrorMessage":"Something went wrong, please try again",
-    "CheckEmail":"Check your mail!",
-    "Success":"Success!",
-    "CodeExpired":"Code has expired, please send another code"
+    "ErrorMessage": "Something went wrong, please try again",
+    "CheckEmail": "Check your mail!",
+    "Success": "Success!",
+    "CodeExpired": "Code has expired, please send another code"
   },
   "signInPage": {
     "Main": {
@@ -216,11 +216,11 @@
     "return": "Return",
     "timeRemaining": "The code expires in: {remainingTime} seconds",
     "resendCodeButtonExpired": "Resend code",
-    "ErrorMessage":"Something went wrong, please try again",
-    "sentCode":"Verification code sent successfully",
-    "codeExpired":"Code is expired",
-    "emailVerified":"Email verified successfully",
-    "notValid":"Please enter the security code"
+    "ErrorMessage": "Something went wrong, please try again",
+    "sentCode": "Verification code sent successfully",
+    "codeExpired": "Code is expired",
+    "emailVerified": "Email verified successfully",
+    "notValid": "Please enter the security code"
   },
   "yup": {
     "code_too_short": "Code must be at least 6 characters",
@@ -504,7 +504,18 @@
     "features": "Main Features",
     "description": "Description",
     "sourceDetails": "Source Details",
-    "source": "Source"
+    "source": "Source",
+    "new": "New",
+    "planned": "Planned",
+    "in_progress": "In progress",
+    "held": "Held",
+    "canceled": "Canceled",
+    "failed": "Failed",
+    "null": "",
+    "outbound": "Outbound",
+    "inbound": "Inbound",
+    "outgoing": "Outgoing",
+    "incoming": "Incoming"
   },
   "notFoundView": {
     "notFound": " Sorry, Page Not Found!",
