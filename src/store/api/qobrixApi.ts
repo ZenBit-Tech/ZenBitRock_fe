@@ -16,6 +16,7 @@ import {
   ILeadTasksResponse,
   ILeadTaskChangesResponse,
   ILeadStatusChangesResponse,
+  ILeadCommonResponse,
 } from 'types';
 import { IUserUpdateQobrix } from 'types/user';
 
@@ -374,22 +375,22 @@ export const QobrixApi = createApi({
         return currentArg !== previousArg;
       },
     }),
-    fetchData: builder.query<any, { endpoint: string; page: number; id: string }>({
+    fetchData: builder.query<ILeadCommonResponse, { endpoint: string; page: number; id: string }>({
       query: (arg) => ({
         url: arg.endpoint.replace('id', arg.id),
         method: 'GET',
         params: { page: arg.page },
       }),
-      transformResponse: (response: any) => {
-        response.data = response.data.map((status) => ({
-          id: status.id,
-          timestamp: status.timestamp,
-          originalStatus: status.original?.status,
-          changedStatus: status.changed?.status,
-        }));
+      // transformResponse: (response: ILeadCommonResponse) => {
+      //   response.data = response.data.map((status) => ({
+      //     id: status.id,
+      //     timestamp: status.timestamp,
+      //     originalStatus: status.original?.status,
+      //     changedStatus: status.changed?.status,
+      //   }));
 
-        return response;
-      },
+      //   return response;
+      // },
       serializeQueryArgs: ({ endpointName }) => endpointName,
 
       merge: (currentCache, newItems) => {
@@ -404,6 +405,7 @@ export const QobrixApi = createApi({
 });
 
 export const {
+  useLazyGetLeadTaskChangesQuery,
   useFetchDataQuery,
   useCreateContactMutation,
   useCreateAgentMutation,

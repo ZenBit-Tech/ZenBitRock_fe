@@ -1,12 +1,12 @@
-import { QobrixPagination } from '..';
+import { QobrixPagination } from '../qobrix-pagination.type';
 
 type ILeadStatusChange = {
-  id: string | null;
-  timestamp: string | null;
-  changedStatus?: string | null;
-  originalStatus?: string | null;
-  changed?: { status?: string | null };
-  original?: { status?: string | null };
+  id?: string;
+  timestamp?: string;
+  changedStatus?: string;
+  originalStatus?: string;
+  changed?: { status?: string };
+  original?: { status?: string };
 };
 
 type ILeadStatusChangeList = ILeadStatusChange[];

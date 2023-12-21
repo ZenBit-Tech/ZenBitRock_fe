@@ -1,11 +1,11 @@
-import { QobrixPagination } from '..';
+import { QobrixPagination } from '../qobrix-pagination.type';
 
 type ILeadCall = {
-  id: string | null;
-  status: string | null;
-  start_date?: string | null;
-  startDate?: string | null;
-  direction?: string | null;
+  id?: string;
+  status?: string;
+  start_date?: string;
+  startDate?: string;
+  direction?: string;
 };
 
 type ILeadCallList = ILeadCall[];

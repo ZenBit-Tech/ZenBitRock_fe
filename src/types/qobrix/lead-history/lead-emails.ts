@@ -1,14 +1,14 @@
-import { QobrixPagination } from '..';
+import { QobrixPagination } from '../qobrix-pagination.type';
 
 type ILeadEmail = {
-  id: string | null;
-  date_sent?: string | null;
-  dateSent?: string | null;
-  from_address?: string | null;
-  to_address?: string | null;
-  fromAddress?: string | null;
-  toAddress?: string | null;
-  direction?: string | null;
+  id?: string;
+  date_sent?: string;
+  dateSent?: string;
+  from_address?: string;
+  to_address?: string;
+  fromAddress?: string;
+  toAddress?: string;
+  direction?: string;
 };
 
 type ILeadEmailList = ILeadEmail[];

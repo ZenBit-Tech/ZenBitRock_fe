@@ -1,10 +1,10 @@
-import { QobrixPagination } from '..';
+import { QobrixPagination } from '../qobrix-pagination.type';
 
 type ILeadMeeting = {
-  id: string | null;
-  status: string | null;
-  start_date?: string | null;
-  startDate?: string | null;
+  id?: string;
+  status?: string;
+  start_date?: string;
+  startDate?: string;
 };
 
 type ILeadMeetingList = ILeadMeeting[];

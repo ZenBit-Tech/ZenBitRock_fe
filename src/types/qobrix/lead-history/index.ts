@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 export { type ILeadCall, type ILeadCallList, type ILeadCallsResponse } from './lead-calls';
 export { type ILeadEmail, type ILeadEmailList, type ILeadEmailsResponse } from './lead-emails';
 export {
@@ -18,3 +17,4 @@ export {
   type ILeadTaskChangeList,
   type ILeadTaskChangesResponse,
 } from './lead-task-changes';
+export { type ILeadCommon, type ILeadCommonList, type ILeadCommonResponse } from './lead-common';

@@ -40,4 +40,7 @@ export {
   type ILeadTaskChange,
   type ILeadTaskChangeList,
   type ILeadTaskChangesResponse,
+  type ILeadCommon,
+  type ILeadCommonList,
+  type ILeadCommonResponse,
 } from './lead-history';

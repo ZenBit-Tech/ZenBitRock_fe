@@ -1,12 +1,12 @@
-import { QobrixPagination } from '..';
+import { QobrixPagination } from '../qobrix-pagination.type';
 
 type ILeadSms = {
-  id: string | null;
-  created: string | null;
-  status: string | null;
-  sender: string | null;
-  recipient: string | null;
-  direction?: string | null;
+  id?: string;
+  created?: string;
+  status?: string;
+  sender?: string;
+  recipient?: string;
+  direction?: string;
 };
 
 type ILeadSmsList = ILeadSms[];

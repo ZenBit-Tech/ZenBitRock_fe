@@ -1,9 +1,9 @@
-import { QobrixPagination } from '..';
+import { QobrixPagination } from '../qobrix-pagination.type';
 
 type ILeadTask = {
-  id: string | null;
-  subject: string | null;
-  status: string | null;
+  id?: string;
+  subject?: string;
+  status?: string;
 };
 
 type ILeadTaskList = ILeadTask[];
