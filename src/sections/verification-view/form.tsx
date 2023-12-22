@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import { useForm, Controller } from 'react-hook-form';
 import { useSnackbar } from 'notistack';
+import { MuiTelInput } from 'mui-tel-input';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -432,20 +433,29 @@ export default function VerificationForm({ handleVerification }: Props): JSX.Ele
             </Block>
 
             <Block label={t('phoneNumber')}>
-              <RHFTextField
+              <Controller
                 name="phone"
-                label={t('phoneNumberLabel')}
-                placeholder={t('phoneNumberPlaceholder')}
-                type="tel"
-                inputProps={{
-                  autoComplete: 'new-password', // disable autocomplete and autofill
-                }}
-                sx={{
-                  '@media (min-width: 650px)': {
-                    width: '290px',
-                  },
-                  height: '70px',
-                }}
+                control={control}
+                render={({ field, fieldState }) => (
+                  <MuiTelInput
+                    {...field}
+                    label={t('phoneNumberLabel')}
+                    placeholder={t('phoneNumberPlaceholder')}
+                    defaultCountry={
+                      watchAllFields.countryAutocomplete
+                        ? watchAllFields.countryAutocomplete.value
+                        : ''
+                    }
+                    helperText={fieldState.error ? fieldState.error.message : ''}
+                    error={!!fieldState.error}
+                    sx={{
+                      '@media (min-width: 650px)': {
+                        width: '290px',
+                      },
+                      height: '70px',
+                    }}
+                  />
+                )}
               />
             </Block>
 

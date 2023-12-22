@@ -1,23 +1,23 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { MuiTelInput } from 'mui-tel-input';
 import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
+import { UserProfileResponse } from 'types';
 import {
   useUpdateUserMutation,
   useSetAvatarMutation,
-  useGetUserByIdMutation,
   useDeleteAvatarMutation,
 } from 'store/api/userApi';
 import { useUpdateContactMutation } from 'store/api/qobrixApi';
 import ReduxProvider from 'store/ReduxProvider';
-import { UserProfileResponse } from 'store/auth/lib/types';
 import { useRouter } from 'routes/hooks';
 import { patterns } from 'constants/patterns';
 import { AppRoute } from 'enums';
@@ -51,7 +51,6 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
   const [updateUser] = useUpdateUserMutation();
   const [updateContact] = useUpdateContactMutation();
   const [setAvatar] = useSetAvatarMutation();
-  const [getUserById] = useGetUserByIdMutation();
   const [deleteAvatar] = useDeleteAvatarMutation();
 
   const { enqueueSnackbar } = useSnackbar();
@@ -76,7 +75,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
     phone: statePhone,
     description: stateDescription,
     avatarUrl: stateAvatar,
-    avatarPublicId: stateAvatarPublicId,
+    avatarPublicId,
   } = user;
 
   const userId = user.id;
@@ -139,6 +138,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
   });
 
   const {
+    control,
     setValue,
     handleSubmit,
     formState: { isValid },
@@ -178,25 +178,18 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
       await updateContact({ qobrixId, ...qobrixUser }).unwrap();
 
       if (avatar && avatar instanceof Blob) {
-        const { avatarPublicId } = await getUserById({ id: userId }).unwrap();
-
         formData.append('file', avatar);
         formData.append('userId', userId);
         if (avatarPublicId) formData.append('avatarPublicId', avatarPublicId);
         await setAvatar(formData).unwrap();
         setIsAvatar(true);
       }
-      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       enqueueSnackbar(successMessage, { variant: 'success' });
 
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
       router.push(AppRoute.PROFILE_PAGE);
     } catch (error) {
-      const errorMessage = t('errorText');
-
-      enqueueSnackbar(errorMessage, { variant: 'error' });
+      enqueueSnackbar(t('errorText'), { variant: 'error' });
     }
   });
 
@@ -210,7 +203,6 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
 
       if (file) {
         setValue('avatar', newFile, { shouldValidate: true });
-        setIsAvatar(true);
       }
     },
     [setValue]
@@ -218,7 +210,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
 
   const handleClickDelete = async (): Promise<void> => {
     try {
-      await deleteAvatar({ userId, avatarPublicId: stateAvatarPublicId }).unwrap();
+      await deleteAvatar({ userId, avatarPublicId }).unwrap();
       setValue('avatar', null);
       setIsAvatar(false);
 
@@ -285,11 +277,19 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
               }}
             >
               <RHFTextField name="email" label={t('emailLabel')} disabled sx={{ height: '90px' }} />
-              <RHFTextField
+              <Controller
                 name="phone"
-                label={t('phoneNumLabel')}
-                placeholder={t('phonePlaceholder')}
-                sx={{ height: '90px' }}
+                control={control}
+                render={({ field, fieldState }) => (
+                  <MuiTelInput
+                    {...field}
+                    placeholder={t('phonePlaceholder')}
+                    label={t('phoneNumLabel')}
+                    helperText={fieldState.error ? fieldState.error.message : ''}
+                    error={!!fieldState.error}
+                    sx={{ height: '90px' }}
+                  />
+                )}
               />
               <RHFAutocomplete
                 name="role"

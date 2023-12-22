@@ -1,11 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { enqueueSnackbar } from 'notistack';
+import { errMessages } from 'constants/errMessages';
 import { ApiRoute, StorageKey } from 'enums';
+import { UserProfileResponse, UserSetAvatarResponse } from 'types';
 import { IUserUpdateProfile } from 'types/user';
 import {
   DeleteUserResponse,
   GetUserRequest,
   GetUserResponse,
-  DeleteAvatarRequest,
   UpdateUserResponse,
 } from 'types/user-data';
 
@@ -30,21 +32,24 @@ export const UserApi = createApi({
         body,
       }),
     }),
-    updateUser: builder.mutation<UpdateUserResponse['data'], IUserUpdateProfile>({
+    updateUser: builder.mutation<UserProfileResponse, IUserUpdateProfile>({
       query: (body) => ({
         url: ApiRoute.UPDATE_PROFILE_DATA,
         method: 'PATCH',
         body,
       }),
     }),
-    setAvatar: builder.mutation<UpdateUserResponse['data'], FormData>({
+    setAvatar: builder.mutation<UserSetAvatarResponse, FormData>({
       query: (body) => ({
         url: ApiRoute.SET_AVATAR,
         method: 'PATCH',
         body,
       }),
     }),
-    deleteAvatar: builder.mutation<UpdateUserResponse['data'], DeleteAvatarRequest>({
+    deleteAvatar: builder.mutation<
+      UpdateUserResponse['data'],
+      { userId: string; avatarPublicId: string }
+    >({
       query: (body) => ({
         url: ApiRoute.DELETE_AVATAR,
         method: 'PATCH',
@@ -57,6 +62,21 @@ export const UserApi = createApi({
         method: 'DELETE',
         params: { id },
       }),
+      onQueryStarted: async (_, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+          enqueueSnackbar(`${errMessages.DEL_USER_MSG}`, { variant: 'success' });
+        } catch (err) {
+          if (err.error.data.statusCode === 401) {
+            enqueueSnackbar(`${errMessages.SIGN_IN_ERR_MSG}`, {
+              variant: 'error',
+            });
+          } else {
+            enqueueSnackbar(`${err.error.data.message}`, { variant: 'error' });
+          }
+        }
+      },
+      invalidatesTags: [{ type: 'Get user by id' }],
     }),
   }),
 });

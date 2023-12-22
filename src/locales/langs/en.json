@@ -65,7 +65,8 @@
     "countryPlaceholder": "United States",
     "phoneNumber": "* Phone number",
     "phoneNumberLabel": "Phone number",
-    "phoneNumberPlaceholder": "(000) 000-0000",
+    "phoneNumberPlaceholder": "+1 000 000 0000",
+    "phoneInvalidMessage": "Phone number is not valid",
     "fileSectionTitle": "C. File Upload",
     "fileHelperText": "Allowed *.jpeg, *.jpg, *.pdf, max size of 5 MB",
     "drag&DropTitle": "* Please upload related documents",
@@ -99,10 +100,10 @@
     "successMessage": "Check your mail!",
     "timeRemaining": "The code expires in: {remainingTime} seconds",
     "resendCodeButtonExpired": "Resend code",
-    "ErrorMessage":"Something went wrong, please try again",
-    "CheckEmail":"Check your mail!",
-    "Success":"Success!",
-    "CodeExpired":"Code has expired, please send another code"
+    "ErrorMessage": "Something went wrong, please try again",
+    "CheckEmail": "Check your mail!",
+    "Success": "Success!",
+    "CodeExpired": "Code has expired, please send another code"
   },
   "signInPage": {
     "Main": {
@@ -216,7 +217,16 @@
     "return": "Return",
     "timeRemaining": "The code expires in: {remainingTime} seconds",
     "resendCodeButtonExpired": "Resend code",
-    "ErrorMessage":"Something went wrong, please try again"
+    "ErrorMessage": "Something went wrong, please try again",
+    "sentCode": "Verification code sent successfully",
+    "codeExpired": "Code is expired",
+    "emailVerified": "Email verified successfully",
+    "notValid": "Please enter the security code",
+    "ErrorMessage":"Something went wrong, please try again",
+    "sentCode":"Verification code sent successfully",
+    "codeExpired":"Code is expired",
+    "emailVerified":"Email verified successfully",
+    "notValid":"Please enter the security code"
   },
   "yup": {
     "code_too_short": "Code must be at least 6 characters",
@@ -244,7 +254,7 @@
   "editProfilePage": {
     "roleLabel": "* I am acting as",
     "rolePlaceholder": "Please select",
-    "phonePlaceholder": "(000) 000-0000",
+    "phonePlaceholder": "+1 000 000 0000",
     "countryPlaceholder": "* Country",
     "agencyPlaceholder": "Foxtons UK ltd",
     "pageTitle": "Edit profile",
@@ -252,7 +262,8 @@
     "updateText": "Profile updated successfully!",
     "errorText": "Something went wrong!",
     "nameMessage": "Latin letters, spaces, 2-50 characters",
-    "phoneMessage": "The telephone number can have a maximum of 15 digits",
+    "phoneMessage": "The telephone number can have a minimum of 7 and maximum of 15 digits",
+    "phoneInvalidMessage": "Phone number is not valid",
     "roleMessage": "Role is required",
     "cityMessage": "City is required",
     "avatarMessage": "Avatar is required",
@@ -320,7 +331,8 @@
     "countryTxt": "Country",
     "cityTxt": "City",
     "loading": "Agent",
-    "logoutLink": "Log out"
+    "logoutLink": "Log out",
+    "avatarErrMsg": "Error fetching user's avatar"
   },
   "ResetPasswordPage": {
     "pageTitle": "Reset Password",

@@ -9,18 +9,10 @@ import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 import { Typography } from '@mui/material';
 import CardHeader from '@mui/material/CardHeader';
-import { _socials, _userAbout } from '_mock';
-import Iconify from 'components/iconify';
 import { findCountryLabelByCode } from 'sections/verification-view/drop-box-data';
 import { RootState } from 'store';
+import Iconify from 'components/iconify';
 import { LoadingScreen } from 'components/loading-screen';
-
-const LINKS = {
-  FACEBOOK: 'facebook',
-  INSTAGRAM: 'instagram',
-  LINKEDIN: 'linkedin',
-  TWITTER: 'twitter',
-};
 
 const RenderAbout = (): JSX.Element => {
   const t = useTranslations('profilePage');
@@ -83,53 +75,12 @@ const RenderAbout = (): JSX.Element => {
   );
 };
 
-const RenderSocials = (): JSX.Element => {
-  const t = useTranslations('profilePage');
-
-  return (
-    <Card>
-      <CardHeader title={t('socialTitle')} />
-
-      <Stack spacing={2} sx={{ p: 3 }}>
-        {_socials.map((link) => (
-          <Stack
-            key={link.name}
-            spacing={2}
-            direction="row"
-            sx={{ wordBreak: 'break-all', typography: 'body2' }}
-          >
-            <Iconify
-              icon={link.icon}
-              width={24}
-              sx={{
-                flexShrink: 0,
-                color: link.color,
-              }}
-            />
-            <Link color="inherit" sx={{ cursor: 'pointer' }}>
-              {link.value === LINKS.FACEBOOK && _userAbout.socialLinks.facebook}
-              {link.value === LINKS.INSTAGRAM && _userAbout.socialLinks.instagram}
-              {link.value === LINKS.LINKEDIN && _userAbout.socialLinks.linkedin}
-              {link.value === LINKS.TWITTER && _userAbout.socialLinks.twitter}
-            </Link>
-          </Stack>
-        ))}
-      </Stack>
-    </Card>
-  );
-};
-
 export default function ProfileHome(): JSX.Element {
   return (
     <Grid container spacing={3}>
       <Grid xs={12} md={8}>
         <Stack spacing={3}>
           <RenderAbout />
-        </Stack>
-      </Grid>
-      <Grid xs={12} md={4}>
-        <Stack spacing={3}>
-          <RenderSocials />
         </Stack>
       </Grid>
     </Grid>
