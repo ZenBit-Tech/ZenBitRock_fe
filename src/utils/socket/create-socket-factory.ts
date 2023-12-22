@@ -1,5 +1,3 @@
-'use client';
-
 import { StorageKey } from 'enums';
 import { Socket, io } from 'socket.io-client';
 
