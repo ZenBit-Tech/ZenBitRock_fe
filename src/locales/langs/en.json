@@ -221,12 +221,7 @@
     "sentCode": "Verification code sent successfully",
     "codeExpired": "Code is expired",
     "emailVerified": "Email verified successfully",
-    "notValid": "Please enter the security code",
-    "ErrorMessage":"Something went wrong, please try again",
-    "sentCode":"Verification code sent successfully",
-    "codeExpired":"Code is expired",
-    "emailVerified":"Email verified successfully",
-    "notValid":"Please enter the security code"
+    "notValid": "Please enter the security code"
   },
   "yup": {
     "code_too_short": "Code must be at least 6 characters",
@@ -493,5 +488,21 @@
     "email": "Email",
     "status": "Status",
     "filtered": "Filtered for the: "
+  },
+  "agents": {
+    "pageTitle": "Agent network",
+    "chatSectionTitle": "Chats",
+    "noNotifications": "No new notifications",
+    "view": "View",
+    "agents": "Agents",
+    "searchPlaceholder": "Search agents...",
+    "noNotificationsLabel": "no notifications",
+    "more99": "more than 99 notifications",
+    "notifications": "notifications"
+  },
+  "page500": {
+    "pageTitle": "500 Internal Server Error",
+    "pageMsg": "There was an error, please try again later.",
+    "btnTxt": "Go to Home"
   }
 }

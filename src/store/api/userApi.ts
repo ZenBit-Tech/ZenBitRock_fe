@@ -10,6 +10,7 @@ import {
   GetUserResponse,
   UpdateUserResponse,
 } from 'types/user-data';
+import { UserChatResponse } from 'types/user-backend';
 
 export const UserApi = createApi({
   reducerPath: 'userApi',
@@ -75,6 +76,13 @@ export const UserApi = createApi({
       },
       invalidatesTags: [{ type: 'Get user by id' }],
     }),
+    getAllUsers: builder.mutation<UserChatResponse[], void>({
+      query: () => ({
+        url: ApiRoute.GET_ALL_AGENTS,
+        method: 'GET',
+      }),
+      invalidatesTags: [{ type: 'Get user by id' }],
+    }),
   }),
 });
 
@@ -84,4 +92,5 @@ export const {
   useSetAvatarMutation,
   useDeleteUserMutation,
   useDeleteAvatarMutation,
+  useGetAllUsersMutation,
 } = UserApi;
