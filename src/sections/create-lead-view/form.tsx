@@ -14,7 +14,7 @@ import { useSnackbar } from 'notistack';
 import FormProvider, { RHFAutocomplete, RHFTextField } from 'components/hook-form';
 import { AppRoute } from 'enums';
 import { leadStatuses } from 'constants/leadStatuses';
-import { UserProfileResponse } from 'store/auth/lib/types';
+import { UserProfileResponse } from 'types/user-backend/user-profile-response.type';
 import { useCreateLeadMutation } from 'store/api/qobrixApi';
 import {
   ICountOfBedroomsValues,
