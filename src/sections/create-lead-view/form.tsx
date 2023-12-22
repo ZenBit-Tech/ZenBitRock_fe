@@ -91,15 +91,10 @@ export default function Form({ user }: Props): JSX.Element {
   }, [isEnquiryTypeRent, isEnquiryTypeSell, setValue]);
 
   useEffect(() => {
-    let fieldsToInclude = [];
+    const fieldsToInclude = isEnquiryTypeRent
+      ? ['offeringType', 'enquiryType', 'priceRahgeRentFrom', 'priceRahgeRentTo']
+      : ['offeringType', 'enquiryType', 'priceRahgeSellFrom', 'priceRahgeSellTo'];
 
-    if (isEnquiryTypeRent) {
-      fieldsToInclude = ['offeringType', 'enquiryType', 'priceRahgeRentFrom', 'priceRahgeRentTo'];
-    } else if (isEnquiryTypeSell) {
-      fieldsToInclude = ['offeringType', 'enquiryType', 'priceRahgeSellFrom', 'priceRahgeSellTo'];
-    } else {
-      fieldsToInclude = ['offeringType', 'enquiryType'];
-    }
     const isFormFilled = fieldsToInclude.every((key) =>
       Boolean(watchAllFields[key as keyof typeof watchAllFields])
     );
