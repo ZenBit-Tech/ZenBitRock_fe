@@ -11,7 +11,7 @@ export const useAllPagesTaskChangesData = (tasks: ILeadCommonList[] | undefined)
   const [taskChanges, setTaskChanges] = useState([]);
 
   useEffect(() => {
-    const fetchData = async (taskId, page) => {
+    const fetchData = async (taskId, page, status, subject, created) => {
       const { data } = await trigger({
         page,
         id: taskId,
@@ -21,14 +21,14 @@ export const useAllPagesTaskChangesData = (tasks: ILeadCommonList[] | undefined)
         setCurrentPage((prev) => prev + 1);
       }
 
-      setTaskChanges((prev) => [...prev, { taskId, data }]);
+      setTaskChanges((prev) => [...prev, { taskId, data, status, subject, created }]);
     };
 
     const fetchTaskData = async () => {
       if (tasks && tasks.length > 0) {
         for (let i = 0; i < tasks.length; i++) {
           const task = tasks[i];
-          await fetchData(task.id, currentPage);
+          await fetchData(task.id, currentPage, task.status, task.subject, task.created);
         }
       }
     };

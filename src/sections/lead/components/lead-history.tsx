@@ -32,14 +32,14 @@ const LeadHistorySection = ({ lead }: Props) => {
   const taskChanges = useAllPagesTaskChangesData(tasks?.data);
 
   useEffect(() => {
-    if (tasks) setHistory((prev) => ({ ...prev, tasks: tasks.data }));
+    // if (tasks) setHistory((prev) => ({ ...prev, tasks: tasks.data }));
     if (calls) setHistory((prev) => ({ ...prev, calls: calls.data }));
     if (emails) setHistory((prev) => ({ ...prev, emails: emails.data }));
     if (smses) setHistory((prev) => ({ ...prev, smses: smses.data }));
     if (meetings) setHistory((prev) => ({ ...prev, meetings: meetings.data }));
     if (statusChanges) setHistory((prev) => ({ ...prev, statusChanges: statusChanges.data }));
     if (taskChanges) setHistory((prev) => ({ ...prev, taskChanges }));
-  }, [calls, emails, meetings, smses, statusChanges, taskChanges, tasks]);
+  }, [calls, emails, meetings, smses, statusChanges, taskChanges]);
   console.log(history);
 
   return;

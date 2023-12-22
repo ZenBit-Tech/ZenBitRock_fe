@@ -309,6 +309,7 @@ export const QobrixApi = createApi({
           id: task.id,
           status: task.status,
           subject: task.subject,
+          created: task.created,
         }));
 
         return response;
@@ -375,38 +376,11 @@ export const QobrixApi = createApi({
         return currentArg !== previousArg;
       },
     }),
-    fetchData: builder.query<ILeadCommonResponse, { endpoint: string; page: number; id: string }>({
-      query: (arg) => ({
-        url: arg.endpoint.replace('id', arg.id),
-        method: 'GET',
-        params: { page: arg.page },
-      }),
-      // transformResponse: (response: ILeadCommonResponse) => {
-      //   response.data = response.data.map((status) => ({
-      //     id: status.id,
-      //     timestamp: status.timestamp,
-      //     originalStatus: status.original?.status,
-      //     changedStatus: status.changed?.status,
-      //   }));
-
-      //   return response;
-      // },
-      serializeQueryArgs: ({ endpointName }) => endpointName,
-
-      merge: (currentCache, newItems) => {
-        currentCache.data.push(...newItems.data);
-        currentCache.pagination = newItems.pagination;
-      },
-      forceRefetch({ currentArg, previousArg }) {
-        return currentArg !== previousArg;
-      },
-    }),
   }),
 });
 
 export const {
   useLazyGetLeadTaskChangesQuery,
-  useFetchDataQuery,
   useCreateContactMutation,
   useCreateAgentMutation,
   useGetPropertyTypesQuery,
@@ -420,5 +394,4 @@ export const {
   useGetLeadMeetingsQuery,
   useGetLeadSmsesQuery,
   useGetLeadTasksQuery,
-  useGetLeadTaskChangesQuery,
 } = QobrixApi;

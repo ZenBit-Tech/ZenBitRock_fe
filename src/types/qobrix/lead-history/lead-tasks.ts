@@ -4,6 +4,7 @@ type ILeadTask = {
   id?: string;
   subject?: string;
   status?: string;
+  created?: string;
 };
 
 type ILeadTaskList = ILeadTask[];
