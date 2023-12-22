@@ -99,10 +99,10 @@
     "successMessage": "Check your mail!",
     "timeRemaining": "The code expires in: {remainingTime} seconds",
     "resendCodeButtonExpired": "Resend code",
-    "ErrorMessage":"Something went wrong, please try again",
-    "CheckEmail":"Check your mail!",
-    "Success":"Success!",
-    "CodeExpired":"Code has expired, please send another code"
+    "ErrorMessage": "Something went wrong, please try again",
+    "CheckEmail": "Check your mail!",
+    "Success": "Success!",
+    "CodeExpired": "Code has expired, please send another code"
   },
   "signInPage": {
     "Main": {
@@ -216,7 +216,7 @@
     "return": "Return",
     "timeRemaining": "The code expires in: {remainingTime} seconds",
     "resendCodeButtonExpired": "Resend code",
-    "ErrorMessage":"Something went wrong, please try again"
+    "ErrorMessage": "Something went wrong, please try again"
   },
   "yup": {
     "code_too_short": "Code must be at least 6 characters",
@@ -501,5 +501,10 @@
     "notFound": " Sorry, Page Not Found!",
     "home": "Go to Home",
     "message": "Sorry, we couldn’t find the page you’re looking for. Perhaps you’ve mistyped the URL? Be sure to check your spelling."
+  },
+  "page500": {
+    "error": "500 Internal Server Error",
+    "tryAgainLater": "There was an error, please try again later.",
+    "home": "Go to Home"
   }
 }
