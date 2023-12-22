@@ -13,6 +13,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useSnackbar } from 'notistack';
 import FormProvider, { RHFAutocomplete, RHFTextField } from 'components/hook-form';
 import { AppRoute } from 'enums';
+import { leadStatuses } from 'constants/leadStatuses';
 import { UserProfileResponse } from 'store/auth/lib/types';
 import { useCreateLeadMutation } from 'store/api/qobrixApi';
 import {
@@ -41,8 +42,6 @@ const defaultValues = {
   priceRahgeSellFrom: 0,
   priceRahgeSellTo: 0,
 };
-
-const NEW_STATUS_ID = 'b041e847-a905-47c1-9f79-430e2fbd6db6';
 
 export default function Form({ user }: Props): JSX.Element {
   const t = useTranslations('CreateLeadPage');
@@ -126,7 +125,7 @@ export default function Form({ user }: Props): JSX.Element {
     } = data;
 
     const requestData = {
-      conversion_status: NEW_STATUS_ID,
+      conversion_status: leadStatuses.NEW.id,
       agent: qobrixAgentId,
       contact_name: qobrixContactId,
       buy_rent: offeringType.value,
