@@ -171,7 +171,7 @@ export default function Form({ user }: Props): JSX.Element {
           }}
         >
           <Stack spacing={1}>
-            <Typography align="center" variant="h2" sx={{ mb: '20px' }}>
+            <Typography variant="h3" sx={{ mb: '20px' }}>
               {t('mainTitle')}
             </Typography>
 
