@@ -82,10 +82,16 @@ export const QobrixApi = createApi({
       },
       serializeQueryArgs: ({ endpointName }) => endpointName,
       merge: (currentCache, newItems) => {
-        currentCache.data.push(...newItems.data);
+        if (!newItems.pagination.has_prev_page) {
+          currentCache.data = newItems.data;
+        } else {
+          currentCache.data.push(...newItems.data);
+        }
         currentCache.pagination = newItems.pagination;
       },
-      keepUnusedDataFor: 0,
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
     }),
     getProperty: builder.query<QobrixPropertyResponse, string>({
       query: (arg) => ({
@@ -168,10 +174,16 @@ export const QobrixApi = createApi({
       serializeQueryArgs: ({ endpointName }) => endpointName,
 
       merge: (currentCache, newItems) => {
-        currentCache.data.push(...newItems.data);
+        if (!newItems.pagination.has_prev_page) {
+          currentCache.data = newItems.data;
+        } else {
+          currentCache.data.push(...newItems.data);
+        }
         currentCache.pagination = newItems.pagination;
       },
-      keepUnusedDataFor: 0,
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
     }),
     getLeadSmses: builder.query<ILeadSmssResponse, { page: number; id: string }>({
       query: (arg) => ({
