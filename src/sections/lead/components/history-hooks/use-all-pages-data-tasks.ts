@@ -6,10 +6,13 @@ const START_PAGE: number = 1;
 export const useAllPagesTasksData = (id: string) => {
   const [currentPage, setCurrentPage] = useState(START_PAGE);
 
-  const { data } = useGetLeadTasksQuery({
-    page: currentPage,
-    id,
-  });
+  const { data } = useGetLeadTasksQuery(
+    {
+      page: currentPage,
+      id,
+    },
+    { refetchOnMountOrArgChange: true }
+  );
 
   useEffect(() => {
     if (data?.pagination.has_next_page) {

@@ -1,9 +1,10 @@
-import { Box, Button, Grid, Modal, Typography } from '@mui/material';
+import { Box, Grid, Modal, Typography } from '@mui/material';
 import { useEffect, useState, useTranslations } from 'hooks';
 import { IHistory, QobrixLead } from 'types';
 import { useCloseModal } from 'components/custom/property/hooks/useCloseModal';
 import { colors } from 'constants/colors';
 import Iconify from 'components/iconify';
+import uuidv4 from 'utils/uuidv4';
 import {
   useAllPagesCallsData,
   useAllPagesEmailsData,
@@ -27,7 +28,7 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
 
   const handleClose = (): void => closeModal();
 
-  useCloseModal(openModal, () => closeModal());
+  useCloseModal(openModal, (): void => closeModal());
 
   const t = useTranslations('leadDetailsPage');
 
@@ -41,7 +42,6 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
   const statusChanges = useAllPagesStatusChangesData(id);
   const taskChanges = useAllPagesTaskChangesData(tasks?.data);
 
-  // Fetch and set history when id changes
   useEffect(() => {
     if (id) {
       setHistory({
@@ -55,14 +55,13 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
     }
   }, [id, calls, emails, smses, meetings, statusChanges, taskChanges]);
 
-  // Sort and set history when created or contact_name_contact changes
   useEffect(() => {
-    setTimeout(
-      () => setSortedHistory(sortHistory(id, created, contact_name_contact, history, t)),
-      2000
-    );
+    if (id && history) {
+      const sortedEntries = sortHistory(id, created, contact_name_contact, history, t);
+
+      setSortedHistory(sortedEntries);
+    }
   }, [id, created, contact_name_contact, history, t]);
-  console.log(sortedHistory);
 
   return (
     <Modal
@@ -166,6 +165,9 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
             overflowY: 'auto',
             height: '100%',
             width: 'fit-content',
+            // '::-webkit-scrollbar': {
+            //   width: '10px',
+            // },
             // '&::-webkit-scrollbar-track': {
             //   background: 'transparent',
             // },
@@ -175,6 +177,9 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
             //   // '-ms-overflow-style': 'none',
             //   // scrollbarWidth: 'none',
             // },
+            // '&::-webkit-scrollbar-thumb:hover': {
+            //   background: '#555',
+            // },
           }}
         >
           {sortedHistory &&
@@ -182,7 +187,7 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
               <Grid
                 container
                 direction="row"
-                key={element[0]}
+                key={uuidv4()}
                 sx={{ width: '100%', marginBottom: '1rem' }}
                 spacing={2}
               >

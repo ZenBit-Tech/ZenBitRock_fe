@@ -35,7 +35,10 @@ function PropertiesList({ search }: Props): JSX.Element {
     },
   });
 
-  const { data, error, isFetching } = useGetPropertiesQuery({ search, page });
+  const { data, error, isFetching } = useGetPropertiesQuery(
+    { search, page },
+    { refetchOnMountOrArgChange: true }
+  );
 
   return (
     <Box

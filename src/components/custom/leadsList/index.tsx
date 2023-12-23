@@ -45,10 +45,7 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
 
   const { data, error, isFetching } = useGetLeadsQuery(
     { page, filter, id },
-    {
-      refetchOnFocus: true,
-      refetchOnReconnect: true,
-    }
+    { refetchOnMountOrArgChange: true }
   );
 
   const leadsList = data?.data;

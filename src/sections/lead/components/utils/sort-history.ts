@@ -1,12 +1,14 @@
 import { IHistory, QobrixLead } from 'types';
 import { toTitleCase } from 'utils';
 
+type TFunction = (key: string) => string;
+
 export const sortHistory = (
   id: string,
   created: string,
   contact_name_contact: QobrixLead['contact_name_contact'],
-  history: IHistory | undefined,
-  t: any
+  history: IHistory,
+  t: TFunction
 ): string[][] => {
   const entries: string[][] = [];
 
@@ -19,11 +21,11 @@ export const sortHistory = (
         if (data)
           data.forEach((call) => {
             entries.push([
-              call.id,
-              call.startDate,
+              call.id ?? '',
+              call.startDate ?? '',
               call.direction
-                ? `${t(call.status)} ${t(call.direction)} ${t('call')} "${call.subject}"`
-                : `${t(call.status)} ${t('call')} "${call.subject}"`,
+                ? `${t(call.status ?? '')} ${t(call.direction)} ${t('call')} "${call.subject}"`
+                : `${t(call.status ?? '')} ${t('call')} "${call.subject}"`,
             ]);
           });
         break;
@@ -33,13 +35,13 @@ export const sortHistory = (
         if (data)
           data.forEach((email) => {
             entries.push([
-              email.id,
-              email.dateSent,
+              email.id ?? '',
+              email.dateSent ?? '',
               email.toAddress
-                ? `${t(email.direction)} ${t('email_from')} ${email.fromAddress} ${t('to')} ${
+                ? `${t(email.direction ?? '')} ${t('email_from')} ${email.fromAddress} ${t('to')} ${
                     email.toAddress
                   }`
-                : `${t(email.direction)} ${t('email_from')} ${email.fromAddress}`,
+                : `${t(email.direction ?? '')} ${t('email_from')} ${email.fromAddress}`,
             ]);
           });
         break;
@@ -49,9 +51,9 @@ export const sortHistory = (
         if (data)
           data.forEach((meeting) => {
             entries.push([
-              meeting.id,
-              meeting.startDate,
-              `${t('Viewing')} "${toTitleCase(meeting.subject)}" ${t(meeting.status)}`,
+              meeting.id ?? '',
+              meeting.startDate ?? '',
+              `${t('Viewing')} "${toTitleCase(meeting.subject ?? '')}" ${t(meeting.status ?? '')}`,
             ]);
           });
         break;
@@ -61,11 +63,11 @@ export const sortHistory = (
         if (data)
           data.forEach((sms) => {
             entries.push([
-              sms.id,
-              sms.created,
-              `${t(sms.status)} ${t(sms.direction)} ${t('SMS from')} ${toTitleCase(sms.sender)} ${t(
-                'to'
-              )} ${toTitleCase(sms.recipient)}`,
+              sms.id ?? '',
+              sms.created ?? '',
+              `${t(sms.status ?? '')} ${t(sms.direction ?? '')} ${t('SMS from')} ${toTitleCase(
+                sms.sender ?? ''
+              )} ${t('to')} ${toTitleCase(sms.recipient ?? '')}`,
             ]);
           });
         break;
@@ -75,10 +77,10 @@ export const sortHistory = (
         if (data)
           data.forEach((statusChange) => {
             entries.push([
-              statusChange.id,
-              statusChange.timestamp,
-              `${t('status_changed')} "${t(statusChange.originalStatus)}" ${t('to')} "${t(
-                statusChange.changedStatus
+              statusChange.id ?? '',
+              statusChange.timestamp ?? '',
+              `${t('status_changed')} "${t(statusChange.originalStatus ?? '')}" ${t('to')} "${t(
+                statusChange.changedStatus ?? ''
               )}"`,
             ]);
           });
@@ -90,26 +92,28 @@ export const sortHistory = (
           data.forEach((taskChange) => {
             if (taskChange.status === 'new') {
               entries.push([
-                taskChange.taskId,
-                taskChange.created,
-                `${t('New_task')} "${toTitleCase(taskChange.subject)}" ${t('added')}`,
+                taskChange.taskId ?? '',
+                taskChange.created ?? '',
+                `${t('New_task')} "${toTitleCase(taskChange.subject ?? '')}" ${t('added')}`,
               ]);
-            } else if (taskChange.data.data.length === 0) {
+            } else if (taskChange.data?.data?.length === 0) {
               entries.push([
-                taskChange.taskId,
-                taskChange.created,
-                `${t(taskChange.status)} ${t('task')} "${toTitleCase(taskChange.subject)}" ${t(
-                  'added'
-                )}`,
+                taskChange.taskId ?? '',
+                taskChange.created ?? '',
+                `${t(taskChange.status ?? '')} ${t('task')} "${toTitleCase(
+                  taskChange.subject ?? ''
+                )}" ${t('added')}`,
               ]);
             } else {
-              taskChange.data.data.forEach((change) => {
+              taskChange.data?.data?.forEach((change) => {
                 entries.push([
-                  change.id,
-                  change.timestamp,
-                  `${toTitleCase(t('task'))} "${toTitleCase(taskChange.subject)}" ${t(
+                  change.id ?? '',
+                  change.timestamp ?? '',
+                  `${toTitleCase(t('task'))} "${toTitleCase(taskChange.subject ?? '')}" ${t(
                     'status_from'
-                  )} "${t(change.originalStatus)}" ${t('to')} "${t(change.changedStatus)}"`,
+                  )} "${t(change.originalStatus ?? '')}" ${t('to')} "${t(
+                    change.changedStatus ?? ''
+                  )}"`,
                 ]);
               });
             }

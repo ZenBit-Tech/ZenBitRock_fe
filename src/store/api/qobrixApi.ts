@@ -81,18 +81,11 @@ export const QobrixApi = createApi({
         return response;
       },
       serializeQueryArgs: ({ endpointName }) => endpointName,
-
       merge: (currentCache, newItems) => {
-        if (!newItems.pagination.has_prev_page) {
-          currentCache.data = newItems.data;
-        } else {
-          currentCache.data.push(...newItems.data);
-        }
+        currentCache.data.push(...newItems.data);
         currentCache.pagination = newItems.pagination;
       },
-      forceRefetch({ currentArg, previousArg }) {
-        return currentArg !== previousArg;
-      },
+      keepUnusedDataFor: 0,
     }),
     getProperty: builder.query<QobrixPropertyResponse, string>({
       query: (arg) => ({
@@ -147,11 +140,6 @@ export const QobrixApi = createApi({
 
         return response;
       },
-      serializeQueryArgs: ({ endpointName }) => endpointName,
-
-      forceRefetch({ currentArg, previousArg }) {
-        return currentArg !== previousArg;
-      },
     }),
     getLeads: builder.query<
       QobrixLeadListResponse,
@@ -180,16 +168,10 @@ export const QobrixApi = createApi({
       serializeQueryArgs: ({ endpointName }) => endpointName,
 
       merge: (currentCache, newItems) => {
-        if (!newItems.pagination.has_prev_page) {
-          currentCache.data = newItems.data;
-        } else {
-          currentCache.data.push(...newItems.data);
-        }
+        currentCache.data.push(...newItems.data);
         currentCache.pagination = newItems.pagination;
       },
-      forceRefetch({ currentArg, previousArg }) {
-        return currentArg !== previousArg;
-      },
+      keepUnusedDataFor: 0,
     }),
     getLeadSmses: builder.query<ILeadSmssResponse, { page: number; id: string }>({
       query: (arg) => ({
@@ -215,9 +197,7 @@ export const QobrixApi = createApi({
         currentCache.data.push(...newItems.data);
         currentCache.pagination = newItems.pagination;
       },
-      forceRefetch({ currentArg, previousArg }) {
-        return currentArg !== previousArg;
-      },
+      keepUnusedDataFor: 0,
     }),
     getLeadEmails: builder.query<ILeadEmailsResponse, { page: number; id: string }>({
       query: (arg) => ({
@@ -242,9 +222,7 @@ export const QobrixApi = createApi({
         currentCache.data.push(...newItems.data);
         currentCache.pagination = newItems.pagination;
       },
-      forceRefetch({ currentArg, previousArg }) {
-        return currentArg !== previousArg;
-      },
+      keepUnusedDataFor: 0,
     }),
     getLeadCalls: builder.query<ILeadCallsResponse, { page: number; id: string }>({
       query: (arg) => ({
@@ -264,14 +242,11 @@ export const QobrixApi = createApi({
         return response;
       },
       serializeQueryArgs: ({ endpointName }) => endpointName,
-
       merge: (currentCache, newItems) => {
         currentCache.data.push(...newItems.data);
         currentCache.pagination = newItems.pagination;
       },
-      forceRefetch({ currentArg, previousArg }) {
-        return currentArg !== previousArg;
-      },
+      keepUnusedDataFor: 0,
     }),
     getLeadMeetings: builder.query<ILeadMeetingsResponse, { page: number; id: string }>({
       query: (arg) => ({
@@ -295,9 +270,7 @@ export const QobrixApi = createApi({
         currentCache.data.push(...newItems.data);
         currentCache.pagination = newItems.pagination;
       },
-      forceRefetch({ currentArg, previousArg }) {
-        return currentArg !== previousArg;
-      },
+      keepUnusedDataFor: 0,
     }),
     getLeadTasks: builder.query<ILeadTasksResponse, { page: number; id: string }>({
       query: (arg) => ({
@@ -316,14 +289,11 @@ export const QobrixApi = createApi({
         return response;
       },
       serializeQueryArgs: ({ endpointName }) => endpointName,
-
       merge: (currentCache, newItems) => {
         currentCache.data.push(...newItems.data);
         currentCache.pagination = newItems.pagination;
       },
-      forceRefetch({ currentArg, previousArg }) {
-        return currentArg !== previousArg;
-      },
+      keepUnusedDataFor: 0,
     }),
     getLeadTaskChanges: builder.query<ILeadTaskChangesResponse, { page: number; id: string }>({
       query: (arg) => ({
@@ -342,7 +312,11 @@ export const QobrixApi = createApi({
         return response;
       },
       serializeQueryArgs: ({ endpointName }) => endpointName,
-
+      merge: (currentCache, newItems) => {
+        currentCache.data.push(...newItems.data);
+        currentCache.pagination = newItems.pagination;
+      },
+      keepUnusedDataFor: 0,
       forceRefetch({ currentArg, previousArg }) {
         return currentArg !== previousArg;
       },
@@ -369,9 +343,7 @@ export const QobrixApi = createApi({
         currentCache.data.push(...newItems.data);
         currentCache.pagination = newItems.pagination;
       },
-      forceRefetch({ currentArg, previousArg }) {
-        return currentArg !== previousArg;
-      },
+      keepUnusedDataFor: 0,
     }),
   }),
 });

@@ -3,6 +3,7 @@ import Iconify from 'components/iconify';
 import { useCallback, useScrollToTop, useState, useTranslations } from 'hooks';
 import { RouterLink } from 'routes/components';
 import { QobrixLeadDetailsResponse } from 'types';
+import { colors } from 'constants/colors';
 import { MatchingPropertiesView } from './matching-properties-view';
 import {
   LeadDetailsBudgetSection,
@@ -10,7 +11,6 @@ import {
   LeadDetailsSourceSection,
 } from './components';
 import { LeadHistorySection } from './components/lead-history';
-import { colors } from 'constants/colors';
 
 type Props = {
   leadDetails: QobrixLeadDetailsResponse;

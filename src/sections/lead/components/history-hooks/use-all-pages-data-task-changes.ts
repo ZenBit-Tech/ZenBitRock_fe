@@ -51,11 +51,11 @@ export const useAllPagesTaskChangesData = (tasks: ILeadTaskChange[] | undefined)
 
           try {
             if (task.id) {
+              // eslint-disable-next-line no-await-in-loop
               await fetchData(task.id, currentPage, task.status, task.subject, task.created);
             }
           } catch (error) {
             console.error(error);
-            // Handle the error appropriately if needed
           }
         }
       }
