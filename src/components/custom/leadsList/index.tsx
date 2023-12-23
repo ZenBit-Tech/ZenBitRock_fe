@@ -5,19 +5,17 @@ import { Box, Fab } from '@mui/material';
 import Iconify from 'components/iconify';
 import { useSnackbar } from 'components/snackbar';
 import { colors } from 'constants/colors';
+import { AppRoute } from 'enums';
 import { useInfinityScroll, useScrollToTop, useState, useTranslations } from 'hooks';
 import { NotMatchedView } from 'sections';
 import { useGetLeadsQuery } from 'store/api/qobrixApi';
 import { QobrixLeadItem } from 'types';
-import { endpoints } from 'utils/axios';
 import uuidv4 from 'utils/uuidv4';
 
 import { TextStyled, ListStyled, BoxStyledWithName, LinkStyled } from './styles';
 import Lead from './components/lead-item/lead-item';
 
 export const FIRST_PAGE: number = 1;
-
-const URL = endpoints.lead;
 
 interface LeadsListProps {
   filter: string | undefined;
@@ -76,7 +74,7 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
           </TextStyled>
           <BoxStyledWithName>
             <TextStyled>{name}</TextStyled>
-            <LinkStyled href={'/leads'} title={t('reset')}>
+            <LinkStyled href={AppRoute.LEADS_PAGE} title={t('reset')}>
               <Iconify
                 icon="carbon:close-outline"
                 color={colors.PRIMARY_DARK_COLOR}

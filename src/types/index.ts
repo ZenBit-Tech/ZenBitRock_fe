@@ -35,9 +35,8 @@ export {
   type ILeadTaskChange,
   type ILeadTaskChangeList,
   type ILeadTaskChangesResponse,
-  type ILeadCommon,
-  type ILeadCommonList,
-  type ILeadCommonResponse,
+  type IHistory,
+  type IHistoryItem,
 } from './qobrix';
 export { type ValueOf } from './value-of-type';
 export { type UserSetAvatarResponse, type UserProfileResponse } from './user-backend';

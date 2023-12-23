@@ -17,4 +17,4 @@ export {
   type ILeadTaskChangeList,
   type ILeadTaskChangesResponse,
 } from './lead-task-changes';
-export { type ILeadCommon, type ILeadCommonList, type ILeadCommonResponse } from './lead-common';
+export { type IHistory, type IHistoryItem } from './i-history';

@@ -7,6 +7,9 @@ type ILeadTaskChange = {
   originalStatus?: string;
   changed?: { status?: string };
   original?: { status?: string };
+  status?: string;
+  subject?: string;
+  created?: string;
 };
 
 type ILeadTaskChangeList = ILeadTaskChange[];

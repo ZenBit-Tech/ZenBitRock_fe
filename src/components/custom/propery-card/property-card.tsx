@@ -7,9 +7,9 @@ import Image from 'components/image';
 import { useRouter, useTranslations } from 'hooks';
 import { QOBRIX_HOST } from 'config-global';
 import { backgroundImages } from 'constants/backgroundImgLinks';
+import { AppRoute } from 'enums';
 import { getCountries } from 'sections/verification-view/drop-box-data';
 import { fCurrency } from 'utils/format-number';
-import { endpoints } from 'utils/axios';
 import {
   BoxStyled,
   CardMediaStyled,
@@ -22,8 +22,6 @@ import {
 type Props = {
   property: QobrixProperty;
 };
-
-const URL = endpoints.property;
 
 const PropertyCard = ({ property }: Props) => {
   const t = useTranslations('properties');
@@ -123,7 +121,7 @@ const PropertyCard = ({ property }: Props) => {
           sx={{ padding: '14px' }}
           variant="contained"
           color="primary"
-          onClick={() => router.push(`${URL.details}/${id}`)}
+          onClick={() => router.push(`${AppRoute.PROPERTY_PAGE}/${id}`)}
         >
           <TypographyStyled>{t('Description')}</TypographyStyled>
           <Iconify icon="ri:arrow-right-s-line" height="auto" />

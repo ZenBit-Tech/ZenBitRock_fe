@@ -16,7 +16,6 @@ import {
   ILeadTasksResponse,
   ILeadTaskChangesResponse,
   ILeadStatusChangesResponse,
-  ILeadCommonResponse,
 } from 'types';
 import { IUserUpdateQobrix } from 'types/user';
 
@@ -257,6 +256,7 @@ export const QobrixApi = createApi({
         response.data = response.data.map((call) => ({
           id: call.id,
           status: call.status,
+          subject: call.subject,
           startDate: call.start_date,
           direction: call.direction,
         }));
@@ -283,6 +283,7 @@ export const QobrixApi = createApi({
         response.data = response.data.map((meeting) => ({
           id: meeting.id,
           status: meeting.status,
+          subject: meeting.subject,
           startDate: meeting.start_date,
         }));
 
@@ -342,10 +343,6 @@ export const QobrixApi = createApi({
       },
       serializeQueryArgs: ({ endpointName }) => endpointName,
 
-      merge: (currentCache, newItems) => {
-        currentCache.data.push(...newItems.data);
-        currentCache.pagination = newItems.pagination;
-      },
       forceRefetch({ currentArg, previousArg }) {
         return currentArg !== previousArg;
       },
