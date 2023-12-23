@@ -544,7 +544,8 @@
     "closed": "Closed",
     "history": "Activities History",
     "date": "Date & Time",
-    "activity": "Activity"
+    "activity": "Activity",
+    "open_history": "View History"
   },
   "notFoundView": {
     "notFound": " Sorry, Page Not Found!",
