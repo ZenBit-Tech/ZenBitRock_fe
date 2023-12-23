@@ -8,6 +8,6 @@ type Props = {
   children: React.ReactNode;
 };
 
-export default function TestLayout({ children }: Props): JSX.Element {
+export default function VerificationLayout({ children }: Props): JSX.Element {
   return <ProtectedRoute>{children}</ProtectedRoute>;
 }
