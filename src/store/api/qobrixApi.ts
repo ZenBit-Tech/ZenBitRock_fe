@@ -6,6 +6,7 @@ import {
   QobrixContactRequest,
   QobrixContactResponse,
   QobrixPropertyType,
+  QobrixLeadListResponse,
 } from 'types';
 import { IUserUpdateQobrix } from 'types/user';
 
@@ -51,6 +52,44 @@ export const QobrixApi = createApi({
         body,
       }),
     }),
+    getLeads: builder.query<
+      QobrixLeadListResponse,
+      { page: number; filter: string | undefined; id: string | undefined }
+    >({
+      query: (arg) => ({
+        url: !arg.id
+          ? ApiRoute.QOBRIX_GET_LEADS
+          : ApiRoute.QOBRIX_GET_PROPERTY_LEADS.replace('id', arg.id),
+        method: 'GET',
+        params: arg.filter ? { page: arg.page, search: arg.filter } : { page: arg.page },
+      }),
+      transformResponse: (response: QobrixLeadListResponse) => {
+        response.data = response.data.map((lead) => ({
+          leadId: lead.id,
+          status: lead.status,
+          source: lead.source,
+          contactName: lead.contact_name_contact?.name,
+          contactEmail: lead.contact_name_contact?.email,
+          contactId: lead.contact_name_contact?.id,
+          contactPhone: lead.contact_name_contact?.phone,
+        }));
+
+        return response;
+      },
+      serializeQueryArgs: ({ endpointName }) => endpointName,
+
+      merge: (currentCache, newItems) => {
+        if (!newItems.pagination.has_prev_page) {
+          currentCache.data = newItems.data;
+        } else {
+          currentCache.data.push(...newItems.data);
+        }
+        currentCache.pagination = newItems.pagination;
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
+    }),
   }),
 });
 
@@ -59,4 +98,5 @@ export const {
   useCreateAgentMutation,
   useGetPropertyTypesQuery,
   useUpdateContactMutation,
+  useGetLeadsQuery,
 } = QobrixApi;
