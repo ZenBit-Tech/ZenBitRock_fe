@@ -3,6 +3,7 @@ export {
   type QobrixAgentResponse,
   type QobrixContactRequest,
   type QobrixContactResponse,
+  type QobrixPropertyDetailed,
   type QobrixPropertyType,
   type QobrixLeadItem,
   type QobrixLeadList,
