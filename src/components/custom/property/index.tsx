@@ -14,12 +14,12 @@ import { useSnackbar } from 'components/snackbar';
 import { backgroundImages } from 'constants/backgroundImgLinks';
 import { AppRoute } from 'enums';
 
+import { useGetPropertyQuery } from 'store/api/qobrixApi';
 import InfoBlock from './components/InfoBlock';
 import SlickSlider from './components/SlickSlider';
 import ViewOnMap from './components/ViewOnMap';
 import getImages from './helpers/getImages';
 import { Title, TypographyStyled, ButtonStyled, Wrapper } from './styles';
-import { useGetPropertyQuery } from 'store/api/qobrixApi';
 
 export default function Property({ id }: { id: string }): JSX.Element {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -37,6 +37,7 @@ export default function Property({ id }: { id: string }): JSX.Element {
   const { data, error } = useGetPropertyQuery(id);
 
   const propertyDetailed = data?.data;
+
   function closeModal(): void {
     setOpenModal(!openModal);
   }

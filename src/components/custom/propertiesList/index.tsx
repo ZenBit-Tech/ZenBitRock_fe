@@ -7,7 +7,7 @@ import { useInfinityScroll, useScrollToTop, useState, useTranslations } from 'ho
 import { QobrixProperty } from 'types/qobrix';
 import { useGetPropertiesQuery } from 'store/api/qobrixApi';
 import { ListStyled } from './styles';
-import { PropertyCard } from '../propery-card/property-card';
+import { PropertyCard } from '../property-card/property-card';
 
 export const FIRST_PAGE: number = 1;
 

@@ -1,3 +1,27 @@
+export type QobrixContact = {
+  birthdate: string;
+  city: string;
+  country: string;
+  created: string;
+  created_by: string;
+  description: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  id: string;
+  legacy_id: string;
+  modified: string;
+  modified_by: string;
+  name: string;
+  nationality: string;
+  phone: string;
+  post_code: string;
+  ref: number;
+  role: string;
+  state: string;
+  street: string;
+};
+
 export type QobrixContactRequest = {
   first_name: string;
   last_name: string;
@@ -16,28 +40,6 @@ export type QobrixContactRequest = {
 
 export type QobrixContactResponse = {
   data: {
-    data: {
-      birthdate: string;
-      city: string;
-      country: string;
-      created: string;
-      created_by: string;
-      description: string;
-      email: string;
-      first_name: string;
-      last_name: string;
-      id: string;
-      legacy_id: string;
-      modified: string;
-      modified_by: string;
-      name: string;
-      nationality: string;
-      phone: string;
-      post_code: string;
-      ref: number;
-      role: string;
-      state: string;
-      street: string;
-    };
+    data: QobrixContact;
   };
 };
