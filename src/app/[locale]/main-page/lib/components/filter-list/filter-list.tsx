@@ -53,7 +53,6 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
       const { bedrooms, status, rentOrSale: rent } = formData;
       let filter = '';
 
-
       filter = filter.substring(filter.indexOf('and') + 3);
 
       applyFilters(filter);
