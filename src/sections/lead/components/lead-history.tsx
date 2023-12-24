@@ -3,8 +3,8 @@ import { useEffect, useState, useTranslations } from 'hooks';
 import { IHistory, QobrixLead } from 'types';
 import { useCloseModal } from 'components/custom/property/hooks/useCloseModal';
 import { colors } from 'constants/colors';
-import Iconify from 'components/iconify';
 import uuidv4 from 'utils/uuidv4';
+import ButtonClose from 'components/custom/button-close/button-close';
 import {
   useAllPagesCallsData,
   useAllPagesEmailsData,
@@ -101,24 +101,7 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
             marginBottom: '1rem',
           }}
         >
-          <Iconify
-            color={colors.BUTTON_PRIMARY_COLOR}
-            icon="carbon:close-outline"
-            width="1.5rem"
-            height="1.5rem"
-            sx={{
-              position: 'absolute',
-              top: '0',
-              right: '0',
-              cursor: 'pointer',
-              transition: 'all 200ms ease-out',
-              '&:hover': {
-                color: colors.BUTTON_SECOND_COLOR,
-                transition: 'all 200ms ease-out',
-              },
-            }}
-            onClick={handleClose}
-          />
+          <ButtonClose top="0" right="0" width="1.5rem" height="1.5rem" handleClose={handleClose} />
           <Typography
             sx={{
               fontSize: '1.5rem',
@@ -132,7 +115,6 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
           </Typography>
           <Grid container direction="row" sx={{ width: '100%' }} spacing={2}>
             <Grid item xs={4} sm={4}>
-              {/* sx={{ display: 'flex', alignItems: 'flex-base', gap: '1rem' }} */}
               <Grid container direction="column" sx={{ width: '100%' }}>
                 <Typography
                   sx={{

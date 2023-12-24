@@ -34,8 +34,6 @@ const PropertyCard = ({ property }: Props) => {
       key={id}
       sx={{
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
         flexDirection: 'column',
         width: '45%',
         marginBottom: '2rem',
@@ -45,7 +43,6 @@ const PropertyCard = ({ property }: Props) => {
         sx={{
           position: 'relative',
           width: '100%',
-          height: '50%',
         }}
       >
         <CardMediaStyled
@@ -81,14 +78,10 @@ const PropertyCard = ({ property }: Props) => {
       <Box
         sx={{
           display: 'flex',
-          justifyContent: 'flex-start',
-          alignContent: 'space-between',
           flexDirection: 'column',
           padding: '1rem',
           width: '100%',
-          height: '50%',
-          maxHeight: '50%',
-          minHeight: '50%',
+          height: 'calc(100% - 100px)',
         }}
       >
         <BoxStyled
@@ -118,7 +111,7 @@ const PropertyCard = ({ property }: Props) => {
           {getCountries().find((object) => object.value === country)?.label}, {city}
         </TextMiddleStyled>
         <LinkStyled
-          sx={{ padding: '14px' }}
+          sx={{ padding: '14px', marginTop: 'auto' }}
           variant="contained"
           color="primary"
           onClick={() => router.push(`${AppRoute.PROPERTY_PAGE}/${id}`)}

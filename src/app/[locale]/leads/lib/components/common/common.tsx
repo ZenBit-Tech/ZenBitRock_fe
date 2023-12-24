@@ -12,10 +12,9 @@ import { ProtectedRoute } from 'components/custom';
 import LeadsList from 'components/custom/leadsList';
 
 import Iconify from 'components/iconify';
-import { endpoints } from 'utils/axios';
+import { AppRoute } from 'enums';
+import { toTitleCase } from 'utils';
 import { LeadsFilter } from '../..';
-
-const URL = endpoints.lead;
 
 function Common(): JSX.Element {
   const [name, setName] = useState<string | undefined>(undefined);
@@ -37,7 +36,7 @@ function Common(): JSX.Element {
         const query = Array.isArray(id) ? id[0] : id;
 
         setPropertyId(query);
-        setName(leads[1].split('%20').join(' '));
+        setName(decodeURIComponent(leads[1]));
       }
     })();
   }, [id, leads]);
@@ -46,7 +45,7 @@ function Common(): JSX.Element {
     <ProtectedRoute>
       <Box sx={{ p: '10px', margin: '0 auto', maxWidth: '800px' }}>
         <Typography variant="h3" sx={{ marginTop: 3 }}>
-          Leads
+          {toTitleCase(t('leads'))}
         </Typography>
         <Box
           sx={{
@@ -63,7 +62,7 @@ function Common(): JSX.Element {
             variant="contained"
             color="primary"
             type="button"
-            onClick={() => router.push(`${URL.create}`)}
+            onClick={() => router.push(`${AppRoute.CREATE_LEAD_PAGE}`)}
           >
             <Iconify icon="subway:add" height="auto" />
           </Button>

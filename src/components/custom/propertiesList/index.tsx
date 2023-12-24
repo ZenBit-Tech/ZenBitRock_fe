@@ -1,4 +1,5 @@
 'use client';
+
 import { Box, Fab } from '@mui/material';
 import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
@@ -56,11 +57,11 @@ function PropertiesList({ search }: Props): JSX.Element {
           sx={{
             display: 'flex',
             justifyContent: 'center',
-            alignItems: 'center',
+            alignItems: 'stretch',
             flexWrap: 'wrap',
             gap: '5%',
             width: '90%',
-            marginX: 'auto',
+            margin: 'auto',
           }}
         >
           {data?.data.map((item: QobrixProperty) => <PropertyCard property={item} key={item.id} />)}

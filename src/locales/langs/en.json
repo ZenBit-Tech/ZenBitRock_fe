@@ -492,7 +492,8 @@
     "inputPlaceholder": "Enter lead name...",
     "sorry": "Sorry, No Matched Results Found!",
     "try": "Try to find something else.",
-    "reset": "Reset all filters"
+    "reset": "Reset all filters",
+"leads": "leads"
   },
   "leadDetailsPage": {
     "title": "Lead Details",

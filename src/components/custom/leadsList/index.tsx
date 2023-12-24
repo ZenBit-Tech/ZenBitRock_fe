@@ -14,6 +14,7 @@ import uuidv4 from 'utils/uuidv4';
 
 import { TextStyled, ListStyled, BoxStyledWithName, LinkStyled } from './styles';
 import Lead from './components/lead-item/lead-item';
+import ButtonClose from '../button-close/button-close';
 
 export const FIRST_PAGE: number = 1;
 
@@ -72,9 +73,16 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
           <BoxStyledWithName>
             <TextStyled>{name}</TextStyled>
             <LinkStyled href={AppRoute.LEADS_PAGE} title={t('reset')}>
-              <Iconify
+              <ButtonClose
+                bottom="-0.5rem"
+                right="-0.5rem"
+                width="1rem"
+                height="1rem"
+                backgroundColor={colors.PRIMARY_LIGHT_COLOR}
+              />
+              {/* <Iconify
                 icon="carbon:close-outline"
-                color={colors.PRIMARY_DARK_COLOR}
+                color={colors.BUTTON_PRIMARY_COLOR}
                 width="1rem"
                 height="1rem"
                 sx={{
@@ -82,8 +90,13 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
                   bottom: '-0.5rem',
                   right: '-0.5rem',
                   backgroundColor: colors.PRIMARY_LIGHT_COLOR,
+                  transition: 'all 200ms ease-out',
+                  '&:hover': {
+                    color: colors.BUTTON_SECOND_COLOR,
+                    transition: 'all 200ms ease-out',
+                  },
                 }}
-              />
+              /> */}
             </LinkStyled>
           </BoxStyledWithName>
         </>

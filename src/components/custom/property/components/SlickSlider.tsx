@@ -4,6 +4,7 @@ import { Box, Button, Modal } from '@mui/material';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import ButtonClose from 'components/custom/button-close/button-close';
 import Image from 'components/image/image';
 import { QOBRIX_HOST } from 'config-global';
 import { colors } from 'constants/colors';
@@ -41,7 +42,10 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
   const sliderRef = useRef<Slider>(null);
   const modalContainerRef = useRef<HTMLDivElement>(null);
 
+  const handleClose = (): void => setToggleModal(false);
+
   useCloseModal(toggleModal, () => setToggleModal(false));
+
   const {
     handleMouseEnter,
     handleMouseLeave,
@@ -165,6 +169,13 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
       {toggleModal && (
         <Modal open sx={{ overflow: 'scroll' }} ref={modalContainerRef}>
           <Box ref={modalContainerRef} sx={{ height: 'fit-content' }}>
+            <ButtonClose
+              top="2rem"
+              right="2rem"
+              width="1.5rem"
+              height="1.5rem"
+              handleClose={handleClose}
+            />
             {photos.map((photo, idx) => (
               <Box
                 key={idx}
@@ -198,7 +209,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
                       zIndex: '100',
                       borderRadius: '50%',
                     }}
-                  ></div>
+                  />
                 )}
                 <Image
                   id={`${idx}`}
@@ -214,8 +225,8 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
                   }}
                   onMouseEnter={(e) => {
                     handleMouseEnter(
-                      e.pageX - modalContainerRef.current?.offsetLeft!,
-                      e.pageY - modalContainerRef.current?.offsetTop!,
+                      e.pageX - Number(modalContainerRef.current?.offsetLeft!),
+                      e.pageY - Number(modalContainerRef.current?.offsetTop!),
                       (e.target as HTMLImageElement).width,
                       (e.target as HTMLImageElement).height
                     );
