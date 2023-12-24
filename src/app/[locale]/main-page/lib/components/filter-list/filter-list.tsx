@@ -18,11 +18,15 @@ const defaultValues = {
   propertyType: '',
   status: '',
   priceRange: null,
-  bedrooms: null,
+  bedrooms: '',
   rentOrSale: null,
 };
 
-const FilterList = (): JSX.Element => {
+type Props = {
+  applyFilters: (filter: string) => void;
+};
+
+const FilterList = ({ applyFilters }: Props): JSX.Element => {
   const { data } = useGetPropertyTypesQuery(undefined);
   const t = useTranslations('mainPage.filters');
   const propertyStatus = useTranslations('mainPage.filters.filterOptions.propertyStatus');
@@ -46,7 +50,13 @@ const FilterList = (): JSX.Element => {
 
   const onSubmit = handleSubmit(async (formData) => {
     try {
-      // Todo
+      const { bedrooms, status, rentOrSale: rent } = formData;
+      let filter = '';
+
+
+      filter = filter.substring(filter.indexOf('and') + 3);
+
+      applyFilters(filter);
     } catch (error) {
       reset();
     }
@@ -58,16 +68,6 @@ const FilterList = (): JSX.Element => {
         <Stack spacing={1} alignItems="center">
           <Block label={t('location')}>
             <RHFTextField name="location" size="small" />
-          </Block>
-          <Block label={t('propertyType')}>
-            <RHFSelect name="propertyType" size="small">
-              {data &&
-                data.data.map((option) => (
-                  <MenuItem key={option.code} value={option.code}>
-                    {option.name}
-                  </MenuItem>
-                ))}
-            </RHFSelect>
           </Block>
           <Block label={t('propertyStatus')}>
             <RHFSelect name="status" size="small">
@@ -82,7 +82,7 @@ const FilterList = (): JSX.Element => {
             <RHFSlider name="priceRange" sx={{ width: '92%', margin: '0 auto', height: 4 }} />
           </Block>
           <Block label={t('bedrooms')}>
-            <RHFSelect name="status" size="small">
+            <RHFSelect name="bedrooms" size="small">
               {BEDROOMS.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}

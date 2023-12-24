@@ -28,9 +28,7 @@ const PropertyFilter = () => {
         onClose={popover.onClose}
         arrow="top-left"
         sx={{ width: '100%', mt: 1 }}
-      >
-        <FilterList />
-      </CustomPopover>
+      />
     </Box>
   );
 };
