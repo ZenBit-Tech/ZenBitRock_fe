@@ -144,24 +144,21 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
         </Box>
         <Box
           sx={{
-            overflowY: 'auto',
-            height: '100%',
+            overflowY: 'scroll',
+            height: 'calc(100% - 5rem)',
             width: 'fit-content',
-            // '::-webkit-scrollbar': {
-            //   width: '10px',
-            // },
-            // '&::-webkit-scrollbar-track': {
-            //   background: 'transparent',
-            // },
-            // '&::-webkit-scrollbar-thumb': {
-            //   background: 'red',
-            //   borderRadius: '10px',
-            //   // '-ms-overflow-style': 'none',
-            //   // scrollbarWidth: 'none',
-            // },
-            // '&::-webkit-scrollbar-thumb:hover': {
-            //   background: '#555',
-            // },
+            padding: '0',
+            '&::-webkit-scrollbar': {
+              backgroundColor: 'transparent',
+              width: '10px',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              background: colors.BUTTON_PRIMARY_COLOR,
+              borderRadius: '10px',
+            },
+            '&::-webkit-scrollbar-thumb:hover': {
+              background: colors.BUTTON_SECOND_COLOR,
+            },
           }}
         >
           {sortedHistory &&
