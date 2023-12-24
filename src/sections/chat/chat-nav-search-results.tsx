@@ -10,12 +10,14 @@ type Props = {
   query: string;
   results: UserChatResponse[];
   onClickResult: (result: UserChatResponse) => void;
+  id: string;
 };
 
 export default function ChatNavSearchResults({
   query,
   results,
   onClickResult,
+  id,
 }: Props): JSX.Element {
   const t = useTranslations('agents');
 
@@ -46,20 +48,22 @@ export default function ChatNavSearchResults({
         />
       ) : (
         <>
-          {results.map((result) => (
-            <ListItemButton
-              key={result.id}
-              onClick={() => onClickResult(result)}
-              sx={{
-                px: 2.5,
-                py: 1.5,
-                typography: 'subtitle2',
-              }}
-            >
-              <Avatar alt={result.lastName} src={result.avatarUrl} sx={{ mr: 2 }} />
-              {`${result.firstName} ${result.lastName}`}
-            </ListItemButton>
-          ))}
+          {results.map((result) =>
+            id !== result.id ? (
+              <ListItemButton
+                key={result.id}
+                onClick={() => onClickResult(result)}
+                sx={{
+                  px: 2.5,
+                  py: 1.5,
+                  typography: 'subtitle2',
+                }}
+              >
+                <Avatar alt={result.lastName} src={result.avatarUrl} sx={{ mr: 2 }} />
+                {`${result.firstName} ${result.lastName}`}
+              </ListItemButton>
+            ) : null
+          )}
         </>
       )}
     </>

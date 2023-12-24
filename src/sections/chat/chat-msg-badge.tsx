@@ -18,6 +18,7 @@ export default function MsgBadge({ tempValue }: MsgBadgeProps): JSX.Element {
     if (tempValue > 99) {
       return t('more99');
     }
+    
     return `${tempValue} ${t('notifications')}`;
   }, [tempValue, t]);
 
