@@ -1,4 +1,4 @@
-export default function trimString(message: string, maxWords: number) {
+export function trimString(message: string, maxWords: number) {
   const words = message.split(' ');
 
   if (words.length > maxWords) {

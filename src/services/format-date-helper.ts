@@ -4,7 +4,7 @@ const MONTH_INDEX_OFFSET: number = 1;
 const YEAR_SLICE_START: number = -2;
 const SHORT_DAYS_OF_WEEK: Array<string> = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-export default function formatDate(dateTimeString: string): string {
+export function formatDate(dateTimeString: string): string {
   const targetDate = new Date(dateTimeString);
   const currentDate = new Date();
   const addLeadingZero = (num: number) => (num < DOUBLE_DIGIT_THRESHOLD ? `0${num}` : num);
