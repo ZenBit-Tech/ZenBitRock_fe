@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
+import { useScrollToTop } from 'hooks';
 import { useRouter } from 'next/navigation';
 
 import { useTranslations } from 'next-intl';
@@ -16,8 +16,6 @@ import { useSnackbar } from 'components/snackbar';
 import { backgroundImages } from 'constants/backgroundImgLinks';
 import { IPropertyDetailed } from 'types/property';
 import { endpoints } from 'utils/axios';
-
-import useScrollToTop from '../propertiesList/hooks/useScrollToTop';
 
 import InfoBlock from './components/InfoBlock';
 import SlickSlider from './components/SlickSlider';
