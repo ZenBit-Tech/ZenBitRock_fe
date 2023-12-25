@@ -1,3 +1,4 @@
+export { createSocketFactory } from './socket';
 export { toTitleCase } from './change-case';
 export {
   getPropertySearchFilter,

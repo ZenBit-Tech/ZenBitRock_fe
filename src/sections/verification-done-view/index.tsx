@@ -37,9 +37,9 @@ export function VerificationDoneView(): JSX.Element {
 
         <LoadingButton
           fullWidth
-          color="info"
+          variant="contained"
+          color="primary"
           size="large"
-          variant="text"
           style={{ marginBottom: '70px' }}
           onClick={handleClick}
         >

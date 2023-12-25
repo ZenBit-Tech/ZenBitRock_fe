@@ -65,7 +65,8 @@
     "countryPlaceholder": "United States",
     "phoneNumber": "* Phone number",
     "phoneNumberLabel": "Phone number",
-    "phoneNumberPlaceholder": "(000) 000-0000",
+    "phoneNumberPlaceholder": "+1 000 000 0000",
+    "phoneInvalidMessage": "Phone number is not valid",
     "fileSectionTitle": "C. File Upload",
     "fileHelperText": "Allowed *.jpeg, *.jpg, *.pdf, max size of 5 MB",
     "drag&DropTitle": "* Please upload related documents",
@@ -216,7 +217,11 @@
     "return": "Return",
     "timeRemaining": "The code expires in: {remainingTime} seconds",
     "resendCodeButtonExpired": "Resend code",
-    "ErrorMessage": "Something went wrong, please try again"
+    "ErrorMessage": "Something went wrong, please try again",
+    "sentCode": "Verification code sent successfully",
+    "codeExpired": "Code is expired",
+    "emailVerified": "Email verified successfully",
+    "notValid": "Please enter the security code"
   },
   "yup": {
     "code_too_short": "Code must be at least 6 characters",
@@ -244,7 +249,7 @@
   "editProfilePage": {
     "roleLabel": "* I am acting as",
     "rolePlaceholder": "Please select",
-    "phonePlaceholder": "(000) 000-0000",
+    "phonePlaceholder": "+1 000 000 0000",
     "countryPlaceholder": "* Country",
     "agencyPlaceholder": "Foxtons UK ltd",
     "pageTitle": "Edit profile",
@@ -252,7 +257,8 @@
     "updateText": "Profile updated successfully!",
     "errorText": "Something went wrong!",
     "nameMessage": "Latin letters, spaces, 2-50 characters",
-    "phoneMessage": "The telephone number can have a maximum of 15 digits",
+    "phoneMessage": "The telephone number can have a minimum of 7 and maximum of 15 digits",
+    "phoneInvalidMessage": "Phone number is not valid",
     "roleMessage": "Role is required",
     "cityMessage": "City is required",
     "avatarMessage": "Avatar is required",
@@ -506,5 +512,15 @@
     "error": "500 Internal Server Error",
     "tryAgainLater": "There was an error, please try again later.",
     "home": "Go to Home"
+  },
+  "MessagesPage": {
+    "pageTitle": "Messages",
+    "addGroupChatButton": "Add group chat",
+    "searchPlaceholder": "Enter agent name",
+    "sortBy": "Sort By:",
+    "sortOptionLatest": "Latest",
+    "sortOptionOldest": "Oldest",
+    "sortOptionNameIncrease": "Name: A-Z",
+    "sortOptionNameDecrease": "Name: Z-A"
   }
 }
