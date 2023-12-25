@@ -65,5 +65,5 @@ export const {
   useCreateAgentMutation,
   useGetPropertyTypesQuery,
   useUpdateContactMutation,
-  useDeleteLeadMutation
+  useDeleteLeadMutation,
 } = QobrixApi;
