@@ -51,6 +51,12 @@ export const QobrixApi = createApi({
         body,
       }),
     }),
+    deleteLead: builder.mutation<void, { id: string }>({
+      query: ({ id }) => ({
+        url: `${ApiRoute.QOBRIX_DELETE_LEAD}/${id}`,
+        method: 'DELETE',
+      }),
+    }),
   }),
 });
 
@@ -59,4 +65,5 @@ export const {
   useCreateAgentMutation,
   useGetPropertyTypesQuery,
   useUpdateContactMutation,
+  useDeleteLeadMutation
 } = QobrixApi;

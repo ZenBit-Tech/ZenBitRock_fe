@@ -509,7 +509,7 @@
     "title": "Lead Details",
     "status": "Status",
     "matchingProperties": "Matching properties",
-    "removeLead": "Remove lead",
+    "deleteLead": "Delete lead",
     "created": "Created",
     "budget": "Budget & Necessities",
     "buyRent": "Buy / Rent",
@@ -517,7 +517,12 @@
     "features": "Main Features",
     "description": "Description",
     "sourceDetails": "Source Details",
-    "source": "Source"
+    "source": "Source",
+    "modalTitle": "Do you want to delete the Lead?",
+    "modalMainText1": "By clicking the button ",
+    "modalMainText2": " you confirm that you want to delete the Lead",
+    "cancelButton": "Cancel",
+    "generalErrorMessage": "Something went wrong, please try again"
   },
   "notFoundView": {
     "notFound": " Sorry, Page Not Found!",

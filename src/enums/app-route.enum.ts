@@ -19,6 +19,7 @@ const AppRoute = {
   MESSAGES_PAGE: '/messages',
   EDIT_PROFILE_PAGE: '/edit-profile',
   CHAT_PAGE: '/chat',
+  LEADS_PAGE: '/leads',
 } as const;
 
 export { AppRoute };
