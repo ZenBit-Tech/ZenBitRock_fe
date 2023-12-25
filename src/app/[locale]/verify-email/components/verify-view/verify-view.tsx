@@ -73,7 +73,6 @@ export function VerifyView({ email }: Props) {
     }
   });
 
-
   const renderForm = (
     <Stack spacing={3} alignItems="center">
       <RHFCode name="code" />

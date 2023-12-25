@@ -14,6 +14,7 @@ const ApiRoute = {
   QOBRIX_CREATE_CONTACT: '/contacts',
   QOBRIX_CREATE_AGENT: '/agents',
   QOBRIX_PROPERY_TYPES: '/property-types',
+  GET_ALL_AGENTS: '/user',
   QOBRIX_GET_PROPERTIES: '/properties',
   QOBRIX_GET_PROPERTY: '/properties/id',
   GET_LEAD_DETAILS: '/lead/details/id',
