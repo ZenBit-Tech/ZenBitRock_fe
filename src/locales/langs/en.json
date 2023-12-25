@@ -494,8 +494,8 @@
     "addGroupChatButton": "Add group chat",
     "searchPlaceholder": "Enter agent name",
     "sortBy": "Sort By:",
-    "sortOptionLatest": "Latest first",
-    "sortOptionOldest": "Oldest first",
+    "sortOptionLatest": "Latest",
+    "sortOptionOldest": "Oldest",
     "sortOptionNameIncrease": "Name: A-Z",
     "sortOptionNameDecrease": "Name: Z-A"
   }

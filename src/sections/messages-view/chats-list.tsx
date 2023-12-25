@@ -38,7 +38,7 @@ export default function ChatsList({ chats, t }: Props) {
   }, []);
 
   return (
-    <Box gap={1} display="flex" flexDirection="column">
+    <Box display="flex" flexDirection="column">
       <Stack
         sx={{
           mb: 2,
