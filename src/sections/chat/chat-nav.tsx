@@ -1,5 +1,4 @@
 import { useState, useCallback, useMemo } from 'react';
-import { useSelector } from 'react-redux';
 import { useTranslations } from 'next-intl';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -8,10 +7,8 @@ import { Container } from '@mui/system';
 import Card from '@mui/material/Card';
 import { useRouter } from 'routes/hooks';
 import Iconify from 'components/iconify';
-import { LoadingScreen } from 'components/loading-screen';
 import { UserChatResponse } from 'types/user-backend';
 import { AppRoute } from 'enums';
-import { RootState } from 'store';
 import { AGENTS_SORT_OPTIONS } from 'constants/agentsSortOptions';
 import { ChatNavItemSkeleton } from './chat-skeleton';
 import ChatNavSearchResults from './chat-nav-search-results';
@@ -22,9 +19,10 @@ import sortAgents from './utils/sortAgents';
 type Props = {
   loading: boolean;
   agents?: UserChatResponse[];
+  id: string;
 };
 
-export default function ChatNav({ loading, agents }: Props): JSX.Element {
+export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
   const router = useRouter();
 
   const t = useTranslations('agents');
@@ -47,10 +45,11 @@ export default function ChatNav({ loading, agents }: Props): JSX.Element {
       }));
 
       if (inputValue && agents) {
-        const results = agents.filter(
-          (agent) =>
-            agent.firstName.toLowerCase().includes(inputValue.toLowerCase()) ||
-            agent.lastName.toLowerCase().includes(inputValue.toLowerCase())
+        const results = agents.filter((agent) =>
+          agent.id !== id
+            ? agent.firstName.toLowerCase().includes(inputValue.toLowerCase()) ||
+              agent.lastName.toLowerCase().includes(inputValue.toLowerCase())
+            : null
         );
 
         setSearchAgents((prevState) => ({
@@ -59,7 +58,7 @@ export default function ChatNav({ loading, agents }: Props): JSX.Element {
         }));
       }
     },
-    [agents]
+    [agents, id]
   );
 
   const handleClickAwaySearch = useCallback((): void => {
@@ -85,13 +84,6 @@ export default function ChatNav({ loading, agents }: Props): JSX.Element {
       }),
     [agents, sort]
   );
-
-  const authUser = useSelector((state: RootState) => state.authSlice.user);
-
-  if (!authUser) {
-    return <LoadingScreen />;
-  }
-  const { id } = authUser;
 
   const renderSkeleton = (
     <>

@@ -10,7 +10,7 @@ import { MotionContainer, varBounce } from 'components/animate';
 import CompactLayout from 'sections/compact/layout';
 import { AppRoute } from 'enums';
 
-export default function Page500(): JSX.Element {
+function Page500(): JSX.Element {
   const t = useTranslations('page500');
 
   return (
@@ -44,3 +44,5 @@ export default function Page500(): JSX.Element {
     </CompactLayout>
   );
 }
+
+export { Page500 };

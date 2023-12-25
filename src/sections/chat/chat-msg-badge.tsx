@@ -5,26 +5,26 @@ import Badge from '@mui/material/Badge';
 import MailIcon from '@mui/icons-material/Mail';
 
 type MsgBadgeProps = {
-  tempValue: number;
+  chatBadgeValue: number;
 };
 
-export default function MsgBadge({ tempValue }: MsgBadgeProps): JSX.Element {
+export default function MsgBadge({ chatBadgeValue }: MsgBadgeProps): JSX.Element {
   const t = useTranslations('agents');
 
   const ariaLabel = useMemo((): string => {
-    if (tempValue === 0) {
+    if (chatBadgeValue === 0) {
       return t('noNotificationsLabel');
     }
-    if (tempValue > 99) {
+    if (chatBadgeValue > 99) {
       return t('more99');
     }
-    
-    return `${tempValue} ${t('notifications')}`;
-  }, [tempValue, t]);
+
+    return `${chatBadgeValue} ${t('notifications')}`;
+  }, [chatBadgeValue, t]);
 
   return (
     <IconButton aria-label={ariaLabel}>
-      <Badge badgeContent={tempValue} color="primary">
+      <Badge badgeContent={chatBadgeValue} color="primary">
         <MailIcon />
       </Badge>
     </IconButton>

@@ -25,7 +25,7 @@ const UseNavItems = () => {
         },
         {
           title: TranslationKey.AGENTS,
-          path: '#',
+          path: '/agents',
           icon: <Iconify icon="mingcute:suitcase-fill" width={1} />,
         },
         {

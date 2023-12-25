@@ -54,7 +54,7 @@ export default function AgentListItem({
             color: 'text.disabled',
           }}
         />
-        <MsgBadge tempValue={randomValues.BADGE_TEMP_VALUE} />
+        <MsgBadge chatBadgeValue={randomValues.BADGE_TEMP_VALUE} />
       </ListItemButton>
     </Card>
   );
