@@ -489,6 +489,22 @@
     "status": "Status",
     "filtered": "Filtered for the: "
   },
+  "agents": {
+    "pageTitle": "Agent network",
+    "chatSectionTitle": "Chats",
+    "noNotifications": "No new notifications",
+    "view": "View",
+    "agents": "Agents",
+    "searchPlaceholder": "Search agents...",
+    "noNotificationsLabel": "no notifications",
+    "more99": "more than 99 notifications",
+    "notifications": "notifications"
+  },
+  "page500": {
+    "pageTitle": "500 Internal Server Error",
+    "pageMsg": "There was an error, please try again later.",
+    "btnTxt": "Go to Home"
+  },
   "leadDetailsPage": {
     "title": "Lead Details",
     "status": "Status",
@@ -507,11 +523,6 @@
     "notFound": " Sorry, Page Not Found!",
     "home": "Go to Home",
     "message": "Sorry, we couldn’t find the page you’re looking for. Perhaps you’ve mistyped the URL? Be sure to check your spelling."
-  },
-  "page500": {
-    "error": "500 Internal Server Error",
-    "tryAgainLater": "There was an error, please try again later.",
-    "home": "Go to Home"
   },
   "MessagesPage": {
     "pageTitle": "Messages",

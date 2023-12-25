@@ -1,15 +1,16 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { m } from 'framer-motion';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { CompactLayout } from 'layouts';
 import { SeverErrorIllustration } from 'assets/illustrations';
 import { RouterLink } from 'routes/components';
 import { MotionContainer, varBounce } from 'components/animate';
-import { useTranslations } from 'hooks';
+import CompactLayout from 'sections/compact/layout';
+import { AppRoute } from 'enums';
 
-function Page500() {
+function Page500(): JSX.Element {
   const t = useTranslations('page500');
 
   return (
@@ -17,20 +18,27 @@ function Page500() {
       <MotionContainer>
         <m.div variants={varBounce().in}>
           <Typography variant="h3" sx={{ mb: 2 }}>
-            {t('error')}
+            {t('pageTitle')}
           </Typography>
         </m.div>
 
         <m.div variants={varBounce().in}>
-          <Typography sx={{ color: 'text.secondary' }}>{t('tryAgainLater')}</Typography>
+          <Typography sx={{ color: 'text.secondary' }}>{t('pageMsg')}</Typography>
         </m.div>
 
         <m.div variants={varBounce().in}>
           <SeverErrorIllustration sx={{ height: 260, my: { xs: 5, sm: 10 } }} />
         </m.div>
 
-        <Button component={RouterLink} href="/" size="large" variant="contained" color="primary">
-          {t('home')}
+        <Button
+          component={RouterLink}
+          href={AppRoute.HOME_PAGE}
+          size="large"
+          variant="contained"
+          color="primary"
+          sx={{ p: '14px' }}
+        >
+          {t('btnTxt')}
         </Button>
       </MotionContainer>
     </CompactLayout>

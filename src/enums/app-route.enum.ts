@@ -18,6 +18,7 @@ const AppRoute = {
   RESET_PASSWORD_DONE_PAGE: '/reset-password',
   MESSAGES_PAGE: '/messages',
   EDIT_PROFILE_PAGE: '/edit-profile',
+  CHAT_PAGE: '/chat',
 } as const;
 
 export { AppRoute };
