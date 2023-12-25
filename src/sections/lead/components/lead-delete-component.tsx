@@ -15,6 +15,7 @@ type Props = {
   id: string;
   t: Function;
 };
+
 export function LeadDeleteComponent({ id, t }: Props): JSX.Element {
   const router = useRouter();
   const descriptionElementRef = useRef<HTMLElement>(null);
@@ -30,12 +31,15 @@ export function LeadDeleteComponent({ id, t }: Props): JSX.Element {
       }
     }
   }, [open]);
+
   const handleOpen = (): void => {
     setOpen(true);
   };
+
   const handleClose = (): void => {
     setOpen(false);
   };
+
   const handleDeleteLead = async (userId: string): Promise<void> => {
     try {
       await deleteLead({ id: userId }).unwrap();
@@ -53,6 +57,7 @@ export function LeadDeleteComponent({ id, t }: Props): JSX.Element {
           <CircularProgress color="primary" />
         </Backdrop>
       )}
+
       <Stack
         direction="row"
         sx={{
@@ -64,10 +69,12 @@ export function LeadDeleteComponent({ id, t }: Props): JSX.Element {
         }}
       >
         <Iconify icon="fluent:delete-28-regular" width={24} sx={{ mr: 1 }} />
+
         <Typography variant="body2" onClick={handleOpen}>
           {t('deleteLead')}
         </Typography>
       </Stack>
+
       <Dialog
         open={open}
         onClose={handleClose}
@@ -78,6 +85,7 @@ export function LeadDeleteComponent({ id, t }: Props): JSX.Element {
         <DialogTitle id="alert-dialog-title" color="primary">
           {t('modalTitle')}
         </DialogTitle>
+
         <DialogContent>
           <DialogContentText
             id="alert-dialog-description"
@@ -85,16 +93,20 @@ export function LeadDeleteComponent({ id, t }: Props): JSX.Element {
             tabIndex={-1}
           >
             {t('modalMainText1')}
+
             <Typography variant="body1" component="span" fontWeight="fontWeightBold">
               {t('deleteLead')}
             </Typography>
+
             {t('modalMainText2')}
           </DialogContentText>
         </DialogContent>
+
         <DialogActions>
           <Button onClick={handleClose} variant="contained" color="primary">
             {t('cancelButton')}
           </Button>
+
           <Button
             onClick={() => handleDeleteLead(id)}
             color="primary"
