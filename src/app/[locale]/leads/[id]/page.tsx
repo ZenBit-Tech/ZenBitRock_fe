@@ -1,7 +1,7 @@
 'use client';
 
 import { LoadingScreen } from 'components/loading-screen';
-import { LeadDetailsView, NotFoundView } from 'sections';
+import { LeadDetailsView, Page500 } from 'sections';
 import { useGetLeadDetailsQuery } from 'store/lead/lead-api';
 
 type Props = {
@@ -12,7 +12,7 @@ const LeadDetailsPage = ({ params }: Props) => {
   const { data, error } = useGetLeadDetailsQuery(params.id);
 
   if (error) {
-    return <NotFoundView />;
+    return <Page500 />;
   }
 
   if (!data) {

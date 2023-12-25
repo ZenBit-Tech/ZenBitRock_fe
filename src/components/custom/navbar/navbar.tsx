@@ -5,7 +5,8 @@ import Toolbar from '@mui/material/Toolbar';
 import { grey } from '@mui/material/colors';
 import { NavSectionHorizontal } from 'components/nav-section';
 import { UserProfileResponse } from 'types';
-import { NAV_ITEMS, defaultConfig } from './lib';
+import { defaultConfig } from './lib';
+import { UseNavItems } from './lib/useNavItems.hook';
 
 type Props = {
   user: UserProfileResponse | null;

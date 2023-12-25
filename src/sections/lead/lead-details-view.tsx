@@ -28,10 +28,11 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
   };
 
   const { data } = leadDetails;
-
-  const contact = data.contact_name_contact;
-  const workflow = data.conversion_status_workflow_stage;
-  const propertyType = data.property_type;
+  const {
+    contact_name_contact: contact,
+    conversion_status_workflow_stage: workflow,
+    property_type: propertyType,
+  } = data;
 
   const handleSetPropertiesCount = useCallback(
     (count: number) => setMatchingPropertiesCount(count),
