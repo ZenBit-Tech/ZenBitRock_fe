@@ -13,6 +13,7 @@ type Props = {
 };
 
 const Navbar = ({ user }: Props): JSX.Element => {
+  const navItems = UseNavItems();
   return (
     <>
       {user && (
@@ -29,7 +30,7 @@ const Navbar = ({ user }: Props): JSX.Element => {
           }}
         >
           <Toolbar>
-            <NavSectionHorizontal data={NAV_ITEMS} config={defaultConfig} />
+            <NavSectionHorizontal data={navItems} config={defaultConfig} />
           </Toolbar>
         </AppBar>
       )}
