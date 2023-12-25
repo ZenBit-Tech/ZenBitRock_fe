@@ -7,3 +7,4 @@ export { useOffSetTop } from './use-off-set-top';
 export { useResponsive } from './use-responsive';
 export { useMockedUser } from './use-mocked-user';
 export { useVerification } from './use-verification.hook';
+export { useGetMessage } from './use-get-message';
