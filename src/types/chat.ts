@@ -1,4 +1,16 @@
-// ----------------------------------------------------------------------
+export type IChatItem = {
+  id: string;
+  type: string;
+  chatName: string;
+  members: {
+    firstName: string;
+    lastName: string;
+    avatarUrl: string;
+  }[];
+  lastMessage: string;
+  lastMessageDate: string;
+  countOfUnreadMessages: number;
+};
 
 export type IChatAttachment = {
   name: string;
