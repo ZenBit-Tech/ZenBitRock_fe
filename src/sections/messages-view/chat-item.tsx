@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import {
   Card,
   Avatar,
@@ -10,6 +11,7 @@ import {
 import MailIcon from '@mui/icons-material/Mail';
 import { IChatItem } from 'types/chat';
 import { formatDate, trimString } from 'services';
+import { AppRoute } from 'enums';
 
 type FollowerItemProps = {
   chat: IChatItem;
@@ -18,13 +20,16 @@ type FollowerItemProps = {
 const MAX_WORDS: number = 6;
 
 export default function ChatItem({ chat }: FollowerItemProps): JSX.Element {
-  const { type, chatName, members, lastMessage, lastMessageDate, countOfUnreadMessages } = chat;
+  const router = useRouter();
+  const { id, type, chatName, members, lastMessage, lastMessageDate, countOfUnreadMessages } = chat;
 
   const messageDate = formatDate(lastMessageDate);
 
   const avatarUrl = type === 'private' ? members[0].avatarUrl : '/';
 
-  const handleClick = () => {};
+  const handleClick = () => {
+    router.push(`${AppRoute.MESSAGES_PAGE}/${id}`);
+  };
 
   return (
     <CardActionArea sx={{ p: 0 }} onClick={handleClick}>

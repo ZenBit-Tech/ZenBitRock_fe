@@ -16,7 +16,7 @@ const AppRoute = {
   VERIFY_OLD_PASSWORD: 'reset-password/verify-old-password',
   RESET_PASSWORD_CHANGE_PASSWORD_PAGE: '/reset-password/change-password',
   RESET_PASSWORD_DONE_PAGE: '/reset-password',
-
+  MESSAGES_PAGE: '/messages',
   EDIT_PROFILE_PAGE: '/edit-profile',
 } as const;
 
