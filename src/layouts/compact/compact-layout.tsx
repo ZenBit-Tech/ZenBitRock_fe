@@ -4,8 +4,7 @@ import Container from '@mui/material/Container';
 type Props = {
   children: React.ReactNode;
 };
-
-export function CompactLayout({ children }: Props) {
+function CompactLayout({ children }: Props) {
   return (
     <Container component="main">
       <Stack
@@ -23,3 +22,5 @@ export function CompactLayout({ children }: Props) {
     </Container>
   );
 }
+
+export { CompactLayout };

@@ -1,8 +1,8 @@
-import React from 'react';
-import { randomValues } from 'constants/randomValues';
+'use client';
 
-function Messages(): JSX.Element {
-  return <div>{randomValues.MESSAGES_PAGE}</div>;
+import MessagesView from 'sections/messages-view';
+
+export default function MessagesPage(): JSX.Element {
+  return <MessagesView />;
 }
 
-export default Messages;

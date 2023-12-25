@@ -1,6 +1,3 @@
-import Iconify from 'components/iconify';
-import { TranslationKey } from './translation-keys.enum';
-
 const defaultConfig = {
   itemGap: 4,
   iconSize: 24,
@@ -41,7 +38,7 @@ const NAV_ITEMS = [
         title: TranslationKey.CONTENT,
         path: '#',
         icon: (
-          <Iconify icon="game-icons:read" width={1} color={(theme) => theme.palette.primary.main} />
+          <Iconify icon="game-icons:read" width={1} />
         ),
       },
     ],
@@ -49,3 +46,4 @@ const NAV_ITEMS = [
 ];
 
 export { defaultConfig, NAV_ITEMS };
+

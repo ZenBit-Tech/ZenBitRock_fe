@@ -3,7 +3,7 @@
 import { useCallback, useState } from 'hooks';
 import { VerificationDoneView, VerificationView } from 'sections';
 
-export default function Verification(): JSX.Element {
+export default function VerificationPage(): JSX.Element {
   const [verified, setVerified] = useState(false);
 
   const handleVerification = useCallback(() => {

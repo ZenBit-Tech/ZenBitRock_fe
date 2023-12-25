@@ -47,7 +47,10 @@ export const UserApi = createApi({
         body,
       }),
     }),
-    deleteAvatar: builder.mutation<UpdateUserResponse['data'], { userId: string }>({
+    deleteAvatar: builder.mutation<
+      UpdateUserResponse['data'],
+      { userId: string; avatarPublicId: string }
+    >({
       query: (body) => ({
         url: ApiRoute.DELETE_AVATAR,
         method: 'PATCH',

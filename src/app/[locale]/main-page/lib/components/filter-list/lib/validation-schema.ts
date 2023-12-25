@@ -4,7 +4,7 @@ const FilterSchema = Yup.object().shape({
   location: Yup.string().nullable(),
   propertyType: Yup.string().nullable(),
   status: Yup.string().nullable(),
-  priceRange: Yup.string().nullable(),
+  priceRange: Yup.array().of(Yup.number()).nullable(),
   bedrooms: Yup.string().nullable(),
   rentOrSale: Yup.string().nullable(),
 });
