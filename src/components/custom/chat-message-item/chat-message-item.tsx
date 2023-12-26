@@ -19,7 +19,7 @@ type Props = {
   };
 };
 
-export function ChatMessageItem({ message }: Props) {
+export function ChatMessageItem({ message }: Props): JSX.Element {
   const { body, createdAt, sender, isMe, isRead } = message;
   const name = sender?.name;
 
