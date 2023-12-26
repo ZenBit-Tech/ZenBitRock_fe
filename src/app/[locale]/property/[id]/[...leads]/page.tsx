@@ -1,8 +1,7 @@
 'use client';
 
+import { Common } from 'app/[locale]/leads/lib/components/common/common';
 import { ProtectedRoute } from 'components/custom';
-
-import { Common } from '../../../leads/lib/components/common/common';
 
 function LeadPage(): JSX.Element {
   return (

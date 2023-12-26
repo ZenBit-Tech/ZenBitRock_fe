@@ -6,8 +6,8 @@ import { useSnackbar } from 'components/snackbar';
 import { useInfinityScroll, useScrollToTop, useState, useTranslations } from 'hooks';
 import { QobrixProperty } from 'types/qobrix';
 import { useGetPropertiesQuery } from 'store/api/qobrixApi';
-import { ListStyled } from './styles';
-import { PropertyCard } from '../propery-card/property-card';
+import { ListStyled } from 'components/custom/propertiesList/styles';
+import { PropertyCard } from 'components/custom/propery-card/property-card';
 
 export const FIRST_PAGE: number = 1;
 

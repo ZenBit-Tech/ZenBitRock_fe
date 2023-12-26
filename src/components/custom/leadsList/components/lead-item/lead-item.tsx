@@ -5,12 +5,11 @@ import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
 import { Box, Card } from '@mui/material';
+import { TextStyled } from 'components/custom/leadsList/styles';
 import { AppRoute } from 'enums';
 import { QobrixLeadItem } from 'types';
 
-import { TextStyled } from '../../styles';
-
-function Lead({ lead }: { lead: QobrixLeadItem }): JSX.Element {
+export function Lead({ lead }: { lead: QobrixLeadItem }): JSX.Element {
   const t = useTranslations('leads');
   const router = useRouter();
 
@@ -124,5 +123,3 @@ function Lead({ lead }: { lead: QobrixLeadItem }): JSX.Element {
     </Card>
   );
 }
-
-export default Lead;

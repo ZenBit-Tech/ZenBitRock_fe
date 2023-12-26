@@ -10,4 +10,5 @@ export const colors = {
   DELETE_PROFILE_HOVER: '#00a76f14',
   ERROR_COLOR: '#FF5630',
   ARROW_SECONDARY: '#919eab',
+  SUN: '#FFD666',
 };

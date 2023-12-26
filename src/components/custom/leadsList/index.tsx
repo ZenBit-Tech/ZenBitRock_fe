@@ -2,19 +2,22 @@
 
 import { Box, Fab } from '@mui/material';
 
-import Iconify from 'components/iconify';
 import { useSnackbar } from 'components/snackbar';
 import { colors } from 'constants/colors';
+import ButtonClose from 'components/custom/button-close/button-close';
+import { Lead } from 'components/custom/leadsList/components';
+import {
+  TextStyled,
+  ListStyled,
+  BoxStyledWithName,
+  LinkStyled,
+} from 'components/custom/leadsList/styles';
 import { AppRoute } from 'enums';
 import { useInfinityScroll, useScrollToTop, useState, useTranslations } from 'hooks';
 import { NotMatchedView } from 'sections';
 import { useGetLeadsQuery } from 'store/api/qobrixApi';
 import { QobrixLeadItem } from 'types';
 import uuidv4 from 'utils/uuidv4';
-
-import { TextStyled, ListStyled, BoxStyledWithName, LinkStyled } from './styles';
-import Lead from './components/lead-item/lead-item';
-import ButtonClose from '../button-close/button-close';
 
 export const FIRST_PAGE: number = 1;
 
@@ -80,23 +83,6 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
                 height="1rem"
                 backgroundColor={colors.PRIMARY_LIGHT_COLOR}
               />
-              {/* <Iconify
-                icon="carbon:close-outline"
-                color={colors.BUTTON_PRIMARY_COLOR}
-                width="1rem"
-                height="1rem"
-                sx={{
-                  position: 'absolute',
-                  bottom: '-0.5rem',
-                  right: '-0.5rem',
-                  backgroundColor: colors.PRIMARY_LIGHT_COLOR,
-                  transition: 'all 200ms ease-out',
-                  '&:hover': {
-                    color: colors.BUTTON_SECOND_COLOR,
-                    transition: 'all 200ms ease-out',
-                  },
-                }}
-              /> */}
             </LinkStyled>
           </BoxStyledWithName>
         </>

@@ -4,7 +4,7 @@ import { useGetLeadTasksQuery } from 'store/api/qobrixApi';
 const START_PAGE: number = 1;
 
 export const useAllPagesTasksData = (id: string) => {
-  const [currentPage, setCurrentPage] = useState(START_PAGE);
+  const [currentPage, setCurrentPage] = useState<number>(START_PAGE);
 
   const { data } = useGetLeadTasksQuery(
     {

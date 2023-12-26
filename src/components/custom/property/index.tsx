@@ -8,17 +8,14 @@ import { useTranslations } from 'next-intl';
 
 import { Box, Fab } from '@mui/material';
 
+import { InfoBlock, SlickSlider, ViewOnMap } from 'components/custom/property/components';
+import { getImages } from 'components/custom/property/helpers';
+import { Title, TypographyStyled, ButtonStyled, Wrapper } from 'components/custom/property/styles';
 import Iconify from 'components/iconify';
 import Image from 'components/image/image';
 import { useSnackbar } from 'components/snackbar';
 import { backgroundImages } from 'constants/backgroundImgLinks';
 import { AppRoute } from 'enums';
-
-import InfoBlock from './components/InfoBlock';
-import SlickSlider from './components/SlickSlider';
-import ViewOnMap from './components/ViewOnMap';
-import getImages from './helpers/getImages';
-import { Title, TypographyStyled, ButtonStyled, Wrapper } from './styles';
 import { useGetPropertyQuery } from 'store/api/qobrixApi';
 
 export default function Property({ id }: { id: string }): JSX.Element {

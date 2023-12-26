@@ -15,7 +15,7 @@ interface ITaskChange {
 export const useAllPagesTaskChangesData = (tasks: ILeadTaskChange[] | undefined) => {
   const [trigger] = useLazyGetLeadTaskChangesQuery();
 
-  const [currentPage, setCurrentPage] = useState(START_PAGE);
+  const [currentPage, setCurrentPage] = useState<number>(START_PAGE);
   const [taskChanges, setTaskChanges] = useState<ITaskChange[]>([]);
 
   useEffect(() => {

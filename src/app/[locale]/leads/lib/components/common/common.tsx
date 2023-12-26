@@ -8,13 +8,12 @@ import { useTranslations } from 'next-intl';
 
 import { Button, Box, Typography } from '@mui/material';
 
+import { LeadsFilter } from 'app/[locale]/leads/lib/components/leads-filter/leads-filter';
 import { ProtectedRoute } from 'components/custom';
 import LeadsList from 'components/custom/leadsList';
-
 import Iconify from 'components/iconify';
 import { AppRoute } from 'enums';
 import { toTitleCase } from 'utils';
-import { LeadsFilter } from '../..';
 
 function Common(): JSX.Element {
   const [name, setName] = useState<string | undefined>(undefined);

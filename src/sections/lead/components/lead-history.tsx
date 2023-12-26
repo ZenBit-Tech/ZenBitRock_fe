@@ -1,10 +1,7 @@
 import { Box, Grid, Modal, Typography } from '@mui/material';
-import { useEffect, useState, useTranslations } from 'hooks';
-import { IHistory, QobrixLead } from 'types';
-import { useCloseModal } from 'components/custom/property/hooks/useCloseModal';
-import { colors } from 'constants/colors';
-import uuidv4 from 'utils/uuidv4';
 import ButtonClose from 'components/custom/button-close/button-close';
+import { colors } from 'constants/colors';
+import { useEffect, useState, useTranslations, useCloseModal } from 'hooks';
 import {
   useAllPagesCallsData,
   useAllPagesEmailsData,
@@ -13,8 +10,10 @@ import {
   useAllPagesStatusChangesData,
   useAllPagesTaskChangesData,
   useAllPagesTasksData,
-} from './history-hooks';
-import { sortHistory } from './utils/sort-history';
+} from 'sections/lead/components/history-hooks';
+import { sortHistory } from 'sections/lead/components/utils/sort-history';
+import { IHistory, QobrixLead } from 'types';
+import uuidv4 from 'utils/uuidv4';
 
 type Props = {
   lead: QobrixLead;
