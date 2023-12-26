@@ -31,7 +31,7 @@ export default function AgentListItem({
           src={avatarUrl}
           sx={{ width: 48, height: 48, mr: 2 }}
         >
-          {!avatarUrl && firstName
+          {!avatarUrl && firstName && lastName
             ? `${firstName[0].toUpperCase()}${lastName[0].toUpperCase()}`
             : null}
         </Avatar>
