@@ -30,7 +30,11 @@ export default function AgentListItem({
           alt={`${firstName} ${lastName}`}
           src={avatarUrl}
           sx={{ width: 48, height: 48, mr: 2 }}
-        />
+        >
+          {!avatarUrl && firstName
+            ? `${firstName[0].toUpperCase()}${lastName[0].toUpperCase()}`
+            : null}
+        </Avatar>
 
         <ListItemText
           primary={`${firstName} ${lastName}`}
