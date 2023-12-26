@@ -17,6 +17,7 @@ const ApiRoute = {
   GET_ALL_AGENTS: '/user',
   GET_LEAD_DETAILS: '/lead/details/id',
   GET_MATCHING_PROPERTIES: 'lead/properties',
+  GET_UNREAD_MESSAGES: 'messages/id/unread',
 } as const;
 
 export { ApiRoute };
