@@ -7,9 +7,5 @@ export { useOffSetTop } from './use-off-set-top';
 export { useResponsive } from './use-responsive';
 export { useMockedUser } from './use-mocked-user';
 export { useVerification } from './use-verification.hook';
-<<<<<<< HEAD
-export { useGetMessage } from './use-get-message';
-=======
 export { useInfinityScroll } from './useInfinityScroll';
 export { useScrollToTop } from './use-scroll-to-top';
->>>>>>> develop
