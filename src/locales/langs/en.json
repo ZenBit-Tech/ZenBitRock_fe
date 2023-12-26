@@ -532,6 +532,7 @@
     "sortOptionLatest": "Latest",
     "sortOptionOldest": "Oldest",
     "sortOptionNameIncrease": "Name: A-Z",
-    "sortOptionNameDecrease": "Name: Z-A"
+    "sortOptionNameDecrease": "Name: Z-A",
+    "unread": "unread messages"
   }
 }
