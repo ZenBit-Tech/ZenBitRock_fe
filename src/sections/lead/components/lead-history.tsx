@@ -112,8 +112,8 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
           >
             {t('history')}
           </Typography>
-          <Grid container direction="row" sx={{ width: '100%' }} spacing={2}>
-            <Grid item xs={4} sm={4}>
+          <Grid container direction="row" sx={{ width: '100%', mx: 'auto' }} spacing={2}>
+            <Grid item sx={{ width: '30%' }}>
               <Grid container direction="column" sx={{ width: '100%' }}>
                 <Typography
                   sx={{
@@ -127,7 +127,7 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
                 </Typography>
               </Grid>
             </Grid>
-            <Grid item xs={8} sm={4}>
+            <Grid item sx={{ width: '70%' }}>
               <Grid container direction="column" sx={{ width: '100%' }}>
                 <Typography
                   sx={{
@@ -145,7 +145,7 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
           sx={{
             overflowY: 'scroll',
             height: 'calc(100% - 5rem)',
-            width: 'fit-content',
+            width: '100%',
             padding: '0',
             '&::-webkit-scrollbar': {
               backgroundColor: 'transparent',
@@ -166,10 +166,10 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
                 container
                 direction="row"
                 key={uuidv4()}
-                sx={{ width: '100%', marginBottom: '1rem' }}
+                sx={{ width: '100%', marginBottom: '1rem', mx: 'auto' }}
                 spacing={2}
               >
-                <Grid item xs={4} sm={4}>
+                <Grid item sx={{ width: '30%' }}>
                   <Grid container direction="column" sx={{ width: '100%' }}>
                     <Typography
                       sx={{
@@ -184,7 +184,7 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
                     </Typography>
                   </Grid>
                 </Grid>
-                <Grid item xs={8} sm={4}>
+                <Grid item sx={{ width: '70%' }}>
                   <Grid container direction="column" sx={{ width: '100%' }}>
                     <Typography
                       sx={{
