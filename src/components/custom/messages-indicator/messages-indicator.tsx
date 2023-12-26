@@ -13,7 +13,7 @@ interface MessagesIndicatorProps {
     height: string;
   };
   destination: {
-    type?: string; //user or room
+    type?: string;
     idFrom?: string;
     id: string;
   };
@@ -29,7 +29,7 @@ const MessagesIndicator = ({
   dimensions,
   destination,
   position,
-}: MessagesIndicatorProps): JSX.Element => {
+}: MessagesIndicatorProps): JSX.Element | null => {
   const t = useTranslations('MessagesPage');
   const { data: quantity } = useGetUnreadMessagesQuery(
     {
@@ -42,7 +42,7 @@ const MessagesIndicator = ({
 
   const router = useRouter();
 
-  return (
+  return quantity?.data && quantity?.data > 0 ? (
     <Box
       sx={{
         width: 'fit-content',
@@ -59,35 +59,36 @@ const MessagesIndicator = ({
       }}
     >
       <Iconify
-        title={`You have ${quantity} ${t('unread')}`}
-        color={colors.BUTTON_PRIMARY_COLOR}
-        icon={'fa6-regular:message'}
+        title={`You have ${quantity?.data} ${t('unread')}`}
+        color={colors.BUTTON_SECOND_COLOR}
+        icon={'bxs:message-square'}
         width={dimensions.width}
         height={dimensions.height}
         sx={{
           transition: 'all 200ms ease-out',
           '&:hover': {
-            color: colors.BUTTON_SECOND_COLOR,
+            color: colors.TEST_MAIN_COLOR,
             transition: 'all 200ms ease-out',
           },
         }}
         onClick={() => router.push(AppRoute.MESSAGES_PAGE)}
       />
       <Typography
-        color={colors.BUTTON_PRIMARY_COLOR}
+        color={colors.PRIMARY_LIGHT_COLOR}
         sx={{
-          fontSize: `${Number(dimensions.height.split('rem')[0]) * 0.8}rem`,
+          fontSize: `${Number(dimensions.height.split('rem')[0]) * 0.4}rem`,
           position: 'absolute',
-          top: '50%',
+          top: '15%',
           left: '50%',
           zIndex: '11',
-          transform: 'translate(-50%)',
+          transform: 'translateX(-50%)',
+          pointerEvents: 'none',
         }}
       >
-        {quantity > 99 ? '99+' : quantity}
+        {quantity?.data && quantity?.data > 99 ? '99+' : quantity?.data}
       </Typography>
     </Box>
-  );
+  ) : null;
 };
 
 export default MessagesIndicator;
