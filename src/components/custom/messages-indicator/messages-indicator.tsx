@@ -25,6 +25,9 @@ interface MessagesIndicatorProps {
   };
 }
 
+const MAX_TO_SHOW: string = '99+';
+const MAX_TO_COMPARE: number = 99;
+
 const MessagesIndicator = ({
   dimensions,
   destination,
@@ -85,7 +88,7 @@ const MessagesIndicator = ({
           pointerEvents: 'none',
         }}
       >
-        {quantity?.data && quantity?.data > 99 ? '99+' : quantity?.data}
+        {quantity?.data && quantity?.data > MAX_TO_COMPARE ? MAX_TO_SHOW : quantity?.data}
       </Typography>
     </Box>
   ) : null;
