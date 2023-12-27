@@ -1,17 +1,17 @@
+import * as React from 'react';
 import { DialogContentText } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import { useTranslations } from 'next-intl';
-import * as React from 'react';
 
 type Props = {
   open: boolean;
   onClose: () => void;
 };
 
-export default function DesktopDialog({ open, onClose }: Props) {
+export function DesktopDialog({ open, onClose }: Props) {
   const t = useTranslations('signInPage');
 
   const descriptionElementRef = React.useRef<HTMLElement>(null);
