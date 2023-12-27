@@ -1,4 +1,4 @@
-import { QobrixLocationsResponse } from "types/qobrix/qobrix-locations";
+import { QobrixLocationsResponse } from 'types/qobrix/qobrix-locations';
 
 export type IValues = {
   value: string;
@@ -27,36 +27,36 @@ export function getOfferTypes(t: Function): Array<IValues> {
 
 export function getEnquiryTypes(t: Function): Array<IValues> {
   const appartmentTypes = [
-    { value: "apartment", label: t('enquiryTypeApartment') },
-    { value: "condo", label: t('enquiryTypeCondo') },
-    { value: "land", label: t('enquiryTypeLand') },
-    { value: "manufactured", label: t('enquiryTypeManufactured') },
-    { value: "multi_family", label: t('enquiryTypeMultiFamily') },
-    { value: "single_family", label: t('enquiryTypeSingleFamily') },
-    { value: "townhouse", label: t('enquiryTypeTownhouse') },
-    { value: "agriculture", label: t('enquiryTypeAgriculture') },
-    { value: "boat_slip", label: t('enquiryTypeBoatSlip') },
-    { value: "business", label: t('enquiryTypeBusiness') },
-    { value: "cabin", label: t('enquiryTypeCabin') },
-    { value: "deeded_parking", label: t('enquiryTypeDeededParking') },
-    { value: "duplex", label: t('enquiryTypeDuplex') },
-    { value: "farm", label: t('enquiryTypeFarm') },
-    { value: "hotel_motel", label: t('enquiryTypeHotelMotel') },
-    { value: "industrial", label: t('enquiryTypeIndustrial') },
-    { value: "manufactured_on_land", label: t('enquiryTypeManufacturedOnLand') },
-    { value: "mixed_use", label: t('enquiryTypeMixedUse') },
-    { value: "mobile_home", label: t('enquiryTypeMobileHome') },
-    { value: "mobile_home_park", label: t('enquiryTypeMobileHomePark') },
-    { value: "office", label: t('enquiryTypeOffice') },
-    { value: "own_your_own", label: t('enquiryTypeOwnYourOwn') },
-    { value: "quadruplex", label: t('enquiryTypeQuadruplex') },
-    { value: "ranch", label: t('enquiryTypeRanch') },
-    { value: "retail", label: t('enquiryTypeRetail') },
-    { value: "stock_cooperative", label: t('enquiryTypeStockCooperative') },
-    { value: "timeshare", label: t('enquiryTypeTimeshare') },
-    { value: "triplex", label: t('enquiryTypeTriplex') },
-    { value: "warehouse", label: t('enquiryTypeWarehouse') }
-  ]
+    { value: 'apartment', label: t('enquiryTypeApartment') },
+    { value: 'condo', label: t('enquiryTypeCondo') },
+    { value: 'land', label: t('enquiryTypeLand') },
+    { value: 'manufactured', label: t('enquiryTypeManufactured') },
+    { value: 'multi_family', label: t('enquiryTypeMultiFamily') },
+    { value: 'single_family', label: t('enquiryTypeSingleFamily') },
+    { value: 'townhouse', label: t('enquiryTypeTownhouse') },
+    { value: 'agriculture', label: t('enquiryTypeAgriculture') },
+    { value: 'boat_slip', label: t('enquiryTypeBoatSlip') },
+    { value: 'business', label: t('enquiryTypeBusiness') },
+    { value: 'cabin', label: t('enquiryTypeCabin') },
+    { value: 'deeded_parking', label: t('enquiryTypeDeededParking') },
+    { value: 'duplex', label: t('enquiryTypeDuplex') },
+    { value: 'farm', label: t('enquiryTypeFarm') },
+    { value: 'hotel_motel', label: t('enquiryTypeHotelMotel') },
+    { value: 'industrial', label: t('enquiryTypeIndustrial') },
+    { value: 'manufactured_on_land', label: t('enquiryTypeManufacturedOnLand') },
+    { value: 'mixed_use', label: t('enquiryTypeMixedUse') },
+    { value: 'mobile_home', label: t('enquiryTypeMobileHome') },
+    { value: 'mobile_home_park', label: t('enquiryTypeMobileHomePark') },
+    { value: 'office', label: t('enquiryTypeOffice') },
+    { value: 'own_your_own', label: t('enquiryTypeOwnYourOwn') },
+    { value: 'quadruplex', label: t('enquiryTypeQuadruplex') },
+    { value: 'ranch', label: t('enquiryTypeRanch') },
+    { value: 'retail', label: t('enquiryTypeRetail') },
+    { value: 'stock_cooperative', label: t('enquiryTypeStockCooperative') },
+    { value: 'timeshare', label: t('enquiryTypeTimeshare') },
+    { value: 'triplex', label: t('enquiryTypeTriplex') },
+    { value: 'warehouse', label: t('enquiryTypeWarehouse') },
+  ];
 
   return appartmentTypes;
 }
@@ -80,8 +80,9 @@ export function getCountOfBedrooms(): Array<ICountOfBedroomsValues> {
 
 export function getLocations(response: QobrixLocationsResponse): Array<ILocationValues> {
   return response.data.map((location, idx) => ({
-    label: location.subarea ? `${location.country}, ${location.district}, ${location.area}, ${location.subarea}` :
-      `${location.country}, ${location.district}, ${location.area}`,
+    label: location.subarea
+      ? `${location.country}, ${location.district}, ${location.area}, ${location.subarea}`
+      : `${location.country}, ${location.district}, ${location.area}`,
     value: { _ids: [location.id] },
     key: idx,
   }));

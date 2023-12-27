@@ -25,4 +25,4 @@ export type QobrixLocationsResponse = {
     count: number;
     limit: number;
   };
-}
+};
