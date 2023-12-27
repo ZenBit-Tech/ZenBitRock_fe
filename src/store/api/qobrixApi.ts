@@ -5,8 +5,12 @@ import {
   QobrixAgentResponse,
   QobrixContactRequest,
   QobrixContactResponse,
+  QobrixPropertyType,
+  QobrixCreateLead,
+  QobrixCreateLeadResponse,
   QobrixPropertyTypeResponse,
 } from 'types';
+import { QobrixLocationsResponse } from 'types/qobrix/qobrix-locations';
 import { IUserUpdateQobrix } from 'types/user';
 
 export const QobrixApi = createApi({
@@ -51,6 +55,22 @@ export const QobrixApi = createApi({
         body,
       }),
     }),
+    createLead: builder.mutation<QobrixCreateLeadResponse['data'], QobrixCreateLead>({
+      query: (body) => ({
+        url: ApiRoute.QOBRIX_CREATE_LEAD,
+        method: 'POST',
+        body,
+      }),
+    }),
+    searchLocations: builder.query<
+      QobrixLocationsResponse,
+      { find: string; limit?: number; page?: number }
+    >({
+      query: ({ find, limit = 100, page = 1 }) => ({
+        url: `${ApiRoute.QOBRIX_SEARCH_LOCATIONS}?find=${find}&limit=${limit}&page=${page}`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
@@ -59,4 +79,6 @@ export const {
   useCreateAgentMutation,
   useGetPropertyTypesQuery,
   useUpdateContactMutation,
+  useCreateLeadMutation,
+  useSearchLocationsQuery,
 } = QobrixApi;

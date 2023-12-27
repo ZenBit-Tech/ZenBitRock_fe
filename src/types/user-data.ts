@@ -78,3 +78,5 @@ export type GetUserResponse = {
 export type DeleteUserResponse = {
   data: { statusCode: number; message: string };
 };
+
+export type DeleteAvatarRequest = { userId: string; avatarPublicId: string };
