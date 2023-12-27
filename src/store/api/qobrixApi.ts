@@ -5,7 +5,6 @@ import {
   QobrixAgentResponse,
   QobrixContactRequest,
   QobrixContactResponse,
-  QobrixPropertyType,
   QobrixCreateLead,
   QobrixCreateLeadResponse,
   QobrixPropertyTypeResponse,
@@ -55,6 +54,12 @@ export const QobrixApi = createApi({
         body,
       }),
     }),
+    deleteLead: builder.mutation<void, { id: string }>({
+      query: ({ id }) => ({
+        url: `${ApiRoute.QOBRIX_DELETE_LEAD}/${id}`,
+        method: 'DELETE',
+      }),
+    }),
     createLead: builder.mutation<QobrixCreateLeadResponse['data'], QobrixCreateLead>({
       query: (body) => ({
         url: ApiRoute.QOBRIX_CREATE_LEAD,
@@ -79,6 +84,7 @@ export const {
   useCreateAgentMutation,
   useGetPropertyTypesQuery,
   useUpdateContactMutation,
+  useDeleteLeadMutation,
   useCreateLeadMutation,
   useSearchLocationsQuery,
 } = QobrixApi;
