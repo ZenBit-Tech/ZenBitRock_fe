@@ -1,42 +1,14 @@
 'use client';
-
-import { useEffect, useState } from 'react';
-
-import { useRouter } from 'next/navigation';
-
-import { useTranslations } from 'next-intl';
-
-import { Box, Card, Fab } from '@mui/material';
+import { useEffect, useInfinityScroll, useScrollToTop, useState, useTranslations } from 'hooks';
+import { Box, Fab } from '@mui/material';
 import { AxiosError } from 'axios';
-
 import { useGetProperties } from 'api/property';
-import Iconify from 'components/iconify';
-import Image from 'components/image';
 import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
-import { QOBRIX_HOST } from 'config-global';
-import { backgroundImages } from 'constants/backgroundImgLinks';
-import { getCountries } from 'sections/verification-view/drop-box-data';
-import {
-  IPropertyList,
-  IPropertyPagination,
-  IPropertyParamsList,
-  IPropertyItem,
-} from 'types/property';
-import { endpoints } from 'utils/axios';
-import { fCurrency } from 'utils/format-number';
-
-import useInfinityScroll from './hooks/useInfinityScroll';
-import useScrollToTop from './hooks/useScrollToTop';
-import {
-  TypographyStyled,
-  LinkStyled,
-  TextStyled,
-  ListStyled,
-  BoxStyled,
-  TextMiddleStyled,
-  CardMediaStyled,
-} from './styles';
+import { IPropertyParamsList } from 'types/property';
+import { QobrixPagination, QobrixProperty, QobrixPropertyList } from 'types/qobrix';
+import { ListStyled } from './styles';
+import { PropertyCard } from '../propery-card/property-card';
 
 const INITIAL_PARAMS: IPropertyParamsList = {
   page: 1,
@@ -45,19 +17,22 @@ const INITIAL_PARAMS: IPropertyParamsList = {
   media: true,
 };
 
-const URL = endpoints.property;
+type Props = {
+  search: string;
+};
 
-function PropertiesList(): JSX.Element {
+function PropertiesList({ search }: Props): JSX.Element {
   const [params, setParams] = useState<IPropertyParamsList>(INITIAL_PARAMS);
+
   const { properties, propertiesError } = useGetProperties({ params });
 
-  const [propertiesList, setPropertiesList] = useState<IPropertyList>([]);
-  const [propertiesPagination, setPropertiesPagination] = useState<IPropertyPagination>();
+  const [propertiesList, setPropertiesList] = useState<QobrixPropertyList>([]);
+  const [propertiesPagination, setPropertiesPagination] = useState<QobrixPagination>();
   const [error, setError] = useState<AxiosError | null>(null);
   const [isFetching, setIsFetching] = useState<boolean>(true);
 
   const t = useTranslations('properties');
-  const router = useRouter();
+
   const { enqueueSnackbar } = useSnackbar();
 
   const isVisible = useScrollToTop();
@@ -73,6 +48,13 @@ function PropertiesList(): JSX.Element {
       }
     },
   });
+  useEffect(() => {
+    if (search) {
+      setPropertiesList([]);
+      setParams({ ...params, search, page: 1 });
+      setIsFetching(true);
+    }
+  }, [search, setParams]);
 
   useEffect(() => {
     if (isFetching)
@@ -115,110 +97,9 @@ function PropertiesList(): JSX.Element {
             marginX: 'auto',
           }}
         >
-          {propertiesList.map((item: IPropertyItem, index: number) => {
-            const { id, saleRent, status, country, city, price, photo } = item;
-
-            return (
-              <Card
-                key={`${id}${index}`}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  flexDirection: 'column',
-                  width: '45%',
-                  marginBottom: '2rem',
-                }}
-              >
-                <Box
-                  sx={{
-                    position: 'relative',
-                    width: '100%',
-                    height: '50%',
-                  }}
-                >
-                  <CardMediaStyled
-                    sx={{
-                      width: '100%',
-                      objectFit: 'cover',
-                      overflow: 'hidden',
-                    }}
-                  >
-                    <Image
-                      src={photo ? `${QOBRIX_HOST}${photo}` : backgroundImages.BG_PROPERTIES_PAGE}
-                      alt={t('alt')}
-                      sx={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                      }}
-                    />
-                  </CardMediaStyled>
-                  <TextStyled
-                    sx={{
-                      position: 'absolute',
-                      bottom: '1rem',
-                      right: '1rem',
-                      fontWeight: 'bold',
-                      color: 'white',
-                      textShadow: '1px 1px 2px black',
-                    }}
-                  >
-                    {fCurrency(price)}
-                  </TextStyled>
-                </Box>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'flex-start',
-                    alignContent: 'space-between',
-                    flexDirection: 'column',
-                    padding: '1rem',
-                    width: '100%',
-                    height: '50%',
-                    maxHeight: '50%',
-                    minHeight: '50%',
-                  }}
-                >
-                  <BoxStyled
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      width: '100%',
-                    }}
-                  >
-                    <TextStyled
-                      sx={{
-                        fontWeight: 'bold',
-                      }}
-                    >
-                      {t(saleRent)}
-                    </TextStyled>
-                    <TextStyled
-                      sx={{
-                        fontWeight: 'bold',
-                      }}
-                    >
-                      {t(status)}
-                    </TextStyled>
-                  </BoxStyled>
-                  <TextMiddleStyled>
-                    {getCountries().find((object) => object.value === country)?.label}, {city}
-                  </TextMiddleStyled>
-                  <LinkStyled
-                    sx={{ padding: '14px' }}
-                    variant="contained"
-                    color="primary"
-                    onClick={() => router.push(`${URL.details}/${id}`)}
-                  >
-                    <TypographyStyled>{t('Description')}</TypographyStyled>
-                    <Iconify icon="ri:arrow-right-s-line" height="auto" />
-                  </LinkStyled>
-                </Box>
-              </Card>
-            );
-          })}
+          {propertiesList.map((item: QobrixProperty) => (
+            <PropertyCard property={item} key={item.id} />
+          ))}
         </ListStyled>
       )}
       {isFetching && !error && <LoadingScreen />}

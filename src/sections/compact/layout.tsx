@@ -5,15 +5,15 @@ type Props = {
   children: React.ReactNode;
 };
 
-export function CompactLayout({ children }: Props) {
+export default function CompactLayout({ children }: Props): JSX.Element {
   return (
     <Container component="main">
       <Stack
         sx={{
-          py: 8,
+          py: 12,
           m: 'auto',
           maxWidth: 400,
-          minHeight: 'calc(100vh - 80px)',
+          minHeight: '100vh',
           textAlign: 'center',
           justifyContent: 'center',
         }}

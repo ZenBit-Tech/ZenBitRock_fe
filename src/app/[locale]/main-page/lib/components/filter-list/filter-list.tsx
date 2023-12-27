@@ -11,18 +11,23 @@ import FormProvider, {
 import { Block } from 'components/custom';
 import { useGetPropertyTypesQuery } from 'store/api/qobrixApi';
 import { LoadingScreen } from 'components/loading-screen';
+import { getBedroomsFilter, getBuyRentFilter, getPropertyStatusFilter } from 'utils';
 import { BEDROOMS, getPropertyStatus, getRentOrSaleOption, FilterSchema } from './lib';
 
 const defaultValues = {
   location: '',
   propertyType: '',
   status: '',
-  priceRange: null,
-  bedrooms: null,
+  priceRange: [0, 100000000],
+  bedrooms: '',
   rentOrSale: null,
 };
 
-const FilterList = (): JSX.Element => {
+type Props = {
+  applyFilters: (filter: string) => void;
+};
+
+const FilterList = ({ applyFilters }: Props): JSX.Element => {
   const { data } = useGetPropertyTypesQuery(undefined);
   const t = useTranslations('mainPage.filters');
   const propertyStatus = useTranslations('mainPage.filters.filterOptions.propertyStatus');
@@ -46,7 +51,17 @@ const FilterList = (): JSX.Element => {
 
   const onSubmit = handleSubmit(async (formData) => {
     try {
-      // Todo
+      const { bedrooms, status, rentOrSale: rent } = formData;
+      let filter = '';
+
+      filter = filter
+        .concat(getBedroomsFilter(bedrooms ? Number(bedrooms) : null, null))
+        .concat(getPropertyStatusFilter(status ?? null))
+        .concat(getBuyRentFilter(rent ?? null));
+
+      filter = filter.substring(filter.indexOf('and') + 3);
+
+      applyFilters(filter);
     } catch (error) {
       reset();
     }
@@ -79,10 +94,16 @@ const FilterList = (): JSX.Element => {
             </RHFSelect>
           </Block>
           <Block label={t('priceRange')}>
-            <RHFSlider name="priceRange" sx={{ width: '92%', margin: '0 auto', height: 4 }} />
+            <RHFSlider
+              name="priceRange"
+              sx={{ width: '92%', margin: '0 auto', height: 4 }}
+              min={0}
+              max={100000}
+              step={10}
+            />
           </Block>
           <Block label={t('bedrooms')}>
-            <RHFSelect name="status" size="small">
+            <RHFSelect name="bedrooms" size="small">
               {BEDROOMS.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}

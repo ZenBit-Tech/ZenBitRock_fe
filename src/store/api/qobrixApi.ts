@@ -8,6 +8,7 @@ import {
   QobrixPropertyType,
   QobrixCreateLead,
   QobrixCreateLeadResponse,
+  QobrixPropertyTypeResponse,
 } from 'types';
 import { QobrixLocationsResponse } from 'types/qobrix/qobrix-locations';
 import { IUserUpdateQobrix } from 'types/user';
@@ -40,7 +41,7 @@ export const QobrixApi = createApi({
         body,
       }),
     }),
-    getPropertyTypes: builder.query<QobrixPropertyType, undefined>({
+    getPropertyTypes: builder.query<QobrixPropertyTypeResponse, undefined>({
       query: (body) => ({
         url: ApiRoute.QOBRIX_PROPERY_TYPES,
         method: 'GET',
