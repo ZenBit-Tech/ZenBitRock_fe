@@ -15,12 +15,14 @@ import FormProvider, { RHFAutocomplete, RHFTextField } from 'components/hook-for
 import { AppRoute } from 'enums';
 import { leadStatuses } from 'constants/leadStatuses';
 import { UserProfileResponse } from 'types/user-backend/user-profile-response.type';
-import { useCreateLeadMutation } from 'store/api/qobrixApi';
+import { useCreateLeadMutation, useSearchLocationsQuery } from 'store/api/qobrixApi';
 import {
   ICountOfBedroomsValues,
+  ILocationValues,
   IValues,
   getCountOfBedrooms,
   getEnquiryTypes,
+  getLocations,
   getOfferTypes,
 } from './drop-box-data';
 import { FormSchema } from './schema';
@@ -41,6 +43,7 @@ const defaultValues = {
   priceRahgeRentTo: 0,
   priceRahgeSellFrom: 0,
   priceRahgeSellTo: 0,
+  locations: null,
 };
 
 export default function Form({ user }: Props): JSX.Element {
@@ -50,12 +53,24 @@ export default function Form({ user }: Props): JSX.Element {
   const [formFilled, setFormFilled] = useState<boolean>(true);
   const [isEnquiryTypeRent, setIsEnquiryTypeRent] = useState<boolean>(false);
   const [isEnquiryTypeSell, setIsEnquiryTypeSell] = useState<boolean>(false);
+  const [locationsInputValue, setLocationsInputValue] = useState<string>('');
+  const [locationsPage, setLocationsPage] = useState<number>(1);
 
   const [createLead] = useCreateLeadMutation();
+  const { data: searchLocationData, isLoading: isSearchLocationLoading } = useSearchLocationsQuery({
+    find: locationsInputValue,
+    page: locationsPage,
+  });
+
+  const options = searchLocationData ? getLocations(searchLocationData) : [];
+
+  const handleInputChange = (event: React.ChangeEvent<{}>, value: string) => {
+    setLocationsInputValue(value);
+    setLocationsPage(1);
+  };
 
   const { push } = useRouter();
   const { enqueueSnackbar } = useSnackbar();
-
   const { qobrixAgentId, qobrixContactId } = user;
 
   const methods = useForm({
@@ -117,16 +132,17 @@ export default function Form({ user }: Props): JSX.Element {
       priceRahgeRentTo,
       priceRahgeSellFrom,
       priceRahgeSellTo,
+      locations,
     } = data;
 
     const requestData = {
       conversion_status: leadStatuses.NEW.id,
       agent: qobrixAgentId,
       contact_name: qobrixContactId,
-      buy_rent: offeringType.value,
+      buy_rent: offeringType?.value,
       description,
       source_description: leadSource,
-      enquiry_type: enquiryType.value,
+      enquiry_type: enquiryType?.value,
       bedrooms_from: countOfBedrooms?.value || null,
       total_area_from_amount: totalAreaFrom || null,
       total_area_to_amount: totalAreaTo || null,
@@ -134,6 +150,7 @@ export default function Form({ user }: Props): JSX.Element {
       list_selling_price_to: priceRahgeSellTo || null,
       list_rental_price_from: priceRahgeRentFrom || null,
       list_rental_price_to: priceRahgeRentTo || null,
+      locations: locations?.value || null,
     };
 
     try {
@@ -326,6 +343,26 @@ export default function Form({ user }: Props): JSX.Element {
                 </Block>
               </Block>
             ) : null}
+
+            <Block label={t('locationsLabel')}>
+              <RHFAutocomplete
+                name="locations"
+                placeholder={t('locationsPlaceholder')}
+                options={options}
+                getOptionLabel={(option: ILocationValues | string) =>
+                  (option as ILocationValues).label
+                }
+                isOptionEqualToValue={(option, value) => option.label === value.label}
+                onInputChange={handleInputChange}
+                renderOption={(props, option) => (
+                  <li {...props} key={option.key}>
+                    {option.label}
+                  </li>
+                )}
+                loading={isSearchLocationLoading}
+                sx={{ height: '80px' }}
+              />
+            </Block>
 
             <LoadingButton
               fullWidth

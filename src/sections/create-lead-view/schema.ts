@@ -2,6 +2,7 @@
 import * as Yup from 'yup';
 import { patterns } from 'constants/patterns';
 import { ICreateLeadData } from 'types/create-lead-data';
+import { QobrixLocations } from 'types/qobrix';
 import { ICountOfBedroomsValues, IValues } from './drop-box-data';
 
 export type ConditionalSchema<T> = T extends string
@@ -32,4 +33,5 @@ export const FormSchema = Yup.object().shape<Shape<ICreateLeadData>>({
   priceRahgeRentTo: Yup.number().min(0, 'Only positive value').max(1000000, 'Max 10000000'),
   priceRahgeSellFrom: Yup.number().min(0, 'Only positive value').max(1000000, 'Max 1000000'),
   priceRahgeSellTo: Yup.number().min(0, 'Only positive value').max(1000000, 'Max 1000000'),
+  locations: Yup.mixed<QobrixLocations>().nullable(),
 });

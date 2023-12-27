@@ -10,4 +10,5 @@ export interface ICreateLeadData {
   priceRahgeRentTo: number;
   priceRahgeSellFrom: number;
   priceRahgeSellTo: number;
+  locations: object | null;
 }
