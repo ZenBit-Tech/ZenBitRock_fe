@@ -77,7 +77,7 @@ const PropertyCard = ({ property }: Props) => {
             textShadow: '1px 1px 2px black',
           }}
         >
-          {fCurrency(price)}
+          {fCurrency(Number(price))}
         </TextStyled>
       </Box>
       <Box

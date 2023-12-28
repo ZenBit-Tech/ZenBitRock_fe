@@ -531,7 +531,7 @@
     "direct": "Direct",
     "agent": "Agent",
     "qoetix": "Qoetix",
-    "null": "",
+    "null": "No information",
     "new": "New",
     "assigned": "Assigned",
     "contact_made": "Contact Made",
@@ -548,7 +548,12 @@
     "phone": "Phone",
     "email": "Email",
     "status": "Status",
-    "filtered": "Filtered for the: "
+    "filtered": "Selected property",
+    "none": "None",
+    "inputPlaceholder": "Enter lead name...",
+    "sorry": "Sorry, No Matched Results Found!",
+    "try": "Try to find something else.",
+    "reset": "Reset all filters"
   },
   "agents": {
     "pageTitle": "Agent network",
@@ -603,6 +608,13 @@
   "privateChat": {
     "title": "Chat",
     "placeholder": "Type a message",
-    "errMsg": "Something went wrong!"
+    "errMsg": "Something went wrong!",
+    "sortOptionNameDecrease": "Name: Z-A",
+    "message": "Sorry, we couldn’t find the page you’re looking for. Perhaps you’ve mistyped the URL? Be sure to check your spelling.",
+    "filtered": "Selected property",
+    "none": "None",
+    "inputPlaceholder": "Enter lead name...",
+    "sorry": "Sorry, No Matched Results Found!",
+    "try": "Try to find something else."
   }
 }

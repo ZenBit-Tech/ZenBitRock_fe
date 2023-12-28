@@ -12,7 +12,11 @@ export {
   type QobrixPropertyType,
   type QobrixPropertyList,
   type QobrixPropertyListResponse,
+  type QobrixPropertyResponse,
+  type QobrixPropertyDetailed,
 } from './property';
 export { type QobrixLeadDetailsResponse } from './qobrix-lead.type';
 export { type QobrixLead } from './qobrix-lead.type';
 export { type QobrixPagination } from './qobrix-pagination.type';
+export { type QobrixLeadItem, type QobrixLeadList } from './qobrix-lead-list.type';
+export { type QobrixLeadListResponse } from './qobrix-lead-list-response.type';
