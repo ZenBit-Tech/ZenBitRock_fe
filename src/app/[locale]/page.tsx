@@ -40,11 +40,22 @@ export default function HomePage() {
           >
             {t('Page.title')}
           </Typography>
-          <Button variant="contained" fullWidth size="large" sx={{ padding: '14px' }}>
-            <CustomLink color="primary" href={AppRoute.SIGN_IN_PAGE}>
+          <CustomLink color="primary" href={AppRoute.SIGN_UP_PAGE}>
+            <Button
+              variant="contained"
+              fullWidth
+              size="large"
+              sx={{
+                padding: '14px',
+                color: 'primary.main',
+                '&:hover': {
+                  color: 'primary.main',
+                },
+              }}
+            >
               {t('Page.buttonTxt')}
-            </CustomLink>
-          </Button>
+            </Button>
+          </CustomLink>
         </RightSection>
       </WelcomePageContainer>
     </PublicRoute>

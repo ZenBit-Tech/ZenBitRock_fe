@@ -7,10 +7,10 @@ export type QobrixAgentRequest = {
 export type QobrixAgentResponse = {
   data: {
     data: {
+      id: string;
       agent_type: string;
       legacy_id: string;
       primary_contact: string;
-      id: string;
     };
   };
 };

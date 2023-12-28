@@ -25,10 +25,12 @@ export type IChatAttachment = {
 export type IChatMessage = {
   id: string;
   body: string;
-  createdAt: Date;
-  senderId: string;
-  contentType: string;
-  attachments: IChatAttachment[];
+  createdAt: string;
+  isMe: boolean;
+  sender: {
+    name: string;
+  } | null;
+  isRead: boolean;
 };
 
 export type IChatParticipant = {
