@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import { useEffect, useState, useRouter, useTranslations } from 'hooks';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -13,16 +11,16 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useSnackbar } from 'notistack';
 import FormProvider, { RHFAutocomplete, RHFTextField } from 'components/hook-form';
 import { AppRoute } from 'enums';
+import { LocationSelectOption } from 'types';
+import { getLocationOptions } from 'utils';
 import { leadStatuses } from 'constants/leadStatuses';
 import { UserProfileResponse } from 'types/user-backend/user-profile-response.type';
 import { useCreateLeadMutation, useSearchLocationsQuery } from 'store/api/qobrixApi';
 import {
   ICountOfBedroomsValues,
-  ILocationValues,
   IValues,
   getCountOfBedrooms,
   getEnquiryTypes,
-  getLocations,
   getOfferTypes,
 } from './drop-box-data';
 import { FormSchema } from './schema';
@@ -62,7 +60,7 @@ export default function Form({ user }: Props): JSX.Element {
     page: locationsPage,
   });
 
-  const options = searchLocationData ? getLocations(searchLocationData) : [];
+  const options = searchLocationData ? getLocationOptions(searchLocationData) : [];
 
   const handleInputChange = (event: React.ChangeEvent<{}>, value: string) => {
     setLocationsInputValue(value);
@@ -349,8 +347,8 @@ export default function Form({ user }: Props): JSX.Element {
                 name="locations"
                 placeholder={t('locationsPlaceholder')}
                 options={options}
-                getOptionLabel={(option: ILocationValues | string) =>
-                  (option as ILocationValues).label
+                getOptionLabel={(option: LocationSelectOption | string) =>
+                  (option as LocationSelectOption).label
                 }
                 isOptionEqualToValue={(option, value) => option.label === value.label}
                 onInputChange={handleInputChange}
