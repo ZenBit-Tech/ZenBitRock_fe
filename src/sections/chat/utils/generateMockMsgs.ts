@@ -10,13 +10,13 @@ const getRandomLorem = (minWords: number, maxWords: number): string => {
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vel sem vitae quam varius tempor. Aenean at turpis eu turpis volutpat gravida.';
   const words = lorem.split(' ');
   const wordCount = Math.floor(Math.random() * (maxWords - minWords + 1)) + minWords;
-  
+
   return words.slice(0, wordCount).join(' ');
 };
 
 const generateMessagesForDate = (date: Date, remainingMessages: number): IChatMessage[] => {
   const numberOfMessages = Math.min(Math.floor(Math.random() * 5) + 1, remainingMessages);
-  
+
   return Array.from({ length: numberOfMessages }, (_, index) => ({
     id: uuidv4(),
     body: `${randomValues.MSG} ${getRandomLorem(10, 30)}`,
@@ -37,7 +37,7 @@ const generateMockMessages = (): IChatMessage[] => {
     const randomGeneratedDate = randomDate(startDate, endDate);
     const remainingMessages = maxMessages - messages.length;
     const dateMessages = generateMessagesForDate(randomGeneratedDate, remainingMessages);
-    
+
     messages.push(...dateMessages);
   }
 
