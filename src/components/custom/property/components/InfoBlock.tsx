@@ -1,23 +1,21 @@
-import { useTranslations } from 'next-intl';
-
 import { Box } from '@mui/material';
 
+import { firstUpperCase, splitValue } from 'components/custom/property/helpers';
 import { colors } from 'constants/colors';
+import { useTranslations } from 'hooks';
 import { getCountries } from 'sections/verification-view/drop-box-data';
 import { QobrixPropertyDetailed } from 'types';
 import { fCurrency } from 'utils/format-number';
 
-import firstUpperCase from '../helpers/firstUpperCase';
-import splitValue from '../helpers/splitValue';
 import {
   BoxDescriptionItem,
   TextStyled,
   TypographyDescriptionLeft,
   TypographyDescriptionRight,
   TypographyInsert,
-} from '../styles';
+} from 'components/custom/property/styles';
 
-function InfoBlock({ property }: { property: QobrixPropertyDetailed }): JSX.Element {
+export function InfoBlock({ property }: { property: QobrixPropertyDetailed }): JSX.Element {
   const t = useTranslations('property');
   const {
     price,
@@ -231,5 +229,3 @@ function InfoBlock({ property }: { property: QobrixPropertyDetailed }): JSX.Elem
     </Box>
   );
 }
-
-export default InfoBlock;

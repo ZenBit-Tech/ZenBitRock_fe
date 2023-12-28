@@ -7,9 +7,9 @@ import Image from 'components/image';
 import { useRouter, useTranslations } from 'hooks';
 import { QOBRIX_HOST } from 'config-global';
 import { backgroundImages } from 'constants/backgroundImgLinks';
+import { AppRoute } from 'enums';
 import { getCountries } from 'sections/verification-view/drop-box-data';
 import { fCurrency } from 'utils/format-number';
-import { endpoints } from 'utils/axios';
 import {
   BoxStyled,
   CardMediaStyled,
@@ -23,8 +23,6 @@ type Props = {
   property: QobrixProperty;
 };
 
-const URL = endpoints.property;
-
 const PropertyCard = ({ property }: Props) => {
   const t = useTranslations('properties');
   const router = useRouter();
@@ -36,8 +34,6 @@ const PropertyCard = ({ property }: Props) => {
       key={id}
       sx={{
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
         flexDirection: 'column',
         width: '45%',
         marginBottom: '2rem',
@@ -47,7 +43,6 @@ const PropertyCard = ({ property }: Props) => {
         sx={{
           position: 'relative',
           width: '100%',
-          height: '50%',
         }}
       >
         <CardMediaStyled
@@ -83,14 +78,10 @@ const PropertyCard = ({ property }: Props) => {
       <Box
         sx={{
           display: 'flex',
-          justifyContent: 'flex-start',
-          alignContent: 'space-between',
           flexDirection: 'column',
           padding: '1rem',
           width: '100%',
-          height: '50%',
-          maxHeight: '50%',
-          minHeight: '50%',
+          height: 'calc(100% - 100px)',
         }}
       >
         <BoxStyled
@@ -120,10 +111,10 @@ const PropertyCard = ({ property }: Props) => {
           {getCountries().find((object) => object.value === country)?.label}, {city}
         </TextMiddleStyled>
         <LinkStyled
-          sx={{ padding: '14px' }}
+          sx={{ padding: '14px', marginTop: 'auto' }}
           variant="contained"
           color="primary"
-          onClick={() => router.push(`${URL.details}/${id}`)}
+          onClick={() => router.push(`${AppRoute.PROPERTY_PAGE}/${id}`)}
         >
           <TypographyStyled>{t('Description')}</TypographyStyled>
           <Iconify icon="ri:arrow-right-s-line" height="auto" />

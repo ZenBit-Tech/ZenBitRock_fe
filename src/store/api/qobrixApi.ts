@@ -11,6 +11,13 @@ import {
   QobrixPropertyListResponse,
   QobrixPropertyResponse,
   QobrixLeadListResponse,
+  ILeadSmssResponse,
+  ILeadEmailsResponse,
+  ILeadCallsResponse,
+  ILeadMeetingsResponse,
+  ILeadTasksResponse,
+  ILeadTaskChangesResponse,
+  ILeadStatusChangesResponse,
 } from 'types';
 import { QobrixLocationsResponse } from 'types/qobrix/qobrix-locations';
 import { IUserUpdateQobrix } from 'types/user';
@@ -99,7 +106,6 @@ export const QobrixApi = createApi({
         return response;
       },
       serializeQueryArgs: ({ endpointName }) => endpointName,
-
       merge: (currentCache, newItems) => {
         if (!newItems.pagination.has_prev_page) {
           currentCache.data = newItems.data;
@@ -165,11 +171,6 @@ export const QobrixApi = createApi({
 
         return response;
       },
-      serializeQueryArgs: ({ endpointName }) => endpointName,
-
-      forceRefetch({ currentArg, previousArg }) {
-        return currentArg !== previousArg;
-      },
     }),
     getLeads: builder.query<
       QobrixLeadListResponse,
@@ -209,10 +210,183 @@ export const QobrixApi = createApi({
         return currentArg !== previousArg;
       },
     }),
+    getLeadSmses: builder.query<ILeadSmssResponse, { page: number; id: string }>({
+      query: (arg) => ({
+        url: ApiRoute.QOBRIX_GET_LEAD_SMSES.replace('id', arg.id),
+        method: 'GET',
+        params: { page: arg.page },
+      }),
+      transformResponse: (response: ILeadSmssResponse) => {
+        response.data = response.data.map((message) => ({
+          id: message.id,
+          created: message.created,
+          status: message.status,
+          sender: message.sender,
+          recipient: message.recipient,
+          direction: message.direction,
+        }));
+
+        return response;
+      },
+      serializeQueryArgs: ({ endpointName }) => endpointName,
+
+      merge: (currentCache, newItems) => {
+        currentCache.data.push(...newItems.data);
+        currentCache.pagination = newItems.pagination;
+      },
+      keepUnusedDataFor: 0,
+    }),
+    getLeadEmails: builder.query<ILeadEmailsResponse, { page: number; id: string }>({
+      query: (arg) => ({
+        url: ApiRoute.QOBRIX_GET_LEAD_EMAILS.replace('id', arg.id),
+        method: 'GET',
+        params: { page: arg.page },
+      }),
+      transformResponse: (response: ILeadEmailsResponse) => {
+        response.data = response.data.map((message) => ({
+          id: message.id,
+          dateSent: message.date_sent,
+          fromAddress: message.from_address,
+          toAddress: message.toAddress,
+          direction: message.direction,
+        }));
+
+        return response;
+      },
+      serializeQueryArgs: ({ endpointName }) => endpointName,
+
+      merge: (currentCache, newItems) => {
+        currentCache.data.push(...newItems.data);
+        currentCache.pagination = newItems.pagination;
+      },
+      keepUnusedDataFor: 0,
+    }),
+    getLeadCalls: builder.query<ILeadCallsResponse, { page: number; id: string }>({
+      query: (arg) => ({
+        url: ApiRoute.QOBRIX_GET_LEAD_CALLS.replace('id', arg.id),
+        method: 'GET',
+        params: { page: arg.page },
+      }),
+      transformResponse: (response: ILeadCallsResponse) => {
+        response.data = response.data.map((call) => ({
+          id: call.id,
+          status: call.status,
+          subject: call.subject,
+          startDate: call.start_date,
+          direction: call.direction,
+        }));
+
+        return response;
+      },
+      serializeQueryArgs: ({ endpointName }) => endpointName,
+      merge: (currentCache, newItems) => {
+        currentCache.data.push(...newItems.data);
+        currentCache.pagination = newItems.pagination;
+      },
+      keepUnusedDataFor: 0,
+    }),
+    getLeadMeetings: builder.query<ILeadMeetingsResponse, { page: number; id: string }>({
+      query: (arg) => ({
+        url: ApiRoute.QOBRIX_GET_LEAD_MEETINGS.replace('id', arg.id),
+        method: 'GET',
+        params: { page: arg.page },
+      }),
+      transformResponse: (response: ILeadMeetingsResponse) => {
+        response.data = response.data.map((meeting) => ({
+          id: meeting.id,
+          status: meeting.status,
+          subject: meeting.subject,
+          startDate: meeting.start_date,
+        }));
+
+        return response;
+      },
+      serializeQueryArgs: ({ endpointName }) => endpointName,
+
+      merge: (currentCache, newItems) => {
+        currentCache.data.push(...newItems.data);
+        currentCache.pagination = newItems.pagination;
+      },
+      keepUnusedDataFor: 0,
+    }),
+    getLeadTasks: builder.query<ILeadTasksResponse, { page: number; id: string }>({
+      query: (arg) => ({
+        url: ApiRoute.QOBRIX_GET_LEAD_TASKS.replace('id', arg.id),
+        method: 'GET',
+        params: { page: arg.page },
+      }),
+      transformResponse: (response: ILeadTasksResponse) => {
+        response.data = response.data.map((task) => ({
+          id: task.id,
+          status: task.status,
+          subject: task.subject,
+          created: task.created,
+        }));
+
+        return response;
+      },
+      serializeQueryArgs: ({ endpointName }) => endpointName,
+      merge: (currentCache, newItems) => {
+        currentCache.data.push(...newItems.data);
+        currentCache.pagination = newItems.pagination;
+      },
+      keepUnusedDataFor: 0,
+    }),
+    getLeadTaskChanges: builder.query<ILeadTaskChangesResponse, { page: number; id: string }>({
+      query: (arg) => ({
+        url: ApiRoute.QOBRIX_GET_LEAD_TASK_CHANGES.replace('id', arg.id),
+        method: 'GET',
+        params: { page: arg.page },
+      }),
+      transformResponse: (response: ILeadTaskChangesResponse) => {
+        response.data = response.data.map((task) => ({
+          id: task.id,
+          timestamp: task.timestamp,
+          originalStatus: task.original?.status,
+          changedStatus: task.changed?.status,
+        }));
+
+        return response;
+      },
+      serializeQueryArgs: ({ endpointName }) => endpointName,
+      merge: (currentCache, newItems) => {
+        currentCache.data.push(...newItems.data);
+        currentCache.pagination = newItems.pagination;
+      },
+      keepUnusedDataFor: 0,
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
+    }),
+    getLeadStatusChanges: builder.query<ILeadStatusChangesResponse, { page: number; id: string }>({
+      query: (arg) => ({
+        url: ApiRoute.QOBRIX_GET_LEAD_STATUS_CHANGES.replace('id', arg.id),
+        method: 'GET',
+        params: { page: arg.page },
+      }),
+      transformResponse: (response: ILeadStatusChangesResponse) => {
+        response.data = response.data.map((status) => ({
+          id: status.id,
+          timestamp: status.timestamp,
+          originalStatus: status.original?.status,
+          changedStatus: status.changed?.status,
+        }));
+
+        return response;
+      },
+      serializeQueryArgs: ({ endpointName }) => endpointName,
+
+      merge: (currentCache, newItems) => {
+        currentCache.data.push(...newItems.data);
+        currentCache.pagination = newItems.pagination;
+      },
+      keepUnusedDataFor: 0,
+    }),
   }),
 });
 
 export const {
+  useLazyGetLeadTaskChangesQuery,
   useCreateContactMutation,
   useCreateAgentMutation,
   useGetPropertyTypesQuery,
@@ -223,4 +397,10 @@ export const {
   useGetPropertiesQuery,
   useGetPropertyQuery,
   useGetLeadsQuery,
+  useGetLeadCallsQuery,
+  useGetLeadStatusChangesQuery,
+  useGetLeadEmailsQuery,
+  useGetLeadMeetingsQuery,
+  useGetLeadSmsesQuery,
+  useGetLeadTasksQuery,
 } = QobrixApi;

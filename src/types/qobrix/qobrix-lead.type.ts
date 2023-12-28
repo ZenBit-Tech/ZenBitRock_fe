@@ -14,7 +14,7 @@ type QobrixLead = {
   covered_area_from_amount: number | null;
   covered_area_to_amount: number | null;
   created_by: string | null;
-  created: string | null;
+  created: string;
   construction_stage: string | null;
   description: string | null;
   enquiry_type: string | null;
@@ -30,6 +30,7 @@ type QobrixLead = {
   list_letting_price: number | null;
   lowest_letting_price: number | null;
   source: string | null;
+  contact_name_contact: { created: string; id: string };
 };
 
 type QobrixLeadDetailsResponse = {

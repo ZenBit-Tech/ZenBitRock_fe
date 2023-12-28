@@ -37,7 +37,6 @@ export const TextStyled = styled(Typography)`
 `;
 
 export const TextMiddleStyled = styled(Typography)`
-  white-space: nowrap;
   font-size: 0.75rem;
   margin-bottom: 0.75rem;
 

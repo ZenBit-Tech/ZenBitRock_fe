@@ -1,15 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useTranslations } from 'next-intl';
+import React, { useRef } from 'react';
 import { Box, Button, Modal } from '@mui/material';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import ButtonClose from 'components/custom/button-close/button-close';
 import Image from 'components/image/image';
 import { QOBRIX_HOST } from 'config-global';
 import { colors } from 'constants/colors';
-import { useCloseModal } from '../hooks/useCloseModal';
-import useMagnifyingGlass from '../hooks/useMagnifyingGlass';
-import { IconifyStyled } from '../styles';
+import { useTranslations, useMagnifyingGlass, useCloseModal, useState, useEffect } from 'hooks';
+import { IconifyStyled } from 'components/custom/property/styles';
 
 interface SlickSliderProps {
   photos: string[][];
@@ -31,7 +30,7 @@ const MAGNIFIER_HEIGHT = 200;
 const MAGNIFIER_WIDTH = 200;
 const ZOOM_LEVEL = 3;
 
-const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
+export const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
   const t = useTranslations('property');
 
   const [toggleModal, setToggleModal] = useState<boolean>(false);
@@ -41,7 +40,10 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
   const sliderRef = useRef<Slider>(null);
   const modalContainerRef = useRef<HTMLDivElement>(null);
 
+  const handleClose = (): void => setToggleModal(false);
+
   useCloseModal(toggleModal, () => setToggleModal(false));
+
   const {
     handleMouseEnter,
     handleMouseLeave,
@@ -73,14 +75,28 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
 
   return (
     <Box
+      className="container"
       sx={{
         position: 'relative',
-        textShadow: '1px 1px 2px black',
+        textShadow: `1px 1px 2px ${colors.PRIMARY_DARK_COLOR}`,
         height: '200px',
         width: '100%',
         borderTopRightRadius: '8px',
         borderTopLeftRadius: '8px',
         overflow: 'hidden',
+        '& > .slick-slider > .slick-dots': {
+          '& > li > button::before': {
+            color: colors.BUTTON_PRIMARY_COLOR,
+            textShadow: `0px 0px 2px ${colors.PRIMARY_LIGHT_COLOR}`,
+          },
+          '& > .slick-active > button::before': {
+            opacity: '1',
+            color: colors.BUTTON_SECOND_COLOR,
+          },
+          top: '10rem',
+          transform: 'scale(2)',
+          height: 'fit-content',
+        },
       }}
       onMouseOut={() => setVisibleArrows(false)}
       onMouseOver={() => setVisibleArrows(true)}
@@ -165,6 +181,13 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
       {toggleModal && (
         <Modal open sx={{ overflow: 'scroll' }} ref={modalContainerRef}>
           <Box ref={modalContainerRef} sx={{ height: 'fit-content' }}>
+            <ButtonClose
+              top="2rem"
+              right="2rem"
+              width="1.5rem"
+              height="1.5rem"
+              handleClose={handleClose}
+            />
             {photos.map((photo, idx) => (
               <Box
                 key={idx}
@@ -188,8 +211,8 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
                       top: `${y - magnifierHeight / 2}px`,
                       left: `${x - magnifierWidth / 2}px`,
                       opacity: '1',
-                      border: '1px solid lightgray',
-                      backgroundColor: 'white',
+                      border: `1px solid ${colors.BUTTON_PRIMARY_COLOR}`,
+                      backgroundColor: colors.PRIMARY_LIGHT_COLOR,
                       backgroundImage: `url('${QOBRIX_HOST}${photo[0]}')`,
                       backgroundRepeat: 'no-repeat',
                       backgroundSize: `${imgWidth * zoomLevel}px ${imgHeight * zoomLevel}px`,
@@ -198,7 +221,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
                       zIndex: '100',
                       borderRadius: '50%',
                     }}
-                  ></div>
+                  />
                 )}
                 <Image
                   id={`${idx}`}
@@ -214,8 +237,8 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
                   }}
                   onMouseEnter={(e) => {
                     handleMouseEnter(
-                      e.pageX - modalContainerRef.current?.offsetLeft!,
-                      e.pageY - modalContainerRef.current?.offsetTop!,
+                      e.pageX - Number(modalContainerRef.current?.offsetLeft!),
+                      e.pageY - Number(modalContainerRef.current?.offsetTop!),
                       (e.target as HTMLImageElement).width,
                       (e.target as HTMLImageElement).height
                     );
@@ -236,5 +259,3 @@ const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
     </Box>
   );
 };
-
-export default SlickSlider;

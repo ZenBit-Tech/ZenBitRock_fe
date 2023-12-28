@@ -29,33 +29,3 @@ a {
 }
 
 /* End Normalize */
-
-.slick-dots {
-  top: 10rem;
-  transform: scale(2);
-  /* filter: invert(1); */
-  height: fit-content;
-  & > li > button::before {
-    opacity: 0.5 !important;
-    color: #00a76f !important;
-    text-shadow: 0px 0px 2px white;
-  }
-  & > .slick-active > button::before {
-    opacity: 1 !important;
-    color: #007867 !important;
-  }
-}
-
-.for-custom-scroll {
-  &::-webkit-scrollbar {
-    background-color: transparent;
-    height: 10px;
-    width: 10px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #007867;
-    border-radius: 10px;
-  }
-  &::-webkit-scrollbar-corner {
-  }
-}

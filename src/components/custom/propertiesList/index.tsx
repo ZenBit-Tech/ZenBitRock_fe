@@ -1,12 +1,13 @@
 'use client';
+
 import { Box, Fab } from '@mui/material';
 import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
 import { useInfinityScroll, useScrollToTop, useState, useTranslations } from 'hooks';
 import { QobrixProperty } from 'types/qobrix';
 import { useGetPropertiesQuery } from 'store/api/qobrixApi';
-import { ListStyled } from './styles';
-import { PropertyCard } from '../propery-card/property-card';
+import { ListStyled } from 'components/custom/propertiesList/styles';
+import { PropertyCard } from 'components/custom/propery-card/property-card';
 
 export const FIRST_PAGE: number = 1;
 
@@ -35,7 +36,10 @@ function PropertiesList({ search }: Props): JSX.Element {
     },
   });
 
-  const { data, error, isFetching } = useGetPropertiesQuery({ search, page });
+  const { data, error, isFetching } = useGetPropertiesQuery(
+    { search, page },
+    { refetchOnMountOrArgChange: true }
+  );
 
   return (
     <Box
@@ -53,11 +57,11 @@ function PropertiesList({ search }: Props): JSX.Element {
           sx={{
             display: 'flex',
             justifyContent: 'center',
-            alignItems: 'center',
+            alignItems: 'stretch',
             flexWrap: 'wrap',
             gap: '5%',
             width: '90%',
-            marginX: 'auto',
+            margin: 'auto',
           }}
         >
           {data?.data.map((item: QobrixProperty) => <PropertyCard property={item} key={item.id} />)}
