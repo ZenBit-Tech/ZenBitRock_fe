@@ -5,6 +5,8 @@ import {
   QobrixAgentResponse,
   QobrixContactRequest,
   QobrixContactResponse,
+  QobrixCreateLead,
+  QobrixCreateLeadResponse,
   QobrixPropertyTypeResponse,
   QobrixPropertyListResponse,
   QobrixPropertyResponse,
@@ -17,6 +19,7 @@ import {
   ILeadTaskChangesResponse,
   ILeadStatusChangesResponse,
 } from 'types';
+import { QobrixLocationsResponse } from 'types/qobrix/qobrix-locations';
 import { IUserUpdateQobrix } from 'types/user';
 
 export const QobrixApi = createApi({
@@ -59,6 +62,28 @@ export const QobrixApi = createApi({
         url: `${ApiRoute.QOBRIX_CREATE_CONTACT}/${qobrixId}`,
         method: 'PATCH',
         body,
+      }),
+    }),
+    deleteLead: builder.mutation<void, { id: string }>({
+      query: ({ id }) => ({
+        url: `${ApiRoute.QOBRIX_DELETE_LEAD}/${id}`,
+        method: 'DELETE',
+      }),
+    }),
+    createLead: builder.mutation<QobrixCreateLeadResponse['data'], QobrixCreateLead>({
+      query: (body) => ({
+        url: ApiRoute.QOBRIX_CREATE_LEAD,
+        method: 'POST',
+        body,
+      }),
+    }),
+    searchLocations: builder.query<
+      QobrixLocationsResponse,
+      { find: string; limit?: number; page?: number }
+    >({
+      query: ({ find, limit = 100, page = 1 }) => ({
+        url: `${ApiRoute.QOBRIX_SEARCH_LOCATIONS}?find=${find}&limit=${limit}&page=${page}`,
+        method: 'GET',
       }),
     }),
     getProperties: builder.query<QobrixPropertyListResponse, { page: number; search: string }>({
@@ -366,6 +391,9 @@ export const {
   useCreateAgentMutation,
   useGetPropertyTypesQuery,
   useUpdateContactMutation,
+  useDeleteLeadMutation,
+  useCreateLeadMutation,
+  useSearchLocationsQuery,
   useGetPropertiesQuery,
   useGetPropertyQuery,
   useGetLeadsQuery,

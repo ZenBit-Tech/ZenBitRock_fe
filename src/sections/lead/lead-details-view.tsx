@@ -6,6 +6,7 @@ import { QobrixLeadDetailsResponse } from 'types';
 import { colors } from 'constants/colors';
 import { MatchingPropertiesView } from './matching-properties-view';
 import {
+  LeadDeleteComponent,
   LeadDetailsBudgetSection,
   LeadDetailsFeaturesSection,
   LeadDetailsSourceSection,
@@ -32,6 +33,7 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
     contact_name_contact: contact,
     conversion_status_workflow_stage: workflow,
     property_type: propertyType,
+    id,
   } = data;
 
   const handleSetPropertiesCount = useCallback(
@@ -44,7 +46,7 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
   }
 
   return (
-    <Box sx={{ maxWidth: 800, margin: '0 auto' }}>
+    <Box sx={{ maxWidth: 800, margin: '0 auto', pb: 8 }}>
       <Link
         component={RouterLink}
         href="#"
@@ -93,6 +95,8 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
           <LeadDetailsBudgetSection lead={data} />
           <LeadDetailsFeaturesSection lead={data} />
         </Stack>
+
+        <LeadDeleteComponent t={t} id={id} />
         {openModal && (
           <LeadHistorySection lead={data} openModal={openModal} closeModal={() => closeModal()} />
         )}

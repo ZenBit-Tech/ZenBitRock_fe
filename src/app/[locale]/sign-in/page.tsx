@@ -13,9 +13,9 @@ import { PolicyComponent } from 'components/PolicyComponent/PolicyComponent';
 import { SnackbarProvider } from 'components/snackbar';
 import { dimensionValues } from 'constants/dimensionValues';
 import { SignInPageType, SignUpPageType } from 'types/auth';
+import { DesktopDialog } from 'components/custom';
 import LoginForm from './components/form';
 import { Wrapper, LeftSection, LoginWrapper, RightSection, SignUpLink, Policy } from './styles';
-import DesktopDialog from './components/modal';
 
 type Props = {
   params: { locale: Locale };
