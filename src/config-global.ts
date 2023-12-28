@@ -4,11 +4,6 @@ export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 export const QOBRIX_PROXY_URL = process.env.NEXT_PUBLIC_QOBRIX_PROXY_URL;
 export const QOBRIX_HOST = process.env.NEXT_PUBLIC_QOBRIX_HOST;
 
-export const QOBRIX_KEYS = {
-  apiKey: process.env.NEXT_PUBLIC_QOBRIX_API_KEY,
-  apiUser: process.env.NEXT_PUBLIC_QOBRIX_API_USER,
-};
-
 export const FIREBASE_API = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,

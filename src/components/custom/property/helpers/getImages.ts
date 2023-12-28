@@ -1,6 +1,6 @@
-import { IPropertyDetailed } from 'types/property';
+import { QobrixPropertyDetailed } from 'types';
 
-function getImages(inputArray: IPropertyDetailed['media']): string[][] {
+export function getImages(inputArray: QobrixPropertyDetailed['media']): string[][] {
   if (!inputArray || !Array.isArray(inputArray)) {
     return [];
   }
@@ -12,5 +12,3 @@ function getImages(inputArray: IPropertyDetailed['media']): string[][] {
     return [href, largeThumbnail];
   });
 }
-
-export default getImages;

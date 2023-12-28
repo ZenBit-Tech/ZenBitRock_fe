@@ -57,7 +57,7 @@ const MatchingPropertiesView = ({ lead, setMatchingPropertiesCount }: Props) => 
               sx={{
                 display: 'flex',
                 justifyContent: 'center',
-                alignItems: 'center',
+                alignItems: 'stretch',
                 flexWrap: 'wrap',
                 gap: '5%',
                 marginX: 'auto',
