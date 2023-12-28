@@ -1,5 +1,3 @@
-import { QobrixLocationsResponse } from 'types/qobrix/qobrix-locations';
-
 export type IValues = {
   value: string;
   label: string;
@@ -8,12 +6,6 @@ export type IValues = {
 export type ICountOfBedroomsValues = {
   value: number;
   label: string;
-};
-
-export type ILocationValues = {
-  value: { _ids: [string] };
-  label: string;
-  key: number;
 };
 
 export function getOfferTypes(t: Function): Array<IValues> {
@@ -76,14 +68,4 @@ export function getCountOfBedrooms(): Array<ICountOfBedroomsValues> {
   ];
 
   return countOfBedrooms;
-}
-
-export function getLocations(response: QobrixLocationsResponse): Array<ILocationValues> {
-  return response.data.map((location, idx) => ({
-    label: location.subarea
-      ? `${location.country}, ${location.district}, ${location.area}, ${location.subarea}`
-      : `${location.country}, ${location.district}, ${location.area}`,
-    value: { _ids: [location.id] },
-    key: idx,
-  }));
 }

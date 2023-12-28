@@ -357,6 +357,7 @@
       "priceRange": "Price range",
       "bedrooms": "Bedrooms",
       "apply": "Apply filters",
+      "locationsPlaceholder": "Location search",
       "filterOptions": {
         "propertyStatus": {
           "pending": "Pending",

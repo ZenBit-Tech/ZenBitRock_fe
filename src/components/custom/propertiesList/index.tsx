@@ -3,7 +3,7 @@
 import { Box, Fab } from '@mui/material';
 import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
-import { useInfinityScroll, useScrollToTop, useState, useTranslations } from 'hooks';
+import { useEffect, useInfinityScroll, useScrollToTop, useState, useTranslations } from 'hooks';
 import { QobrixProperty } from 'types/qobrix';
 import { useGetPropertiesQuery } from 'store/api/qobrixApi';
 import { ListStyled } from 'components/custom/propertiesList/styles';
@@ -17,6 +17,7 @@ type Props = {
 
 function PropertiesList({ search }: Props): JSX.Element {
   const [page, setPage] = useState(FIRST_PAGE);
+  const [filter, setfilter] = useState('');
 
   const t = useTranslations('properties');
 
@@ -36,8 +37,13 @@ function PropertiesList({ search }: Props): JSX.Element {
     },
   });
 
+  useEffect(() => {
+    setfilter(search);
+    setPage(1);
+  }, [search]);
+
   const { data, error, isFetching } = useGetPropertiesQuery(
-    { search, page },
+    { search: filter, page },
     { refetchOnMountOrArgChange: true }
   );
 
@@ -46,7 +52,6 @@ function PropertiesList({ search }: Props): JSX.Element {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        width: '90%',
         marginX: 'auto',
         transition: 'easy-in 200 display',
       }}

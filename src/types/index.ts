@@ -10,6 +10,7 @@ export {
   type QobrixLeadDetailsResponse,
   type QobrixLead,
   type QobrixProperty,
+  type QobrixLocationsResponse,
   type QobrixPropertyDetailed,
   type QobrixPropertyListResponse,
   type QobrixPropertyResponse,
@@ -43,6 +44,8 @@ export {
 } from './qobrix';
 export { type ValueOf } from './value-of-type';
 export { type UserSetAvatarResponse, type UserProfileResponse } from './user-backend';
+export { type LocationSelectOption } from './select-options';
+export { type PropertyFilterFormData } from './main-page';
 export {
   type IUnreadMessagesQuantity,
   type IUnreadMessagesQuantityResponse,

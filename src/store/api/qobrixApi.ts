@@ -55,6 +55,7 @@ export const QobrixApi = createApi({
         url: ApiRoute.QOBRIX_PROPERY_TYPES,
         method: 'GET',
         body,
+        params: { limit: 100 },
       }),
     }),
     updateContact: builder.mutation<QobrixContactResponse['data'], IUserUpdateQobrix>({
