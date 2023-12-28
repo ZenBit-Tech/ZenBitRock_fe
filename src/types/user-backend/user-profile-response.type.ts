@@ -8,12 +8,12 @@ type UserProfileResponse = {
   city: string;
   phone: string;
   qobrixContactId: string;
+  qobrixAgentId: string;
   agencyName: string;
   description: string;
   country: string;
   avatarUrl: string;
   avatarPublicId: string;
-  qobrixAgentId: string;
 };
 
 export { type UserProfileResponse };

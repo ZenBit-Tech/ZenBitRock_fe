@@ -5,6 +5,7 @@ import { RouterLink } from 'routes/components';
 import { QobrixLeadDetailsResponse } from 'types';
 import { MatchingPropertiesView } from './matching-properties-view';
 import {
+  LeadDeleteComponent,
   LeadDetailsBudgetSection,
   LeadDetailsFeaturesSection,
   LeadDetailsSourceSection,
@@ -29,6 +30,7 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
     contact_name_contact: contact,
     conversion_status_workflow_stage: workflow,
     property_type: propertyType,
+    id,
   } = data;
 
   const handleSetPropertiesCount = useCallback(
@@ -37,7 +39,7 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
   );
 
   return (
-    <Box sx={{ maxWidth: 800, margin: '0 auto' }}>
+    <Box sx={{ maxWidth: 800, margin: '0 auto', pb: 8 }}>
       <Link
         component={RouterLink}
         href="#"
@@ -87,15 +89,7 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
           <LeadDetailsFeaturesSection lead={data} />
         </Stack>
 
-        <Link
-          variant="subtitle2"
-          sx={{
-            cursor: 'pointer',
-            mt: 4,
-          }}
-        >
-          {t('removeLead')}
-        </Link>
+        <LeadDeleteComponent t={t} id={id} />
       </Box>
       <MatchingPropertiesView lead={data} setMatchingPropertiesCount={handleSetPropertiesCount} />
       <Fab

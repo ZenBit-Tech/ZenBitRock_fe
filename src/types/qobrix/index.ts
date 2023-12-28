@@ -1,4 +1,6 @@
 export { type QobrixAgentRequest, type QobrixAgentResponse } from './qobrix-agent';
+export { type QobrixCreateLead, type QobrixCreateLeadResponse } from './qobrix-create-lead';
+export { type QobrixLocations } from './qobrix-locations';
 export {
   type QobrixContactRequest,
   type QobrixContactResponse,

@@ -143,7 +143,7 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
         <>
           <AgentSort sort={sort} sortOptions={AGENTS_SORT_OPTIONS} onSort={setSort} />
           {sortedAgents?.map((agent) =>
-            id !== agent.id ? (
+            id !== agent.id && agent.firstName ? (
               <AgentListItem key={agent.id} agent={agent} handleClickResult={handleClickResult} />
             ) : null
           )}
