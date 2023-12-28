@@ -45,7 +45,7 @@ export {
 export { type ValueOf } from './value-of-type';
 export { type UserSetAvatarResponse, type UserProfileResponse } from './user-backend';
 export { type LocationSelectOption } from './select-options';
-export { type PropertyFilterFormData } from './property';
+export { type PropertyFilterFormData } from './main-page';
 export {
   type IUnreadMessagesQuantity,
   type IUnreadMessagesQuantityResponse,
