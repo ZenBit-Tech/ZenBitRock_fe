@@ -554,7 +554,7 @@
     "sorry": "Sorry, No Matched Results Found!",
     "try": "Try to find something else.",
     "reset": "Reset all filters",
-"leads": "leads"
+    "leads": "leads"
   },
   "agents": {
     "pageTitle": "Agent network",
@@ -655,6 +655,7 @@
     "none": "None",
     "inputPlaceholder": "Enter lead name...",
     "sorry": "Sorry, No Matched Results Found!",
-    "try": "Try to find something else."
+    "try": "Try to find something else.",
+    "unread": "unread messages"
   }
 }

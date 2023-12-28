@@ -61,7 +61,6 @@ export function LeadDeleteComponent({ id, t }: Props): JSX.Element {
       <Stack
         direction="row"
         sx={{
-          mt: 4,
           alignItems: 'self-end',
           textDecoration: 'none',
           cursor: 'pointer',
