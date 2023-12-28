@@ -7,4 +7,9 @@ export {
   getSellingPriceFilter,
   getBuyRentFilter,
   getPropertyStatusFilter,
+  getPropertyTypeFilter,
+  getLocationFilter,
+  getNameFilter,
+  getMainPagePropertyFilter,
 } from './property-filters';
+export { getLocationOptions } from './select-options';

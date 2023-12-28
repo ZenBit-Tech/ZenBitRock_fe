@@ -4,3 +4,7 @@ export { getSellingPriceFilter } from './getSellingPriceFilter';
 export { getBedroomsFilter } from './getBedroomsFilter';
 export { getBuyRentFilter } from './getBuyRentFilter';
 export { getPropertyStatusFilter } from './getPropertyStatusFilter';
+export { getPropertyTypeFilter } from './getPropertyTypeFilter';
+export { getLocationFilter } from './getLocationFilter';
+export { getNameFilter } from './getNameFilter';
+export { getMainPagePropertyFilter } from './getMainPagePropertyFilter';
