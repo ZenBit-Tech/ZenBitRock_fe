@@ -95,53 +95,35 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
           <LeadDetailsBudgetSection lead={data} />
           <LeadDetailsFeaturesSection lead={data} />
         </Stack>
-
-        <LeadDeleteComponent t={t} id={id} />
         {openModal && (
           <LeadHistorySection lead={data} openModal={openModal} closeModal={() => closeModal()} />
         )}
         <Link
-          variant="subtitle2"
+          color="inherit"
           sx={{
+            width: 'fit-content',
             cursor: 'pointer',
             mt: 4,
             display: 'flex',
             justifyContent: 'flex-start',
             alignItems: 'center',
-            gap: '1rem',
+            gap: '0.5rem',
             marginBottom: '1rem',
             transition: 'all 200ms ease-out',
             '&:hover': {
-              color: colors.BUTTON_SECOND_COLOR,
+              color: colors.BUTTON_PRIMARY_COLOR,
               transition: 'all 200ms ease-out',
+              textDecoration: 'underline',
             },
           }}
           onClick={(): void => setOpenModal(!openModal)}
         >
-          <Typography variant="subtitle2">{t('open_history')}</Typography>{' '}
-          <Iconify
-            color={colors.BUTTON_PRIMARY_COLOR}
-            icon="solar:alt-arrow-down-bold"
-            width="1rem"
-            height="1rem"
-            sx={{
-              transition: 'all 200ms ease-out',
-              '&:hover': {
-                color: colors.BUTTON_SECOND_COLOR,
-                transition: 'all 200ms ease-out',
-              },
-            }}
-          />
+          <Iconify icon="iconoir:list" width="1.5rem" height="1.5rem" />
+          <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
+            {t('open_history')}
+          </Typography>
         </Link>
-        <Link
-          variant="subtitle2"
-          sx={{
-            cursor: 'pointer',
-            mt: 4,
-          }}
-        >
-          {t('removeLead')}
-        </Link>
+        <LeadDeleteComponent t={t} id={id} />
       </Box>
       <MatchingPropertiesView lead={data} setMatchingPropertiesCount={handleSetPropertiesCount} />
       <Fab
