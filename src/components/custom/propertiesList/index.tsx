@@ -13,8 +13,21 @@ import { PropertyCard } from '../propery-card/property-card';
 const INITIAL_PARAMS: IPropertyParamsList = {
   page: 1,
   limit: 10,
-  fields: ['id', 'sale_rent', 'status', 'country', 'city', 'list_selling_price_amount'],
+  fields: [
+    'id',
+    'name',
+    'sale_rent',
+    'status',
+    'country',
+    'city',
+    'list_selling_price_amount',
+    'LocationLocations.country',
+    'LocationLocations.district',
+    'LocationLocations.area',
+    'LocationLocations.subarea',
+  ],
   media: true,
+  include: ['LocationLocations'],
 };
 
 type Props = {
@@ -49,11 +62,9 @@ function PropertiesList({ search }: Props): JSX.Element {
     },
   });
   useEffect(() => {
-    if (search) {
-      setPropertiesList([]);
-      setParams({ ...params, search, page: 1 });
-      setIsFetching(true);
-    }
+    setPropertiesList([]);
+    setParams({ ...params, search, page: 1 });
+    setIsFetching(true);
   }, [search, setParams]);
 
   useEffect(() => {
