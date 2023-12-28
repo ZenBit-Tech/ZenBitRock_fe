@@ -1,17 +1,4 @@
-export type IPropertyParams = {
-  params: IPropertyParamsList;
-};
-
-export type IPropertyParamsList = {
-  page: number;
-  limit: number;
-  fields: string[];
-  media: boolean;
-  sort?: string[];
-  search?: string;
-};
-
-export type IPropertyDetailed = {
+type QobrixPropertyDetailed = {
   sale_rent?: string | null;
   saleRent?: string | null;
   status: string | null;
@@ -27,38 +14,61 @@ export type IPropertyDetailed = {
   }[];
   description: string | null;
   name: string | null;
-  propertyType: string | null;
+  propertyType?: string | null;
+  property_type?: string | null;
   bedrooms?: number | null;
   bathrooms?: number | null;
   livingrooms?: number | null;
+  living_rooms?: number | null;
   kitchenType?: string | null;
+  kitchen_type?: string | null;
   verandas?: number | null;
   parking?: number | null;
   coordinates: string | null;
   municipality?: string | null;
   state?: string | null;
   postCode?: string | null;
+  post_code?: string | null;
   street?: string | null;
   unit?: string | null;
+  unit_number?: string | null;
+
+  floor_number?: number | null;
   floorNumber?: number | null;
   seaView?: boolean | null;
+  sea_view?: boolean | null;
   mountainView?: boolean | null;
+  mountain_view?: boolean | null;
+  private_swimming_pool?: boolean | null;
   privateSwimmingPool?: boolean | null;
+  common_swimming_pool?: boolean | null;
   commonSwimmingPool?: boolean | null;
+  pets_allowed?: boolean | null;
   petsAllowed?: boolean | null;
   elevator?: boolean | null;
+  listing_date?: string | null;
   listingDate?: string | null;
+  internal_area_amount?: number | null;
   internalAreaAmount?: number | null;
+  covered_verandas_amount?: number | null;
   coveredVerandasAmount?: number | null;
+  land_type?: string | null;
   landType?: string | null;
+  community_features?: string[];
   communityFeatures?: string[];
   electricity?: boolean | null;
   reception?: boolean | null;
   water?: boolean | null;
   air?: boolean | null;
+  air_condition?: boolean | null;
   alarm?: boolean | null;
   fireplace?: boolean | null;
   smart?: boolean | null;
   storage?: boolean | null;
   heating?: string | null;
+  smart_home?: boolean | null;
+  storage_space?: boolean | null;
+  heating_type?: string | null;
 };
+
+export { type QobrixPropertyDetailed };

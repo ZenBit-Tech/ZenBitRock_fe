@@ -8,6 +8,16 @@ import {
   QobrixCreateLead,
   QobrixCreateLeadResponse,
   QobrixPropertyTypeResponse,
+  QobrixPropertyListResponse,
+  QobrixPropertyResponse,
+  QobrixLeadListResponse,
+  ILeadSmssResponse,
+  ILeadEmailsResponse,
+  ILeadCallsResponse,
+  ILeadMeetingsResponse,
+  ILeadTasksResponse,
+  ILeadTaskChangesResponse,
+  ILeadStatusChangesResponse,
 } from 'types';
 import { QobrixLocationsResponse } from 'types/qobrix/qobrix-locations';
 import { IUserUpdateQobrix } from 'types/user';
@@ -76,10 +86,307 @@ export const QobrixApi = createApi({
         method: 'GET',
       }),
     }),
+    getProperties: builder.query<QobrixPropertyListResponse, { page: number; search: string }>({
+      query: (arg) => ({
+        url: ApiRoute.QOBRIX_GET_PROPERTIES,
+        method: 'GET',
+        params: arg.search ? { page: arg.page, search: arg.search } : { page: arg.page },
+      }),
+      transformResponse: (response: QobrixPropertyListResponse) => {
+        response.data = response.data.map((property) => ({
+          id: property.id,
+          saleRent: property.sale_rent,
+          status: property.status,
+          country: property.country,
+          city: property.city,
+          price: property.list_selling_price_amount,
+          photo: property.media?.[0]?.file?.thumbnails?.medium || null,
+        }));
+
+        return response;
+      },
+      serializeQueryArgs: ({ endpointName }) => endpointName,
+      merge: (currentCache, newItems) => {
+        if (!newItems.pagination.has_prev_page) {
+          currentCache.data = newItems.data;
+        } else {
+          currentCache.data.push(...newItems.data);
+        }
+        currentCache.pagination = newItems.pagination;
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
+    }),
+    getProperty: builder.query<QobrixPropertyResponse, string>({
+      query: (arg) => ({
+        url: ApiRoute.QOBRIX_GET_PROPERTY.replace('id', arg),
+        method: 'GET',
+      }),
+      transformResponse: (response: QobrixPropertyResponse) => {
+        response.data = {
+          saleRent: response?.data.sale_rent,
+          status: response?.data.status,
+          country: response?.data.country,
+          city: response?.data.city,
+          price: response?.data.list_selling_price_amount,
+          media: response?.data.media,
+          description: response?.data.description,
+          name: response?.data.name,
+          propertyType: response?.data.property_type,
+          bedrooms: response?.data.bedrooms,
+          bathrooms: response?.data.bathrooms,
+          livingrooms: response?.data.living_rooms,
+          kitchenType: response?.data.kitchen_type,
+          verandas: response?.data.verandas,
+          parking: response?.data.parking,
+          coordinates: response?.data.coordinates,
+          municipality: response?.data.municipality,
+          state: response?.data.state,
+          postCode: response?.data.post_code,
+          street: response?.data.street,
+          floorNumber: response?.data.floor_number,
+          seaView: response?.data.sea_view,
+          mountainView: response?.data.mountain_view,
+          privateSwimmingPool: response?.data.private_swimming_pool,
+          commonSwimmingPool: response?.data.common_swimming_pool,
+          petsAllowed: response?.data.pets_allowed,
+          elevator: response?.data.elevator,
+          listingDate: response?.data.listing_date,
+          internalAreaAmount: response?.data.internal_area_amount,
+          coveredVerandasAmount: response?.data.covered_verandas_amount,
+          landType: response?.data.land_type,
+          communityFeatures: response?.data.community_features,
+          unit: response?.data.unit_number,
+          electricity: response?.data.electricity,
+          reception: response?.data.reception,
+          water: response?.data.water,
+          air: response?.data.air_condition,
+          alarm: response?.data.alarm,
+          fireplace: response?.data.fireplace,
+          smart: response?.data.smart_home,
+          storage: response?.data.storage_space,
+          heating: response?.data.heating_type,
+        };
+
+        return response;
+      },
+    }),
+    getLeads: builder.query<
+      QobrixLeadListResponse,
+      { page: number; filter: string | undefined; id: string | undefined }
+    >({
+      query: (arg) => ({
+        url: !arg.id
+          ? ApiRoute.QOBRIX_GET_LEADS
+          : ApiRoute.QOBRIX_GET_PROPERTY_LEADS.replace('id', arg.id),
+        method: 'GET',
+        params: arg.filter ? { page: arg.page, search: arg.filter } : { page: arg.page },
+      }),
+      transformResponse: (response: QobrixLeadListResponse) => {
+        response.data = response.data.map((lead) => ({
+          leadId: lead.id,
+          status: lead.status,
+          source: lead.source,
+          contactName: lead.contact_name_contact?.name,
+          contactEmail: lead.contact_name_contact?.email,
+          contactId: lead.contact_name_contact?.id,
+          contactPhone: lead.contact_name_contact?.phone,
+        }));
+
+        return response;
+      },
+      serializeQueryArgs: ({ endpointName }) => endpointName,
+
+      merge: (currentCache, newItems) => {
+        if (!newItems.pagination.has_prev_page) {
+          currentCache.data = newItems.data;
+        } else {
+          currentCache.data.push(...newItems.data);
+        }
+        currentCache.pagination = newItems.pagination;
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
+    }),
+    getLeadSmses: builder.query<ILeadSmssResponse, { page: number; id: string }>({
+      query: (arg) => ({
+        url: ApiRoute.QOBRIX_GET_LEAD_SMSES.replace('id', arg.id),
+        method: 'GET',
+        params: { page: arg.page },
+      }),
+      transformResponse: (response: ILeadSmssResponse) => {
+        response.data = response.data.map((message) => ({
+          id: message.id,
+          created: message.created,
+          status: message.status,
+          sender: message.sender,
+          recipient: message.recipient,
+          direction: message.direction,
+        }));
+
+        return response;
+      },
+      serializeQueryArgs: ({ endpointName }) => endpointName,
+
+      merge: (currentCache, newItems) => {
+        currentCache.data.push(...newItems.data);
+        currentCache.pagination = newItems.pagination;
+      },
+      keepUnusedDataFor: 0,
+    }),
+    getLeadEmails: builder.query<ILeadEmailsResponse, { page: number; id: string }>({
+      query: (arg) => ({
+        url: ApiRoute.QOBRIX_GET_LEAD_EMAILS.replace('id', arg.id),
+        method: 'GET',
+        params: { page: arg.page },
+      }),
+      transformResponse: (response: ILeadEmailsResponse) => {
+        response.data = response.data.map((message) => ({
+          id: message.id,
+          dateSent: message.date_sent,
+          fromAddress: message.from_address,
+          toAddress: message.toAddress,
+          direction: message.direction,
+        }));
+
+        return response;
+      },
+      serializeQueryArgs: ({ endpointName }) => endpointName,
+
+      merge: (currentCache, newItems) => {
+        currentCache.data.push(...newItems.data);
+        currentCache.pagination = newItems.pagination;
+      },
+      keepUnusedDataFor: 0,
+    }),
+    getLeadCalls: builder.query<ILeadCallsResponse, { page: number; id: string }>({
+      query: (arg) => ({
+        url: ApiRoute.QOBRIX_GET_LEAD_CALLS.replace('id', arg.id),
+        method: 'GET',
+        params: { page: arg.page },
+      }),
+      transformResponse: (response: ILeadCallsResponse) => {
+        response.data = response.data.map((call) => ({
+          id: call.id,
+          status: call.status,
+          subject: call.subject,
+          startDate: call.start_date,
+          direction: call.direction,
+        }));
+
+        return response;
+      },
+      serializeQueryArgs: ({ endpointName }) => endpointName,
+      merge: (currentCache, newItems) => {
+        currentCache.data.push(...newItems.data);
+        currentCache.pagination = newItems.pagination;
+      },
+      keepUnusedDataFor: 0,
+    }),
+    getLeadMeetings: builder.query<ILeadMeetingsResponse, { page: number; id: string }>({
+      query: (arg) => ({
+        url: ApiRoute.QOBRIX_GET_LEAD_MEETINGS.replace('id', arg.id),
+        method: 'GET',
+        params: { page: arg.page },
+      }),
+      transformResponse: (response: ILeadMeetingsResponse) => {
+        response.data = response.data.map((meeting) => ({
+          id: meeting.id,
+          status: meeting.status,
+          subject: meeting.subject,
+          startDate: meeting.start_date,
+        }));
+
+        return response;
+      },
+      serializeQueryArgs: ({ endpointName }) => endpointName,
+
+      merge: (currentCache, newItems) => {
+        currentCache.data.push(...newItems.data);
+        currentCache.pagination = newItems.pagination;
+      },
+      keepUnusedDataFor: 0,
+    }),
+    getLeadTasks: builder.query<ILeadTasksResponse, { page: number; id: string }>({
+      query: (arg) => ({
+        url: ApiRoute.QOBRIX_GET_LEAD_TASKS.replace('id', arg.id),
+        method: 'GET',
+        params: { page: arg.page },
+      }),
+      transformResponse: (response: ILeadTasksResponse) => {
+        response.data = response.data.map((task) => ({
+          id: task.id,
+          status: task.status,
+          subject: task.subject,
+          created: task.created,
+        }));
+
+        return response;
+      },
+      serializeQueryArgs: ({ endpointName }) => endpointName,
+      merge: (currentCache, newItems) => {
+        currentCache.data.push(...newItems.data);
+        currentCache.pagination = newItems.pagination;
+      },
+      keepUnusedDataFor: 0,
+    }),
+    getLeadTaskChanges: builder.query<ILeadTaskChangesResponse, { page: number; id: string }>({
+      query: (arg) => ({
+        url: ApiRoute.QOBRIX_GET_LEAD_TASK_CHANGES.replace('id', arg.id),
+        method: 'GET',
+        params: { page: arg.page },
+      }),
+      transformResponse: (response: ILeadTaskChangesResponse) => {
+        response.data = response.data.map((task) => ({
+          id: task.id,
+          timestamp: task.timestamp,
+          originalStatus: task.original?.status,
+          changedStatus: task.changed?.status,
+        }));
+
+        return response;
+      },
+      serializeQueryArgs: ({ endpointName }) => endpointName,
+      merge: (currentCache, newItems) => {
+        currentCache.data.push(...newItems.data);
+        currentCache.pagination = newItems.pagination;
+      },
+      keepUnusedDataFor: 0,
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
+    }),
+    getLeadStatusChanges: builder.query<ILeadStatusChangesResponse, { page: number; id: string }>({
+      query: (arg) => ({
+        url: ApiRoute.QOBRIX_GET_LEAD_STATUS_CHANGES.replace('id', arg.id),
+        method: 'GET',
+        params: { page: arg.page },
+      }),
+      transformResponse: (response: ILeadStatusChangesResponse) => {
+        response.data = response.data.map((status) => ({
+          id: status.id,
+          timestamp: status.timestamp,
+          originalStatus: status.original?.status,
+          changedStatus: status.changed?.status,
+        }));
+
+        return response;
+      },
+      serializeQueryArgs: ({ endpointName }) => endpointName,
+
+      merge: (currentCache, newItems) => {
+        currentCache.data.push(...newItems.data);
+        currentCache.pagination = newItems.pagination;
+      },
+      keepUnusedDataFor: 0,
+    }),
   }),
 });
 
 export const {
+  useLazyGetLeadTaskChangesQuery,
   useCreateContactMutation,
   useCreateAgentMutation,
   useGetPropertyTypesQuery,
@@ -87,4 +394,13 @@ export const {
   useDeleteLeadMutation,
   useCreateLeadMutation,
   useSearchLocationsQuery,
+  useGetPropertiesQuery,
+  useGetPropertyQuery,
+  useGetLeadsQuery,
+  useGetLeadCallsQuery,
+  useGetLeadStatusChangesQuery,
+  useGetLeadEmailsQuery,
+  useGetLeadMeetingsQuery,
+  useGetLeadSmsesQuery,
+  useGetLeadTasksQuery,
 } = QobrixApi;

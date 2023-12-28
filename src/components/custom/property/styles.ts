@@ -13,8 +13,22 @@ export const Wrapper = styled(Box)`
 `;
 
 export const BoxDescriptionItem = styled(Box)`
-  display: flex;
-  @media (min-width: 1024px) {
+  position: relative;
+  margin-bottom: 1rem;
+  &:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      ${colors.PRIMARY_LIGHT_COLOR} 0%,
+      ${colors.BUTTON_PRIMARY_COLOR} 50%,
+      ${colors.PRIMARY_LIGHT_COLOR} 100%
+    );
+    left: 0;
+    bottom: -0.5rem;
+    z-index: 100;
   }
 `;
 
@@ -73,7 +87,6 @@ export const TypographyDescriptionLeft = styled(Typography)`
   flex: 3;
   white-space: nowrap;
   font-size: 0.75rem;
-  text-align: right;
   font-weight: 700;
   margin-right: 1rem;
 
@@ -93,9 +106,7 @@ export const TypographyDescriptionRight = styled(Typography)`
 `;
 
 export const IconifyStyled = styled(Iconify)`
-  transition: 'easy in 200 all';
   &:hover {
-    transition: 'easy in 200 all';
     color: ${colors.BUTTON_SECOND_COLOR};
   }
 `;

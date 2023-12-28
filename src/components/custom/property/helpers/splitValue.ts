@@ -1,4 +1,4 @@
-function splitValue(value: string): string {
+export function splitValue(value: string): string {
   return value
     .split('_')
     .map((a: string) =>
@@ -9,5 +9,3 @@ function splitValue(value: string): string {
     )
     .join(' ');
 }
-
-export default splitValue;
