@@ -599,5 +599,10 @@
     "sortOptionOldest": "Oldest",
     "sortOptionNameIncrease": "Name: A-Z",
     "sortOptionNameDecrease": "Name: Z-A"
+  },
+  "privateChat": {
+    "title": "Chat",
+    "placeholder": "Type a message",
+    "errMsg": "Something went wrong!"
   }
 }
