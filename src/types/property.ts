@@ -9,6 +9,7 @@ export type IPropertyParamsList = {
   media: boolean;
   sort?: string[];
   search?: string;
+  include?: string[];
 };
 
 export type IPropertyDetailed = {
@@ -61,4 +62,19 @@ export type IPropertyDetailed = {
   smart?: boolean | null;
   storage?: boolean | null;
   heating?: string | null;
+};
+
+export type PropertyFilterFormData = {
+  status?: string | null | undefined;
+  propertyType?: string | null | undefined;
+  priceRange?: (number | undefined)[] | null | undefined;
+  bedrooms?: string | null | undefined;
+  rentOrSale?: string | null | undefined;
+  location: {
+    searchParams: {
+      district?: string | undefined;
+      area?: string | undefined;
+      subarea?: string | undefined;
+    };
+  } | null;
 };
