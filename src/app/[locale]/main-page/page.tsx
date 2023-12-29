@@ -10,6 +10,7 @@ import { NotificationCenter, PropertyFilter } from './lib';
 
 function MainPage(): JSX.Element {
   const [filter, setFilter] = useState('');
+  const [propertyNameFilter, setPropertyNameFilter] = useState('');
 
   const handleSetFilter = useCallback(
     (search: string) => {
@@ -18,6 +19,21 @@ function MainPage(): JSX.Element {
     [setFilter]
   );
 
+  const handleSetPropertyNameFilter = useCallback(
+    (search: string) => {
+      setPropertyNameFilter(search);
+    },
+    [setPropertyNameFilter]
+  );
+
+  const getCombinedFilter = useCallback(() => {
+    let combinedFilter = filter.concat(propertyNameFilter);
+
+    combinedFilter = combinedFilter.substring(combinedFilter.indexOf('and') + 3);
+
+    return combinedFilter;
+  }, [filter, propertyNameFilter]);
+
   return (
     <ProtectedRoute>
       <Box sx={{ p: '10px', margin: '0 auto', maxWidth: '800px' }}>
@@ -25,8 +41,11 @@ function MainPage(): JSX.Element {
         <Typography variant="h3" sx={{ marginTop: 3 }}>
           My properties
         </Typography>
-        <PropertyFilter setFilter={handleSetFilter} />
-        <PropertiesList search={filter} />
+        <PropertyFilter
+          setFilter={handleSetFilter}
+          setPropertyNameFilter={handleSetPropertyNameFilter}
+        />
+        <PropertiesList search={getCombinedFilter()} />
       </Box>
     </ProtectedRoute>
   );

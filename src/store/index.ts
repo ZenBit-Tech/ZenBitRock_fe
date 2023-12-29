@@ -12,6 +12,7 @@ import { ResetPasswordApi } from './api/resetPasswordApi';
 
 import { UserApi } from './api/userApi';
 import { LeadApi } from './lead';
+import { MessageApi } from './message';
 
 const persistConfig = {
   key: 'store',
@@ -29,6 +30,7 @@ const reducers = combineReducers({
   [QobrixApi.reducerPath]: QobrixApi.reducer,
   [UserApi.reducerPath]: UserApi.reducer,
   [LeadApi.reducerPath]: LeadApi.reducer,
+  [MessageApi.reducerPath]: MessageApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -47,7 +49,8 @@ export const store = configureStore({
       .concat(tokenMiddleware.middleware)
       .concat(QobrixApi.middleware)
       .concat(UserApi.middleware)
-      .concat(LeadApi.middleware),
+      .concat(LeadApi.middleware)
+      .concat(MessageApi.middleware),
 });
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

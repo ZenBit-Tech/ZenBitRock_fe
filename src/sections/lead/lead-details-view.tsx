@@ -3,18 +3,22 @@ import Iconify from 'components/iconify';
 import { useCallback, useScrollToTop, useState, useTranslations } from 'hooks';
 import { RouterLink } from 'routes/components';
 import { QobrixLeadDetailsResponse } from 'types';
+import { colors } from 'constants/colors';
 import { MatchingPropertiesView } from './matching-properties-view';
 import {
+  LeadDeleteComponent,
   LeadDetailsBudgetSection,
   LeadDetailsFeaturesSection,
   LeadDetailsSourceSection,
 } from './components';
+import { LeadHistorySection } from './components/lead-history';
 
 type Props = {
   leadDetails: QobrixLeadDetailsResponse;
 };
 
 const LeadDetailsView = ({ leadDetails }: Props) => {
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const [matchingPropertiesCount, setMatchingPropertiesCount] = useState<number | null>(null);
   const t = useTranslations('leadDetailsPage');
   const theme = useTheme();
@@ -29,6 +33,7 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
     contact_name_contact: contact,
     conversion_status_workflow_stage: workflow,
     property_type: propertyType,
+    id,
   } = data;
 
   const handleSetPropertiesCount = useCallback(
@@ -36,8 +41,12 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
     [setMatchingPropertiesCount]
   );
 
+  function closeModal(): void {
+    setOpenModal(!openModal);
+  }
+
   return (
-    <Box sx={{ maxWidth: 800, margin: '0 auto' }}>
+    <Box sx={{ maxWidth: 800, margin: '0 auto', pb: 8 }}>
       <Link
         component={RouterLink}
         href="#"
@@ -86,16 +95,35 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
           <LeadDetailsBudgetSection lead={data} />
           <LeadDetailsFeaturesSection lead={data} />
         </Stack>
-
+        {openModal && (
+          <LeadHistorySection lead={data} openModal={openModal} closeModal={() => closeModal()} />
+        )}
         <Link
-          variant="subtitle2"
+          color="inherit"
           sx={{
+            width: 'fit-content',
             cursor: 'pointer',
             mt: 4,
+            display: 'flex',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            gap: '0.5rem',
+            marginBottom: '1rem',
+            transition: 'all 200ms ease-out',
+            '&:hover': {
+              color: colors.BUTTON_PRIMARY_COLOR,
+              transition: 'all 200ms ease-out',
+              textDecoration: 'underline',
+            },
           }}
+          onClick={(): void => setOpenModal(!openModal)}
         >
-          {t('removeLead')}
+          <Iconify icon="iconoir:list" width="1.5rem" height="1.5rem" />
+          <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
+            {t('open_history')}
+          </Typography>
         </Link>
+        <LeadDeleteComponent t={t} id={id} />
       </Box>
       <MatchingPropertiesView lead={data} setMatchingPropertiesCount={handleSetPropertiesCount} />
       <Fab

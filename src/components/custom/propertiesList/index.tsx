@@ -1,35 +1,23 @@
 'use client';
-import { useEffect, useInfinityScroll, useScrollToTop, useState, useTranslations } from 'hooks';
+
 import { Box, Fab } from '@mui/material';
-import { AxiosError } from 'axios';
-import { useGetProperties } from 'api/property';
 import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
-import { IPropertyParamsList } from 'types/property';
-import { QobrixPagination, QobrixProperty, QobrixPropertyList } from 'types/qobrix';
-import { ListStyled } from './styles';
-import { PropertyCard } from '../propery-card/property-card';
+import { useEffect, useInfinityScroll, useScrollToTop, useState, useTranslations } from 'hooks';
+import { QobrixProperty } from 'types/qobrix';
+import { useGetPropertiesQuery } from 'store/api/qobrixApi';
+import { ListStyled } from 'components/custom/propertiesList/styles';
+import { PropertyCard } from 'components/custom/propery-card/property-card';
 
-const INITIAL_PARAMS: IPropertyParamsList = {
-  page: 1,
-  limit: 10,
-  fields: ['id', 'sale_rent', 'status', 'country', 'city', 'list_selling_price_amount'],
-  media: true,
-};
+export const FIRST_PAGE: number = 1;
 
 type Props = {
   search: string;
 };
 
 function PropertiesList({ search }: Props): JSX.Element {
-  const [params, setParams] = useState<IPropertyParamsList>(INITIAL_PARAMS);
-
-  const { properties, propertiesError } = useGetProperties({ params });
-
-  const [propertiesList, setPropertiesList] = useState<QobrixPropertyList>([]);
-  const [propertiesPagination, setPropertiesPagination] = useState<QobrixPagination>();
-  const [error, setError] = useState<AxiosError | null>(null);
-  const [isFetching, setIsFetching] = useState<boolean>(true);
+  const [page, setPage] = useState(FIRST_PAGE);
+  const [filter, setfilter] = useState('');
 
   const t = useTranslations('properties');
 
@@ -42,64 +30,46 @@ function PropertiesList({ search }: Props): JSX.Element {
   };
 
   useInfinityScroll({
-    callback: () => {
-      if (propertiesPagination && propertiesPagination.hasNextPage) {
-        setIsFetching(true);
+    callback: (): void => {
+      if (!isFetching && data?.pagination.has_next_page) {
+        setPage(page + 1);
       }
     },
   });
-  useEffect(() => {
-    if (search) {
-      setPropertiesList([]);
-      setParams({ ...params, search, page: 1 });
-      setIsFetching(true);
-    }
-  }, [search, setParams]);
 
   useEffect(() => {
-    if (isFetching)
-      (async (): Promise<void> => {
-        try {
-          setError(propertiesError);
-          if (!propertiesError && properties.data) {
-            setPropertiesList((prev) => [...prev, ...properties.data]);
-            setPropertiesPagination((prev) => ({ ...prev, ...properties.pagination }));
-            if (properties.pagination?.hasNextPage)
-              setParams((prev) => ({ ...prev, page: prev.page + 1 }));
-            setIsFetching(false);
-          }
-        } catch (err) {
-          setError(err);
-        }
-      })();
-  }, [isFetching, properties, propertiesError, propertiesPagination]);
+    setfilter(search);
+    setPage(1);
+  }, [search]);
+
+  const { data, error, isFetching } = useGetPropertiesQuery(
+    { search: filter, page },
+    { refetchOnMountOrArgChange: true }
+  );
 
   return (
     <Box
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        width: '90%',
         marginX: 'auto',
         transition: 'easy-in 200 display',
       }}
     >
       {error && enqueueSnackbar(t('error'), { variant: 'error' })}
-      {propertiesList.length !== 0 && (
+      {data?.data.length !== 0 && (
         <ListStyled
           sx={{
             display: 'flex',
             justifyContent: 'center',
-            alignItems: 'center',
+            alignItems: 'stretch',
             flexWrap: 'wrap',
             gap: '5%',
             width: '90%',
-            marginX: 'auto',
+            margin: 'auto',
           }}
         >
-          {propertiesList.map((item: QobrixProperty) => (
-            <PropertyCard property={item} key={item.id} />
-          ))}
+          {data?.data.map((item: QobrixProperty) => <PropertyCard property={item} key={item.id} />)}
         </ListStyled>
       )}
       {isFetching && !error && <LoadingScreen />}
