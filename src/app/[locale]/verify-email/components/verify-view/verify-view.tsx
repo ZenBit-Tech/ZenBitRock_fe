@@ -91,8 +91,8 @@ export function VerifyView({ email }: Props) {
       <LoadingButton
         fullWidth
         size="large"
-        type="submit"
         variant="contained"
+        color="primary"
         loading={isSubmitting}
         disabled={!isValid}
       >
