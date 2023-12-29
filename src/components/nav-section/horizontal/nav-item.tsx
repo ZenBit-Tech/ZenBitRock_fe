@@ -47,7 +47,7 @@ const NavItem = forwardRef<HTMLDivElement, Props>(
           <ListItemText
             sx={{
               ...(!subItem && {
-                ml: { xs: 0, sm: 1 },
+                ml: { xs: 0, sm: 0 },
               }),
             }}
             primary={t(title)}
