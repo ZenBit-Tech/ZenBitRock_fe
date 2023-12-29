@@ -32,7 +32,15 @@ export default function ChatItem({ chat }: FollowerItemProps): JSX.Element {
   };
 
   return (
-    <CardActionArea sx={{ p: 0 }} onClick={handleClick}>
+    <CardActionArea
+      sx={{
+        p: 0,
+        '&:not(:last-child)': {
+          mb: '5px',
+        },
+      }}
+      onClick={handleClick}
+    >
       <Card
         sx={{
           display: 'flex',
