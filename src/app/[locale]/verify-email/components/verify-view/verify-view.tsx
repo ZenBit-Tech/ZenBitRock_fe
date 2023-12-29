@@ -49,7 +49,7 @@ export function VerifyView({ email }: Props) {
   }, [email, sendVerificationCode, enqueueSnackbar, t]);
 
   const methods = useForm({
-    mode: 'onChange',
+    mode: 'onTouched',
     resolver: yupResolver(VerifySchema),
     defaultValues,
   });
@@ -83,8 +83,10 @@ export function VerifyView({ email }: Props) {
   };
 
   const renderForm = (
-    <Stack spacing={3} alignItems="center">
-      <RHFCode name="code" />
+    <Stack spacing={3} alignItems="center" mb={3}>
+      <div style={{ height: '70px' }}>
+        <RHFCode name="code" />
+      </div>
 
       <LoadingButton
         fullWidth
@@ -142,7 +144,7 @@ export function VerifyView({ email }: Props) {
               ml: '-35px',
             },
             '@media (min-width: 1200px)': {
-              ml: '-45px',
+              ml: '-50px',
             },
           }}
         >
