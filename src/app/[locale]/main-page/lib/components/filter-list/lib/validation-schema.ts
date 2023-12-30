@@ -13,7 +13,8 @@ const FilterSchema = Yup.object().shape({
     .nullable(),
   propertyType: Yup.string().nullable(),
   status: Yup.string().nullable(),
-  priceRange: Yup.array().of(Yup.number()).nullable(),
+  priceRangeSell: Yup.array().of(Yup.number()).nullable(),
+  priceRangeRent: Yup.array().of(Yup.number()).nullable(),
   bedrooms: Yup.string().nullable(),
   rentOrSale: Yup.string().nullable(),
 });

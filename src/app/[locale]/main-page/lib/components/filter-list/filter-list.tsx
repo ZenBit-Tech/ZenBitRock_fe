@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Box, MenuItem, Stack } from '@mui/material';
-import { useForm, useState, useTranslations } from 'hooks';
+import { useEffect, useForm, useState, useTranslations } from 'hooks';
 import FormProvider, {
   RHFAutocomplete,
   RHFRadioGroup,
@@ -19,9 +19,10 @@ const defaultValues = {
   location: null,
   propertyType: '',
   status: '',
-  priceRange: [100000, 5000000],
+  priceRangeSell: null,
+  priceRangeRent: null,
   bedrooms: '',
-  rentOrSale: null,
+  rentOrSale: 'for_sale',
 };
 
 type Props = {
@@ -30,6 +31,7 @@ type Props = {
 
 const FilterList = ({ applyFilters }: Props): JSX.Element => {
   const [locationsInputValue, setLocationsInputValue] = useState<string>('');
+  const [isTypeRent, setIsTypeRent] = useState<boolean>(false);
 
   const { data: searchLocationData, isLoading: isSearchLocationLoading } = useSearchLocationsQuery({
     find: locationsInputValue,
@@ -53,15 +55,33 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
     defaultValues,
   });
 
-  if (!data) {
-    return <LoadingScreen />;
-  }
-
   const {
     handleSubmit,
+    watch,
+    setValue,
     formState: { isSubmitting, isValid },
     reset,
   } = methods;
+
+  const watchAllFields = watch();
+
+  useEffect(() => {
+    setIsTypeRent(watchAllFields.rentOrSale === 'for_rent');
+  }, [watchAllFields.rentOrSale]);
+
+  useEffect(() => {
+    if (isTypeRent) {
+      setValue('priceRangeSell', null);
+      setValue('priceRangeRent', [100, 50000]);
+    } else {
+      setValue('priceRangeRent', null);
+      setValue('priceRangeSell', [100000, 10000000]);
+    }
+  }, [isTypeRent, setValue]);
+
+  if (!data) {
+    return <LoadingScreen />;
+  }
 
   const onSubmit = handleSubmit(async (formData) => {
     try {
@@ -116,14 +136,30 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
               ))}
             </RHFSelect>
           </Block>
+          <RHFRadioGroup
+            row
+            name="rentOrSale"
+            sx={{ display: 'flex', justifyContent: 'space-between' }}
+            options={getRentOrSaleOption(rentOrSale)}
+          />
           <Block label={t('priceRange')}>
-            <RHFSlider
-              name="priceRange"
-              sx={{ width: '92%', margin: '0 auto', height: 4 }}
-              min={10000}
-              max={5000000}
-              step={1000}
-            />
+            {isTypeRent ? (
+              <RHFSlider
+                name="priceRangeRent"
+                sx={{ width: '92%', margin: '0 auto', height: 4 }}
+                min={100}
+                max={50000}
+                step={1000}
+              />
+            ) : (
+              <RHFSlider
+                name="priceRangeSell"
+                sx={{ width: '92%', margin: '0 auto', height: 4 }}
+                min={10000}
+                max={10000000}
+                step={1000}
+              />
+            )}
           </Block>
           <Block label={t('bedrooms')}>
             <RHFSelect name="bedrooms" size="small">
@@ -134,12 +170,6 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
               ))}
             </RHFSelect>
           </Block>
-          <RHFRadioGroup
-            row
-            name="rentOrSale"
-            sx={{ display: 'flex', justifyContent: 'space-between' }}
-            options={getRentOrSaleOption(rentOrSale)}
-          />
           <LoadingButton
             fullWidth
             size="large"
