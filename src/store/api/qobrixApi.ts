@@ -96,6 +96,7 @@ export const QobrixApi = createApi({
       transformResponse: (response: QobrixPropertyListResponse) => {
         response.data = response.data.map((property) => ({
           id: property.id,
+          name: property.name,
           saleRent: property.sale_rent,
           status: property.status,
           country: property.country,
