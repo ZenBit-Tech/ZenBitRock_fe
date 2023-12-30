@@ -25,23 +25,61 @@ const UseNavItems = () => {
         },
         {
           title: TranslationKey.AGENTS,
-          path: '/agents',
-          icon: <Iconify icon="mingcute:suitcase-fill" width={1} />,
+          path: AppRoute.AGENTS_PAGE,
+          icon: (
+            <Iconify
+              icon="mingcute:suitcase-fill"
+              width={1}
+              color={
+                AppRoute.AGENTS_PAGE === pathname
+                  ? (theme) => theme.palette.primary.main
+                  : 'inherit'
+              }
+            />
+          ),
         },
         {
           title: TranslationKey.CALENDAR,
           path: '#',
-          icon: <Iconify icon="bxs:calendar" width={1} />,
+          icon: (
+            <Iconify
+              icon="bxs:calendar"
+              width={1}
+              color={
+                AppRoute.CALENDAR_PAGE === pathname
+                  ? (theme) => theme.palette.primary.main
+                  : 'inherit'
+              }
+            />
+          ),
         },
         {
           title: TranslationKey.LEADS,
-          path: '/leads',
-          icon: <Iconify icon="healthicons:people" width={1} />,
+          path: AppRoute.LEADS_PAGE,
+          icon: (
+            <Iconify
+              icon="healthicons:people"
+              width={1}
+              color={
+                AppRoute.LEADS_PAGE === pathname ? (theme) => theme.palette.primary.main : 'inherit'
+              }
+            />
+          ),
         },
         {
           title: TranslationKey.CONTENT,
           path: '#',
-          icon: <Iconify icon="game-icons:read" width={1} />,
+          icon: (
+            <Iconify
+              icon="game-icons:read"
+              width={1}
+              color={
+                AppRoute.CONTENT_PAGE === pathname
+                  ? (theme) => theme.palette.primary.main
+                  : 'inherit'
+              }
+            />
+          ),
         },
       ],
     },
