@@ -114,7 +114,7 @@ export const IconifyStyled = styled(Iconify)`
 export const TypographyInsert = styled(Typography)`
   white-space: nowrap;
 
-  display: inline;
+  display: inline-block;
   position: relative;
   font-size: 0.75rem;
   width: fit-content;
