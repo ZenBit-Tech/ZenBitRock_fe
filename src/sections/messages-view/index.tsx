@@ -4,6 +4,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { Stack } from '@mui/system';
 import { useTranslations } from 'next-intl';
 import ChatsList from './chats-list';
+import AddGroupChatButton from './add-group-chat-button';
 
 export default function MessagesView(): JSX.Element {
   const router = useRouter();
@@ -82,11 +83,22 @@ export default function MessagesView(): JSX.Element {
 
   return (
     <Container sx={{ pb: 8, pt: 2, px: 2 }}>
-      <Stack sx={{ mb: 2, ml: '-22px' }} direction="row" alignItems="center" alignContent="center">
-        <Button sx={{ p: 0 }} onClick={() => router.back()}>
-          <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
-        </Button>
-        <Typography variant="h3">{t('pageTitle')}</Typography>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        justifyItems="center"
+        sx={{ mb: 2, ml: '-22px' }}
+      >
+        <Stack direction="row" alignItems="center" alignContent="center">
+          <Button sx={{ p: 0 }} onClick={() => router.back()}>
+            <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
+          </Button>
+
+          <Typography variant="h3">{t('pageTitle')}</Typography>
+        </Stack>
+
+        <AddGroupChatButton t={t} />
       </Stack>
       <ChatsList chats={CHATS_EXAMPLE} t={t} />
     </Container>
