@@ -1,8 +1,12 @@
-import { Typography, Container } from '@mui/material';
+import { useRouter } from 'next/navigation';
+import { Typography, Container, Button } from '@mui/material';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import { Stack } from '@mui/system';
 import { useTranslations } from 'next-intl';
 import ChatsList from './chats-list';
 
 export default function MessagesView(): JSX.Element {
+  const router = useRouter();
   const t = useTranslations('MessagesPage');
 
   const CHATS_EXAMPLE = [
@@ -77,10 +81,13 @@ export default function MessagesView(): JSX.Element {
   ];
 
   return (
-    <Container sx={{ py: 5, px: 2 }}>
-      <Typography variant="h3" sx={{ mb: '20px' }}>
-        {t('pageTitle')}
-      </Typography>
+    <Container sx={{ pb: 8, pt: 2, px: 2 }}>
+      <Stack sx={{ mb: 2, ml: '-22px' }} direction="row" alignItems="center" alignContent="center">
+        <Button sx={{ p: 0 }} onClick={() => router.back()}>
+          <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
+        </Button>
+        <Typography variant="h3">{t('pageTitle')}</Typography>
+      </Stack>
       <ChatsList chats={CHATS_EXAMPLE} t={t} />
     </Container>
   );
