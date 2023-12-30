@@ -77,7 +77,7 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
       <Box
         sx={{
           backgroundColor: colors.PRIMARY_LIGHT_COLOR,
-          padding: '2rem',
+          padding: '2rem 0.5rem',
           position: 'relative',
           height: '100%',
           border: '1px solid black',
@@ -118,7 +118,6 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
                 <Typography
                   sx={{
                     fontSize: '0.75rem',
-                    whiteSpace: 'nowrap',
                     fontWeight: 'bold',
                     textAlign: 'right',
                   }}
@@ -174,7 +173,6 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
                     <Typography
                       sx={{
                         fontSize: '0.75rem',
-                        whiteSpace: 'nowrap',
                         textAlign: 'right',
                       }}
                     >
