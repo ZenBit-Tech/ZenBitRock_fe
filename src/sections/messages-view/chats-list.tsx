@@ -51,13 +51,6 @@ export default function ChatsList({ chats, t }: Props) {
           value={searchTerm}
           onChange={handleSearchChange}
           placeholder={t('searchPlaceholder')}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
-              </InputAdornment>
-            ),
-          }}
           sx={{ flex: 1, mr: 2 }}
         />
 
