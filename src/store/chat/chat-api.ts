@@ -1,6 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ApiRoute, StorageKey } from 'enums';
-import { ICreateGroupChatRequest, ICreateGroupChatResponse } from 'types';
+import {
+  ICreateGroupChatRequest,
+  ICreateGroupChatResponse,
+  IGetChatResponse,
+  IUpdateChatResponse,
+  IUpdateChatRequest,
+} from 'types';
 
 export const ChatApi = createApi({
   reducerPath: 'ChatApi',
@@ -23,9 +29,9 @@ export const ChatApi = createApi({
         body,
       }),
     }),
-    getChatById: builder.query<GetUserResponse['data'], GetUserRequest>({
-      query: (arg) => ({
-        url: ApiRoute.CHAT_WITH_ID.replace('id', arg),
+    getChatById: builder.query<IGetChatResponse['data'], { id: string }>({
+      query: ({ id }) => ({
+        url: ApiRoute.CHAT_WITH_ID.replace('id', id),
         method: 'GET',
       }),
     }),
@@ -35,7 +41,14 @@ export const ChatApi = createApi({
         method: 'DELETE',
       }),
     }),
+    updateChat: builder.mutation<IUpdateChatResponse, IUpdateChatRequest>({
+      query: ({ id, title, members }) => ({
+        url: `${ApiRoute.CHAT_WITH_ID}/${id}`,
+        method: 'PATCH',
+        body: { title, members },
+      }),
+    }),
   }),
 });
 
-export const { useCreateGroupChatMutation } = ChatApi;
+export const { useCreateGroupChatMutation, useDeleteChatMutation, useGetChatByIdQuery } = ChatApi;
