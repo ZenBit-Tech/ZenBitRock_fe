@@ -64,9 +64,9 @@ function PropertiesList({ search }: Props): JSX.Element {
             justifyContent: 'center',
             alignItems: 'stretch',
             flexWrap: 'wrap',
-            gap: '5%',
             width: '90%',
-            margin: 'auto',
+            margin: '2rem auto',
+            p: '0',
           }}
         >
           {data?.data.map((item: QobrixProperty) => <PropertyCard property={item} key={item.id} />)}

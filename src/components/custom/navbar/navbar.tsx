@@ -25,7 +25,7 @@ const Navbar = ({ user }: Props): JSX.Element => {
             borderTop: `1px solid ${grey[900]} `,
             top: 'auto',
             bottom: 0,
-            zIndex: '1',
+            zIndex: '101',
             backgroundColor: (theme) => theme.palette.primary.contrastText,
           }}
         >

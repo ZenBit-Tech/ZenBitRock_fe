@@ -27,7 +27,7 @@ const PropertyCard = ({ property }: Props) => {
   const t = useTranslations('properties');
   const router = useRouter();
 
-  const { id, saleRent, status, country, city, price, photo } = property;
+  const { id, saleRent, status, country, city, price, photo, name } = property;
 
   return (
     <Card
@@ -35,7 +35,7 @@ const PropertyCard = ({ property }: Props) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        width: '45%',
+        width: '100%',
         marginBottom: '2rem',
       }}
     >
@@ -84,6 +84,22 @@ const PropertyCard = ({ property }: Props) => {
           height: 'calc(100% - 100px)',
         }}
       >
+        <BoxStyled
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '100%',
+          }}
+        >
+          <TextStyled
+            sx={{
+              fontWeight: 'bold',
+            }}
+          >
+            {name}
+          </TextStyled>
+        </BoxStyled>
         <BoxStyled
           sx={{
             display: 'flex',

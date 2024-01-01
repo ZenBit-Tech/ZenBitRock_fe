@@ -168,7 +168,7 @@ export const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
               alt={`Slide ${index + 1}`}
               width={200}
               height={100}
-              sx={{ width: '100%', height: '100%', objectFit: 'cover', cursor: 'pointer' }}
+              sx={{ width: '100%', height: '200px', objectFit: 'cover', cursor: 'pointer' }}
               onClick={() => {
                 setToggleModal(true);
                 setCenter(index);
