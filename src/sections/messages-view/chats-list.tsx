@@ -39,30 +39,11 @@ export default function ChatsList({ chats, t }: Props) {
 
   return (
     <Box display="flex" flexDirection="column">
-      <Stack
-        sx={{
-          mb: 2,
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}
-      >
-        <TextField
-          value={searchTerm}
-          onChange={handleSearchChange}
-          placeholder={t('searchPlaceholder')}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
-              </InputAdornment>
-            ),
-          }}
-          sx={{ flex: 1, mr: 2 }}
-        />
-
-        <AddGroupChatButton t={t} />
-      </Stack>
+      <TextField
+        value={searchTerm}
+        onChange={handleSearchChange}
+        placeholder={t('searchPlaceholder')}
+      />
 
       <SortComponent t={t} sort={sortBy} onSort={handleSortBy} sortOptions={getSortOptions(t)} />
 
