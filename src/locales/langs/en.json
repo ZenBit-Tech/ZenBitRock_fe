@@ -651,7 +651,7 @@
     "addGroupBtnTxt": "Add group chat",
     "groupNameInputPlaceholder": "Enter agent name",
     "groupNameLabel": "Enter group name",
-    "groupNameInvalid": "Group name invalid",
+    "groupNameInvalid": "Group name must contains 10 symbols minimum",
     "groupNameRequired": "Group name required",
     "btnDeleteAgentFromList": "Remove agent from group",
     "groupName": "Group name:"

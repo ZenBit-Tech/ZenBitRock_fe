@@ -46,7 +46,6 @@ export default function FormSecond({
   const [value, setValue] = useState<Option | null>(initialOptions[0] || null);
 
   const [members, setMembers] = useState<Members>(initialMembers);
-  // const [value, setValue] = useState<Option | null>();
   const [inputValue, setInputValue] = useState<string | undefined>('');
 
   const [createGroupChat] = useCreateGroupChatMutation();
@@ -73,7 +72,7 @@ export default function FormSecond({
     mode: 'onTouched',
   });
 
-  const onSubmit = async () => {
+  const onSubmit = async (): Promise<void> => {
     try {
       const { data } = await createGroupChat(groupData).unwrap();
 
@@ -95,7 +94,7 @@ export default function FormSecond({
     }
   }, [ownerId, usersData]);
 
-  function handleClickDelete({ label, id }: Option) {
+  function handleClickDelete({ label, id }: Option): void {
     setMembers((prev) => [...prev.filter((member) => member.id !== id)]);
     setOptions((prev) => [...prev, { label, id }]);
   }

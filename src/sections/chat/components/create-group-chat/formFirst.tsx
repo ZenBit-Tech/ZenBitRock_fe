@@ -4,8 +4,6 @@ import { useForm } from 'react-hook-form';
 import { Button, TextField, Typography, Box, Stack } from '@mui/material';
 import { patterns } from 'constants/patterns';
 
-// type TFunction = (key: string) => string;
-
 type Props = {
   t: Function;
   groupNameUp: (name: string) => void;
@@ -28,7 +26,7 @@ export default function FormFirst({ t, groupNameUp, closeModalUp }: Props): JSX.
     },
   });
 
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = async (data: FormValues): Promise<void> => {
     const { groupName } = data;
 
     groupNameUp(groupName);
