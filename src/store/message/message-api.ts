@@ -21,7 +21,7 @@ export const MessageApi = createApi({
       IUnreadMessagesQuantityRequest
     >({
       query: (arg) => ({
-        url: ApiRoute.GET_UNREAD_MESSAGES.replace('id', arg.id),
+        url: ApiRoute.MESSAGES_GET_UNREAD.replace('id', arg.id),
         method: 'GET',
         params: arg.type ? { type: arg.type, typeId: arg.typeId } : undefined,
       }),

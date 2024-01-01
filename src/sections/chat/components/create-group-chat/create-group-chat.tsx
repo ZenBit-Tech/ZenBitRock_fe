@@ -54,8 +54,8 @@ const CreateGroupChat = ({ closeModal, openModal }: Props): JSX.Element => {
             }}
           >
             <ButtonClose
-              top="0"
-              right="0"
+              top="0.5rem"
+              right="0.5rem"
               width="1.5rem"
               height="1.5rem"
               handleClose={handleClose}
@@ -87,13 +87,18 @@ const CreateGroupChat = ({ closeModal, openModal }: Props): JSX.Element => {
             }}
           >
             <ButtonClose
-              top="0"
-              right="0"
+              top="0.5rem"
+              right="0.5rem"
               width="1.5rem"
               height="1.5rem"
               handleClose={handleClose}
             />
-            <FormSecond t={t} groupName={groupName} closeModalUp={handleClose} />
+            <FormSecond
+              t={t}
+              groupName={groupName}
+              closeModalUp={handleClose}
+              initialMembers={[]}
+            />
           </Box>
         </Modal>
       )}

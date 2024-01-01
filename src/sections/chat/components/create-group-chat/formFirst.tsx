@@ -4,10 +4,10 @@ import { useForm } from 'react-hook-form';
 import { Button, TextField, Typography, Box, Stack } from '@mui/material';
 import { patterns } from 'constants/patterns';
 
-type TFunction = (key: string) => string;
+// type TFunction = (key: string) => string;
 
 type Props = {
-  t: TFunction;
+  t: Function;
   groupNameUp: (name: string) => void;
   closeModalUp: () => void;
 };
@@ -37,7 +37,7 @@ export default function FormFirst({ t, groupNameUp, closeModalUp }: Props): JSX.
   return (
     <Box
       component="form"
-      sx={{ display: 'flex', flexDirection: 'column', width: '90%' }}
+      sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}
       onSubmit={handleSubmit(onSubmit)}
       noValidate
       autoComplete="off"
@@ -50,7 +50,7 @@ export default function FormFirst({ t, groupNameUp, closeModalUp }: Props): JSX.
         {...register('groupName', {
           required: t('groupNameRequired'),
           pattern: {
-            value: patterns.name,
+            value: patterns.agency,
             message: t('groupNameInvalid'),
           },
         })}
@@ -65,7 +65,13 @@ export default function FormFirst({ t, groupNameUp, closeModalUp }: Props): JSX.
         autoComplete=""
       />
       <Stack sx={{ mt: 5 }}>
-        <Button type="submit" variant="contained" color="primary" disabled={!isValid}>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          disabled={!isValid}
+          sx={{ mb: '1rem' }}
+        >
           {t('addGroupBtnTxt')}
         </Button>
         <Button type="reset" variant="contained" color="primary" onClick={() => closeModalUp()}>
