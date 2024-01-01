@@ -653,7 +653,8 @@
     "groupNameLabel": "Enter group name",
     "groupNameInvalid": "Group name invalid",
     "groupNameRequired": "Group name required",
-    "btnDeleteAgentFromList": "Remove agent from group"
+    "btnDeleteAgentFromList": "Remove agent from group",
+    "groupName": "Group name:"
   },
   "privateChat": {
     "title": "Chat",

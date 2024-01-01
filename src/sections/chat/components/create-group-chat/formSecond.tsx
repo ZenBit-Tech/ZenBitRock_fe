@@ -111,6 +111,10 @@ export default function FormSecond({
       noValidate
       autoComplete="off"
     >
+      <Typography sx={{ marginBottom: '0.5rem' }}>{t('groupName')}</Typography>
+      <Typography variant="h3" sx={{ marginBottom: '1.5rem' }}>
+        {groupName}
+      </Typography>
       <Autocomplete
         noOptionsText="No more agents"
         disablePortal

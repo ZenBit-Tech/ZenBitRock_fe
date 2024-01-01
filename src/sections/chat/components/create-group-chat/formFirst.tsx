@@ -50,7 +50,7 @@ export default function FormFirst({ t, groupNameUp, closeModalUp }: Props): JSX.
         {...register('groupName', {
           required: t('groupNameRequired'),
           pattern: {
-            value: patterns.agency,
+            value: patterns.textArea,
             message: t('groupNameInvalid'),
           },
         })}
