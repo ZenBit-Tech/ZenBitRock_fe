@@ -1,5 +1,3 @@
-'use client';
-
 import { Button, Box, Stack, TextField, Autocomplete, Typography } from '@mui/material';
 import Iconify from 'components/iconify';
 import { LoadingScreen } from 'components/loading-screen';
@@ -39,28 +37,31 @@ export default function FormSecond({
   initialMembers,
 }: Props): JSX.Element {
   const [options, setOptions] = useState<Options>([]);
-  const initialOptions = options.filter((option) =>
-    initialMembers.some((member) => member.id === option.id)
-  );
-
-  const [value, setValue] = useState<Option | null>(initialOptions[0] || null);
-
   const [members, setMembers] = useState<Members>(initialMembers);
+
+  const [value, setValue] = useState<Option | null>(null);
   const [inputValue, setInputValue] = useState<string | undefined>('');
 
   const [createGroupChat] = useCreateGroupChatMutation();
-
   const [getAllUsers, { data: usersData, isLoading, isError }] = useGetAllUsersMutation();
+  const router = useRouter();
 
   useEffect(() => {
     getAllUsers();
   }, [getAllUsers]);
 
-  const router = useRouter();
-
   const authUser = useSelector((state: RootState) => state.authSlice.user);
-
   const { id: ownerId }: { id: UserProfileResponse['id'] | null } = authUser || { id: null };
+
+  useEffect(() => {
+    if (usersData) {
+      const newOptions = usersData
+        .filter(({ id }) => id !== ownerId)
+        .map(({ firstName, lastName, id }) => ({ label: `${firstName} ${lastName}`, id }));
+
+      setOptions(newOptions);
+    }
+  }, [ownerId, usersData]);
 
   const groupData = {
     owner: ownerId,
@@ -77,27 +78,16 @@ export default function FormSecond({
       const { data } = await createGroupChat(groupData).unwrap();
 
       router.push(`${AppRoute.CHAT_PAGE}/${data.id}`);
-
       reset();
     } catch (error) {
       reset();
     }
   };
 
-  useEffect(() => {
-    if (usersData) {
-      const newOptions = usersData
-        .filter(({ id }) => id !== ownerId)
-        .map(({ firstName, lastName, id }) => ({ label: `${firstName} ${lastName}`, id }));
-
-      setOptions(newOptions);
-    }
-  }, [ownerId, usersData]);
-
-  function handleClickDelete({ label, id }: Option): void {
+  const handleClickDelete = ({ label, id }: Option): void => {
     setMembers((prev) => [...prev.filter((member) => member.id !== id)]);
     setOptions((prev) => [...prev, { label, id }]);
-  }
+  };
 
   if (isLoading || !usersData || !authUser) return <LoadingScreen />;
   if (isError) return <Page500 />;
