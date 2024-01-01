@@ -3,7 +3,7 @@
 import { styled, Typography, Button, List, Box, CardMedia } from '@mui/material';
 
 export const CardMediaStyled = styled(CardMedia)`
-  height: 100px;
+  height: 150px;
   @media (min-width: 1024px) {
     height: 200px;
   }
