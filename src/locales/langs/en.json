@@ -640,6 +640,7 @@
     "pageTitle": "Messages",
     "addGroupChatButton": "Add group chat",
     "searchPlaceholder": "Enter agent name",
+    "noMoreAgents": "No more agents",
     "sortBy": "Sort By:",
     "sortOptionLatest": "Latest",
     "sortOptionOldest": "Oldest",

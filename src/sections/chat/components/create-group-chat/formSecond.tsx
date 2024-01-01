@@ -115,7 +115,7 @@ export default function FormSecond({
         {groupName}
       </Typography>
       <Autocomplete
-        noOptionsText="No more agents"
+        noOptionsText={t('noMoreAgents')}
         disablePortal
         id="agents"
         options={options}
@@ -128,7 +128,7 @@ export default function FormSecond({
           <TextField
             autoFocus
             {...params}
-            label={options.length > 0 ? 'Enter agent name' : 'No more agents'}
+            label={options.length > 0 ? t('searchPlaceholder') : t('noMoreAgents')}
           />
         )}
         value={value}
