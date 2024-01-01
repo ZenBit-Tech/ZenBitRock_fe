@@ -22,7 +22,7 @@ export function ViewOnMap({ coordinates, closeModal, openModal }: ViewOnMapProps
   return (
     <Box sx={{ width: 'auto', height: 'auto', padding: '0', margin: '0' }}>
       <Modal open>
-        <Box sx={{ position: 'relative', width: '100vw', height: '100vh' }}>
+        <Box sx={{ position: 'relative', width: '100vw', height: '100svh' }}>
           <Iconify
             title={t('close')}
             color={colors.BUTTON_PRIMARY_COLOR}
