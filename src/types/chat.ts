@@ -63,3 +63,13 @@ export type ICreateGroupChatRequest = {
 };
 
 export type ICreateGroupChatResponse = { data: { id: string } };
+
+export type IChatResponse = {
+  data: {
+    id: string;
+    owner?: string | null;
+    members?: string[];
+    title?: string;
+    createdAt?: string;
+  };
+};
