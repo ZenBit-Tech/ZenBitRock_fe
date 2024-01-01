@@ -24,7 +24,9 @@ export default function AddGroupChatButton({ t }: Props): JSX.Element {
         variant="contained"
         color="primary"
         onClick={(): void => setOpenModal(!openModal)}
-      />
+      >
+        {t('addGroupChatButton')}
+      </Button>{' '}
     </>
   );
 }
