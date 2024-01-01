@@ -18,9 +18,21 @@ export const ChatApi = createApi({
   endpoints: (builder) => ({
     createGroupChat: builder.mutation<ICreateGroupChatResponse, ICreateGroupChatRequest['data']>({
       query: (body) => ({
-        url: ApiRoute.CHAT_CREATE_GROUP,
+        url: ApiRoute.CHATS,
         method: 'POST',
         body,
+      }),
+    }),
+    getChatById: builder.query<GetUserResponse['data'], GetUserRequest>({
+      query: (arg) => ({
+        url: ApiRoute.CHAT_WITH_ID.replace('id', arg),
+        method: 'GET',
+      }),
+    }),
+    deleteChat: builder.mutation<void, { id: string }>({
+      query: ({ id }) => ({
+        url: `${ApiRoute.CHAT_WITH_ID}/${id}`,
+        method: 'DELETE',
       }),
     }),
   }),
