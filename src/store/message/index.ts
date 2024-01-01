@@ -1,1 +1,1 @@
-export { useGetUnreadMessagesQuery, MessageApi } from './message-api';
+export { useGetUnreadMessagesQuery, MessageApi } from 'store/message/message-api';

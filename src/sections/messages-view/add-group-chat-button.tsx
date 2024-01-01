@@ -1,19 +1,32 @@
+'use client';
+
+import { useState } from 'react';
 import { Button } from '@mui/material';
-import Iconify from 'components/iconify';
+import { CreateGroupChat } from 'sections/chat/components/create-group-chat/create-group-chat';
 
 type Props = {
   t: Function;
 };
 
 export default function AddGroupChatButton({ t }: Props): JSX.Element {
+  const [openModal, setOpenModal] = useState<boolean>(false);
+
+  function closeModal(): void {
+    setOpenModal(!openModal);
+  }
+
   return (
-    <Button
-      title={t('addGroupChatButton')}
-      sx={{ padding: '14px' }}
-      variant="contained"
-      color="primary"
-    >
-      {t('addGroupChatButton')}
-    </Button>
+    <>
+      {openModal && <CreateGroupChat openModal={openModal} closeModal={() => closeModal()} />}
+      <Button
+        title={t('addGroupChatButton')}
+        sx={{ padding: '14px' }}
+        variant="contained"
+        color="primary"
+        onClick={(): void => setOpenModal(!openModal)}
+      >
+        {t('addGroupChatButton')}
+      </Button>{' '}
+    </>
   );
 }

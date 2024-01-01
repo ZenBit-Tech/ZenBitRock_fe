@@ -1,9 +1,7 @@
 import { useState, useCallback } from 'react';
-import { Box, Stack, TextField, InputAdornment } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import { IChatItem } from 'types/chat';
-import Iconify from 'components/iconify';
 import SearchNotFound from 'components/search-not-found';
-import AddGroupChatButton from './add-group-chat-button';
 import ChatItem from './chat-item';
 import SortComponent, { sortChats } from './sort-component';
 import { Values, getSortOptions } from './drop-box-data';
