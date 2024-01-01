@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { Button } from '@mui/material';
-import Iconify from 'components/iconify';
 import { CreateGroupChat } from 'sections/chat/components/create-group-chat/create-group-chat';
 
 type Props = {
@@ -25,9 +24,7 @@ export default function AddGroupChatButton({ t }: Props): JSX.Element {
         variant="contained"
         color="primary"
         onClick={(): void => setOpenModal(!openModal)}
-      >
-        <Iconify icon="subway:add" height="auto" />
-      </Button>
+      />
     </>
   );
 }
