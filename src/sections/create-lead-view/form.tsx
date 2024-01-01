@@ -8,6 +8,7 @@ import Backdrop from '@mui/material/Backdrop';
 import Typography from '@mui/material/Typography';
 import Stack, { StackProps } from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress';
+import { debounce } from 'lodash';
 import { useSnackbar } from 'notistack';
 import FormProvider, { RHFAutocomplete, RHFTextField } from 'components/hook-form';
 import { AppRoute } from 'enums';
@@ -44,6 +45,8 @@ const defaultValues = {
   locations: null,
 };
 
+const DEBOUNCE_DELAY: number = 1000;
+
 export default function Form({ user }: Props): JSX.Element {
   const t = useTranslations('CreateLeadPage');
 
@@ -52,20 +55,18 @@ export default function Form({ user }: Props): JSX.Element {
   const [isEnquiryTypeRent, setIsEnquiryTypeRent] = useState<boolean>(false);
   const [isEnquiryTypeSell, setIsEnquiryTypeSell] = useState<boolean>(false);
   const [locationsInputValue, setLocationsInputValue] = useState<string>('');
-  const [locationsPage, setLocationsPage] = useState<number>(1);
 
   const [createLead] = useCreateLeadMutation();
   const { data: searchLocationData, isLoading: isSearchLocationLoading } = useSearchLocationsQuery({
     find: locationsInputValue,
-    page: locationsPage,
+    page: 1,
   });
 
   const options = searchLocationData ? getLocationOptions(searchLocationData) : [];
 
-  const handleInputChange = (event: React.ChangeEvent<{}>, value: string) => {
+  const handleInputChange = debounce((event: React.ChangeEvent<{}>, value: string) => {
     setLocationsInputValue(value);
-    setLocationsPage(1);
-  };
+  }, DEBOUNCE_DELAY);
 
   const { push } = useRouter();
   const { enqueueSnackbar } = useSnackbar();

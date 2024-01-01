@@ -13,7 +13,7 @@ export default function AddGroupChatButton({ t }: Props): JSX.Element {
       variant="contained"
       color="primary"
     >
-      <Iconify icon="subway:add" height="auto" />
+      {t('addGroupChatButton')}
     </Button>
   );
 }
