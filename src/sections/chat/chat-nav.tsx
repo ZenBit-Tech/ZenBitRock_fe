@@ -2,8 +2,10 @@ import { useState, useCallback, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import TextField from '@mui/material/TextField';
 import { Container } from '@mui/system';
+import { Fab } from '@mui/material';
 import Card from '@mui/material/Card';
 import { useRouter } from 'routes/hooks';
+import { useScrollToTop } from 'hooks';
 import { UserChatResponse } from 'types/user-backend';
 import { AppRoute } from 'enums';
 import { AGENTS_SORT_OPTIONS } from 'constants/agentsSortOptions';
@@ -12,7 +14,6 @@ import ChatNavSearchResults from './chat-nav-search-results';
 import AgentListItem from './chat-agent-item';
 import AgentSort from './agent-sort';
 import sortAgents from './utils/sortAgents';
-
 
 type Props = {
   loading: boolean;
@@ -24,6 +25,8 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
   const router = useRouter();
 
   const t = useTranslations('agents');
+
+  const isVisible = useScrollToTop();
 
   const [searchAgents, setSearchAgents] = useState<{
     query: string;
@@ -82,6 +85,10 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
     [agents, sort]
   );
 
+  const scrollToTop = (): void => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const renderSkeleton = (
     <>
       {[...Array(12)].map((_, index) => (
@@ -99,7 +106,7 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
     />
   );
 
- const renderSearchInput = (
+  const renderSearchInput = (
     <TextField
       fullWidth
       value={searchAgents.query}
@@ -135,6 +142,20 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
               <AgentListItem key={agent.id} agent={agent} handleClickResult={handleClickResult} />
             ) : null
           )}
+          <Fab
+            color="primary"
+            aria-label="scroll to top"
+            onClick={scrollToTop}
+            sx={{
+              position: 'fixed',
+              bottom: '70px',
+              right: '20px',
+              display: isVisible ? 'block' : 'none',
+              transition: 'easy-in 200 display',
+            }}
+          >
+            ↑
+          </Fab>
         </>
       )}
     </>
