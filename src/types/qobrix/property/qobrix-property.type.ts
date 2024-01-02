@@ -1,5 +1,6 @@
 type QobrixProperty = {
   id: string;
+  name: string;
   bathrooms?: number | null;
   bedrooms?: number | null;
   property_type?: string;

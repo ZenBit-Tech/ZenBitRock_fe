@@ -1,14 +1,18 @@
 import { Box, IconButton, InputAdornment, TextField } from '@mui/material';
 import Iconify from 'components/iconify';
 import { useCallback } from 'hooks';
+import { useRef } from 'react';
 import CustomPopover, { usePopover } from 'components/custom-popover';
+import { getNameFilter } from 'utils';
 import { FilterList } from '../filter-list/filter-list';
 
 type Props = {
   setFilter: (filter: string) => void;
+  setPropertyNameFilter: (filter: string) => void;
 };
-const PropertyFilter = ({ setFilter }: Props) => {
+const PropertyFilter = ({ setFilter, setPropertyNameFilter }: Props) => {
   const popover = usePopover();
+  const inputRef = useRef<HTMLInputElement>();
 
   const handleApplyFilters = useCallback(
     (filter: string) => {
@@ -18,16 +22,23 @@ const PropertyFilter = ({ setFilter }: Props) => {
     [setFilter, popover]
   );
 
+  const handleApplyPropetyNameFilter = useCallback(() => {
+    setPropertyNameFilter(getNameFilter(inputRef.current?.value ?? ''));
+  }, [setPropertyNameFilter]);
+
   return (
     <Box sx={{ marginTop: 2, display: 'flex', alignItems: 'center' }}>
       <TextField
         placeholder="Search..."
         type="search"
         sx={{ width: '85%' }}
+        inputRef={inputRef}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <Iconify icon="eva:search-fill" sx={{ ml: 1, color: 'text.disabled' }} />
+              <IconButton sx={{ m: 0, p: 0 }} onClick={handleApplyPropetyNameFilter}>
+                <Iconify icon="eva:search-fill" sx={{ ml: 1, color: 'text.disabled' }} />
+              </IconButton>
             </InputAdornment>
           ),
         }}

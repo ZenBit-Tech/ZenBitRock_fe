@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import { useEffect, useState, useRouter, useTranslations } from 'hooks';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -10,19 +8,20 @@ import Backdrop from '@mui/material/Backdrop';
 import Typography from '@mui/material/Typography';
 import Stack, { StackProps } from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress';
+import { debounce } from 'lodash';
 import { useSnackbar } from 'notistack';
 import FormProvider, { RHFAutocomplete, RHFTextField } from 'components/hook-form';
 import { AppRoute } from 'enums';
+import { LocationSelectOption } from 'types';
+import { getLocationOptions } from 'utils';
 import { leadStatuses } from 'constants/leadStatuses';
 import { UserProfileResponse } from 'types/user-backend/user-profile-response.type';
 import { useCreateLeadMutation, useSearchLocationsQuery } from 'store/api/qobrixApi';
 import {
   ICountOfBedroomsValues,
-  ILocationValues,
   IValues,
   getCountOfBedrooms,
   getEnquiryTypes,
-  getLocations,
   getOfferTypes,
 } from './drop-box-data';
 import { FormSchema } from './schema';
@@ -46,6 +45,8 @@ const defaultValues = {
   locations: null,
 };
 
+const DEBOUNCE_DELAY: number = 1000;
+
 export default function Form({ user }: Props): JSX.Element {
   const t = useTranslations('CreateLeadPage');
 
@@ -54,20 +55,18 @@ export default function Form({ user }: Props): JSX.Element {
   const [isEnquiryTypeRent, setIsEnquiryTypeRent] = useState<boolean>(false);
   const [isEnquiryTypeSell, setIsEnquiryTypeSell] = useState<boolean>(false);
   const [locationsInputValue, setLocationsInputValue] = useState<string>('');
-  const [locationsPage, setLocationsPage] = useState<number>(1);
 
   const [createLead] = useCreateLeadMutation();
   const { data: searchLocationData, isLoading: isSearchLocationLoading } = useSearchLocationsQuery({
     find: locationsInputValue,
-    page: locationsPage,
+    page: 1,
   });
 
-  const options = searchLocationData ? getLocations(searchLocationData) : [];
+  const options = searchLocationData ? getLocationOptions(searchLocationData) : [];
 
-  const handleInputChange = (event: React.ChangeEvent<{}>, value: string) => {
+  const handleInputChange = debounce((event: React.ChangeEvent<{}>, value: string) => {
     setLocationsInputValue(value);
-    setLocationsPage(1);
-  };
+  }, DEBOUNCE_DELAY);
 
   const { push } = useRouter();
   const { enqueueSnackbar } = useSnackbar();
@@ -349,8 +348,8 @@ export default function Form({ user }: Props): JSX.Element {
                 name="locations"
                 placeholder={t('locationsPlaceholder')}
                 options={options}
-                getOptionLabel={(option: ILocationValues | string) =>
-                  (option as ILocationValues).label
+                getOptionLabel={(option: LocationSelectOption | string) =>
+                  (option as LocationSelectOption).label
                 }
                 isOptionEqualToValue={(option, value) => option.label === value.label}
                 onInputChange={handleInputChange}

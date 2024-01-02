@@ -55,6 +55,7 @@ export const QobrixApi = createApi({
         url: ApiRoute.QOBRIX_PROPERY_TYPES,
         method: 'GET',
         body,
+        params: { limit: 100 },
       }),
     }),
     updateContact: builder.mutation<QobrixContactResponse['data'], IUserUpdateQobrix>({
@@ -95,6 +96,7 @@ export const QobrixApi = createApi({
       transformResponse: (response: QobrixPropertyListResponse) => {
         response.data = response.data.map((property) => ({
           id: property.id,
+          name: property.name,
           saleRent: property.sale_rent,
           status: property.status,
           country: property.country,

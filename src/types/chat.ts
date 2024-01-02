@@ -57,3 +57,9 @@ export type IChatConversations = {
   byId: Record<string, IChatConversation>;
   allIds: string[];
 };
+
+export type ICreateGroupChatRequest = {
+  data: { owner: string | null; members: string[]; title: string };
+};
+
+export type ICreateGroupChatResponse = { data: { id: string } };

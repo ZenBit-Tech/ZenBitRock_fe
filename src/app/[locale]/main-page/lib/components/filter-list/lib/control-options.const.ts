@@ -79,12 +79,12 @@ const BEDROOMS = [
 
 const getRentOrSaleOption = (t: (key: string) => string): { value: string; label: string }[] => [
   {
-    value: 'for_rent',
-    label: t('for_rent'),
-  },
-  {
     value: 'for_sale',
     label: t('for_sale'),
+  },
+  {
+    value: 'for_rent',
+    label: t('for_rent'),
   },
 ];
 

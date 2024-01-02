@@ -1,7 +1,16 @@
+import { LocationSelectOption } from 'types';
 import * as Yup from 'yup';
 
 const FilterSchema = Yup.object().shape({
-  location: Yup.string().nullable(),
+  location: Yup.object<LocationSelectOption>()
+    .shape({
+      searchParams: Yup.object().shape({
+        district: Yup.string(),
+        area: Yup.string(),
+        subarea: Yup.string(),
+      }),
+    })
+    .nullable(),
   propertyType: Yup.string().nullable(),
   status: Yup.string().nullable(),
   priceRange: Yup.array().of(Yup.number()).nullable(),

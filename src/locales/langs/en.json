@@ -357,6 +357,7 @@
       "priceRange": "Price range",
       "bedrooms": "Bedrooms",
       "apply": "Apply filters",
+      "locationsPlaceholder": "Location search",
       "filterOptions": {
         "propertyStatus": {
           "pending": "Pending",
@@ -641,11 +642,22 @@
     "pageTitle": "Messages",
     "addGroupChatButton": "Add group chat",
     "searchPlaceholder": "Enter agent name",
+    "noMoreAgents": "No more agents",
     "sortBy": "Sort By:",
     "sortOptionLatest": "Latest",
     "sortOptionOldest": "Oldest",
     "sortOptionNameIncrease": "Name: A-Z",
-    "sortOptionNameDecrease": "Name: Z-A"
+    "sortOptionNameDecrease": "Name: Z-A",
+    "addToChat": "Add to chat",
+    "cancelBtnTxt": "Cancel",
+    "addGroupChat": "Add group chat",
+    "addGroupBtnTxt": "Add group chat",
+    "groupNameInputPlaceholder": "Enter agent name",
+    "groupNameLabel": "Enter group name",
+    "groupNameInvalid": "Group name must contains 10 symbols minimum",
+    "groupNameRequired": "Group name required",
+    "btnDeleteAgentFromList": "Remove agent from group",
+    "groupName": "Group name:"
   },
   "privateChat": {
     "title": "Chat",

@@ -1,24 +1,25 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Box, MenuItem, Stack } from '@mui/material';
-import { useForm, useTranslations } from 'hooks';
+import { useForm, useState, useTranslations } from 'hooks';
 import FormProvider, {
+  RHFAutocomplete,
   RHFRadioGroup,
   RHFSelect,
   RHFSlider,
-  RHFTextField,
 } from 'components/hook-form';
 import { Block } from 'components/custom';
-import { useGetPropertyTypesQuery } from 'store/api/qobrixApi';
+import { useGetPropertyTypesQuery, useSearchLocationsQuery } from 'store/api/qobrixApi';
 import { LoadingScreen } from 'components/loading-screen';
-import { getBedroomsFilter, getBuyRentFilter, getPropertyStatusFilter } from 'utils';
+import { getLocationOptions, getMainPagePropertyFilter } from 'utils';
+import { LocationSelectOption } from 'types';
 import { BEDROOMS, getPropertyStatus, getRentOrSaleOption, FilterSchema } from './lib';
 
 const defaultValues = {
-  location: '',
+  location: null,
   propertyType: '',
   status: '',
-  priceRange: [0, 100000000],
+  priceRange: [100000, 5000000],
   bedrooms: '',
   rentOrSale: null,
 };
@@ -28,6 +29,19 @@ type Props = {
 };
 
 const FilterList = ({ applyFilters }: Props): JSX.Element => {
+  const [locationsInputValue, setLocationsInputValue] = useState<string>('');
+
+  const { data: searchLocationData, isLoading: isSearchLocationLoading } = useSearchLocationsQuery({
+    find: locationsInputValue,
+    page: 1,
+  });
+
+  const options = searchLocationData ? getLocationOptions(searchLocationData) : [];
+
+  const handleInputChange = (event: React.ChangeEvent<{}>, value: string) => {
+    setLocationsInputValue(value);
+  };
+
   const { data } = useGetPropertyTypesQuery(undefined);
   const t = useTranslations('mainPage.filters');
   const propertyStatus = useTranslations('mainPage.filters.filterOptions.propertyStatus');
@@ -51,15 +65,7 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
 
   const onSubmit = handleSubmit(async (formData) => {
     try {
-      const { bedrooms, status, rentOrSale: rent } = formData;
-      let filter = '';
-
-      filter = filter
-        .concat(getBedroomsFilter(bedrooms ? Number(bedrooms) : null, null))
-        .concat(getPropertyStatusFilter(status ?? null))
-        .concat(getBuyRentFilter(rent ?? null));
-
-      filter = filter.substring(filter.indexOf('and') + 3);
+      const filter = getMainPagePropertyFilter(formData);
 
       applyFilters(filter);
     } catch (error) {
@@ -72,8 +78,25 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <Stack spacing={1} alignItems="center">
           <Block label={t('location')}>
-            <RHFTextField name="location" size="small" />
+            <RHFAutocomplete
+              name="location"
+              size="small"
+              placeholder={t('locationsPlaceholder')}
+              options={options}
+              getOptionLabel={(option: LocationSelectOption | string) =>
+                (option as LocationSelectOption).label
+              }
+              isOptionEqualToValue={(option, value) => option.label === value.label}
+              onInputChange={handleInputChange}
+              renderOption={(props, option) => (
+                <li {...props} key={option.key}>
+                  {option.label}
+                </li>
+              )}
+              loading={isSearchLocationLoading}
+            />
           </Block>
+
           <Block label={t('propertyType')}>
             <RHFSelect name="propertyType" size="small">
               {data &&
@@ -97,9 +120,9 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
             <RHFSlider
               name="priceRange"
               sx={{ width: '92%', margin: '0 auto', height: 4 }}
-              min={0}
-              max={100000}
-              step={10}
+              min={10000}
+              max={5000000}
+              step={1000}
             />
           </Block>
           <Block label={t('bedrooms')}>
