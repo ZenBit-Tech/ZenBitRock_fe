@@ -30,14 +30,17 @@ function LeadsFilter({ getFilter }: Prop): JSX.Element {
       status: '',
       leadName: '',
     },
-    mode: 'onTouched',
+    mode: 'onSubmit',
   });
   const { register, control, handleSubmit } = form;
 
   const onSubmit = (data: FormValues): void => {
-    const { status, leadName } = data;
+    const modifiedData = {
+      ...data,
+      status: data.status === 'all' ? '' : data.status,
+    };
 
-    const searchString = `ContactNameContacts.name contains '${leadName}' and Opportunities.conversion_status matches '${status}'`;
+    const searchString = `ContactNameContacts.name contains '${modifiedData.leadName}' and Opportunities.conversion_status matches '${modifiedData.status}'`;
 
     getFilter(searchString);
   };
@@ -50,10 +53,12 @@ function LeadsFilter({ getFilter }: Prop): JSX.Element {
             display: 'flex',
             flexWrap: 'nowrap',
             flexDirection: 'row',
-            margin: '24px',
           }}
+          fullWidth
         >
-          <InputLabel id="demo-dialog-select-label">{t('status')}</InputLabel>
+          <InputLabel id="demo-dialog-select-label" sx={{ fontSize: '0.841rem' }}>
+            {t('status')}
+          </InputLabel>
           <Controller
             name="status"
             control={control}
@@ -62,12 +67,25 @@ function LeadsFilter({ getFilter }: Prop): JSX.Element {
                 {...field}
                 labelId="demo-dialog-select-label"
                 input={<OutlinedInput label={t('status')} />}
+                renderValue={(selected) => {
+                  if (selected === 'all') {
+                    return 'All';
+                  }
+
+                  const foundStatus = Object.values(leadStatuses).find(
+                    (status) => status.id === selected
+                  );
+                  return foundStatus ? foundStatus.label : 'All';
+                }}
                 variant="filled"
-                sx={{ minWidth: 120, borderRadius: ' 8px 0 0 8px' }}
+                sx={{
+                  minWidth: 120,
+                  maxWidth: 190,
+                  borderRadius: ' 8px 0 0 8px',
+                  flex: 2,
+                }}
               >
-                <MenuItem value="">
-                  <em>{t('none')}</em>
-                </MenuItem>
+                <MenuItem value="all">All</MenuItem>
                 {Object.entries(leadStatuses).map(([statusName, statusValue]) => (
                   <MenuItem key={statusName} value={statusValue.id}>
                     {statusValue.label}
@@ -83,6 +101,8 @@ function LeadsFilter({ getFilter }: Prop): JSX.Element {
             sx={{
               display: 'flex',
               width: '85%',
+              flex: 3,
+
               '& fieldset': {
                 borderRadius: '0 8px 8px 0',
                 height: '60px',
@@ -92,7 +112,10 @@ function LeadsFilter({ getFilter }: Prop): JSX.Element {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton aria-label="toggle password visibility" edge="end" type="submit">
-                    <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
+                    <Iconify
+                      icon="eva:search-fill"
+                      sx={{ color: 'primary.main', width: '23px', height: '23px' }}
+                    />
                   </IconButton>
                 </InputAdornment>
               ),

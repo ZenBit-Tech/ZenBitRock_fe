@@ -110,7 +110,9 @@ export default function DeleteProfileDialog({ id }: Props) {
             color="primary"
             variant="contained"
             sx={{
-              '&:hover': { backgroundColor: 'error.main' },
+              '&:hover, &:active, &:focus': {
+                backgroundColor: 'error.main',
+              },
             }}
           >
             {t('confirmDelBtnTxt')}
