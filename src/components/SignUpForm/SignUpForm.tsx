@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { notFound, useRouter } from 'next/navigation';
@@ -53,8 +53,20 @@ function SignUpForm({ signUpPage }: SignUpProps) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState<boolean>(false);
 
-  const { register, handleSubmit, formState, watch } = form;
-  const { errors, isValid } = formState;
+  const { register, handleSubmit, formState, watch, trigger } = form;
+  const { errors, isValid, touchedFields } = formState;
+
+  useEffect(() => {
+    if (touchedFields.password) {
+      trigger('repeatPassword');
+    }
+  }, [trigger, touchedFields.password]);
+
+  useEffect(() => {
+    if (touchedFields.repeatPassword) {
+      trigger('password');
+    }
+  }, [trigger, touchedFields.repeatPassword]);
 
   const onSubmit = async (data: FormValues) => {
     const { email, password } = data;
@@ -106,9 +118,12 @@ function SignUpForm({ signUpPage }: SignUpProps) {
             value: /^.{8,}$/i,
             message: signUpPage.Main.minChar,
           },
+
+          validate: (value) =>
+            value === watch('repeatPassword') ? true : signUpPage.Main.unmatchPass,
         })}
-        error={!!errors.password}
-        helperText={errors.password?.message}
+        error={!!errors.password && !isValid}
+        helperText={!isValid && errors.password?.message}
         InputProps={{
           endAdornment: (
             <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
@@ -126,10 +141,10 @@ function SignUpForm({ signUpPage }: SignUpProps) {
         sx={{ height: '80px' }}
         {...register('repeatPassword', {
           required: signUpPage.Main.passwordRequired,
-          validate: (value) => value === watch('password') || signUpPage.Main.unmatchPass,
+          validate: (value) => (value === watch('password') ? true : signUpPage.Main.unmatchPass),
         })}
-        error={!!errors.repeatPassword}
-        helperText={errors.repeatPassword?.message}
+        error={!!errors.repeatPassword && !isValid}
+        helperText={!isValid && errors.repeatPassword?.message}
         InputProps={{
           endAdornment: (
             <IconButton onClick={() => setShowRepeatPassword(!showRepeatPassword)} edge="end">
