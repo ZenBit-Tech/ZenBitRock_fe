@@ -4,24 +4,28 @@ import { colors } from 'constants/colors';
 import { useState, useTranslations, useCloseModal } from 'hooks';
 import FormFirst from 'sections/chat/components/create-group-chat/formFirst';
 import FormSecond from 'sections/chat/components/create-group-chat/formSecond';
+import { IChatResponse } from 'types';
 
 type Props = {
   closeModal: () => void;
   openModal: boolean;
+  chat: IChatResponse['data'];
 };
 
-const ChatInfo = ({ closeModal, openModal }: Props): JSX.Element => {
+const ChatInfo = ({ closeModal, openModal, chat }: Props): JSX.Element => {
+  const { id, owner, title, members, createdAt } = chat;
+  
   const [firstModal, setFirstModal] = useState<boolean>(openModal);
   const [secondModal, setSecondModal] = useState<boolean>(false);
   const [groupName, setGroupName] = useState<string>('');
 
-  const groupNameUp = (name: string): void => {
-    if (name !== '') {
-      setGroupName(name);
-      setFirstModal(false);
-      setSecondModal(true);
-    }
-  };
+  // const groupNameUp = (name: string): void => {
+  //   if (name !== '') {
+  //     setGroupName(name);
+  //     setFirstModal(false);
+  //     setSecondModal(true);
+  //   }
+  // };
 
   const handleClose = (): void => closeModal();
 
