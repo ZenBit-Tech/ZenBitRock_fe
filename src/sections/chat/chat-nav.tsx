@@ -1,11 +1,9 @@
 import { useState, useCallback, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
 import { Container } from '@mui/system';
 import Card from '@mui/material/Card';
 import { useRouter } from 'routes/hooks';
-import Iconify from 'components/iconify';
 import { UserChatResponse } from 'types/user-backend';
 import { AppRoute } from 'enums';
 import { AGENTS_SORT_OPTIONS } from 'constants/agentsSortOptions';
@@ -108,17 +106,9 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
       onChange={(event) => handleSearchAgents(event.target.value)}
       placeholder={t('searchPlaceholder')}
       type="search"
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">
-            <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
-          </InputAdornment>
-        ),
-      }}
       sx={{ my: 2.5 }}
     />
   );
-
 
   const renderContent = (
     <>
