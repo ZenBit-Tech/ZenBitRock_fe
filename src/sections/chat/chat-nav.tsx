@@ -5,6 +5,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { Container } from '@mui/system';
 import Card from '@mui/material/Card';
 import { useRouter } from 'routes/hooks';
+import Iconify from 'components/iconify';
 import { UserChatResponse } from 'types/user-backend';
 import { AppRoute } from 'enums';
 import { AGENTS_SORT_OPTIONS } from 'constants/agentsSortOptions';
@@ -100,7 +101,7 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
     />
   );
 
-  const renderSearchInput = (
+ const renderSearchInput = (
     <TextField
       fullWidth
       value={searchAgents.query}
@@ -117,6 +118,7 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
       sx={{ my: 2.5 }}
     />
   );
+
 
   const renderContent = (
     <>
