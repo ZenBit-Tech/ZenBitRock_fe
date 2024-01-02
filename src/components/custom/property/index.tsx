@@ -86,9 +86,7 @@ export default function Property({ id }: { id: string }): JSX.Element {
           <InfoBlock property={propertyDetailed} />
           <ButtonStyled
             disabled={
-              propertyDetailed.coordinates || (propertyDetailed.city && propertyDetailed.street)
-                ? false
-                : true
+              !propertyDetailed.coordinates && !(propertyDetailed.city && propertyDetailed.street)
             }
             sx={{ padding: '14px', marginY: '1.5rem' }}
             variant="contained"
