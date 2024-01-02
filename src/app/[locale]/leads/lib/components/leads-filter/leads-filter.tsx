@@ -12,6 +12,7 @@ import Select from '@mui/material/Select';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
 import Iconify from 'components/iconify/iconify';
 import { leadStatuses } from 'constants/leadStatuses';
+import { randomValues } from 'constants/randomValues';
 
 type Prop = {
   getFilter(arg: string): void;
@@ -37,7 +38,7 @@ function LeadsFilter({ getFilter }: Prop): JSX.Element {
   const onSubmit = (data: FormValues): void => {
     const modifiedData = {
       ...data,
-      status: data.status === 'all' ? '' : data.status,
+      status: data.status === randomValues.ALL ? '' : data.status,
     };
 
     const searchString = `ContactNameContacts.name contains '${modifiedData.leadName}' and Opportunities.conversion_status matches '${modifiedData.status}'`;
@@ -68,14 +69,14 @@ function LeadsFilter({ getFilter }: Prop): JSX.Element {
                 labelId="demo-dialog-select-label"
                 input={<OutlinedInput label={t('status')} />}
                 renderValue={(selected) => {
-                  if (selected === 'all') {
-                    return 'All';
+                  if (selected === randomValues.ALL) {
+                    return t('all');
                   }
 
                   const foundStatus = Object.values(leadStatuses).find(
                     (status) => status.id === selected
                   );
-                  return foundStatus ? foundStatus.label : 'All';
+                  return foundStatus ? foundStatus.label : t('all');
                 }}
                 variant="filled"
                 sx={{
@@ -85,7 +86,7 @@ function LeadsFilter({ getFilter }: Prop): JSX.Element {
                   flex: 2,
                 }}
               >
-                <MenuItem value="all">All</MenuItem>
+                <MenuItem value={randomValues.ALL}>{t('all')}</MenuItem>
                 {Object.entries(leadStatuses).map(([statusName, statusValue]) => (
                   <MenuItem key={statusName} value={statusValue.id}>
                     {statusValue.label}

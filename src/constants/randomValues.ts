@@ -4,4 +4,5 @@ export const randomValues = {
   BADGE_TEMP_VALUE: 5,
   MSG: 'Message',
   USER: 'User',
+  ALL: 'all',
 };
