@@ -7,14 +7,13 @@ import FormSecond from 'sections/chat/components/create-group-chat/formSecond';
 import { IChatResponse } from 'types';
 
 type Props = {
-  closeModal: () => void;
-  openModal: boolean;
-  chat: IChatResponse['data'];
+  id: string;
+  userId: string;
 };
 
-const ChatInfo = ({ closeModal, openModal, chat }: Props): JSX.Element => {
-  const { id, owner, title, members, createdAt } = chat;
-  
+const ChatInfo = ({ id, userId }: Props): JSX.Element => {
+  // const { id, owner, title, members, createdAt } = chat;
+
   const [firstModal, setFirstModal] = useState<boolean>(openModal);
   const [secondModal, setSecondModal] = useState<boolean>(false);
   const [groupName, setGroupName] = useState<string>('');

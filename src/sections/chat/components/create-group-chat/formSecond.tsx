@@ -75,9 +75,12 @@ export default function FormSecond({
 
   const onSubmit = async (): Promise<void> => {
     try {
-      const { data } = await createGroupChat(groupData).unwrap();
+      const { room } = await createGroupChat({ title: groupName }).unwrap();
+      
+      if (room) {
+        router.push(`${AppRoute.CHAT_PAGE}/${room.id}`);
+      }
 
-      router.push(`${AppRoute.CHAT_PAGE}/${data.id}`);
       reset();
     } catch (error) {
       reset();

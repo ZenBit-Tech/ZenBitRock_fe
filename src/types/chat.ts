@@ -58,14 +58,10 @@ export type IChatConversations = {
   allIds: string[];
 };
 
-export type ICreateGroupChatRequest = {
-  data: { owner: string | null; members: string[]; title: string };
-};
-
-export type ICreateGroupChatResponse = { data: { id: string } };
+export type ICreateGroupChatRequest = { title: string };
 
 export type IChatResponse = {
-  data: {
+  room: {
     id: string;
     owner?: string | null;
     members?: string[];

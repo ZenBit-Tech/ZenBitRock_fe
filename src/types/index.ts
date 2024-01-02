@@ -51,5 +51,5 @@ export {
   type IUnreadMessagesQuantityResponse,
   type IUnreadMessagesQuantityRequest,
 } from './message';
-export { type ICreateGroupChatRequest, type ICreateGroupChatResponse } from './chat';
+export { type ICreateGroupChatRequest } from './chat';
 export { type IChatResponse } from './chat';
