@@ -7,19 +7,18 @@ import { colors } from 'constants/colors';
 import { AppRoute } from 'enums';
 import { useState, useTranslations, useCloseModal, useRouter, useSelector } from 'hooks';
 import { usePathname } from 'next/navigation';
-import FormFirst from 'sections/chat/components/create-group-chat/form-add-group-chat';
-import FormSecond from 'sections/chat/components/create-group-chat/formSecond';
 import { RootState } from 'store';
 import { useGetChatByIdQuery } from 'store/chat/chat-api';
 import { IChatResponse, UserProfileResponse } from 'types';
 import uuidv4 from 'utils/uuidv4';
+import { FormName, FormDelete, FormAddAgents } from 'sections/chat/components/chat-info';
 
 type Props = {
   id: string;
   userId: string;
 };
 
-const ChatInfo = ({ members = [], id, userId }: Props): JSX.Element => {
+const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
   // const { id, owner, title, members, createdAt } = chat;
 
   const [nameModal, setNameModal] = useState<boolean>(false);
@@ -29,7 +28,7 @@ const ChatInfo = ({ members = [], id, userId }: Props): JSX.Element => {
 
   const authUser = useSelector((state: RootState) => state.authSlice.user);
   const {
-    id: ownerId,
+    id: userId,
     firstName,
     lastName,
   }: {
@@ -40,13 +39,19 @@ const ChatInfo = ({ members = [], id, userId }: Props): JSX.Element => {
     id: null,
   };
 
+  console.log(userId);
   const router = useRouter();
   const pathsname = usePathname();
 
   console.log(pathsname);
-  const { room } = useGetChatByIdQuery({ id: pathsname.split('/')[2] });
+  // const { room } = useGetChatByIdQuery({ id: pathsname.split('/')[2] });
+  const room = {
+    owner: 'e5766e45-3e90-43cf-baa3-030ed0af2df2',
+    id: '5ee757d6-4c9c-4d74-8bb4-e12c60ef7178',
+    members: [],
+    createdAt: '2024-01-03T22:26:44.486Z',
+  };
 
-  console.log(room);
   // const groupNameUp = (name: string): void => {
   //   if (name !== '') {
   //     setGroupName(name);
@@ -55,9 +60,32 @@ const ChatInfo = ({ members = [], id, userId }: Props): JSX.Element => {
   //   }
   // };
 
+  function closeModal(type: string): void {
+    switch (type) {
+      case 'name': {
+        setNameModal(!nameModal);
+        break;
+      }
+
+      case 'members': {
+        setAddAgentsModal(!addAgentsModal);
+        break;
+      }
+
+      case 'delete': {
+        setDeleteModal(!deleteModal);
+        break;
+      }
+
+      default:
+    }
+  }
+
   const handleClose = (): void => closeModal();
 
-  useCloseModal(openModal, (): void => closeModal());
+  useCloseModal(nameModal, (): void => closeModal());
+  useCloseModal(addAgentsModal, (): void => closeModal());
+  useCloseModal(deleteModal, (): void => closeModal());
 
   const t = useTranslations('MessagesPage');
 
@@ -81,7 +109,7 @@ const ChatInfo = ({ members = [], id, userId }: Props): JSX.Element => {
         <Title variant="h3">{t('title')}</Title>
       </Box>
       <Typography>{t('Chat name')}</Typography>
-      {ownerId === room.owner && (
+      {userId === room.owner && (
         <Link
           color="inherit"
           sx={{
@@ -100,9 +128,9 @@ const ChatInfo = ({ members = [], id, userId }: Props): JSX.Element => {
               textDecoration: 'underline',
             },
           }}
-          onClick={(): void => setOpenModal(!openModal)}
+          onClick={(): void => setNameModal(!nameModal)}
         >
-          <Iconify icon="iconoir:list" width="1.5rem" height="1.5rem" />
+          <Iconify icon="ic:round-edit-note" width="1.5rem" height="1.5rem" />
           <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
             {t('Edit group name')}
           </Typography>
@@ -134,12 +162,12 @@ const ChatInfo = ({ members = [], id, userId }: Props): JSX.Element => {
         }}
         onClick={(): void => setAddAgentsModal(!addAgentsModal)}
       >
-        <Iconify icon="iconoir:list" width="1.5rem" height="1.5rem" />
+        <Iconify icon="ic:round-playlist-add" width="1.5rem" height="1.5rem" />
         <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
           {t('Add agents to chat')}
         </Typography>
       </Link>
-      {ownerId === room.owner && (
+      {userId === room.owner && (
         <Link
           color="inherit"
           sx={{
@@ -160,7 +188,7 @@ const ChatInfo = ({ members = [], id, userId }: Props): JSX.Element => {
           }}
           onClick={(): void => setDeleteModal(!deleteModal)}
         >
-          <Iconify icon="iconoir:list" width="1.5rem" height="1.5rem" />
+          <Iconify icon="fluent:delete-28-regular" width="1.5rem" height="1.5rem" />
           <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
             {t('Delete chat')}
           </Typography>
@@ -175,31 +203,15 @@ const ChatInfo = ({ members = [], id, userId }: Props): JSX.Element => {
                 title={t('btnDeleteAgentFromList')}
                 key={uuidv4()}
                 sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
                   '&:not(:last-child)': {
                     mb: '1rem',
                   },
                 }}
               >
-                <Typography>{user?.label}</Typography>
-                <Iconify
-                  icon="fluent:delete-28-regular"
-                  width="1.5rem"
-                  height="1.5rem"
-                  color={colors.ERROR_COLOR}
-                  sx={{
-                    opacity: '0.5',
-                    cursor: 'pointer',
-                    transition: 'all 200ms ease-out',
-                    '&:hover': {
-                      opacity: '1',
-                      transition: 'all 200ms ease-out',
-                    },
-                  }}
-                  onClick={() => handleClickDelete(user)}
-                />
+                <Typography>
+                  {user?.firstName}
+                  {user?.lastName}
+                </Typography>
               </Box>
             )
         )}
@@ -266,7 +278,12 @@ const ChatInfo = ({ members = [], id, userId }: Props): JSX.Element => {
               height="1.5rem"
               handleClose={handleClose}
             />
-            <FormSecond t={t} roomId={room.id} members={room.members} closeModalUp={handleClose} />
+            <FormAddAgents
+              t={t}
+              roomId={room.id}
+              members={room.members}
+              closeModalUp={handleClose}
+            />
           </Box>
         </Modal>
       )}
@@ -308,6 +325,3 @@ const ChatInfo = ({ members = [], id, userId }: Props): JSX.Element => {
 };
 
 export { ChatInfo };
-function closeModal(): void {
-  throw new Error('Function not implemented.');
-}

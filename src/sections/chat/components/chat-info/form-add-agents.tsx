@@ -33,7 +33,7 @@ type Option = {
   id: string;
 };
 
-export default function FormSecond({ t, room, closeModalUp, initialMembers }: Props): JSX.Element {
+export function FormAddAgents({ t, room, closeModalUp, initialMembers }: Props): JSX.Element {
   const [options, setOptions] = useState<Options>([]);
   const [members, setMembers] = useState<Members>(initialMembers);
 
