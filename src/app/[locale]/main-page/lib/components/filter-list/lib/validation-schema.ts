@@ -11,8 +11,12 @@ const FilterSchema = Yup.object().shape({
       }),
     })
     .nullable(),
-  propertyType: Yup.string().nullable(),
-  status: Yup.string().nullable(),
+  propertyType: Yup.object<{ label: string; value: string }>()
+    .shape({ label: Yup.string().required(), value: Yup.string().required() })
+    .nullable(),
+  status: Yup.object<{ label: string; value: string }>()
+    .shape({ label: Yup.string().required(), value: Yup.string().required() })
+    .nullable(),
   priceRangeRentFrom: Yup.number()
     .min(100, 'Min 100')
     .lessThan(Yup.ref('priceRangeRentTo'), 'Should be less than max value'),
@@ -27,7 +31,9 @@ const FilterSchema = Yup.object().shape({
     .min(10000, 'Min 10000')
     .max(10000000, 'Max 10000000')
     .moreThan(Yup.ref('priceRangeSaleFrom'), 'Should be more than min value'),
-  bedrooms: Yup.string().nullable(),
+  bedrooms: Yup.object<{ label: string; value: string }>()
+    .shape({ label: Yup.string().required(), value: Yup.string().required() })
+    .nullable(),
   rentOrSale: Yup.string().nullable(),
 });
 

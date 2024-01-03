@@ -1,18 +1,15 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { Box, MenuItem, Stack } from '@mui/material';
-import { useEffect, useForm, useState, useTranslations } from 'hooks';
-import FormProvider, {
-  RHFAutocomplete,
-  RHFRadioGroup,
-  RHFSelect,
-  RHFTextField,
-} from 'components/hook-form';
+
+import { Box, Stack } from '@mui/material';
+import { useEffect, useForm, useLocalStorage, useState, useTranslations } from 'hooks';
+import FormProvider, { RHFAutocomplete, RHFRadioGroup, RHFTextField } from 'components/hook-form';
 import { Block } from 'components/custom';
 import { useGetPropertyTypesQuery, useSearchLocationsQuery } from 'store/api/qobrixApi';
 import { LoadingScreen } from 'components/loading-screen';
 import { getLocationOptions, getMainPagePropertyFilter } from 'utils';
-import { LocationSelectOption } from 'types';
+import { LocationSelectOption, type PropertyFilterFormData } from 'types';
+import { StorageKey } from 'enums';
 import {
   BEDROOMS,
   getPropertyStatus,
@@ -21,15 +18,15 @@ import {
   removeDataFromLocalStorage,
 } from './lib';
 
-const defaultValues = {
+const defaultValues: PropertyFilterFormData = {
   location: null,
-  propertyType: '',
-  status: '',
+  propertyType: null,
+  status: null,
   priceRangeSaleFrom: 10000,
   priceRangeSaleTo: 10000000,
   priceRangeRentFrom: 100,
   priceRangeRentTo: 10000,
-  bedrooms: '',
+  bedrooms: null,
   rentOrSale: 'for_sale',
 };
 
@@ -42,6 +39,11 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
   const [isTypeRent, setIsTypeRent] = useState<boolean>(false);
   const [hasActiveFilters, setHasActiveFilters] = useState<boolean>(false);
 
+  const { state, replace } = useLocalStorage<PropertyFilterFormData>(
+    StorageKey.PROPERTY_FILTER,
+    defaultValues
+  );
+
   const { data: searchLocationData, isLoading: isSearchLocationLoading } = useSearchLocationsQuery({
     find: locationsInputValue,
     page: 1,
@@ -53,15 +55,15 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
     setLocationsInputValue(value);
   };
 
-  const { data } = useGetPropertyTypesQuery(undefined);
+  const { data, isLoading: isPropertyTypeLoading } = useGetPropertyTypesQuery(undefined);
   const t = useTranslations('mainPage.filters');
   const propertyStatus = useTranslations('mainPage.filters.filterOptions.propertyStatus');
   const rentOrSale = useTranslations('mainPage.filters.filterOptions.rentOrSale');
 
-  const methods = useForm({
+  const methods = useForm<PropertyFilterFormData>({
     mode: 'onChange',
     resolver: yupResolver(FilterSchema),
-    defaultValues,
+    defaultValues: state,
   });
 
   const {
@@ -110,6 +112,7 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
     try {
       const filter = getMainPagePropertyFilter(formData);
 
+      replace(formData);
       applyFilters(filter);
     } catch (error) {
       reset();
@@ -151,24 +154,34 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
           </Block>
 
           <Block label={t('propertyType')}>
-            <RHFSelect name="propertyType" size="small">
-              {data &&
-                data.data.map((option) => (
-                  <MenuItem key={option.code} value={option.code}>
-                    {option.name}
-                  </MenuItem>
-                ))}
-            </RHFSelect>
+            <RHFAutocomplete
+              name="propertyType"
+              size="small"
+              options={
+                data && data.data.map((option) => ({ label: option.name, value: option.code }))
+              }
+              isOptionEqualToValue={(option, value) => option.label === value.label}
+              renderOption={(props, option) => (
+                <li {...props} key={option.label}>
+                  {option.label}
+                </li>
+              )}
+              loading={isPropertyTypeLoading}
+            />
           </Block>
 
           <Block label={t('propertyStatus')}>
-            <RHFSelect name="status" size="small">
-              {getPropertyStatus(propertyStatus).map((option) => (
-                <MenuItem key={option.value} value={option.value}>
+            <RHFAutocomplete
+              name="status"
+              size="small"
+              options={getPropertyStatus(propertyStatus)}
+              isOptionEqualToValue={(option, value) => option.label === value.label}
+              renderOption={(props, option) => (
+                <li {...props} key={option.label}>
                   {option.label}
-                </MenuItem>
-              ))}
-            </RHFSelect>
+                </li>
+              )}
+            />
           </Block>
 
           <RHFRadioGroup
@@ -218,13 +231,17 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
             )}
           </Block>
           <Block label={t('bedrooms')}>
-            <RHFSelect name="bedrooms" size="small">
-              {BEDROOMS.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
+            <RHFAutocomplete
+              name="bedrooms"
+              size="small"
+              options={BEDROOMS}
+              isOptionEqualToValue={(option, value) => option.label === value.label}
+              renderOption={(props, option) => (
+                <li {...props} key={option.label}>
                   {option.label}
-                </MenuItem>
-              ))}
-            </RHFSelect>
+                </li>
+              )}
+            />
           </Block>
           <Block sx={{ display: 'flex', flexDirection: 'row' }}>
             <LoadingButton

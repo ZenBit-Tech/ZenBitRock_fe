@@ -474,7 +474,8 @@
     "sale_agreed": "Sale agreed",
     "sold_subject_to_contract": "Sold subject to contract",
     "under_offer": "Under offer",
-    "error": "Something went wrong!"
+    "error": "Something went wrong!",
+    "results": "results"
   },
   "property": {
     "title": "Property details",
@@ -608,8 +609,8 @@
     "inbound": "Inbound",
     "outgoing": "Outgoing",
     "incoming": "Incoming",
-    "register": "Lead was registered as New in AgentWise",
-    "contact": "Contact was registered in AgentWise",
+    "register": "Lead was registered as New in ZenBitRock",
+    "contact": "Contact was registered in ZenBitRock",
     "call": "call",
     "email_from": "email from",
     "to": "to",
@@ -646,11 +647,22 @@
     "pageTitle": "Messages",
     "addGroupChatButton": "Add group chat",
     "searchPlaceholder": "Enter agent name",
+    "noMoreAgents": "No more agents",
     "sortBy": "Sort By:",
     "sortOptionLatest": "Latest",
     "sortOptionOldest": "Oldest",
     "sortOptionNameIncrease": "Name: A-Z",
-    "sortOptionNameDecrease": "Name: Z-A"
+    "sortOptionNameDecrease": "Name: Z-A",
+    "addToChat": "Add to chat",
+    "cancelBtnTxt": "Cancel",
+    "addGroupChat": "Add group chat",
+    "addGroupBtnTxt": "Add group chat",
+    "groupNameInputPlaceholder": "Enter agent name",
+    "groupNameLabel": "Enter group name",
+    "groupNameInvalid": "Group name must contains 10 symbols minimum",
+    "groupNameRequired": "Group name required",
+    "btnDeleteAgentFromList": "Remove agent from group",
+    "groupName": "Group name:"
   },
   "privateChat": {
     "title": "Chat",
@@ -664,5 +676,8 @@
     "sorry": "Sorry, No Matched Results Found!",
     "try": "Try to find something else.",
     "unread": "unread messages"
+  },
+  "noDataFound": {
+    "results": "No Matching Results"
   }
 }

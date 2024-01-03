@@ -27,7 +27,7 @@ const PropertyCard = ({ property }: Props) => {
   const t = useTranslations('properties');
   const router = useRouter();
 
-  const { id, saleRent, status, country, city, price, photo } = property;
+  const { id, saleRent, status, country, city, price, photo, name } = property;
 
   return (
     <Card
@@ -35,7 +35,7 @@ const PropertyCard = ({ property }: Props) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        width: '45%',
+        width: '100%',
         marginBottom: '2rem',
       }}
     >
@@ -92,24 +92,48 @@ const PropertyCard = ({ property }: Props) => {
             width: '100%',
           }}
         >
-          <TextStyled
-            sx={{
-              fontWeight: 'bold',
-            }}
-          >
-            {t(saleRent)}
-          </TextStyled>
-          <TextStyled
-            sx={{
-              fontWeight: 'bold',
-            }}
-          >
-            {t(status)}
-          </TextStyled>
+          {name && (
+            <TextStyled
+              sx={{
+                fontWeight: 'bold',
+              }}
+            >
+              {name}
+            </TextStyled>
+          )}
         </BoxStyled>
-        <TextMiddleStyled>
-          {getCountries().find((object) => object.value === country)?.label}, {city}
-        </TextMiddleStyled>
+        <BoxStyled
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '100%',
+          }}
+        >
+          {saleRent && (
+            <TextStyled
+              sx={{
+                fontWeight: 'bold',
+              }}
+            >
+              {t(saleRent)}
+            </TextStyled>
+          )}
+          {status && (
+            <TextStyled
+              sx={{
+                fontWeight: 'bold',
+              }}
+            >
+              {t(status)}
+            </TextStyled>
+          )}
+        </BoxStyled>
+        {country && city && (
+          <TextMiddleStyled>
+            {getCountries().find((object) => object.value === country)?.label}, {city}
+          </TextMiddleStyled>
+        )}
         <LinkStyled
           sx={{ padding: '14px', marginTop: 'auto' }}
           variant="contained"

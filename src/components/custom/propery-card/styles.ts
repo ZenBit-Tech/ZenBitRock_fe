@@ -3,7 +3,7 @@
 import { styled, Typography, Button, List, Box, CardMedia } from '@mui/material';
 
 export const CardMediaStyled = styled(CardMedia)`
-  height: 100px;
+  height: 150px;
   @media (min-width: 1024px) {
     height: 200px;
   }
@@ -51,7 +51,7 @@ export const LinkStyled = styled(Button)`
   width: 100%;
 
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 `;
 

@@ -23,10 +23,10 @@ const getMainPagePropertyFilter = (formData: PropertyFilterFormData): string => 
   } = formData;
 
   filter = filter
-    .concat(getBedroomsFilter(bedrooms ? Number(bedrooms) : null, null))
-    .concat(getPropertyStatusFilter(status ?? null))
+    .concat(getBedroomsFilter(bedrooms?.value ? Number(bedrooms.value) : null, null))
+    .concat(getPropertyStatusFilter(status?.value ?? null))
     .concat(getBuyRentFilter(rent ?? null))
-    .concat(getPropertyTypeFilter(propertyType ? [propertyType] : []))
+    .concat(getPropertyTypeFilter(propertyType?.value ? [propertyType.value] : []))
     .concat(
       getLocationFilter({
         area: location?.searchParams.area ?? '',
