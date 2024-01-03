@@ -1,10 +1,10 @@
 type PropertyFilterFormData = {
   status: { value: string; label: string } | null;
   propertyType: { value: string; label: string } | null;
-  priceRangeRentFrom?: number | null | undefined;
-  priceRangeRentTo?: number | null | undefined;
-  priceRangeSaleFrom?: number | null | undefined;
-  priceRangeSaleTo?: number | null | undefined;
+  priceRangeRentFrom?: number;
+  priceRangeRentTo?: number;
+  priceRangeSaleFrom?: number;
+  priceRangeSaleTo?: number;
   bedrooms: { value: string; label: string } | null;
   rentOrSale?: string | null | undefined;
   location: {
