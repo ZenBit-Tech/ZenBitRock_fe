@@ -16,8 +16,10 @@ const getMainPagePropertyFilter = (formData: PropertyFilterFormData): string => 
     rentOrSale: rent,
     propertyType,
     location,
-    priceRangeSell,
-    priceRangeRent,
+    priceRangeSaleFrom,
+    priceRangeSaleTo,
+    priceRangeRentFrom,
+    priceRangeRentTo,
   } = formData;
 
   filter = filter
@@ -32,11 +34,11 @@ const getMainPagePropertyFilter = (formData: PropertyFilterFormData): string => 
         district: location?.searchParams.district ?? '',
       })
     );
-  if (priceRangeSell) {
-    filter = filter.concat(getSellingPriceFilter(priceRangeSell[0], priceRangeSell[1]));
+  if (rent === 'for_sale') {
+    filter = filter.concat(getSellingPriceFilter(priceRangeSaleFrom, priceRangeSaleTo));
   }
-  if (priceRangeRent) {
-    filter = filter.concat(getRentalPriceFilter(priceRangeRent[0], priceRangeRent[1]));
+  if (rent === 'for_rent') {
+    filter = filter.concat(getRentalPriceFilter(priceRangeRentFrom, priceRangeRentTo));
   }
 
   return filter;
