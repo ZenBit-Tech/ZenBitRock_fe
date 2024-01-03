@@ -1,11 +1,11 @@
 import { useState, useCallback, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
 import { Container } from '@mui/system';
+import { Fab } from '@mui/material';
 import Card from '@mui/material/Card';
 import { useRouter } from 'routes/hooks';
-import Iconify from 'components/iconify';
+import { useScrollToTop } from 'hooks';
 import { UserChatResponse } from 'types/user-backend';
 import { AppRoute } from 'enums';
 import { AGENTS_SORT_OPTIONS } from 'constants/agentsSortOptions';
@@ -26,6 +26,8 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
 
   const t = useTranslations('agents');
 
+  const isVisible = useScrollToTop();
+
   const [searchAgents, setSearchAgents] = useState<{
     query: string;
     results: UserChatResponse[];
@@ -44,12 +46,13 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
       }));
 
       if (inputValue && agents) {
-        const results = agents.filter((agent) =>
-          agent.id !== id
-            ? agent.firstName.toLowerCase().includes(inputValue.toLowerCase()) ||
-              agent.lastName.toLowerCase().includes(inputValue.toLowerCase())
-            : null
-        );
+        const results = agents.filter((agent) => {
+          if (agent.id !== id && agent.firstName) {
+            const agentName = `${agent.firstName} ${agent.lastName}`;
+            return agentName.toLowerCase().includes(inputValue.trim().toLowerCase());
+          }
+          return null;
+        });
 
         setSearchAgents((prevState) => ({
           ...prevState,
@@ -83,6 +86,10 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
     [agents, sort]
   );
 
+  const scrollToTop = (): void => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const renderSkeleton = (
     <>
       {[...Array(12)].map((_, index) => (
@@ -107,13 +114,6 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
       onChange={(event) => handleSearchAgents(event.target.value)}
       placeholder={t('searchPlaceholder')}
       type="search"
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">
-            <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
-          </InputAdornment>
-        ),
-      }}
       sx={{ my: 2.5 }}
     />
   );
@@ -143,6 +143,20 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
               <AgentListItem key={agent.id} agent={agent} handleClickResult={handleClickResult} />
             ) : null
           )}
+          <Fab
+            color="primary"
+            aria-label="scroll to top"
+            onClick={scrollToTop}
+            sx={{
+              position: 'fixed',
+              bottom: '70px',
+              right: '20px',
+              display: isVisible ? 'block' : 'none',
+              transition: 'easy-in 200 display',
+            }}
+          >
+            ↑
+          </Fab>
         </>
       )}
     </>
