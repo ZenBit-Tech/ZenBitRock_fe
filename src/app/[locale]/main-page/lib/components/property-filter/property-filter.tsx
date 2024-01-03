@@ -26,16 +26,21 @@ const PropertyFilter = ({ setFilter, setPropertyNameFilter }: Props) => {
     setPropertyNameFilter(getNameFilter(inputRef.current?.value ?? ''));
   }, [setPropertyNameFilter]);
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.value) handleApplyPropetyNameFilter();
+  };
+
   return (
     <Box sx={{ marginTop: 2, display: 'flex', alignItems: 'center' }}>
       <TextField
-        placeholder="Search..."
+        placeholder="Search by address"
         type="search"
         sx={{ width: '85%' }}
         inputRef={inputRef}
+        onChange={handleInputChange}
         InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
+          endAdornment: (
+            <InputAdornment position="end">
               <IconButton sx={{ m: 0, p: 0 }} onClick={handleApplyPropetyNameFilter}>
                 <Iconify icon="eva:search-fill" sx={{ ml: 1, color: 'text.disabled' }} />
               </IconButton>
