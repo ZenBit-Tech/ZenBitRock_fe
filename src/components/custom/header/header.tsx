@@ -43,20 +43,16 @@ const Header = ({ user }: Props): JSX.Element => {
               <Typography sx={{ textAlign: 'right', color: theme.palette.primary.main }}>{`${t(
                 'Header.greeting'
               )}, ${user.firstName ? `${user.firstName}` : t('Header.displayName')}!`}</Typography>
-              <Link href={AppRoute.PROFILE_PAGE}>
+              <Link href={AppRoute.PROFILE_PAGE} mr={4}>
                 <HeaderAvatar avatar={avatar} />
               </Link>
               <MessagesIndicator
-                dimensions={{
-                  width: '1.5rem',
-                  height: '1.5rem',
-                }}
                 destination={{
                   id: user.id,
                 }}
                 position={{
-                  top: '-15%',
-                  right: '-10%',
+                  top: '0',
+                  right: '0',
                 }}
               />
             </Box>

@@ -23,7 +23,6 @@ export const MessageApi = createApi({
       query: (arg) => ({
         url: ApiRoute.MESSAGES_GET_UNREAD.replace('id', arg.id),
         method: 'GET',
-        params: arg.type ? { type: arg.type, typeId: arg.typeId } : undefined,
       }),
     }),
   }),
