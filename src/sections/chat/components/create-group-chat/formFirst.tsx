@@ -3,10 +3,12 @@
 import { useForm } from 'react-hook-form';
 import { Button, TextField, Typography, Box, Stack } from '@mui/material';
 import { patterns } from 'constants/patterns';
+import { useCreateGroupChatMutation } from 'store/chat';
+import { IChatItem, IChatResponse } from 'types/chat';
 
 type Props = {
   t: Function;
-  groupNameUp: (name: string) => void;
+  roomIdUp: (room: IChatResponse['room']) => void;
   closeModalUp: () => void;
 };
 
@@ -14,8 +16,11 @@ type FormValues = {
   groupName: string;
 };
 
-export default function FormFirst({ t, groupNameUp, closeModalUp }: Props): JSX.Element {
+export default function FormFirst({ t, roomIdUp, closeModalUp }: Props): JSX.Element {
+  const [createGroupChat] = useCreateGroupChatMutation();
+
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors, isValid },
@@ -29,7 +34,15 @@ export default function FormFirst({ t, groupNameUp, closeModalUp }: Props): JSX.
   const onSubmit = async (data: FormValues): Promise<void> => {
     const { groupName } = data;
 
-    groupNameUp(groupName);
+    try {
+      const { room } = await createGroupChat({ title: groupName }).unwrap();
+
+      if (room) {
+        roomIdUp({ id: room.id, title: room.title });
+      }
+    } catch (error) {
+      reset();
+    }
   };
 
   return (

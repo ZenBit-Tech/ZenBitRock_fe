@@ -7,13 +7,16 @@ import { useEffect, useSelector, useState, useRouter, useForm } from 'hooks';
 import { Page500 } from 'sections/error';
 import { RootState } from 'store';
 import { useGetAllUsersMutation } from 'store/api/userApi';
-import { useCreateGroupChatMutation } from 'store/chat';
 import { UserProfileResponse } from 'types';
+import { createSocketFactory } from 'utils';
 import uuidv4 from 'utils/uuidv4';
 
 type Props = {
   t: Function;
-  groupName: string;
+  room: {
+    id: string;
+    title: string;
+  };
   closeModalUp: () => void;
   initialMembers: Members;
 };
@@ -30,21 +33,17 @@ type Option = {
   id: string;
 };
 
-export default function FormSecond({
-  t,
-  groupName,
-  closeModalUp,
-  initialMembers,
-}: Props): JSX.Element {
+export default function FormSecond({ t, room, closeModalUp, initialMembers }: Props): JSX.Element {
   const [options, setOptions] = useState<Options>([]);
   const [members, setMembers] = useState<Members>(initialMembers);
 
   const [value, setValue] = useState<Option | null>(null);
   const [inputValue, setInputValue] = useState<string | undefined>('');
 
-  const [createGroupChat] = useCreateGroupChatMutation();
   const [getAllUsers, { data: usersData, isLoading, isError }] = useGetAllUsersMutation();
   const router = useRouter();
+
+  const socket = createSocketFactory();
 
   useEffect(() => {
     getAllUsers();
@@ -63,23 +62,22 @@ export default function FormSecond({
     }
   }, [ownerId, usersData]);
 
-  const groupData = {
-    owner: ownerId,
-    title: groupName,
-    members: members.map((member) => member.id),
-  };
+  // const groupData = {
+  //   owner: ownerId,
+  //   title: groupName,
+  //   members: members.map((member) => member.id),
+  // };
 
   const { reset, handleSubmit } = useForm({
     mode: 'onTouched',
   });
 
+  console.log(socket);
   const onSubmit = async (): Promise<void> => {
     try {
-      const { room } = await createGroupChat({ title: groupName }).unwrap();
-      
-      if (room) {
-        router.push(`${AppRoute.CHAT_PAGE}/${room.id}`);
-      }
+      members.forEach((member) => socket(room.id, member.id));
+
+      router.push(`${AppRoute.CHAT_PAGE}/${room.id}`);
 
       reset();
     } catch (error) {
@@ -105,7 +103,7 @@ export default function FormSecond({
     >
       <Typography sx={{ marginBottom: '0.5rem' }}>{t('groupName')}</Typography>
       <Typography variant="h3" sx={{ marginBottom: '1.5rem' }}>
-        {groupName}
+        {room.title}
       </Typography>
       <Autocomplete
         noOptionsText={t('noMoreAgents')}

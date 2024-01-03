@@ -4,6 +4,7 @@ import { colors } from 'constants/colors';
 import { useState, useTranslations, useCloseModal } from 'hooks';
 import FormFirst from 'sections/chat/components/create-group-chat/formFirst';
 import FormSecond from 'sections/chat/components/create-group-chat/formSecond';
+import { IChatResponse } from 'types';
 
 type Props = {
   closeModal: () => void;
@@ -13,11 +14,11 @@ type Props = {
 const CreateGroupChat = ({ closeModal, openModal }: Props): JSX.Element => {
   const [firstModal, setFirstModal] = useState<boolean>(openModal);
   const [secondModal, setSecondModal] = useState<boolean>(false);
-  const [groupName, setGroupName] = useState<string>('');
+  const [room, setRoom] = useState<IChatResponse['room']>();
 
-  const groupNameUp = (name: string): void => {
-    if (name !== '') {
-      setGroupName(name);
+  const groupNameUp = (value: IChatResponse['room']): void => {
+    if (value) {
+      setRoom(value);
       setFirstModal(false);
       setSecondModal(true);
     }
@@ -60,7 +61,7 @@ const CreateGroupChat = ({ closeModal, openModal }: Props): JSX.Element => {
               height="1.5rem"
               handleClose={handleClose}
             />
-            <FormFirst t={t} groupNameUp={groupNameUp} closeModalUp={handleClose} />
+            <FormFirst t={t} roomIdUp={groupNameUp} closeModalUp={handleClose} />
           </Box>
         </Modal>
       )}
@@ -93,12 +94,7 @@ const CreateGroupChat = ({ closeModal, openModal }: Props): JSX.Element => {
               height="1.5rem"
               handleClose={handleClose}
             />
-            <FormSecond
-              t={t}
-              groupName={groupName}
-              closeModalUp={handleClose}
-              initialMembers={[]}
-            />
+            <FormSecond t={t} room={room} closeModalUp={handleClose} initialMembers={[]} />
           </Box>
         </Modal>
       )}
