@@ -7,11 +7,11 @@ import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
 import { Box, Fab } from '@mui/material';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 
 import { InfoBlock, SlickSlider, ViewOnMap } from 'components/custom/property/components';
 import { getImages } from 'components/custom/property/helpers';
 import { Title, TypographyStyled, ButtonStyled, Wrapper } from 'components/custom/property/styles';
-import Iconify from 'components/iconify';
 import Image from 'components/image/image';
 import { useSnackbar } from 'components/snackbar';
 import { backgroundImages } from 'constants/backgroundImgLinks';
@@ -63,7 +63,7 @@ export default function Property({ id }: { id: string }): JSX.Element {
           sx={{ padding: '14px', width: 'fit-content' }}
           onClick={(): void => router.push(`${AppRoute.HOME_PAGE}`)}
         >
-          <Iconify icon="solar:arrow-left-linear" width="2rem" height="2rem" />
+          <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
         </ButtonStyled>
         <Title variant="h3">{t('title')}</Title>
       </Box>
