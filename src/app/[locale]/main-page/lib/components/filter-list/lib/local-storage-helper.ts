@@ -1,4 +1,4 @@
-import { PropertyFilterFormData } from "types";
+import { PropertyFilterFormData } from 'types';
 
 function saveDataToLocalStorage(data: PropertyFilterFormData): void {
   Object.entries(data).forEach(([key, value]) => {
@@ -20,4 +20,4 @@ function removeDataFromLocalStorage(data: PropertyFilterFormData): void {
   });
 }
 
-export { saveDataToLocalStorage, removeDataFromLocalStorage }
+export { saveDataToLocalStorage, removeDataFromLocalStorage };
