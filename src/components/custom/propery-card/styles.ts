@@ -51,7 +51,7 @@ export const LinkStyled = styled(Button)`
   width: 100%;
 
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 `;
 
