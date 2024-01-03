@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Fab } from '@mui/material';
+import { Box, Fab, Typography } from '@mui/material';
 import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
 import { useEffect, useInfinityScroll, useScrollToTop, useState, useTranslations } from 'hooks';
@@ -8,6 +8,7 @@ import { QobrixProperty } from 'types/qobrix';
 import { useGetPropertiesQuery } from 'store/api/qobrixApi';
 import { ListStyled } from 'components/custom/propertiesList/styles';
 import { PropertyCard } from 'components/custom/propery-card/property-card';
+import { NoDataFound } from '../no-data-found/no-data-found';
 
 export const FIRST_PAGE: number = 1;
 
@@ -17,7 +18,7 @@ type Props = {
 
 function PropertiesList({ search }: Props): JSX.Element {
   const [page, setPage] = useState(FIRST_PAGE);
-  const [filter, setfilter] = useState('');
+  const [filter, setfilter] = useState(search);
 
   const t = useTranslations('properties');
 
@@ -57,20 +58,28 @@ function PropertiesList({ search }: Props): JSX.Element {
       }}
     >
       {error && enqueueSnackbar(t('error'), { variant: 'error' })}
+      {data?.data.length === 0 && <NoDataFound />}
       {data?.data.length !== 0 && (
-        <ListStyled
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'stretch',
-            flexWrap: 'wrap',
-            width: '90%',
-            margin: '2rem auto',
-            p: '0',
-          }}
-        >
-          {data?.data.map((item: QobrixProperty) => <PropertyCard property={item} key={item.id} />)}
-        </ListStyled>
+        <>
+          <ListStyled
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'stretch',
+              flexWrap: 'wrap',
+              width: '90%',
+              margin: '2rem auto',
+              p: '0',
+            }}
+          >
+            <Typography variant="h5" sx={{ paddingBottom: 1 }}>{`${data?.pagination.count ?? 0} ${t(
+              'results'
+            )}`}</Typography>
+            {data?.data.map((item: QobrixProperty) => (
+              <PropertyCard property={item} key={item.id} />
+            ))}
+          </ListStyled>
+        </>
       )}
       {isFetching && !error && <LoadingScreen />}
       <Fab
