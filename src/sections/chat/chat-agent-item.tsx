@@ -14,10 +14,10 @@ export default function AgentListItem({
   agent,
   handleClickResult,
 }: FollowerItemProps): JSX.Element {
-  const { firstName, lastName, country, avatarUrl } = agent;
+  const { firstName, lastName, country, city, avatarUrl } = agent;
 
   return (
-    <Card>
+    <Card sx={{ mb: '5px' }}>
       <ListItemButton
         sx={{
           display: 'flex',
@@ -41,7 +41,7 @@ export default function AgentListItem({
           secondary={
             <>
               <Iconify icon="mingcute:location-fill" width={16} sx={{ flexShrink: 0, mr: 0.5 }} />
-              {findCountryLabelByCode(country)}
+              {`${findCountryLabelByCode(country)}, ${city}`}
             </>
           }
           primaryTypographyProps={{

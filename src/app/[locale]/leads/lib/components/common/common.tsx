@@ -1,19 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
 import { useParams, useRouter } from 'next/navigation';
-
 import { useTranslations } from 'next-intl';
-
-import { Button, Box, Typography } from '@mui/material';
-
-import { LeadsFilter } from 'app/[locale]/leads/lib/components/leads-filter/leads-filter';
+import { Button, Box, Typography, Container } from '@mui/material';
 import { ProtectedRoute } from 'components/custom';
 import LeadsList from 'components/custom/leadsList';
-import Iconify from 'components/iconify';
 import { AppRoute } from 'enums';
 import { toTitleCase } from 'utils';
+import { LeadsFilter } from '../leads-filter/leads-filter';
 
 function Common(): JSX.Element {
   const [name, setName] = useState<string | undefined>(undefined);
@@ -42,19 +37,16 @@ function Common(): JSX.Element {
 
   return (
     <ProtectedRoute>
-      <Box sx={{ p: '10px', margin: '0 auto', maxWidth: '800px' }}>
-        <Typography variant="h3" sx={{ marginTop: 3 }}>
-          {toTitleCase(t('leads'))}
-        </Typography>
+      <Container sx={{ pb: 8, pt: 2, px: 2 }}>
         <Box
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            marginY: '1.5rem',
+            mb: 3,
           }}
         >
-          <LeadsFilter getFilter={(searchString: string) => getFilter(searchString)} />
+          <Typography variant="h3">{toTitleCase(t('leads'))}</Typography>
           <Button
             title={t('create')}
             sx={{ padding: '14px' }}
@@ -63,11 +55,18 @@ function Common(): JSX.Element {
             type="button"
             onClick={() => router.push(`${AppRoute.CREATE_LEAD_PAGE}`)}
           >
-            <Iconify icon="subway:add" height="auto" />
+            {t('addBtnTxt')}
           </Button>
         </Box>
+        <Box
+          sx={{
+            marginY: '1.5rem',
+          }}
+        >
+          <LeadsFilter getFilter={(searchString: string) => getFilter(searchString)} />
+        </Box>
         <LeadsList filter={filter} id={propertyId} name={name} />
-      </Box>
+      </Container>
     </ProtectedRoute>
   );
 }

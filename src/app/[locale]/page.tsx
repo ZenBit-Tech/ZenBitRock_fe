@@ -1,13 +1,21 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Button } from '@mui/material';
+import { Button, styled } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { AppRoute } from 'enums';
 import { typography } from 'theme/typography';
 import WelcomePageContainer from 'components/WelcomePageContainer/WelcomePageContainer';
 import { RightSection, StyledBtnWrapper } from 'components/WelcomePageContainer/styles';
 import { CustomLink, PublicRoute } from 'components/custom';
+
+const StyledCustomBtn = styled(Button)`
+  padding: 14px;
+  color: ${(props) => props.theme.palette.primary.main};
+  &:hover {
+    color: ${(props) => props.theme.palette.primary.main};
+  }
+`;
 
 export default function HomePage() {
   const t = useTranslations('Home');
@@ -17,16 +25,16 @@ export default function HomePage() {
       <WelcomePageContainer>
         <RightSection maxWidth="sm">
           <StyledBtnWrapper>
-            <Button variant="contained" sx={{ marginRight: '10px', padding: '14px' }} size="large">
-              <CustomLink href={AppRoute.SIGN_IN_PAGE} color="primary">
+            <CustomLink href={AppRoute.SIGN_IN_PAGE} color="primary">
+              <StyledCustomBtn variant="contained" sx={{ marginRight: '10px' }} size="large">
                 {t('Page.signInLink')}
-              </CustomLink>
-            </Button>
-            <Button variant="contained" size="large" sx={{ padding: '14px' }}>
-              <CustomLink href={AppRoute.SIGN_UP_PAGE} color="primary">
+              </StyledCustomBtn>
+            </CustomLink>
+            <CustomLink href={AppRoute.SIGN_UP_PAGE} color="primary">
+              <StyledCustomBtn variant="contained" size="large">
                 {t('Page.signUpLink')}
-              </CustomLink>
-            </Button>
+              </StyledCustomBtn>
+            </CustomLink>
           </StyledBtnWrapper>
           <Typography
             variant="h1"
@@ -41,20 +49,9 @@ export default function HomePage() {
             {t('Page.title')}
           </Typography>
           <CustomLink color="primary" href={AppRoute.SIGN_UP_PAGE}>
-            <Button
-              variant="contained"
-              fullWidth
-              size="large"
-              sx={{
-                padding: '14px',
-                color: 'primary.main',
-                '&:hover': {
-                  color: 'primary.main',
-                },
-              }}
-            >
+            <StyledCustomBtn variant="contained" fullWidth size="large">
               {t('Page.buttonTxt')}
-            </Button>
+            </StyledCustomBtn>
           </CustomLink>
         </RightSection>
       </WelcomePageContainer>
