@@ -6,15 +6,27 @@ import { ProtectedRoute } from 'components/custom';
 import PropertiesList from 'components/custom/propertiesList';
 import { useCallback, useState } from 'hooks';
 
+import { StorageKey } from 'enums';
+import { getMainPagePropertyFilter } from 'utils';
+import { getStorage } from 'hooks/use-local-storage';
 import { NotificationCenter, PropertyFilter } from './lib';
 
 function MainPage(): JSX.Element {
-  const [filter, setFilter] = useState('');
-  const [propertyNameFilter, setPropertyNameFilter] = useState('');
+  const [filter, setFilter] = useState<string>(
+    getStorage(StorageKey.PROPERTY_FILTER)
+      ? getMainPagePropertyFilter(getStorage(StorageKey.PROPERTY_FILTER))
+      : ''
+  );
+  const [propertyNameFilter, setPropertyNameFilter] = useState<string>('');
 
   const handleSetFilter = useCallback(
     (search: string) => {
-      setFilter(search);
+      let defaultFilter = '';
+      const storedFilter = getStorage(StorageKey.PROPERTY_FILTER);
+      if (storedFilter) {
+        defaultFilter = getMainPagePropertyFilter(storedFilter);
+      }
+      setFilter(search ? search : defaultFilter);
     },
     [setFilter]
   );

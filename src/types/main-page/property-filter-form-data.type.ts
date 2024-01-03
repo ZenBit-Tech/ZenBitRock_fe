@@ -1,8 +1,8 @@
 type PropertyFilterFormData = {
-  status?: string | null | undefined;
-  propertyType?: string | null | undefined;
+  status: { value: string; label: string } | null;
+  propertyType: { value: string; label: string } | null;
   priceRange?: (number | undefined)[] | null | undefined;
-  bedrooms?: string | null | undefined;
+  bedrooms: { value: string; label: string } | null;
   rentOrSale?: string | null | undefined;
   location: {
     searchParams: {

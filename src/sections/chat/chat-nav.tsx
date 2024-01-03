@@ -2,7 +2,6 @@ import { useState, useCallback, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { Container } from '@mui/system';
 import Card from '@mui/material/Card';
 import { useRouter } from 'routes/hooks';
@@ -70,10 +69,9 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
 
   const handleClickResult = useCallback(
     (result: UserChatResponse): void => {
-      handleClickAwaySearch();
       router.push(`${AppRoute.CHAT_PAGE}/${result.id}`);
     },
-    [handleClickAwaySearch, router]
+    [router]
   );
 
   const sortedAgents = useMemo<UserChatResponse[] | undefined>(
@@ -103,23 +101,21 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
   );
 
   const renderSearchInput = (
-    <ClickAwayListener onClickAway={handleClickAwaySearch}>
-      <TextField
-        fullWidth
-        value={searchAgents.query}
-        onChange={(event) => handleSearchAgents(event.target.value)}
-        placeholder={t('searchPlaceholder')}
-        type="search"
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
-            </InputAdornment>
-          ),
-        }}
-        sx={{ my: 2.5 }}
-      />
-    </ClickAwayListener>
+    <TextField
+      fullWidth
+      value={searchAgents.query}
+      onChange={(event) => handleSearchAgents(event.target.value)}
+      placeholder={t('searchPlaceholder')}
+      type="search"
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
+          </InputAdornment>
+        ),
+      }}
+      sx={{ my: 2.5 }}
+    />
   );
 
   const renderContent = (
