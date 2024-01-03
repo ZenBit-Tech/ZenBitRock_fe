@@ -15,7 +15,6 @@ import AgentListItem from './chat-agent-item';
 import AgentSort from './agent-sort';
 import sortAgents from './utils/sortAgents';
 
-
 type Props = {
   loading: boolean;
   agents?: UserChatResponse[];

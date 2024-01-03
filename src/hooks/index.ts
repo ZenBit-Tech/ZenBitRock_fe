@@ -11,3 +11,4 @@ export { useInfinityScroll } from './useInfinityScroll';
 export { useScrollToTop } from './use-scroll-to-top';
 export { useCloseModal } from './useCloseModal';
 export { useMagnifyingGlass } from './useMagnifyingGlass';
+export { useLocalStorage } from './use-local-storage';
