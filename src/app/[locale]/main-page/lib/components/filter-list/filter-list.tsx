@@ -9,22 +9,16 @@ import { LoadingScreen } from 'components/loading-screen';
 import { getLocationOptions, getMainPagePropertyFilter } from 'utils';
 import { LocationSelectOption, type PropertyFilterFormData } from 'types';
 import { StorageKey } from 'enums';
-import {
-  BEDROOMS,
-  getPropertyStatus,
-  getRentOrSaleOption,
-  FilterSchema,
-  removeDataFromLocalStorage,
-} from './lib';
+import { BEDROOMS, getPropertyStatus, getRentOrSaleOption, FilterSchema } from './lib';
 
 const defaultValues: PropertyFilterFormData = {
   location: null,
   propertyType: null,
   status: null,
-  priceRangeSaleFrom: 10000,
-  priceRangeSaleTo: 10000000,
-  priceRangeRentFrom: 100,
-  priceRangeRentTo: 10000,
+  priceRangeSaleFrom: 0,
+  priceRangeSaleTo: 0,
+  priceRangeRentFrom: 0,
+  priceRangeRentTo: 0,
   bedrooms: null,
   rentOrSale: 'for_sale',
 };
@@ -38,10 +32,11 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
   const [isTypeRent, setIsTypeRent] = useState<boolean>(false);
   const [hasActiveFilters, setHasActiveFilters] = useState<boolean>(false);
 
-  const { state, replace } = useLocalStorage<PropertyFilterFormData>(
-    StorageKey.PROPERTY_FILTER,
-    defaultValues
-  );
+  const {
+    state,
+    replace,
+    reset: localStorageReset,
+  } = useLocalStorage<PropertyFilterFormData>(StorageKey.PROPERTY_FILTER, defaultValues);
 
   const { data: searchLocationData, isLoading: isSearchLocationLoading } = useSearchLocationsQuery({
     find: locationsInputValue,
@@ -99,13 +94,13 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
 
   useEffect(() => {
     if (isTypeRent) {
-      setValue('priceRangeRentFrom', 100);
-      setValue('priceRangeRentTo', 10000);
+      setValue('priceRangeRentFrom', state.priceRangeRentFrom || 100);
+      setValue('priceRangeRentTo', state.priceRangeRentTo || 10000);
     } else {
-      setValue('priceRangeSaleFrom', 10000);
-      setValue('priceRangeSaleTo', 10000000);
+      setValue('priceRangeSaleFrom', state.priceRangeSaleFrom || 10000);
+      setValue('priceRangeSaleTo', state.priceRangeSaleTo || 10000000);
     }
-  }, [isTypeRent, setValue]);
+  }, [isTypeRent, setValue, state]);
 
   const onSubmit = handleSubmit(async (formData) => {
     try {
@@ -119,9 +114,9 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
   });
 
   const handleRemoveFilters = (): void => {
-    reset();
+    localStorageReset();
     setHasActiveFilters(false);
-    removeDataFromLocalStorage(defaultValues);
+    reset();
   };
 
   if (!data) {
