@@ -13,15 +13,20 @@ import { NotificationCenter, PropertyFilter } from './lib';
 
 function MainPage(): JSX.Element {
   const [filter, setFilter] = useState<string>(
-    getMainPagePropertyFilter(getStorage(StorageKey.PROPERTY_FILTER)) ?? ''
+    getStorage(StorageKey.PROPERTY_FILTER)
+      ? getMainPagePropertyFilter(getStorage(StorageKey.PROPERTY_FILTER))
+      : ''
   );
   const [propertyNameFilter, setPropertyNameFilter] = useState<string>('');
 
   const handleSetFilter = useCallback(
     (search: string) => {
-      setFilter(
-        search ? search : getMainPagePropertyFilter(getStorage(StorageKey.PROPERTY_FILTER))
-      );
+      let defaultFilter = '';
+      const storedFilter = getStorage(StorageKey.PROPERTY_FILTER);
+      if (storedFilter) {
+        defaultFilter = getMainPagePropertyFilter(storedFilter);
+      }
+      setFilter(search ? search : defaultFilter);
     },
     [setFilter]
   );
