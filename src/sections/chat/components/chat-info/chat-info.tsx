@@ -81,11 +81,11 @@ const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
     }
   }
 
-  const handleClose = (): void => closeModal();
+  // const handleClose = (): void => closeModal();
 
-  useCloseModal(nameModal, (): void => closeModal());
-  useCloseModal(addAgentsModal, (): void => closeModal());
-  useCloseModal(deleteModal, (): void => closeModal());
+  // useCloseModal(nameModal, (): void => closeModal());
+  // useCloseModal(addAgentsModal, (): void => closeModal());
+  // useCloseModal(deleteModal, (): void => closeModal());
 
   const t = useTranslations('MessagesPage');
 
@@ -243,9 +243,14 @@ const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
               right="0.5rem"
               width="1.5rem"
               height="1.5rem"
-              handleClose={handleClose}
+              handleClose={() => closeModal('name')}
             />
-            <FormName t={t} roomId={room.id} closeModalUp={handleClose} />
+            <FormName
+              t={t}
+              roomId={room.id}
+              nameModal={nameModal}
+              closeModal={() => closeModal('name')}
+            />
           </Box>
         </Modal>
       )}
@@ -276,13 +281,13 @@ const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
               right="0.5rem"
               width="1.5rem"
               height="1.5rem"
-              handleClose={handleClose}
+              handleClose={() => closeModal('members')}
             />
             <FormAddAgents
               t={t}
               roomId={room.id}
               members={room.members}
-              closeModalUp={handleClose}
+              closeModal={() => closeModal('members')}
             />
           </Box>
         </Modal>
@@ -314,9 +319,9 @@ const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
               right="0.5rem"
               width="1.5rem"
               height="1.5rem"
-              handleClose={handleClose}
+              handleClose={() => closeModal('delete')}
             />
-            <FormDelete t={t} roomId={room.id} closeModalUp={handleClose} />
+            <FormDelete t={t} roomId={room.id} closeModalUp={() => closeModal('delete')} />
           </Box>
         </Modal>
       )}
