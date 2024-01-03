@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 
 import { useTranslations } from 'next-intl';
 
-import { Box, Fab } from '@mui/material';
+import { Box, Fab, Button } from '@mui/material';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 
 import { InfoBlock, SlickSlider, ViewOnMap } from 'components/custom/property/components';
@@ -54,17 +54,16 @@ export default function Property({ id }: { id: string }): JSX.Element {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'flex-start',
-          gap: '1rem',
           marginY: '1.5rem',
         }}
       >
-        <ButtonStyled
+        <Button
           title={t('back')}
-          sx={{ padding: '14px', width: 'fit-content' }}
+          sx={{ padding: '0' }}
           onClick={(): void => router.push(`${AppRoute.HOME_PAGE}`)}
         >
           <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
-        </ButtonStyled>
+        </Button>
         <Title variant="h3">{t('title')}</Title>
       </Box>
       {error && enqueueSnackbar(t('error'), { variant: 'error' })}
