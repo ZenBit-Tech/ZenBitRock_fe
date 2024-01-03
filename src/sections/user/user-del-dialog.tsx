@@ -107,11 +107,11 @@ export default function DeleteProfileDialog({ id }: Props) {
           </Button>
           <Button
             onClick={() => handleDeleteUser(id)}
-            color="primary"
             variant="contained"
             sx={{
-              '&:hover, &:active, &:focus': {
-                backgroundColor: 'error.main',
+              backgroundColor: 'error.main',
+              '&:hover': {
+                backgroundColor: 'error.dark',
               },
             }}
           >
