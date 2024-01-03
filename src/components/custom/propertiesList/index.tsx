@@ -17,8 +17,8 @@ type Props = {
 };
 
 function PropertiesList({ search }: Props): JSX.Element {
-  const [page, setPage] = useState(FIRST_PAGE);
-  const [filter, setfilter] = useState(search);
+  const [page, setPage] = useState<number>(FIRST_PAGE);
+  const [filter, setfilter] = useState<string>(search);
 
   const t = useTranslations('properties');
 
