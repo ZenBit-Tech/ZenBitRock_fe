@@ -2,7 +2,7 @@ import { Box, Modal } from '@mui/material';
 import ButtonClose from 'components/custom/button-close/button-close';
 import { colors } from 'constants/colors';
 import { useState, useTranslations, useCloseModal } from 'hooks';
-import FormFirst from 'sections/chat/components/create-group-chat/formFirst';
+import FormAddGroupChat from 'sections/chat/components/create-group-chat/form-add-group-chat';
 import FormSecond from 'sections/chat/components/create-group-chat/formSecond';
 import { IChatResponse } from 'types';
 
@@ -61,11 +61,11 @@ const CreateGroupChat = ({ closeModal, openModal }: Props): JSX.Element => {
               height="1.5rem"
               handleClose={handleClose}
             />
-            <FormFirst t={t} roomIdUp={groupNameUp} closeModalUp={handleClose} />
+            <FormAddGroupChat t={t} closeModalUp={handleClose} />
           </Box>
         </Modal>
       )}
-      {secondModal && (
+      {/* {secondModal && (
         <Modal
           open
           sx={{
@@ -97,7 +97,7 @@ const CreateGroupChat = ({ closeModal, openModal }: Props): JSX.Element => {
             <FormSecond t={t} room={room} closeModalUp={handleClose} initialMembers={[]} />
           </Box>
         </Modal>
-      )}
+      )} */}
     </>
   );
 };

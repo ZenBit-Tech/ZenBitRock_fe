@@ -2,7 +2,7 @@ import { Box, Modal } from '@mui/material';
 import ButtonClose from 'components/custom/button-close/button-close';
 import { colors } from 'constants/colors';
 import { useState, useTranslations, useCloseModal } from 'hooks';
-import FormFirst from 'sections/chat/components/create-group-chat/formFirst';
+import FormFirst from 'sections/chat/components/create-group-chat/form-add-group-chat';
 import FormSecond from 'sections/chat/components/create-group-chat/formSecond';
 import { IChatResponse } from 'types';
 
@@ -14,7 +14,7 @@ type Props = {
 const ChatInfo = ({ id, userId }: Props): JSX.Element => {
   // const { id, owner, title, members, createdAt } = chat;
 
-  const [firstModal, setFirstModal] = useState<boolean>(openModal);
+  const [firstModal, setFirstModal] = useState<boolean>();
   const [secondModal, setSecondModal] = useState<boolean>(false);
   const [groupName, setGroupName] = useState<string>('');
 
@@ -26,14 +26,14 @@ const ChatInfo = ({ id, userId }: Props): JSX.Element => {
   //   }
   // };
 
-  const handleClose = (): void => closeModal();
+  // const handleClose = (): void => closeModal();
 
-  useCloseModal(openModal, (): void => closeModal());
+  // useCloseModal(openModal, (): void => closeModal());
 
   const t = useTranslations('MessagesPage');
 
   return (
-    <>
+    <Box>
       {firstModal && (
         <Modal
           open
@@ -61,9 +61,9 @@ const ChatInfo = ({ id, userId }: Props): JSX.Element => {
               right="0.5rem"
               width="1.5rem"
               height="1.5rem"
-              handleClose={handleClose}
+              // handleClose={handleClose}
             />
-            <FormFirst t={t} groupNameUp={groupNameUp} closeModalUp={handleClose} />
+            {/* <FormFirst t={t} groupNameUp={groupNameUp} closeModalUp={handleClose} /> */}
           </Box>
         </Modal>
       )}
@@ -94,18 +94,18 @@ const ChatInfo = ({ id, userId }: Props): JSX.Element => {
               right="0.5rem"
               width="1.5rem"
               height="1.5rem"
-              handleClose={handleClose}
+              // handleClose={handleClose}
             />
-            <FormSecond
+            {/* <FormSecond
               t={t}
               groupName={groupName}
               closeModalUp={handleClose}
               initialMembers={[]}
-            />
+            /> */}
           </Box>
         </Modal>
       )}
-    </>
+    </Box>
   );
 };
 

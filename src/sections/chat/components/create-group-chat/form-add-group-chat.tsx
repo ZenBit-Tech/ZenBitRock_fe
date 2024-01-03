@@ -3,12 +3,12 @@
 import { useForm } from 'react-hook-form';
 import { Button, TextField, Typography, Box, Stack } from '@mui/material';
 import { patterns } from 'constants/patterns';
+import { AppRoute } from 'enums';
+import { useRouter } from 'hooks';
 import { useCreateGroupChatMutation } from 'store/chat';
-import { IChatItem, IChatResponse } from 'types/chat';
 
 type Props = {
   t: Function;
-  roomIdUp: (room: IChatResponse['room']) => void;
   closeModalUp: () => void;
 };
 
@@ -16,8 +16,10 @@ type FormValues = {
   groupName: string;
 };
 
-export default function FormFirst({ t, roomIdUp, closeModalUp }: Props): JSX.Element {
+export default function FormAddGroupChat({ t, closeModalUp }: Props): JSX.Element {
   const [createGroupChat] = useCreateGroupChatMutation();
+
+  const router = useRouter();
 
   const {
     reset,
@@ -38,7 +40,7 @@ export default function FormFirst({ t, roomIdUp, closeModalUp }: Props): JSX.Ele
       const { room } = await createGroupChat({ title: groupName }).unwrap();
 
       if (room) {
-        roomIdUp({ id: room.id, title: room.title });
+        router.push(`${AppRoute.CHAT_PAGE}/${room.id}/info`);
       }
     } catch (error) {
       reset();

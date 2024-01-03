@@ -75,7 +75,7 @@ export default function FormSecond({ t, room, closeModalUp, initialMembers }: Pr
   console.log(socket);
   const onSubmit = async (): Promise<void> => {
     try {
-      members.forEach((member) => socket(room.id, member.id));
+      // members.forEach((member) => socket(room.id, member.id));
 
       router.push(`${AppRoute.CHAT_PAGE}/${room.id}`);
 
