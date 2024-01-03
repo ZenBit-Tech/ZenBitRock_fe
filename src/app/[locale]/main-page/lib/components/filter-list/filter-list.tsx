@@ -187,13 +187,13 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
 
           <Block label={t('priceRange')} key={watchAllFields.rentOrSale}>
             {isTypeRent ? (
-              <Block sx={{ display: 'flex', flexDirection: 'row', gap: '0' }}>
+              <Block sx={{ display: 'flex', flexDirection: 'row' }}>
                 <RHFTextField
                   name="priceRangeRentFrom"
                   type="number"
                   size="small"
                   placeholder={t('priceRangeRentFromPlaceholder')}
-                  sx={{ height: '80px', mr: '50px' }}
+                  sx={{ height: '60px', mr: '50px' }}
                 />
 
                 <RHFTextField
@@ -201,7 +201,7 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
                   type="number"
                   size="small"
                   placeholder={t('priceRangeRentToPlaceholder')}
-                  sx={{ height: '80px' }}
+                  sx={{ height: '60px' }}
                 />
               </Block>
             ) : (
@@ -211,7 +211,7 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
                   type="number"
                   size="small"
                   placeholder={t('priceRangeSaleFromPlaceholder')}
-                  sx={{ height: '80px', mr: '50px' }}
+                  sx={{ height: '60px', mr: '50px' }}
                 />
 
                 <RHFTextField
@@ -219,7 +219,7 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
                   type="number"
                   size="small"
                   placeholder={t('priceRangeSaleToPlaceholder')}
-                  sx={{ height: '80px' }}
+                  sx={{ height: '60px' }}
                 />
               </Block>
             )}
