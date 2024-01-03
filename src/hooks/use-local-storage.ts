@@ -1,9 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 
-// ----------------------------------------------------------------------
-
-export function useLocalStorage(key: string, initialState: any) {
-  const [state, setState] = useState(initialState);
+export function useLocalStorage<T>(key: string, initialState: T) {
+  const [state, setState] = useState(getStorage(key) ?? initialState);
 
   useEffect(() => {
     const restored = getStorage(key);
@@ -33,6 +31,23 @@ export function useLocalStorage(key: string, initialState: any) {
     [key]
   );
 
+  const replace = useCallback(
+    (replaceValue: T) => {
+      setState((prevValue: T) => {
+        setStorage(key, {
+          ...prevValue,
+          ...replaceValue,
+        });
+
+        return {
+          ...prevValue,
+          ...replaceValue,
+        };
+      });
+    },
+    [key]
+  );
+
   const update = useCallback(
     (name: string, updateValue: any) => {
       updateState({
@@ -51,10 +66,9 @@ export function useLocalStorage(key: string, initialState: any) {
     state,
     update,
     reset,
+    replace,
   };
 }
-
-// ----------------------------------------------------------------------
 
 export const getStorage = (key: string) => {
   let value = null;

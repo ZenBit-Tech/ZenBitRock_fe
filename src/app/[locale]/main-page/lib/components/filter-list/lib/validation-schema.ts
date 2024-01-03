@@ -11,10 +11,16 @@ const FilterSchema = Yup.object().shape({
       }),
     })
     .nullable(),
-  propertyType: Yup.string().nullable(),
-  status: Yup.string().nullable(),
+  propertyType: Yup.object<{ label: string; value: string }>()
+    .shape({ label: Yup.string().required(), value: Yup.string().required() })
+    .nullable(),
+  status: Yup.object<{ label: string; value: string }>()
+    .shape({ label: Yup.string().required(), value: Yup.string().required() })
+    .nullable(),
   priceRange: Yup.array().of(Yup.number()).nullable(),
-  bedrooms: Yup.string().nullable(),
+  bedrooms: Yup.object<{ label: string; value: string }>()
+    .shape({ label: Yup.string().required(), value: Yup.string().required() })
+    .nullable(),
   rentOrSale: Yup.string().nullable(),
 });
 
