@@ -63,7 +63,7 @@ export default function FormAddGroupChat({ t, closeModalUp }: Props): JSX.Elemen
         {...register('groupName', {
           required: t('groupNameRequired'),
           pattern: {
-            value: patterns.textArea,
+            value: patterns.groupName,
             message: t('groupNameInvalid'),
           },
         })}
