@@ -14,6 +14,7 @@ type Props = {
 
 const Navbar = ({ user }: Props): JSX.Element => {
   const navItems = UseNavItems();
+
   return (
     <>
       {user && (
