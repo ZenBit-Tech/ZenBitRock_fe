@@ -64,7 +64,7 @@ const MessagesIndicator = ({
       <Iconify
         title={`You have ${quantity?.data} ${t('unread')}`}
         color={colors.BUTTON_SECOND_COLOR}
-        icon={'bxs:message-square'}
+        icon="bxs:message-square"
         width={dimensions.width}
         height={dimensions.height}
         sx={{

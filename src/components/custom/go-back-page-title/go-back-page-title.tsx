@@ -7,9 +7,11 @@ import Iconify from 'components/iconify';
 type Props = {
   title: string;
 };
+
 const GoBackPageTitile = ({ title }: Props): JSX.Element => {
   const router = useRouter();
   const t = useTranslations('property');
+
   return (
     <Box
       sx={{
@@ -33,4 +35,5 @@ const GoBackPageTitile = ({ title }: Props): JSX.Element => {
     </Box>
   );
 };
+
 export { GoBackPageTitile };

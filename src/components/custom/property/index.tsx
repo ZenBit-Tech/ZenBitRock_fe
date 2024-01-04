@@ -35,6 +35,7 @@ export default function Property({ id }: { id: string }): JSX.Element {
   const { data, error } = useGetPropertyQuery(id);
 
   const propertyDetailed = data?.data;
+
   function closeModal(): void {
     setOpenModal(!openModal);
   }

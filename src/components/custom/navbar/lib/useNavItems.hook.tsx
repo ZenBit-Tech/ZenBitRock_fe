@@ -84,6 +84,7 @@ const UseNavItems = () => {
       ],
     },
   ];
+
   return NAV_ITEMS;
 };
 
