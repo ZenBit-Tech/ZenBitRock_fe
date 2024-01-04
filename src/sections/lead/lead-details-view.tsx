@@ -48,7 +48,10 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
 
   return (
     <Box sx={{ maxWidth: 800, margin: '0 auto', pb: 8 }}>
-      <GoBackPageTitile title={t('title')} />
+      <Box sx={{ ml: 1, mr: 1 }}>
+        <GoBackPageTitile title={t('title')} />
+      </Box>
+
       <Box sx={{ m: 1, p: 1, border: `1px solid ${theme.palette.primary.main}` }}>
         <Stack spacing={2}>
           <Stack spacing={1}>
