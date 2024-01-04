@@ -1,3 +1,4 @@
+import { usePathname } from 'next/navigation';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { Box, Button, Link, Modal, Typography } from '@mui/material';
 import ButtonClose from 'components/custom/button-close/button-close';
@@ -6,12 +7,13 @@ import Iconify from 'components/iconify';
 import { colors } from 'constants/colors';
 import { AppRoute } from 'enums';
 import { useState, useTranslations, useRouter, useSelector } from 'hooks';
-import { usePathname } from 'next/navigation';
+import { FormName, FormDelete, FormAddAgents } from 'sections/chat/components/chat-info';
 import { RootState } from 'store';
 import { useGetChatByIdQuery } from 'store/chat/chat-api';
 import { IChatResponse, UserProfileResponse } from 'types';
 import uuidv4 from 'utils/uuidv4';
-import { FormName, FormDelete, FormAddAgents } from 'sections/chat/components/chat-info';
+
+const NAV_HEADER_HEIGHT = '120px';
 
 const ChatInfo = (): JSX.Element => {
   const [nameModal, setNameModal] = useState<boolean>(false);
@@ -74,7 +76,7 @@ const ChatInfo = (): JSX.Element => {
   return (
     <Box
       sx={{
-        height: 'calc(100dvh - 120px)',
+        height: `calc(100dvh - ${NAV_HEADER_HEIGHT})`,
         p: 1,
         display: 'flex',
         flexDirection: 'column',
@@ -94,7 +96,7 @@ const ChatInfo = (): JSX.Element => {
           sx={{ padding: '0' }}
           onClick={(): void => router.push(`${AppRoute.CHAT_PAGE}/${data?.chat.id}`)}
         >
-          <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
+          <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: colors.PRIMARY_DARK_COLOR }} />
         </Button>
         <Title variant="h3">{t('title')}</Title>
       </Box>
