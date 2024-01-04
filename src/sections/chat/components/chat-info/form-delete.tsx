@@ -9,7 +9,7 @@ import { useDeleteChatMutation } from 'store/chat';
 type Props = {
   t: Function;
   closeModalUp: () => void;
-  chatId: string;
+  chatId?: string;
 };
 
 export function FormDelete({ t, closeModalUp, chatId }: Props): JSX.Element {

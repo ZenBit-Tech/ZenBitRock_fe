@@ -1,24 +1,22 @@
 import { Button, Box, Stack, TextField, Autocomplete, Typography } from '@mui/material';
 import Iconify from 'components/iconify';
 import { LoadingScreen } from 'components/loading-screen';
+import { useSnackbar } from 'components/snackbar';
 import { colors } from 'constants/colors';
 import { AppRoute } from 'enums';
 import { useEffect, useSelector, useState, useRouter, useForm } from 'hooks';
 import { Page500 } from 'sections/error';
 import { RootState } from 'store';
 import { useGetAllUsersMutation } from 'store/api/userApi';
+import { useUpdateChatMutation } from 'store/chat';
 import { UserProfileResponse } from 'types';
-import { createSocketFactory } from 'utils';
 import uuidv4 from 'utils/uuidv4';
 
 type Props = {
   t: Function;
-  room: {
-    id: string;
-    title: string;
-  };
+  chatMembers: Members;
   closeModalUp: () => void;
-  initialMembers: Members;
+  chatId?: string;
 };
 
 type Members = {
@@ -33,21 +31,22 @@ type Option = {
   id: string;
 };
 
-export function FormAddAgents({ t, room, closeModalUp, initialMembers }: Props): JSX.Element {
+export function FormAddAgents({ t, chatMembers, closeModalUp, chatId }: Props): JSX.Element {
   const [options, setOptions] = useState<Options>([]);
-  const [members, setMembers] = useState<Members>(initialMembers);
+  const [members, setMembers] = useState<Members>(chatMembers);
 
   const [value, setValue] = useState<Option | null>(null);
   const [inputValue, setInputValue] = useState<string | undefined>('');
 
   const [getAllUsers, { data: usersData, isLoading, isError }] = useGetAllUsersMutation();
   const router = useRouter();
-
-  const socket = createSocketFactory();
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     getAllUsers();
   }, [getAllUsers]);
+
+  const [updateGroupChat] = useUpdateChatMutation();
 
   const authUser = useSelector((state: RootState) => state.authSlice.user);
   const { id: ownerId }: { id: UserProfileResponse['id'] | null } = authUser || { id: null };
@@ -62,25 +61,20 @@ export function FormAddAgents({ t, room, closeModalUp, initialMembers }: Props):
     }
   }, [ownerId, usersData]);
 
-  // const groupData = {
-  //   owner: ownerId,
-  //   title: groupName,
-  //   members: members.map((member) => member.id),
-  // };
-
   const { reset, handleSubmit } = useForm({
     mode: 'onTouched',
   });
 
-  console.log(socket);
   const onSubmit = async (): Promise<void> => {
     try {
-      // members.forEach((member) => socket(room.id, member.id));
+      await updateGroupChat({ id: chatId, members: members.map((member) => member.id) }).unwrap();
 
-      router.push(`${AppRoute.CHAT_PAGE}/${room.id}`);
-
-      reset();
+      router.push(`${AppRoute.CHAT_PAGE}/${chatId}/info`);
     } catch (error) {
+      enqueueSnackbar(`${t('Something went wrong')}: ${error.data.message}`, {
+        variant: 'error',
+      });
+
       reset();
     }
   };
@@ -101,10 +95,6 @@ export function FormAddAgents({ t, room, closeModalUp, initialMembers }: Props):
       noValidate
       autoComplete="off"
     >
-      <Typography sx={{ marginBottom: '0.5rem' }}>{t('groupName')}</Typography>
-      <Typography variant="h3" sx={{ marginBottom: '1.5rem' }}>
-        {room.title}
-      </Typography>
       <Autocomplete
         noOptionsText={t('noMoreAgents')}
         disablePortal
@@ -185,7 +175,7 @@ export function FormAddAgents({ t, room, closeModalUp, initialMembers }: Props):
           type="submit"
           variant="contained"
           color="primary"
-          disabled={members.length === 0}
+          disabled={members?.length === 0}
           sx={{ mb: '1rem' }}
         >
           {t('addToChat')}

@@ -11,7 +11,7 @@ import { useUpdateChatMutation } from 'store/chat';
 type Props = {
   t: Function;
   closeModalUp: () => void;
-  chatId: string;
+  chatId?: string;
 };
 
 type FormValues = {
@@ -40,11 +40,8 @@ export function FormName({ t, closeModalUp, chatId }: Props): JSX.Element {
     const { groupName } = data;
 
     try {
-      const { chat } = await updateGroupChat({ id: chatId, title: groupName }).unwrap();
-
-      if (chat) {
-        router.push(`${AppRoute.CHAT_PAGE}/${chat.id}/info`);
-      }
+      await updateGroupChat({ id: chatId, title: groupName }).unwrap();
+      router.push(`${AppRoute.CHAT_PAGE}/${chatId}/info`);
     } catch (error) {
       enqueueSnackbar(`${t('Something went wrong')}: ${error.data.message}`, {
         variant: 'error',

@@ -5,7 +5,7 @@ import { Title } from 'components/custom/property/styles';
 import Iconify from 'components/iconify';
 import { colors } from 'constants/colors';
 import { AppRoute } from 'enums';
-import { useState, useTranslations, useCloseModal, useRouter, useSelector } from 'hooks';
+import { useState, useTranslations, useRouter, useSelector } from 'hooks';
 import { usePathname } from 'next/navigation';
 import { RootState } from 'store';
 import { useGetChatByIdQuery } from 'store/chat/chat-api';
@@ -13,18 +13,11 @@ import { IChatResponse, UserProfileResponse } from 'types';
 import uuidv4 from 'utils/uuidv4';
 import { FormName, FormDelete, FormAddAgents } from 'sections/chat/components/chat-info';
 
-type Props = {
-  id: string;
-  userId: string;
-};
-
-const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
-  // const { id, owner, title, members, createdAt } = chat;
-
+const ChatInfo = (): JSX.Element => {
   const [nameModal, setNameModal] = useState<boolean>(false);
   const [addAgentsModal, setAddAgentsModal] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
-  const [groupName, setGroupName] = useState<string>('');
+  const [members, setMembers] = useState<IChatResponse['chat']['members']>();
 
   const authUser = useSelector((state: RootState) => state.authSlice.user);
   const {
@@ -37,21 +30,19 @@ const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
     lastName: UserProfileResponse['lastName'] | null;
   } = authUser || {
     id: null,
+    firstName: null,
+    lastName: null,
   };
 
-  console.log(userId);
   const router = useRouter();
   const pathsname = usePathname();
 
-  console.log(pathsname);
-  // const { chat } = useGetChatByIdQuery({ id: pathsname.split('/')[2] });
-  const chat = {
-    owner: 'e5766e45-3e90-43cf-baa3-030ed0af2df2',
-    id: '5ee757d6-4c9c-4d74-8bb4-e12c60ef7178',
-    members: [],
-    createdAt: '2024-01-03T22:26:44.486Z',
-    title: 'new',
-  };
+  const { data } = useGetChatByIdQuery(
+    { id: pathsname.split('/')[2] },
+    { refetchOnMountOrArgChange: true }
+  );
+
+  if (data) setMembers(data?.chat.members);
 
   function closeModal(type: string): void {
     switch (type) {
@@ -76,6 +67,10 @@ const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
 
   const t = useTranslations('MessagesPage');
 
+  const handleClickDelete = (idToDelete: string): void => {
+    setMembers((prev) => prev && [...prev.filter((member) => member.id !== idToDelete)]);
+  };
+
   return (
     <Box
       sx={{
@@ -97,7 +92,7 @@ const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
         <Button
           title={t('back')}
           sx={{ padding: '0' }}
-          onClick={(): void => router.push(`${AppRoute.CHAT_PAGE}/${chat.id}`)}
+          onClick={(): void => router.push(`${AppRoute.CHAT_PAGE}/${data?.chat.id}`)}
         >
           <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
         </Button>
@@ -116,10 +111,12 @@ const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
           <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>{`${t(
             'Chat name'
           )}:`}</Typography>
-          <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
-            {chat.title}
-          </Typography>
-          {userId === chat.owner && (
+          {data && (
+            <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
+              {data?.chat.title}
+            </Typography>
+          )}
+          {data && userId === data?.chat.owner && (
             <Link
               color="inherit"
               sx={{
@@ -157,9 +154,11 @@ const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
           <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
             {`${t('Created on')}:`}
           </Typography>
-          <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
-            {new Date(chat.createdAt).toDateString()}
-          </Typography>
+          {data && data.chat.createdAt && (
+            <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
+              {new Date(data.chat.createdAt).toDateString()}
+            </Typography>
+          )}
         </Box>
         <Typography variant="subtitle2" sx={{ fontWeight: 'bold', mb: '1rem' }}>
           {t('Chat members')}
@@ -168,7 +167,8 @@ const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
           variant="subtitle2"
           sx={{ fontWeight: 'normal', mb: '1rem' }}
         >{`1. ${firstName} ${lastName} (${t('owner')})`}</Typography>
-        {members?.length > 0 &&
+        {members &&
+          members?.length > 0 &&
           members.map(
             (user, idx: number) =>
               user && (
@@ -176,15 +176,32 @@ const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
                   title={t('btnDeleteAgentFromList')}
                   key={uuidv4()}
                   sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
                     '&:not(:last-child)': {
                       mb: '1rem',
                     },
                   }}
                 >
-                  <Typography>
-                    {`${idx + 1}. ${user?.firstName}
-                    ${user?.lastName}`}
-                  </Typography>
+                  <Typography>{`${idx + 1}. ${user?.firstName}
+                    ${user?.lastName}`}</Typography>
+                  <Iconify
+                    icon="fluent:delete-28-regular"
+                    width="1.5rem"
+                    height="1.5rem"
+                    color={colors.ERROR_COLOR}
+                    sx={{
+                      opacity: '0.5',
+                      cursor: 'pointer',
+                      transition: 'all 200ms ease-out',
+                      '&:hover': {
+                        opacity: '1',
+                        transition: 'all 200ms ease-out',
+                      },
+                    }}
+                    onClick={() => handleClickDelete(user.id)}
+                  />
                 </Box>
               )
           )}
@@ -213,7 +230,7 @@ const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
           </Typography>
         </Link>
       </Box>
-      {userId === chat.owner && (
+      {data && userId === data.chat.owner && (
         <Link
           color="inherit"
           sx={{
@@ -270,12 +287,7 @@ const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
               height="1.5rem"
               handleClose={() => closeModal('name')}
             />
-            <FormName
-              t={t}
-              chatId={chat.id}
-              nameModal={nameModal}
-              closeModal={() => closeModal('name')}
-            />
+            <FormName t={t} chatId={data?.chat.id} closeModalUp={() => closeModal('name')} />
           </Box>
         </Modal>
       )}
@@ -310,9 +322,16 @@ const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
             />
             <FormAddAgents
               t={t}
-              chaId={chat.id}
-              members={chat.members}
-              closeModal={() => closeModal('members')}
+              chatId={data?.chat.id}
+              chatMembers={
+                members && members.length > 0
+                  ? members?.map((member) => ({
+                      label: `${member.firstName} ${member.lastName}`,
+                      id: member.id,
+                    }))
+                  : []
+              }
+              closeModalUp={() => closeModal('members')}
             />
           </Box>
         </Modal>
@@ -346,7 +365,7 @@ const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
               height="1.5rem"
               handleClose={() => closeModal('delete')}
             />
-            <FormDelete t={t} chatId={chat.id} closeModalUp={() => closeModal('delete')} />
+            <FormDelete t={t} chatId={data?.chat.id} closeModalUp={() => closeModal('delete')} />
           </Box>
         </Modal>
       )}

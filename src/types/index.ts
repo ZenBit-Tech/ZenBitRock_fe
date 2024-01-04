@@ -52,4 +52,4 @@ export {
   type IUnreadMessagesQuantityRequest,
 } from './message';
 export { type ICreateGroupChatRequest } from './chat';
-export { type IChatResponse } from './chat';
+export { type IChatResponse, type IChatRequest } from './chat';
