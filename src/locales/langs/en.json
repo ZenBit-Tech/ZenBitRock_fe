@@ -530,6 +530,7 @@
   },
   "leads": {
     "": "",
+    "results": "Filtered results",
     "addBtnTxt": "Add lead",
     "direct": "Direct",
     "agent": "Agent",

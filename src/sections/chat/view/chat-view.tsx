@@ -62,22 +62,23 @@ export default function ChatView({ id: selectedConversationId, user }: Props): J
 
   return (
     <>
-      <Stack direction="row" alignItems="center" sx={{ px: '0.3rem' }}>
-        <Button sx={{ p: 0 }} onClick={() => router.back()}>
-          <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
-        </Button>
-
-        <Typography
-          variant="h3"
-          sx={{
-            my: { xs: 3, md: 5 },
-          }}
-        >
-          {t('title')}
-        </Typography>
-      </Stack>
       <Container sx={{ pb: '80px' }}>
-        <Stack component={Card} direction="row" sx={{ height: '72vh' }}>
+        <Stack direction="row" alignItems="center">
+          <Button sx={{ p: 0 }} onClick={() => router.back()}>
+            <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
+          </Button>
+
+          <Typography
+            variant="h3"
+            sx={{
+              my: { xs: 3, md: 5 },
+            }}
+          >
+            {t('title')}
+          </Typography>
+        </Stack>
+
+        <Stack component={Card} direction="row" sx={{ height: `calc(100vh - 250px)` }}>
           <Stack
             sx={{
               width: 1,
