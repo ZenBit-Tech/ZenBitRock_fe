@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
-import { Box, TextField } from '@mui/material';
+import { Box, Fab, Stack, TextField } from '@mui/material';
 import { IChatItem } from 'types/chat';
+import { useScrollToTop } from 'hooks';
 import SearchNotFound from 'components/search-not-found';
 import ChatItem from './chat-item';
 import SortComponent, { sortChats } from './sort-component';
@@ -15,9 +16,15 @@ export default function ChatsList({ chats, t }: Props) {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [sortBy, setSortBy] = useState<Values>(getSortOptions(t)[0]);
 
+  const isVisible = useScrollToTop();
+
   const handleSearchChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   }, []);
+
+  const scrollToTop = (): void => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const filteredChats = chats.filter(
     (chat) =>
@@ -46,7 +53,26 @@ export default function ChatsList({ chats, t }: Props) {
       <SortComponent t={t} sort={sortBy} onSort={handleSortBy} sortOptions={getSortOptions(t)} />
 
       {sortedChats.length ? (
-        sortedChats.map((chat) => <ChatItem key={chat.id} chat={chat} />)
+        <Stack>
+          {sortedChats.map((chat) => (
+            <ChatItem key={chat.id} chat={chat} />
+          ))}
+
+          <Fab
+            color="primary"
+            aria-label="scroll to top"
+            onClick={scrollToTop}
+            sx={{
+              position: 'fixed',
+              bottom: '70px',
+              right: '20px',
+              display: isVisible ? 'block' : 'none',
+              transition: 'easy-in 200 display',
+            }}
+          >
+            ↑
+          </Fab>
+        </Stack>
       ) : (
         <SearchNotFound
           query={searchTerm}
