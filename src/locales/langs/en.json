@@ -350,10 +350,10 @@
     "forgotPass": "Forgot password?"
   },
   "mainPage": {
-    "My properties": "My properties",
-    "Notification center": "Notification center",
-    "No new notifications": "No new notifications",
-    "View": "View",
+    "myProperties": "My properties",
+    "notificationCenter": "Notification center",
+    "noNewNotifications": "No new notifications",
+    "view": "View",
     "filters": {
       "location": "Location",
       "propertyType": "Property type",

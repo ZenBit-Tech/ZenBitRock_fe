@@ -12,7 +12,7 @@ const NotificationCenter = ({ t }: { t: Function }): JSX.Element => {
     <>
       {isVisible && (
         <Box>
-          <Typography>{t('Notification center')}</Typography>
+          <Typography>{t('notificationCenter')}</Typography>
           <Box
             sx={{
               p: 1,
@@ -22,10 +22,10 @@ const NotificationCenter = ({ t }: { t: Function }): JSX.Element => {
               justifyContent: 'space-between',
             }}
           >
-            <Typography>{t('No new notifications')}</Typography>
+            <Typography>{t('noNewNotifications')}</Typography>
             <CustomLink href="#">
               <Box component="span" display="flex" alignItems="center">
-                {t('View')}
+                {t('view')}
                 <Iconify icon="mingcute:right-line" width="15px" height="15x" color="black" />
               </Box>
             </CustomLink>

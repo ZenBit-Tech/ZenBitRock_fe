@@ -53,7 +53,7 @@ function MainPage(): JSX.Element {
       <Box sx={{ p: '10px', margin: '0 auto', maxWidth: '800px' }}>
         <NotificationCenter t={t} />
         <Typography variant="h3" sx={{ marginTop: 3 }}>
-          {t('My properties')}
+          {t('myProperties')}
         </Typography>
         <PropertyFilter
           setFilter={handleSetFilter}
