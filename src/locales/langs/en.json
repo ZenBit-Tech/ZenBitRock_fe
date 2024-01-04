@@ -72,7 +72,8 @@
     "drag&DropTitle": "* Please upload related documents",
     "declarationSectionTitle": "D. Declaration",
     "declarationText": "* I hereby declare that the information provided in this form is accurate and complete. I confirm that any information is found incorrect and/or incomplete that leads a violation of regulations may initiate legal actions, and I accept that I am the responsible party for any and all charges, penalties and violations.",
-    "submitButton": "Submit"
+    "submitButton": "Submit",
+    "generalErrorMessage": "Something went wrong, please try again"
   },
   "VerificationDonePage": {
     "mainTitle": "KYC form",
@@ -358,6 +359,11 @@
       "bedrooms": "Bedrooms",
       "apply": "Apply filters",
       "locationsPlaceholder": "Location search",
+      "priceRangeRentFromPlaceholder": "Min",
+      "priceRangeRentToPlaceholder": "Max",
+      "priceRangeSaleFromPlaceholder": "Min",
+      "priceRangeSaleToPlaceholder": "Max",
+      "clearFilter": "Clear filter",
       "filterOptions": {
         "propertyStatus": {
           "pending": "Pending",
