@@ -43,11 +43,14 @@ function Common(): JSX.Element {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            mb: 3,
           }}
         >
           {propertyId && <GoBackPageTitile title={toTitleCase(t('leads'))} />}
-          {!propertyId && <Typography variant="h3">{toTitleCase(t('leads'))}</Typography>}
+          {!propertyId && (
+            <Typography sx={{ mt: '1.5rem', mb: '1.5rem' }} variant="h3">
+              {toTitleCase(t('leads'))}
+            </Typography>
+          )}
           <Button
             title={t('create')}
             sx={{ padding: '14px' }}
