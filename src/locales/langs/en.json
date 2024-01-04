@@ -363,7 +363,7 @@
       "priceRangeRentToPlaceholder": "Max",
       "priceRangeSaleFromPlaceholder": "Min",
       "priceRangeSaleToPlaceholder": "Max",
-      "removeFilters": "Remove filters",
+      "clearFilter": "Clear filter",
       "filterOptions": {
         "propertyStatus": {
           "pending": "Pending",

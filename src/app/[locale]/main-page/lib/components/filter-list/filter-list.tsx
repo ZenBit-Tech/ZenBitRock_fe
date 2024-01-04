@@ -250,7 +250,7 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
               loading={isSubmitting}
               sx={{ width: '70%', mr: '15px' }}
             >
-              {t('removeFilters')}
+              {t('clearFilter')}
             </LoadingButton>
 
             <LoadingButton
