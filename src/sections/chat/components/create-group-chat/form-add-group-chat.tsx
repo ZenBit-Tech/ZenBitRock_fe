@@ -45,7 +45,7 @@ export default function FormAddGroupChat({ t, closeModalUp }: Props): JSX.Elemen
         router.push(`${AppRoute.CHAT_PAGE}/${chat.id}/info`);
       }
     } catch (error) {
-      enqueueSnackbar(`${t('Something went wrong')}: ${error.data.message}`, {
+      enqueueSnackbar(`${t('somethingWentWrong')}: ${error.data.message}`, {
         variant: 'error',
       });
 

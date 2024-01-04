@@ -24,14 +24,14 @@ export function FormDelete({ t, closeModalUp, chatId }: Props): JSX.Element {
 
       router.push(`${AppRoute.MESSAGES_PAGE}`);
     } catch (error) {
-      enqueueSnackbar(`${t('Something went wrong')}: ${error.data.message}`, { variant: 'error' });
+      enqueueSnackbar(`${t('somethingWentWrong')}: ${error.data.message}`, { variant: 'error' });
     }
   };
 
   return (
     <Box>
       <Typography variant="h3" sx={{ marginBottom: '1.5rem', textAlign: 'center' }}>
-        {t('Do you want delete chat?')}
+        {t('doYouWantDeleteChat')}
       </Typography>
       <Stack sx={{ mt: 5 }}>
         <Button
@@ -41,7 +41,7 @@ export function FormDelete({ t, closeModalUp, chatId }: Props): JSX.Element {
           sx={{ mb: '1rem' }}
           onClick={handleClick}
         >
-          {t('Yes delete')}
+          {t('yesDelete')}
         </Button>
         <Button type="reset" variant="contained" color="primary" onClick={() => closeModalUp()}>
           {t('cancelBtnTxt')}

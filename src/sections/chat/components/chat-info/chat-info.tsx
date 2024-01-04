@@ -109,7 +109,7 @@ const ChatInfo = (): JSX.Element => {
           }}
         >
           <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>{`${t(
-            'Chat name'
+            'chatName'
           )}:`}</Typography>
           {data && (
             <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
@@ -137,7 +137,7 @@ const ChatInfo = (): JSX.Element => {
             >
               <Iconify icon="ic:round-edit-note" width="1.5rem" height="1.5rem" />
               <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
-                {t('Edit group name')}
+                {t('editGroupName')}
               </Typography>
             </Link>
           )}
@@ -152,7 +152,7 @@ const ChatInfo = (): JSX.Element => {
           }}
         >
           <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
-            {`${t('Created on')}:`}
+            {`${t('createdOn')}:`}
           </Typography>
           {data && data.chat.createdAt && (
             <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
@@ -161,7 +161,7 @@ const ChatInfo = (): JSX.Element => {
           )}
         </Box>
         <Typography variant="subtitle2" sx={{ fontWeight: 'bold', mb: '1rem' }}>
-          {t('Chat members')}
+          {t('chatMembers')}
         </Typography>
         <Typography
           variant="subtitle2"
@@ -226,7 +226,7 @@ const ChatInfo = (): JSX.Element => {
         >
           <Iconify icon="ic:round-playlist-add" width="1.5rem" height="1.5rem" />
           <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
-            {t('Add agents to chat')}
+            {t('addAgentsToChat')}
           </Typography>
         </Link>
       </Box>
@@ -253,7 +253,7 @@ const ChatInfo = (): JSX.Element => {
         >
           <Iconify icon="fluent:delete-28-regular" width="1.5rem" height="1rem" />
           <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
-            {t('Delete chat')}
+            {t('deleteChat')}
           </Typography>
         </Link>
       )}

@@ -71,7 +71,7 @@ export function FormAddAgents({ t, chatMembers, closeModalUp, chatId }: Props): 
 
       router.push(`${AppRoute.CHAT_PAGE}/${chatId}/info`);
     } catch (error) {
-      enqueueSnackbar(`${t('Something went wrong')}: ${error.data.message}`, {
+      enqueueSnackbar(`${t('somethingWentWrong')}: ${error.data.message}`, {
         variant: 'error',
       });
 

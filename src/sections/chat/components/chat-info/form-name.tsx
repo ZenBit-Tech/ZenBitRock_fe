@@ -43,7 +43,7 @@ export function FormName({ t, closeModalUp, chatId }: Props): JSX.Element {
       await updateGroupChat({ id: chatId, title: groupName }).unwrap();
       router.push(`${AppRoute.CHAT_PAGE}/${chatId}/info`);
     } catch (error) {
-      enqueueSnackbar(`${t('Something went wrong')}: ${error.data.message}`, {
+      enqueueSnackbar(`${t('somethingWentWrong')}: ${error.data.message}`, {
         variant: 'error',
       });
 
@@ -60,7 +60,7 @@ export function FormName({ t, closeModalUp, chatId }: Props): JSX.Element {
       autoComplete="off"
     >
       <Typography variant="h3" sx={{ marginBottom: '1.5rem', textAlign: 'center' }}>
-        {t('Edit group chat name')}
+        {t('editGroupChatName')}
       </Typography>
 
       <TextField
@@ -73,8 +73,8 @@ export function FormName({ t, closeModalUp, chatId }: Props): JSX.Element {
         })}
         sx={{ height: '80px', mb: '0.9rem' }}
         variant="outlined"
-        label={t('Enter new name')}
-        placeholder={t('Enter new name')}
+        label={t('enterNewName')}
+        placeholder={t('enterNewName')}
         type="email"
         fullWidth
         error={Boolean(errors?.groupName)}
@@ -89,7 +89,7 @@ export function FormName({ t, closeModalUp, chatId }: Props): JSX.Element {
           disabled={!isValid}
           sx={{ mb: '1rem' }}
         >
-          {t('Change group chat name')}
+          {t('changeGroupChatName')}
         </Button>
         <Button type="reset" variant="contained" color="primary" onClick={() => closeModalUp()}>
           {t('cancelBtnTxt')}
