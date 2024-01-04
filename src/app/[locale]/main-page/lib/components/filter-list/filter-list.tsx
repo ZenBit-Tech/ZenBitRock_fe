@@ -15,10 +15,10 @@ const defaultValues: PropertyFilterFormData = {
   location: null,
   propertyType: null,
   status: null,
-  priceRangeSaleFrom: 0,
-  priceRangeSaleTo: 0,
-  priceRangeRentFrom: 0,
-  priceRangeRentTo: 0,
+  priceRangeSaleFrom: 10000,
+  priceRangeSaleTo: 10000000,
+  priceRangeRentFrom: 100,
+  priceRangeRentTo: 10000,
   bedrooms: null,
   rentOrSale: 'for_sale',
 };
@@ -29,14 +29,12 @@ type Props = {
 
 const FilterList = ({ applyFilters }: Props): JSX.Element => {
   const [locationsInputValue, setLocationsInputValue] = useState<string>('');
-  const [isTypeRent, setIsTypeRent] = useState<boolean>(false);
   const [hasActiveFilters, setHasActiveFilters] = useState<boolean>(false);
 
-  const {
-    state,
-    replace,
-    reset: localStorageReset,
-  } = useLocalStorage<PropertyFilterFormData>(StorageKey.PROPERTY_FILTER, defaultValues);
+  const { state, replace } = useLocalStorage<PropertyFilterFormData>(
+    StorageKey.PROPERTY_FILTER,
+    defaultValues
+  );
 
   const { data: searchLocationData, isLoading: isSearchLocationLoading } = useSearchLocationsQuery({
     find: locationsInputValue,
@@ -71,36 +69,41 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
   const watchAllFields = watch();
 
   useEffect(() => {
-    setIsTypeRent(watchAllFields.rentOrSale === 'for_rent');
-  }, [watchAllFields.rentOrSale]);
-
-  useEffect(() => {
     const hasFilters =
       watchAllFields.location ||
       watchAllFields.propertyType ||
       watchAllFields.status ||
-      watchAllFields.priceRangeRentFrom ||
-      watchAllFields.priceRangeRentTo ||
-      watchAllFields.priceRangeSaleFrom ||
-      watchAllFields.priceRangeSaleTo ||
+      watchAllFields.priceRangeRentFrom !== defaultValues.priceRangeRentFrom ||
+      watchAllFields.priceRangeRentTo !== defaultValues.priceRangeRentTo ||
+      watchAllFields.priceRangeSaleFrom !== defaultValues.priceRangeSaleFrom ||
+      watchAllFields.priceRangeSaleTo !== defaultValues.priceRangeSaleTo ||
+      watchAllFields.rentOrSale !== defaultValues.rentOrSale ||
       watchAllFields.bedrooms;
 
-    if (hasFilters) setHasActiveFilters(true);
+    if (hasFilters) {
+      setHasActiveFilters(true);
+    } else {
+      setHasActiveFilters(false);
+    }
   }, [watchAllFields]);
 
   useEffect(() => {
-    methods.clearErrors();
-  }, [methods, watchAllFields.rentOrSale]);
+    if (isValid) methods.clearErrors();
+  }, [
+    methods,
+    watchAllFields.priceRangeRentFrom,
+    watchAllFields.priceRangeRentTo,
+    watchAllFields.priceRangeSaleFrom,
+    watchAllFields.priceRangeSaleTo,
+    isValid,
+  ]);
 
   useEffect(() => {
-    if (isTypeRent) {
-      setValue('priceRangeRentFrom', state.priceRangeRentFrom || 100);
-      setValue('priceRangeRentTo', state.priceRangeRentTo || 10000);
-    } else {
-      setValue('priceRangeSaleFrom', state.priceRangeSaleFrom || 10000);
-      setValue('priceRangeSaleTo', state.priceRangeSaleTo || 10000000);
-    }
-  }, [isTypeRent, setValue, state]);
+    setValue('priceRangeRentFrom', state.priceRangeRentFrom || 100);
+    setValue('priceRangeRentTo', state.priceRangeRentTo || 10000);
+    setValue('priceRangeSaleFrom', state.priceRangeSaleFrom || 10000);
+    setValue('priceRangeSaleTo', state.priceRangeSaleTo || 10000000);
+  }, [watchAllFields.rentOrSale, setValue, state]);
 
   const onSubmit = handleSubmit(async (formData) => {
     try {
@@ -114,9 +117,9 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
   });
 
   const handleRemoveFilters = (): void => {
-    localStorageReset();
+    replace(defaultValues);
     setHasActiveFilters(false);
-    reset();
+    reset(defaultValues);
   };
 
   if (!data) {
@@ -186,7 +189,7 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
           />
 
           <Block label={t('priceRange')} key={watchAllFields.rentOrSale}>
-            {isTypeRent ? (
+            {watchAllFields.rentOrSale === 'for_rent' ? (
               <Block sx={{ display: 'flex', flexDirection: 'row' }}>
                 <RHFTextField
                   name="priceRangeRentFrom"
@@ -257,7 +260,7 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
               variant="contained"
               color="primary"
               loading={isSubmitting}
-              disabled={!isValid || !hasActiveFilters}
+              disabled={!isValid}
               sx={{ width: '70%' }}
             >
               {t('apply')}
