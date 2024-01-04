@@ -49,8 +49,10 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
         const results = agents.filter((agent) => {
           if (agent.id !== id && agent.firstName) {
             const agentName = `${agent.firstName} ${agent.lastName}`;
+            
             return agentName.toLowerCase().includes(inputValue.trim().toLowerCase());
           }
+          
           return null;
         });
 
