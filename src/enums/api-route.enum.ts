@@ -32,6 +32,8 @@ const ApiRoute = {
   QOBRIX_GET_LEAD_TASK_CHANGES: '/tasks/id/changes',
   QOBRIX_GET_LEAD_STATUS_CHANGES: '/opportunities/id/changes',
   GET_UNREAD_MESSAGES: 'messages/id/unread',
+  CREATE_ROOM: '/rooms',
+  MESSAGES: '/messages',
 } as const;
 
 export { ApiRoute };

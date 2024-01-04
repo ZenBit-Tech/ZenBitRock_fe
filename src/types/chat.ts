@@ -1,3 +1,56 @@
+export type CreateRoomRequest = {
+  title: string;
+};
+
+export type CreateRoomResponse = {
+  room: {
+    id: string;
+    title: string;
+    owner: {
+      id: string;
+    };
+    createdAt: string;
+    updatedAt: string;
+  };
+};
+
+export type CreateMessageRequest = {
+  content: string;
+  roomId: string;
+};
+
+export type CreateMessageResponse = {
+  id: string;
+  content: string;
+  createdAt: string;
+  roomId: string;
+  owner: {
+    id: string;
+  };
+};
+
+export type getMessagesRequest = {
+  roomId: string;
+};
+
+export type getMessageResponse = {
+  id: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  isRead: boolean;
+};
+
+export type GetMessagesResponse = {
+  title: string;
+  owner: {
+    id: string;
+  };
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
 export type IChatItem = {
   id: string;
   type: string;

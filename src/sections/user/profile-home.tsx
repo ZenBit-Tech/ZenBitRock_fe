@@ -17,6 +17,7 @@ import { LoadingScreen } from 'components/loading-screen';
 const RenderAbout = (): JSX.Element => {
   const t = useTranslations('profilePage');
   const authUser = useSelector((state: RootState) => state.authSlice.user);
+  console.log(authUser);
 
   if (!authUser) {
     return <LoadingScreen />;

@@ -8,6 +8,7 @@ type Props = {
 };
 
 export default function ChatHeaderDetail({ user: singleParticipant }: Props): JSX.Element {
+  console.log(singleParticipant);
   const { avatarUrl, firstName, lastName } = singleParticipant;
 
   const renderSingle = (
