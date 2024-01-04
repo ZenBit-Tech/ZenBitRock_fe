@@ -15,13 +15,13 @@ const ChatNotifications = (): JSX.Element => {
       </Typography>
       <Box
         sx={{
-          p: 1,
+          py: 1,
           marginTop: '5px',
           display: 'flex',
           justifyContent: 'space-between',
         }}
       >
-        <Typography>{t('noNotifications')}</Typography>
+        <Typography color={GREY[600]}>{t('noNotifications')}</Typography>
         <CustomLink href={AppRoute.MESSAGES_PAGE}>
           <Box component="span" display="flex" alignItems="center" color={GREY[600]}>
             {t('view')}

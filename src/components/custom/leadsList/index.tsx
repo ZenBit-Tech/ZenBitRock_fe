@@ -100,8 +100,8 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
           {leadsList?.map((lead: QobrixLeadItem) => <Lead lead={lead} key={uuidv4()} />)}
         </ListStyled>
       )}
-      {(leadsList?.length === 0 && filter && !isFetching) ||
-        (leadsList?.length === 0 && name && !isFetching && <NotMatchedView />)}
+      {leadsList?.length === 0 && (filter || name) && !isFetching && <NotMatchedView />}
+
       <Fab
         color="primary"
         aria-label="scroll to top"

@@ -1,11 +1,14 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import { Button } from '@mui/material';
 import { IChatMessage } from 'types/chat';
 import { GetUserResponse } from 'types/user-data';
 import ChatMessageList from '../chat-message-list';
@@ -20,6 +23,7 @@ type Props = {
 
 export default function ChatView({ id: selectedConversationId, user }: Props): JSX.Element {
   const t = useTranslations('privateChat');
+  const router = useRouter();
 
   const [messages, setMessages] = useState<IChatMessage[]>([]);
 
@@ -57,39 +61,46 @@ export default function ChatView({ id: selectedConversationId, user }: Props): J
   );
 
   return (
-    <Container sx={{ pb: '80px' }}>
-      <Typography
-        variant="h4"
-        sx={{
-          my: { xs: 3, md: 5 },
-        }}
-      >
-        {t('title')}
-      </Typography>
+    <>
+      <Stack direction="row" alignItems="center" sx={{ px: '0.3rem' }}>
+        <Button sx={{ p: 0 }} onClick={() => router.back()}>
+          <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
+        </Button>
 
-      <Stack component={Card} direction="row" sx={{ height: '72vh' }}>
-        <Stack
+        <Typography
+          variant="h3"
           sx={{
-            width: 1,
-            height: 1,
-            overflow: 'hidden',
+            my: { xs: 3, md: 5 },
           }}
         >
-          {renderHead}
-
+          {t('title')}
+        </Typography>
+      </Stack>
+      <Container sx={{ pb: '80px' }}>
+        <Stack component={Card} direction="row" sx={{ height: '72vh' }}>
           <Stack
-            direction="row"
             sx={{
               width: 1,
               height: 1,
               overflow: 'hidden',
-              borderTop: (theme) => `solid 1px ${theme.palette.divider}`,
             }}
           >
-            {renderMessages}
+            {renderHead}
+
+            <Stack
+              direction="row"
+              sx={{
+                width: 1,
+                height: 1,
+                overflow: 'hidden',
+                borderTop: (theme) => `solid 1px ${theme.palette.divider}`,
+              }}
+            >
+              {renderMessages}
+            </Stack>
           </Stack>
         </Stack>
-      </Stack>
-    </Container>
+      </Container>
+    </>
   );
 }
