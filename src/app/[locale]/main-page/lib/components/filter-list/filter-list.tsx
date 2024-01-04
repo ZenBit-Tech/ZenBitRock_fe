@@ -130,6 +130,13 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
     <Box sx={{ p: 1 }}>
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <Stack spacing={1} alignItems="center">
+          <RHFRadioGroup
+            row
+            name="rentOrSale"
+            sx={{ display: 'flex', justifyContent: 'space-between' }}
+            options={getRentOrSaleOption(rentOrSale)}
+          />
+
           <Block label={t('location')}>
             <RHFAutocomplete
               name="location"
@@ -180,13 +187,6 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
               )}
             />
           </Block>
-
-          <RHFRadioGroup
-            row
-            name="rentOrSale"
-            sx={{ display: 'flex', justifyContent: 'space-between' }}
-            options={getRentOrSaleOption(rentOrSale)}
-          />
 
           <Block label={t('priceRange')} key={watchAllFields.rentOrSale}>
             {watchAllFields.rentOrSale === 'for_rent' ? (
