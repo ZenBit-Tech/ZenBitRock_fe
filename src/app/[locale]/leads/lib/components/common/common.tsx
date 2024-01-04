@@ -38,35 +38,34 @@ function Common(): JSX.Element {
   return (
     <ProtectedRoute>
       <Container sx={{ pb: 8, px: 2 }}>
+        {propertyId && <GoBackPageTitile title={toTitleCase(t('leads'))} />}
+        {!propertyId && (
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              mt: '1.5rem',
+              mb: '1.5rem',
+            }}
+          >
+            <Typography variant="h3">{toTitleCase(t('leads'))}</Typography>
+            <Button
+              title={t('create')}
+              sx={{ padding: '14px' }}
+              variant="contained"
+              color="primary"
+              type="button"
+              onClick={() => router.push(`${AppRoute.CREATE_LEAD_PAGE}`)}
+            >
+              {t('addBtnTxt')}
+            </Button>
+          </Box>
+        )}
+
         <Box
           sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          {propertyId && <GoBackPageTitile title={toTitleCase(t('leads'))} />}
-          {!propertyId && (
-            <>
-              <Typography sx={{ mt: '1.5rem', mb: '1.5rem' }} variant="h3">
-                {toTitleCase(t('leads'))}
-              </Typography>
-              <Button
-                title={t('create')}
-                sx={{ padding: '14px' }}
-                variant="contained"
-                color="primary"
-                type="button"
-                onClick={() => router.push(`${AppRoute.CREATE_LEAD_PAGE}`)}
-              >
-                {t('addBtnTxt')}
-              </Button>
-            </>
-          )}
-        </Box>
-        <Box
-          sx={{
-            marginY: '1.5rem',
+            mb: '1.5rem',
           }}
         >
           <LeadsFilter getFilter={(searchString: string) => getFilter(searchString)} />
