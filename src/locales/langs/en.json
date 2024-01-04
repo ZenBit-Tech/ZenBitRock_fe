@@ -560,7 +560,8 @@
     "sorry": "Sorry, No Matched Results Found!",
     "try": "Try to find something else.",
     "reset": "Reset all filters",
-    "leads": "leads"
+    "leads": "leads",
+    "error": "Something went wrong!"
   },
   "agents": {
     "pageTitle": "Agent network",

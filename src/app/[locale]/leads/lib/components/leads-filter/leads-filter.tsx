@@ -37,7 +37,10 @@ function LeadsFilter({ getFilter }: Prop): JSX.Element {
   const onSubmit = (data: FormValues): void => {
     const { status, leadName } = data;
 
-    const searchString = `ContactNameContacts.name contains '${leadName}' and Opportunities.conversion_status matches '${status}'`;
+    const searchString =
+      status === '' && leadName === ''
+        ? 'update'
+        : `ContactNameContacts.name contains '${leadName}' and Opportunities.conversion_status matches '${status}'`;
 
     getFilter(searchString);
   };

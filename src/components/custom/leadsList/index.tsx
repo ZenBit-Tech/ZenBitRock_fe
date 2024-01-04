@@ -87,8 +87,9 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
           </BoxStyledWithName>
         </>
       )}
-
-      {error && enqueueSnackbar(t('error'), { variant: 'error' })}
+      <Box sx={{ display: 'none' }}>
+        {error && enqueueSnackbar(t('error'), { variant: 'error' })}
+      </Box>
       {leadsList?.length !== 0 && (
         <ListStyled
           sx={{
