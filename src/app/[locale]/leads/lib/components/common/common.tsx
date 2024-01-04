@@ -9,7 +9,7 @@ import { useTranslations } from 'next-intl';
 import { Button, Box, Typography } from '@mui/material';
 
 import { LeadsFilter } from 'app/[locale]/leads/lib/components/leads-filter/leads-filter';
-import { ProtectedRoute } from 'components/custom';
+import { GoBackPageTitile, ProtectedRoute } from 'components/custom';
 import LeadsList from 'components/custom/leadsList';
 import Iconify from 'components/iconify';
 import { AppRoute } from 'enums';
@@ -43,9 +43,13 @@ function Common(): JSX.Element {
   return (
     <ProtectedRoute>
       <Box sx={{ p: '10px', margin: '0 auto', maxWidth: '800px' }}>
-        <Typography variant="h3" sx={{ marginTop: 3 }}>
-          {toTitleCase(t('leads'))}
-        </Typography>
+        {propertyId && <GoBackPageTitile title={toTitleCase(t('leads'))} />}
+        {!propertyId && (
+          <Typography variant="h3" sx={{ marginTop: 3 }}>
+            {toTitleCase(t('leads'))}
+          </Typography>
+        )}
+
         <Box
           sx={{
             display: 'flex',
