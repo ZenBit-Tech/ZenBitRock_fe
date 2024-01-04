@@ -37,7 +37,7 @@ function Common(): JSX.Element {
 
   return (
     <ProtectedRoute>
-      <Container sx={{ pb: 8, pt: 2, px: 2 }}>
+      <Container sx={{ pb: 8, px: 2 }}>
         <Box
           sx={{
             display: 'flex',
@@ -47,20 +47,22 @@ function Common(): JSX.Element {
         >
           {propertyId && <GoBackPageTitile title={toTitleCase(t('leads'))} />}
           {!propertyId && (
-            <Typography sx={{ mt: '1.5rem', mb: '1.5rem' }} variant="h3">
-              {toTitleCase(t('leads'))}
-            </Typography>
+            <>
+              <Typography sx={{ mt: '1.5rem', mb: '1.5rem' }} variant="h3">
+                {toTitleCase(t('leads'))}
+              </Typography>
+              <Button
+                title={t('create')}
+                sx={{ padding: '14px' }}
+                variant="contained"
+                color="primary"
+                type="button"
+                onClick={() => router.push(`${AppRoute.CREATE_LEAD_PAGE}`)}
+              >
+                {t('addBtnTxt')}
+              </Button>
+            </>
           )}
-          <Button
-            title={t('create')}
-            sx={{ padding: '14px' }}
-            variant="contained"
-            color="primary"
-            type="button"
-            onClick={() => router.push(`${AppRoute.CREATE_LEAD_PAGE}`)}
-          >
-            {t('addBtnTxt')}
-          </Button>
         </Box>
         <Box
           sx={{
