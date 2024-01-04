@@ -47,11 +47,7 @@ function Common(): JSX.Element {
           }}
         >
           {propertyId && <GoBackPageTitile title={toTitleCase(t('leads'))} />}
-          {!propertyId && (
-            <Typography variant="h3" sx={{ marginTop: 3 }}>
-              {toTitleCase(t('leads'))}
-            </Typography>
-          )}
+          {!propertyId && <Typography variant="h3">{toTitleCase(t('leads'))}</Typography>}
           <Button
             title={t('create')}
             sx={{ padding: '14px' }}
