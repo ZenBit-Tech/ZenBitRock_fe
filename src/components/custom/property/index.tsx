@@ -67,7 +67,9 @@ export default function Property({ id }: { id: string }): JSX.Element {
         </ButtonStyled>
         <Title variant="h3">{t('title')}</Title>
       </Box>
-      {error && enqueueSnackbar(t('error'), { variant: 'error' })}
+      <Box sx={{ display: 'none' }}>
+        {error && enqueueSnackbar(t('error'), { variant: 'error' })}
+      </Box>
       {propertyDetailed && (
         <>
           {propertyDetailed.media ? (

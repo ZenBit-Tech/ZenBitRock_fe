@@ -2,6 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import { Button, TextField, Typography, Box, Stack } from '@mui/material';
+import { useSnackbar } from 'components/snackbar';
 import { patterns } from 'constants/patterns';
 import { AppRoute } from 'enums';
 import { useRouter } from 'hooks';
@@ -20,6 +21,7 @@ export default function FormAddGroupChat({ t, closeModalUp }: Props): JSX.Elemen
   const [createGroupChat] = useCreateGroupChatMutation();
 
   const router = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
 
   const {
     reset,
@@ -37,12 +39,16 @@ export default function FormAddGroupChat({ t, closeModalUp }: Props): JSX.Elemen
     const { groupName } = data;
 
     try {
-      const { room } = await createGroupChat({ title: groupName }).unwrap();
+      const { chat } = await createGroupChat({ title: groupName }).unwrap();
 
-      if (room) {
-        router.push(`${AppRoute.CHAT_PAGE}/${room.id}/info`);
+      if (chat) {
+        router.push(`${AppRoute.CHAT_PAGE}/${chat.id}/info`);
       }
     } catch (error) {
+      enqueueSnackbar(`${t('Something went wrong')}: ${error.data.message}`, {
+        variant: 'error',
+      });
+
       reset();
     }
   };
@@ -55,7 +61,7 @@ export default function FormAddGroupChat({ t, closeModalUp }: Props): JSX.Elemen
       noValidate
       autoComplete="off"
     >
-      <Typography variant="h3" sx={{ marginBottom: '1.5rem' }}>
+      <Typography variant="h3" sx={{ marginBottom: '1.5rem', textAlign: 'center' }}>
         {t('addGroupChat')}
       </Typography>
 

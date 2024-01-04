@@ -2,24 +2,27 @@
 
 import { useForm } from 'react-hook-form';
 import { Button, TextField, Typography, Box, Stack } from '@mui/material';
+import { useSnackbar } from 'components/snackbar';
 import { patterns } from 'constants/patterns';
 import { AppRoute } from 'enums';
 import { useRouter } from 'hooks';
-import { useCreateGroupChatMutation } from 'store/chat';
+import { useUpdateChatMutation } from 'store/chat';
 
 type Props = {
   t: Function;
   closeModalUp: () => void;
+  chatId: string;
 };
 
 type FormValues = {
   groupName: string;
 };
 
-export function FormName({ t, closeModalUp }: Props): JSX.Element {
-  const [createGroupChat] = useCreateGroupChatMutation();
+export function FormName({ t, closeModalUp, chatId }: Props): JSX.Element {
+  const [updateGroupChat] = useUpdateChatMutation();
 
   const router = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
 
   const {
     reset,
@@ -37,12 +40,16 @@ export function FormName({ t, closeModalUp }: Props): JSX.Element {
     const { groupName } = data;
 
     try {
-      const { room } = await createGroupChat({ title: groupName }).unwrap();
+      const { chat } = await updateGroupChat({ id: chatId, title: groupName }).unwrap();
 
-      if (room) {
-        router.push(`${AppRoute.CHAT_PAGE}/${room.id}/info`);
+      if (chat) {
+        router.push(`${AppRoute.CHAT_PAGE}/${chat.id}/info`);
       }
     } catch (error) {
+      enqueueSnackbar(`${t('Something went wrong')}: ${error.data.message}`, {
+        variant: 'error',
+      });
+
       reset();
     }
   };
@@ -55,8 +62,8 @@ export function FormName({ t, closeModalUp }: Props): JSX.Element {
       noValidate
       autoComplete="off"
     >
-      <Typography variant="h3" sx={{ marginBottom: '1.5rem' }}>
-        {t('addGroupChat')}
+      <Typography variant="h3" sx={{ marginBottom: '1.5rem', textAlign: 'center' }}>
+        {t('Edit group chat name')}
       </Typography>
 
       <TextField
@@ -69,8 +76,8 @@ export function FormName({ t, closeModalUp }: Props): JSX.Element {
         })}
         sx={{ height: '80px', mb: '0.9rem' }}
         variant="outlined"
-        label={t('groupNameLabel')}
-        placeholder={t('groupNameInputPlaceholder')}
+        label={t('Enter new name')}
+        placeholder={t('Enter new name')}
         type="email"
         fullWidth
         error={Boolean(errors?.groupName)}
@@ -85,7 +92,7 @@ export function FormName({ t, closeModalUp }: Props): JSX.Element {
           disabled={!isValid}
           sx={{ mb: '1rem' }}
         >
-          {t('addGroupBtnTxt')}
+          {t('Change group chat name')}
         </Button>
         <Button type="reset" variant="contained" color="primary" onClick={() => closeModalUp()}>
           {t('cancelBtnTxt')}

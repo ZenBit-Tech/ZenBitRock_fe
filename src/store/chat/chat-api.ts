@@ -36,13 +36,18 @@ export const ChatApi = createApi({
       }),
     }),
     updateChat: builder.mutation<IChatResponse['room'], IChatResponse['room']>({
-      query: ({ id, title }) => ({
+      query: ({ id, title, members }) => ({
         url: `${ApiRoute.CHAT_WITH_ID}/${id}`,
         method: 'PATCH',
-        body: { title },
+        body: { title, members },
       }),
     }),
   }),
 });
 
-export const { useCreateGroupChatMutation, useDeleteChatMutation, useGetChatByIdQuery } = ChatApi;
+export const {
+  useCreateGroupChatMutation,
+  useDeleteChatMutation,
+  useGetChatByIdQuery,
+  useUpdateChatMutation,
+} = ChatApi;

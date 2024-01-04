@@ -44,21 +44,14 @@ const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
   const pathsname = usePathname();
 
   console.log(pathsname);
-  // const { room } = useGetChatByIdQuery({ id: pathsname.split('/')[2] });
-  const room = {
+  // const { chat } = useGetChatByIdQuery({ id: pathsname.split('/')[2] });
+  const chat = {
     owner: 'e5766e45-3e90-43cf-baa3-030ed0af2df2',
     id: '5ee757d6-4c9c-4d74-8bb4-e12c60ef7178',
     members: [],
     createdAt: '2024-01-03T22:26:44.486Z',
+    title: 'new',
   };
-
-  // const groupNameUp = (name: string): void => {
-  //   if (name !== '') {
-  //     setGroupName(name);
-  //     setFirstModal(false);
-  //     setSecondModal(true);
-  //   }
-  // };
 
   function closeModal(type: string): void {
     switch (type) {
@@ -81,16 +74,18 @@ const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
     }
   }
 
-  // const handleClose = (): void => closeModal();
-
-  // useCloseModal(nameModal, (): void => closeModal());
-  // useCloseModal(addAgentsModal, (): void => closeModal());
-  // useCloseModal(deleteModal, (): void => closeModal());
-
   const t = useTranslations('MessagesPage');
 
   return (
-    <Box>
+    <Box
+      sx={{
+        height: 'calc(100dvh - 120px)',
+        p: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'stretch',
+      }}
+    >
       <Box
         sx={{
           display: 'flex',
@@ -102,20 +97,102 @@ const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
         <Button
           title={t('back')}
           sx={{ padding: '0' }}
-          onClick={(): void => router.push(`${AppRoute.CHAT_PAGE}/${room.id}`)}
+          onClick={(): void => router.push(`${AppRoute.CHAT_PAGE}/${chat.id}`)}
         >
           <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
         </Button>
         <Title variant="h3">{t('title')}</Title>
       </Box>
-      <Typography>{t('Chat name')}</Typography>
-      {userId === room.owner && (
+      <Box sx={{ mx: '1rem' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            gap: '1rem',
+            mb: '1rem',
+          }}
+        >
+          <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>{`${t(
+            'Chat name'
+          )}:`}</Typography>
+          <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
+            {chat.title}
+          </Typography>
+          {userId === chat.owner && (
+            <Link
+              color="inherit"
+              sx={{
+                width: 'fit-content',
+                cursor: 'pointer',
+                display: 'flex',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                gap: '0.5rem',
+                transition: 'all 200ms ease-out',
+                '&:hover': {
+                  color: colors.BUTTON_PRIMARY_COLOR,
+                  transition: 'all 200ms ease-out',
+                  textDecoration: 'underline',
+                },
+              }}
+              onClick={(): void => setNameModal(!nameModal)}
+            >
+              <Iconify icon="ic:round-edit-note" width="1.5rem" height="1.5rem" />
+              <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
+                {t('Edit group name')}
+              </Typography>
+            </Link>
+          )}
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            gap: '1rem',
+            mb: '1rem',
+          }}
+        >
+          <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
+            {`${t('Created on')}:`}
+          </Typography>
+          <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
+            {new Date(chat.createdAt).toDateString()}
+          </Typography>
+        </Box>
+        <Typography variant="subtitle2" sx={{ fontWeight: 'bold', mb: '1rem' }}>
+          {t('Chat members')}
+        </Typography>
+        <Typography
+          variant="subtitle2"
+          sx={{ fontWeight: 'normal', mb: '1rem' }}
+        >{`1. ${firstName} ${lastName} (${t('owner')})`}</Typography>
+        {members?.length > 0 &&
+          members.map(
+            (user, idx: number) =>
+              user && (
+                <Box
+                  title={t('btnDeleteAgentFromList')}
+                  key={uuidv4()}
+                  sx={{
+                    '&:not(:last-child)': {
+                      mb: '1rem',
+                    },
+                  }}
+                >
+                  <Typography>
+                    {`${idx + 1}. ${user?.firstName}
+                    ${user?.lastName}`}
+                  </Typography>
+                </Box>
+              )
+          )}
         <Link
           color="inherit"
           sx={{
             width: 'fit-content',
             cursor: 'pointer',
-            mt: 4,
             display: 'flex',
             justifyContent: 'flex-start',
             alignItems: 'center',
@@ -128,93 +205,41 @@ const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
               textDecoration: 'underline',
             },
           }}
-          onClick={(): void => setNameModal(!nameModal)}
+          onClick={(): void => setAddAgentsModal(!addAgentsModal)}
         >
-          <Iconify icon="ic:round-edit-note" width="1.5rem" height="1.5rem" />
+          <Iconify icon="ic:round-playlist-add" width="1.5rem" height="1.5rem" />
           <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
-            {t('Edit group name')}
+            {t('Add agents to chat')}
           </Typography>
         </Link>
-      )}
-      <Typography>{t('Group members')}</Typography>
-      <Typography>{`${firstName} ${lastName}: ${t('owner')}`}</Typography>
-      <Box>
-        <Typography>{t('Created on')}</Typography>
-        <Typography>{new Date(room.createdAt).toDateString()}</Typography>
       </Box>
-      <Link
-        color="inherit"
-        sx={{
-          width: 'fit-content',
-          cursor: 'pointer',
-          mt: 4,
-          display: 'flex',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-          gap: '0.5rem',
-          marginBottom: '1rem',
-          transition: 'all 200ms ease-out',
-          '&:hover': {
-            color: colors.BUTTON_PRIMARY_COLOR,
-            transition: 'all 200ms ease-out',
-            textDecoration: 'underline',
-          },
-        }}
-        onClick={(): void => setAddAgentsModal(!addAgentsModal)}
-      >
-        <Iconify icon="ic:round-playlist-add" width="1.5rem" height="1.5rem" />
-        <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
-          {t('Add agents to chat')}
-        </Typography>
-      </Link>
-      {userId === room.owner && (
+      {userId === chat.owner && (
         <Link
           color="inherit"
           sx={{
             width: 'fit-content',
             cursor: 'pointer',
-            mt: 4,
+            mt: 'auto',
+            mx: '1rem',
             display: 'flex',
             justifyContent: 'flex-start',
             alignItems: 'center',
             gap: '0.5rem',
-            marginBottom: '1rem',
             transition: 'all 200ms ease-out',
             '&:hover': {
-              color: colors.BUTTON_PRIMARY_COLOR,
+              color: colors.ERROR_COLOR,
               transition: 'all 200ms ease-out',
               textDecoration: 'underline',
             },
           }}
           onClick={(): void => setDeleteModal(!deleteModal)}
         >
-          <Iconify icon="fluent:delete-28-regular" width="1.5rem" height="1.5rem" />
+          <Iconify icon="fluent:delete-28-regular" width="1.5rem" height="1rem" />
           <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
             {t('Delete chat')}
           </Typography>
         </Link>
       )}
-      <Typography>{t('Chat members')}</Typography>
-      {members?.length > 0 &&
-        members.map(
-          (user) =>
-            user && (
-              <Box
-                title={t('btnDeleteAgentFromList')}
-                key={uuidv4()}
-                sx={{
-                  '&:not(:last-child)': {
-                    mb: '1rem',
-                  },
-                }}
-              >
-                <Typography>
-                  {user?.firstName}
-                  {user?.lastName}
-                </Typography>
-              </Box>
-            )
-        )}
 
       {nameModal && (
         <Modal
@@ -247,7 +272,7 @@ const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
             />
             <FormName
               t={t}
-              roomId={room.id}
+              chatId={chat.id}
               nameModal={nameModal}
               closeModal={() => closeModal('name')}
             />
@@ -285,8 +310,8 @@ const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
             />
             <FormAddAgents
               t={t}
-              roomId={room.id}
-              members={room.members}
+              chaId={chat.id}
+              members={chat.members}
               closeModal={() => closeModal('members')}
             />
           </Box>
@@ -321,7 +346,7 @@ const ChatInfo = ({ members = [], id }: Props): JSX.Element => {
               height="1.5rem"
               handleClose={() => closeModal('delete')}
             />
-            <FormDelete t={t} roomId={room.id} closeModalUp={() => closeModal('delete')} />
+            <FormDelete t={t} chatId={chat.id} closeModalUp={() => closeModal('delete')} />
           </Box>
         </Modal>
       )}
