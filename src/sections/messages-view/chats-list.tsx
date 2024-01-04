@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { Box, Fab, Stack, TextField } from '@mui/material';
+import { Box, Fab, Stack, TextField, Typography } from '@mui/material';
 import { IChatItem } from 'types/chat';
 import { useScrollToTop } from 'hooks';
 import SearchNotFound from 'components/search-not-found';
@@ -51,6 +51,12 @@ export default function ChatsList({ chats, t }: Props) {
       />
 
       <SortComponent t={t} sort={sortBy} onSort={handleSortBy} sortOptions={getSortOptions(t)} />
+
+      {searchTerm && sortedChats.length ? (
+        <Typography textAlign="center" variant="h6" sx={{ my: 1 }}>
+          {`${t('results')} ${searchTerm}:`}
+        </Typography>
+      ) : null}
 
       {sortedChats.length ? (
         <Stack>
