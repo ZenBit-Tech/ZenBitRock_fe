@@ -92,13 +92,15 @@ const PropertyCard = ({ property }: Props) => {
             width: '100%',
           }}
         >
-          <TextStyled
-            sx={{
-              fontWeight: 'bold',
-            }}
-          >
-            {name}
-          </TextStyled>
+          {name && (
+            <TextStyled
+              sx={{
+                fontWeight: 'bold',
+              }}
+            >
+              {name}
+            </TextStyled>
+          )}
         </BoxStyled>
         <BoxStyled
           sx={{
@@ -108,24 +110,30 @@ const PropertyCard = ({ property }: Props) => {
             width: '100%',
           }}
         >
-          <TextStyled
-            sx={{
-              fontWeight: 'bold',
-            }}
-          >
-            {t(saleRent)}
-          </TextStyled>
-          <TextStyled
-            sx={{
-              fontWeight: 'bold',
-            }}
-          >
-            {t(status)}
-          </TextStyled>
+          {saleRent && (
+            <TextStyled
+              sx={{
+                fontWeight: 'bold',
+              }}
+            >
+              {t(saleRent)}
+            </TextStyled>
+          )}
+          {status && (
+            <TextStyled
+              sx={{
+                fontWeight: 'bold',
+              }}
+            >
+              {t(status)}
+            </TextStyled>
+          )}
         </BoxStyled>
-        <TextMiddleStyled>
-          {getCountries().find((object) => object.value === country)?.label}, {city}
-        </TextMiddleStyled>
+        {country && city && (
+          <TextMiddleStyled>
+            {getCountries().find((object) => object.value === country)?.label}, {city}
+          </TextMiddleStyled>
+        )}
         <LinkStyled
           sx={{ padding: '14px', marginTop: 'auto' }}
           variant="contained"
