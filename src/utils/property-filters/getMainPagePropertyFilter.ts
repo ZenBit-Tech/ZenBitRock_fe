@@ -1,4 +1,5 @@
 import { PropertyFilterFormData } from 'types';
+import { QobrixPropertySaleRent } from 'enums/qobrix';
 import { getBedroomsFilter } from './getBedroomsFilter';
 import { getBuyRentFilter } from './getBuyRentFilter';
 import { getPropertyStatusFilter } from './getPropertyStatusFilter';
@@ -34,10 +35,10 @@ const getMainPagePropertyFilter = (formData: PropertyFilterFormData): string => 
         district: location?.searchParams.district ?? '',
       })
     );
-  if (rent === 'for_sale') {
+  if (rent === QobrixPropertySaleRent.FOR_SALE) {
     filter = filter.concat(getSellingPriceFilter(priceRangeSaleFrom, priceRangeSaleTo));
   }
-  if (rent === 'for_rent') {
+  if (rent === QobrixPropertySaleRent.FOR_RENT) {
     filter = filter.concat(getRentalPriceFilter(priceRangeRentFrom, priceRangeRentTo));
   }
 
