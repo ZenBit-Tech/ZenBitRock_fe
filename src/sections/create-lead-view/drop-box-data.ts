@@ -10,7 +10,7 @@ export type ICountOfBedroomsValues = {
 
 export function getOfferTypes(t: Function): Array<IValues> {
   const offerTypes = [
-    { value: 'to_sell', label: t('offerTypeSale') },
+    { value: 'to_buy', label: t('offerTypeBuy') },
     { value: 'to_rent', label: t('offerTypeRent') },
   ];
 

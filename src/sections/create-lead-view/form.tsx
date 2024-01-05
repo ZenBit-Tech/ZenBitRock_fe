@@ -53,7 +53,6 @@ export default function Form({ user }: Props): JSX.Element {
   const [activeRequestsCount, setActiveRequestsCount] = useState<number>(0);
   const [formFilled, setFormFilled] = useState<boolean>(true);
   const [isEnquiryTypeRent, setIsEnquiryTypeRent] = useState<boolean>(false);
-  const [isEnquiryTypeSell, setIsEnquiryTypeSell] = useState<boolean>(false);
   const [locationsInputValue, setLocationsInputValue] = useState<string>('');
 
   const [createLead] = useCreateLeadMutation();
@@ -90,19 +89,17 @@ export default function Form({ user }: Props): JSX.Element {
 
   useEffect(() => {
     setIsEnquiryTypeRent(watchAllFields.offeringType?.value === 'to_rent');
-    setIsEnquiryTypeSell(watchAllFields.offeringType?.value === 'to_sell');
   }, [watchAllFields.offeringType?.value]);
 
   useEffect(() => {
     if (!isEnquiryTypeRent) {
       setValue('priceRahgeRentFrom', 0);
       setValue('priceRahgeRentTo', 0);
-    }
-    if (!isEnquiryTypeSell) {
+    } else {
       setValue('priceRahgeSellFrom', 0);
       setValue('priceRahgeSellTo', 0);
     }
-  }, [isEnquiryTypeRent, isEnquiryTypeSell, setValue]);
+  }, [isEnquiryTypeRent, setValue]);
 
   useEffect(() => {
     const fieldsToInclude = isEnquiryTypeRent
@@ -114,7 +111,7 @@ export default function Form({ user }: Props): JSX.Element {
     );
 
     setFormFilled(isFormFilled);
-  }, [isEnquiryTypeRent, isEnquiryTypeSell, watchAllFields]);
+  }, [isEnquiryTypeRent, watchAllFields]);
 
   const onSubmit = handleSubmit(async (data): Promise<void> => {
     setActiveRequestsCount((prevCount) => prevCount + 1);
@@ -313,9 +310,7 @@ export default function Form({ user }: Props): JSX.Element {
                   />
                 </Block>
               </Block>
-            ) : null}
-
-            {isEnquiryTypeSell ? (
+            ) : (
               <Block label={t('priceRahgeSellLabel')}>
                 <Block sx={{ display: 'flex', flexDirection: 'row', gap: '0' }}>
                   <RHFTextField
@@ -341,7 +336,7 @@ export default function Form({ user }: Props): JSX.Element {
                   />
                 </Block>
               </Block>
-            ) : null}
+            )}
 
             <Block label={t('locationsLabel')}>
               <RHFAutocomplete
