@@ -21,8 +21,6 @@ const ChatPage = ({ params }: Props): JSX.Element => {
     return <Page500 />;
   }
 
-  console.log(messages);
-
   return <> {messages && <ChatView messages={messages} chatId={params.id} />}</>;
 };
 
