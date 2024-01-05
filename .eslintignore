@@ -6,6 +6,7 @@ public/*
 **/.next/*
 **/src/hooks/*
 **/src/components/*
+!**/src/components/custom
 **/src/utils
 **/src/theme
 **/src/api

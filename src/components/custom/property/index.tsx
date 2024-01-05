@@ -6,17 +6,18 @@ import { useRouter } from 'next/navigation';
 
 import { useTranslations } from 'next-intl';
 
-import { Box, Fab, Button } from '@mui/material';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import { Fab } from '@mui/material';
 
 import { InfoBlock, SlickSlider, ViewOnMap } from 'components/custom/property/components';
 import { getImages } from 'components/custom/property/helpers';
-import { Title, TypographyStyled, ButtonStyled, Wrapper } from 'components/custom/property/styles';
+import { TypographyStyled, ButtonStyled, Wrapper } from 'components/custom/property/styles';
+
 import Image from 'components/image/image';
 import { useSnackbar } from 'components/snackbar';
 import { backgroundImages } from 'constants/backgroundImgLinks';
 import { AppRoute } from 'enums';
 import { useGetPropertyQuery } from 'store/api/qobrixApi';
+import { GoBackPageTitile } from '../go-back-page-title/go-back-page-title';
 
 export default function Property({ id }: { id: string }): JSX.Element {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -34,6 +35,7 @@ export default function Property({ id }: { id: string }): JSX.Element {
   const { data, error } = useGetPropertyQuery(id);
 
   const propertyDetailed = data?.data;
+
   function closeModal(): void {
     setOpenModal(!openModal);
   }
@@ -49,23 +51,7 @@ export default function Property({ id }: { id: string }): JSX.Element {
         transition: 'easy-in 200 all',
       }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-          marginY: '1.5rem',
-        }}
-      >
-        <Button
-          title={t('back')}
-          sx={{ padding: '0' }}
-          onClick={(): void => router.push(`${AppRoute.HOME_PAGE}`)}
-        >
-          <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
-        </Button>
-        <Title variant="h3">{t('title')}</Title>
-      </Box>
+      <GoBackPageTitile title={t('title')} />
       {error && enqueueSnackbar(t('error'), { variant: 'error' })}
       {propertyDetailed && (
         <>
