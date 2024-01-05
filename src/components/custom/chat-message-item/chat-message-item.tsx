@@ -57,7 +57,9 @@ export function ChatMessageItem({ message }: Props): JSX.Element {
           {!isMe && name}
         </Typography>
 
-        <Typography variant="body2">{body}</Typography>
+        <Typography variant="body2" sx={{ wordWrap: 'break-word' }}>
+          {body}
+        </Typography>
 
         <Stack
           sx={{

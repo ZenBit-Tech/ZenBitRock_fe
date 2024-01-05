@@ -665,6 +665,8 @@
     "groupNameRequired": "Group name required",
     "btnDeleteAgentFromList": "Remove agent from group",
     "groupName": "Group name:",
+    "results": "Chats found with"
+    "groupName": "Group name:",
     "chatMembers": "Chat members",
     "deleteChat": "Delete chat",
     "addAgentsToChat": "Add agents to chat",
