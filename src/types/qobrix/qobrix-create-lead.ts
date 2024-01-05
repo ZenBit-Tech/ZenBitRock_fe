@@ -2,9 +2,9 @@ export type QobrixCreateLead = {
   conversion_status: string;
   agent: string;
   contact_name: string;
-  buy_rent: string;
-  description: string | undefined;
-  source_description: string | undefined;
+  buy_rent: string | null;
+  description: string | null;
+  source_description: string | null;
   enquiry_type: string;
   bedrooms_from: number | null;
   total_area_from_amount: number | null;

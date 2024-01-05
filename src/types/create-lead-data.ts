@@ -1,5 +1,5 @@
 export interface ICreateLeadData {
-  offeringType: Object | null;
+  offeringType: string | null;
   leadSource: string;
   description: string;
   enquiryType: Object | null;

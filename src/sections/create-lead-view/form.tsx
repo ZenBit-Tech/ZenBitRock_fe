@@ -10,7 +10,7 @@ import Stack, { StackProps } from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress';
 import { debounce } from 'lodash';
 import { useSnackbar } from 'notistack';
-import FormProvider, { RHFAutocomplete, RHFTextField } from 'components/hook-form';
+import FormProvider, { RHFAutocomplete, RHFRadioGroup, RHFTextField } from 'components/hook-form';
 import { AppRoute } from 'enums';
 import { LocationSelectOption } from 'types';
 import { getLocationOptions } from 'utils';
@@ -31,7 +31,7 @@ type Props = {
 };
 
 const defaultValues = {
-  offeringType: null,
+  offeringType: 'to_buy',
   leadSource: '',
   description: '',
   enquiryType: null,
@@ -88,8 +88,8 @@ export default function Form({ user }: Props): JSX.Element {
   const watchAllFields = watch();
 
   useEffect(() => {
-    setIsEnquiryTypeRent(watchAllFields.offeringType?.value === 'to_rent');
-  }, [watchAllFields.offeringType?.value]);
+    setIsEnquiryTypeRent(watchAllFields.offeringType === 'to_rent');
+  }, [watchAllFields.offeringType]);
 
   useEffect(() => {
     if (!isEnquiryTypeRent) {
@@ -135,9 +135,9 @@ export default function Form({ user }: Props): JSX.Element {
       conversion_status: leadStatuses.NEW.id,
       agent: qobrixAgentId,
       contact_name: qobrixContactId,
-      buy_rent: offeringType?.value,
-      description,
-      source_description: leadSource,
+      buy_rent: offeringType || null,
+      description: description || null,
+      source_description: leadSource || null,
       enquiry_type: enquiryType?.value,
       bedrooms_from: countOfBedrooms?.value || null,
       total_area_from_amount: totalAreaFrom || null,
@@ -189,18 +189,11 @@ export default function Form({ user }: Props): JSX.Element {
             </Typography>
 
             <Block label={t('offeringTypeLabel')}>
-              <RHFAutocomplete
+              <RHFRadioGroup
+                row
                 name="offeringType"
-                placeholder={t('offeringTypePlaceholder')}
+                sx={{ display: 'flex', justifyContent: 'space-between' }}
                 options={getOfferTypes(t)}
-                getOptionLabel={(option: IValues | string) => (option as IValues).label}
-                isOptionEqualToValue={(option, value) => option.value === value.value}
-                renderOption={(props, option) => (
-                  <li {...props} key={option.value}>
-                    {option.label}
-                  </li>
-                )}
-                sx={{ height: '80px' }}
               />
             </Block>
 

@@ -22,7 +22,7 @@ export type Shape<Fields> = {
 };
 
 export const FormSchema = Yup.object().shape<Shape<ICreateLeadData>>({
-  offeringType: Yup.mixed<IValues>().nullable().required('Offering type is required'),
+  offeringType: Yup.string(),
   leadSource: Yup.string().matches(patterns.textArea, 'Latin letters, 10-200 characters'),
   description: Yup.string().matches(patterns.textArea, 'Latin letters, 10-200 characters'),
   enquiryType: Yup.mixed<IValues>().nullable().required('Enquiry type is required'),
