@@ -4,13 +4,15 @@ import { Box, Button, Link, Modal, Typography } from '@mui/material';
 import ButtonClose from 'components/custom/button-close/button-close';
 import { Title } from 'components/custom/property/styles';
 import Iconify from 'components/iconify';
+import { useSnackbar } from 'components/snackbar';
 import { colors } from 'constants/colors';
 import { AppRoute } from 'enums';
-import { useState, useTranslations, useRouter, useSelector } from 'hooks';
+import { useState, useTranslations, useRouter, useSelector, useEffect } from 'hooks';
 import { FormName, FormDelete, FormAddAgents } from 'sections/chat/components/chat-info';
 import { RootState } from 'store';
-import { useGetChatByIdQuery } from 'store/chat/chat-api';
-import { IChatResponse, UserProfileResponse } from 'types';
+import { useGetAllUsersMutation } from 'store/api/userApi';
+import { useGetChatByIdQuery, useUpdateChatMutation } from 'store/chat/chat-api';
+import { UserProfileResponse } from 'types';
 import uuidv4 from 'utils/uuidv4';
 
 const NAV_HEADER_HEIGHT = '120px';
@@ -19,7 +21,8 @@ const ChatInfo = (): JSX.Element => {
   const [nameModal, setNameModal] = useState<boolean>(false);
   const [addAgentsModal, setAddAgentsModal] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
-  const [members, setMembers] = useState<IChatResponse['chat']['members']>();
+  const [members, setMembers] = useState<{ label: string; id: string }[]>();
+  const [changedMembers, setChangedMembers] = useState<string[]>([]);
 
   const authUser = useSelector((state: RootState) => state.authSlice.user);
   const {
@@ -36,15 +39,40 @@ const ChatInfo = (): JSX.Element => {
     lastName: null,
   };
 
+  const [getAllUsers, { data: usersData, isLoading, isError }] = useGetAllUsersMutation();
+  const [updateGroupChat] = useUpdateChatMutation();
+
   const router = useRouter();
   const pathsname = usePathname();
+  const { enqueueSnackbar } = useSnackbar();
 
   const { data } = useGetChatByIdQuery(
     { id: pathsname.split('/')[2] },
     { refetchOnMountOrArgChange: true }
   );
 
-  if (data) setMembers(data?.chat.members);
+  const [apiMembers, setApiMembers] = useState<{ label: string; id: string }[] | undefined>();
+
+  useEffect(() => {
+    getAllUsers();
+  }, [getAllUsers]);
+
+  useEffect(() => {
+    if (data && !isLoading && !isError) {
+      setApiMembers(
+        data?.members?.map((member) => ({
+          label: `${usersData?.find((user) => user.id === member.id)?.firstName} ${usersData?.find(
+            (user) => user.id === member.id
+          )?.lastName}`,
+          id: member.id,
+        }))
+      );
+    }
+  }, [data, isLoading, isError, usersData]);
+
+  useEffect(() => {
+    setMembers(apiMembers);
+  }, [apiMembers]);
 
   function closeModal(type: string): void {
     switch (type) {
@@ -55,6 +83,7 @@ const ChatInfo = (): JSX.Element => {
 
       case 'members': {
         setAddAgentsModal(!addAgentsModal);
+        handleClickUpdate(changedMembers);
         break;
       }
 
@@ -71,6 +100,22 @@ const ChatInfo = (): JSX.Element => {
 
   const handleClickDelete = (idToDelete: string): void => {
     setMembers((prev) => prev && [...prev.filter((member) => member.id !== idToDelete)]);
+    handleClickUpdate(members?.map((member) => member.id));
+  };
+
+  const handleClickUpdate = async (memberIds?: string[]): Promise<void> => {
+    try {
+      await updateGroupChat({
+        id: data?.id,
+        memberIds,
+      }).unwrap();
+
+      router.push(`${AppRoute.CHAT_PAGE}/${data?.id}/info`);
+    } catch (error) {
+      enqueueSnackbar(`${t('somethingWentWrong')}: ${error.data.message}`, {
+        variant: 'error',
+      });
+    }
   };
 
   return (
@@ -94,7 +139,7 @@ const ChatInfo = (): JSX.Element => {
         <Button
           title={t('back')}
           sx={{ padding: '0' }}
-          onClick={(): void => router.push(`${AppRoute.CHAT_PAGE}/${data?.chat.id}`)}
+          onClick={(): void => router.push(`${AppRoute.CHAT_PAGE}/${data?.id}`)}
         >
           <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: colors.PRIMARY_DARK_COLOR }} />
         </Button>
@@ -115,50 +160,51 @@ const ChatInfo = (): JSX.Element => {
           )}:`}</Typography>
           {data && (
             <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
-              {data?.chat.title}
+              {data?.title}
             </Typography>
           )}
-          {data && userId === data?.chat.owner && (
-            <Link
-              color="inherit"
-              sx={{
-                width: 'fit-content',
-                cursor: 'pointer',
-                display: 'flex',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                gap: '0.5rem',
-                transition: 'all 200ms ease-out',
-                '&:hover': {
-                  color: colors.BUTTON_PRIMARY_COLOR,
-                  transition: 'all 200ms ease-out',
-                  textDecoration: 'underline',
-                },
-              }}
-              onClick={(): void => setNameModal(!nameModal)}
-            >
-              <Iconify icon="ic:round-edit-note" width="1.5rem" height="1.5rem" />
-              <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
-                {t('editGroupName')}
-              </Typography>
-            </Link>
-          )}
         </Box>
+        {data && userId === data?.owner?.id && (
+          <Link
+            color="inherit"
+            sx={{
+              width: 'fit-content',
+              cursor: 'pointer',
+              display: 'flex',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              gap: '0.5rem',
+              transition: 'all 200ms ease-out',
+              mb: '1.5rem',
+              '&:hover': {
+                color: colors.BUTTON_PRIMARY_COLOR,
+                transition: 'all 200ms ease-out',
+                textDecoration: 'underline',
+              },
+            }}
+            onClick={(): void => setNameModal(!nameModal)}
+          >
+            <Iconify icon="ic:round-edit-note" width="1.5rem" height="1.5rem" />
+            <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
+              {t('editGroupName')}
+            </Typography>
+          </Link>
+        )}
         <Box
           sx={{
             display: 'flex',
             justifyContent: 'flex-start',
             alignItems: 'center',
             gap: '1rem',
-            mb: '1rem',
+            mb: '1.5rem',
           }}
         >
           <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
             {`${t('createdOn')}:`}
           </Typography>
-          {data && data.chat.createdAt && (
+          {data && data.createdAt && (
             <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
-              {new Date(data.chat.createdAt).toDateString()}
+              {new Date(data.createdAt).toDateString()}
             </Typography>
           )}
         </Box>
@@ -186,8 +232,9 @@ const ChatInfo = (): JSX.Element => {
                     },
                   }}
                 >
-                  <Typography>{`${idx + 1}. ${user?.firstName}
-                    ${user?.lastName}`}</Typography>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>{`${
+                    idx + 2
+                  }. ${user?.label}`}</Typography>
                   <Iconify
                     icon="fluent:delete-28-regular"
                     width="1.5rem"
@@ -232,7 +279,7 @@ const ChatInfo = (): JSX.Element => {
           </Typography>
         </Link>
       </Box>
-      {data && userId === data.chat.owner && (
+      {data && userId === data?.owner?.id && (
         <Link
           color="inherit"
           sx={{
@@ -289,7 +336,7 @@ const ChatInfo = (): JSX.Element => {
               height="1.5rem"
               handleClose={() => closeModal('name')}
             />
-            <FormName t={t} chatId={data?.chat.id} closeModalUp={() => closeModal('name')} />
+            <FormName t={t} chatId={data?.id} closeModalUp={() => closeModal('name')} />
           </Box>
         </Modal>
       )}
@@ -324,16 +371,10 @@ const ChatInfo = (): JSX.Element => {
             />
             <FormAddAgents
               t={t}
-              chatId={data?.chat.id}
-              chatMembers={
-                members && members.length > 0
-                  ? members?.map((member) => ({
-                      label: `${member.firstName} ${member.lastName}`,
-                      id: member.id,
-                    }))
-                  : []
-              }
+              chatId={data?.id}
+              chatMembers={members && members.length > 0 ? members : []}
               closeModalUp={() => closeModal('members')}
+              changedMembers={(values: string[]) => setChangedMembers(values)}
             />
           </Box>
         </Modal>
@@ -367,7 +408,7 @@ const ChatInfo = (): JSX.Element => {
               height="1.5rem"
               handleClose={() => closeModal('delete')}
             />
-            <FormDelete t={t} chatId={data?.chat.id} closeModalUp={() => closeModal('delete')} />
+            <FormDelete t={t} chatId={data?.id} closeModalUp={() => closeModal('delete')} />
           </Box>
         </Modal>
       )}

@@ -60,14 +60,14 @@ export type IChatConversations = {
   allIds: string[];
 };
 
-export type ICreateGroupChatRequest = { title: string };
+export type ICreateGroupChatRequest = { title: string; memberIds?: string[]; isPrivate: boolean };
 
 export type IChatResponse = {
   chat: {
     id?: string;
     isPrivate?: boolean;
-    owner?: string | null;
-    members?: UserProfileResponse[];
+    owner?: { id: string | null };
+    members?: { id: string }[] | [];
     title?: string;
     createdAt?: string;
   };
@@ -75,6 +75,6 @@ export type IChatResponse = {
 
 export type IChatRequest = {
   id?: string;
-  members?: string[];
+  memberIds?: string[];
   title?: string;
 };

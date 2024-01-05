@@ -23,23 +23,23 @@ export const ChatApi = createApi({
         body,
       }),
     }),
-    getChatById: builder.query<IChatResponse, { id: string }>({
+    getChatById: builder.query<IChatResponse['chat'], { id: string }>({
       query: ({ id }) => ({
         url: ApiRoute.CHAT_WITH_ID.replace('id', id),
         method: 'GET',
       }),
     }),
-    deleteChat: builder.mutation<void, { id?: string }>({
+    deleteChat: builder.mutation<void, { id: string }>({
       query: ({ id }) => ({
-        url: `${ApiRoute.CHAT_WITH_ID}/${id}`,
+        url: ApiRoute.CHAT_WITH_ID.replace('id', id),
         method: 'DELETE',
       }),
     }),
     updateChat: builder.mutation<IChatResponse['chat'], IChatRequest>({
-      query: ({ id, title, members }) => ({
+      query: ({ id, title, memberIds }) => ({
         url: `${ApiRoute.CHAT_WITH_ID}/${id}`,
         method: 'PATCH',
-        body: { title, members },
+        body: { title, memberIds },
       }),
     }),
   }),

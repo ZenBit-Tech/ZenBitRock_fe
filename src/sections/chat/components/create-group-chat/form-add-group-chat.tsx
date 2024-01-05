@@ -39,7 +39,10 @@ export default function FormAddGroupChat({ t, closeModalUp }: Props): JSX.Elemen
     const { groupName } = data;
 
     try {
-      const { chat } = await createGroupChat({ title: groupName }).unwrap();
+      const { chat } = await createGroupChat({
+        title: groupName,
+        isPrivate: false,
+      }).unwrap();
 
       if (chat) {
         router.push(`${AppRoute.CHAT_PAGE}/${chat.id}/info`);

@@ -17,6 +17,7 @@ type Props = {
   chatMembers: Members;
   closeModalUp: () => void;
   chatId?: string;
+  changedMembers: (values: string[]) => void;
 };
 
 type Members = {
@@ -31,7 +32,13 @@ type Option = {
   id: string;
 };
 
-export function FormAddAgents({ t, chatMembers, closeModalUp, chatId }: Props): JSX.Element {
+export function FormAddAgents({
+  t,
+  chatMembers,
+  closeModalUp,
+  chatId,
+  changedMembers,
+}: Props): JSX.Element {
   const [options, setOptions] = useState<Options>([]);
   const [members, setMembers] = useState<Members>(chatMembers);
 
@@ -54,12 +61,12 @@ export function FormAddAgents({ t, chatMembers, closeModalUp, chatId }: Props): 
   useEffect(() => {
     if (usersData) {
       const newOptions = usersData
-        .filter(({ id }) => id !== ownerId)
+        .filter(({ id }) => id !== ownerId && !chatMembers.some((member) => id === member.id))
         .map(({ firstName, lastName, id }) => ({ label: `${firstName} ${lastName}`, id }));
 
       setOptions(newOptions);
     }
-  }, [ownerId, usersData]);
+  }, [chatMembers, ownerId, usersData]);
 
   const { reset, handleSubmit } = useForm({
     mode: 'onTouched',
@@ -67,7 +74,7 @@ export function FormAddAgents({ t, chatMembers, closeModalUp, chatId }: Props): 
 
   const onSubmit = async (): Promise<void> => {
     try {
-      await updateGroupChat({ id: chatId, members: members.map((member) => member.id) }).unwrap();
+      await updateGroupChat({ id: chatId, memberIds: members.map((member) => member.id) }).unwrap();
 
       router.push(`${AppRoute.CHAT_PAGE}/${chatId}/info`);
     } catch (error) {
@@ -82,6 +89,7 @@ export function FormAddAgents({ t, chatMembers, closeModalUp, chatId }: Props): 
   const handleClickDelete = ({ label, id }: Option): void => {
     setMembers((prev) => [...prev.filter((member) => member.id !== id)]);
     setOptions((prev) => [...prev, { label, id }]);
+    changedMembers(members.map((member) => member.id));
   };
 
   if (isLoading || !usersData || !authUser) return <LoadingScreen />;
@@ -121,6 +129,7 @@ export function FormAddAgents({ t, chatMembers, closeModalUp, chatId }: Props): 
             setMembers((prev) => [...prev, newValue]);
             setOptions((prev) => [...prev.filter((option) => option.id !== newValue?.id)]);
             setValue(newValue);
+            changedMembers(members.map((member) => member.id));
           }
         }}
         inputValue={inputValue}

@@ -20,7 +20,7 @@ export function FormDelete({ t, closeModalUp, chatId }: Props): JSX.Element {
 
   const handleClick = async (): Promise<void> => {
     try {
-      await deleteChat({ id: chatId }).unwrap();
+      if (chatId) await deleteChat({ id: chatId }).unwrap();
 
       router.push(`${AppRoute.MESSAGES_PAGE}`);
     } catch (error) {
