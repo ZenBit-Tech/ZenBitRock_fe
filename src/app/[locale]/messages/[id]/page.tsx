@@ -1,14 +1,32 @@
 'use client';
 
-import { Typography } from '@mui/material';
-import { useParams } from 'next/navigation';
+import React, { useEffect } from 'react';
+import { ChatView } from 'sections/chat/view';
+import { Page500 } from 'sections/error';
+import { useGetUserByIdMutation } from 'store/api/userApi';
+import { LoadingScreen } from 'components/loading-screen';
 
-export default function PropertyPage(): JSX.Element {
-  const { id } = useParams();
+type Props = {
+  params: { id: string };
+};
 
-  return (
-    <Typography p={20} textAlign="center" variant="h1">
-      {id}
-    </Typography>
-  );
+function ChatPage({ params }: Props): JSX.Element {
+  const [getUserById, { data: usersData, isLoading, isError }] = useGetUserByIdMutation();
+  const { id } = params;
+
+  useEffect(() => {
+    getUserById({ id });
+  }, [getUserById, id]);
+
+  if (!usersData || isLoading) {
+    return <LoadingScreen />;
+  }
+
+  if (isError) {
+    return <Page500 />;
+  }
+
+  return <ChatView id={params.id} user={usersData} />;
 }
+
+export default ChatPage;
