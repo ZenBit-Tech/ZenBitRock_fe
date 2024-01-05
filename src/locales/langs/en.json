@@ -664,7 +664,8 @@
     "groupNameInvalid": "Group name must contains 10 symbols minimum",
     "groupNameRequired": "Group name required",
     "btnDeleteAgentFromList": "Remove agent from group",
-    "groupName": "Group name:"
+    "groupName": "Group name:",
+    "results": "Chats found with"
   },
   "privateChat": {
     "title": "Chat",

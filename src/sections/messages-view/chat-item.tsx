@@ -10,8 +10,9 @@ import {
 } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
 import { IChatItem } from 'types/chat';
-import { formatDate, trimString } from 'services';
+import { trimString } from 'services';
 import { AppRoute } from 'enums';
+import { formatDistanceToNowStrict } from 'date-fns';
 
 type FollowerItemProps = {
   chat: IChatItem;
@@ -23,7 +24,7 @@ export default function ChatItem({ chat }: FollowerItemProps): JSX.Element {
   const router = useRouter();
   const { id, type, chatName, members, lastMessage, lastMessageDate, countOfUnreadMessages } = chat;
 
-  const messageDate = formatDate(lastMessageDate);
+  const messageDate = formatDistanceToNowStrict(new Date(lastMessageDate));
 
   const avatarUrl = type === 'private' ? members[0].avatarUrl : '/';
 
