@@ -1,12 +1,10 @@
 import { useMemo } from 'react';
-import Box from '@mui/material/Box';
-import { Typography } from '@mui/material';
+import { Message } from 'types';
+import { Box, Typography } from '@mui/material';
 import { format } from 'date-fns';
 import { datesFormats } from 'constants/dates-formats';
 import Scrollbar from 'components/scrollbar';
 import { ChatMessageItem } from 'components/custom';
-
-import { Message } from 'types';
 import useMessagesScroll from './use-messages-scroll';
 
 type Props = {
