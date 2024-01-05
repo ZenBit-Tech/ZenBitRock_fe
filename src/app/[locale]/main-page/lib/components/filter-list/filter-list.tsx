@@ -66,6 +66,7 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
   const onSubmit = handleSubmit(async (formData) => {
     try {
       const filter = getMainPagePropertyFilter(formData);
+
       replace(formData);
       applyFilters(filter);
     } catch (error) {
