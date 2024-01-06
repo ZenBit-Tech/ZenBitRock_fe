@@ -2,7 +2,9 @@ import { UserProfileResponse } from 'types/user-backend';
 
 type Message = {
   content: string;
-  chatId: string;
+  chat: {
+    id: string;
+  };
   owner: UserProfileResponse;
   id: string;
   createdAt: string;

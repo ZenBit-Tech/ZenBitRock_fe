@@ -56,7 +56,7 @@ export const ChatApi = createApi({
 
           socket.on(ChatEvent.NewMessage, (message: Message) => {
             updateCachedData((draft) => {
-              if (message.chatId === arg.chatId) {
+              if (message.chat.id === arg.chatId) {
                 draft.push(message);
               }
             });
