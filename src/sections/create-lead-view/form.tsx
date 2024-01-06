@@ -114,7 +114,8 @@ export default function Form({ user }: Props): JSX.Element {
     watchAllFields.priceRangeRentTo,
     watchAllFields.priceRangeBuyFrom,
     watchAllFields.priceRangeBuyTo,
-    isValid,
+    watchAllFields.totalAreaFrom,
+    watchAllFields.totalAreaTo,
   ]);
 
   const onSubmit = handleSubmit(async (data): Promise<void> => {
@@ -264,10 +265,6 @@ export default function Form({ user }: Props): JSX.Element {
                 <RHFTextField
                   name="totalAreaFrom"
                   type="number"
-                  inputProps={{
-                    min: 0,
-                    max: 10000,
-                  }}
                   placeholder={t('totalAreaFromPlaceHolder')}
                   sx={{ height: '80px', mr: '50px' }}
                 />
@@ -275,10 +272,6 @@ export default function Form({ user }: Props): JSX.Element {
                 <RHFTextField
                   name="totalAreaTo"
                   type="number"
-                  inputProps={{
-                    min: watchAllFields.totalAreaFrom || 0,
-                    max: 10000,
-                  }}
                   placeholder={t('totalAreaToPlaceHolder')}
                   sx={{ height: '80px' }}
                 />

@@ -6,8 +6,8 @@ export interface ICreateLeadData {
   description: string;
   enquiryType: { value: string; label: string } | null;
   countOfBedrooms: { value: string; label: string } | null;
-  totalAreaFrom: number;
-  totalAreaTo: number;
+  totalAreaFrom: number | null;
+  totalAreaTo: number | null;
   priceRangeRentFrom: number | null;
   priceRangeRentTo: number | null;
   priceRangeBuyFrom: number | null;
