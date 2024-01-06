@@ -1,14 +1,16 @@
+import { LocationSelectOption } from './select-options';
+
 export interface ICreateLeadData {
   offeringType: string | null;
   leadSource: string;
   description: string;
-  enquiryType: Object | null;
-  countOfBedrooms: Object | null;
+  enquiryType: { value: string; label: string } | null;
+  countOfBedrooms: { value: string; label: string } | null;
   totalAreaFrom: number;
   totalAreaTo: number;
-  priceRahgeRentFrom: number;
-  priceRahgeRentTo: number;
-  priceRahgeSellFrom: number;
-  priceRahgeSellTo: number;
-  locations: object | null;
+  priceRangeRentFrom: number | null;
+  priceRangeRentTo: number | null;
+  priceRangeBuyFrom: number | null;
+  priceRangeBuyTo: number | null;
+  locations: LocationSelectOption | null;
 }

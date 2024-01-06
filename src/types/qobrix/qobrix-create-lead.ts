@@ -1,3 +1,5 @@
+import { LocationSelectOption } from 'types/select-options';
+
 export type QobrixCreateLead = {
   conversion_status: string;
   agent: string;
@@ -9,10 +11,11 @@ export type QobrixCreateLead = {
   bedrooms_from: number | null;
   total_area_from_amount: number | null;
   total_area_to_amount: number | null;
-  list_selling_price_from: number | null;
-  list_selling_price_to: number | null;
-  list_rental_price_from: number | null;
-  list_rental_price_to: number | null;
+  list_selling_price_from?: number | null;
+  list_selling_price_to?: number | null;
+  list_rental_price_from?: number | null;
+  list_rental_price_to?: number | null;
+  locations: LocationSelectOption | null;
 };
 
 export type QobrixCreateLeadResponse = {

@@ -12,7 +12,7 @@ import { debounce } from 'lodash';
 import { useSnackbar } from 'notistack';
 import FormProvider, { RHFAutocomplete, RHFRadioGroup, RHFTextField } from 'components/hook-form';
 import { AppRoute } from 'enums';
-import { LocationSelectOption } from 'types';
+import { LocationSelectOption, QobrixCreateLead } from 'types';
 import { getLocationOptions } from 'utils';
 import { leadStatuses } from 'constants/leadStatuses';
 import { UserProfileResponse } from 'types/user-backend/user-profile-response.type';
@@ -38,10 +38,10 @@ const defaultValues = {
   countOfBedrooms: null,
   totalAreaFrom: 0,
   totalAreaTo: 0,
-  priceRahgeRentFrom: 0,
-  priceRahgeRentTo: 0,
-  priceRahgeSellFrom: 0,
-  priceRahgeSellTo: 0,
+  priceRangeBuyFrom: 10000,
+  priceRangeBuyTo: 10000000,
+  priceRangeRentFrom: 100,
+  priceRangeRentTo: 10000,
   locations: null,
 };
 
@@ -51,8 +51,7 @@ export default function Form({ user }: Props): JSX.Element {
   const t = useTranslations('CreateLeadPage');
 
   const [activeRequestsCount, setActiveRequestsCount] = useState<number>(0);
-  const [formFilled, setFormFilled] = useState<boolean>(true);
-  const [isEnquiryTypeRent, setIsEnquiryTypeRent] = useState<boolean>(false);
+  const [formFilled, setFormFilled] = useState<boolean>(false);
   const [locationsInputValue, setLocationsInputValue] = useState<string>('');
 
   const [createLead] = useCreateLeadMutation();
@@ -74,7 +73,7 @@ export default function Form({ user }: Props): JSX.Element {
   const methods = useForm({
     resolver: yupResolver(FormSchema),
     defaultValues,
-    mode: 'onTouched',
+    mode: 'onChange',
   });
 
   const {
@@ -88,30 +87,35 @@ export default function Form({ user }: Props): JSX.Element {
   const watchAllFields = watch();
 
   useEffect(() => {
-    setIsEnquiryTypeRent(watchAllFields.offeringType === 'to_rent');
-  }, [watchAllFields.offeringType]);
+    setValue('priceRangeRentFrom', 100);
+    setValue('priceRangeRentTo', 10000);
+    setValue('priceRangeBuyFrom', 10000);
+    setValue('priceRangeBuyTo', 10000000);
+  }, [watchAllFields.offeringType, setValue]);
 
   useEffect(() => {
-    if (!isEnquiryTypeRent) {
-      setValue('priceRahgeRentFrom', 0);
-      setValue('priceRahgeRentTo', 0);
-    } else {
-      setValue('priceRahgeSellFrom', 0);
-      setValue('priceRahgeSellTo', 0);
-    }
-  }, [isEnquiryTypeRent, setValue]);
-
-  useEffect(() => {
-    const fieldsToInclude = isEnquiryTypeRent
-      ? ['offeringType', 'enquiryType', 'priceRahgeRentFrom', 'priceRahgeRentTo']
-      : ['offeringType', 'enquiryType', 'priceRahgeSellFrom', 'priceRahgeSellTo'];
+    const fieldsToInclude =
+      watchAllFields.offeringType === 'to_rent'
+        ? ['offeringType', 'enquiryType', 'priceRangeRentFrom', 'priceRangeRentTo']
+        : ['offeringType', 'enquiryType', 'priceRangeBuyFrom', 'priceRangeBuyTo'];
 
     const isFormFilled = fieldsToInclude.every((key) =>
       Boolean(watchAllFields[key as keyof typeof watchAllFields])
     );
 
     setFormFilled(isFormFilled);
-  }, [isEnquiryTypeRent, watchAllFields]);
+  }, [watchAllFields]);
+
+  useEffect(() => {
+    methods.clearErrors();
+  }, [
+    methods,
+    watchAllFields.priceRangeRentFrom,
+    watchAllFields.priceRangeRentTo,
+    watchAllFields.priceRangeBuyFrom,
+    watchAllFields.priceRangeBuyTo,
+    isValid,
+  ]);
 
   const onSubmit = handleSubmit(async (data): Promise<void> => {
     setActiveRequestsCount((prevCount) => prevCount + 1);
@@ -124,14 +128,14 @@ export default function Form({ user }: Props): JSX.Element {
       countOfBedrooms,
       totalAreaFrom,
       totalAreaTo,
-      priceRahgeRentFrom,
-      priceRahgeRentTo,
-      priceRahgeSellFrom,
-      priceRahgeSellTo,
+      priceRangeRentFrom,
+      priceRangeRentTo,
+      priceRangeBuyFrom,
+      priceRangeBuyTo,
       locations,
     } = data;
 
-    const requestData = {
+    const requestData: QobrixCreateLead = {
       conversion_status: leadStatuses.NEW.id,
       agent: qobrixAgentId,
       contact_name: qobrixContactId,
@@ -139,20 +143,24 @@ export default function Form({ user }: Props): JSX.Element {
       description: description || null,
       source_description: leadSource || null,
       enquiry_type: enquiryType?.value,
-      bedrooms_from: countOfBedrooms?.value || null,
+      bedrooms_from: countOfBedrooms?.value,
       total_area_from_amount: totalAreaFrom || null,
       total_area_to_amount: totalAreaTo || null,
-      list_selling_price_from: priceRahgeSellFrom || null,
-      list_selling_price_to: priceRahgeSellTo || null,
-      list_rental_price_from: priceRahgeRentFrom || null,
-      list_rental_price_to: priceRahgeRentTo || null,
-      locations: locations?.value || null,
+      locations: locations?.value,
     };
+
+    if (watchAllFields.offeringType === 'to_buy') {
+      requestData.list_selling_price_from = priceRangeBuyFrom;
+      requestData.list_selling_price_to = priceRangeBuyTo;
+    } else {
+      requestData.list_rental_price_from = priceRangeRentFrom;
+      requestData.list_rental_price_to = priceRangeRentTo;
+    }
 
     try {
       await createLead(requestData).unwrap();
       push(AppRoute.LEADS_PAGE);
-      reset();
+      reset(defaultValues);
 
       return undefined;
     } catch (error) {
@@ -277,59 +285,41 @@ export default function Form({ user }: Props): JSX.Element {
               </Block>
             </Block>
 
-            {isEnquiryTypeRent ? (
-              <Block label={t('priceRahgeRentLabel')}>
+            <Block label={t('priceRangeLabel')} key={watchAllFields.offeringType}>
+              {watchAllFields.offeringType === 'to_rent' ? (
                 <Block sx={{ display: 'flex', flexDirection: 'row', gap: '0' }}>
                   <RHFTextField
-                    name="priceRahgeRentFrom"
+                    name="priceRangeRentFrom"
                     type="number"
-                    inputProps={{
-                      min: 0,
-                      max: 10000000,
-                    }}
-                    placeholder={t('priceRahgeRentFromPlaceholder')}
+                    placeholder={t('priceRangeRentFromPlaceholder')}
                     sx={{ height: '80px', mr: '50px' }}
                   />
 
                   <RHFTextField
-                    name="priceRahgeRentTo"
+                    name="priceRangeRentTo"
                     type="number"
-                    inputProps={{
-                      min: watchAllFields.priceRahgeRentFrom || 0,
-                      max: 10000000,
-                    }}
-                    placeholder={t('priceRahgeRentToPlaceholder')}
+                    placeholder={t('priceRangeRentToPlaceholder')}
                     sx={{ height: '80px' }}
                   />
                 </Block>
-              </Block>
-            ) : (
-              <Block label={t('priceRahgeSellLabel')}>
+              ) : (
                 <Block sx={{ display: 'flex', flexDirection: 'row', gap: '0' }}>
                   <RHFTextField
-                    name="priceRahgeSellFrom"
+                    name="priceRangeBuyFrom"
                     type="number"
-                    inputProps={{
-                      min: 0,
-                      max: 10000000,
-                    }}
-                    placeholder={t('priceRahgeSellFromPlaceholder')}
+                    placeholder={t('priceRangeBuyFromPlaceholder')}
                     sx={{ height: '80px', mr: '50px' }}
                   />
 
                   <RHFTextField
-                    name="priceRahgeSellTo"
+                    name="priceRangeBuyTo"
                     type="number"
-                    inputProps={{
-                      min: watchAllFields.priceRahgeSellFrom || 0,
-                      max: 10000000,
-                    }}
-                    placeholder={t('priceRahgeSellToPlaceholder')}
+                    placeholder={t('priceRangeBuyToPlaceholder')}
                     sx={{ height: '80px' }}
                   />
                 </Block>
-              </Block>
-            )}
+              )}
+            </Block>
 
             <Block label={t('locationsLabel')}>
               <RHFAutocomplete
