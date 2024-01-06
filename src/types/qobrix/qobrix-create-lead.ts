@@ -9,8 +9,8 @@ export type QobrixCreateLead = {
   source_description: string | null;
   enquiry_type: string;
   bedrooms_from: number | null;
-  total_area_from_amount: number | null;
-  total_area_to_amount: number | null;
+  covered_area_from_amount: number | null;
+  covered_area_to_amount: number | null;
   list_selling_price_from?: number | null;
   list_selling_price_to?: number | null;
   list_rental_price_from?: number | null;

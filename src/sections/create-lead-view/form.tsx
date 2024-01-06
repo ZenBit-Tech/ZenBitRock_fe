@@ -145,8 +145,8 @@ export default function Form({ user }: Props): JSX.Element {
       source_description: leadSource || null,
       enquiry_type: enquiryType?.value,
       bedrooms_from: countOfBedrooms?.value,
-      total_area_from_amount: totalAreaFrom || null,
-      total_area_to_amount: totalAreaTo || null,
+      covered_area_from_amount: totalAreaFrom || null,
+      covered_area_to_amount: totalAreaTo || null,
       locations: locations?.value,
     };
 
