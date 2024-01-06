@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import { patterns } from 'constants/patterns';
 import { ICreateLeadData } from 'types/create-lead-data';
 import { QobrixLocations } from 'types/qobrix';
+import i18n from 'locales/118n';
 import { ICountOfBedroomsValues, IValues } from './drop-box-data';
 
 export type ConditionalSchema<T> = T extends string
@@ -24,16 +25,24 @@ export type Shape<Fields> = {
 
 export const FormSchema = Yup.object().shape<Shape<ICreateLeadData>>({
   offeringType: Yup.string(),
-  leadSource: Yup.string().matches(patterns.textArea, 'Latin letters, 10-200 characters'),
-  description: Yup.string().matches(patterns.textArea, 'Latin letters, 10-200 characters'),
-  enquiryType: Yup.mixed<IValues>().nullable().required('Enquiry type is required'),
+  leadSource: Yup.string().matches(
+    patterns.textArea,
+    i18n.t('CreateLeadPage.yupErrorMessageLeadSource')
+  ),
+  description: Yup.string().matches(
+    patterns.textArea,
+    i18n.t('CreateLeadPage.yupErrorMessageDescription')
+  ),
+  enquiryType: Yup.mixed<IValues>()
+    .nullable()
+    .required(i18n.t('CreateLeadPage.yupErrorMessageEnquiryType')),
   countOfBedrooms: Yup.mixed<ICountOfBedroomsValues>().nullable(),
   totalAreaFrom: Yup.number()
     .nullable()
-    .min(0, 'Should be more than 0')
+    .min(0, i18n.t('CreateLeadPage.yupErrorMessageTotalAreaFrom'))
     .test({
       name: 'lessThan',
-      message: 'Should be less than max value',
+      message: i18n.t('CreateLeadPage.yupErrorMessageTotalAreaFrom'),
       test(value) {
         const { totalAreaTo, totalAreaFrom } = this.parent;
 
@@ -43,7 +52,7 @@ export const FormSchema = Yup.object().shape<Shape<ICreateLeadData>>({
     })
     .test({
       name: 'notOneOf',
-      message: 'Values should not be equal',
+      message: i18n.t('CreateLeadPage.yupErrorMessageTotalAreaFrom'),
       test(value) {
         const { totalAreaTo } = this.parent;
 
@@ -52,10 +61,10 @@ export const FormSchema = Yup.object().shape<Shape<ICreateLeadData>>({
     }),
   totalAreaTo: Yup.number()
     .nullable()
-    .max(10000, 'Max 10000')
+    .max(10000, i18n.t('CreateLeadPage.yupErrorMessageTotalAreaTo'))
     .test({
       name: 'moreThan',
-      message: 'Should be more than min value',
+      message: i18n.t('CreateLeadPage.yupErrorMessageTotalAreaTo'),
       test(value) {
         const { totalAreaFrom, totalAreaTo } = this.parent;
 
@@ -65,7 +74,7 @@ export const FormSchema = Yup.object().shape<Shape<ICreateLeadData>>({
     })
     .test({
       name: 'notOneOf',
-      message: 'Values should not be equal',
+      message: i18n.t('CreateLeadPage.yupErrorMessageTotalAreaTo'),
       test(value) {
         const { totalAreaFrom } = this.parent;
 
@@ -73,20 +82,37 @@ export const FormSchema = Yup.object().shape<Shape<ICreateLeadData>>({
       },
     }),
   priceRangeRentFrom: Yup.number()
-    .min(100, 'Min 100')
-    .lessThan(Yup.ref('priceRangeRentTo'), 'Should be less than max value')
-    .notOneOf([Yup.ref('priceRangeRentTo')], 'Values should not be equal'),
+    .min(100, i18n.t('CreateLeadPage.yupErrorMessagePriceRangeRentFrom'))
+    .lessThan(
+      Yup.ref('priceRangeRentTo'),
+      i18n.t('CreateLeadPage.yupErrorMessagePriceRangeRentFrom')
+    )
+    .notOneOf(
+      [Yup.ref('priceRangeRentTo')],
+      i18n.t('CreateLeadPage.yupErrorMessagePriceRangeRentFrom')
+    ),
   priceRangeRentTo: Yup.number()
-    .max(10000, 'Max 10000')
-    .moreThan(Yup.ref('priceRangeRentFrom'), 'Should be more than min value')
-    .notOneOf([Yup.ref('priceRangeRentFrom')], 'Values should not be equal'),
+    .max(10000, i18n.t('CreateLeadPage.yupErrorMessagePriceRangeRentTo'))
+    .moreThan(
+      Yup.ref('priceRangeRentFrom'),
+      i18n.t('CreateLeadPage.yupErrorMessagePriceRangeRentTo')
+    )
+    .notOneOf(
+      [Yup.ref('priceRangeRentFrom')],
+      i18n.t('CreateLeadPage.yupErrorMessagePriceRangeRentTo')
+    ),
   priceRangeBuyFrom: Yup.number()
-    .min(10000, 'Min 10000')
-    .lessThan(Yup.ref('priceRangeBuyTo'), 'Should be less than max value')
-    .notOneOf([Yup.ref('priceRangeBuyTo')], 'Values should not be equal'),
+    .min(10000, i18n.t('CreateLeadPage.yupErrorMessagePriceRangeBuyFrom'))
+    .lessThan(Yup.ref('priceRangeBuyTo'), i18n.t('CreateLeadPage.yupErrorMessagePriceRangeBuyFrom'))
+    .notOneOf(
+      [Yup.ref('priceRangeBuyTo')],
+      i18n.t('CreateLeadPage.yupErrorMessagePriceRangeBuyFrom')
+    ),
   priceRangeBuyTo: Yup.number()
-    .max(10000000, 'Max 10000000')
-    .moreThan(Yup.ref('priceRangeBuyFrom'), 'Should be more than min value')
-    .notOneOf([Yup.ref('priceRangeBuyFrom')], 'Values should not be equal'),
+    .max(10000000, i18n.t('CreateLeadPage.yupErrorMessagePriceRangeBuyTo'))
+    .moreThan(
+      Yup.ref('priceRangeBuyFrom'),
+      i18n.t('CreateLeadPage.yupErrorMessagePriceRangeBuyTo')
+    ),
   locations: Yup.mixed<QobrixLocations>().nullable(),
 });

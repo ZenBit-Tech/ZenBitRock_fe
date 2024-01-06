@@ -440,7 +440,16 @@
     "submitButton": "Add lead",
     "locationsLabel": "Location (optional)",
     "locationsPlaceholder": "Location search",
-    "generalErrorMessage": "Something went wrong, please try again"
+    "generalErrorMessage": "Something went wrong, please try again",
+    "yupErrorMessageLeadSource": "Latin letters, 10-200 characters",
+    "yupErrorMessageDescription": "Latin letters, 10-200 characters",
+    "yupErrorMessageEnquiryType": "Enquiry type is required",
+    "yupErrorMessageTotalAreaFrom": "0-10000, less then max value",
+    "yupErrorMessageTotalAreaTo": "0-10000, more than min value",
+    "yupErrorMessagePriceRangeRentFrom": "100-10000, less than max value",
+    "yupErrorMessagePriceRangeRentTo": "100-10000, more than min value",
+    "yupErrorMessagePriceRangeBuyFrom": "10000-10000000, less than max value",
+    "yupErrorMessagePriceRangeBuyTo": "10000-10000000, more than min value"
   },
   "properties": {
     "title": "My properties",
