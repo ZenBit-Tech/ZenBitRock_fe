@@ -23,6 +23,15 @@ export type Shape<Fields> = {
   [Key in keyof Fields]: ConditionalSchema<Fields[Key]>;
 };
 
+const RANGES = {
+  totalAreaMin: 0,
+  totalAreaMax: 10000,
+  priceRangeRentMin: 100,
+  priceRangeRentMax: 10000,
+  priceRangeBuyMin: 10000,
+  priceRangeBuyMax: 10000000,
+};
+
 export const FormSchema = Yup.object().shape<Shape<ICreateLeadData>>({
   offeringType: Yup.string(),
   leadSource: Yup.string().matches(
@@ -38,81 +47,124 @@ export const FormSchema = Yup.object().shape<Shape<ICreateLeadData>>({
     .required(i18n.t('CreateLeadPage.yupErrorMessageEnquiryType')),
   countOfBedrooms: Yup.mixed<ICountOfBedroomsValues>().nullable(),
   totalAreaFrom: Yup.number()
-    .nullable()
-    .min(0, i18n.t('CreateLeadPage.yupErrorMessageTotalAreaFrom'))
     .test({
-      name: 'lessThan',
+      name: 'min-max',
       message: i18n.t('CreateLeadPage.yupErrorMessageTotalAreaFrom'),
       test(value) {
-        const { totalAreaTo, totalAreaFrom } = this.parent;
-
-        if (value) return (totalAreaTo === 0 && totalAreaFrom === 0) || value < totalAreaTo;
+        if (value !== undefined)
+          return value >= RANGES.totalAreaMin && value <= RANGES.totalAreaMax;
         else return true;
       },
     })
     .test({
-      name: 'notOneOf',
+      name: 'less-than & not-required',
       message: i18n.t('CreateLeadPage.yupErrorMessageTotalAreaFrom'),
       test(value) {
         const { totalAreaTo } = this.parent;
 
-        return totalAreaTo === 0 || value !== totalAreaTo;
+        if (value !== undefined) return value < totalAreaTo || (value === 0 && totalAreaTo === 0);
+        else return true;
       },
     }),
   totalAreaTo: Yup.number()
-    .nullable()
-    .max(10000, i18n.t('CreateLeadPage.yupErrorMessageTotalAreaTo'))
     .test({
-      name: 'moreThan',
+      name: 'min-max',
       message: i18n.t('CreateLeadPage.yupErrorMessageTotalAreaTo'),
       test(value) {
-        const { totalAreaFrom, totalAreaTo } = this.parent;
-
-        if (value) return (totalAreaFrom === 0 && totalAreaTo === 0) || value > totalAreaFrom;
+        if (value !== undefined)
+          return value >= RANGES.totalAreaMin && value <= RANGES.totalAreaMax;
         else return true;
       },
     })
     .test({
-      name: 'notOneOf',
+      name: 'more-than & not-required',
       message: i18n.t('CreateLeadPage.yupErrorMessageTotalAreaTo'),
       test(value) {
         const { totalAreaFrom } = this.parent;
 
-        return totalAreaFrom === 0 || value !== totalAreaFrom;
+        if (value !== undefined)
+          return value > totalAreaFrom || (value === 0 && totalAreaFrom === 0);
+        else return true;
       },
     }),
   priceRangeRentFrom: Yup.number()
-    .min(100, i18n.t('CreateLeadPage.yupErrorMessagePriceRangeRentFrom'))
-    .lessThan(
-      Yup.ref('priceRangeRentTo'),
-      i18n.t('CreateLeadPage.yupErrorMessagePriceRangeRentFrom')
-    )
-    .notOneOf(
-      [Yup.ref('priceRangeRentTo')],
-      i18n.t('CreateLeadPage.yupErrorMessagePriceRangeRentFrom')
-    ),
+    .test({
+      name: 'min-max',
+      message: i18n.t('CreateLeadPage.yupErrorMessagePriceRangeRentFrom'),
+      test(value) {
+        if (value !== undefined)
+          return value >= RANGES.priceRangeRentMin && value <= RANGES.priceRangeRentMax;
+        else return true;
+      },
+    })
+    .test({
+      name: 'less-than',
+      message: i18n.t('CreateLeadPage.yupErrorMessagePriceRangeRentFrom'),
+      test(value) {
+        const { priceRangeRentTo } = this.parent;
+
+        if (value !== undefined) return value < priceRangeRentTo;
+        else return true;
+      },
+    }),
   priceRangeRentTo: Yup.number()
-    .max(10000, i18n.t('CreateLeadPage.yupErrorMessagePriceRangeRentTo'))
-    .moreThan(
-      Yup.ref('priceRangeRentFrom'),
-      i18n.t('CreateLeadPage.yupErrorMessagePriceRangeRentTo')
-    )
-    .notOneOf(
-      [Yup.ref('priceRangeRentFrom')],
-      i18n.t('CreateLeadPage.yupErrorMessagePriceRangeRentTo')
-    ),
+    .test({
+      name: 'min-max',
+      message: i18n.t('CreateLeadPage.yupErrorMessagePriceRangeRentTo'),
+      test(value) {
+        if (value !== undefined)
+          return value >= RANGES.priceRangeRentMin && value <= RANGES.priceRangeRentMax;
+        else return true;
+      },
+    })
+    .test({
+      name: 'more-than',
+      message: i18n.t('CreateLeadPage.yupErrorMessagePriceRangeRentTo'),
+      test(value) {
+        const { priceRangeRentFrom } = this.parent;
+
+        if (value !== undefined) return value > priceRangeRentFrom;
+        else return true;
+      },
+    }),
   priceRangeBuyFrom: Yup.number()
-    .min(10000, i18n.t('CreateLeadPage.yupErrorMessagePriceRangeBuyFrom'))
-    .lessThan(Yup.ref('priceRangeBuyTo'), i18n.t('CreateLeadPage.yupErrorMessagePriceRangeBuyFrom'))
-    .notOneOf(
-      [Yup.ref('priceRangeBuyTo')],
-      i18n.t('CreateLeadPage.yupErrorMessagePriceRangeBuyFrom')
-    ),
+    .test({
+      name: 'min-max',
+      message: i18n.t('CreateLeadPage.yupErrorMessagePriceRangeBuyFrom'),
+      test(value) {
+        if (value !== undefined)
+          return value >= RANGES.priceRangeBuyMin && value <= RANGES.priceRangeBuyMax;
+        else return true;
+      },
+    })
+    .test({
+      name: 'less-than',
+      message: i18n.t('CreateLeadPage.yupErrorMessagePriceRangeBuyFrom'),
+      test(value) {
+        const { priceRangeBuyTo } = this.parent;
+
+        if (value !== undefined) return value < priceRangeBuyTo;
+        else return true;
+      },
+    }),
   priceRangeBuyTo: Yup.number()
-    .max(10000000, i18n.t('CreateLeadPage.yupErrorMessagePriceRangeBuyTo'))
-    .moreThan(
-      Yup.ref('priceRangeBuyFrom'),
-      i18n.t('CreateLeadPage.yupErrorMessagePriceRangeBuyTo')
-    ),
+    .test({
+      name: 'min-max',
+      message: i18n.t('CreateLeadPage.yupErrorMessagePriceRangeBuyTo'),
+      test(value) {
+        if (value !== undefined)
+          return value >= RANGES.priceRangeBuyMin && value <= RANGES.priceRangeBuyMax;
+        else return true;
+      },
+    })
+    .test({
+      message: i18n.t('CreateLeadPage.yupErrorMessagePriceRangeBuyTo'),
+      test(value) {
+        const { priceRangeBuyFrom } = this.parent;
+
+        if (value !== undefined) return value > priceRangeBuyFrom;
+        else return true;
+      },
+    }),
   locations: Yup.mixed<QobrixLocations>().nullable(),
 });

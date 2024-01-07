@@ -81,6 +81,7 @@ export default function Form({ user }: Props): JSX.Element {
     reset,
     handleSubmit,
     setValue,
+    trigger,
     formState: { isSubmitting, isValid },
   } = methods;
 
@@ -107,16 +108,19 @@ export default function Form({ user }: Props): JSX.Element {
   }, [watchAllFields]);
 
   useEffect(() => {
-    methods.clearErrors();
-  }, [
-    methods,
-    watchAllFields.priceRangeRentFrom,
-    watchAllFields.priceRangeRentTo,
-    watchAllFields.priceRangeBuyFrom,
-    watchAllFields.priceRangeBuyTo,
-    watchAllFields.totalAreaFrom,
-    watchAllFields.totalAreaTo,
-  ]);
+    trigger('totalAreaFrom');
+    trigger('totalAreaTo');
+  }, [trigger, watchAllFields.totalAreaFrom, watchAllFields.totalAreaTo]);
+
+  useEffect(() => {
+    trigger('priceRangeRentFrom');
+    trigger('priceRangeRentTo');
+  }, [trigger, watchAllFields.priceRangeRentFrom, watchAllFields.priceRangeRentTo]);
+
+  useEffect(() => {
+    trigger('priceRangeBuyFrom');
+    trigger('priceRangeBuyTo');
+  }, [trigger, watchAllFields.priceRangeBuyFrom, watchAllFields.priceRangeBuyTo]);
 
   const onSubmit = handleSubmit(async (data): Promise<void> => {
     setActiveRequestsCount((prevCount) => prevCount + 1);
