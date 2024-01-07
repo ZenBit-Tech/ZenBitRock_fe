@@ -33,13 +33,11 @@ const App = ({ children }: Props) => {
   return (
     <>
       {!isLoading && (
-        <>
-          <SnackbarProvider>
-            <Header user={user} />
-            {children}
-            <Navbar user={user} />
-          </SnackbarProvider>
-        </>
+        <SnackbarProvider>
+          <Header user={user} />
+          {children}
+          <Navbar user={user} />
+        </SnackbarProvider>
       )}
     </>
   );

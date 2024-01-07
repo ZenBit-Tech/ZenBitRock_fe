@@ -1,8 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Box, Stack } from '@mui/material';
-import { useForm, useLocalStorage, useState, useTranslations } from 'hooks';
-import FormProvider, { RHFAutocomplete, RHFRadioGroup, RHFSlider } from 'components/hook-form';
+import { useEffect, useForm, useLocalStorage, useState, useTranslations } from 'hooks';
+import FormProvider, { RHFAutocomplete, RHFRadioGroup, RHFTextField } from 'components/hook-form';
 import { Block } from 'components/custom';
 import { useGetPropertyTypesQuery, useSearchLocationsQuery } from 'store/api/qobrixApi';
 import { LoadingScreen } from 'components/loading-screen';
@@ -15,9 +15,12 @@ const defaultValues: PropertyFilterFormData = {
   location: null,
   propertyType: null,
   status: null,
-  priceRange: [100000, 5000000],
+  priceRangeSaleFrom: 10000,
+  priceRangeSaleTo: 10000000,
+  priceRangeRentFrom: 100,
+  priceRangeRentTo: 10000,
   bedrooms: null,
-  rentOrSale: null,
+  rentOrSale: 'for_sale',
 };
 
 type Props = {
@@ -26,6 +29,8 @@ type Props = {
 
 const FilterList = ({ applyFilters }: Props): JSX.Element => {
   const [locationsInputValue, setLocationsInputValue] = useState<string>('');
+  const [hasActiveFilters, setHasActiveFilters] = useState<boolean>(false);
+
   const { state, replace } = useLocalStorage<PropertyFilterFormData>(
     StorageKey.PROPERTY_FILTER,
     defaultValues
@@ -53,20 +58,57 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
     defaultValues: state,
   });
 
-  if (!data) {
-    return <LoadingScreen />;
-  }
-
   const {
     handleSubmit,
+    watch,
+    setValue,
     formState: { isSubmitting, isValid },
     reset,
   } = methods;
 
+  const watchAllFields = watch();
+
+  useEffect(() => {
+    const hasFilters =
+      watchAllFields.location ||
+      watchAllFields.propertyType ||
+      watchAllFields.status ||
+      watchAllFields.priceRangeRentFrom !== defaultValues.priceRangeRentFrom ||
+      watchAllFields.priceRangeRentTo !== defaultValues.priceRangeRentTo ||
+      watchAllFields.priceRangeSaleFrom !== defaultValues.priceRangeSaleFrom ||
+      watchAllFields.priceRangeSaleTo !== defaultValues.priceRangeSaleTo ||
+      watchAllFields.rentOrSale !== defaultValues.rentOrSale ||
+      watchAllFields.bedrooms;
+
+    if (hasFilters) {
+      setHasActiveFilters(true);
+    } else {
+      setHasActiveFilters(false);
+    }
+  }, [watchAllFields]);
+
+  useEffect(() => {
+    if (isValid) methods.clearErrors();
+  }, [
+    methods,
+    watchAllFields.priceRangeRentFrom,
+    watchAllFields.priceRangeRentTo,
+    watchAllFields.priceRangeSaleFrom,
+    watchAllFields.priceRangeSaleTo,
+    isValid,
+  ]);
+
+  useEffect(() => {
+    setValue('priceRangeRentFrom', state.priceRangeRentFrom || 100);
+    setValue('priceRangeRentTo', state.priceRangeRentTo || 10000);
+    setValue('priceRangeSaleFrom', state.priceRangeSaleFrom || 10000);
+    setValue('priceRangeSaleTo', state.priceRangeSaleTo || 10000000);
+  }, [watchAllFields.rentOrSale, setValue, state]);
+
   const onSubmit = handleSubmit(async (formData) => {
     try {
       const filter = getMainPagePropertyFilter(formData);
-      
+
       replace(formData);
       applyFilters(filter);
     } catch (error) {
@@ -74,10 +116,27 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
     }
   });
 
+  const handleRemoveFilters = (): void => {
+    replace(defaultValues);
+    setHasActiveFilters(false);
+    reset(defaultValues);
+  };
+
+  if (!data) {
+    return <LoadingScreen />;
+  }
+
   return (
     <Box sx={{ p: 1 }}>
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <Stack spacing={1} alignItems="center">
+          <RHFRadioGroup
+            row
+            name="rentOrSale"
+            sx={{ display: 'flex', justifyContent: 'space-between' }}
+            options={getRentOrSaleOption(rentOrSale)}
+          />
+
           <Block label={t('location')}>
             <RHFAutocomplete
               name="location"
@@ -114,6 +173,7 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
               loading={isPropertyTypeLoading}
             />
           </Block>
+
           <Block label={t('propertyStatus')}>
             <RHFAutocomplete
               name="status"
@@ -127,14 +187,45 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
               )}
             />
           </Block>
-          <Block label={t('priceRange')}>
-            <RHFSlider
-              name="priceRange"
-              sx={{ width: '92%', margin: '0 auto', height: 4 }}
-              min={10000}
-              max={5000000}
-              step={1000}
-            />
+
+          <Block label={t('priceRange')} key={watchAllFields.rentOrSale}>
+            {watchAllFields.rentOrSale === 'for_rent' ? (
+              <Block sx={{ display: 'flex', flexDirection: 'row' }}>
+                <RHFTextField
+                  name="priceRangeRentFrom"
+                  type="number"
+                  size="small"
+                  placeholder={t('priceRangeRentFromPlaceholder')}
+                  sx={{ height: '60px', mr: '50px' }}
+                />
+
+                <RHFTextField
+                  name="priceRangeRentTo"
+                  type="number"
+                  size="small"
+                  placeholder={t('priceRangeRentToPlaceholder')}
+                  sx={{ height: '60px' }}
+                />
+              </Block>
+            ) : (
+              <Block sx={{ display: 'flex', flexDirection: 'row', gap: '0' }}>
+                <RHFTextField
+                  name="priceRangeSaleFrom"
+                  type="number"
+                  size="small"
+                  placeholder={t('priceRangeSaleFromPlaceholder')}
+                  sx={{ height: '60px', mr: '50px' }}
+                />
+
+                <RHFTextField
+                  name="priceRangeSaleTo"
+                  type="number"
+                  size="small"
+                  placeholder={t('priceRangeSaleToPlaceholder')}
+                  sx={{ height: '60px' }}
+                />
+              </Block>
+            )}
           </Block>
           <Block label={t('bedrooms')}>
             <RHFAutocomplete
@@ -149,23 +240,32 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
               )}
             />
           </Block>
-          <RHFRadioGroup
-            row
-            name="rentOrSale"
-            sx={{ display: 'flex', justifyContent: 'space-between' }}
-            options={getRentOrSaleOption(rentOrSale)}
-          />
-          <LoadingButton
-            fullWidth
-            size="large"
-            type="submit"
-            variant="contained"
-            loading={isSubmitting}
-            disabled={!isValid}
-            sx={{ width: '70%', margin: '0 auto' }}
-          >
-            {t('apply')}
-          </LoadingButton>
+          <Block sx={{ display: 'flex', flexDirection: 'row' }}>
+            <LoadingButton
+              fullWidth
+              size="large"
+              onClick={handleRemoveFilters}
+              variant="outlined"
+              disabled={!hasActiveFilters}
+              loading={isSubmitting}
+              sx={{ width: '70%', mr: '15px' }}
+            >
+              {t('clearFilter')}
+            </LoadingButton>
+
+            <LoadingButton
+              fullWidth
+              size="large"
+              type="submit"
+              variant="contained"
+              color="primary"
+              loading={isSubmitting}
+              disabled={!isValid}
+              sx={{ width: '70%' }}
+            >
+              {t('apply')}
+            </LoadingButton>
+          </Block>
         </Stack>
       </FormProvider>
     </Box>

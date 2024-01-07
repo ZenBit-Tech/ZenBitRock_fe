@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Button, Box, Typography, Container } from '@mui/material';
-import { ProtectedRoute } from 'components/custom';
+import { GoBackPageTitile, ProtectedRoute } from 'components/custom';
 import LeadsList from 'components/custom/leadsList';
 import { AppRoute } from 'enums';
 import { toTitleCase } from 'utils';
@@ -37,30 +37,35 @@ function Common(): JSX.Element {
 
   return (
     <ProtectedRoute>
-      <Container sx={{ pb: 8, pt: 2, px: 2 }}>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            mb: 3,
-          }}
-        >
-          <Typography variant="h3">{toTitleCase(t('leads'))}</Typography>
-          <Button
-            title={t('create')}
-            sx={{ padding: '14px' }}
-            variant="contained"
-            color="primary"
-            type="button"
-            onClick={() => router.push(`${AppRoute.CREATE_LEAD_PAGE}`)}
+      <Container sx={{ pb: 8, px: 2 }}>
+        {propertyId && <GoBackPageTitile title={toTitleCase(t('leads'))} />}
+        {!propertyId && (
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              mt: '1.5rem',
+              mb: '1.5rem',
+            }}
           >
-            {t('addBtnTxt')}
-          </Button>
-        </Box>
+            <Typography variant="h3">{toTitleCase(t('leads'))}</Typography>
+            <Button
+              title={t('create')}
+              sx={{ padding: '14px' }}
+              variant="contained"
+              color="primary"
+              type="button"
+              onClick={() => router.push(`${AppRoute.CREATE_LEAD_PAGE}`)}
+            >
+              {t('addBtnTxt')}
+            </Button>
+          </Box>
+        )}
+
         <Box
           sx={{
-            marginY: '1.5rem',
+            mb: '1.5rem',
           }}
         >
           <LeadsFilter getFilter={(searchString: string) => getFilter(searchString)} />

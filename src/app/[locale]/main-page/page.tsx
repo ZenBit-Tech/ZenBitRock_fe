@@ -23,7 +23,7 @@ function MainPage(): JSX.Element {
     (search: string) => {
       let defaultFilter = '';
       const storedFilter = getStorage(StorageKey.PROPERTY_FILTER);
-      
+
       if (storedFilter) {
         defaultFilter = getMainPagePropertyFilter(storedFilter);
       }
