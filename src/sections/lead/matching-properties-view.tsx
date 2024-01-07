@@ -1,3 +1,5 @@
+'use client';
+
 import { QobrixLead, QobrixProperty } from 'types';
 import { useGetMatchingPropertiesQuery } from 'store/lead';
 import { useEffect, useInfinityScroll, useState } from 'hooks';
@@ -16,7 +18,7 @@ const MatchingPropertiesView = ({ lead, setMatchingPropertiesCount }: Props) => 
   const propertyFilter = getPropertySearchFilter(lead);
 
   const { data, error, isFetching } = useGetMatchingPropertiesQuery(
-    { search: propertyFilter, page },
+    { search: propertyFilter, page, leadId: lead.id },
     { skip: !lead }
   );
 

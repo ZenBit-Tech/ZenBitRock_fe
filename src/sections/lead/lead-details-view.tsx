@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Fab, Link, Stack, Typography, useTheme } from '@mui/material';
 import Iconify from 'components/iconify';
 import { useCallback, useScrollToTop, useState, useTranslations } from 'hooks';
