@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ApiRoute, StorageKey } from 'enums';
-import { ICreateGroupChatRequest, ICreateGroupChatResponse } from 'types';
+import { ICreateGroupChatRequest, IChatResponse, IChatRequest } from 'types';
 
 export const ChatApi = createApi({
   reducerPath: 'ChatApi',
@@ -16,14 +16,38 @@ export const ChatApi = createApi({
   }),
   tagTypes: ['Create group chat'],
   endpoints: (builder) => ({
-    createGroupChat: builder.mutation<ICreateGroupChatResponse, ICreateGroupChatRequest['data']>({
+    createGroupChat: builder.mutation<IChatResponse, ICreateGroupChatRequest>({
       query: (body) => ({
-        url: ApiRoute.CHAT_CREATE_GROUP,
+        url: ApiRoute.CHATS,
         method: 'POST',
         body,
+      }),
+    }),
+    getChatById: builder.query<IChatResponse['chat'], { id: string }>({
+      query: ({ id }) => ({
+        url: ApiRoute.CHAT_WITH_ID.replace('id', id),
+        method: 'GET',
+      }),
+    }),
+    deleteChat: builder.mutation<void, { id: string }>({
+      query: ({ id }) => ({
+        url: ApiRoute.CHAT_WITH_ID.replace('id', id),
+        method: 'DELETE',
+      }),
+    }),
+    updateChat: builder.mutation<IChatResponse['chat'], IChatRequest>({
+      query: ({ id, title, memberIds }) => ({
+        url: `${ApiRoute.CHAT_WITH_ID}/${id}`,
+        method: 'PATCH',
+        body: { title, memberIds },
       }),
     }),
   }),
 });
 
-export const { useCreateGroupChatMutation } = ChatApi;
+export const {
+  useCreateGroupChatMutation,
+  useDeleteChatMutation,
+  useGetChatByIdQuery,
+  useUpdateChatMutation,
+} = ChatApi;

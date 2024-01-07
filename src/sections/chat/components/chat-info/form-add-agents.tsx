@@ -1,21 +1,23 @@
 import { Button, Box, Stack, TextField, Autocomplete, Typography } from '@mui/material';
 import Iconify from 'components/iconify';
 import { LoadingScreen } from 'components/loading-screen';
+import { useSnackbar } from 'components/snackbar';
 import { colors } from 'constants/colors';
 import { AppRoute } from 'enums';
 import { useEffect, useSelector, useState, useRouter, useForm } from 'hooks';
 import { Page500 } from 'sections/error';
 import { RootState } from 'store';
 import { useGetAllUsersMutation } from 'store/api/userApi';
-import { useCreateGroupChatMutation } from 'store/chat';
+import { useUpdateChatMutation } from 'store/chat';
 import { UserProfileResponse } from 'types';
 import uuidv4 from 'utils/uuidv4';
 
 type Props = {
   t: Function;
-  groupName: string;
+  chatMembers: Members;
   closeModalUp: () => void;
-  initialMembers: Members;
+  chatId?: string;
+  changedMembers: (values: string[]) => void;
 };
 
 type Members = {
@@ -30,25 +32,28 @@ type Option = {
   id: string;
 };
 
-export default function FormSecond({
+export function FormAddAgents({
   t,
-  groupName,
+  chatMembers,
   closeModalUp,
-  initialMembers,
+  chatId,
+  changedMembers,
 }: Props): JSX.Element {
   const [options, setOptions] = useState<Options>([]);
-  const [members, setMembers] = useState<Members>(initialMembers);
+  const [members, setMembers] = useState<Members>(chatMembers);
 
   const [value, setValue] = useState<Option | null>(null);
   const [inputValue, setInputValue] = useState<string | undefined>('');
 
-  const [createGroupChat] = useCreateGroupChatMutation();
   const [getAllUsers, { data: usersData, isLoading, isError }] = useGetAllUsersMutation();
   const router = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     getAllUsers();
   }, [getAllUsers]);
+
+  const [updateGroupChat] = useUpdateChatMutation();
 
   const authUser = useSelector((state: RootState) => state.authSlice.user);
   const { id: ownerId }: { id: UserProfileResponse['id'] | null } = authUser || { id: null };
@@ -56,18 +61,12 @@ export default function FormSecond({
   useEffect(() => {
     if (usersData) {
       const newOptions = usersData
-        .filter(({ id }) => id !== ownerId)
+        .filter(({ id }) => id !== ownerId && !chatMembers.some((member) => id === member.id))
         .map(({ firstName, lastName, id }) => ({ label: `${firstName} ${lastName}`, id }));
 
       setOptions(newOptions);
     }
-  }, [ownerId, usersData]);
-
-  const groupData = {
-    owner: ownerId,
-    title: groupName,
-    members: members.map((member) => member.id),
-  };
+  }, [chatMembers, ownerId, usersData]);
 
   const { reset, handleSubmit } = useForm({
     mode: 'onTouched',
@@ -75,11 +74,14 @@ export default function FormSecond({
 
   const onSubmit = async (): Promise<void> => {
     try {
-      const { data } = await createGroupChat(groupData).unwrap();
+      await updateGroupChat({ id: chatId, memberIds: members.map((member) => member.id) }).unwrap();
 
-      router.push(`${AppRoute.CHAT_PAGE}/${data.id}`);
-      reset();
+      router.push(`${AppRoute.CHAT_PAGE}/${chatId}/info`);
     } catch (error) {
+      enqueueSnackbar(`${t('somethingWentWrong')}: ${error.data.message}`, {
+        variant: 'error',
+      });
+
       reset();
     }
   };
@@ -87,6 +89,7 @@ export default function FormSecond({
   const handleClickDelete = ({ label, id }: Option): void => {
     setMembers((prev) => [...prev.filter((member) => member.id !== id)]);
     setOptions((prev) => [...prev, { label, id }]);
+    changedMembers(members.map((member) => member.id));
   };
 
   if (isLoading || !usersData || !authUser) return <LoadingScreen />;
@@ -100,10 +103,6 @@ export default function FormSecond({
       noValidate
       autoComplete="off"
     >
-      <Typography sx={{ marginBottom: '0.5rem' }}>{t('groupName')}</Typography>
-      <Typography variant="h3" sx={{ marginBottom: '1.5rem' }}>
-        {groupName}
-      </Typography>
       <Autocomplete
         noOptionsText={t('noMoreAgents')}
         disablePortal
@@ -130,6 +129,7 @@ export default function FormSecond({
             setMembers((prev) => [...prev, newValue]);
             setOptions((prev) => [...prev.filter((option) => option.id !== newValue?.id)]);
             setValue(newValue);
+            changedMembers(members.map((member) => member.id));
           }
         }}
         inputValue={inputValue}
@@ -184,7 +184,7 @@ export default function FormSecond({
           type="submit"
           variant="contained"
           color="primary"
-          disabled={members.length === 0}
+          disabled={members?.length === 0}
           sx={{ mb: '1rem' }}
         >
           {t('addToChat')}

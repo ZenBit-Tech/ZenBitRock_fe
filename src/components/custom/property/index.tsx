@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 
 import { useTranslations } from 'next-intl';
 
-import { Fab } from '@mui/material';
+import { Box, Fab } from '@mui/material';
 
 import { InfoBlock, SlickSlider, ViewOnMap } from 'components/custom/property/components';
 import { getImages } from 'components/custom/property/helpers';
@@ -52,7 +52,9 @@ export default function Property({ id }: { id: string }): JSX.Element {
       }}
     >
       <GoBackPageTitile title={t('title')} />
-      {error && enqueueSnackbar(t('error'), { variant: 'error' })}
+      <Box sx={{ display: 'none' }}>
+        {error && enqueueSnackbar(t('error'), { variant: 'error' })}
+      </Box>
       {propertyDetailed && (
         <>
           {propertyDetailed.media ? (

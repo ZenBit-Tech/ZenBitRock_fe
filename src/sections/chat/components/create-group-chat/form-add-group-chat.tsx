@@ -2,11 +2,14 @@
 
 import { useForm } from 'react-hook-form';
 import { Button, TextField, Typography, Box, Stack } from '@mui/material';
+import { useSnackbar } from 'components/snackbar';
 import { patterns } from 'constants/patterns';
+import { AppRoute } from 'enums';
+import { useRouter } from 'hooks';
+import { useCreateGroupChatMutation } from 'store/chat';
 
 type Props = {
   t: Function;
-  groupNameUp: (name: string) => void;
   closeModalUp: () => void;
 };
 
@@ -14,8 +17,14 @@ type FormValues = {
   groupName: string;
 };
 
-export default function FormFirst({ t, groupNameUp, closeModalUp }: Props): JSX.Element {
+export default function FormAddGroupChat({ t, closeModalUp }: Props): JSX.Element {
+  const [createGroupChat] = useCreateGroupChatMutation();
+
+  const router = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
+
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors, isValid },
@@ -29,7 +38,22 @@ export default function FormFirst({ t, groupNameUp, closeModalUp }: Props): JSX.
   const onSubmit = async (data: FormValues): Promise<void> => {
     const { groupName } = data;
 
-    groupNameUp(groupName);
+    try {
+      const { chat } = await createGroupChat({
+        title: groupName,
+        isPrivate: false,
+      }).unwrap();
+
+      if (chat) {
+        router.push(`${AppRoute.CHAT_PAGE}/${chat.id}/info`);
+      }
+    } catch (error) {
+      enqueueSnackbar(`${t('somethingWentWrong')}: ${error.data.message}`, {
+        variant: 'error',
+      });
+
+      reset();
+    }
   };
 
   return (
@@ -40,7 +64,7 @@ export default function FormFirst({ t, groupNameUp, closeModalUp }: Props): JSX.
       noValidate
       autoComplete="off"
     >
-      <Typography variant="h3" sx={{ marginBottom: '1.5rem' }}>
+      <Typography variant="h3" sx={{ marginBottom: '1.5rem', textAlign: 'center' }}>
         {t('addGroupChat')}
       </Typography>
 
@@ -48,7 +72,7 @@ export default function FormFirst({ t, groupNameUp, closeModalUp }: Props): JSX.
         {...register('groupName', {
           required: t('groupNameRequired'),
           pattern: {
-            value: patterns.textArea,
+            value: patterns.groupName,
             message: t('groupNameInvalid'),
           },
         })}
