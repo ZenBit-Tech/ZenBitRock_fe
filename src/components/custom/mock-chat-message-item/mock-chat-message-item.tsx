@@ -39,8 +39,6 @@ export function MockChatMessageItem({ message, participant }: Props): JSX.Elemen
     >
       <Stack
         sx={{
-          // p: 1.5,
-
           pt: 1.5,
           pb: 1,
           px: 2,
@@ -54,7 +52,9 @@ export function MockChatMessageItem({ message, participant }: Props): JSX.Elemen
           }),
         }}
       >
-        <Typography variant="body2">{body}</Typography>
+        <Typography variant="body2" sx={{ wordWrap: 'break-word' }}>
+          {body}
+        </Typography>
 
         <Stack
           sx={{
