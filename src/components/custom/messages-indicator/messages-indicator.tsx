@@ -33,7 +33,7 @@ const MessagesIndicator = ({
   destination,
   position,
 }: MessagesIndicatorProps): JSX.Element | null => {
-  const t = useTranslations('MessagesPage');
+  const t = useTranslations('ChatsPage');
   const { data: quantity } = useGetUnreadMessagesQuery(
     {
       id: destination.id,
