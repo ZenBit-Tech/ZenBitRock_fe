@@ -61,8 +61,8 @@ export default function ChatView({ id: selectedConversationId, user }: Props): J
   );
 
   return (
-    <>
-      <Stack direction="row" alignItems="center" sx={{ px: '0.3rem' }}>
+    <Container sx={{ pb: '80px' }}>
+      <Stack direction="row" alignItems="center">
         <Button sx={{ p: 0 }} onClick={() => router.back()}>
           <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
         </Button>
@@ -76,31 +76,30 @@ export default function ChatView({ id: selectedConversationId, user }: Props): J
           {t('title')}
         </Typography>
       </Stack>
-      <Container sx={{ pb: '80px' }}>
-        <Stack component={Card} direction="row" sx={{ height: '72vh' }}>
+
+      <Stack component={Card} direction="row" sx={{ height: `calc(100vh - 250px)` }}>
+        <Stack
+          sx={{
+            width: 1,
+            height: 1,
+            overflow: 'hidden',
+          }}
+        >
+          {renderHead}
+
           <Stack
+            direction="row"
             sx={{
               width: 1,
               height: 1,
               overflow: 'hidden',
+              borderTop: (theme) => `solid 1px ${theme.palette.divider}`,
             }}
           >
-            {renderHead}
-
-            <Stack
-              direction="row"
-              sx={{
-                width: 1,
-                height: 1,
-                overflow: 'hidden',
-                borderTop: (theme) => `solid 1px ${theme.palette.divider}`,
-              }}
-            >
-              {renderMessages}
-            </Stack>
+            {renderMessages}
           </Stack>
         </Stack>
-      </Container>
-    </>
+      </Stack>
+    </Container>
   );
 }

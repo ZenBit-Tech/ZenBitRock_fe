@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Fab } from '@mui/material';
+import { Box, Fab, Typography } from '@mui/material';
 
 import { useSnackbar } from 'components/snackbar';
 import { colors } from 'constants/colors';
@@ -97,6 +97,14 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
             marginX: 'auto',
           }}
         >
+          {filter && leadsList?.length !== 0 && (
+            <>
+              <Typography variant="h5" sx={{ paddingBottom: 2 }} textAlign="center">
+                {t('results')}
+              </Typography>
+              {leadsList?.map((lead: QobrixLeadItem) => <Lead lead={lead} key={uuidv4()} />)}
+            </>
+          )}
           {leadsList?.map((lead: QobrixLeadItem) => <Lead lead={lead} key={uuidv4()} />)}
         </ListStyled>
       )}
