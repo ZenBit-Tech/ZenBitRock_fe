@@ -405,6 +405,12 @@ export default function VerificationForm({ handleVerification }: Props): JSX.Ele
                 </Block>
 
                 <Block>
+                  <input
+                    autoComplete="false"
+                    name="hidden"
+                    type="text"
+                    style={{ height: '0px', width: '0px', opacity: 0, position: 'absolute' }}
+                  />
                   <RHFAutocomplete
                     name="countryAutocomplete"
                     label={t('countryLabel')}
