@@ -5,35 +5,24 @@ import { AppRoute } from 'enums';
 import { useRouter, useTranslations } from 'hooks';
 import { useMemo } from 'react';
 import MailIcon from '@mui/icons-material/Mail';
-import { useGetUnreadMessagesQuery } from 'store/message';
+import { useGetUnreadMessagesQuery } from 'store/chat';
 
-interface MessagesIndicatorProps {
-  destination: {
-    id: string;
-  };
-}
-
-const MessagesIndicator = ({ destination }: MessagesIndicatorProps): JSX.Element | null => {
-  const { data: quantity } = useGetUnreadMessagesQuery(
-    {
-      id: destination.id,
-    },
-    { refetchOnMountOrArgChange: true }
-  );
+const MessagesIndicator = (): JSX.Element | null => {
+  const { data: quantity } = useGetUnreadMessagesQuery();
 
   const router = useRouter();
 
   const t = useTranslations('agents');
 
   const ariaLabel = useMemo((): string => {
-    if (quantity && quantity.data === 0) {
+    if (quantity && quantity === 0) {
       return t('noNotificationsLabel');
     }
-    if (quantity && quantity.data > 99) {
+    if (quantity && quantity > 99) {
       return t('more99');
     }
 
-    return `${quantity && quantity.data} ${t('notifications')}`;
+    return `${quantity} ${t('notifications')}`;
   }, [quantity, t]);
 
   return (
@@ -47,7 +36,7 @@ const MessagesIndicator = ({ destination }: MessagesIndicatorProps): JSX.Element
       onClick={() => router.push(AppRoute.MESSAGES_PAGE)}
     >
       <IconButton aria-label={ariaLabel} sx={{ height: '50px', width: '50px' }}>
-        <Badge badgeContent={quantity && quantity.data} color="primary">
+        <Badge badgeContent={quantity} color="primary">
           <MailIcon
             sx={{
               height: '40px',

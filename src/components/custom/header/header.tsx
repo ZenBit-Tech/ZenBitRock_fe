@@ -48,11 +48,7 @@ const Header = ({ user }: Props): JSX.Element => {
               <Link href={AppRoute.PROFILE_PAGE}>
                 <HeaderAvatar avatar={avatar} />
               </Link>
-              <MessagesIndicator
-                destination={{
-                  id: user.id,
-                }}
-              />
+              <MessagesIndicator />
             </Box>
           )}
         </Container>

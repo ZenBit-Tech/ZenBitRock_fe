@@ -1,1 +1,5 @@
-export { useCreateGroupChatMutation, ChatApi } from 'store/chat/chat-api';
+export {
+  useCreateGroupChatMutation,
+  ChatApi,
+  useGetUnreadMessagesQuery,
+} from 'store/chat/chat-api';
