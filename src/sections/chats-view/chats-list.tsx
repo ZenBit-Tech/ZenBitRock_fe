@@ -1,14 +1,15 @@
 import { useState, useCallback } from 'react';
 import { Box, Fab, Stack, TextField, Typography } from '@mui/material';
-import { IChatItem } from 'types/chat';
 import { useScrollToTop } from 'hooks';
 import SearchNotFound from 'components/search-not-found';
+import { Chat } from 'types';
 import ChatItem from './chat-item';
-import SortComponent, { sortChats } from './sort-component';
-import { Values, getSortOptions } from './drop-box-data';
+import { Values, getSortOptions } from './helpers/drop-box-data';
+import { sortChats } from './helpers';
+import { SortComponent } from './sort-component';
 
 type Props = {
-  chats: IChatItem[];
+  chats: Chat[];
   t: Function;
 };
 
@@ -28,7 +29,7 @@ export default function ChatsList({ chats, t }: Props) {
 
   const filteredChats = chats.filter(
     (chat) =>
-      chat.chatName?.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
+      chat.title?.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
       chat.members.some(
         (member) =>
           member.firstName.toLowerCase().startsWith(searchTerm.toLowerCase()) ||

@@ -9,27 +9,35 @@ import {
   CardActionArea,
 } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
-import { IChatItem } from 'types/chat';
 import { trimString } from 'services';
 import { AppRoute } from 'enums';
 import { formatDistanceToNowStrict } from 'date-fns';
+import { Chat } from 'types';
+import { countUnreadMessages, findLatestMessage } from './helpers';
 
 type FollowerItemProps = {
-  chat: IChatItem;
+  chat: Chat;
 };
 
 const MAX_WORDS: number = 6;
 
 export default function ChatItem({ chat }: FollowerItemProps): JSX.Element {
   const router = useRouter();
-  const { id, type, chatName, members, lastMessage, lastMessageDate, countOfUnreadMessages } = chat;
 
-  const messageDate = formatDistanceToNowStrict(new Date(lastMessageDate));
+  const { id, isPrivate, title, messages } = chat;
 
-  const avatarUrl = type === 'private' ? members[0].avatarUrl : '/';
+  const countOfUnreadMessages = countUnreadMessages(messages);
+  const lastMessage = findLatestMessage(messages);
 
-  const handleClick = () => {
-    router.push(`${AppRoute.MESSAGES_PAGE}/${id}`);
+  const { content, owner, createdAt } = lastMessage || {};
+
+  const { avatarUrl } = owner || {};
+
+  const messageDate = createdAt ? formatDistanceToNowStrict(new Date(createdAt)) : null;
+  const avatar = isPrivate ? avatarUrl || '/' : '/';
+
+  const handleClick = (): void => {
+    router.push(`${AppRoute.CHAT_PAGE}/${id}`);
   };
 
   return (
@@ -50,13 +58,15 @@ export default function ChatItem({ chat }: FollowerItemProps): JSX.Element {
           p: (theme) => theme.spacing(2, 1, 2, 1),
         }}
       >
-        <Avatar alt={chatName} src={avatarUrl} sx={{ width: 68, height: 68, mr: 2 }} />
+        <Avatar alt={title} src={avatar} sx={{ width: 68, height: 68, mr: 2 }} />
 
         <Stack sx={{ flex: 5 }}>
           <Typography variant="subtitle1" sx={{ textAlign: 'left' }}>
-            {chatName}
+            {title}
           </Typography>
-          <ListItemText secondary={trimString(lastMessage, MAX_WORDS)} sx={{ textAlign: 'left' }} />
+          {content && (
+            <ListItemText secondary={trimString(content, MAX_WORDS)} sx={{ textAlign: 'left' }} />
+          )}
         </Stack>
 
         <Stack alignItems="center" sx={{ gap: '10px', minWidth: '65px', alignItems: 'center' }}>

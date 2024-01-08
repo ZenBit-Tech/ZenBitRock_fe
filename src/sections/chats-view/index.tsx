@@ -3,12 +3,22 @@ import { Typography, Container, Button } from '@mui/material';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { Stack } from '@mui/system';
 import { useTranslations } from 'next-intl';
+import { useSelector } from 'hooks';
+import { selectCurrentUser } from 'store/auth/authReducer';
+import { useGetChatsQuery } from 'store/chat/chat-api';
+import { LoadingScreen } from 'components/loading-screen';
+import { Page500 } from 'sections/error';
 import ChatsList from './chats-list';
 import AddGroupChatButton from './add-group-chat-button';
 
-export default function MessagesView(): JSX.Element {
+export default function ChatsView(): JSX.Element {
   const router = useRouter();
-  const t = useTranslations('MessagesPage');
+  const t = useTranslations('ChatsPage');
+
+  const authState = useSelector(selectCurrentUser);
+  const userId = authState.user ? authState.user.id : '';
+
+  const { data: chats, isLoading, isError } = useGetChatsQuery({ userId });
 
   const CHATS_EXAMPLE = [
     {
@@ -273,6 +283,167 @@ export default function MessagesView(): JSX.Element {
     },
   ];
 
+  const CHATS_EXAMPLE_2 = [
+    {
+      id: '3834d306-2874-4fbd-9d28-359bc7084d32',
+      createdAt: '2024-01-07T19:15:11.602Z',
+      updatedAt: '2024-01-07T19:15:11.602Z',
+      title: 'First chat',
+      isPrivate: false,
+      members: [
+        {
+          id: '38c90a3e-6674-41c8-a177-2a096d5c5e38',
+          createdAt: '2024-01-07T19:13:24.325Z',
+          updatedAt: '2024-01-07T19:43:01.251Z',
+          email: 'bob1@gmail.com',
+          password:
+            '$argon2id$v=19$m=65536,t=3,p=4$UVY/q39FqpfpcCmQI3mUgw$z/r4qDMA1F8n6ojtE1ee3MqO4aTOjuSR8o17vnQ43F0',
+          isVerified: true,
+          verificationCode: '',
+          firstName: 'Bill',
+          lastName: 'Gates',
+          role: 'agency',
+          gender: 'Male',
+          dateOfBirth: '1998-01-07',
+          nationality: 'US',
+          identity: 'Passport',
+          status: 'Resident Individual',
+          street: 'Wall str',
+          city: 'New York',
+          state: 'New York',
+          zip: '10005',
+          country: 'US',
+          phone: '+1 231 231 3132',
+          userDocumentUrl: null,
+          userDocumentPublicId: null,
+          avatarUrl: null,
+          avatarPublicId:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdpP2YDIUfSMoozt5L2773XxWkMv-4IOYNLA&usqp=CAU',
+          qobrixContactId: null,
+          qobrixAgentId: null,
+          agencyName: null,
+          description: null,
+        },
+        {
+          id: '8bf28fcd-5259-45d7-8e1e-aae49b100dd9',
+          createdAt: '2024-01-07T17:26:36.799Z',
+          updatedAt: '2024-01-07T19:38:55.000Z',
+          email: 'peeetyaivanov@gmail.com',
+          password:
+            '$argon2id$v=19$m=65536,t=3,p=4$J0Q09huuoI7N6zDBqKzLjg$aPDPhyeCuAQKpVfvuB9MtNUygCta95maAiJd6M2nqto',
+          isVerified: true,
+          verificationCode: '200994',
+          firstName: 'John',
+          lastName: 'Smith',
+          role: 'individual_agent',
+          gender: 'Male',
+          dateOfBirth: '1998-01-07',
+          nationality: 'US',
+          identity: 'Passport',
+          status: 'Resident Individual',
+          street: 'Wall str',
+          city: 'New York',
+          state: 'New York',
+          zip: '10005',
+          country: 'US',
+          phone: '+1 231 231 3132',
+          userDocumentUrl:
+            'https://res.cloudinary.com/dwp6n7qqj/image/upload/v1704656333/ZenBitRock/raqtkkatie6fgmpy3mel.jpg',
+          userDocumentPublicId: 'ZenBitRock/raqtkkatie6fgmpy3mel',
+          avatarUrl: null,
+          avatarPublicId: null,
+          qobrixContactId: '31ffa96a-b739-4d8b-838f-46a5cf03aa6c',
+          qobrixAgentId: 'd26b8f30-a3e2-4522-9166-e75eeb4923e9',
+          agencyName: null,
+          description: null,
+        },
+      ],
+    },
+    {
+      id: 'f20c04d5-b701-4d75-9fdc-885207a41961',
+      createdAt: '2024-01-07T21:12:17.766Z',
+      updatedAt: '2024-01-07T21:12:17.766Z',
+      title: 'Second chat',
+      isPrivate: false,
+      members: [
+        {
+          id: '38c90a3e-6674-41c8-a177-2a096d5c5e38',
+          createdAt: '2024-01-07T19:13:24.325Z',
+          updatedAt: '2024-01-07T19:43:01.251Z',
+          email: 'bob1@gmail.com',
+          password:
+            '$argon2id$v=19$m=65536,t=3,p=4$UVY/q39FqpfpcCmQI3mUgw$z/r4qDMA1F8n6ojtE1ee3MqO4aTOjuSR8o17vnQ43F0',
+          isVerified: true,
+          verificationCode: '',
+          firstName: 'Bill',
+          lastName: 'Gates',
+          role: 'agency',
+          gender: 'Male',
+          dateOfBirth: '1998-01-07',
+          nationality: 'US',
+          identity: 'Passport',
+          status: 'Resident Individual',
+          street: 'Wall str',
+          city: 'New York',
+          state: 'New York',
+          zip: '10005',
+          country: 'US',
+          phone: '+1 231 231 3132',
+          userDocumentUrl: null,
+          userDocumentPublicId: null,
+          avatarUrl: null,
+          avatarPublicId:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdpP2YDIUfSMoozt5L2773XxWkMv-4IOYNLA&usqp=CAU',
+          qobrixContactId: null,
+          qobrixAgentId: null,
+          agencyName: null,
+          description: null,
+        },
+        {
+          id: '8bf28fcd-5259-45d7-8e1e-aae49b100dd9',
+          createdAt: '2024-01-07T17:26:36.799Z',
+          updatedAt: '2024-01-07T19:38:55.000Z',
+          email: 'peeetyaivanov@gmail.com',
+          password:
+            '$argon2id$v=19$m=65536,t=3,p=4$J0Q09huuoI7N6zDBqKzLjg$aPDPhyeCuAQKpVfvuB9MtNUygCta95maAiJd6M2nqto',
+          isVerified: true,
+          verificationCode: '200994',
+          firstName: 'John',
+          lastName: 'Smith',
+          role: 'individual_agent',
+          gender: 'Male',
+          dateOfBirth: '1998-01-07',
+          nationality: 'US',
+          identity: 'Passport',
+          status: 'Resident Individual',
+          street: 'Wall str',
+          city: 'New York',
+          state: 'New York',
+          zip: '10005',
+          country: 'US',
+          phone: '+1 231 231 3132',
+          userDocumentUrl:
+            'https://res.cloudinary.com/dwp6n7qqj/image/upload/v1704656333/ZenBitRock/raqtkkatie6fgmpy3mel.jpg',
+          userDocumentPublicId: 'ZenBitRock/raqtkkatie6fgmpy3mel',
+          avatarUrl: null,
+          avatarPublicId: null,
+          qobrixContactId: '31ffa96a-b739-4d8b-838f-46a5cf03aa6c',
+          qobrixAgentId: 'd26b8f30-a3e2-4522-9166-e75eeb4923e9',
+          agencyName: null,
+          description: null,
+        },
+      ],
+    },
+  ];
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
+  if (isError) {
+    return <Page500 />;
+  }
+
   return (
     <Container sx={{ pb: 8, pt: 2, px: 2 }}>
       <Stack
@@ -292,7 +463,7 @@ export default function MessagesView(): JSX.Element {
 
         <AddGroupChatButton t={t} />
       </Stack>
-      <ChatsList chats={CHATS_EXAMPLE} t={t} />
+      {chats && <ChatsList t={t} chats={chats} />}
     </Container>
   );
 }

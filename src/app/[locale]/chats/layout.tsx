@@ -1,7 +1,7 @@
 import { ProtectedRoute } from 'components/custom';
 
 export const metadata = {
-  title: 'Messages',
+  title: 'Chats',
 };
 
 type Props = {
