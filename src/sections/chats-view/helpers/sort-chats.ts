@@ -1,4 +1,4 @@
-import { Chat } from "types";
+import { Chat } from 'types';
 
 export const sortChats = (chatsToSort: Chat[], sortByValue: string): Chat[] =>
   [...chatsToSort].sort((a, b) => {
