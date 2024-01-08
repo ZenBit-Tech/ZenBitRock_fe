@@ -8,7 +8,7 @@ const QobrixFilterKeysSaleRent = {
   ],
   [QobrixLeadBuyRent.TO_BUY_AND_RENT]: [QobrixPropertySaleRent.FOR_SALE_AND_RENT],
   [QobrixLeadBuyRent.TO_RENT]: [
-    QobrixPropertySaleRent.FOR_SALE,
+    QobrixPropertySaleRent.FOR_RENT,
     QobrixPropertySaleRent.FOR_SALE_AND_RENT,
   ],
   [QobrixPropertySaleRent.FOR_SALE]: [
