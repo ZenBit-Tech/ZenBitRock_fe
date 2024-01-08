@@ -39,26 +39,16 @@ const Header = ({ user }: Props): JSX.Element => {
           <Logo href={AppRoute.HOME_PAGE}>{t('Header.title')}</Logo>
           <Box sx={{ flexGrow: 1 }} />
           {user && (
-            <Box sx={{ display: 'flex', gap: '10px', alignItems: 'center', position: 'relative' }}>
-              <Typography sx={{ textAlign: 'right', color: theme.palette.primary.main }}>{`${t(
-                'Header.greeting'
-              )}, ${user.firstName ? `${user.firstName}` : t('Header.displayName')}!`}</Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
+              <Typography
+                sx={{ textAlign: 'right', color: theme.palette.primary.main, mr: '10px' }}
+              >{`${t('Header.greeting')}, ${
+                user.firstName ? `${user.firstName}` : t('Header.displayName')
+              }!`}</Typography>
               <Link href={AppRoute.PROFILE_PAGE}>
                 <HeaderAvatar avatar={avatar} />
               </Link>
-              <MessagesIndicator
-                dimensions={{
-                  width: '1.5rem',
-                  height: '1.5rem',
-                }}
-                destination={{
-                  id: user.id,
-                }}
-                position={{
-                  top: '-15%',
-                  right: '-10%',
-                }}
-              />
+              <MessagesIndicator />
             </Box>
           )}
         </Container>

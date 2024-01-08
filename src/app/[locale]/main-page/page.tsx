@@ -4,7 +4,7 @@ import { Box, Typography } from '@mui/material';
 
 import { ProtectedRoute } from 'components/custom';
 import PropertiesList from 'components/custom/propertiesList';
-import { useCallback, useState } from 'hooks';
+import { useCallback, useState, useTranslations } from 'hooks';
 
 import { StorageKey } from 'enums';
 import { getMainPagePropertyFilter } from 'utils';
@@ -47,12 +47,14 @@ function MainPage(): JSX.Element {
     return combinedFilter;
   }, [filter, propertyNameFilter]);
 
+  const t = useTranslations('mainPage');
+
   return (
     <ProtectedRoute>
       <Box sx={{ p: '10px', margin: '0 auto', maxWidth: '800px' }}>
-        <NotificationCenter />
+        <NotificationCenter t={t} />
         <Typography variant="h3" sx={{ marginTop: 3 }}>
-          My properties
+          {t('myProperties')}
         </Typography>
         <PropertyFilter
           setFilter={handleSetFilter}

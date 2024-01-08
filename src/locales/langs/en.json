@@ -351,6 +351,10 @@
     "forgotPass": "Forgot password?"
   },
   "mainPage": {
+    "myProperties": "My properties",
+    "notificationCenter": "Notification center",
+    "noNewNotifications": "No new notifications",
+    "view": "View",
     "filters": {
       "location": "Location",
       "propertyType": "Property type",
@@ -565,7 +569,8 @@
     "try": "Try to find something else.",
     "reset": "Reset all filters",
     "leads": "leads",
-    "all": "All"
+    "all": "All",
+    "error": "Something went wrong!"
   },
   "agents": {
     "pageTitle": "Agent network",

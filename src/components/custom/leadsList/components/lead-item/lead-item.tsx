@@ -55,7 +55,6 @@ export function Lead({ lead }: { lead: QobrixLeadItem }): JSX.Element {
           </TextStyled>
           <TextStyled
             sx={{
-              fontSize: '1.5rem',
               fontWeight: 'bold',
             }}
           >
