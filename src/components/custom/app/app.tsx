@@ -1,5 +1,6 @@
 'use client';
 
+import { Box } from '@mui/material';
 import { StorageKey } from 'enums';
 import { useEffect, useSelector, useState } from 'hooks';
 import { RootState } from 'store';
@@ -31,7 +32,7 @@ const App = ({ children }: Props) => {
   }
 
   return (
-    <>
+    <Box>
       {!isLoading && (
         <SnackbarProvider>
           <Header user={user} />
@@ -39,7 +40,7 @@ const App = ({ children }: Props) => {
           <Navbar user={user} />
         </SnackbarProvider>
       )}
-    </>
+    </Box>
   );
 };
 
