@@ -5,7 +5,6 @@ import { useEffect, useForm, useLocalStorage, useState, useTranslations } from '
 import FormProvider, { RHFAutocomplete, RHFRadioGroup, RHFTextField } from 'components/hook-form';
 import { Block } from 'components/custom';
 import { useGetPropertyTypesQuery, useSearchLocationsQuery } from 'store/api/qobrixApi';
-import { LoadingScreen } from 'components/loading-screen';
 import { getLocationOptions, getMainPagePropertyFilter } from 'utils';
 import { LocationSelectOption, type PropertyFilterFormData } from 'types';
 import { StorageKey } from 'enums';
@@ -41,13 +40,17 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
     page: 1,
   });
 
+  const { data, isLoading: isPropertyTypeLoading } = useGetPropertyTypesQuery(undefined);
+
   const options = searchLocationData ? getLocationOptions(searchLocationData) : [];
+  const porpertyTypeOptions = data
+    ? data.data.map((option) => ({ label: option.name, value: option.code }))
+    : [];
 
   const handleInputChange = (event: React.ChangeEvent<{}>, value: string) => {
     setLocationsInputValue(value);
   };
 
-  const { data, isLoading: isPropertyTypeLoading } = useGetPropertyTypesQuery(undefined);
   const t = useTranslations('mainPage.filters');
   const propertyStatus = useTranslations('mainPage.filters.filterOptions.propertyStatus');
   const rentOrSale = useTranslations('mainPage.filters.filterOptions.rentOrSale');
@@ -122,10 +125,6 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
     reset(defaultValues);
   };
 
-  if (!data) {
-    return <LoadingScreen />;
-  }
-
   return (
     <Box sx={{ p: 1 }}>
       <FormProvider methods={methods} onSubmit={onSubmit}>
@@ -161,9 +160,7 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
             <RHFAutocomplete
               name="propertyType"
               size="small"
-              options={
-                data && data.data.map((option) => ({ label: option.name, value: option.code }))
-              }
+              options={porpertyTypeOptions}
               isOptionEqualToValue={(option, value) => option.label === value.label}
               renderOption={(props, option) => (
                 <li {...props} key={option.label}>
