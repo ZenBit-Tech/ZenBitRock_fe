@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IChatByIdResponse, IChatResponse } from 'types/chat';
 import { ApiRoute, ChatEvent, StorageKey } from 'enums';
-import { ICreateGroupChatRequest, Message } from 'types';
+import { ICreateGroupChatRequest, ICreateGroupChatResponse, Message } from 'types';
 import { createSocketFactory } from 'utils';
 
 const getSocket = createSocketFactory();
@@ -27,18 +27,21 @@ export const ChatApi = createApi({
         body,
       }),
     }),
+    
     checkPrivateChat: builder.query<{ chatId: string | null }, string>({
       query: (agentId) => ({
         url: `${ApiRoute.CHATS}/check-private-chat/${agentId}`,
         method: 'GET',
       }),
     }),
+    
     getChatById: builder.query<IChatByIdResponse, string>({
       query: (chatId) => ({
         url: `${ApiRoute.CHATS}/${chatId}`,
         method: 'GET',
       }),
     }),
+    
     sendMessage: builder.mutation<Message, { chatId: string; content: string }>({
       queryFn: (chatMessageContent: { chatId: string; content: string }) => {
         const socket = getSocket();
@@ -87,6 +90,7 @@ export const ChatApi = createApi({
   }),
 });
 
+
 export const {
   useCreateChatMutation,
   useCheckPrivateChatQuery,
@@ -94,3 +98,4 @@ export const {
   useSendMessageMutation,
   useGetMessagesQuery,
 } = ChatApi;
+
