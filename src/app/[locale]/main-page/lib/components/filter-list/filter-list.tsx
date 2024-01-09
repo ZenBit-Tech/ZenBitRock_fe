@@ -120,6 +120,10 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
     replace(defaultValues);
     setHasActiveFilters(false);
     reset(defaultValues);
+
+    const filter = getMainPagePropertyFilter(defaultValues);
+
+    applyFilters(filter);
   };
 
   if (!data) {
