@@ -1,6 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { ApiRoute, StorageKey } from 'enums';
-import { ICreateGroupChatRequest, ICreateGroupChatResponse } from 'types';
+import { ApiRoute, ChatEvent, StorageKey } from 'enums';
+import { ICreateGroupChatRequest, ICreateGroupChatResponse, Message } from 'types';
+import { createSocketFactory } from 'utils';
+
+const getSocket = createSocketFactory();
 
 export const ChatApi = createApi({
   reducerPath: 'ChatApi',
@@ -23,7 +26,53 @@ export const ChatApi = createApi({
         body,
       }),
     }),
+
+    sendMessage: builder.mutation<Message, { chatId: string; content: string }>({
+      queryFn: (chatMessageContent: { chatId: string; content: string }) => {
+        const socket = getSocket();
+
+        return new Promise((resolve) => {
+          socket.emit(ChatEvent.NewMessage, chatMessageContent, (message: Message) => {
+            resolve({ data: message });
+          });
+        });
+      },
+    }),
+    getMessages: builder.query<Message[], { chatId: string }>({
+      queryFn: () => ({ data: [] }),
+      async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved, updateCachedData }) {
+        try {
+          await cacheDataLoaded;
+
+          const socket = getSocket();
+
+          socket.on('connect', () => {
+            socket.emit(ChatEvent.RequestAllMessages, arg.chatId, (messages: Message[]) => {
+              updateCachedData((draft) => {
+                draft.splice(0, draft.length, ...messages);
+              });
+            });
+          });
+
+          socket.on(ChatEvent.NewMessage, (message: Message) => {
+            updateCachedData((draft) => {
+              if (message.chat.id === arg.chatId) {
+                draft.push(message);
+              }
+            });
+          });
+
+          await cacheEntryRemoved;
+
+          socket.off('connect');
+          socket.off(ChatEvent.RequestAllMessages);
+          socket.off(ChatEvent.NewMessage);
+        } catch (error) {
+          console.error(error);
+        }
+      },
+    }),
   }),
 });
 
-export const { useCreateGroupChatMutation } = ChatApi;
+export const { useCreateGroupChatMutation, useGetMessagesQuery, useSendMessageMutation } = ChatApi;
