@@ -1,3 +1,5 @@
+import { UserChatResponse } from './user-backend';
+
 export type IChatItem = {
   id: string;
   type: string;
@@ -24,13 +26,15 @@ export type IChatAttachment = {
 
 export type IChatMessage = {
   id: string;
-  body: string;
   createdAt: string;
-  isMe: boolean;
-  sender: {
-    name: string;
-  } | null;
+  updatedAt: string;
+  content: string;
   isRead: boolean;
+  owner: {
+    id: string;
+    firstName: string;
+    lastName: string;
+  };
 };
 
 export type IChatParticipant = {
@@ -58,8 +62,28 @@ export type IChatConversations = {
   allIds: string[];
 };
 
-export type ICreateGroupChatRequest = {
-  data: { owner: string | null; members: string[]; title: string };
+export type ICreateGroupChatRequest = { title: string; memberIds?: string[]; isPrivate?: boolean };
+
+export type IChatResponse = {
+  chat: {
+    id?: string;
+    isPrivate?: boolean;
+    owner?: { id: string | null };
+    members?: { id: string }[] | [];
+    title?: string;
+    createdAt?: string;
+    updatedAt?: string;
+  };
+};
+
+export type IChatByIdResponse = {
+  id?: string;
+  isPrivate?: boolean;
+  owner?: { id: string | null };
+  members: UserChatResponse[];
+  title?: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type ICreateGroupChatResponse = { data: { id: string } };

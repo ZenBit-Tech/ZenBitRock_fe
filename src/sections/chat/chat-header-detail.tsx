@@ -1,13 +1,18 @@
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import ListItemText from '@mui/material/ListItemText';
-import { GetUserResponse } from 'types/user-data';
+import { UserChatResponse } from 'types/user-backend';
+import { LoadingScreen } from 'components/loading-screen';
 
 type Props = {
-  user: GetUserResponse['data'];
+  user: UserChatResponse;
 };
 
 export default function ChatHeaderDetail({ user: singleParticipant }: Props): JSX.Element {
+  if (!singleParticipant) {
+    return <LoadingScreen />;
+  }
+
   const { avatarUrl, firstName, lastName } = singleParticipant;
 
   const renderSingle = (

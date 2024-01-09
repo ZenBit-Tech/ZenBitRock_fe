@@ -1,1 +1,1 @@
-export { useCreateGroupChatMutation, ChatApi } from 'store/chat/chat-api';
+export { useCreateChatMutation, useCheckPrivateChatQuery, ChatApi } from 'store/chat/chat-api';

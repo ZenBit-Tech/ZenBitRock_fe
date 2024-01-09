@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import Card from '@mui/material/Card';
@@ -9,31 +9,37 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { Button } from '@mui/material';
-import { IChatMessage } from 'types/chat';
-import { GetUserResponse } from 'types/user-data';
+import { useGetMessagesQuery } from 'store/chat/chat-api';
+import { IChatByIdResponse } from 'types/chat';
+import { Message } from 'types';
 import ChatMessageList from '../chat-message-list';
 import ChatMessageInput from '../chat-message-input';
 import ChatHeaderDetail from '../chat-header-detail';
-import generateMockMessages from '../utils/generateMockMsgs';
 
 type Props = {
   id: string;
-  user: GetUserResponse['data'];
+  user: IChatByIdResponse;
+  chatId: string;
 };
 
-export default function ChatView({ id: selectedConversationId, user }: Props): JSX.Element {
+export default function ChatView({ id: selectedConversationId, user, chatId }: Props): JSX.Element {
   const t = useTranslations('privateChat');
   const router = useRouter();
 
-  const [messages, setMessages] = useState<IChatMessage[]>([]);
+  const { data: chatMessages, isLoading: isLoadingMessages } = useGetMessagesQuery({ chatId });
+
+  const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
-    setMessages(generateMockMessages());
-  }, []);
+    if (chatMessages) {
+      setMessages(chatMessages);
+    }
+  }, [chatMessages]);
 
-  const addMessage = useCallback((newMessage: IChatMessage): void => {
-    setMessages((prevMessages) => [...prevMessages, newMessage]);
-  }, []);
+  const otherMember = useMemo(
+    () => user.members.find((member) => member.id !== selectedConversationId),
+    [user.members, selectedConversationId]
+  );
 
   const renderHead = (
     <Stack
@@ -42,7 +48,7 @@ export default function ChatView({ id: selectedConversationId, user }: Props): J
       flexShrink={0}
       sx={{ pr: 1, pl: 2.5, py: 1, minHeight: 72, overflow: 'scroll' }}
     >
-      {selectedConversationId ? <ChatHeaderDetail user={user} /> : null}
+      {otherMember ? <ChatHeaderDetail user={otherMember} /> : null}
     </Stack>
   );
 
@@ -54,9 +60,9 @@ export default function ChatView({ id: selectedConversationId, user }: Props): J
         overflow: 'hidden',
       }}
     >
-      <ChatMessageList messages={messages} user={user} />
+      <ChatMessageList messages={messages} user={user} me={selectedConversationId} />
 
-      <ChatMessageInput addMessage={addMessage} selectedConversationId={selectedConversationId} />
+      <ChatMessageInput chatId={chatId} />
     </Stack>
   );
 

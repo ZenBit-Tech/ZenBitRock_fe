@@ -75,7 +75,7 @@ function LeadsFilter({ getFilter }: Prop): JSX.Element {
 
                   const foundStatus = Object.values(leadStatuses).find(
                     (status) => status.id === selected
-                  );      
+                  );
 
                   return foundStatus ? foundStatus.label : t('all');
                 }}

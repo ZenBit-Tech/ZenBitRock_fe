@@ -1,11 +1,13 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
+import { enqueueSnackbar } from 'notistack';
 import TextField from '@mui/material/TextField';
 import { Container } from '@mui/system';
 import { Fab } from '@mui/material';
 import Card from '@mui/material/Card';
 import { useRouter } from 'routes/hooks';
 import { useScrollToTop } from 'hooks';
+import { useCheckPrivateChatQuery, useCreateChatMutation } from 'store/chat';
 import { UserChatResponse } from 'types/user-backend';
 import { AppRoute } from 'enums';
 import { AGENTS_SORT_OPTIONS } from 'constants/agentsSortOptions';
@@ -17,7 +19,7 @@ import sortAgents from './utils/sortAgents';
 
 type Props = {
   loading: boolean;
-  agents?: UserChatResponse[];
+  agents: UserChatResponse[];
   id: string;
 };
 
@@ -37,6 +39,51 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
   });
 
   const [sort, setSort] = useState<string>('nameAsc');
+  const [selectedAgent, setSelectedAgent] = useState<UserChatResponse | null>(null);
+  const [hasCheckedChat, setHasCheckedChat] = useState(false);
+  const [selectedAgentId, setSelectedAgentId] = useState('');
+
+  const { data: chatData, isFetching, refetch } = useCheckPrivateChatQuery(selectedAgentId);
+
+  const [createChat, { error }] = useCreateChatMutation();
+
+  useEffect(() => {
+    setHasCheckedChat(false);
+  }, []);
+
+  useEffect(() => {
+    if (selectedAgentId && !hasCheckedChat) {
+      refetch();
+      setHasCheckedChat(true);
+    }
+  }, [selectedAgentId, hasCheckedChat, refetch]);
+
+  useEffect(() => {
+    const createNewChat = async () => {
+      try {
+        if (selectedAgent) {
+          const response = await createChat({
+            title: selectedAgent.firstName,
+            memberIds: [selectedAgent.id, id],
+            isPrivate: true,
+          }).unwrap();
+
+          router.push(`${AppRoute.CHATS_PAGE}/${response.chat.id}`);
+        }
+      } catch (err) {
+        enqueueSnackbar(t('error'), { variant: 'error' });
+      }
+    };
+
+    if (hasCheckedChat) {
+      if (chatData && chatData.chatId === null && selectedAgent) {
+        createNewChat();
+      } else if (chatData && chatData.chatId) {
+        setHasCheckedChat(false);
+        router.push(`${AppRoute.CHATS_PAGE}/${chatData.chatId}`);
+      }
+    }
+  }, [selectedAgent, chatData, createChat, hasCheckedChat, id, router, t]);
 
   const handleSearchAgents = useCallback(
     (inputValue: string): void => {
@@ -49,10 +96,10 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
         const results = agents.filter((agent) => {
           if (agent.id !== id && agent.firstName) {
             const agentName = `${agent.firstName} ${agent.lastName}`;
-            
+
             return agentName.toLowerCase().includes(inputValue.trim().toLowerCase());
           }
-          
+
           return null;
         });
 
@@ -72,12 +119,11 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
     });
   }, []);
 
-  const handleClickResult = useCallback(
-    (result: UserChatResponse): void => {
-      router.push(`${AppRoute.CHAT_PAGE}/${result.id}`);
-    },
-    [router]
-  );
+  const handleClickResult = (agent: UserChatResponse) => {
+    setSelectedAgent(agent);
+    setSelectedAgentId(agent.id);
+    setHasCheckedChat(false);
+  };
 
   const sortedAgents = useMemo<UserChatResponse[] | undefined>(
     () =>

@@ -576,7 +576,8 @@
     "searchPlaceholder": "Search agent by name...",
     "noNotificationsLabel": "no notifications",
     "more99": "more than 99 notifications",
-    "notifications": "notifications"
+    "notifications": "notifications",
+    "error": "Something went wrong!"
   },
   "page500": {
     "pageTitle": "500 Internal Server Error",
