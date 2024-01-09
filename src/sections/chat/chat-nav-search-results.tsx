@@ -43,7 +43,7 @@ export default function ChatNavSearchResults({
           sx={{
             p: 3,
             mx: 'auto',
-            width: `calc(100% - 40px)`,
+            width: `calc(100% - 90px)`,
             bgcolor: 'background.neutral',
           }}
         />

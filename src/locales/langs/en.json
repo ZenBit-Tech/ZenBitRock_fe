@@ -536,6 +536,7 @@
   },
   "leads": {
     "": "",
+    "results": "Filtered results",
     "addBtnTxt": "Add lead",
     "direct": "Direct",
     "agent": "Agent",
@@ -695,6 +696,10 @@
     "sorry": "Sorry, No Matched Results Found!",
     "try": "Try to find something else.",
     "unread": "unread messages"
+  },
+  "chat": {
+    "groupChat": "Group Chat",
+    "info": "Chat info"
   },
   "noDataFound": {
     "results": "No Matching Results"
