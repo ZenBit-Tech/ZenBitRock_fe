@@ -1,5 +1,3 @@
-import { UserProfileResponse } from 'types/user-backend';
-
 export type IChatItem = {
   id: string;
   type: string;

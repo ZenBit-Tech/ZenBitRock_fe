@@ -2,7 +2,6 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ApiRoute, ChatEvent, StorageKey } from 'enums';
 import {
   ICreateGroupChatRequest,
-  ICreateGroupChatResponse,
   Message,
   IChatResponse,
   IChatRequest,
