@@ -72,7 +72,8 @@
     "drag&DropTitle": "* Please upload related documents",
     "declarationSectionTitle": "D. Declaration",
     "declarationText": "* I hereby declare that the information provided in this form is accurate and complete. I confirm that any information is found incorrect and/or incomplete that leads a violation of regulations may initiate legal actions, and I accept that I am the responsible party for any and all charges, penalties and violations.",
-    "submitButton": "Submit"
+    "submitButton": "Submit",
+    "generalErrorMessage": "Something went wrong, please try again"
   },
   "VerificationDonePage": {
     "mainTitle": "KYC form",
@@ -441,6 +442,7 @@
     "locationsLabel": "Location (optional)",
     "locationsPlaceholder": "Location search",
     "generalErrorMessage": "Something went wrong, please try again",
+    "succesCreatedMessage": "Lead has been created",
     "yupErrorMessageLeadSource": "Latin letters, 10-200 characters",
     "yupErrorMessageDescription": "Latin letters, 10-200 characters",
     "yupErrorMessageEnquiryType": "Enquiry type is required",
@@ -564,7 +566,8 @@
     "sorry": "Sorry, No Matched Results Found!",
     "try": "Try to find something else.",
     "reset": "Reset all filters",
-    "leads": "leads"
+    "leads": "leads",
+    "error": "Something went wrong!"
   },
   "agents": {
     "pageTitle": "Agent network",

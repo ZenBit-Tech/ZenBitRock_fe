@@ -166,6 +166,7 @@ export default function Form({ user }: Props): JSX.Element {
       await createLead(requestData).unwrap();
       push(AppRoute.LEADS_PAGE);
       reset(defaultValues);
+      enqueueSnackbar(t('succesCreatedMessage'), { variant: 'success' });
 
       return undefined;
     } catch (error) {
