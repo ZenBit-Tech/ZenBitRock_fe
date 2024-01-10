@@ -686,6 +686,10 @@
     "try": "Try to find something else.",
     "unread": "unread messages"
   },
+  "chat": {
+    "groupChat": "Group Chat",
+    "info": "Chat info"
+  },
   "noDataFound": {
     "results": "No Matching Results"
   }

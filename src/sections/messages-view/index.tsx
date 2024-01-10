@@ -249,7 +249,7 @@ export default function MessagesView(): JSX.Element {
       countOfUnreadMessages: 0,
     },
     {
-      id: '14',
+      id: '15',
       type: 'group',
       chatName: 'Nice chat',
       members: [
