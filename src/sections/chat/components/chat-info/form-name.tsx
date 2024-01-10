@@ -5,7 +5,6 @@ import { Button, TextField, Typography, Box, Stack } from '@mui/material';
 import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
 import { patterns } from 'constants/patterns';
-import { useRouter } from 'hooks';
 import { useUpdateChatMutation } from 'store/chat';
 
 type Props = {
