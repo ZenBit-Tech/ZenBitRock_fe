@@ -14,10 +14,10 @@ import {
 } from 'components/custom/leadsList/styles';
 import { AppRoute } from 'enums';
 import { useInfinityScroll, useScrollToTop, useState, useTranslations } from 'hooks';
-import { NotMatchedView } from 'sections';
 import { useGetLeadsQuery } from 'store/api/qobrixApi';
 import { QobrixLeadItem } from 'types';
 import uuidv4 from 'utils/uuidv4';
+import { NoDataFound } from '../no-data-found/no-data-found';
 
 export const FIRST_PAGE: number = 1;
 
@@ -108,7 +108,7 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
           {leadsList?.map((lead: QobrixLeadItem) => <Lead lead={lead} key={uuidv4()} />)}
         </ListStyled>
       )}
-      {leadsList?.length === 0 && (filter || name) && !isFetching && <NotMatchedView />}
+      {leadsList?.length === 0 && (filter || name) && !isFetching && <NoDataFound />}
 
       <Fab
         color="primary"

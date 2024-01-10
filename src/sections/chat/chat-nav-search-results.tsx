@@ -3,9 +3,9 @@ import { useTranslations } from 'next-intl';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import ListItemButton from '@mui/material/ListItemButton';
-import SearchNotFound from 'components/search-not-found';
 import { UserChatResponse } from 'types/user-backend';
 import { Box } from '@mui/material';
+import { NoDataFound } from 'components/custom';
 
 type Props = {
   query: string;
@@ -38,15 +38,7 @@ export default function ChatNavSearchResults({
       </Typography>
 
       {notFound ? (
-        <SearchNotFound
-          query={query}
-          sx={{
-            p: 3,
-            mx: 'auto',
-            width: `calc(100% - 90px)`,
-            bgcolor: 'background.neutral',
-          }}
-        />
+        <NoDataFound />
       ) : (
         <>
           {results.map((result) =>

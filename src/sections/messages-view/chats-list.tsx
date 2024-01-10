@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { Box, Fab, Stack, TextField, Typography } from '@mui/material';
 import { IChatItem } from 'types/chat';
 import { useScrollToTop } from 'hooks';
-import SearchNotFound from 'components/search-not-found';
+import { NoDataFound } from 'components/custom';
 import ChatItem from './chat-item';
 import SortComponent, { sortChats } from './sort-component';
 import { Values, getSortOptions } from './drop-box-data';
@@ -80,15 +80,7 @@ export default function ChatsList({ chats, t }: Props) {
           </Fab>
         </Stack>
       ) : (
-        <SearchNotFound
-          query={searchTerm}
-          sx={{
-            p: 3,
-            mx: 'auto',
-            width: '100%',
-            bgcolor: 'background.neutral',
-          }}
-        />
+        <NoDataFound />
       )}
     </Box>
   );
