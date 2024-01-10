@@ -132,13 +132,14 @@ const ChatInfo = (): JSX.Element => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'stretch',
+        position: 'relative',
       }}
     >
       {(isLoadingWhenGetChat || isLoadingWhenGetUsers || isLoadingWhenUpdate || isFetching) && (
         <LoadingScreen
           sx={{
             position: 'absolute',
-            top: '0',
+            top: '-400px',
             left: '50%',
             transform: 'translateX(-50%)',
             zIndex: '100',
