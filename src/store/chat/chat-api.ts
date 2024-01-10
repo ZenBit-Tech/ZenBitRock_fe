@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ApiRoute, ChatEvent, StorageKey } from 'enums';
-import { ICreateGroupChatRequest, ICreateGroupChatResponse, Message } from 'types';
+import { ICreateGroupChatRequest, Message, IChatResponse, IChatRequest } from 'types';
 import { createSocketFactory } from 'utils';
 
 const getSocket = createSocketFactory();
@@ -19,9 +19,9 @@ export const ChatApi = createApi({
   }),
   tagTypes: ['Create group chat'],
   endpoints: (builder) => ({
-    createGroupChat: builder.mutation<ICreateGroupChatResponse, ICreateGroupChatRequest['data']>({
+    createGroupChat: builder.mutation<IChatResponse, ICreateGroupChatRequest>({
       query: (body) => ({
-        url: ApiRoute.CHAT_CREATE_GROUP,
+        url: ApiRoute.CHATS,
         method: 'POST',
         body,
       }),
@@ -67,7 +67,7 @@ export const ChatApi = createApi({
           socket.off(ChatEvent.RequestAllMessages);
           socket.off(ChatEvent.NewMessage);
         } catch (error) {
-          console.error(error);
+          throw error;
         }
       },
     }),
@@ -93,15 +93,37 @@ export const ChatApi = createApi({
 
           socket.off(ChatEvent.RequestUnreadMessages);
         } catch (error) {
-          console.error(error);
+          throw error;
         }
       },
+    }),
+    getChatById: builder.query<IChatResponse['chat'], { id: string }>({
+      query: ({ id }) => ({
+        url: ApiRoute.CHAT_WITH_ID.replace('id', id),
+        method: 'GET',
+      }),
+    }),
+    deleteChat: builder.mutation<void, { id: string }>({
+      query: ({ id }) => ({
+        url: ApiRoute.CHAT_WITH_ID.replace('id', id),
+        method: 'DELETE',
+      }),
+    }),
+    updateChat: builder.mutation<IChatResponse['chat'], IChatRequest>({
+      query: ({ id, title, memberIds }) => ({
+        url: ApiRoute.CHAT_WITH_ID.replace('id', id as string),
+        method: 'PATCH',
+        body: { title, memberIds },
+      }),
     }),
   }),
 });
 
 export const {
   useCreateGroupChatMutation,
+  useDeleteChatMutation,
+  useGetChatByIdQuery,
+  useUpdateChatMutation,
   useGetMessagesQuery,
   useSendMessageMutation,
   useGetUnreadMessagesQuery,
