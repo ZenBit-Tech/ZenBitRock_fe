@@ -67,7 +67,7 @@ export const ChatApi = createApi({
           socket.off(ChatEvent.RequestAllMessages);
           socket.off(ChatEvent.NewMessage);
         } catch (error) {
-          console.error(error);
+          throw error;
         }
       },
     }),
@@ -93,7 +93,7 @@ export const ChatApi = createApi({
 
           socket.off(ChatEvent.RequestUnreadMessages);
         } catch (error) {
-          console.error(error);
+          throw error;
         }
       },
     }),
