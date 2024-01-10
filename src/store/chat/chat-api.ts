@@ -26,7 +26,6 @@ export const ChatApi = createApi({
         body,
       }),
     }),
-
     sendMessage: builder.mutation<Message, { chatId: string; content: string }>({
       queryFn: (chatMessageContent: { chatId: string; content: string }) => {
         const socket = getSocket();
@@ -72,7 +71,38 @@ export const ChatApi = createApi({
         }
       },
     }),
+    getUnreadMessages: builder.query<number, void>({
+      query: () => 'getUnreadMessages',
+      async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved, updateCachedData }) {
+        try {
+          await cacheDataLoaded;
+
+          const socket = getSocket();
+
+          socket.on(ChatEvent.RequestUnreadMessages, (unreadCount: number) => {
+            updateCachedData((existingData: number | undefined) => {
+              if (existingData !== undefined) {
+                return existingData + unreadCount;
+              }
+
+              return unreadCount;
+            });
+          });
+
+          await cacheEntryRemoved;
+
+          socket.off(ChatEvent.RequestUnreadMessages);
+        } catch (error) {
+          console.error(error);
+        }
+      },
+    }),
   }),
 });
 
-export const { useCreateGroupChatMutation, useGetMessagesQuery, useSendMessageMutation } = ChatApi;
+export const {
+  useCreateGroupChatMutation,
+  useGetMessagesQuery,
+  useSendMessageMutation,
+  useGetUnreadMessagesQuery,
+} = ChatApi;
