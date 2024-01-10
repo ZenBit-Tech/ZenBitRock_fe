@@ -4,11 +4,6 @@ import { ICreateGroupChatRequest, ICreateGroupChatResponse, Message } from 'type
 import { createSocketFactory } from 'utils';
 
 const getSocket = createSocketFactory();
-import { ApiRoute, ChatEvent, StorageKey } from 'enums';
-import { ICreateGroupChatRequest, ICreateGroupChatResponse, Message } from 'types';
-import { createSocketFactory } from 'utils';
-
-const getSocket = createSocketFactory();
 
 export const ChatApi = createApi({
   reducerPath: 'ChatApi',
