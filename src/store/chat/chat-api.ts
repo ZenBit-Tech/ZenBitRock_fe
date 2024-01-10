@@ -27,7 +27,7 @@ export const ChatApi = createApi({
         body,
       }),
     }),
-    
+
     createChat: builder.mutation<IChatResponse, ICreatePrivateChatRequest>({
       query: (body) => ({
         url: ApiRoute.CHATS,
@@ -129,4 +129,6 @@ export const {
   useGetMessagesQuery,
   useSendMessageMutation,
   useGetUnreadMessagesQuery,
+  useCreateChatMutation,
+  useCheckPrivateChatQuery,
 } = ChatApi;
