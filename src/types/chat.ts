@@ -37,6 +37,18 @@ export type IChatMessage = {
   };
 };
 
+export type IChatMockMessage = {
+  id: string;
+  body: string;
+  createdAt: string;
+  isMe: boolean;
+  sender: {
+    name: string;
+  } | null;
+  isRead: boolean;
+};
+
+
 export type IChatParticipant = {
   id: string;
   name: string;
