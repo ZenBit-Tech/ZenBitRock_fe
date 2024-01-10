@@ -32,6 +32,7 @@ export const ChatApi = createApi({
         body,
       }),
     }),
+    
     createChat: builder.mutation<IChatResponse, ICreatePrivateChatRequest>({
       query: (body) => ({
         url: ApiRoute.CHATS,
@@ -99,16 +100,40 @@ export const ChatApi = createApi({
         }
       },
     }),
+    getUnreadMessages: builder.query<number, void>({
+      query: () => 'getUnreadMessages',
+      async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved, updateCachedData }) {
+        try {
+          await cacheDataLoaded;
+
+          const socket = getSocket();
+
+          socket.on(ChatEvent.RequestUnreadMessages, (unreadCount: number) => {
+            updateCachedData((existingData: number | undefined) => {
+              if (existingData !== undefined) {
+                return existingData + unreadCount;
+              }
+
+              return unreadCount;
+            });
+          });
+
+          await cacheEntryRemoved;
+
+          socket.off(ChatEvent.RequestUnreadMessages);
+        } catch (error) {
+          console.error(error);
+        }
+      },
+    }),
   }),
 });
 
 
 export const {
   useCreateGroupChatMutation,
-  useCreateChatMutation,
-  useCheckPrivateChatQuery,
-  useGetChatByIdQuery,
-  useSendMessageMutation,
   useGetMessagesQuery,
+  useSendMessageMutation,
+  useGetUnreadMessagesQuery,
 } = ChatApi;
 

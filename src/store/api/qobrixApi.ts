@@ -183,7 +183,10 @@ export const QobrixApi = createApi({
           ? ApiRoute.QOBRIX_GET_LEADS
           : ApiRoute.QOBRIX_GET_PROPERTY_LEADS.replace('id', arg.id),
         method: 'GET',
-        params: arg.filter ? { page: arg.page, search: arg.filter } : { page: arg.page },
+        params:
+          arg.filter && arg.filter !== 'update'
+            ? { page: arg.page, search: arg.filter }
+            : { page: arg.page },
       }),
       transformResponse: (response: QobrixLeadListResponse) => {
         response.data = response.data.map((lead) => ({
