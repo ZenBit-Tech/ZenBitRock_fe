@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Typography, Box, Stack } from '@mui/material';
+import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
 import { AppRoute } from 'enums';
 import { useRouter } from 'hooks';
@@ -13,7 +14,7 @@ type Props = {
 };
 
 export function FormDelete({ t, closeModalUp, chatId }: Props): JSX.Element {
-  const [deleteChat] = useDeleteChatMutation();
+  const [deleteChat, { isLoading }] = useDeleteChatMutation();
   const { enqueueSnackbar } = useSnackbar();
 
   const router = useRouter();
@@ -33,7 +34,18 @@ export function FormDelete({ t, closeModalUp, chatId }: Props): JSX.Element {
       <Typography variant="h3" sx={{ marginBottom: '1.5rem', textAlign: 'center' }}>
         {t('doYouWantDeleteChat')}
       </Typography>
-      <Stack sx={{ mt: 5 }}>
+      <Stack sx={{ mt: 5, position: 'relative' }}>
+        {isLoading && (
+          <LoadingScreen
+            sx={{
+              position: 'absolute',
+              top: '-70px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              zIndex: '100',
+            }}
+          />
+        )}
         <Button
           type="submit"
           variant="contained"
@@ -43,7 +55,7 @@ export function FormDelete({ t, closeModalUp, chatId }: Props): JSX.Element {
         >
           {t('yesDelete')}
         </Button>
-        <Button type="reset" variant="contained" color="primary" onClick={() => closeModalUp()}>
+        <Button type="reset" variant="contained" color="error" onClick={() => closeModalUp()}>
           {t('cancelBtnTxt')}
         </Button>
       </Stack>

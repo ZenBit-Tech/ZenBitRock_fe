@@ -2,6 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import { Button, TextField, Typography, Box, Stack } from '@mui/material';
+import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
 import { patterns } from 'constants/patterns';
 import { AppRoute } from 'enums';
@@ -18,7 +19,7 @@ type FormValues = {
 };
 
 export default function FormAddGroupChat({ t, closeModalUp }: Props): JSX.Element {
-  const [createGroupChat] = useCreateGroupChatMutation();
+  const [createGroupChat, { isLoading }] = useCreateGroupChatMutation();
 
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
@@ -59,7 +60,7 @@ export default function FormAddGroupChat({ t, closeModalUp }: Props): JSX.Elemen
   return (
     <Box
       component="form"
-      sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}
+      sx={{ display: 'flex', flexDirection: 'column', width: '100%', position: 'relative' }}
       onSubmit={handleSubmit(onSubmit)}
       noValidate
       autoComplete="off"
@@ -86,7 +87,18 @@ export default function FormAddGroupChat({ t, closeModalUp }: Props): JSX.Elemen
         helperText={errors?.groupName && <div>{errors.groupName.message}</div>}
         autoComplete=""
       />
-      <Stack sx={{ mt: 5 }}>
+      <Stack sx={{ mt: 5, position: 'relative' }}>
+        {isLoading && (
+          <LoadingScreen
+            sx={{
+              position: 'absolute',
+              top: '-70px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              zIndex: '100',
+            }}
+          />
+        )}
         <Button
           type="submit"
           variant="contained"
@@ -96,7 +108,7 @@ export default function FormAddGroupChat({ t, closeModalUp }: Props): JSX.Elemen
         >
           {t('addGroupBtnTxt')}
         </Button>
-        <Button type="reset" variant="contained" color="primary" onClick={() => closeModalUp()}>
+        <Button type="reset" variant="contained" color="error" onClick={() => closeModalUp()}>
           {t('cancelBtnTxt')}
         </Button>
       </Stack>

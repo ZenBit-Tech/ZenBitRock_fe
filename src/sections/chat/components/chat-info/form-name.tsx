@@ -2,9 +2,9 @@
 
 import { useForm } from 'react-hook-form';
 import { Button, TextField, Typography, Box, Stack } from '@mui/material';
+import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
 import { patterns } from 'constants/patterns';
-import { AppRoute } from 'enums';
 import { useRouter } from 'hooks';
 import { useUpdateChatMutation } from 'store/chat';
 
@@ -12,16 +12,16 @@ type Props = {
   t: Function;
   closeModalUp: () => void;
   chatId?: string;
+  refresh: () => void;
 };
 
 type FormValues = {
   groupName: string;
 };
 
-export function FormName({ t, closeModalUp, chatId }: Props): JSX.Element {
-  const [updateGroupChat] = useUpdateChatMutation();
+export function FormName({ t, closeModalUp, chatId, refresh }: Props): JSX.Element {
+  const [updateGroupChat, { isLoading }] = useUpdateChatMutation();
 
-  const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
 
   const {
@@ -40,8 +40,12 @@ export function FormName({ t, closeModalUp, chatId }: Props): JSX.Element {
     const { groupName } = data;
 
     try {
-      await updateGroupChat({ id: chatId, title: groupName }).unwrap();
-      router.push(`${AppRoute.CHAT_PAGE}/${chatId}/info`);
+      const { id } = await updateGroupChat({ id: chatId, title: groupName }).unwrap();
+
+      if (id) {
+        refresh();
+        closeModalUp();
+      }
     } catch (error) {
       enqueueSnackbar(`${t('somethingWentWrong')}: ${error.data.message}`, {
         variant: 'error',
@@ -81,7 +85,18 @@ export function FormName({ t, closeModalUp, chatId }: Props): JSX.Element {
         helperText={errors?.groupName && <div>{errors.groupName.message}</div>}
         autoComplete=""
       />
-      <Stack sx={{ mt: 5 }}>
+      <Stack sx={{ mt: 5, position: 'relative' }}>
+        {isLoading && (
+          <LoadingScreen
+            sx={{
+              position: 'absolute',
+              top: '-70px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              zIndex: '100',
+            }}
+          />
+        )}
         <Button
           type="submit"
           variant="contained"
@@ -91,7 +106,7 @@ export function FormName({ t, closeModalUp, chatId }: Props): JSX.Element {
         >
           {t('changeGroupChatName')}
         </Button>
-        <Button type="reset" variant="contained" color="primary" onClick={() => closeModalUp()}>
+        <Button type="reset" variant="contained" color="error" onClick={() => closeModalUp()}>
           {t('cancelBtnTxt')}
         </Button>
       </Stack>

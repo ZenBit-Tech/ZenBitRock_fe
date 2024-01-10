@@ -2,8 +2,9 @@ import { usePathname } from 'next/navigation';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { Box, Button, Link, Modal, Typography } from '@mui/material';
 import ButtonClose from 'components/custom/button-close/button-close';
-import { Title } from 'components/custom/property/styles';
+import { LoadingScreen } from 'components/loading-screen';
 import Iconify from 'components/iconify';
+import { Title } from 'components/custom/property/styles';
 import { useSnackbar } from 'components/snackbar';
 import { colors } from 'constants/colors';
 import { AppRoute } from 'enums';
@@ -22,7 +23,7 @@ const ChatInfo = (): JSX.Element => {
   const [addAgentsModal, setAddAgentsModal] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [members, setMembers] = useState<{ label: string; id: string }[]>();
-  const [changedMembers, setChangedMembers] = useState<string[]>([]);
+  const [apiMembers, setApiMembers] = useState<{ label: string; id: string }[] | undefined>();
 
   const authUser = useSelector((state: RootState) => state.authSlice.user);
   const {
@@ -39,26 +40,26 @@ const ChatInfo = (): JSX.Element => {
     lastName: null,
   };
 
-  const [getAllUsers, { data: usersData, isLoading, isError }] = useGetAllUsersMutation();
-  const [updateGroupChat] = useUpdateChatMutation();
+  const [getAllUsers, { data: usersData, isLoading: isLoadingWhenGetUsers, isError }] =
+    useGetAllUsersMutation();
+  const [updateGroupChat, { isLoading: isLoadingWhenUpdate }] = useUpdateChatMutation();
 
   const router = useRouter();
   const pathsname = usePathname();
   const { enqueueSnackbar } = useSnackbar();
 
-  const { data } = useGetChatByIdQuery(
-    { id: pathsname.split('/')[2] },
-    { refetchOnMountOrArgChange: true }
-  );
-
-  const [apiMembers, setApiMembers] = useState<{ label: string; id: string }[] | undefined>();
+  const {
+    data,
+    isFetching,
+    isLoading: isLoadingWhenGetChat,
+  } = useGetChatByIdQuery({ id: pathsname.split('/')[2] }, { refetchOnMountOrArgChange: true });
 
   useEffect(() => {
     getAllUsers();
   }, [getAllUsers]);
 
   useEffect(() => {
-    if (data && !isLoading && !isError) {
+    if (data && !isLoadingWhenGetUsers && !isError) {
       setApiMembers(
         data?.members?.map((member) => ({
           label: `${usersData?.find((user) => user.id === member.id)?.firstName} ${usersData?.find(
@@ -68,7 +69,7 @@ const ChatInfo = (): JSX.Element => {
         }))
       );
     }
-  }, [data, isLoading, isError, usersData]);
+  }, [data, isLoadingWhenGetUsers, isError, usersData]);
 
   useEffect(() => {
     setMembers(apiMembers);
@@ -83,7 +84,6 @@ const ChatInfo = (): JSX.Element => {
 
       case 'members': {
         setAddAgentsModal(!addAgentsModal);
-        handleClickUpdate(changedMembers);
         break;
       }
 
@@ -98,9 +98,17 @@ const ChatInfo = (): JSX.Element => {
 
   const t = useTranslations('MessagesPage');
 
-  const handleClickDelete = (idToDelete: string): void => {
-    setMembers((prev) => prev && [...prev.filter((member) => member.id !== idToDelete)]);
-    handleClickUpdate(members?.map((member) => member.id));
+  const handleClickDelete = async (idToDelete: string): Promise<void> => {
+    try {
+      await handleClickUpdate(
+        members?.filter((member) => member.id !== idToDelete).map((member) => member.id)
+      );
+      setMembers((prev) => prev && [...prev.filter((member) => member.id !== idToDelete)]);
+    } catch (error) {
+      enqueueSnackbar(`${t('somethingWentWrong')}: ${error.data.message}`, {
+        variant: 'error',
+      });
+    }
   };
 
   const handleClickUpdate = async (memberIds?: string[]): Promise<void> => {
@@ -109,8 +117,6 @@ const ChatInfo = (): JSX.Element => {
         id: data?.id,
         memberIds,
       }).unwrap();
-
-      router.push(`${AppRoute.CHAT_PAGE}/${data?.id}/info`);
     } catch (error) {
       enqueueSnackbar(`${t('somethingWentWrong')}: ${error.data.message}`, {
         variant: 'error',
@@ -128,6 +134,17 @@ const ChatInfo = (): JSX.Element => {
         alignItems: 'stretch',
       }}
     >
+      {(isLoadingWhenGetChat || isLoadingWhenGetUsers || isLoadingWhenUpdate || isFetching) && (
+        <LoadingScreen
+          sx={{
+            position: 'absolute',
+            top: '0',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: '100',
+          }}
+        />
+      )}
       <Box
         sx={{
           display: 'flex',
@@ -306,7 +323,6 @@ const ChatInfo = (): JSX.Element => {
           </Typography>
         </Link>
       )}
-
       {nameModal && (
         <Modal
           open
@@ -336,7 +352,12 @@ const ChatInfo = (): JSX.Element => {
               height="1.5rem"
               handleClose={() => closeModal('name')}
             />
-            <FormName t={t} chatId={data?.id} closeModalUp={() => closeModal('name')} />
+            <FormName
+              t={t}
+              chatId={data?.id}
+              closeModalUp={() => closeModal('name')}
+              refresh={() => window.location.reload()}
+            />
           </Box>
         </Modal>
       )}
@@ -374,7 +395,10 @@ const ChatInfo = (): JSX.Element => {
               chatId={data?.id}
               chatMembers={members && members.length > 0 ? members : []}
               closeModalUp={() => closeModal('members')}
-              changedMembers={(values: string[]) => setChangedMembers(values)}
+              changedMembers={(values: string[]) => {
+                handleClickUpdate(values);
+              }}
+              refresh={() => window.location.reload()}
             />
           </Box>
         </Modal>

@@ -3,9 +3,7 @@ import Iconify from 'components/iconify';
 import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
 import { colors } from 'constants/colors';
-import { AppRoute } from 'enums';
-import { useEffect, useSelector, useState, useRouter, useForm } from 'hooks';
-import { Page500 } from 'sections/error';
+import { useEffect, useSelector, useState, useForm } from 'hooks';
 import { RootState } from 'store';
 import { useGetAllUsersMutation } from 'store/api/userApi';
 import { useUpdateChatMutation } from 'store/chat';
@@ -18,6 +16,7 @@ type Props = {
   closeModalUp: () => void;
   chatId?: string;
   changedMembers: (values: string[]) => void;
+  refresh: () => void;
 };
 
 type Members = {
@@ -38,6 +37,7 @@ export function FormAddAgents({
   closeModalUp,
   chatId,
   changedMembers,
+  refresh,
 }: Props): JSX.Element {
   const [options, setOptions] = useState<Options>([]);
   const [members, setMembers] = useState<Members>(chatMembers);
@@ -45,15 +45,15 @@ export function FormAddAgents({
   const [value, setValue] = useState<Option | null>(null);
   const [inputValue, setInputValue] = useState<string | undefined>('');
 
-  const [getAllUsers, { data: usersData, isLoading, isError }] = useGetAllUsersMutation();
-  const router = useRouter();
+  const [getAllUsers, { data: usersData, isLoading: isloadingWhenGetUsers }] =
+    useGetAllUsersMutation();
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     getAllUsers();
   }, [getAllUsers]);
 
-  const [updateGroupChat] = useUpdateChatMutation();
+  const [updateGroupChat, { isLoading: isLoadingWhenUpdate }] = useUpdateChatMutation();
 
   const authUser = useSelector((state: RootState) => state.authSlice.user);
   const { id: ownerId }: { id: UserProfileResponse['id'] | null } = authUser || { id: null };
@@ -74,9 +74,16 @@ export function FormAddAgents({
 
   const onSubmit = async (): Promise<void> => {
     try {
-      await updateGroupChat({ id: chatId, memberIds: members.map((member) => member.id) }).unwrap();
+      const { id } = await updateGroupChat({
+        id: chatId,
+        memberIds: members.map((member) => member.id),
+      }).unwrap();
 
-      router.push(`${AppRoute.CHAT_PAGE}/${chatId}/info`);
+      if (id) {
+        changedMembers(members?.map((member) => member.id));
+        refresh();
+        closeModalUp();
+      }
     } catch (error) {
       enqueueSnackbar(`${t('somethingWentWrong')}: ${error.data.message}`, {
         variant: 'error',
@@ -89,11 +96,7 @@ export function FormAddAgents({
   const handleClickDelete = ({ label, id }: Option): void => {
     setMembers((prev) => [...prev.filter((member) => member.id !== id)]);
     setOptions((prev) => [...prev, { label, id }]);
-    changedMembers(members.map((member) => member.id));
   };
-
-  if (isLoading || !usersData || !authUser) return <LoadingScreen />;
-  if (isError) return <Page500 />;
 
   return (
     <Box
@@ -129,7 +132,6 @@ export function FormAddAgents({
             setMembers((prev) => [...prev, newValue]);
             setOptions((prev) => [...prev.filter((option) => option.id !== newValue?.id)]);
             setValue(newValue);
-            changedMembers(members.map((member) => member.id));
           }
         }}
         inputValue={inputValue}
@@ -179,7 +181,18 @@ export function FormAddAgents({
               </Box>
             )
         )}
-      <Stack sx={{ mt: 5 }}>
+      <Stack sx={{ mt: 5, position: 'relative' }}>
+        {(isLoadingWhenUpdate || isloadingWhenGetUsers || !usersData || !authUser) && (
+          <LoadingScreen
+            sx={{
+              position: 'absolute',
+              top: '-70px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              zIndex: '100',
+            }}
+          />
+        )}
         <Button
           type="submit"
           variant="contained"
@@ -189,7 +202,7 @@ export function FormAddAgents({
         >
           {t('addToChat')}
         </Button>
-        <Button type="reset" variant="contained" color="primary" onClick={() => closeModalUp()}>
+        <Button type="reset" variant="contained" color="error" onClick={() => closeModalUp()}>
           {t('cancelBtnTxt')}
         </Button>
       </Stack>
