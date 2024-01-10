@@ -26,7 +26,6 @@ export const ChatApi = createApi({
         body,
       }),
     }),
-
     sendMessage: builder.mutation<Message, { chatId: string; content: string }>({
       queryFn: (chatMessageContent: { chatId: string; content: string }) => {
         const socket = getSocket();
@@ -72,6 +71,32 @@ export const ChatApi = createApi({
         }
       },
     }),
+    getUnreadMessages: builder.query<number, void>({
+      query: () => 'getUnreadMessages',
+      async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved, updateCachedData }) {
+        try {
+          await cacheDataLoaded;
+
+          const socket = getSocket();
+
+          socket.on(ChatEvent.RequestUnreadMessages, (unreadCount: number) => {
+            updateCachedData((existingData: number | undefined) => {
+              if (existingData !== undefined) {
+                return existingData + unreadCount;
+              }
+
+              return unreadCount;
+            });
+          });
+
+          await cacheEntryRemoved;
+
+          socket.off(ChatEvent.RequestUnreadMessages);
+        } catch (error) {
+          console.error(error);
+        }
+      },
+    }),
     getChatById: builder.query<IChatResponse['chat'], { id: string }>({
       query: ({ id }) => ({
         url: ApiRoute.CHAT_WITH_ID.replace('id', id),
@@ -101,4 +126,5 @@ export const {
   useUpdateChatMutation,
   useGetMessagesQuery,
   useSendMessageMutation,
+  useGetUnreadMessagesQuery,
 } = ChatApi;
