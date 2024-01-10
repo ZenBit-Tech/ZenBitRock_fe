@@ -16,7 +16,7 @@ type Props = {
 export function MockChatMessageItem({ message, me }: Props): JSX.Element {
   const { content, createdAt, owner, isRead } = message;
 
-  const isMe = useMemo((): boolean => owner.id === me, [owner.id, me]);
+  const isMe = useMemo((): boolean => owner?.id === me, [owner?.id, me]);
 
   return (
     <Box

@@ -1,5 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IChatByIdResponse, IChatResponse } from 'types/chat';
+import {
+  IChatByIdResponse,
+  IChatResponse,
+  ICreateGroupChatResponse,
+  ICreatePrivateChatRequest,
+} from 'types/chat';
 import { ApiRoute, ChatEvent, StorageKey } from 'enums';
 import { ICreateGroupChatRequest, Message } from 'types';
 import { createSocketFactory } from 'utils';
@@ -20,7 +25,14 @@ export const ChatApi = createApi({
   }),
   tagTypes: ['Create chat'],
   endpoints: (builder) => ({
-    createChat: builder.mutation<IChatResponse, ICreateGroupChatRequest>({
+    createGroupChat: builder.mutation<ICreateGroupChatResponse, ICreateGroupChatRequest['data']>({
+      query: (body) => ({
+        url: ApiRoute.CHAT_CREATE_GROUP,
+        method: 'POST',
+        body,
+      }),
+    }),
+    createChat: builder.mutation<IChatResponse, ICreatePrivateChatRequest>({
       query: (body) => ({
         url: ApiRoute.CHATS,
         method: 'POST',
@@ -88,6 +100,7 @@ export const ChatApi = createApi({
 });
 
 export const {
+  useCreateGroupChatMutation,
   useCreateChatMutation,
   useCheckPrivateChatQuery,
   useGetChatByIdQuery,

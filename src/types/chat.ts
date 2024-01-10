@@ -62,7 +62,15 @@ export type IChatConversations = {
   allIds: string[];
 };
 
-export type ICreateGroupChatRequest = { title: string; memberIds?: string[]; isPrivate?: boolean };
+export type ICreateGroupChatRequest = {
+  data: { owner: string | null; members: string[]; title: string };
+};
+
+export type ICreatePrivateChatRequest = {
+  title: string;
+  memberIds?: string[];
+  isPrivate?: boolean;
+};
 
 export type IChatResponse = {
   chat: {

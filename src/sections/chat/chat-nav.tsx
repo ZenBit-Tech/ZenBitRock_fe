@@ -40,23 +40,11 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
 
   const [sort, setSort] = useState<string>('nameAsc');
   const [selectedAgent, setSelectedAgent] = useState<UserChatResponse | null>(null);
-  const [hasCheckedChat, setHasCheckedChat] = useState(false);
   const [selectedAgentId, setSelectedAgentId] = useState('');
 
   const { data: chatData, isFetching, refetch } = useCheckPrivateChatQuery(selectedAgentId);
 
   const [createChat, { error }] = useCreateChatMutation();
-
-  useEffect(() => {
-    setHasCheckedChat(false);
-  }, []);
-
-  useEffect(() => {
-    if (selectedAgentId && !hasCheckedChat) {
-      refetch();
-      setHasCheckedChat(true);
-    }
-  }, [selectedAgentId, hasCheckedChat, refetch]);
 
   useEffect(() => {
     const createNewChat = async () => {
@@ -75,15 +63,15 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
       }
     };
 
-    if (hasCheckedChat) {
-      if (chatData && chatData.chatId === null && selectedAgent) {
-        createNewChat();
-      } else if (chatData && chatData.chatId) {
-        setHasCheckedChat(false);
-        router.push(`${AppRoute.CHATS_PAGE}/${chatData.chatId}`);
-      }
+    if (error) {
+      enqueueSnackbar(t('error'), { variant: 'error' });
     }
-  }, [selectedAgent, chatData, createChat, hasCheckedChat, id, router, t]);
+    if (chatData && chatData.chatId === null && selectedAgent) {
+      createNewChat();
+    } else if (chatData && chatData.chatId) {
+      router.push(`${AppRoute.CHATS_PAGE}/${chatData.chatId}`);
+    }
+  }, [selectedAgent, chatData, createChat, router, t, id, error]);
 
   const handleSearchAgents = useCallback(
     (inputValue: string): void => {
@@ -119,11 +107,13 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
     });
   }, []);
 
-  const handleClickResult = (agent: UserChatResponse) => {
-    setSelectedAgent(agent);
-    setSelectedAgentId(agent.id);
-    setHasCheckedChat(false);
-  };
+  const handleClickResult = useCallback(
+    (agent: UserChatResponse) => {
+      setSelectedAgent(agent);
+      setSelectedAgentId(agent.id);
+    },
+    [setSelectedAgent, setSelectedAgentId]
+  );
 
   const sortedAgents = useMemo<UserChatResponse[] | undefined>(
     () =>
