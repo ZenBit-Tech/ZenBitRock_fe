@@ -48,6 +48,8 @@ function PropertiesList({ search }: Props): JSX.Element {
     { refetchOnMountOrArgChange: true }
   );
 
+  if (isFetching) return <LoadingScreen sx={{ mt: 15 }} />;
+
   return (
     <Box
       sx={{
@@ -59,6 +61,7 @@ function PropertiesList({ search }: Props): JSX.Element {
     >
       {error && enqueueSnackbar(t('error'), { variant: 'error' })}
       {data?.data.length === 0 && <NoDataFound />}
+
       {data?.data.length !== 0 && (
         <ListStyled
           sx={{
@@ -77,7 +80,7 @@ function PropertiesList({ search }: Props): JSX.Element {
           {data?.data.map((item: QobrixProperty) => <PropertyCard property={item} key={item.id} />)}
         </ListStyled>
       )}
-      {isFetching && !error && <LoadingScreen />}
+
       <Fab
         color="primary"
         aria-label="scroll to top"
