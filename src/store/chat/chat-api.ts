@@ -1,11 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ApiRoute, ChatEvent, StorageKey } from 'enums';
-import {
-  ICreateGroupChatRequest,
-  Message,
-  IChatResponse,
-  IChatRequest,
-} from 'types';
+import { ICreateGroupChatRequest, Message, IChatResponse, IChatRequest } from 'types';
 import { createSocketFactory } from 'utils';
 
 const getSocket = createSocketFactory();
@@ -91,7 +86,7 @@ export const ChatApi = createApi({
     }),
     updateChat: builder.mutation<IChatResponse['chat'], IChatRequest>({
       query: ({ id, title, memberIds }) => ({
-        url: `${ApiRoute.CHAT_WITH_ID}/${id}`,
+        url: ApiRoute.CHAT_WITH_ID.replace('id', id as string),
         method: 'PATCH',
         body: { title, memberIds },
       }),
