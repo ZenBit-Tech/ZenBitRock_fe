@@ -150,7 +150,6 @@ export function FormAddAgents({
           (user) =>
             user && (
               <Box
-                title={t('btnDeleteAgentFromList')}
                 key={uuidv4()}
                 sx={{
                   display: 'flex',
@@ -161,9 +160,10 @@ export function FormAddAgents({
                   },
                 }}
               >
-                <Typography>{user?.label}</Typography>
+                <Typography sx={{ cursor: 'default' }}>{user?.label}</Typography>
                 <Iconify
-                  icon="fluent:delete-28-regular"
+                  title={t('btnDeleteAgentFromList')}
+                  icon="clarity:remove-line"
                   width="1.5rem"
                   height="1.5rem"
                   color={colors.ERROR_COLOR}
