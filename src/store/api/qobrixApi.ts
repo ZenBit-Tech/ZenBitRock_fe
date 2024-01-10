@@ -204,16 +204,11 @@ export const QobrixApi = createApi({
       serializeQueryArgs: ({ endpointName }) => endpointName,
 
       merge: (currentCache, newItems) => {
-        console.log(currentCache.data);
-        console.log(newItems);
         if (!newItems.pagination.has_prev_page) {
           currentCache.data = newItems.data;
-          console.log('if');
         } else {
           currentCache.data.push(...newItems.data);
-          console.log('else');
         }
-        console.log(currentCache.data);
         currentCache.pagination = newItems.pagination;
       },
       forceRefetch({ currentArg, previousArg }) {
