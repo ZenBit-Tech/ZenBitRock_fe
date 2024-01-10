@@ -4,7 +4,7 @@ import React from 'react';
 import { ChatView } from 'sections/chat/view';
 import { Page500 } from 'sections/error';
 import { LoadingScreen } from 'components/loading-screen';
-import { useGetChatByIdQuery } from 'store/chat/chat-api';
+import { useGetChatByIdQuery } from 'store/chat';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 
