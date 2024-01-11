@@ -5,7 +5,6 @@ import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import SeoIllustration from 'assets/illustrations/seo-illustration';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { AppRoute } from 'enums';
@@ -33,14 +32,9 @@ export default function RestorePasswordDoneView(): JSX.Element {
             justifyContent="center"
             sx={{ px: '40px' }}
           >
-            <Stack spacing={2} direction="row" alignItems="center">
-              <Button onClick={() => router.back()}>
-                <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
-              </Button>
-              <Typography align="center" variant="h3">
-                {t('title')}
-              </Typography>
-            </Stack>
+            <Typography align="center" variant="h3">
+              {t('title')}
+            </Typography>
 
             <Stack spacing={2}>
               <Typography align="center" variant="body1" fontSize={16}>

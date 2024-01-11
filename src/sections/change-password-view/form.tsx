@@ -3,28 +3,18 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import {
-  Backdrop,
-  Button,
-  CircularProgress,
-  Typography,
-  Box,
-  IconButton,
-  styled,
-} from '@mui/material';
+import { Backdrop, Button, CircularProgress, Box, IconButton, styled } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import Stack from '@mui/system/Stack';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { useTranslations } from 'next-intl';
 import { AppRoute } from 'enums';
 import { useSelector } from 'react-redux';
 import { useResetPasswordMutation } from 'store/api/restorePasswordApi';
-
 import { useSnackbar } from 'notistack';
 import { RootState } from 'store';
 import { patterns } from 'constants/patterns';
+import { GoBackPageTitile } from 'components/custom';
 
 const StyledTextFiled = styled(TextField)`
   margin-bottom: 1.5 rem;
@@ -95,15 +85,8 @@ function ChangePasswordForm(): JSX.Element {
         onSubmit={handleSubmit(onSubmit)}
         noValidate
       >
-        <Stack spacing={2} direction="row" alignItems="center">
-          <Button onClick={() => router.back()}>
-            <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
-          </Button>
+        <GoBackPageTitile title={t('title')} ml="-20px" />
 
-          <Typography variant="h3" sx={{}}>
-            {t('title')}
-          </Typography>
-        </Stack>
         <StyledTextFiled
           variant="outlined"
           label={t('passwordInput')}
@@ -149,7 +132,9 @@ function ChangePasswordForm(): JSX.Element {
         />
         <Button
           type="submit"
+          size="large"
           variant="contained"
+          color="primary"
           sx={{ my: '20px', padding: '14px' }}
           fullWidth
           disabled={!isValid}

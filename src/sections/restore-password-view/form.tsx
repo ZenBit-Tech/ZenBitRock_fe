@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { TextField, Button, Typography, Box, CircularProgress } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
 import Stack from '@mui/system/Stack';
@@ -16,6 +15,7 @@ import { setEmail } from 'store/reducers/restorePasswordReducer';
 import { patterns } from 'constants/patterns';
 import FormProvider from 'components/hook-form';
 import { AppRoute } from 'enums';
+import { GoBackPageTitile } from 'components/custom';
 
 const defaultValues = { email: '' };
 
@@ -42,9 +42,9 @@ export default function RestorePasswordForm(): JSX.Element {
     setActiveRequestsCount((prevCount) => prevCount + 1);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      reset();
       await sendCode(data).unwrap();
+      enqueueSnackbar(t('successMessage'), { variant: 'success' });
+      reset();
 
       dispatch(setEmail({ email: data.email }));
       router.push(AppRoute.RESTORE_PASSWORD_VERIFY_CODE_PAGE);
@@ -69,7 +69,7 @@ export default function RestorePasswordForm(): JSX.Element {
 
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <Box
-          gap={7}
+          gap={4}
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -79,13 +79,7 @@ export default function RestorePasswordForm(): JSX.Element {
             maxWidth: '390px',
           }}
         >
-          <Stack spacing={2} direction="row" alignItems="center">
-            <Button onClick={() => router.back()}>
-              <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
-            </Button>
-
-            <Typography variant="h3">{t('title')}</Typography>
-          </Stack>
+          <GoBackPageTitile title={t('title')} ml="-20px" />
 
           <Stack>
             <Typography variant="body1" sx={{ marginBottom: '25px' }}>
@@ -104,7 +98,7 @@ export default function RestorePasswordForm(): JSX.Element {
               placeholder={t('emailPlaceholder')}
               error={!!errors.email}
               helperText={errors.email?.message}
-              sx={{ height: '40px' }}
+              sx={{ height: '60px' }}
             />
           </Stack>
 

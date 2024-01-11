@@ -1,14 +1,12 @@
-import { useRouter } from 'next/navigation';
-import { Typography, Container, Button } from '@mui/material';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import { Container } from '@mui/material';
 import { Stack } from '@mui/system';
 import { useTranslations } from 'next-intl';
+import { GoBackPageTitile } from 'components/custom';
 import ChatsList from './chats-list';
 import AddGroupChatButton from './add-group-chat-button';
 
-export default function MessagesView(): JSX.Element {
-  const router = useRouter();
-  const t = useTranslations('MessagesPage');
+export default function ChatsView(): JSX.Element {
+  const t = useTranslations('ChatsPage');
 
   const CHATS_EXAMPLE = [
     {
@@ -274,7 +272,7 @@ export default function MessagesView(): JSX.Element {
   ];
 
   return (
-    <Container sx={{ pb: 8, pt: 2, px: 2 }}>
+    <Container sx={{ pb: 8, pt: 0, px: 2 }}>
       <Stack
         direction="row"
         alignItems="center"
@@ -283,11 +281,7 @@ export default function MessagesView(): JSX.Element {
         sx={{ mb: 2, ml: '-22px' }}
       >
         <Stack direction="row" alignItems="center" alignContent="center">
-          <Button sx={{ p: 0 }} onClick={() => router.back()}>
-            <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
-          </Button>
-
-          <Typography variant="h3">{t('pageTitle')}</Typography>
+          <GoBackPageTitile title={t('pageTitle')} />
         </Stack>
 
         <AddGroupChatButton t={t} />
