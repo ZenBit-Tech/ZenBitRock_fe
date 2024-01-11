@@ -176,4 +176,5 @@ export const {
   useCreateChatMutation,
   useCheckPrivateChatQuery,
   useGetChatByIdQuery,
+  useGetChatsQuery,
 } = ChatApi;

@@ -34,7 +34,7 @@ export default function ChatItem({ chat }: FollowerItemProps): JSX.Element {
   const chatTitle = opponent ? `${opponent.firstName} ${opponent.lastName}` : title;
 
   const handleClick = (): void => {
-    router.push(`${AppRoute.CHAT_PAGE}/${id}`);
+    router.push(`${AppRoute.CHAT_LIVE_PAGE}/${id}`);
   };
 
   return (

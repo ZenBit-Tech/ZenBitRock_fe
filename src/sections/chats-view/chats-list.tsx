@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { Box, Fab, Stack, TextField, Typography } from '@mui/material';
 import { useScrollToTop } from 'hooks';
+import { Chat } from 'types';
 import { NoDataFound } from 'components/custom';
 import ChatItem from './chat-item';
 import { Values, getSortOptions } from './helpers/drop-box-data';

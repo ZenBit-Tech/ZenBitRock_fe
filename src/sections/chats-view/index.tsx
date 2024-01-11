@@ -5,12 +5,12 @@ import { useSelector } from 'hooks';
 import { selectCurrentUser } from 'store/auth/authReducer';
 import { useGetChatsQuery } from 'store/chat/chat-api';
 import { LoadingScreen } from 'components/loading-screen';
+import { GoBackPageTitile } from 'components/custom';
 import { Page500 } from 'sections/error';
 import ChatsList from './chats-list';
 import AddGroupChatButton from './add-group-chat-button';
 
 export default function ChatsView(): JSX.Element {
-  const router = useRouter();
   const t = useTranslations('ChatsPage');
 
   const authState = useSelector(selectCurrentUser);
