@@ -53,10 +53,7 @@ const ChatInfo = (): JSX.Element => {
     isFetching,
     isLoading: isLoadingWhenGetChat,
     refetch,
-  } = useGetChatByIdQuery(
-    pathsname.split('/')[2],
-    { refetchOnMountOrArgChange: true }
-  );
+  } = useGetChatByIdQuery(pathsname.split('/')[2], { refetchOnMountOrArgChange: true });
 
   useEffect(() => {
     getAllUsers();
@@ -137,6 +134,12 @@ const ChatInfo = (): JSX.Element => {
         flexDirection: 'column',
         alignItems: 'stretch',
         position: 'relative',
+        overflowY: 'scroll',
+        '&::-webkit-scrollbar': {
+          display: 'none',
+        },
+        '-ms-overflow-style': 'none',
+        'scrollbar-width': 'none',
       }}
     >
       {(isLoadingWhenGetChat || isLoadingWhenGetUsers || isLoadingWhenUpdate || isFetching) && (
@@ -362,6 +365,7 @@ const ChatInfo = (): JSX.Element => {
               chatId={data?.id}
               closeModalUp={() => closeModal('name')}
               refresh={() => refetch()}
+              oldName={data?.title}
             />
           </Box>
         </Modal>
