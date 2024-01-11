@@ -2,7 +2,6 @@
 
 import Container from '@mui/material/Container';
 import { useSelector } from 'react-redux';
-import { SnackbarProvider } from 'notistack';
 import { RootState } from 'store';
 import { LoadingScreen } from 'components/loading-screen';
 import Form from './form';
@@ -16,9 +15,7 @@ export default function CreateLeadView(): JSX.Element {
 
   return (
     <Container sx={{ my: 5 }}>
-      <SnackbarProvider>
-        <Form user={authUser} />
-      </SnackbarProvider>
+      <Form user={authUser} />
     </Container>
   );
 }
