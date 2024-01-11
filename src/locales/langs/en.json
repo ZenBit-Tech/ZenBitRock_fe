@@ -488,7 +488,7 @@
     "sold_subject_to_contract": "Sold subject to contract",
     "under_offer": "Under offer",
     "error": "Something went wrong!",
-    "results": "results"
+    "results": "Matching results: "
   },
   "property": {
     "title": "Property details",
