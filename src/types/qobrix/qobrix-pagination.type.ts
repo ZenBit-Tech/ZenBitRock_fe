@@ -7,6 +7,7 @@ type QobrixPagination = {
   count: number;
   limit: number;
   has_next_page: boolean;
+  current_page: number;
 };
 
 export { type QobrixPagination };

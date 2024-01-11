@@ -1,9 +1,11 @@
+'use client';
+
 import { Box, Fab, Link, Stack, Typography, useTheme } from '@mui/material';
 import Iconify from 'components/iconify';
 import { useCallback, useScrollToTop, useState, useTranslations } from 'hooks';
-import { RouterLink } from 'routes/components';
 import { QobrixLeadDetailsResponse } from 'types';
 import { colors } from 'constants/colors';
+import { GoBackPageTitile } from 'components/custom';
 import { MatchingPropertiesView } from './matching-properties-view';
 import {
   LeadDeleteComponent,
@@ -11,6 +13,7 @@ import {
   LeadDetailsFeaturesSection,
   LeadDetailsSourceSection,
 } from './components';
+
 import { LeadHistorySection } from './components/lead-history';
 
 type Props = {
@@ -47,21 +50,10 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
 
   return (
     <Box sx={{ maxWidth: 800, margin: '0 auto', pb: 8 }}>
-      <Link
-        component={RouterLink}
-        href="#"
-        color="inherit"
-        variant="h6"
-        sx={{
-          alignItems: 'center',
-          display: 'inline-flex',
-          m: 1,
-          mt: 2,
-        }}
-      >
-        <Iconify icon="eva:arrow-ios-back-fill" width={20} />
-        {t('title')}
-      </Link>
+      <Box sx={{ ml: 1, mr: 1 }}>
+        <GoBackPageTitile title={t('title')} />
+      </Box>
+
       <Box sx={{ m: 1, p: 1, border: `1px solid ${theme.palette.primary.main}` }}>
         <Stack spacing={2}>
           <Stack spacing={1}>

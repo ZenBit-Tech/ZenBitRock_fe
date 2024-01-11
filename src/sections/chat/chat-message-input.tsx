@@ -32,30 +32,40 @@ export default function ChatMessageInput({
     setMessage(event.target.value);
   }, []);
 
-  const handleSendMessage = useCallback(
-    async (event: React.KeyboardEvent<HTMLInputElement>): Promise<void> => {
-      if (event.key === 'Enter' && message.trim()) {
-        try {
-          const newMessage: IChatMessage = {
-            id: uuidv4(),
-            body: message,
-            createdAt: new Date().toISOString(),
-            isMe: true,
-            sender: {
-              name: `${authUser?.firstName} ${authUser?.lastName}`,
-            },
-            isRead: false,
-          };
+  const sendMessage = useCallback(async (): Promise<void> => {
+    if (message.trim()) {
+      try {
+        const newMessage: IChatMessage = {
+          id: uuidv4(),
+          body: message,
+          createdAt: new Date().toISOString(),
+          isMe: true,
+          sender: {
+            name: `${authUser?.firstName} ${authUser?.lastName}`,
+          },
+          isRead: false,
+        };
+        addMessage(newMessage);
+        setMessage('');
+      } catch (error) {
+        enqueueSnackbar(`${t('errMsg')}`, { variant: 'error' });
+      }
+    }
+  }, [message, addMessage, authUser, t]);
 
-          addMessage(newMessage);
-          setMessage('');
-        } catch (error) {
-          enqueueSnackbar(`${t('errMsg')}`, { variant: 'error' });
-        }
+  const handleKeyPress = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>): void => {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
       }
     },
-    [message, addMessage, authUser, t]
+    [sendMessage]
   );
+
+  const handleClick = useCallback((): void => {
+    sendMessage();
+  }, [sendMessage]);
 
   if (!authUser) {
     return <LoadingScreen />;
@@ -64,20 +74,23 @@ export default function ChatMessageInput({
   return (
     <InputBase
       value={message}
-      onKeyUp={handleSendMessage}
+      multiline
+      maxRows={3}
+      onKeyUp={handleKeyPress}
       onChange={handleChangeMessage}
       placeholder={t('placeholder')}
       disabled={disabled}
       endAdornment={
         <Stack direction="row" sx={{ flexShrink: 0 }}>
-          <IconButton>
+          <IconButton onClick={handleClick}>
             <Iconify icon="mdi:email-send" />
           </IconButton>
         </Stack>
       }
       sx={{
         px: 2,
-        height: 56,
+        py: 1,
+        height: 'auto',
         flexShrink: 0,
         borderTop: (theme) => `solid 1px ${theme.palette.divider}`,
       }}

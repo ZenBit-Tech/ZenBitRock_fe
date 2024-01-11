@@ -21,11 +21,11 @@ const LeadDetailsFeaturesSection = ({ lead }: Props) => {
 
           if (value) {
             return (
-              <Grid item xs={6} sm={4} key={key}>
+              <Grid item xs={12} sm={6} key={key}>
                 <LeadDetailsInfoBlock
                   label={toTitleCase(key)}
                   info={toTitleCase(value.toString())}
-                  display="block"
+                  grid
                 />
               </Grid>
             );

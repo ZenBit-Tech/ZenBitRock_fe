@@ -1,5 +1,6 @@
 import { QobrixPropertyType } from './property';
 import { QobrixContact } from './qobrix-contact';
+import { QobrixLocations } from './qobrix-locations';
 import { QobrixWorkflowStage } from './qobrix-workflow-stage.type';
 
 type QobrixLead = {
@@ -22,15 +23,16 @@ type QobrixLead = {
   status: string | null;
   id: string;
   list_selling_price: number | null;
-  list_selling_price_from: number | null;
-  list_selling_price_to: number | null;
+  list_selling_price_from: number | null | undefined;
+  list_selling_price_to: number | null | undefined;
   lowest_selling_price: number | null;
-  list_rental_price_from: number | null;
-  list_rental_price_to: number | null;
+  list_rental_price_from: number | null | undefined;
+  list_rental_price_to: number | null | undefined;
   list_letting_price: number | null;
   lowest_letting_price: number | null;
   source: string | null;
   contact_name_contact: { created: string; id: string };
+  locations: QobrixLocations[];
 };
 
 type QobrixLeadDetailsResponse = {

@@ -295,7 +295,7 @@
     "pressing": "Pressing ",
     "delBold": "Delete my Profile",
     "delTxt2": " button will permanently delete your Profile. You will lose all your Profile data!",
-    "confirmDelBtnTxt": "I want to delete my Profile",
+    "confirmDelBtnTxt": "Delete my Profile",
     "roleAgent": "Agent",
     "roleAgency": "Agency",
     "fetchErr": "Error fetching user data",
@@ -351,6 +351,10 @@
     "forgotPass": "Forgot password?"
   },
   "mainPage": {
+    "myProperties": "My properties",
+    "notificationCenter": "Notification center",
+    "noNewNotifications": "No new notifications",
+    "view": "View",
     "filters": {
       "location": "Location",
       "propertyType": "Property type",
@@ -359,6 +363,11 @@
       "bedrooms": "Bedrooms",
       "apply": "Apply filters",
       "locationsPlaceholder": "Location search",
+      "priceRangeRentFromPlaceholder": "Min",
+      "priceRangeRentToPlaceholder": "Max",
+      "priceRangeSaleFromPlaceholder": "Min",
+      "priceRangeSaleToPlaceholder": "Max",
+      "clearFilter": "Clear filter",
       "filterOptions": {
         "propertyStatus": {
           "pending": "Pending",
@@ -540,6 +549,8 @@
   },
   "leads": {
     "": "",
+    "results": "Filtered results",
+    "addBtnTxt": "Add lead",
     "direct": "Direct",
     "agent": "Agent",
     "qoetix": "Qoetix",
@@ -561,21 +572,22 @@
     "email": "Email",
     "status": "Status",
     "filtered": "Selected property",
-    "none": "None",
-    "inputPlaceholder": "Enter lead name...",
+    "none": "All",
+    "inputPlaceholder": "Lead name",
     "sorry": "Sorry, No Matched Results Found!",
     "try": "Try to find something else.",
     "reset": "Reset all filters",
     "leads": "leads",
+    "all": "All",
     "error": "Something went wrong!"
   },
   "agents": {
     "pageTitle": "Agent network",
     "chatSectionTitle": "Chats",
-    "noNotifications": "No new notifications",
+    "noNotifications": "All messages read",
     "view": "View",
     "agents": "Agents",
-    "searchPlaceholder": "Search agents...",
+    "searchPlaceholder": "Search agent by name...",
     "noNotificationsLabel": "no notifications",
     "more99": "more than 99 notifications",
     "notifications": "notifications"
@@ -667,7 +679,24 @@
     "groupNameInvalid": "Group name must contains 10 symbols minimum",
     "groupNameRequired": "Group name required",
     "btnDeleteAgentFromList": "Remove agent from group",
-    "groupName": "Group name:"
+    "groupName": "Group name:",
+    "results": "Chats found with",
+    "chatMembers": "Chat members",
+    "deleteChat": "Delete chat",
+    "addAgentsToChat": "Add agents to chat",
+    "createdOn": "Created on",
+    "owner": "owner",
+    "groupMembers": "Group members",
+    "editGroupName": "Edit group name",
+    "chatName": "Chat name",
+    "title": "Chat info",
+    "back": "Back",
+    "doYouWantDeleteChat": "Do you want delete chat?",
+    "yesDelete": "Yes delete",
+    "somethingWentWrong": "Something went wrong",
+    "editGroupChatName": "Edit group chat name",
+    "enterNewName": "Enter new name",
+    "changeGroupChatName": "Change group chat name"
   },
   "privateChat": {
     "title": "Chat",
@@ -681,6 +710,10 @@
     "sorry": "Sorry, No Matched Results Found!",
     "try": "Try to find something else.",
     "unread": "unread messages"
+  },
+  "chat": {
+    "groupChat": "Group Chat",
+    "info": "Chat info"
   },
   "noDataFound": {
     "results": "No Matching Results"

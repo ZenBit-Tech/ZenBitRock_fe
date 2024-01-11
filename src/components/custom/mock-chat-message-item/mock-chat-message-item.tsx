@@ -39,7 +39,9 @@ export function MockChatMessageItem({ message, participant }: Props): JSX.Elemen
     >
       <Stack
         sx={{
-          p: 1.5,
+          pt: 1.5,
+          pb: 1,
+          px: 2,
           minWidth: 50,
           maxWidth: 250,
           borderRadius: 2,
@@ -50,18 +52,9 @@ export function MockChatMessageItem({ message, participant }: Props): JSX.Elemen
           }),
         }}
       >
-        <Typography
-          noWrap
-          variant="caption"
-          sx={{
-            mb: 1,
-            color: 'text.disabled',
-          }}
-        >
-          {!isMe && name}
+        <Typography variant="body2" sx={{ wordWrap: 'break-word' }}>
+          {body}
         </Typography>
-
-        <Typography variant="body2">{body}</Typography>
 
         <Stack
           sx={{

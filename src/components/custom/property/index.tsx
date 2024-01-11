@@ -10,13 +10,14 @@ import { Box, Fab } from '@mui/material';
 
 import { InfoBlock, SlickSlider, ViewOnMap } from 'components/custom/property/components';
 import { getImages } from 'components/custom/property/helpers';
-import { Title, TypographyStyled, ButtonStyled, Wrapper } from 'components/custom/property/styles';
-import Iconify from 'components/iconify';
+import { TypographyStyled, ButtonStyled, Wrapper } from 'components/custom/property/styles';
+
 import Image from 'components/image/image';
 import { useSnackbar } from 'components/snackbar';
 import { backgroundImages } from 'constants/backgroundImgLinks';
 import { AppRoute } from 'enums';
 import { useGetPropertyQuery } from 'store/api/qobrixApi';
+import { GoBackPageTitile } from '../go-back-page-title/go-back-page-title';
 
 export default function Property({ id }: { id: string }): JSX.Element {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -34,6 +35,7 @@ export default function Property({ id }: { id: string }): JSX.Element {
   const { data, error } = useGetPropertyQuery(id);
 
   const propertyDetailed = data?.data;
+
   function closeModal(): void {
     setOpenModal(!openModal);
   }
@@ -49,25 +51,10 @@ export default function Property({ id }: { id: string }): JSX.Element {
         transition: 'easy-in 200 all',
       }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-          gap: '1rem',
-          marginY: '1.5rem',
-        }}
-      >
-        <ButtonStyled
-          title={t('back')}
-          sx={{ padding: '14px', width: 'fit-content' }}
-          onClick={(): void => router.push(`${AppRoute.HOME_PAGE}`)}
-        >
-          <Iconify icon="solar:arrow-left-linear" width="2rem" height="2rem" />
-        </ButtonStyled>
-        <Title variant="h3">{t('title')}</Title>
+      <GoBackPageTitile title={t('title')} />
+      <Box sx={{ display: 'none' }}>
+        {error && enqueueSnackbar(t('error'), { variant: 'error' })}
       </Box>
-      {error && enqueueSnackbar(t('error'), { variant: 'error' })}
       {propertyDetailed && (
         <>
           {propertyDetailed.media ? (

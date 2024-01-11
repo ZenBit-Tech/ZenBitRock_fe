@@ -59,29 +59,29 @@ function PropertiesList({ search }: Props): JSX.Element {
     >
       {error && enqueueSnackbar(t('error'), { variant: 'error' })}
       {data?.data.length === 0 && <NoDataFound />}
+
       {data?.data.length !== 0 && (
-        <>
-          <ListStyled
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'stretch',
-              flexWrap: 'wrap',
-              width: '90%',
-              margin: '2rem auto',
-              p: '0',
-            }}
-          >
-            <Typography variant="h5" sx={{ paddingBottom: 1 }}>{`${data?.pagination.count ?? 0} ${t(
-              'results'
-            )}`}</Typography>
-            {data?.data.map((item: QobrixProperty) => (
-              <PropertyCard property={item} key={item.id} />
-            ))}
-          </ListStyled>
-        </>
+        <ListStyled
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'stretch',
+            flexWrap: 'wrap',
+            width: '90%',
+            mx: 'auto',
+            mt: '2rem',
+            mb: '100px',
+            p: '0',
+          }}
+        >
+          <Typography variant="h5" sx={{ paddingBottom: 1 }}>{`${data?.pagination.count ?? 0} ${t(
+            'results'
+          )}`}</Typography>
+          {data?.data.map((item: QobrixProperty) => <PropertyCard property={item} key={item.id} />)}
+          {isFetching && <LoadingScreen />}
+        </ListStyled>
       )}
-      {isFetching && !error && <LoadingScreen />}
+
       <Fab
         color="primary"
         aria-label="scroll to top"

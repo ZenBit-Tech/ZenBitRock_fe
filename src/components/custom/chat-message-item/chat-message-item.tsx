@@ -5,23 +5,20 @@ import { Box, IconButton, Stack, Typography } from '@mui/material';
 import DoneIcon from '@mui/icons-material/Done';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { colors } from 'constants/colors';
+import { Message } from 'types';
+import { useSelector } from 'hooks';
+import { RootState } from 'store';
 
 type Props = {
-  message: {
-    id: string;
-    body: string;
-    createdAt: string;
-    isMe: boolean;
-    sender: {
-      name: string;
-    } | null;
-    isRead: boolean;
-  };
+  message: Message;
 };
 
 export function ChatMessageItem({ message }: Props): JSX.Element {
-  const { body, createdAt, sender, isMe, isRead } = message;
-  const name = sender?.name;
+  const user = useSelector((state: RootState) => state.authSlice.user);
+
+  const { content, createdAt, owner, isRead } = message;
+  const isMe = owner.id === user?.id;
+  const name = `${owner.firstName} ${owner.lastName}`;
 
   return (
     <Box
@@ -57,7 +54,9 @@ export function ChatMessageItem({ message }: Props): JSX.Element {
           {!isMe && name}
         </Typography>
 
-        <Typography variant="body2">{body}</Typography>
+        <Typography variant="body2" sx={{ wordWrap: 'break-word' }}>
+          {content}
+        </Typography>
 
         <Stack
           sx={{

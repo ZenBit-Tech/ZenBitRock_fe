@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import ListItemButton from '@mui/material/ListItemButton';
 import SearchNotFound from 'components/search-not-found';
 import { UserChatResponse } from 'types/user-backend';
+import { Box } from '@mui/material';
 
 type Props = {
   query: string;
@@ -25,7 +26,7 @@ export default function ChatNavSearchResults({
   const notFound = useMemo((): boolean => !totalResults && !!query, [totalResults, query]);
 
   return (
-    <>
+    <Box sx={{ minHeight: '70vh' }}>
       <Typography
         variant="h6"
         sx={{
@@ -42,7 +43,7 @@ export default function ChatNavSearchResults({
           sx={{
             p: 3,
             mx: 'auto',
-            width: `calc(100% - 40px)`,
+            width: `calc(100% - 90px)`,
             bgcolor: 'background.neutral',
           }}
         />
@@ -66,6 +67,6 @@ export default function ChatNavSearchResults({
           )}
         </>
       )}
-    </>
+    </Box>
   );
 }

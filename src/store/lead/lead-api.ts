@@ -25,7 +25,7 @@ export const LeadApi = createApi({
     }),
     getMatchingProperties: builder.query<
       QobrixPropertyListResponse,
-      { search: string; page: number }
+      { search: string; page: number; leadId: string }
     >({
       query: (arg) => ({
         url: ApiRoute.GET_MATCHING_PROPERTIES,
@@ -42,10 +42,14 @@ export const LeadApi = createApi({
 
         return response;
       },
-      serializeQueryArgs: ({ endpointName }) => endpointName,
+      serializeQueryArgs: ({ queryArgs }) => queryArgs.leadId,
 
       merge: (currentCache, newItems) => {
-        currentCache.data.push(...newItems.data);
+        if (newItems.pagination.current_page === 1) {
+          currentCache.data = newItems.data;
+        } else {
+          currentCache.data.push(...newItems.data);
+        }
         currentCache.pagination = newItems.pagination;
       },
       forceRefetch({ currentArg, previousArg }) {
