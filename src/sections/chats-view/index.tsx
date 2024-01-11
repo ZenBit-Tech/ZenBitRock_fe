@@ -5,8 +5,8 @@ import { GoBackPageTitile } from 'components/custom';
 import ChatsList from './chats-list';
 import AddGroupChatButton from './add-group-chat-button';
 
-export default function MessagesView(): JSX.Element {
-  const t = useTranslations('MessagesPage');
+export default function ChatsView(): JSX.Element {
+  const t = useTranslations('ChatsPage');
 
   const CHATS_EXAMPLE = [
     {
