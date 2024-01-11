@@ -23,6 +23,7 @@ import {
 } from 'store/api/qobrixApi';
 import { ranges } from 'constants/property-price-ranges';
 import { QobrixLeadBuyRent } from 'enums/qobrix';
+import { GoBackPageTitile } from 'components/custom';
 import { ICountOfBedroomsValues, getCountOfBedrooms, getOfferTypes } from './drop-box-data';
 import { FormSchema } from './schema';
 
@@ -200,9 +201,11 @@ export default function Form({ user }: Props): JSX.Element {
           }}
         >
           <Stack spacing={1}>
-            <Typography variant="h3" sx={{ mb: '20px' }}>
+            <GoBackPageTitile title={t('mainTitle')} ml="-25px" />
+
+            {/* <Typography variant="h3" sx={{ mb: '20px' }}>
               {t('mainTitle')}
-            </Typography>
+            </Typography> */}
 
             <Block label={t('offeringTypeLabel')}>
               <RHFRadioGroup
@@ -219,7 +222,8 @@ export default function Form({ user }: Props): JSX.Element {
                 placeholder={t('leadSourcePlaceholder')}
                 multiline
                 rows={3}
-                sx={{ height: '125px' }}
+                sx={{ height: '105px' }}
+                size="small"
               />
             </Block>
 
@@ -229,7 +233,8 @@ export default function Form({ user }: Props): JSX.Element {
                 multiline
                 rows={3}
                 placeholder={t('descriptionPlaceholder')}
-                sx={{ height: '125px' }}
+                sx={{ height: '105px' }}
+                size="small"
               />
             </Block>
 
@@ -251,7 +256,8 @@ export default function Form({ user }: Props): JSX.Element {
                     {option.label}
                   </li>
                 )}
-                sx={{ height: '80px' }}
+                sx={{ height: '60px' }}
+                size="small"
                 loading={isPropertyTypeLoading}
               />
             </Block>
@@ -270,7 +276,8 @@ export default function Form({ user }: Props): JSX.Element {
                     {option.label}
                   </li>
                 )}
-                sx={{ height: '80px' }}
+                sx={{ height: '60px' }}
+                size="small"
               />
             </Block>
 
@@ -280,14 +287,16 @@ export default function Form({ user }: Props): JSX.Element {
                   name="totalAreaFrom"
                   type="number"
                   placeholder={t('totalAreaFromPlaceHolder')}
-                  sx={{ height: '80px', mr: '50px' }}
+                  sx={{ height: '60px', mr: '50px' }}
+                  size="small"
                 />
 
                 <RHFTextField
                   name="totalAreaTo"
                   type="number"
                   placeholder={t('totalAreaToPlaceHolder')}
-                  sx={{ height: '80px' }}
+                  sx={{ height: '60px' }}
+                  size="small"
                 />
               </Block>
             </Block>
@@ -299,14 +308,16 @@ export default function Form({ user }: Props): JSX.Element {
                     name="priceRangeRentFrom"
                     type="number"
                     placeholder={t('priceRangeRentFromPlaceholder')}
-                    sx={{ height: '80px', mr: '50px' }}
+                    sx={{ height: '60px', mr: '50px' }}
+                    size="small"
                   />
 
                   <RHFTextField
                     name="priceRangeRentTo"
                     type="number"
                     placeholder={t('priceRangeRentToPlaceholder')}
-                    sx={{ height: '80px' }}
+                    sx={{ height: '60px' }}
+                    size="small"
                   />
                 </Block>
               ) : (
@@ -315,14 +326,16 @@ export default function Form({ user }: Props): JSX.Element {
                     name="priceRangeBuyFrom"
                     type="number"
                     placeholder={t('priceRangeBuyFromPlaceholder')}
-                    sx={{ height: '80px', mr: '50px' }}
+                    sx={{ height: '60px', mr: '50px' }}
+                    size="small"
                   />
 
                   <RHFTextField
                     name="priceRangeBuyTo"
                     type="number"
                     placeholder={t('priceRangeBuyToPlaceholder')}
-                    sx={{ height: '80px' }}
+                    sx={{ height: '60px' }}
+                    size="small"
                   />
                 </Block>
               )}
@@ -344,7 +357,8 @@ export default function Form({ user }: Props): JSX.Element {
                   </li>
                 )}
                 loading={isSearchLocationLoading}
-                sx={{ height: '80px' }}
+                sx={{ height: '60px' }}
+                size="small"
               />
             </Block>
 
