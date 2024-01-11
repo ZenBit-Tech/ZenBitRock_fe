@@ -2,20 +2,29 @@
 
 import { useForm } from 'react-hook-form';
 import { Button, TextField, Typography, Box, Stack } from '@mui/material';
+import { LoadingScreen } from 'components/loading-screen';
+import { useSnackbar } from 'components/snackbar';
 import { patterns } from 'constants/patterns';
+import { useUpdateChatMutation } from 'store/chat';
 
 type Props = {
   t: Function;
-  groupNameUp: (name: string) => void;
   closeModalUp: () => void;
+  chatId?: string;
+  refresh: () => void;
 };
 
 type FormValues = {
   groupName: string;
 };
 
-export default function FormFirst({ t, groupNameUp, closeModalUp }: Props): JSX.Element {
+export function FormName({ t, closeModalUp, chatId, refresh }: Props): JSX.Element {
+  const [updateGroupChat, { isLoading }] = useUpdateChatMutation();
+
+  const { enqueueSnackbar } = useSnackbar();
+
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors, isValid },
@@ -29,7 +38,20 @@ export default function FormFirst({ t, groupNameUp, closeModalUp }: Props): JSX.
   const onSubmit = async (data: FormValues): Promise<void> => {
     const { groupName } = data;
 
-    groupNameUp(groupName);
+    try {
+      const { id } = await updateGroupChat({ id: chatId, title: groupName }).unwrap();
+
+      if (id) {
+        refresh();
+        closeModalUp();
+      }
+    } catch (error) {
+      enqueueSnackbar(`${t('somethingWentWrong')}: ${error.data.message}`, {
+        variant: 'error',
+      });
+
+      reset();
+    }
   };
 
   return (
@@ -40,29 +62,40 @@ export default function FormFirst({ t, groupNameUp, closeModalUp }: Props): JSX.
       noValidate
       autoComplete="off"
     >
-      <Typography variant="h3" sx={{ marginBottom: '1.5rem' }}>
-        {t('addGroupChat')}
+      <Typography variant="h3" sx={{ marginBottom: '1.5rem', textAlign: 'center' }}>
+        {t('editGroupChatName')}
       </Typography>
 
       <TextField
         {...register('groupName', {
           required: t('groupNameRequired'),
           pattern: {
-            value: patterns.textArea,
+            value: patterns.groupName,
             message: t('groupNameInvalid'),
           },
         })}
         sx={{ height: '80px', mb: '0.9rem' }}
         variant="outlined"
-        label={t('groupNameLabel')}
-        placeholder={t('groupNameInputPlaceholder')}
+        label={t('enterNewName')}
+        placeholder={t('enterNewName')}
         type="email"
         fullWidth
         error={Boolean(errors?.groupName)}
         helperText={errors?.groupName && <div>{errors.groupName.message}</div>}
         autoComplete=""
       />
-      <Stack sx={{ mt: 5 }}>
+      <Stack sx={{ mt: 5, position: 'relative' }}>
+        {isLoading && (
+          <LoadingScreen
+            sx={{
+              position: 'absolute',
+              top: '-70px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              zIndex: '100',
+            }}
+          />
+        )}
         <Button
           type="submit"
           variant="contained"
@@ -70,9 +103,9 @@ export default function FormFirst({ t, groupNameUp, closeModalUp }: Props): JSX.
           disabled={!isValid}
           sx={{ mb: '1rem' }}
         >
-          {t('addGroupBtnTxt')}
+          {t('changeGroupChatName')}
         </Button>
-        <Button type="reset" variant="contained" color="primary" onClick={() => closeModalUp()}>
+        <Button type="reset" variant="contained" color="error" onClick={() => closeModalUp()}>
           {t('cancelBtnTxt')}
         </Button>
       </Stack>
