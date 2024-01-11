@@ -23,7 +23,7 @@ export function FormDelete({ t, closeModalUp, chatId }: Props): JSX.Element {
     try {
       if (chatId) await deleteChat({ id: chatId }).unwrap();
 
-      router.push(`${AppRoute.MESSAGES_PAGE}`);
+      router.push(`${AppRoute.CHATS_PAGE}`);
     } catch (error) {
       enqueueSnackbar(`${t('somethingWentWrong')}: ${error.data.message}`, { variant: 'error' });
     }

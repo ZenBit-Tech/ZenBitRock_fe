@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { Button, Typography, Box, CircularProgress, Link } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
 import Stack from '@mui/system/Stack';
@@ -17,6 +16,7 @@ import { useSendCodeMutation, useVerifyCodeMutation } from 'store/api/restorePas
 import { setCode } from 'store/reducers/restorePasswordReducer';
 import { AppRoute } from 'enums';
 import { AppDispatch, RootState } from 'store';
+import { GoBackPageTitile } from 'components/custom';
 
 const defaultValues = { code: '' };
 const CODE_LENGTH = 6;
@@ -54,7 +54,6 @@ export default function VerifyCodeForm(): JSX.Element {
     setActiveRequestsCount((prevCount) => prevCount + 1);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
       const payload = { email, code: data.code };
 
@@ -108,15 +107,7 @@ export default function VerifyCodeForm(): JSX.Element {
             maxWidth: '390px',
           }}
         >
-          <Stack spacing={2} direction="row" alignItems="center">
-            <Button onClick={() => router.back()}>
-              <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
-            </Button>
-
-            <Typography variant="h3" sx={{}}>
-              {t('title')}
-            </Typography>
-          </Stack>
+          <GoBackPageTitile title={t('title')} ml="-20px" gap="50px" />
 
           <Stack sx={{ height: '150px' }}>
             <Typography variant="body1" sx={{ marginBottom: '25px' }}>

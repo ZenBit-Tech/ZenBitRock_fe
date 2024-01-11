@@ -96,7 +96,7 @@ const ChatInfo = (): JSX.Element => {
     }
   }
 
-  const t = useTranslations('MessagesPage');
+  const t = useTranslations('ChatsPage');
 
   const handleClickDelete = async (idToDelete: string): Promise<void> => {
     try {

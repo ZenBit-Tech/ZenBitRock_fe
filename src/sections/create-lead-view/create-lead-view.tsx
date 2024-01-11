@@ -14,7 +14,7 @@ export default function CreateLeadView(): JSX.Element {
   }
 
   return (
-    <Container sx={{ my: 5 }}>
+    <Container>
       <Form user={authUser} />
     </Container>
   );

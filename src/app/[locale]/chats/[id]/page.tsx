@@ -14,7 +14,7 @@ type Props = {
 
 function ChatPage({ params }: Props): JSX.Element {
   const { id: chatId } = params;
-  const { data: chatData, isFetching, isError, error } = useGetChatByIdQuery(chatId);
+  const { data: chatData, isFetching, isError } = useGetChatByIdQuery(chatId);
   const authUser = useSelector((state: RootState) => state.authSlice.user);
 
   const { data: chatMessages, isLoading: isLoadingMessages } = useGetMessagesQuery({ chatId });
