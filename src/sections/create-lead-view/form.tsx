@@ -201,7 +201,7 @@ export default function Form({ user }: Props): JSX.Element {
           }}
         >
           <Stack spacing={1}>
-            <GoBackPageTitile title={t('mainTitle')} ml="-25px" />
+            <GoBackPageTitile title={t('mainTitle')} ml="-20px" />
 
             <Block label={t('offeringTypeLabel')}>
               <RHFRadioGroup
