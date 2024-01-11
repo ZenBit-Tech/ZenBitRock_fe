@@ -34,6 +34,7 @@ const ApiRoute = {
   MESSAGES_GET_UNREAD: '/messages/id/unread',
   CHATS: '/chats',
   CHAT_WITH_ID: '/chats/id',
+  CHECK_PRIVATE_CHAT: 'check-private-chat',
 } as const;
 
 export { ApiRoute };

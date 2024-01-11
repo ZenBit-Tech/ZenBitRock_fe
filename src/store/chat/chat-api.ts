@@ -38,7 +38,7 @@ export const ChatApi = createApi({
 
     checkPrivateChat: builder.query<{ chatId: string | null }, string>({
       query: (agentId) => ({
-        url: `${ApiRoute.CHATS}/check-private-chat/${agentId}`,
+        url: `${ApiRoute.CHATS}/${ApiRoute.CHECK_PRIVATE_CHAT}/${agentId}`,
         method: 'GET',
       }),
     }),
