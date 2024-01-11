@@ -5,6 +5,7 @@ import { patterns } from 'constants/patterns';
 import { ICreateLeadData } from 'types/create-lead-data';
 import { QobrixLocations } from 'types/qobrix';
 import i18n from 'locales/118n';
+import { ranges } from 'constants/property-price-ranges';
 import { ICountOfBedroomsValues, IValues } from './drop-box-data';
 
 export type ConditionalSchema<T> = T extends string
@@ -21,15 +22,6 @@ export type ConditionalSchema<T> = T extends string
 
 export type Shape<Fields> = {
   [Key in keyof Fields]: ConditionalSchema<Fields[Key]>;
-};
-
-const RANGES = {
-  totalAreaMin: 0,
-  totalAreaMax: 10000,
-  priceRangeRentMin: 100,
-  priceRangeRentMax: 10000,
-  priceRangeBuyMin: 10000,
-  priceRangeBuyMax: 10000000,
 };
 
 export const FormSchema = Yup.object().shape<Shape<ICreateLeadData>>({
@@ -52,7 +44,7 @@ export const FormSchema = Yup.object().shape<Shape<ICreateLeadData>>({
       message: i18n.t('CreateLeadPage.yupErrorMessageTotalAreaFrom'),
       test(value) {
         if (value !== undefined)
-          return value >= RANGES.totalAreaMin && value <= RANGES.totalAreaMax;
+          return value >= ranges.TOTAL_AREA_MIN && value <= ranges.TOTAL_AREA_MAX;
         else return true;
       },
     })
@@ -72,7 +64,7 @@ export const FormSchema = Yup.object().shape<Shape<ICreateLeadData>>({
       message: i18n.t('CreateLeadPage.yupErrorMessageTotalAreaTo'),
       test(value) {
         if (value !== undefined)
-          return value >= RANGES.totalAreaMin && value <= RANGES.totalAreaMax;
+          return value >= ranges.TOTAL_AREA_MIN && value <= ranges.TOTAL_AREA_MAX;
         else return true;
       },
     })
@@ -93,7 +85,7 @@ export const FormSchema = Yup.object().shape<Shape<ICreateLeadData>>({
       message: i18n.t('CreateLeadPage.yupErrorMessagePriceRangeRentFrom'),
       test(value) {
         if (value !== undefined)
-          return value >= RANGES.priceRangeRentMin && value <= RANGES.priceRangeRentMax;
+          return value >= ranges.PRICE_RANGE_RENT_MIN && value <= ranges.PRICE_RANGE_RENT_MAX;
         else return true;
       },
     })
@@ -113,7 +105,7 @@ export const FormSchema = Yup.object().shape<Shape<ICreateLeadData>>({
       message: i18n.t('CreateLeadPage.yupErrorMessagePriceRangeRentTo'),
       test(value) {
         if (value !== undefined)
-          return value >= RANGES.priceRangeRentMin && value <= RANGES.priceRangeRentMax;
+          return value >= ranges.PRICE_RANGE_RENT_MIN && value <= ranges.PRICE_RANGE_RENT_MAX;
         else return true;
       },
     })
@@ -133,7 +125,7 @@ export const FormSchema = Yup.object().shape<Shape<ICreateLeadData>>({
       message: i18n.t('CreateLeadPage.yupErrorMessagePriceRangeBuyFrom'),
       test(value) {
         if (value !== undefined)
-          return value >= RANGES.priceRangeBuyMin && value <= RANGES.priceRangeBuyMax;
+          return value >= ranges.PRICE_RANGE_BUY_MIN && value <= ranges.PRICE_RANGE_BUY_MAX;
         else return true;
       },
     })
@@ -153,7 +145,7 @@ export const FormSchema = Yup.object().shape<Shape<ICreateLeadData>>({
       message: i18n.t('CreateLeadPage.yupErrorMessagePriceRangeBuyTo'),
       test(value) {
         if (value !== undefined)
-          return value >= RANGES.priceRangeBuyMin && value <= RANGES.priceRangeBuyMax;
+          return value >= ranges.PRICE_RANGE_BUY_MIN && value <= ranges.PRICE_RANGE_BUY_MAX;
         else return true;
       },
     })

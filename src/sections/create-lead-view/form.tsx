@@ -16,14 +16,14 @@ import { LocationSelectOption, QobrixCreateLead } from 'types';
 import { getLocationOptions } from 'utils';
 import { leadStatuses } from 'constants/leadStatuses';
 import { UserProfileResponse } from 'types/user-backend/user-profile-response.type';
-import { useCreateLeadMutation, useSearchLocationsQuery } from 'store/api/qobrixApi';
 import {
-  ICountOfBedroomsValues,
-  IValues,
-  getCountOfBedrooms,
-  getEnquiryTypes,
-  getOfferTypes,
-} from './drop-box-data';
+  useCreateLeadMutation,
+  useGetPropertyTypesQuery,
+  useSearchLocationsQuery,
+} from 'store/api/qobrixApi';
+import { ranges } from 'constants/property-price-ranges';
+import { QobrixLeadBuyRent } from 'enums/qobrix';
+import { ICountOfBedroomsValues, getCountOfBedrooms, getOfferTypes } from './drop-box-data';
 import { FormSchema } from './schema';
 
 type Props = {
@@ -31,17 +31,17 @@ type Props = {
 };
 
 const defaultValues = {
-  offeringType: 'to_buy',
+  offeringType: QobrixLeadBuyRent.TO_BUY,
   leadSource: '',
   description: '',
   enquiryType: null,
   countOfBedrooms: null,
   totalAreaFrom: 0,
   totalAreaTo: 0,
-  priceRangeBuyFrom: 10000,
-  priceRangeBuyTo: 10000000,
-  priceRangeRentFrom: 100,
-  priceRangeRentTo: 10000,
+  priceRangeBuyFrom: ranges.PRICE_RANGE_BUY_MIN,
+  priceRangeBuyTo: ranges.PRICE_RANGE_BUY_MAX,
+  priceRangeRentFrom: ranges.PRICE_RANGE_RENT_MIN,
+  priceRangeRentTo: ranges.PRICE_RANGE_RENT_MAX,
   locations: null,
 };
 
@@ -55,6 +55,8 @@ export default function Form({ user }: Props): JSX.Element {
   const [locationsInputValue, setLocationsInputValue] = useState<string>('');
 
   const [createLead] = useCreateLeadMutation();
+  const { data: properties, isLoading: isPropertyTypeLoading } =
+    useGetPropertyTypesQuery(undefined);
   const { data: searchLocationData, isLoading: isSearchLocationLoading } = useSearchLocationsQuery({
     find: locationsInputValue,
     page: 1,
@@ -88,15 +90,15 @@ export default function Form({ user }: Props): JSX.Element {
   const watchAllFields = watch();
 
   useEffect(() => {
-    setValue('priceRangeRentFrom', 100);
-    setValue('priceRangeRentTo', 10000);
-    setValue('priceRangeBuyFrom', 10000);
-    setValue('priceRangeBuyTo', 10000000);
+    setValue('priceRangeRentFrom', ranges.PRICE_RANGE_RENT_MIN);
+    setValue('priceRangeRentTo', ranges.PRICE_RANGE_RENT_MAX);
+    setValue('priceRangeBuyFrom', ranges.PRICE_RANGE_BUY_MIN);
+    setValue('priceRangeBuyTo', ranges.PRICE_RANGE_BUY_MAX);
   }, [watchAllFields.offeringType, setValue]);
 
   useEffect(() => {
     const fieldsToInclude =
-      watchAllFields.offeringType === 'to_rent'
+      watchAllFields.offeringType === QobrixLeadBuyRent.TO_RENT
         ? ['offeringType', 'enquiryType', 'priceRangeRentFrom', 'priceRangeRentTo']
         : ['offeringType', 'enquiryType', 'priceRangeBuyFrom', 'priceRangeBuyTo'];
 
@@ -147,14 +149,14 @@ export default function Form({ user }: Props): JSX.Element {
       buy_rent: offeringType || null,
       description: description || null,
       source_description: leadSource || null,
-      enquiry_type: enquiryType?.value,
-      bedrooms_from: countOfBedrooms?.value,
+      enquiry_type: enquiryType?.value || null,
+      bedrooms_from: Number(countOfBedrooms?.value),
       covered_area_from_amount: totalAreaFrom || null,
       covered_area_to_amount: totalAreaTo || null,
-      locations: locations?.value,
+      locations: locations?.value || null,
     };
 
-    if (watchAllFields.offeringType === 'to_buy') {
+    if (offeringType === QobrixLeadBuyRent.TO_BUY) {
       requestData.list_selling_price_from = priceRangeBuyFrom;
       requestData.list_selling_price_to = priceRangeBuyTo;
     } else {
@@ -235,8 +237,14 @@ export default function Form({ user }: Props): JSX.Element {
               <RHFAutocomplete
                 name="enquiryType"
                 placeholder={t('enquiryTypePlaceholder')}
-                options={getEnquiryTypes(t)}
-                getOptionLabel={(option: IValues | string) => (option as IValues).label}
+                options={
+                  (properties &&
+                    properties.data.map((option) => ({
+                      label: option.name,
+                      value: option.code,
+                    }))) ||
+                  []
+                }
                 isOptionEqualToValue={(option, value) => option.value === value.value}
                 renderOption={(props, option) => (
                   <li {...props} key={option.value}>
@@ -244,6 +252,7 @@ export default function Form({ user }: Props): JSX.Element {
                   </li>
                 )}
                 sx={{ height: '80px' }}
+                loading={isPropertyTypeLoading}
               />
             </Block>
 
@@ -284,7 +293,7 @@ export default function Form({ user }: Props): JSX.Element {
             </Block>
 
             <Block label={t('priceRangeLabel')} key={watchAllFields.offeringType}>
-              {watchAllFields.offeringType === 'to_rent' ? (
+              {watchAllFields.offeringType === QobrixLeadBuyRent.TO_RENT ? (
                 <Block sx={{ display: 'flex', flexDirection: 'row', gap: '0' }}>
                   <RHFTextField
                     name="priceRangeRentFrom"
