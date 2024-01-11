@@ -52,7 +52,7 @@ const ChatInfo = (): JSX.Element => {
     data,
     isFetching,
     isLoading: isLoadingWhenGetChat,
-  } = useGetChatByIdQuery({ id: pathsname.split('/')[2] }, { refetchOnMountOrArgChange: true });
+  } = useGetChatByIdQuery(pathsname.split('/')[2], { refetchOnMountOrArgChange: true });
 
   useEffect(() => {
     getAllUsers();

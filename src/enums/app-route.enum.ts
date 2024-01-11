@@ -21,6 +21,7 @@ const AppRoute = {
   LEADS_PAGE: '/leads',
   EDIT_PROFILE_PAGE: '/edit-profile',
   CHAT_PAGE: '/chat',
+  CHATS_PAGE: '/chats',
   PROPERTY_PAGE: '/property',
   AGENTS_PAGE: '/agents',
   CALENDAR_PAGE: '/calendar',

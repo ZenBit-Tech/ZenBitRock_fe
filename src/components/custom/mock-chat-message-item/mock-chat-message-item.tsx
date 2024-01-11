@@ -1,30 +1,22 @@
 'use client';
 
-import { format } from 'date-fns';
+import { useMemo } from 'react';
 import { Box, IconButton, Stack, Typography } from '@mui/material';
 import DoneIcon from '@mui/icons-material/Done';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { colors } from 'constants/colors';
-import { datesFormats } from 'constants/dates-formats';
-import { GetUserResponse } from 'types/user-data';
+import { Message } from 'types';
+import { convertDateToHelsinkiTime } from 'utils/format-time';
 
 type Props = {
-  message: {
-    id: string;
-    body: string;
-    createdAt: string;
-    isMe: boolean;
-    sender: {
-      name: string;
-    } | null;
-    isRead: boolean;
-  };
-  participant: GetUserResponse['data'];
+  message: Message;
+  me: string;
 };
 
-export function MockChatMessageItem({ message, participant }: Props): JSX.Element {
-  const { body, createdAt, isMe, isRead } = message;
-  const name = `${participant.firstName} ${participant.lastName}`;
+export function MockChatMessageItem({ message, me }: Props): JSX.Element {
+  const { content, createdAt, owner, isRead } = message;
+
+  const isMe = useMemo((): boolean => owner?.id === me, [owner?.id, me]);
 
   return (
     <Box
@@ -53,7 +45,7 @@ export function MockChatMessageItem({ message, participant }: Props): JSX.Elemen
         }}
       >
         <Typography variant="body2" sx={{ wordWrap: 'break-word' }}>
-          {body}
+          {content}
         </Typography>
 
         <Stack
@@ -74,7 +66,7 @@ export function MockChatMessageItem({ message, participant }: Props): JSX.Elemen
               }),
             }}
           >
-            {format(new Date(createdAt), datesFormats.timeFormat)}
+            {convertDateToHelsinkiTime(createdAt)}
           </Typography>
 
           {isMe && <IconButton size="small">{isRead ? <DoneAllIcon /> : <DoneIcon />}</IconButton>}
