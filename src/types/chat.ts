@@ -48,7 +48,6 @@ export type IChatMockMessage = {
   isRead: boolean;
 };
 
-
 export type IChatParticipant = {
   id: string;
   name: string;
@@ -75,17 +74,6 @@ export type IChatConversations = {
 };
 
 export type ICreateGroupChatRequest = { title: string; memberIds?: string[]; isPrivate: boolean };
-
-export type IChatResponse = {
-  chat: {
-    id?: string;
-    isPrivate?: boolean;
-    owner?: { id: string | null };
-    members?: { id: string }[] | [];
-    title?: string;
-    createdAt?: string;
-  };
-};
 
 export type ICreatePrivateChatRequest = {
   title: string;
@@ -122,4 +110,3 @@ export type IChatRequest = {
   memberIds?: string[];
   title?: string;
 };
-

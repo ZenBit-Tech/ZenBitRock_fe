@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IChatByIdResponse, IChatResponse, ICreatePrivateChatRequest } from 'types/chat';
 import { ApiRoute, ChatEvent, StorageKey } from 'enums';
-import { ICreateGroupChatRequest, Message, IChatResponse, IChatRequest } from 'types';
+import { ICreateGroupChatRequest, Message, IChatRequest } from 'types';
 import { createSocketFactory } from 'utils';
 
 const getSocket = createSocketFactory();
@@ -121,12 +121,7 @@ export const ChatApi = createApi({
         }
       },
     }),
-    getChatById: builder.query<IChatResponse['chat'], { id: string }>({
-      query: ({ id }) => ({
-        url: ApiRoute.CHAT_WITH_ID.replace('id', id),
-        method: 'GET',
-      }),
-    }),
+
     deleteChat: builder.mutation<void, { id: string }>({
       query: ({ id }) => ({
         url: ApiRoute.CHAT_WITH_ID.replace('id', id),
