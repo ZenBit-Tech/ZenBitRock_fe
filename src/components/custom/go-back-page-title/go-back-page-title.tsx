@@ -6,9 +6,10 @@ import Iconify from 'components/iconify';
 
 type Props = {
   title: string;
+  ml?: string;
 };
 
-const GoBackPageTitile = ({ title }: Props): JSX.Element => {
+const GoBackPageTitile = ({ title, ml }: Props): JSX.Element => {
   const router = useRouter();
   const t = useTranslations('property');
 
@@ -20,6 +21,7 @@ const GoBackPageTitile = ({ title }: Props): JSX.Element => {
         justifyContent: 'flex-start',
         gap: '1rem',
         marginY: '1.5rem',
+        marginLeft: ml || '0',
       }}
     >
       <Button
