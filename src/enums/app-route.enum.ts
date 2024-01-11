@@ -17,7 +17,6 @@ const AppRoute = {
   RESET_PASSWORD_CHANGE_PASSWORD_PAGE: '/reset-password/change-password',
   RESET_PASSWORD_DONE_PAGE: '/reset-password',
   CREATE_LEAD_PAGE: '/leads/create',
-  MESSAGES_PAGE: '/messages',
   LEADS_PAGE: '/leads',
   EDIT_PROFILE_PAGE: '/edit-profile',
   CHAT_PAGE: '/chat',

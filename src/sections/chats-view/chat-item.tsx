@@ -29,7 +29,7 @@ export default function ChatItem({ chat }: FollowerItemProps): JSX.Element {
   const avatarUrl = type === 'private' ? members[0].avatarUrl : '/';
 
   const handleClick = () => {
-    router.push(`${AppRoute.MESSAGES_PAGE}/${id}`);
+    router.push(`${AppRoute.CHATS_PAGE}/${id}`);
   };
 
   return (
