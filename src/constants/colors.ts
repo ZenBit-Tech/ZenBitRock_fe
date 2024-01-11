@@ -13,4 +13,5 @@ export const colors = {
   CHAT_MY_MESSAGE_BACKGROUND_COLOR: '#C8FAD6',
   ARROW_SECONDARY: '#919eab',
   SUN: '#FFD666',
+  TEXT_GREY_COLOR: '#637381',
 };
