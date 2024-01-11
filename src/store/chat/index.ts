@@ -1,6 +1,9 @@
 export {
   useCreateGroupChatMutation,
   ChatApi,
+  useDeleteChatMutation,
+  useGetChatByIdQuery,
+  useUpdateChatMutation,
   useGetMessagesQuery,
   useSendMessageMutation,
   useGetUnreadMessagesQuery,
