@@ -1,11 +1,13 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
+import { enqueueSnackbar } from 'notistack';
 import TextField from '@mui/material/TextField';
 import { Container } from '@mui/system';
 import { Fab } from '@mui/material';
 import Card from '@mui/material/Card';
 import { useRouter } from 'routes/hooks';
 import { useScrollToTop } from 'hooks';
+import { useCheckPrivateChatQuery, useCreateChatMutation } from 'store/chat';
 import { UserChatResponse } from 'types/user-backend';
 import { AppRoute } from 'enums';
 import { AGENTS_SORT_OPTIONS } from 'constants/agentsSortOptions';
@@ -17,7 +19,7 @@ import sortAgents from './utils/sortAgents';
 
 type Props = {
   loading: boolean;
-  agents?: UserChatResponse[];
+  agents: UserChatResponse[];
   id: string;
 };
 
@@ -37,6 +39,39 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
   });
 
   const [sort, setSort] = useState<string>('nameAsc');
+  const [selectedAgent, setSelectedAgent] = useState<UserChatResponse | null>(null);
+  const [selectedAgentId, setSelectedAgentId] = useState('');
+
+  const { data: chatData, isFetching, refetch } = useCheckPrivateChatQuery(selectedAgentId);
+
+  const [createChat, { error }] = useCreateChatMutation();
+
+  useEffect(() => {
+    const createNewChat = async () => {
+      try {
+        if (selectedAgent) {
+          const response = await createChat({
+            title: selectedAgent.firstName,
+            memberIds: [selectedAgent.id, id],
+            isPrivate: true,
+          }).unwrap();
+
+          router.push(`${AppRoute.CHATS_PAGE}/${response.chat.id}`);
+        }
+      } catch (err) {
+        enqueueSnackbar(t('error'), { variant: 'error' });
+      }
+    };
+
+    if (error) {
+      enqueueSnackbar(t('error'), { variant: 'error' });
+    }
+    if (chatData && chatData.chatId === null && selectedAgent) {
+      createNewChat();
+    } else if (chatData && chatData.chatId) {
+      router.push(`${AppRoute.CHATS_PAGE}/${chatData.chatId}`);
+    }
+  }, [selectedAgent, chatData, createChat, router, t, id, error]);
 
   const handleSearchAgents = useCallback(
     (inputValue: string): void => {
@@ -73,10 +108,11 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
   }, []);
 
   const handleClickResult = useCallback(
-    (result: UserChatResponse): void => {
-      router.push(`${AppRoute.CHAT_PAGE}/${result.id}`);
+    (agent: UserChatResponse) => {
+      setSelectedAgent(agent);
+      setSelectedAgentId(agent.id);
     },
-    [router]
+    [setSelectedAgent, setSelectedAgentId]
   );
 
   const sortedAgents = useMemo<UserChatResponse[] | undefined>(

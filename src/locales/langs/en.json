@@ -489,7 +489,7 @@
     "sold_subject_to_contract": "Sold subject to contract",
     "under_offer": "Under offer",
     "error": "Something went wrong!",
-    "results": "results"
+    "results": "Matching results: "
   },
   "property": {
     "title": "Property details",
@@ -591,7 +591,8 @@
     "searchPlaceholder": "Search agent by name...",
     "noNotificationsLabel": "no notifications",
     "more99": "more than 99 notifications",
-    "notifications": "notifications"
+    "notifications": "notifications",
+    "error": "Something went wrong!"
   },
   "page500": {
     "pageTitle": "500 Internal Server Error",

@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { IChatByIdResponse, IChatResponse, ICreatePrivateChatRequest } from 'types/chat';
 import { ApiRoute, ChatEvent, StorageKey } from 'enums';
-import { ICreateGroupChatRequest, Message, IChatResponse, IChatRequest } from 'types';
+import { ICreateGroupChatRequest, Message, IChatRequest } from 'types';
 import { createSocketFactory } from 'utils';
 
 const getSocket = createSocketFactory();
@@ -17,7 +18,7 @@ export const ChatApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Create group chat'],
+  tagTypes: ['Create chat'],
   endpoints: (builder) => ({
     createGroupChat: builder.mutation<IChatResponse, ICreateGroupChatRequest>({
       query: (body) => ({
@@ -26,6 +27,29 @@ export const ChatApi = createApi({
         body,
       }),
     }),
+
+    createChat: builder.mutation<IChatResponse, ICreatePrivateChatRequest>({
+      query: (body) => ({
+        url: ApiRoute.CHATS,
+        method: 'POST',
+        body,
+      }),
+    }),
+
+    checkPrivateChat: builder.query<{ chatId: string | null }, string>({
+      query: (agentId) => ({
+        url: `${ApiRoute.CHATS}/${ApiRoute.CHECK_PRIVATE_CHAT}/${agentId}`,
+        method: 'GET',
+      }),
+    }),
+
+    getChatById: builder.query<IChatByIdResponse, string>({
+      query: (chatId) => ({
+        url: `${ApiRoute.CHATS}/${chatId}`,
+        method: 'GET',
+      }),
+    }),
+
     sendMessage: builder.mutation<Message, { chatId: string; content: string }>({
       queryFn: (chatMessageContent: { chatId: string; content: string }) => {
         const socket = getSocket();
@@ -97,12 +121,7 @@ export const ChatApi = createApi({
         }
       },
     }),
-    getChatById: builder.query<IChatResponse['chat'], { id: string }>({
-      query: ({ id }) => ({
-        url: ApiRoute.CHAT_WITH_ID.replace('id', id),
-        method: 'GET',
-      }),
-    }),
+
     deleteChat: builder.mutation<void, { id: string }>({
       query: ({ id }) => ({
         url: ApiRoute.CHAT_WITH_ID.replace('id', id),
@@ -122,9 +141,11 @@ export const ChatApi = createApi({
 export const {
   useCreateGroupChatMutation,
   useDeleteChatMutation,
-  useGetChatByIdQuery,
   useUpdateChatMutation,
   useGetMessagesQuery,
   useSendMessageMutation,
   useGetUnreadMessagesQuery,
+  useCreateChatMutation,
+  useCheckPrivateChatQuery,
+  useGetChatByIdQuery,
 } = ChatApi;

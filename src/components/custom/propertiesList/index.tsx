@@ -74,9 +74,9 @@ function PropertiesList({ search }: Props): JSX.Element {
             p: '0',
           }}
         >
-          <Typography variant="h5" sx={{ paddingBottom: 1 }}>{`${data?.pagination.count ?? 0} ${t(
-            'results'
-          )}`}</Typography>
+          <Typography variant="h5" sx={{ paddingBottom: 1 }}>{`${t('results')} ${
+            data?.pagination.count ?? 0
+          }`}</Typography>
           {data?.data.map((item: QobrixProperty) => <PropertyCard property={item} key={item.id} />)}
           {isFetching && <LoadingScreen />}
         </ListStyled>

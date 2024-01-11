@@ -5,24 +5,20 @@ import { enqueueSnackbar } from 'notistack';
 import Stack from '@mui/material/Stack';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
-import uuidv4 from 'utils/uuidv4';
 import Iconify from 'components/iconify';
 import { LoadingScreen } from 'components/loading-screen';
-import { IChatMessage } from 'types/chat';
 import { RootState } from 'store';
+import { useSendMessageMutation } from 'store/chat/chat-api';
 
 type Props = {
   disabled?: boolean;
-  selectedConversationId?: string;
-  addMessage: (message: IChatMessage) => void;
+  chatId: string;
 };
 
-export default function ChatMessageInput({
-  addMessage,
-  disabled,
-  selectedConversationId,
-}: Props): JSX.Element {
+export default function ChatMessageInput({ disabled, chatId }: Props): JSX.Element {
   const t = useTranslations('privateChat');
+
+  const [sendMessageMutation] = useSendMessageMutation();
 
   const [message, setMessage] = useState<string>('');
 
@@ -35,29 +31,19 @@ export default function ChatMessageInput({
   const sendMessage = useCallback(async (): Promise<void> => {
     if (message.trim()) {
       try {
-        const newMessage: IChatMessage = {
-          id: uuidv4(),
-          body: message,
-          createdAt: new Date().toISOString(),
-          isMe: true,
-          sender: {
-            name: `${authUser?.firstName} ${authUser?.lastName}`,
-          },
-          isRead: false,
-        };
-        addMessage(newMessage);
-        setMessage('');
+        await sendMessageMutation({ chatId, content: message });
       } catch (error) {
         enqueueSnackbar(`${t('errMsg')}`, { variant: 'error' });
       }
     }
-  }, [message, addMessage, authUser, t]);
+  }, [message, sendMessageMutation, chatId, t]);
 
   const handleKeyPress = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>): void => {
       if (event.key === 'Enter' && !event.shiftKey) {
         event.preventDefault();
         sendMessage();
+        setMessage('');
       }
     },
     [sendMessage]
@@ -65,6 +51,7 @@ export default function ChatMessageInput({
 
   const handleClick = useCallback((): void => {
     sendMessage();
+    setMessage('');
   }, [sendMessage]);
 
   if (!authUser) {
@@ -76,7 +63,7 @@ export default function ChatMessageInput({
       value={message}
       multiline
       maxRows={3}
-      onKeyUp={handleKeyPress}
+      onKeyDown={handleKeyPress}
       onChange={handleChangeMessage}
       placeholder={t('placeholder')}
       disabled={disabled}
