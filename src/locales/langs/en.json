@@ -88,7 +88,8 @@
     "button": "Send Code",
     "emailRequired": "Email is required",
     "emailValid": "Email is not valid",
-    "errorMessage": "Please enter email which you used for registration"
+    "errorMessage": "Please enter email which you used for registration",
+    "successMessage": "Check your mail!"
   },
   "VerifyCodePage": {
     "title": "Enter code",
@@ -351,6 +352,10 @@
     "forgotPass": "Forgot password?"
   },
   "mainPage": {
+    "myProperties": "My properties",
+    "notificationCenter": "Notification center",
+    "noNewNotifications": "No new notifications",
+    "view": "View",
     "filters": {
       "location": "Location",
       "propertyType": "Property type",
@@ -430,24 +435,33 @@
     "enquiryTypeTriplex": "Triplex",
     "enquiryTypeWarehouse": "Warehouse",
     "leadSourceLabel": "Lead source (optional)",
-    "leadSourcePlaceholder": "Write some here",
+    "leadSourcePlaceholder": "A brief description where/who the lead has come from",
     "descriptionLabel": "Description (optional)",
-    "descriptionPlaceholder": "Write some here",
+    "descriptionPlaceholder": "A brief description of what the lead is looking for",
     "countOfBedroomsLabel": "Miminum number of bedrooms (optional)",
     "countOfBedroomsPlaceholder": "Choose one option",
-    "totalAreaLabel": "Floor area  sq.ft. (optional)",
+    "totalAreaLabel": "Floor area  sq.m. (optional)",
     "totalAreaFromPlaceHolder": "Min",
     "totalAreaToPlaceHolder": "Max",
-    "priceRahgeRentLabel": "* Price range",
-    "priceRahgeRentFromPlaceholder": "Min",
-    "priceRahgeRentToPlaceholder": "Max",
-    "priceRahgeSellLabel": "* Price range",
-    "priceRahgeSellFromPlaceholder": "Min",
-    "priceRahgeSellToPlaceholder": "Max",
+    "priceRangeLabel": "* Price range",
+    "priceRangeRentFromPlaceholder": "Min",
+    "priceRangeRentToPlaceholder": "Max",
+    "priceRangeBuyFromPlaceholder": "Min",
+    "priceRangeBuyToPlaceholder": "Max",
     "submitButton": "Add lead",
     "locationsLabel": "Location (optional)",
     "locationsPlaceholder": "Location search",
-    "generalErrorMessage": "Something went wrong, please try again"
+    "generalErrorMessage": "Something went wrong, please try again",
+    "succesCreatedMessage": "Lead has been created",
+    "yupErrorMessageLeadSource": "Latin letters, 10-200 characters",
+    "yupErrorMessageDescription": "Latin letters, 10-200 characters",
+    "yupErrorMessageEnquiryType": "Enquiry type is required",
+    "yupErrorMessageTotalAreaFrom": "0-10000, less then max value",
+    "yupErrorMessageTotalAreaTo": "0-10000, more than min value",
+    "yupErrorMessagePriceRangeRentFrom": "100-10000, less than max value",
+    "yupErrorMessagePriceRangeRentTo": "100-10000, more than min value",
+    "yupErrorMessagePriceRangeBuyFrom": "10000-10000000, less than max value",
+    "yupErrorMessagePriceRangeBuyTo": "10000-10000000, more than min value"
   },
   "properties": {
     "title": "My properties",
@@ -475,7 +489,7 @@
     "sold_subject_to_contract": "Sold subject to contract",
     "under_offer": "Under offer",
     "error": "Something went wrong!",
-    "results": "results"
+    "results": "Matching results: "
   },
   "property": {
     "title": "Property details",
@@ -565,7 +579,8 @@
     "try": "Try to find something else.",
     "reset": "Reset all filters",
     "leads": "leads",
-    "all": "All"
+    "all": "All",
+    "error": "Something went wrong!"
   },
   "agents": {
     "pageTitle": "Agent network",
@@ -576,7 +591,8 @@
     "searchPlaceholder": "Search agent by name...",
     "noNotificationsLabel": "no notifications",
     "more99": "more than 99 notifications",
-    "notifications": "notifications"
+    "notifications": "notifications",
+    "error": "Something went wrong!"
   },
   "page500": {
     "pageTitle": "500 Internal Server Error",
@@ -666,7 +682,23 @@
     "groupNameRequired": "Group name required",
     "btnDeleteAgentFromList": "Remove agent from group",
     "groupName": "Group name:",
-    "results": "Chats found with"
+    "results": "Chats found with",
+    "chatMembers": "Chat members",
+    "deleteChat": "Delete chat",
+    "addAgentsToChat": "Add agents to chat",
+    "createdOn": "Created on",
+    "owner": "owner",
+    "groupMembers": "Group members",
+    "editGroupName": "Edit group name",
+    "chatName": "Chat name",
+    "title": "Chat info",
+    "back": "Back",
+    "doYouWantDeleteChat": "Do you want delete chat?",
+    "yesDelete": "Yes delete",
+    "somethingWentWrong": "Something went wrong",
+    "editGroupChatName": "Edit group chat name",
+    "enterNewName": "Enter new name",
+    "changeGroupChatName": "Change group chat name"
   },
   "privateChat": {
     "title": "Chat",
@@ -680,6 +712,10 @@
     "sorry": "Sorry, No Matched Results Found!",
     "try": "Try to find something else.",
     "unread": "unread messages"
+  },
+  "chat": {
+    "groupChat": "Group Chat",
+    "info": "Chat info"
   },
   "noDataFound": {
     "results": "No Matching Results"

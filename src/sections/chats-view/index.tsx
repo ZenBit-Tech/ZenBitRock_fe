@@ -1,6 +1,4 @@
-import { useRouter } from 'next/navigation';
-import { Typography, Container, Button } from '@mui/material';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import { Container } from '@mui/material';
 import { Stack } from '@mui/system';
 import { useTranslations } from 'next-intl';
 import { useSelector } from 'hooks';
@@ -259,7 +257,7 @@ export default function ChatsView(): JSX.Element {
       countOfUnreadMessages: 0,
     },
     {
-      id: '14',
+      id: '15',
       type: 'group',
       chatName: 'Nice chat',
       members: [
@@ -445,7 +443,7 @@ export default function ChatsView(): JSX.Element {
   }
 
   return (
-    <Container sx={{ pb: 8, pt: 2, px: 2 }}>
+    <Container sx={{ pb: 8, pt: 0, px: 2 }}>
       <Stack
         direction="row"
         alignItems="center"
@@ -454,11 +452,7 @@ export default function ChatsView(): JSX.Element {
         sx={{ mb: 2, ml: '-22px' }}
       >
         <Stack direction="row" alignItems="center" alignContent="center">
-          <Button sx={{ p: 0 }} onClick={() => router.back()}>
-            <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
-          </Button>
-
-          <Typography variant="h3">{t('pageTitle')}</Typography>
+          <GoBackPageTitile title={t('pageTitle')} />
         </Stack>
 
         <AddGroupChatButton t={t} />

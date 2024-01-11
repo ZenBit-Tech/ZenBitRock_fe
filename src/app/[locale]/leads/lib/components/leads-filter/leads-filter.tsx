@@ -41,7 +41,10 @@ function LeadsFilter({ getFilter }: Prop): JSX.Element {
       status: data.status === randomValues.ALL ? '' : data.status,
     };
 
-    const searchString = `ContactNameContacts.name contains '${modifiedData.leadName}' and Opportunities.conversion_status matches '${modifiedData.status}'`;
+    const searchString =
+      modifiedData.status === '' && modifiedData.leadName === ''
+        ? 'update'
+        : `firstcallContactNameContacts.name contains '${modifiedData.leadName}' and Opportunities.conversion_status matches '${modifiedData.status}'`;
 
     getFilter(searchString);
   };

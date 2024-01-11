@@ -2,27 +2,28 @@ import { useMemo } from 'react';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
 import { format } from 'date-fns';
-import { IChatMessage } from 'types/chat';
-import { GetUserResponse } from 'types/user-data';
+import { IChatByIdResponse } from 'types/chat';
+import { Message } from 'types';
 import { datesFormats } from 'constants/dates-formats';
 import Scrollbar from 'components/scrollbar';
 import { MockChatMessageItem } from 'components/custom';
 import { useMessagesScroll } from './hooks';
 
 type Props = {
-  messages: IChatMessage[];
-  user: GetUserResponse['data'];
+  messages: Message[];
+  user: IChatByIdResponse;
+  me: string;
 };
 
 type GroupedMessages = {
-  [key: string]: IChatMessage[];
+  [key: string]: Message[];
 };
 
-export default function ChatMessageList({ messages = [], user }: Props): JSX.Element {
+export default function ChatMessageList({ messages = [], user, me }: Props): JSX.Element {
   const { messagesEndRef } = useMessagesScroll(messages);
 
   const sortedMessages = useMemo(
-    (): IChatMessage[] =>
+    (): Message[] =>
       [...messages].sort(
         (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
       ),
@@ -31,7 +32,7 @@ export default function ChatMessageList({ messages = [], user }: Props): JSX.Ele
 
   const groupedMessages = useMemo(
     (): GroupedMessages =>
-      sortedMessages.reduce((acc: GroupedMessages, message: IChatMessage) => {
+      sortedMessages.reduce((acc: GroupedMessages, message: Message) => {
         const date = new Date(message.createdAt);
         const dateString = format(date, datesFormats.chatTitleDateFormat);
 
@@ -54,7 +55,7 @@ export default function ChatMessageList({ messages = [], user }: Props): JSX.Ele
               {date}
             </Typography>
             {groupMessages.map((message) => (
-              <MockChatMessageItem key={message.id} message={message} participant={user} />
+              <MockChatMessageItem key={message.id} message={message} me={me} />
             ))}
           </Box>
         ))}

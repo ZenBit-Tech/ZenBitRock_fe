@@ -31,8 +31,10 @@ const ApiRoute = {
   QOBRIX_GET_LEAD_CALLS: '/calls/related-with/RelatedOpportunityOpportunities/id',
   QOBRIX_GET_LEAD_TASK_CHANGES: '/tasks/id/changes',
   QOBRIX_GET_LEAD_STATUS_CHANGES: '/opportunities/id/changes',
-  MESSAGES_GET_UNREAD: 'messages/id/unread',
-  CHAT_CREATE_GROUP: 'rooms',
+  MESSAGES_GET_UNREAD: '/messages/id/unread',
+  CHATS: '/chats',
+  CHAT_WITH_ID: '/chats/id',
+  CHECK_PRIVATE_CHAT: 'check-private-chat',
 } as const;
 
 export { ApiRoute };

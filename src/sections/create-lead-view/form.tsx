@@ -10,20 +10,21 @@ import Stack, { StackProps } from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress';
 import { debounce } from 'lodash';
 import { useSnackbar } from 'notistack';
-import FormProvider, { RHFAutocomplete, RHFTextField } from 'components/hook-form';
+import FormProvider, { RHFAutocomplete, RHFRadioGroup, RHFTextField } from 'components/hook-form';
 import { AppRoute } from 'enums';
-import { LocationSelectOption } from 'types';
+import { LocationSelectOption, QobrixCreateLead } from 'types';
 import { getLocationOptions } from 'utils';
 import { leadStatuses } from 'constants/leadStatuses';
 import { UserProfileResponse } from 'types/user-backend/user-profile-response.type';
-import { useCreateLeadMutation, useSearchLocationsQuery } from 'store/api/qobrixApi';
 import {
-  ICountOfBedroomsValues,
-  IValues,
-  getCountOfBedrooms,
-  getEnquiryTypes,
-  getOfferTypes,
-} from './drop-box-data';
+  useCreateLeadMutation,
+  useGetPropertyTypesQuery,
+  useSearchLocationsQuery,
+} from 'store/api/qobrixApi';
+import { ranges } from 'constants/property-price-ranges';
+import { QobrixLeadBuyRent } from 'enums/qobrix';
+import { GoBackPageTitile } from 'components/custom';
+import { ICountOfBedroomsValues, getCountOfBedrooms, getOfferTypes } from './drop-box-data';
 import { FormSchema } from './schema';
 
 type Props = {
@@ -31,17 +32,17 @@ type Props = {
 };
 
 const defaultValues = {
-  offeringType: null,
+  offeringType: QobrixLeadBuyRent.TO_BUY,
   leadSource: '',
   description: '',
   enquiryType: null,
   countOfBedrooms: null,
   totalAreaFrom: 0,
   totalAreaTo: 0,
-  priceRahgeRentFrom: 0,
-  priceRahgeRentTo: 0,
-  priceRahgeSellFrom: 0,
-  priceRahgeSellTo: 0,
+  priceRangeBuyFrom: ranges.PRICE_RANGE_BUY_MIN,
+  priceRangeBuyTo: ranges.PRICE_RANGE_BUY_MAX,
+  priceRangeRentFrom: ranges.PRICE_RANGE_RENT_MIN,
+  priceRangeRentTo: ranges.PRICE_RANGE_RENT_MAX,
   locations: null,
 };
 
@@ -51,12 +52,12 @@ export default function Form({ user }: Props): JSX.Element {
   const t = useTranslations('CreateLeadPage');
 
   const [activeRequestsCount, setActiveRequestsCount] = useState<number>(0);
-  const [formFilled, setFormFilled] = useState<boolean>(true);
-  const [isEnquiryTypeRent, setIsEnquiryTypeRent] = useState<boolean>(false);
-  const [isEnquiryTypeSell, setIsEnquiryTypeSell] = useState<boolean>(false);
+  const [formFilled, setFormFilled] = useState<boolean>(false);
   const [locationsInputValue, setLocationsInputValue] = useState<string>('');
 
   const [createLead] = useCreateLeadMutation();
+  const { data: properties, isLoading: isPropertyTypeLoading } =
+    useGetPropertyTypesQuery(undefined);
   const { data: searchLocationData, isLoading: isSearchLocationLoading } = useSearchLocationsQuery({
     find: locationsInputValue,
     page: 1,
@@ -75,7 +76,7 @@ export default function Form({ user }: Props): JSX.Element {
   const methods = useForm({
     resolver: yupResolver(FormSchema),
     defaultValues,
-    mode: 'onTouched',
+    mode: 'onChange',
   });
 
   const {
@@ -83,38 +84,46 @@ export default function Form({ user }: Props): JSX.Element {
     reset,
     handleSubmit,
     setValue,
+    trigger,
     formState: { isSubmitting, isValid },
   } = methods;
 
   const watchAllFields = watch();
 
   useEffect(() => {
-    setIsEnquiryTypeRent(watchAllFields.offeringType?.value === 'to_rent');
-    setIsEnquiryTypeSell(watchAllFields.offeringType?.value === 'to_sell');
-  }, [watchAllFields.offeringType?.value]);
+    setValue('priceRangeRentFrom', ranges.PRICE_RANGE_RENT_MIN);
+    setValue('priceRangeRentTo', ranges.PRICE_RANGE_RENT_MAX);
+    setValue('priceRangeBuyFrom', ranges.PRICE_RANGE_BUY_MIN);
+    setValue('priceRangeBuyTo', ranges.PRICE_RANGE_BUY_MAX);
+  }, [watchAllFields.offeringType, setValue]);
 
   useEffect(() => {
-    if (!isEnquiryTypeRent) {
-      setValue('priceRahgeRentFrom', 0);
-      setValue('priceRahgeRentTo', 0);
-    }
-    if (!isEnquiryTypeSell) {
-      setValue('priceRahgeSellFrom', 0);
-      setValue('priceRahgeSellTo', 0);
-    }
-  }, [isEnquiryTypeRent, isEnquiryTypeSell, setValue]);
-
-  useEffect(() => {
-    const fieldsToInclude = isEnquiryTypeRent
-      ? ['offeringType', 'enquiryType', 'priceRahgeRentFrom', 'priceRahgeRentTo']
-      : ['offeringType', 'enquiryType', 'priceRahgeSellFrom', 'priceRahgeSellTo'];
+    const fieldsToInclude =
+      watchAllFields.offeringType === QobrixLeadBuyRent.TO_RENT
+        ? ['offeringType', 'enquiryType', 'priceRangeRentFrom', 'priceRangeRentTo']
+        : ['offeringType', 'enquiryType', 'priceRangeBuyFrom', 'priceRangeBuyTo'];
 
     const isFormFilled = fieldsToInclude.every((key) =>
       Boolean(watchAllFields[key as keyof typeof watchAllFields])
     );
 
     setFormFilled(isFormFilled);
-  }, [isEnquiryTypeRent, isEnquiryTypeSell, watchAllFields]);
+  }, [watchAllFields]);
+
+  useEffect(() => {
+    trigger('totalAreaFrom');
+    trigger('totalAreaTo');
+  }, [trigger, watchAllFields.totalAreaFrom, watchAllFields.totalAreaTo]);
+
+  useEffect(() => {
+    trigger('priceRangeRentFrom');
+    trigger('priceRangeRentTo');
+  }, [trigger, watchAllFields.priceRangeRentFrom, watchAllFields.priceRangeRentTo]);
+
+  useEffect(() => {
+    trigger('priceRangeBuyFrom');
+    trigger('priceRangeBuyTo');
+  }, [trigger, watchAllFields.priceRangeBuyFrom, watchAllFields.priceRangeBuyTo]);
 
   const onSubmit = handleSubmit(async (data): Promise<void> => {
     setActiveRequestsCount((prevCount) => prevCount + 1);
@@ -127,35 +136,40 @@ export default function Form({ user }: Props): JSX.Element {
       countOfBedrooms,
       totalAreaFrom,
       totalAreaTo,
-      priceRahgeRentFrom,
-      priceRahgeRentTo,
-      priceRahgeSellFrom,
-      priceRahgeSellTo,
+      priceRangeRentFrom,
+      priceRangeRentTo,
+      priceRangeBuyFrom,
+      priceRangeBuyTo,
       locations,
     } = data;
 
-    const requestData = {
+    const requestData: QobrixCreateLead = {
       conversion_status: leadStatuses.NEW.id,
       agent: qobrixAgentId,
       contact_name: qobrixContactId,
-      buy_rent: offeringType?.value,
-      description,
-      source_description: leadSource,
-      enquiry_type: enquiryType?.value,
-      bedrooms_from: countOfBedrooms?.value || null,
-      total_area_from_amount: totalAreaFrom || null,
-      total_area_to_amount: totalAreaTo || null,
-      list_selling_price_from: priceRahgeSellFrom || null,
-      list_selling_price_to: priceRahgeSellTo || null,
-      list_rental_price_from: priceRahgeRentFrom || null,
-      list_rental_price_to: priceRahgeRentTo || null,
+      buy_rent: offeringType || null,
+      description: description || null,
+      source_description: leadSource || null,
+      enquiry_type: enquiryType?.value || null,
+      bedrooms_from: Number(countOfBedrooms?.value),
+      covered_area_from_amount: totalAreaFrom || null,
+      covered_area_to_amount: totalAreaTo || null,
       locations: locations?.value || null,
     };
+
+    if (offeringType === QobrixLeadBuyRent.TO_BUY) {
+      requestData.list_selling_price_from = priceRangeBuyFrom;
+      requestData.list_selling_price_to = priceRangeBuyTo;
+    } else {
+      requestData.list_rental_price_from = priceRangeRentFrom;
+      requestData.list_rental_price_to = priceRangeRentTo;
+    }
 
     try {
       await createLead(requestData).unwrap();
       push(AppRoute.LEADS_PAGE);
-      reset();
+      reset(defaultValues);
+      enqueueSnackbar(t('succesCreatedMessage'), { variant: 'success' });
 
       return undefined;
     } catch (error) {
@@ -187,23 +201,14 @@ export default function Form({ user }: Props): JSX.Element {
           }}
         >
           <Stack spacing={1}>
-            <Typography variant="h3" sx={{ mb: '20px' }}>
-              {t('mainTitle')}
-            </Typography>
+            <GoBackPageTitile title={t('mainTitle')} ml="-20px" />
 
             <Block label={t('offeringTypeLabel')}>
-              <RHFAutocomplete
+              <RHFRadioGroup
+                row
                 name="offeringType"
-                placeholder={t('offeringTypePlaceholder')}
+                sx={{ display: 'flex', justifyContent: 'space-between' }}
                 options={getOfferTypes(t)}
-                getOptionLabel={(option: IValues | string) => (option as IValues).label}
-                isOptionEqualToValue={(option, value) => option.value === value.value}
-                renderOption={(props, option) => (
-                  <li {...props} key={option.value}>
-                    {option.label}
-                  </li>
-                )}
-                sx={{ height: '80px' }}
               />
             </Block>
 
@@ -213,7 +218,8 @@ export default function Form({ user }: Props): JSX.Element {
                 placeholder={t('leadSourcePlaceholder')}
                 multiline
                 rows={3}
-                sx={{ height: '125px' }}
+                sx={{ height: '105px' }}
+                size="small"
               />
             </Block>
 
@@ -223,7 +229,8 @@ export default function Form({ user }: Props): JSX.Element {
                 multiline
                 rows={3}
                 placeholder={t('descriptionPlaceholder')}
-                sx={{ height: '125px' }}
+                sx={{ height: '105px' }}
+                size="small"
               />
             </Block>
 
@@ -231,15 +238,23 @@ export default function Form({ user }: Props): JSX.Element {
               <RHFAutocomplete
                 name="enquiryType"
                 placeholder={t('enquiryTypePlaceholder')}
-                options={getEnquiryTypes(t)}
-                getOptionLabel={(option: IValues | string) => (option as IValues).label}
+                options={
+                  (properties &&
+                    properties.data.map((option) => ({
+                      label: option.name,
+                      value: option.code,
+                    }))) ||
+                  []
+                }
                 isOptionEqualToValue={(option, value) => option.value === value.value}
                 renderOption={(props, option) => (
                   <li {...props} key={option.value}>
                     {option.label}
                   </li>
                 )}
-                sx={{ height: '80px' }}
+                sx={{ height: '60px' }}
+                size="small"
+                loading={isPropertyTypeLoading}
               />
             </Block>
 
@@ -257,7 +272,8 @@ export default function Form({ user }: Props): JSX.Element {
                     {option.label}
                   </li>
                 )}
-                sx={{ height: '80px' }}
+                sx={{ height: '60px' }}
+                size="small"
               />
             </Block>
 
@@ -266,82 +282,60 @@ export default function Form({ user }: Props): JSX.Element {
                 <RHFTextField
                   name="totalAreaFrom"
                   type="number"
-                  inputProps={{
-                    min: 0,
-                    max: 10000,
-                  }}
                   placeholder={t('totalAreaFromPlaceHolder')}
-                  sx={{ height: '80px', mr: '50px' }}
+                  sx={{ height: '60px', mr: '50px' }}
+                  size="small"
                 />
 
                 <RHFTextField
                   name="totalAreaTo"
                   type="number"
-                  inputProps={{
-                    min: watchAllFields.totalAreaFrom || 0,
-                    max: 10000,
-                  }}
                   placeholder={t('totalAreaToPlaceHolder')}
-                  sx={{ height: '80px' }}
+                  sx={{ height: '60px' }}
+                  size="small"
                 />
               </Block>
             </Block>
 
-            {isEnquiryTypeRent ? (
-              <Block label={t('priceRahgeRentLabel')}>
+            <Block label={t('priceRangeLabel')} key={watchAllFields.offeringType}>
+              {watchAllFields.offeringType === QobrixLeadBuyRent.TO_RENT ? (
                 <Block sx={{ display: 'flex', flexDirection: 'row', gap: '0' }}>
                   <RHFTextField
-                    name="priceRahgeRentFrom"
+                    name="priceRangeRentFrom"
                     type="number"
-                    inputProps={{
-                      min: 0,
-                      max: 10000000,
-                    }}
-                    placeholder={t('priceRahgeRentFromPlaceholder')}
-                    sx={{ height: '80px', mr: '50px' }}
+                    placeholder={t('priceRangeRentFromPlaceholder')}
+                    sx={{ height: '60px', mr: '50px' }}
+                    size="small"
                   />
 
                   <RHFTextField
-                    name="priceRahgeRentTo"
+                    name="priceRangeRentTo"
                     type="number"
-                    inputProps={{
-                      min: watchAllFields.priceRahgeRentFrom || 0,
-                      max: 10000000,
-                    }}
-                    placeholder={t('priceRahgeRentToPlaceholder')}
-                    sx={{ height: '80px' }}
+                    placeholder={t('priceRangeRentToPlaceholder')}
+                    sx={{ height: '60px' }}
+                    size="small"
                   />
                 </Block>
-              </Block>
-            ) : null}
-
-            {isEnquiryTypeSell ? (
-              <Block label={t('priceRahgeSellLabel')}>
+              ) : (
                 <Block sx={{ display: 'flex', flexDirection: 'row', gap: '0' }}>
                   <RHFTextField
-                    name="priceRahgeSellFrom"
+                    name="priceRangeBuyFrom"
                     type="number"
-                    inputProps={{
-                      min: 0,
-                      max: 10000000,
-                    }}
-                    placeholder={t('priceRahgeSellFromPlaceholder')}
-                    sx={{ height: '80px', mr: '50px' }}
+                    placeholder={t('priceRangeBuyFromPlaceholder')}
+                    sx={{ height: '60px', mr: '50px' }}
+                    size="small"
                   />
 
                   <RHFTextField
-                    name="priceRahgeSellTo"
+                    name="priceRangeBuyTo"
                     type="number"
-                    inputProps={{
-                      min: watchAllFields.priceRahgeSellFrom || 0,
-                      max: 10000000,
-                    }}
-                    placeholder={t('priceRahgeSellToPlaceholder')}
-                    sx={{ height: '80px' }}
+                    placeholder={t('priceRangeBuyToPlaceholder')}
+                    sx={{ height: '60px' }}
+                    size="small"
                   />
                 </Block>
-              </Block>
-            ) : null}
+              )}
+            </Block>
 
             <Block label={t('locationsLabel')}>
               <RHFAutocomplete
@@ -359,7 +353,8 @@ export default function Form({ user }: Props): JSX.Element {
                   </li>
                 )}
                 loading={isSearchLocationLoading}
-                sx={{ height: '80px' }}
+                sx={{ height: '60px' }}
+                size="small"
               />
             </Block>
 

@@ -1,5 +1,5 @@
 import { randomValues } from 'constants/randomValues';
-import { IChatMessage } from 'types/chat';
+import { IChatMockMessage } from 'types/chat';
 import uuidv4 from 'utils/uuidv4';
 
 const randomDate = (start: Date, end: Date): Date =>
@@ -14,7 +14,7 @@ const getRandomLorem = (minWords: number, maxWords: number): string => {
   return words.slice(0, wordCount).join(' ');
 };
 
-const generateMessagesForDate = (date: Date, remainingMessages: number): IChatMessage[] => {
+const generateMessagesForDate = (date: Date, remainingMessages: number): IChatMockMessage[] => {
   const numberOfMessages = Math.min(Math.floor(Math.random() * 5) + 1, remainingMessages);
 
   return Array.from({ length: numberOfMessages }, (_, index) => ({
@@ -27,11 +27,11 @@ const generateMessagesForDate = (date: Date, remainingMessages: number): IChatMe
   }));
 };
 
-const generateMockMessages = (): IChatMessage[] => {
+const generateMockMessages = (): IChatMockMessage[] => {
   const maxMessages = 20;
   const startDate = new Date(2022, 0, 1);
   const endDate = new Date();
-  const messages: IChatMessage[] = [];
+  const messages: IChatMockMessage[] = [];
 
   while (messages.length < maxMessages) {
     const randomGeneratedDate = randomDate(startDate, endDate);

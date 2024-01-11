@@ -33,7 +33,7 @@ const PropertyFilter = ({ setFilter, setPropertyNameFilter }: Props) => {
   return (
     <Box sx={{ marginTop: 2, display: 'flex', alignItems: 'center' }}>
       <TextField
-        placeholder="Search by address"
+        placeholder="Search by property name"
         type="search"
         sx={{ width: '85%' }}
         inputRef={inputRef}

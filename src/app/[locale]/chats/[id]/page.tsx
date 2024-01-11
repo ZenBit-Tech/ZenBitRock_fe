@@ -1,32 +1,34 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ChatView } from 'sections/chat/view';
 import { Page500 } from 'sections/error';
-import { useGetUserByIdMutation } from 'store/api/userApi';
 import { LoadingScreen } from 'components/loading-screen';
+import { useGetChatByIdQuery, useGetMessagesQuery } from 'store/chat';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
 
 type Props = {
   params: { id: string };
 };
 
 function ChatPage({ params }: Props): JSX.Element {
-  const [getUserById, { data: usersData, isLoading, isError }] = useGetUserByIdMutation();
-  const { id } = params;
+  const { id: chatId } = params;
+  const { data: chatData, isFetching, isError } = useGetChatByIdQuery(chatId);
+  const authUser = useSelector((state: RootState) => state.authSlice.user);
 
-  useEffect(() => {
-    getUserById({ id });
-  }, [getUserById, id]);
+  const { data: chatMessages, isLoading: isLoadingMessages } = useGetMessagesQuery({ chatId });
 
-  if (!usersData || isLoading) {
+  if (isFetching || !chatData || !authUser || isLoadingMessages) {
     return <LoadingScreen />;
   }
 
   if (isError) {
     return <Page500 />;
   }
+  const { id } = authUser;
 
-  return <ChatView id={params.id} user={usersData} />;
+  return <ChatView id={id} user={chatData} chatId={chatId} messages={chatMessages} />;
 }
 
 export default ChatPage;
