@@ -33,7 +33,7 @@ const MessagesIndicator = (): JSX.Element | null => {
         p: '0',
         cursor: 'pointer',
       }}
-      onClick={() => router.push(AppRoute.MESSAGES_PAGE)}
+      onClick={() => router.push(AppRoute.CHATS_PAGE)}
     >
       <IconButton aria-label={ariaLabel} sx={{ height: '50px', width: '50px' }}>
         <Badge badgeContent={quantity} color="primary">
