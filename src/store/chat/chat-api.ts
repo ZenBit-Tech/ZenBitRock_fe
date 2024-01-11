@@ -146,7 +146,6 @@ export const ChatApi = createApi({
 export const {
   useCreateGroupChatMutation,
   useDeleteChatMutation,
-  useGetChatByIdQuery,
   useUpdateChatMutation,
   useGetMessagesQuery,
   useSendMessageMutation,
