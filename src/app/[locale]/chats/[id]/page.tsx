@@ -4,7 +4,7 @@ import React from 'react';
 import { ChatView } from 'sections/chat/view';
 import { Page500 } from 'sections/error';
 import { LoadingScreen } from 'components/loading-screen';
-import { useGetChatByIdQuery } from 'store/chat';
+import { useGetChatByIdQuery, useGetMessagesQuery } from 'store/chat';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 
@@ -17,7 +17,9 @@ function ChatPage({ params }: Props): JSX.Element {
   const { data: chatData, isFetching, isError, error } = useGetChatByIdQuery(chatId);
   const authUser = useSelector((state: RootState) => state.authSlice.user);
 
-  if (isFetching || !chatData || !authUser) {
+  const { data: chatMessages, isLoading: isLoadingMessages } = useGetMessagesQuery({ chatId });
+
+  if (isFetching || !chatData || !authUser || isLoadingMessages) {
     return <LoadingScreen />;
   }
 
@@ -26,7 +28,7 @@ function ChatPage({ params }: Props): JSX.Element {
   }
   const { id } = authUser;
 
-  return <ChatView id={id} user={chatData} chatId={chatId} />;
+  return <ChatView id={id} user={chatData} chatId={chatId} messages={chatMessages} />;
 }
 
 export default ChatPage;

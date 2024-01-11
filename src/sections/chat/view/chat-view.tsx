@@ -9,7 +9,6 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { Button } from '@mui/material';
-import { useGetMessagesQuery } from 'store/chat/chat-api';
 import { IChatByIdResponse } from 'types/chat';
 import { Message } from 'types';
 import ChatMessageList from '../chat-message-list';
@@ -20,21 +19,25 @@ type Props = {
   id: string;
   user: IChatByIdResponse;
   chatId: string;
+  messages?: Message[];
 };
 
-export default function ChatView({ id: selectedConversationId, user, chatId }: Props): JSX.Element {
+export default function ChatView({
+  id: selectedConversationId,
+  user,
+  chatId,
+  messages,
+}: Props): JSX.Element {
   const t = useTranslations('privateChat');
   const router = useRouter();
 
-  const { data: chatMessages, isLoading: isLoadingMessages } = useGetMessagesQuery({ chatId });
-
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [chatMessages, setChatMessages] = useState<Message[]>([]);
 
   useEffect(() => {
-    if (chatMessages) {
-      setMessages(chatMessages);
+    if (messages) {
+      setChatMessages(messages);
     }
-  }, [chatMessages]);
+  }, [messages]);
 
   const otherMember = useMemo(
     () => user.members.find((member) => member.id !== selectedConversationId),
@@ -60,7 +63,7 @@ export default function ChatView({ id: selectedConversationId, user, chatId }: P
         overflow: 'hidden',
       }}
     >
-      <ChatMessageList messages={messages} user={user} me={selectedConversationId} />
+      <ChatMessageList messages={chatMessages} user={user} me={selectedConversationId} />
 
       <ChatMessageInput chatId={chatId} />
     </Stack>
