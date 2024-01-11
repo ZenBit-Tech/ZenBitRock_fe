@@ -1,40 +1,37 @@
-import { useRouter } from 'next/navigation';
-import {
-  Card,
-  Avatar,
-  ListItemText,
-  Stack,
-  Typography,
-  Badge,
-  CardActionArea,
-} from '@mui/material';
+import { Card, Avatar, Stack, Typography, Badge, CardActionArea } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
 import { trimString } from 'services';
 import { AppRoute } from 'enums';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { Chat } from 'types';
-import { countUnreadMessages, findLatestMessage } from './helpers';
+import { useSelector, useRouter } from 'hooks';
+import { selectCurrentUser } from 'store/auth/authReducer';
+import { colors } from 'constants/colors';
+import { countUnreadMessages, findLatestMessage, getOpponent } from './helpers';
 
 type FollowerItemProps = {
   chat: Chat;
 };
 
 const MAX_WORDS: number = 6;
+const MAX_CHARACTERS: number = 20;
 
 export default function ChatItem({ chat }: FollowerItemProps): JSX.Element {
   const router = useRouter();
+  const authState = useSelector(selectCurrentUser);
+  const userId = authState.user ? authState.user.id : '';
 
-  const { id, isPrivate, title, messages } = chat;
+  const { id, isPrivate, title, messages, members } = chat;
 
   const countOfUnreadMessages = countUnreadMessages(messages);
   const lastMessage = findLatestMessage(messages);
 
-  const { content, owner, createdAt } = lastMessage || {};
-
-  const { avatarUrl } = owner || {};
-
+  const { content, createdAt } = lastMessage || {};
   const messageDate = createdAt ? formatDistanceToNowStrict(new Date(createdAt)) : null;
-  const avatar = isPrivate ? avatarUrl || '/' : '/';
+
+  const opponent = getOpponent({ isPrivate, userId, members });
+  const avatar = opponent?.avatarUrl || '/';
+  const chatTitle = opponent ? `${opponent.firstName} ${opponent.lastName}` : title;
 
   const handleClick = (): void => {
     router.push(`${AppRoute.CHAT_PAGE}/${id}`);
@@ -58,15 +55,24 @@ export default function ChatItem({ chat }: FollowerItemProps): JSX.Element {
           p: (theme) => theme.spacing(2, 1, 2, 1),
         }}
       >
-        <Avatar alt={title} src={avatar} sx={{ width: 68, height: 68, mr: 2 }} />
+        <Avatar alt={chatTitle} src={avatar} sx={{ width: 68, height: 68, mr: 2 }} />
 
         <Stack sx={{ flex: 5 }}>
-          <Typography variant="subtitle1" sx={{ textAlign: 'left' }}>
-            {title}
+          <Typography variant="subtitle1" sx={{ textAlign: 'left', mb: '8px' }}>
+            {chatTitle}
           </Typography>
-          {content && (
-            <ListItemText secondary={trimString(content, MAX_WORDS)} sx={{ textAlign: 'left' }} />
-          )}
+
+          <Typography
+            variant="body2"
+            sx={{
+              textAlign: 'left',
+              height: '20px',
+              wordWrap: 'break-word',
+              color: colors.TEXT_GREY_COLOR,
+            }}
+          >
+            {trimString(content || '', MAX_WORDS, MAX_CHARACTERS)}
+          </Typography>
         </Stack>
 
         <Stack alignItems="center" sx={{ gap: '10px', minWidth: '65px', alignItems: 'center' }}>
@@ -74,7 +80,9 @@ export default function ChatItem({ chat }: FollowerItemProps): JSX.Element {
             <MailIcon />
           </Badge>
 
-          <Typography variant="body2">{messageDate}</Typography>
+          <Typography variant="body2" height="13px">
+            {messageDate}
+          </Typography>
         </Stack>
       </Card>
     </CardActionArea>
