@@ -30,7 +30,11 @@ interface LeadsListProps {
 
 function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
   const [page, setPage] = useState(FIRST_PAGE);
-  const [localFilter, setLocalFilter] = useState<string | undefined>();
+  const [localFilter, setLocalFilter] = useState<string | undefined>(
+    window.localStorage.getItem('leadsFilter')
+      ? (window.localStorage.getItem('leadsFilter') as string)
+      : undefined
+  );
 
   const t = useTranslations('leads');
   const { enqueueSnackbar } = useSnackbar();
@@ -59,8 +63,8 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
       setPage(FIRST_PAGE);
       setLocalFilter(filter?.split('firstcall')[1]);
     } else if (filter === 'update') {
-      setLocalFilter(filter);
       setPage(FIRST_PAGE);
+      setLocalFilter(filter);
     }
   }, [filter]);
 
