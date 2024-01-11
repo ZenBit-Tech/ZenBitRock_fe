@@ -55,7 +55,7 @@ const PropertyFilter = ({ setFilter, setPropertyNameFilter }: Props) => {
         open={popover.open}
         onClose={popover.onClose}
         arrow="top-left"
-        sx={{ width: '100%', mt: 1 }}
+        sx={{ width: '100%', mt: 1, overflow: 'scroll' }}
       >
         <FilterList applyFilters={handleApplyFilters} />
       </CustomPopover>
