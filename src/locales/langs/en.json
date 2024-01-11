@@ -549,7 +549,7 @@
   },
   "leads": {
     "": "",
-    "results": "Filtered results",
+    "results": "Matching results",
     "addBtnTxt": "Add lead",
     "direct": "Direct",
     "agent": "Agent",
@@ -578,7 +578,7 @@
     "try": "Try to find something else.",
     "reset": "Reset all filters",
     "leads": "leads",
-    "all": "All",
+    "all": "Any",
     "error": "Something went wrong!"
   },
   "agents": {

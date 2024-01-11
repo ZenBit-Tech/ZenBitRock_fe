@@ -28,7 +28,7 @@ function LeadsFilter({ getFilter }: Prop): JSX.Element {
 
   const form = useForm<FormValues>({
     defaultValues: {
-      status: '',
+      status: randomValues.ALL,
       leadName: '',
     },
     mode: 'onSubmit',
