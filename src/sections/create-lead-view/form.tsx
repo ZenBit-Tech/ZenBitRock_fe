@@ -203,10 +203,6 @@ export default function Form({ user }: Props): JSX.Element {
           <Stack spacing={1}>
             <GoBackPageTitile title={t('mainTitle')} ml="-25px" />
 
-            {/* <Typography variant="h3" sx={{ mb: '20px' }}>
-              {t('mainTitle')}
-            </Typography> */}
-
             <Block label={t('offeringTypeLabel')}>
               <RHFRadioGroup
                 row
