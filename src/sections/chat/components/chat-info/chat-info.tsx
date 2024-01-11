@@ -52,7 +52,8 @@ const ChatInfo = (): JSX.Element => {
     data,
     isFetching,
     isLoading: isLoadingWhenGetChat,
-  } = useGetChatByIdQuery(pathsname.split('/')[2], { refetchOnMountOrArgChange: true });
+    refetch,
+  } = useGetChatByIdQuery({ id: pathsname.split('/')[2] }, { refetchOnMountOrArgChange: true });
 
   useEffect(() => {
     getAllUsers();
@@ -357,7 +358,7 @@ const ChatInfo = (): JSX.Element => {
               t={t}
               chatId={data?.id}
               closeModalUp={() => closeModal('name')}
-              refresh={() => window.location.reload()}
+              refresh={() => refetch()}
             />
           </Box>
         </Modal>
@@ -399,7 +400,7 @@ const ChatInfo = (): JSX.Element => {
               changedMembers={(values: string[]) => {
                 handleClickUpdate(values);
               }}
-              refresh={() => window.location.reload()}
+              refresh={() => refetch()}
             />
           </Box>
         </Modal>
