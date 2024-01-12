@@ -9,6 +9,8 @@ import CustomBreadcrumbs from 'components/custom-breadcrumbs';
 import { useMockedUser } from 'hooks/use-mocked-user';
 import { paths } from 'routes/paths';
 import Form from './form';
+import { GoBackPageTitile } from 'components/custom';
+import { Box } from '@mui/material';
 
 export default function VerifyOldPasswordView(): JSX.Element {
   const settings = useSettingsContext();
@@ -17,20 +19,9 @@ export default function VerifyOldPasswordView(): JSX.Element {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'} sx={{ paddingTop: '1rem' }}>
-      <CustomBreadcrumbs
-        heading={t('pageTitle')}
-        links={[
-          {
-            name: `${t('backLink')}`,
-            href: paths.user.profile,
-          },
-          { name: user?.displayName },
-          { name: user?.email },
-        ]}
-        sx={{
-          mb: { xs: 3, md: 5 },
-        }}
-      />
+      <Box sx={{ ml: 1, mr: 1 }}>
+        <GoBackPageTitile title={t('pageTitle')} />
+      </Box>
 
       <SnackbarProvider>
         <ReduxProvider>
