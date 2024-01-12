@@ -30,7 +30,7 @@ function LeadsFilter({ getFilter }: Prop): JSX.Element {
     defaultValues: {
       status: localStorage.getItem('leadsFilter')?.split('matches ')[1].split("'")[1]
         ? localStorage.getItem('leadsFilter')?.split('matches ')[1].split("'")[1]
-        : '',
+        : randomValues.ALL,
       leadName: localStorage
         .getItem('leadsFilter')
         ?.split('contains ')[1]
