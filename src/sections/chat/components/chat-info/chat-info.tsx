@@ -157,7 +157,7 @@ const ChatInfo = (): JSX.Element => {
         <Button
           title={t('back')}
           sx={{ padding: '0' }}
-          onClick={(): void => router.push(`${AppRoute.CHAT_PAGE}/${data?.id}`)}
+          onClick={(): void => router.push(`${AppRoute.CHATS_PAGE}/${data?.id}`)}
         >
           <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: colors.PRIMARY_DARK_COLOR }} />
         </Button>
