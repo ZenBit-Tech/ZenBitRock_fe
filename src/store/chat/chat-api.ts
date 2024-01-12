@@ -144,11 +144,35 @@ export const ChatApi = createApi({
           const socket = getSocket();
 
           socket.on('connect', () => {
-            console.log('Socket connected');
             socket.emit(ChatEvent.RequestAllChats, arg.userId, (chats: Chat[]) => {
-              console.log('Chats received:', chats);
               updateCachedData((draft) => {
                 draft.splice(0, draft.length, ...chats);
+              });
+            });
+          });
+
+          socket.on(ChatEvent.NewMessage, (message: Message) => {
+            updateCachedData((draft) => {
+              draft.map((existingChat) => {
+                if (existingChat.id === message.chat.id) {
+                  existingChat.messages.push(message);
+                }
+
+                return undefined;
+              });
+            });
+          });
+
+          socket.on(ChatEvent.NewChat, (chat: Chat) => {
+            updateCachedData((draft) => {
+              chat.members.map((memeber) => {
+                if (memeber.id === arg.userId) {
+                  draft.push(chat);
+
+                  return undefined;
+                }
+
+                return undefined;
               });
             });
           });
