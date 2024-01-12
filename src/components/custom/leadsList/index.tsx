@@ -75,7 +75,6 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
   }, [filter]);
 
   const leadsList = data?.data;
-  
 
   return (
     <Box
@@ -121,11 +120,14 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
             mb: '50px',
           }}
         >
-          {localFilter && leadsList?.length !== 0 && localFilter !== 'update' && (
-            <Typography variant="h5" sx={{ paddingBottom: 2 }} textAlign="center">
-              {` ${t('results')}: ${data?.pagination.count}`}
-            </Typography>
-          )}
+          {localFilter &&
+            leadsList?.length !== 0 &&
+            localFilter !== 'update' &&
+            data?.pagination && (
+              <Typography variant="h5" sx={{ paddingBottom: 2 }} textAlign="center">
+                {` ${t('results')}: ${data.pagination.count}`}
+              </Typography>
+            )}
           {leadsList?.map((lead: QobrixLeadItem) => <Lead lead={lead} key={uuidv4()} />)}
           {isFetching && <LoadingScreen />}
         </ListStyled>
