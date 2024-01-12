@@ -171,12 +171,10 @@ export const ChatApi = createApi({
             });
           });
 
-
           await cacheEntryRemoved;
 
           socket.off('connect');
           socket.off(ChatEvent.RequestAllChats);
-          console.log('Socket disconnected');
         } catch (error) {
           console.error(error);
         }
