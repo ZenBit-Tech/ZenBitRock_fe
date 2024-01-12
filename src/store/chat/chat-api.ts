@@ -63,17 +63,16 @@ export const ChatApi = createApi({
     }),
     getMessages: builder.query<Message[], { chatId: string }>({
       queryFn: () => ({ data: [] }),
+
       async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved, updateCachedData }) {
         try {
           await cacheDataLoaded;
 
           const socket = getSocket();
 
-          socket.on('connect', () => {
-            socket.emit(ChatEvent.RequestAllMessages, arg.chatId, (messages: Message[]) => {
-              updateCachedData((draft) => {
-                draft.splice(0, draft.length, ...messages);
-              });
+          socket.emit(ChatEvent.RequestAllMessages, arg.chatId, (messages: Message[]) => {
+            updateCachedData((draft) => {
+              draft.splice(0, draft.length, ...messages);
             });
           });
 
@@ -87,9 +86,7 @@ export const ChatApi = createApi({
 
           await cacheEntryRemoved;
 
-          socket.off('connect');
-          socket.off(ChatEvent.RequestAllMessages);
-          socket.off(ChatEvent.NewMessage);
+          socket.close();
         } catch (error) {
           throw error;
         }
