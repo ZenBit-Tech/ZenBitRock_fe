@@ -19,8 +19,8 @@ type Prop = {
 };
 
 type FormValues = {
-  status: string;
-  leadName: string;
+  status?: string;
+  leadName?: string;
 };
 
 function LeadsFilter({ getFilter }: Prop): JSX.Element {
@@ -28,8 +28,16 @@ function LeadsFilter({ getFilter }: Prop): JSX.Element {
 
   const form = useForm<FormValues>({
     defaultValues: {
-      status: '',
-      leadName: '',
+      status: localStorage.getItem('leadsFilter')?.split('matches ')[1].split("'")[1]
+        ? localStorage.getItem('leadsFilter')?.split('matches ')[1].split("'")[1]
+        : '',
+      leadName: localStorage
+        .getItem('leadsFilter')
+        ?.split('contains ')[1]
+        .split(' and')[0]
+        .split("'")[1]
+        ? localStorage.getItem('leadsFilter')?.split('contains ')[1].split(' and')[0].split("'")[1]
+        : '',
     },
     mode: 'onSubmit',
   });
@@ -45,6 +53,12 @@ function LeadsFilter({ getFilter }: Prop): JSX.Element {
       modifiedData.status === '' && modifiedData.leadName === ''
         ? 'update'
         : `firstcallContactNameContacts.name contains '${modifiedData.leadName}' and Opportunities.conversion_status matches '${modifiedData.status}'`;
+
+    if (searchString !== 'update') {
+      localStorage.setItem('leadsFilter', searchString.split('firstcall')[1]);
+    } else {
+      localStorage.removeItem('leadsFilter');
+    }
 
     getFilter(searchString);
   };

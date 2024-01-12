@@ -30,7 +30,11 @@ interface LeadsListProps {
 
 function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
   const [page, setPage] = useState(FIRST_PAGE);
-  const [localFilter, setLocalFilter] = useState<string | undefined>();
+  const [localFilter, setLocalFilter] = useState<string | undefined>(
+    window.localStorage.getItem('leadsFilter')
+      ? (window.localStorage.getItem('leadsFilter') as string)
+      : undefined
+  );
 
   const t = useTranslations('leads');
   const { enqueueSnackbar } = useSnackbar();
@@ -49,18 +53,24 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
     },
   });
 
-  const { data, error, isFetching } = useGetLeadsQuery(
+  const { data, error, isFetching, refetch } = useGetLeadsQuery(
     { page, filter: localFilter, id },
     { refetchOnMountOrArgChange: true }
   );
+
+  useEffect(() => {
+    if (window.localStorage.getItem('leadsFilter')) {
+      refetch();
+    }
+  }, [refetch]);
 
   useEffect(() => {
     if (filter?.includes('firstcall')) {
       setPage(FIRST_PAGE);
       setLocalFilter(filter?.split('firstcall')[1]);
     } else if (filter === 'update') {
-      setLocalFilter(filter);
       setPage(FIRST_PAGE);
+      setLocalFilter(filter);
     }
   }, [filter]);
 
@@ -110,7 +120,7 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
             mb: '50px',
           }}
         >
-          {filter && leadsList?.length !== 0 && filter !== 'update' && (
+          {localFilter && leadsList?.length !== 0 && localFilter !== 'update' && (
             <Typography variant="h5" sx={{ paddingBottom: 2 }} textAlign="center">
               {t('results')}
             </Typography>
@@ -119,7 +129,7 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
           {isFetching && <LoadingScreen />}
         </ListStyled>
       )}
-      {leadsList?.length === 0 && (filter || name) && !isFetching && <NoDataFound />}
+      {leadsList?.length === 0 && (localFilter || name) && !isFetching && <NoDataFound />}
       <Fab
         color="primary"
         aria-label="scroll to top"
