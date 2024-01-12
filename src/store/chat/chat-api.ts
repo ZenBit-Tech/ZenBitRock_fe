@@ -153,29 +153,24 @@ export const ChatApi = createApi({
 
           socket.on(ChatEvent.NewMessage, (message: Message) => {
             updateCachedData((draft) => {
-              draft.map((existingChat) => {
+              draft.forEach((existingChat) => {
                 if (existingChat.id === message.chat.id) {
                   existingChat.messages.push(message);
                 }
-
-                return undefined;
               });
             });
           });
 
           socket.on(ChatEvent.NewChat, (chat: Chat) => {
             updateCachedData((draft) => {
-              chat.members.map((memeber) => {
-                if (memeber.id === arg.userId) {
+              chat.members.forEach((member) => {
+                if (member.id === arg.userId) {
                   draft.push(chat);
-
-                  return undefined;
                 }
-
-                return undefined;
               });
             });
           });
+
 
           await cacheEntryRemoved;
 
