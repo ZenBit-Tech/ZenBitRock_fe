@@ -47,6 +47,7 @@ const defaultValues = {
 };
 
 const DEBOUNCE_DELAY: number = 1000;
+const TYPE_OF_SOURCE: string = 'direct';
 
 export default function Form({ user }: Props): JSX.Element {
   const t = useTranslations('CreateLeadPage');
@@ -155,6 +156,7 @@ export default function Form({ user }: Props): JSX.Element {
       covered_area_from_amount: totalAreaFrom || null,
       covered_area_to_amount: totalAreaTo || null,
       locations: locations?.value || null,
+      source: TYPE_OF_SOURCE,
     };
 
     if (offeringType === QobrixLeadBuyRent.TO_BUY) {
@@ -283,7 +285,7 @@ export default function Form({ user }: Props): JSX.Element {
                   name="totalAreaFrom"
                   type="number"
                   placeholder={t('totalAreaFromPlaceHolder')}
-                  sx={{ height: '60px', mr: '50px' }}
+                  sx={{ height: '70px', mr: '50px' }}
                   size="small"
                 />
 
@@ -291,7 +293,7 @@ export default function Form({ user }: Props): JSX.Element {
                   name="totalAreaTo"
                   type="number"
                   placeholder={t('totalAreaToPlaceHolder')}
-                  sx={{ height: '60px' }}
+                  sx={{ height: '70px' }}
                   size="small"
                 />
               </Block>
@@ -304,7 +306,7 @@ export default function Form({ user }: Props): JSX.Element {
                     name="priceRangeRentFrom"
                     type="number"
                     placeholder={t('priceRangeRentFromPlaceholder')}
-                    sx={{ height: '60px', mr: '50px' }}
+                    sx={{ height: '70px', mr: '50px' }}
                     size="small"
                   />
 
@@ -312,7 +314,7 @@ export default function Form({ user }: Props): JSX.Element {
                     name="priceRangeRentTo"
                     type="number"
                     placeholder={t('priceRangeRentToPlaceholder')}
-                    sx={{ height: '60px' }}
+                    sx={{ height: '70px' }}
                     size="small"
                   />
                 </Block>
@@ -322,7 +324,7 @@ export default function Form({ user }: Props): JSX.Element {
                     name="priceRangeBuyFrom"
                     type="number"
                     placeholder={t('priceRangeBuyFromPlaceholder')}
-                    sx={{ height: '60px', mr: '50px' }}
+                    sx={{ height: '70px', mr: '50px' }}
                     size="small"
                   />
 
@@ -330,7 +332,7 @@ export default function Form({ user }: Props): JSX.Element {
                     name="priceRangeBuyTo"
                     type="number"
                     placeholder={t('priceRangeBuyToPlaceholder')}
-                    sx={{ height: '60px' }}
+                    sx={{ height: '70px' }}
                     size="small"
                   />
                 </Block>
