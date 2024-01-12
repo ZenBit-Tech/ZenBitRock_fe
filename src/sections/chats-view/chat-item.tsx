@@ -1,8 +1,7 @@
 import { Card, Avatar, Stack, Typography, Badge, CardActionArea } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
-import { trimString } from 'services';
+import { formatDate, trimString } from 'services';
 import { AppRoute } from 'enums';
-import { formatDistanceToNowStrict } from 'date-fns';
 import { Chat } from 'types';
 import { useSelector, useRouter } from 'hooks';
 import { selectCurrentUser } from 'store/auth/authReducer';
@@ -27,7 +26,7 @@ export default function ChatItem({ chat }: FollowerItemProps): JSX.Element {
   const lastMessage = findLatestMessage(messages);
 
   const { content, createdAt } = lastMessage || {};
-  const messageDate = createdAt ? formatDistanceToNowStrict(new Date(createdAt)) : null;
+  const messageDate = createdAt ? formatDate(createdAt) : null;
 
   const opponent = getOpponent({ isPrivate, userId, members });
   const avatar = opponent?.avatarUrl || '/';
