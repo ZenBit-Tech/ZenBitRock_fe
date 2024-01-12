@@ -51,7 +51,7 @@ export default function Property({ id }: { id: string }): JSX.Element {
         transition: 'easy-in 200 all',
       }}
     >
-      <GoBackPageTitile title={t('title')} />
+      <GoBackPageTitile title={t('title')} ml="-20px" />
       <Box sx={{ display: 'none' }}>
         {error && enqueueSnackbar(t('error'), { variant: 'error' })}
       </Box>

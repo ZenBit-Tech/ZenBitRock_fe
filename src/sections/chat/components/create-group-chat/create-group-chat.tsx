@@ -14,7 +14,7 @@ const CreateGroupChat = ({ closeModal, openModal }: Props): JSX.Element => {
 
   useCloseModal(openModal, (): void => closeModal());
 
-  const t = useTranslations('MessagesPage');
+  const t = useTranslations('ChatsPage');
 
   return (
     <>

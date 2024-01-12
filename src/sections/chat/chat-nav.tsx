@@ -42,7 +42,7 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
   const [selectedAgent, setSelectedAgent] = useState<UserChatResponse | null>(null);
   const [selectedAgentId, setSelectedAgentId] = useState('');
 
-  const { data: chatData, isFetching, refetch } = useCheckPrivateChatQuery(selectedAgentId);
+  const { data: chatData } = useCheckPrivateChatQuery(selectedAgentId);
 
   const [createChat, { error }] = useCreateChatMutation();
 
@@ -99,13 +99,6 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
     },
     [agents, id]
   );
-
-  const handleClickAwaySearch = useCallback((): void => {
-    setSearchAgents({
-      query: '',
-      results: [],
-    });
-  }, []);
 
   const handleClickResult = useCallback(
     (agent: UserChatResponse) => {

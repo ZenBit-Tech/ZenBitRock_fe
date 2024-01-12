@@ -22,7 +22,7 @@ const ChatNotifications = (): JSX.Element => {
         }}
       >
         <Typography color={GREY[600]}>{t('noNotifications')}</Typography>
-        <CustomLink href={AppRoute.MESSAGES_PAGE}>
+        <CustomLink href={AppRoute.CHATS_PAGE}>
           <Box component="span" display="flex" alignItems="center" color={GREY[600]}>
             {t('view')}
             <Iconify icon="mingcute:right-line" width="15px" height="15px" color="inherit" />

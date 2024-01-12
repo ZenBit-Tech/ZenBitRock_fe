@@ -1,6 +1,7 @@
 'use client';
 
 import { Badge, Box, IconButton } from '@mui/material';
+import { colors } from 'constants/colors';
 import { AppRoute } from 'enums';
 import { useRouter, useTranslations } from 'hooks';
 import { useMemo } from 'react';
@@ -33,14 +34,28 @@ const MessagesIndicator = (): JSX.Element | null => {
         p: '0',
         cursor: 'pointer',
       }}
-      onClick={() => router.push(AppRoute.MESSAGES_PAGE)}
+      onClick={() => router.push(AppRoute.CHATS_PAGE)}
     >
-      <IconButton aria-label={ariaLabel} sx={{ height: '50px', width: '50px' }}>
+      <IconButton
+        aria-label={ariaLabel}
+        sx={{
+          height: '3rem',
+          width: '3rem',
+          ml: '0.1rem',
+          transition: 'all 200ms ease-out',
+          backgroundColor: colors.BUTTON_PRIMARY_COLOR,
+          '&:hover': {
+            backgroundColor: colors.BUTTON_SECOND_COLOR,
+            transition: 'all 200ms ease-out',
+          },
+        }}
+      >
         <Badge badgeContent={quantity} color="primary">
           <MailIcon
             sx={{
               height: '40px',
               width: '40px',
+              color: colors.PRIMARY_LIGHT_COLOR,
             }}
           />
         </Badge>
