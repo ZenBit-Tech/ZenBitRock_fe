@@ -79,7 +79,6 @@ export function FormName({ t, closeModalUp, chatId, refresh, oldName }: Props): 
         variant="outlined"
         label={t('enterNewName')}
         placeholder={t('enterNewName')}
-        // defaultValue={oldName}
         type="email"
         fullWidth
         error={Boolean(errors?.groupName)}
