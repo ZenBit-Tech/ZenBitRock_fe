@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Typography } from '@mui/material';
+import { Box, Card, Typography } from '@mui/material';
 import { CustomLink } from 'components/custom';
 import Iconify from 'components/iconify';
 import { useState } from 'hooks';
@@ -11,18 +11,24 @@ const NotificationCenter = ({ t }: { t: Function }): JSX.Element => {
   return (
     <>
       {isVisible && (
-        <Box>
-          <Typography>{t('notificationCenter')}</Typography>
+        <Card
+          sx={{
+            width: '100%',
+            my: '2rem',
+            p: '1rem',
+          }}
+        >
+          <Typography variant="subtitle1">{t('notificationCenter')}</Typography>
           <Box
             sx={{
-              p: 1,
               marginTop: '5px',
-              borderBottom: '1px solid grey',
               display: 'flex',
               justifyContent: 'space-between',
             }}
           >
-            <Typography>{t('noNewNotifications')}</Typography>
+            <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
+              {t('noNewNotifications')}
+            </Typography>
             <CustomLink href="#">
               <Box component="span" display="flex" alignItems="center">
                 {t('view')}
@@ -30,7 +36,7 @@ const NotificationCenter = ({ t }: { t: Function }): JSX.Element => {
               </Box>
             </CustomLink>
           </Box>
-        </Box>
+        </Card>
       )}
     </>
   );
