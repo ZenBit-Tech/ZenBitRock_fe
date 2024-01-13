@@ -4,7 +4,6 @@ import { enqueueSnackbar } from 'notistack';
 import TextField from '@mui/material/TextField';
 import { Container } from '@mui/system';
 import { Fab } from '@mui/material';
-import Card from '@mui/material/Card';
 import { useRouter } from 'routes/hooks';
 import { useScrollToTop } from 'hooks';
 import { useCheckPrivateChatQuery, useCreateChatMutation } from 'store/chat';
@@ -145,22 +144,13 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
       onChange={(event) => handleSearchAgents(event.target.value)}
       placeholder={t('searchPlaceholder')}
       type="search"
-      sx={{ my: 2.5 }}
+      sx={{ mt: 2.5 }}
     />
   );
 
   const renderContent = (
     <>
-      <Card
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          p: (theme) => theme.spacing(3, 3, 3, 3),
-          mb: 2,
-        }}
-      >
-        {renderSearchInput}
-      </Card>
+      {renderSearchInput}
 
       {searchAgents.query && renderListResults}
 
@@ -174,24 +164,28 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
               <AgentListItem key={agent.id} agent={agent} handleClickResult={handleClickResult} />
             ) : null
           )}
-          <Fab
-            color="primary"
-            aria-label="scroll to top"
-            onClick={scrollToTop}
-            sx={{
-              position: 'fixed',
-              bottom: '70px',
-              right: '20px',
-              display: isVisible ? 'block' : 'none',
-              transition: 'easy-in 200 display',
-            }}
-          >
-            ↑
-          </Fab>
         </>
       )}
     </>
   );
 
-  return <Container>{renderContent}</Container>;
+  return (
+    <Container sx={{ p: 0 }}>
+      {renderContent}
+      <Fab
+        color="primary"
+        aria-label="scroll to top"
+        onClick={scrollToTop}
+        sx={{
+          position: 'fixed',
+          bottom: '70px',
+          right: '20px',
+          display: isVisible ? 'block' : 'none',
+          transition: 'easy-in 200 display',
+        }}
+      >
+        ↑
+      </Fab>
+    </Container>
+  );
 }
