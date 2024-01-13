@@ -67,7 +67,7 @@ function PropertiesList({ search }: Props): JSX.Element {
             justifyContent: 'center',
             alignItems: 'stretch',
             flexWrap: 'wrap',
-            width: '90%',
+            // width: '90%',
             mx: 'auto',
             mt: '2rem',
             mb: '100px',

@@ -39,6 +39,8 @@ export const Title = styled(Typography)`
 export const TextStyled = styled(Typography)`
   position: relative;
   white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
   font-size: 0.75rem;
   &.price {
     font-size: 1rem;
@@ -74,6 +76,8 @@ export const ButtonStyled = styled(Button)`
 `;
 
 export const TypographyStyled = styled(Typography)`
+  text-overflow: ellipsis;
+
   white-space: nowrap;
   font-size: 0.75rem;
 
@@ -86,6 +90,9 @@ export const TypographyDescriptionLeft = styled(Typography)`
   display: block;
   flex: 3;
   white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+
   font-size: 0.75rem;
   font-weight: 700;
   margin-right: 1rem;

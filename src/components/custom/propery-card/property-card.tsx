@@ -37,7 +37,9 @@ const PropertyCard = ({ property }: Props) => {
         flexDirection: 'column',
         width: '100%',
         marginBottom: '2rem',
+        cursor: 'pointer',
       }}
+      onClick={() => router.push(`${AppRoute.PROPERTY_PAGE}/${id}`)}
     >
       <Box
         sx={{
@@ -134,14 +136,9 @@ const PropertyCard = ({ property }: Props) => {
             {getCountries().find((object) => object.value === country)?.label}, {city}
           </TextMiddleStyled>
         )}
-        <LinkStyled
-          sx={{ padding: '14px', marginTop: 'auto' }}
-          variant="contained"
-          color="primary"
-          onClick={() => router.push(`${AppRoute.PROPERTY_PAGE}/${id}`)}
-        >
-          <TypographyStyled>{t('Description')}</TypographyStyled>
-          <Iconify icon="ri:arrow-right-s-line" height="auto" />
+        <LinkStyled sx={{ padding: '14px', marginTop: 'auto' }} variant="contained" color="primary">
+          <TypographyStyled>{t('description')}</TypographyStyled>
+          <Iconify icon="fluent:tap-single-32-regular" height="auto" />
         </LinkStyled>
       </Box>
     </Card>

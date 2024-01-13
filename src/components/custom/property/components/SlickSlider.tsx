@@ -25,10 +25,11 @@ const SETTINGS = {
   innerHeight: 200,
 };
 
-const DEFAULT_POSITION = 0;
-const MAGNIFIER_HEIGHT = 200;
-const MAGNIFIER_WIDTH = 200;
-const ZOOM_LEVEL = 3;
+const DEFAULT_POSITION: number = 0;
+const MAGNIFIER_HEIGHT: number = 200;
+const MAGNIFIER_WIDTH: number = 200;
+const ZOOM_LEVEL: number = 3;
+const MAX_IMAGES_ON_PAGE: number = 4;
 
 export const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
   const t = useTranslations('property');
@@ -179,8 +180,17 @@ export const SlickSlider: React.FC<SlickSliderProps> = ({ photos }) => {
         ))}
       </Slider>
       {toggleModal && (
-        <Modal open sx={{ overflow: 'scroll' }} ref={modalContainerRef}>
-          <Box ref={modalContainerRef} sx={{ height: 'fit-content' }}>
+        <Modal
+          open
+          className="box-slider"
+          sx={{
+            overflow: 'scroll',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: photos && photos.length < MAX_IMAGES_ON_PAGE ? 'center' : 'flex-start',
+          }}
+        >
+          <Box ref={modalContainerRef} sx={{ height: 'fit-content', position: 'relative' }}>
             <ButtonClose
               top="2rem"
               right="2rem"

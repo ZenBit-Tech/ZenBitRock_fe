@@ -47,8 +47,10 @@ export const TextMiddleStyled = styled(Typography)`
 `;
 
 export const LinkStyled = styled(Button)`
-  height: 2rem;
   width: 100%;
+  padding: 14px;
+
+  pointer-events: none;
 
   display: flex;
   justify-content: center;
@@ -58,8 +60,4 @@ export const LinkStyled = styled(Button)`
 export const TypographyStyled = styled(Typography)`
   white-space: nowrap;
   font-size: 0.75rem;
-
-  @media (min-width: 1024px) {
-    font-size: 1rem;
-  }
 `;

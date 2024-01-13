@@ -466,7 +466,7 @@
   "properties": {
     "title": "My properties",
     "alt": "Property photo",
-    "Description": "Description",
+    "description": "Tap to see description",
     "for_sale": "For Sale",
     "for_rent": "For Rent",
     "for_sale_and_rent": "For Sale and Rent",
