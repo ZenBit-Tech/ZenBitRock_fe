@@ -118,7 +118,7 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
               <Grid container direction="column" sx={{ width: '100%' }}>
                 <Typography
                   sx={{
-                    fontSize: '0.75rem',
+                    fontSize: '0.875rem',
                     fontWeight: 'bold',
                     textAlign: 'right',
                   }}
@@ -131,7 +131,7 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
               <Grid container direction="column" sx={{ width: '100%' }}>
                 <Typography
                   sx={{
-                    fontSize: '0.75rem',
+                    fontSize: '0.875rem',
                     fontWeight: 'bold',
                   }}
                 >
@@ -173,7 +173,7 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
                   <Grid container direction="column" sx={{ width: '100%' }}>
                     <Typography
                       sx={{
-                        fontSize: '0.75rem',
+                        fontSize: '0.875rem',
                         textAlign: 'right',
                       }}
                     >
@@ -187,7 +187,7 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
                   <Grid container direction="column" sx={{ width: '100%' }}>
                     <Typography
                       sx={{
-                        fontSize: '0.75rem',
+                        fontSize: '0.875rem',
                       }}
                     >
                       {element[2]}

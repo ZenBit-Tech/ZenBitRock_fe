@@ -4,6 +4,7 @@ import { useCallback } from 'hooks';
 import { useRef } from 'react';
 import CustomPopover, { usePopover } from 'components/custom-popover';
 import { getNameFilter } from 'utils';
+import { colors } from 'constants/colors';
 import { FilterList } from '../filter-list/filter-list';
 
 type Props = {
@@ -42,14 +43,18 @@ const PropertyFilter = ({ setFilter, setPropertyNameFilter }: Props) => {
           endAdornment: (
             <InputAdornment position="end">
               <IconButton sx={{ m: 0, p: 0 }} onClick={handleApplyPropetyNameFilter}>
-                <Iconify icon="eva:search-fill" sx={{ ml: 1, color: 'text.disabled' }} />
+                <Iconify
+                  icon="eva:search-fill"
+                  sx={{ ml: 1 }}
+                  color={colors.BUTTON_PRIMARY_COLOR}
+                />
               </IconButton>
             </InputAdornment>
           ),
         }}
       />
       <IconButton sx={{ ml: 2 }} onClick={popover.onOpen}>
-        <Iconify icon="mdi:filter" width="35px" height="35px" />
+        <Iconify icon="mdi:filter" width="35px" height="35px" color={colors.BUTTON_PRIMARY_COLOR} />
       </IconButton>
       <CustomPopover
         open={popover.open}

@@ -72,6 +72,7 @@ const PropertyCard = ({ property }: Props) => {
             fontWeight: 'bold',
             color: 'white',
             textShadow: '1px 1px 2px black',
+            fontSize: '1rem',
           }}
         >
           {fCurrency(Number(price))}

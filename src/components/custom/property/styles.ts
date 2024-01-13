@@ -41,7 +41,7 @@ export const TextStyled = styled(Typography)`
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   &.price {
     font-size: 1rem;
   }
@@ -79,7 +79,7 @@ export const TypographyStyled = styled(Typography)`
   text-overflow: ellipsis;
 
   white-space: nowrap;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
 
   @media (min-width: 1024px) {
     font-size: 1rem;
@@ -93,7 +93,7 @@ export const TypographyDescriptionLeft = styled(Typography)`
   text-overflow: ellipsis;
   overflow: hidden;
 
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 700;
   margin-right: 1rem;
 
@@ -105,7 +105,7 @@ export const TypographyDescriptionLeft = styled(Typography)`
 export const TypographyDescriptionRight = styled(Typography)`
   display: block;
   flex: 5;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
 
   @media (min-width: 1024px) {
     font-size: 1rem;
@@ -123,7 +123,7 @@ export const TypographyInsert = styled(Typography)`
 
   display: inline-block;
   position: relative;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   width: fit-content;
 
   @media (min-width: 1024px) {
