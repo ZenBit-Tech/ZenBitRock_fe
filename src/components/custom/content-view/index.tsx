@@ -27,6 +27,14 @@ import { useGetContentQuery } from 'store/api/content-api';
 import { QobrixLeadItem } from 'types';
 import { toTitleCase } from 'utils';
 import uuidv4 from 'utils/uuidv4';
+import { ArticleList, ContentFilter, VideoList } from 'components/custom/content-view/components';
+
+export type IContentItem = {
+  id?: string;
+  title: string;
+  link: string;
+  checked: boolean;
+};
 
 function ContentView(): JSX.Element {
   const [filter, setFilter] = useState<string | undefined>(undefined);
@@ -41,7 +49,7 @@ function ContentView(): JSX.Element {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const { data, error, isFetching, refetch } = useGetContentQuery({
+  const { content, error, isFetching, refetch } = useGetContentQuery({
     refetchOnMountOrArgChange: true,
   });
 
@@ -104,11 +112,19 @@ function ContentView(): JSX.Element {
       </Box>
 
       <Box>
-        <VideoList videos={videos} />
-        <ArticleList articles={articles} />
+        <VideoList
+          videos={content.filter((item) => item.type === 'video')}
+          filter={filter}
+          refetch={() => refetch()}
+        />
+        <ArticleList
+          articles={content.filter((item) => item.type === 'article')}
+          filter={filter}
+          refetch={() => refetch()}
+        />
       </Box>
 
-      {data.length === 0 && !isFetching && <NoDataFound />}
+      {content.length === 0 && !isFetching && <NoDataFound />}
       <Fab
         color="primary"
         aria-label="scroll to top"

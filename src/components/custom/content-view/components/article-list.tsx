@@ -1,13 +1,15 @@
-import { ArticleItem } from 'components/custom/content-view/components';
+import { ArticleItem } from 'components/custom/content-view/components/article-item';
+import { IContentItem } from 'components/custom/content-view';
 
-export type PropArticleList = {
-  id: string;
-  title: string;
-  link: string;
-  checked: boolean;
-}[];
-
-function ArticleList({ articles }: { articles: PropArticleList }): JSX.Element {
+function ArticleList({
+  articles,
+  filter,
+  refetch,
+}: {
+  articles: IContentItem[];
+  filter?: string;
+  refetch: () => void;
+}): JSX.Element {
   return (
     <>
       {articles.map(({ id, title, link, checked }) => (

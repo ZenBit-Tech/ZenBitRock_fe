@@ -1,13 +1,15 @@
-import { VideoItem } from 'components/custom/content-view/components';
+import { VideoItem } from 'components/custom/content-view/components/video-item';
+import { IContentItem } from 'components/custom/content-view';
 
-type PropVideoList = {
-  id: string;
-  title: string;
-  link: string;
-  checked: boolean;
-}[];
-
-function VideoList({ videos }: { videos: PropVideoList }): JSX.Element {
+function VideoList({
+  videos,
+  filter,
+  refetch,
+}: {
+  videos: IContentItem[];
+  filter?: string;
+  refetch: () => void;
+}): JSX.Element {
   return (
     <>
       {videos.map(({ id, title, link, checked }) => (
