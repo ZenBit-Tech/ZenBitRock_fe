@@ -9,15 +9,9 @@ import { AppRoute } from 'enums';
 import { useEffect, useRouter, useScrollToTop, useState, useTranslations } from 'hooks';
 import { useGetContentMutation } from 'store/content';
 import { toTitleCase } from 'utils';
-import { ArticleList, ContentFilter, VideoList } from 'components/custom/content-view/components';
-
-export type IContentItem = {
-  id?: string;
-  title: string;
-  link: string;
-  screenshot?: string;
-  checked: boolean;
-};
+import { ArticleList } from './components/article-list';
+import { VideoList } from './components/video-list';
+import { ContentFilter } from './components';
 
 const MOCK = {
   data: [

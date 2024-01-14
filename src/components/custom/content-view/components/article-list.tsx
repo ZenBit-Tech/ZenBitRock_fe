@@ -1,6 +1,10 @@
-import { ArticleItem } from 'components/custom/content-view/components/article-item';
-import { IContentItem } from 'components/custom/content-view';
+import { useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
+import { ArticleItem, ContentSort } from 'components/custom/content-view/components';
+import sortContent from 'components/custom/content-view/utils/sortContent';
+import { CONTENT_SORT_OPTIONS } from 'constants/contentSortOptions';
+import { useState } from 'hooks';
+import { IContentItem } from 'types';
 
 function ArticleList({
   articles,
@@ -11,6 +15,17 @@ function ArticleList({
   filter: string;
   t: Function;
 }): JSX.Element {
+  const [sort, setSort] = useState<string>('nameAsc');
+
+  const sortedContent = useMemo<IContentItem[] | undefined>(
+    () =>
+      sortContent({
+        content: articles,
+        sortType: sort,
+      }),
+    [articles, sort]
+  );
+
   return (
     <Box>
       <Box
@@ -31,9 +46,9 @@ function ArticleList({
           {t('viewed')}
         </Typography>
       </Box>
-
-      {articles
-        .filter((article) => article.title.toLowerCase().includes(filter))
+      <ContentSort sort={sort} sortOptions={CONTENT_SORT_OPTIONS} onSort={setSort} />
+      {sortedContent
+        ?.filter((article) => article.title.toLowerCase().includes(filter))
         .map(({ id, title, link, checked }) => (
           <ArticleItem id={id} key={id} title={title} link={link} checked={checked} t={t} />
         ))}

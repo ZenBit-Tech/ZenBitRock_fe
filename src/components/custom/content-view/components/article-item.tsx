@@ -1,9 +1,10 @@
 import { Box, Card, Checkbox, Link, Typography } from '@mui/material';
-import { IContentItem } from 'components/custom/content-view';
+// import { IContentItem } from 'components/custom/content-view';
 import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
 import { useState } from 'hooks';
 import { useUpdateContentCheckedMutation } from 'store/content';
+import { IContentItem } from 'types';
 
 interface PropsArticleItem extends IContentItem {
   t: Function;

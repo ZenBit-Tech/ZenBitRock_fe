@@ -9,4 +9,12 @@ type IContentResponse = {
 
 type IContentUpdateRequest = { id: string; checked: boolean };
 
-export { type IContentResponse, type IContentUpdateRequest };
+type IContentItem = {
+  id?: string;
+  title: string;
+  link: string;
+  screenshot?: string;
+  checked: boolean;
+};
+
+export { type IContentResponse, type IContentUpdateRequest, type IContentItem };

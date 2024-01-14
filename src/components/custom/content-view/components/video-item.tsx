@@ -1,11 +1,11 @@
+import React from 'react';
 import { Box, Card, Checkbox, Link, Typography } from '@mui/material';
-import { IContentItem } from 'components/custom/content-view';
 import Image from 'components/image';
 import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
 import { useState } from 'hooks';
-import React from 'react';
 import { useUpdateContentCheckedMutation } from 'store/content';
+import { IContentItem } from 'types';
 
 interface PropsVideoItem extends IContentItem {
   idx: number;

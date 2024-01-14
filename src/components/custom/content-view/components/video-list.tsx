@@ -1,6 +1,10 @@
+import { useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
-import { VideoItem } from 'components/custom/content-view/components/video-item';
-import { IContentItem } from 'components/custom/content-view';
+import { ContentSort, VideoItem } from 'components/custom/content-view/components';
+import sortContent from 'components/custom/content-view/utils/sortContent';
+import { CONTENT_SORT_OPTIONS } from 'constants/contentSortOptions';
+import { useState } from 'hooks';
+import { IContentItem } from 'types';
 
 function VideoList({
   videos,
@@ -11,6 +15,17 @@ function VideoList({
   filter: string;
   t: Function;
 }): JSX.Element {
+  const [sort, setSort] = useState<string>('nameAsc');
+
+  const sortedContent = useMemo<IContentItem[] | undefined>(
+    () =>
+      sortContent({
+        content: videos,
+        sortType: sort,
+      }),
+    [videos, sort]
+  );
+
   return (
     <Box>
       <Box
@@ -31,9 +46,9 @@ function VideoList({
           {t('viewed')}
         </Typography>
       </Box>
-
-      {videos
-        .filter((video) => video.title.toLowerCase().includes(filter))
+      <ContentSort sort={sort} sortOptions={CONTENT_SORT_OPTIONS} onSort={setSort} />
+      {sortedContent
+        ?.filter((video) => video.title.toLowerCase().includes(filter))
         .map(({ id, title, link, screenshot, checked }, idx) => (
           <VideoItem
             id={id}
