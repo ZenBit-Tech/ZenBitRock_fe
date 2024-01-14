@@ -729,6 +729,6 @@
     "lesson": "Lesson",
     "viewed": "Viewed:",
     "searchTopic": "Search topic",
-    "error": "Something went wrong!"
+    "somethingWentWrong": "Something went wrong!"
   }
 }

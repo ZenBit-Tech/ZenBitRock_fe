@@ -38,6 +38,7 @@ function VideoList({
         .filter((video) => video.title.toLowerCase().includes(filter))
         .map(({ id, title, link, screenshot, checked }, idx) => (
           <VideoItem
+            id={id}
             idx={idx}
             key={id}
             title={title}

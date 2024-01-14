@@ -7,8 +7,6 @@ type IContentResponse = {
   checked: boolean;
 }[];
 
-type IContentUpdateRequest = {
-  updates: { id: string; checked: boolean }[];
-};
+type IContentUpdateRequest = { id: string; checked: boolean };
 
 export { type IContentResponse, type IContentUpdateRequest };

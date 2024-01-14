@@ -38,11 +38,13 @@ function ArticleList({
         .filter((article) => article.title.toLowerCase().includes(filter))
         .map(({ id, title, link, checked }) => (
           <ArticleItem
+            id={id}
             key={id}
             title={title}
             link={link}
             checked={checked}
             refetch={() => refetch()}
+            t={t}
           />
         ))}
     </Box>

@@ -169,7 +169,7 @@ function ContentView(): JSX.Element {
         <ContentFilter getFilter={(searchString: string) => getFilter(searchString)} t={t} />
       </Box>
       <Box sx={{ display: 'none' }}>
-        {error && enqueueSnackbar(t('error'), { variant: 'error' })}
+        {error && enqueueSnackbar(t('somethingWentWrong'), { variant: 'error' })}
       </Box>
 
       <Box>
