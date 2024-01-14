@@ -719,5 +719,16 @@
   },
   "noDataFound": {
     "results": "No Matching Results"
+  },
+  "content": {
+    "content": "Content",
+    "toQuickStartGuideText": "Here you can fild help with your activities in ZenBitRock",
+    "titleGoToQSG": "QuickStart Guide",
+    "videoTutorials": "Video tutorials",
+    "articlesAndTips": "Articles and Tips",
+    "lesson": "Lesson",
+    "viewed": "Viewed:",
+    "searchTopic": "Search topic",
+    "error": "Something went wrong!"
   }
 }

@@ -1,5 +1,6 @@
 import { ArticleItem } from 'components/custom/content-view/components/article-item';
 import { IContentItem } from 'components/custom/content-view';
+import { Box, Typography } from '@mui/material';
 
 function ArticleList({
   articles,
@@ -13,7 +14,8 @@ function ArticleList({
   t: Function;
 }): JSX.Element {
   return (
-    <>
+    <Box>
+      <Typography>{t('articlesAndTips')}</Typography>
       {articles
         .filter((article) => article.title.toLowerCase().includes(filter))
         .map(({ id, title, link, checked }) => (
@@ -25,7 +27,7 @@ function ArticleList({
             refetch={() => refetch()}
           />
         ))}
-    </>
+    </Box>
   );
 }
 

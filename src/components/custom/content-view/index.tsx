@@ -34,6 +34,59 @@ export type IContentItem = {
   checked: boolean;
 };
 
+const MOCK = {
+  data: [
+    {
+      id: '01',
+      type: 'video',
+      title: 'My Profile',
+      link: 'https://www.youtube.com/watch?v=Gs069dndIYk',
+      screenshot: 'https://pixabay.com/photos/apple-smartphone-desk-laptop-1282241/',
+      checked: true,
+    },
+    {
+      id: '02',
+      type: 'video',
+      title: 'My Leads',
+      link: 'https://www.youtube.com/watch?v=iPRSxwZBmcM',
+      screenshot: 'https://pixabay.com/photos/ipad-map-tablet-internet-screen-632394/',
+      checked: false,
+    },
+    {
+      id: '03',
+      type: 'article',
+      title: 'Effective Lead Management: Pro Tips for Agents',
+      link: 'https://www.thebeaverton.com/2024/01/toronto-homeowners-outraged-at-50-property-tax-increase-encouraged-to-skip-avocado-toast-make-coffee-at-home/',
+      screenshot: null,
+      checked: true,
+    },
+    {
+      id: '04',
+      type: 'article',
+      title: 'Effective Lead Management: How to change Lead status',
+      link: 'https://www.thebeaverton.com/2024/01/oh-no-friend-from-high-school-debuts-5th-straight-incorrect-middle-east-take-on-facebook/',
+      screenshot: null,
+      checked: false,
+    },
+    {
+      id: '05',
+      type: 'article',
+      title: 'Viewing matching Leads',
+      link: 'https://www.thebeaverton.com/2024/01/the-9-people-that-own-all-of-torontos-real-estate-extremely-upset-about-property-tax-hike/',
+      screenshot: null,
+      checked: false,
+    },
+    {
+      id: '06',
+      type: 'article',
+      title: 'Creating Agent Group Chat',
+      link: 'https://www.thebeaverton.com/2024/01/man-with-dedicated-folder-for-back-of-the-head-selfies-definitely-not-balding/',
+      screenshot: null,
+      checked: false,
+    },
+  ],
+};
+
 function ContentView(): JSX.Element {
   const [filter, setFilter] = useState<string>('');
 
@@ -47,7 +100,9 @@ function ContentView(): JSX.Element {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const { data: content, error, isFetching, refetch } = useGetContentQuery();
+  // const { data: content, error, isFetching, refetch } = useGetContentQuery();
+  const { error, isFetching, refetch } = useGetContentQuery();
+  const content = MOCK.data;
 
   function getFilter(searchString: string): void {
     setFilter(searchString);
