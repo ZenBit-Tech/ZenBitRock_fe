@@ -7,11 +7,10 @@ import { useState } from 'hooks';
 import { useUpdateContentCheckedMutation } from 'store/content';
 
 interface PropsArticleItem extends IContentItem {
-  refetch: () => void;
   t: Function;
 }
 
-function ArticleItem({ id, title, link, checked, refetch, t }: PropsArticleItem): JSX.Element {
+function ArticleItem({ id, title, link, checked, t }: PropsArticleItem): JSX.Element {
   const [checkBoxValue, setCheckBoxValue] = useState<boolean>(checked);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -23,7 +22,6 @@ function ArticleItem({ id, title, link, checked, refetch, t }: PropsArticleItem)
       if (id) {
         await updateContentChecked({ id, checked: event.target.checked }).unwrap();
       }
-      refetch();
     } catch (error) {
       enqueueSnackbar(`${t('somethingWentWrong')}: ${error.data.message}`, {
         variant: 'error',
@@ -40,18 +38,7 @@ function ArticleItem({ id, title, link, checked, refetch, t }: PropsArticleItem)
             <Typography variant="subtitle2" sx={{ py: '0.5rem' }}>
               {title}
             </Typography>
-            {/* <Typography>{idx + 1}:</Typography>
-            </Box> */}
-            {/* <Typography>{title}</Typography> */}
           </Box>
-          {/* <Box sx={{ flex: 4 }}>
-            <Image
-              src={screenshot}
-              width="100%"
-              alt={`Screenshot of ${link}`}
-              sx={{ objectFit: 'contain' }}
-            />
-          </Box> */}
           <Box sx={{ flex: 1 }}>
             <Checkbox checked={checkBoxValue} onChange={(event) => handleChange(event)} />
           </Box>

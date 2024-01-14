@@ -5,12 +5,10 @@ import { Box, Typography } from '@mui/material';
 function ArticleList({
   articles,
   filter,
-  refetch,
   t,
 }: {
   articles: IContentItem[];
   filter: string;
-  refetch: () => void;
   t: Function;
 }): JSX.Element {
   return (
@@ -37,15 +35,7 @@ function ArticleList({
       {articles
         .filter((article) => article.title.toLowerCase().includes(filter))
         .map(({ id, title, link, checked }) => (
-          <ArticleItem
-            id={id}
-            key={id}
-            title={title}
-            link={link}
-            checked={checked}
-            refetch={() => refetch()}
-            t={t}
-          />
+          <ArticleItem id={id} key={id} title={title} link={link} checked={checked} t={t} />
         ))}
     </Box>
   );

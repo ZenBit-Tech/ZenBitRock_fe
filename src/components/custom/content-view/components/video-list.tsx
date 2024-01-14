@@ -5,12 +5,10 @@ import { IContentItem } from 'components/custom/content-view';
 function VideoList({
   videos,
   filter,
-  refetch,
   t,
 }: {
   videos: IContentItem[];
   filter: string;
-  refetch: () => void;
   t: Function;
 }): JSX.Element {
   return (
@@ -45,7 +43,6 @@ function VideoList({
             link={link}
             screenshot={screenshot}
             checked={checked}
-            refetch={() => refetch()}
             t={t}
           />
         ))}

@@ -12,7 +12,7 @@ function ContentFilter({ getFilter, t }: PropContentFilter): JSX.Element {
   return (
     <TextField
       fullWidth
-      value={filterValue === '' ? null : filterValue}
+      value={filterValue}
       onChange={(event) => {
         getFilter(event.target.value);
         setFilterValue(event.target.value);

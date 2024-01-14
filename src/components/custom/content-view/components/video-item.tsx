@@ -7,21 +7,11 @@ import { useState } from 'hooks';
 import { useUpdateContentCheckedMutation } from 'store/content';
 
 interface PropsVideoItem extends IContentItem {
-  refetch: () => void;
   idx: number;
   t: Function;
 }
 
-function VideoItem({
-  id,
-  idx,
-  title,
-  link,
-  screenshot,
-  checked,
-  refetch,
-  t,
-}: PropsVideoItem): JSX.Element {
+function VideoItem({ id, idx, title, link, screenshot, checked, t }: PropsVideoItem): JSX.Element {
   const [checkBoxValue, setCheckBoxValue] = useState<boolean>(checked);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -33,7 +23,6 @@ function VideoItem({
       if (id) {
         await updateContentChecked({ id, checked: event.target.checked }).unwrap();
       }
-      refetch();
     } catch (error) {
       enqueueSnackbar(`${t('somethingWentWrong')}: ${error.data.message}`, {
         variant: 'error',
@@ -43,7 +32,9 @@ function VideoItem({
 
   return (
     <Link href={link} target="_blank" rel="noopener" title={title}>
-      <Card sx={{ p: '0.5rem', position: 'relative', mb: '1rem' }}>
+      <Card
+        sx={{ p: '0.5rem', position: 'relative', mb: '1rem', '&:last-child': { mb: '1.5rem' } }}
+      >
         <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
           <Box sx={{ flex: 4, py: '0.5rem' }}>
             <Box sx={{ display: 'flex', gap: '0.375rem', alignItems: 'baseline', mb: '0.5rem' }}>

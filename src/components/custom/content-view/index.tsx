@@ -3,27 +3,11 @@
 import { Box, Button, Fab, Typography } from '@mui/material';
 
 import { NoDataFound } from 'components/custom';
-import ButtonClose from 'components/custom/button-close/button-close';
-import { Lead } from 'components/custom/leadsList/components';
-import {
-  TextStyled,
-  ListStyled,
-  BoxStyledWithName,
-  LinkStyled,
-} from 'components/custom/leadsList/styles';
 import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
-import { colors } from 'constants/colors';
 import { AppRoute } from 'enums';
-import {
-  useEffect,
-  useInfinityScroll,
-  useRouter,
-  useScrollToTop,
-  useState,
-  useTranslations,
-} from 'hooks';
-import { useGetContentQuery } from 'store/content';
+import { useEffect, useRouter, useScrollToTop, useState, useTranslations } from 'hooks';
+import { useGetContentMutation } from 'store/content';
 import { toTitleCase } from 'utils';
 import { ArticleList, ContentFilter, VideoList } from 'components/custom/content-view/components';
 
@@ -101,9 +85,13 @@ function ContentView(): JSX.Element {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // const { data: content, error, isFetching, refetch } = useGetContentQuery();
-  const { error, isFetching, refetch } = useGetContentQuery();
-  const content = MOCK.data;
+  const [getContent, { data: content, error, isLoading }] = useGetContentMutation();
+  //   const { error, isFetching, refetch } = useGetContentQuery();
+  //   const content = MOCK.data;
+
+  useEffect(() => {
+    getContent();
+  }, [getContent]);
 
   function getFilter(searchString: string): void {
     setFilter(searchString);
@@ -177,7 +165,6 @@ function ContentView(): JSX.Element {
           <VideoList
             videos={content.filter((item) => item.type === 'video')}
             filter={filter}
-            refetch={() => refetch()}
             t={t}
           />
         )}
@@ -185,13 +172,12 @@ function ContentView(): JSX.Element {
           <ArticleList
             articles={content.filter((item) => item.type === 'article')}
             filter={filter}
-            refetch={() => refetch()}
             t={t}
           />
         )}
       </Box>
 
-      {content && content.length === 0 && !isFetching && <NoDataFound />}
+      {content && content.length === 0 && !isLoading && <NoDataFound />}
       <Fab
         color="primary"
         aria-label="scroll to top"

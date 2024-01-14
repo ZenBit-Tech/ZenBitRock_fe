@@ -5,7 +5,7 @@ type IContentResponse = {
   link: string;
   screenshot?: string;
   checked: boolean;
-}[];
+};
 
 type IContentUpdateRequest = { id: string; checked: boolean };
 

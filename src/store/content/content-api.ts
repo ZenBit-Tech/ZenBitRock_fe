@@ -16,21 +16,22 @@ export const ContentApi = createApi({
   }),
   tagTypes: ['Get content'],
   endpoints: (builder) => ({
-    getContent: builder.query<IContentResponse, void>({
+    getContent: builder.mutation<IContentResponse[], void>({
       query: () => ({
         url: ApiRoute.CONTENT,
         method: 'GET',
       }),
+      invalidatesTags: [{ type: 'Get content' }],
     }),
 
     updateContentChecked: builder.mutation<IContentResponse, IContentUpdateRequest>({
-      query: ({ updates }) => ({
+      query: (args) => ({
         url: ApiRoute.CONTENT,
         method: 'PATCH',
-        body: updates,
+        body: args,
       }),
     }),
   }),
 });
 
-export const { useGetContentQuery, useUpdateContentCheckedMutation } = ContentApi;
+export const { useGetContentMutation, useUpdateContentCheckedMutation } = ContentApi;
