@@ -729,6 +729,7 @@
     "lesson": "Lesson",
     "viewed": "Viewed:",
     "searchTopic": "Search topic",
-    "somethingWentWrong": "Something went wrong!"
+    "somethingWentWrong": "Something went wrong!",
+    "matchingResults": "Matching results"
   }
 }

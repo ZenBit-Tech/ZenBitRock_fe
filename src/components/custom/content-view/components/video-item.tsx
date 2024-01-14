@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Card, Checkbox, Link, Typography } from '@mui/material';
 import Image from 'components/image';
 import { LoadingScreen } from 'components/loading-screen';

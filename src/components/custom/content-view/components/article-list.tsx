@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
+import { NoDataFound } from 'components/custom';
 import { ArticleItem, ContentSort } from 'components/custom/content-view/components';
 import sortContent from 'components/custom/content-view/utils/sortContent';
 import { CONTENT_SORT_OPTIONS } from 'constants/contentSortOptions';
@@ -20,10 +21,10 @@ function ArticleList({
   const sortedContent = useMemo<IContentItem[] | undefined>(
     () =>
       sortContent({
-        content: articles,
+        content: articles?.filter((article) => article.title.toLowerCase().includes(filter)),
         sortType: sort,
       }),
-    [articles, sort]
+    [articles, sort, filter]
   );
 
   return (
@@ -47,11 +48,26 @@ function ArticleList({
         </Typography>
       </Box>
       <ContentSort sort={sort} sortOptions={CONTENT_SORT_OPTIONS} onSort={setSort} />
-      {sortedContent
-        ?.filter((article) => article.title.toLowerCase().includes(filter))
-        .map(({ id, title, link, checked }) => (
-          <ArticleItem id={id} key={id} title={title} link={link} checked={checked} t={t} />
-        ))}
+      {sortedContent && filter !== '' && (
+        <Typography
+          variant="h6"
+          sx={{
+            px: 2.5,
+            mb: 2,
+          }}
+        >
+          {t('matchingResults')} ({sortedContent.length})
+        </Typography>
+      )}
+      {sortedContent && sortedContent?.length > 0 ? (
+        sortedContent
+          ?.filter((article) => article.title.toLowerCase().includes(filter))
+          .map(({ id, title, link, checked }) => (
+            <ArticleItem id={id} key={id} title={title} link={link} checked={checked} t={t} />
+          ))
+      ) : (
+        <NoDataFound />
+      )}
     </Box>
   );
 }
