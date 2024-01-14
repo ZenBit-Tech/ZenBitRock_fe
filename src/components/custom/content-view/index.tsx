@@ -84,10 +84,10 @@ function ContentView(): JSX.Element {
   const scrollToTop = (): void => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-
-  const [getContent, { data: content, error, isLoading }] = useGetContentMutation();
-  //   const { error, isFetching, refetch } = useGetContentQuery();
-  //   const content = MOCK.data;
+  //   For mocking data - temporary commented!
+  //   const [getContent, { data: content, error, isLoading }] = useGetContentMutation();
+  const [getContent, { error, isLoading }] = useGetContentMutation();
+  const content = MOCK.data;
 
   useEffect(() => {
     getContent();
@@ -96,6 +96,12 @@ function ContentView(): JSX.Element {
   function getFilter(searchString: string): void {
     setFilter(searchString);
   }
+
+  useEffect(() => {
+    if (error) {
+      enqueueSnackbar(t('somethingWentWrong'), { variant: 'error' });
+    }
+  }, [error, enqueueSnackbar, t]);
 
   return (
     <Box
@@ -156,10 +162,17 @@ function ContentView(): JSX.Element {
       >
         <ContentFilter getFilter={(searchString: string) => getFilter(searchString)} t={t} />
       </Box>
-      <Box sx={{ display: 'none' }}>
-        {error && enqueueSnackbar(t('somethingWentWrong'), { variant: 'error' })}
-      </Box>
-
+      {isLoading && (
+        <LoadingScreen
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: '100',
+          }}
+        />
+      )}
       <Box>
         {content && content.filter((item) => item.type === 'video').length > 0 && (
           <VideoList

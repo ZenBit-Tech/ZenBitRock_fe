@@ -31,7 +31,15 @@ function VideoItem({ id, idx, title, link, screenshot, checked, t }: PropsVideoI
   }
 
   return (
-    <Link href={link} target="_blank" rel="noopener" title={title}>
+    <Link
+      href={link}
+      target="_blank"
+      rel="noopener"
+      title={title}
+      onClick={(event) => {
+        console.log(event.currentTarget);
+      }}
+    >
       <Card
         sx={{ p: '0.5rem', position: 'relative', mb: '1rem', '&:last-child': { mb: '1.5rem' } }}
       >

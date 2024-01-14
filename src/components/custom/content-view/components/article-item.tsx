@@ -1,6 +1,5 @@
 import { Box, Card, Checkbox, Link, Typography } from '@mui/material';
 import { IContentItem } from 'components/custom/content-view';
-import Image from 'components/image';
 import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
 import { useState } from 'hooks';
@@ -34,7 +33,6 @@ function ArticleItem({ id, title, link, checked, t }: PropsArticleItem): JSX.Ele
       <Card sx={{ p: '0.5rem', position: 'relative', mb: '1rem' }}>
         <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
           <Box sx={{ flex: 8 }}>
-            {/* <Box sx={{ display: 'flex', gap: '0.375rem', alignItems: 'baseline', mb: '0.5rem' }}> */}
             <Typography variant="subtitle2" sx={{ py: '0.5rem' }}>
               {title}
             </Typography>
