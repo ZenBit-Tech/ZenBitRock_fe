@@ -116,11 +116,13 @@ function ContentView(): JSX.Element {
           videos={content.filter((item) => item.type === 'video')}
           filter={filter}
           refetch={() => refetch()}
+          t={t}
         />
         <ArticleList
           articles={content.filter((item) => item.type === 'article')}
           filter={filter}
           refetch={() => refetch()}
+          t={t}
         />
       </Box>
 

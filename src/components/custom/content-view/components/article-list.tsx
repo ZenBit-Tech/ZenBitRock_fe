@@ -5,10 +5,12 @@ function ArticleList({
   articles,
   filter,
   refetch,
+  t,
 }: {
   articles: IContentItem[];
   filter: string;
   refetch: () => void;
+  t: Function;
 }): JSX.Element {
   return (
     <>
