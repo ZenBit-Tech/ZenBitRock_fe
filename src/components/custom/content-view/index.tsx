@@ -37,7 +37,7 @@ export type IContentItem = {
 function ContentView(): JSX.Element {
   const [filter, setFilter] = useState<string>('');
 
-  const t = useTranslations('leads');
+  const t = useTranslations('content');
   const { enqueueSnackbar } = useSnackbar();
   const router = useRouter();
 
@@ -101,28 +101,32 @@ function ContentView(): JSX.Element {
           mb: '1.5rem',
         }}
       >
-        <ContentFilter getFilter={(searchString: string) => getFilter(searchString)} />
+        <ContentFilter getFilter={(searchString: string) => getFilter(searchString)} t={t} />
       </Box>
       <Box sx={{ display: 'none' }}>
         {error && enqueueSnackbar(t('error'), { variant: 'error' })}
       </Box>
 
       <Box>
-        <VideoList
-          videos={content.filter((item) => item.type === 'video')}
-          filter={filter}
-          refetch={() => refetch()}
-          t={t}
-        />
-        <ArticleList
-          articles={content.filter((item) => item.type === 'article')}
-          filter={filter}
-          refetch={() => refetch()}
-          t={t}
-        />
+        {content && content.filter((item) => item.type === 'video').length > 0 && (
+          <VideoList
+            videos={content.filter((item) => item.type === 'video')}
+            filter={filter}
+            refetch={() => refetch()}
+            t={t}
+          />
+        )}
+        {content && content.filter((item) => item.type === 'article').length > 0 && (
+          <ArticleList
+            articles={content.filter((item) => item.type === 'article')}
+            filter={filter}
+            refetch={() => refetch()}
+            t={t}
+          />
+        )}
       </Box>
 
-      {content.length === 0 && !isFetching && <NoDataFound />}
+      {content && content.length === 0 && !isFetching && <NoDataFound />}
       <Fab
         color="primary"
         aria-label="scroll to top"

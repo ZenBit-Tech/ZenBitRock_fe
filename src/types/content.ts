@@ -1,5 +1,6 @@
 type IContentResponse = {
   id: string;
+  type: string;
   title: string;
   link: string;
   checked: boolean;
