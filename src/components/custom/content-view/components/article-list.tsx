@@ -7,14 +7,22 @@ function ArticleList({
   refetch,
 }: {
   articles: IContentItem[];
-  filter?: string;
+  filter: string;
   refetch: () => void;
 }): JSX.Element {
   return (
     <>
-      {articles.map(({ id, title, link, checked }) => (
-        <ArticleItem key={id} title={title} link={link} checked={checked} />
-      ))}
+      {articles
+        .filter((article) => article.title.toLowerCase().includes(filter))
+        .map(({ id, title, link, checked }) => (
+          <ArticleItem
+            key={id}
+            title={title}
+            link={link}
+            checked={checked}
+            refetch={() => refetch()}
+          />
+        ))}
     </>
   );
 }

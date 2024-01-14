@@ -1,6 +1,10 @@
 import { IContentItem } from 'components/custom/content-view';
 
-function VideoItem({ title, link, checked }: IContentItem): JSX.Element {
+interface PropsVideoItem extends IContentItem {
+  refetch: () => void;
+}
+
+function VideoItem({ title, link, checked, refetch }: PropsVideoItem): JSX.Element {
   return <p>VideoItem</p>;
 }
 

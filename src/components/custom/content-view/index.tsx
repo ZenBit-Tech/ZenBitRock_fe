@@ -37,7 +37,7 @@ export type IContentItem = {
 };
 
 function ContentView(): JSX.Element {
-  const [filter, setFilter] = useState<string | undefined>(undefined);
+  const [filter, setFilter] = useState<string>('');
 
   const t = useTranslations('leads');
   const { enqueueSnackbar } = useSnackbar();

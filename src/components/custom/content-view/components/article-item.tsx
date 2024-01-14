@@ -1,6 +1,10 @@
 import { IContentItem } from 'components/custom/content-view';
 
-function ArticleItem({ title, link, checked }: IContentItem): JSX.Element {
+interface PropsArticleItem extends IContentItem {
+  refetch: () => void;
+}
+
+function ArticleItem({ title, link, checked, refetch }: PropsArticleItem): JSX.Element {
   return <p>ArticleItem</p>;
 }
 

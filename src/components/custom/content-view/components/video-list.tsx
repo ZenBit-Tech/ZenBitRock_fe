@@ -7,14 +7,22 @@ function VideoList({
   refetch,
 }: {
   videos: IContentItem[];
-  filter?: string;
+  filter: string;
   refetch: () => void;
 }): JSX.Element {
   return (
     <>
-      {videos.map(({ id, title, link, checked }) => (
-        <VideoItem key={id} title={title} link={link} checked={checked} />
-      ))}
+      {videos
+        .filter((video) => video.title.toLowerCase().includes(filter))
+        .map(({ id, title, link, checked }) => (
+          <VideoItem
+            key={id}
+            title={title}
+            link={link}
+            checked={checked}
+            refetch={() => refetch()}
+          />
+        ))}
     </>
   );
 }
