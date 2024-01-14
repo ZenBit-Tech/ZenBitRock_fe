@@ -15,16 +15,37 @@ function VideoList({
 }): JSX.Element {
   return (
     <Box>
-      <Typography>{t('videoTutorials')}</Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'baseline',
+          mb: '1.5rem',
+        }}
+      >
+        <Typography variant="h4" sx={{ flex: 5 }}>
+          {t('videoTutorials')}
+        </Typography>
+        <Typography
+          variant="subtitle2"
+          sx={{ textDecoration: 'underline', flex: 1, textAlign: 'right' }}
+        >
+          {t('viewed')}
+        </Typography>
+      </Box>
+
       {videos
         .filter((video) => video.title.toLowerCase().includes(filter))
-        .map(({ id, title, link, checked }) => (
+        .map(({ id, title, link, screenshot, checked }, idx) => (
           <VideoItem
+            idx={idx}
             key={id}
             title={title}
             link={link}
+            screenshot={screenshot}
             checked={checked}
             refetch={() => refetch()}
+            t={t}
           />
         ))}
     </Box>

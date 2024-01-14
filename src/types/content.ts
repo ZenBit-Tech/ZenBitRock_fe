@@ -3,7 +3,7 @@ type IContentResponse = {
   type: string;
   title: string;
   link: string;
-  screenshot: string;
+  screenshot?: string;
   checked: boolean;
 }[];
 

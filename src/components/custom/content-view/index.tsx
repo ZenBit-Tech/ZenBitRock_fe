@@ -31,6 +31,7 @@ export type IContentItem = {
   id?: string;
   title: string;
   link: string;
+  screenshot?: string;
   checked: boolean;
 };
 
@@ -41,7 +42,7 @@ const MOCK = {
       type: 'video',
       title: 'My Profile',
       link: 'https://www.youtube.com/watch?v=Gs069dndIYk',
-      screenshot: 'https://pixabay.com/photos/apple-smartphone-desk-laptop-1282241/',
+      screenshot: 'https://dummyimage.com/600x400/007867/black.jpg&text=Dummy+Image+1',
       checked: true,
     },
     {
@@ -49,7 +50,7 @@ const MOCK = {
       type: 'video',
       title: 'My Leads',
       link: 'https://www.youtube.com/watch?v=iPRSxwZBmcM',
-      screenshot: 'https://pixabay.com/photos/ipad-map-tablet-internet-screen-632394/',
+      screenshot: 'https://dummyimage.com/600x400/007867/black.jpg&text=Dummy+Image+2',
       checked: false,
     },
     {
@@ -57,7 +58,7 @@ const MOCK = {
       type: 'article',
       title: 'Effective Lead Management: Pro Tips for Agents',
       link: 'https://www.thebeaverton.com/2024/01/toronto-homeowners-outraged-at-50-property-tax-increase-encouraged-to-skip-avocado-toast-make-coffee-at-home/',
-      screenshot: null,
+      screenshot: undefined,
       checked: true,
     },
     {
@@ -65,7 +66,7 @@ const MOCK = {
       type: 'article',
       title: 'Effective Lead Management: How to change Lead status',
       link: 'https://www.thebeaverton.com/2024/01/oh-no-friend-from-high-school-debuts-5th-straight-incorrect-middle-east-take-on-facebook/',
-      screenshot: null,
+      screenshot: undefined,
       checked: false,
     },
     {
@@ -73,7 +74,7 @@ const MOCK = {
       type: 'article',
       title: 'Viewing matching Leads',
       link: 'https://www.thebeaverton.com/2024/01/the-9-people-that-own-all-of-torontos-real-estate-extremely-upset-about-property-tax-hike/',
-      screenshot: null,
+      screenshot: undefined,
       checked: false,
     },
     {
@@ -81,7 +82,7 @@ const MOCK = {
       type: 'article',
       title: 'Creating Agent Group Chat',
       link: 'https://www.thebeaverton.com/2024/01/man-with-dedicated-folder-for-back-of-the-head-selfies-definitely-not-balding/',
-      screenshot: null,
+      screenshot: undefined,
       checked: false,
     },
   ],
@@ -133,15 +134,24 @@ function ContentView(): JSX.Element {
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'center',
-          mt: '1.5rem',
-          mb: '1.5rem',
+          alignItems: 'flex-start',
+          gap: '1rem',
+          my: '1.5rem',
         }}
       >
-        <Typography variant="subtitle1">{toTitleCase(t('toQuickStartGuideText'))}</Typography>
+        <Typography
+          variant="subtitle1"
+          sx={{
+            maxHeight: '52px',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}
+        >
+          {toTitleCase(t('toQuickStartGuideText'))}
+        </Typography>
         <Button
           title={t('titleGoToQSG')}
-          sx={{ padding: '14px' }}
+          sx={{ padding: '14px', whiteSpace: 'nowrap', minWidth: 'fit-content' }}
           variant="contained"
           color="primary"
           type="button"
