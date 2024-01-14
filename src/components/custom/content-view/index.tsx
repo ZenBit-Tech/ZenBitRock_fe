@@ -23,10 +23,8 @@ import {
   useState,
   useTranslations,
 } from 'hooks';
-import { useGetContentQuery } from 'store/api/content-api';
-import { QobrixLeadItem } from 'types';
+import { useGetContentQuery } from 'store/content';
 import { toTitleCase } from 'utils';
-import uuidv4 from 'utils/uuidv4';
 import { ArticleList, ContentFilter, VideoList } from 'components/custom/content-view/components';
 
 export type IContentItem = {
@@ -49,9 +47,7 @@ function ContentView(): JSX.Element {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const { content, error, isFetching, refetch } = useGetContentQuery({
-    refetchOnMountOrArgChange: true,
-  });
+  const { data: content, error, isFetching, refetch } = useGetContentQuery();
 
   function getFilter(searchString: string): void {
     setFilter(searchString);
