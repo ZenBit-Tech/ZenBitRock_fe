@@ -160,7 +160,16 @@ export function FormAddAgents({
                   },
                 }}
               >
-                <Typography sx={{ cursor: 'default' }}>{user?.label}</Typography>
+                <Typography
+                  sx={{
+                    cursor: 'default',
+                    whiteSpace: 'nowrap',
+                    textOverflow: 'ellipsis',
+                    overflow: 'hidden',
+                  }}
+                >
+                  {user?.label}
+                </Typography>
                 <Iconify
                   title={t('btnDeleteAgentFromList')}
                   icon="clarity:remove-line"
@@ -170,6 +179,7 @@ export function FormAddAgents({
                   sx={{
                     opacity: '0.5',
                     cursor: 'pointer',
+                    minWidth: '1.5rem',
                     transition: 'all 200ms ease-out',
                     '&:hover': {
                       opacity: '1',
@@ -202,7 +212,7 @@ export function FormAddAgents({
         >
           {t('addToChat')}
         </Button>
-        <Button type="reset" variant="contained" color="error" onClick={() => closeModalUp()}>
+        <Button type="reset" variant="contained" color="primary" onClick={() => closeModalUp()}>
           {t('cancelBtnTxt')}
         </Button>
       </Stack>
