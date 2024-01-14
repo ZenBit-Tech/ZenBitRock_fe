@@ -15,11 +15,27 @@ function ArticleItem({ id, title, link, checked, t }: PropsArticleItem): JSX.Ele
 
   const [updateContentChecked, { isLoading }] = useUpdateContentCheckedMutation();
 
-  async function handleChange(event: React.ChangeEvent<HTMLInputElement>): Promise<void> {
+  async function handleChange(
+    event: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ): Promise<void> {
     try {
-      setCheckBoxValue(!checkBoxValue);
       if (id) {
-        await updateContentChecked({ id, checked: event.target.checked }).unwrap();
+        if ((event.target as HTMLElement).nodeName !== 'INPUT') {
+          if (checkBoxValue) {
+            return;
+          }
+          setCheckBoxValue(true);
+          await updateContentChecked({
+            id,
+            checked: true,
+          }).unwrap();
+        } else {
+          setCheckBoxValue(!checkBoxValue);
+          await updateContentChecked({
+            id,
+            checked: (event.target as HTMLInputElement).checked,
+          }).unwrap();
+        }
       }
     } catch (error) {
       enqueueSnackbar(`${t('somethingWentWrong')}: ${error.data.message}`, {
@@ -29,7 +45,13 @@ function ArticleItem({ id, title, link, checked, t }: PropsArticleItem): JSX.Ele
   }
 
   return (
-    <Link href={link} target="_blank" rel="noopener" title={title}>
+    <Link
+      href={link}
+      target="_blank"
+      rel="noopener"
+      title={title}
+      onClick={(event) => handleChange(event)}
+    >
       <Card sx={{ p: '0.5rem', position: 'relative', mb: '1rem' }}>
         <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
           <Box sx={{ flex: 8 }}>
@@ -38,7 +60,7 @@ function ArticleItem({ id, title, link, checked, t }: PropsArticleItem): JSX.Ele
             </Typography>
           </Box>
           <Box sx={{ flex: 1 }}>
-            <Checkbox checked={checkBoxValue} onChange={(event) => handleChange(event)} />
+            <Checkbox checked={checkBoxValue} />
           </Box>
         </Box>
         {isLoading && (

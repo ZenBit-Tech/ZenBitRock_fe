@@ -4,6 +4,7 @@ import Image from 'components/image';
 import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
 import { useState } from 'hooks';
+import React from 'react';
 import { useUpdateContentCheckedMutation } from 'store/content';
 
 interface PropsVideoItem extends IContentItem {
@@ -17,11 +18,27 @@ function VideoItem({ id, idx, title, link, screenshot, checked, t }: PropsVideoI
 
   const [updateContentChecked, { isLoading }] = useUpdateContentCheckedMutation();
 
-  async function handleChange(event: React.ChangeEvent<HTMLInputElement>): Promise<void> {
+  async function handleChange(
+    event: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ): Promise<void> {
     try {
-      setCheckBoxValue(!checkBoxValue);
       if (id) {
-        await updateContentChecked({ id, checked: event.target.checked }).unwrap();
+        if ((event.target as HTMLElement).nodeName !== 'INPUT') {
+          if (checkBoxValue) {
+            return;
+          }
+          setCheckBoxValue(true);
+          await updateContentChecked({
+            id,
+            checked: true,
+          }).unwrap();
+        } else {
+          setCheckBoxValue(!checkBoxValue);
+          await updateContentChecked({
+            id,
+            checked: (event.target as HTMLInputElement).checked,
+          }).unwrap();
+        }
       }
     } catch (error) {
       enqueueSnackbar(`${t('somethingWentWrong')}: ${error.data.message}`, {
@@ -36,9 +53,7 @@ function VideoItem({ id, idx, title, link, screenshot, checked, t }: PropsVideoI
       target="_blank"
       rel="noopener"
       title={title}
-      onClick={(event) => {
-        console.log(event.currentTarget);
-      }}
+      onClick={(event) => handleChange(event)}
     >
       <Card
         sx={{ p: '0.5rem', position: 'relative', mb: '1rem', '&:last-child': { mb: '1.5rem' } }}
@@ -60,7 +75,7 @@ function VideoItem({ id, idx, title, link, screenshot, checked, t }: PropsVideoI
             />
           </Box>
           <Box sx={{ flex: 1 }}>
-            <Checkbox checked={checkBoxValue} onChange={(event) => handleChange(event)} />
+            <Checkbox checked={checkBoxValue} />
           </Box>
         </Box>
         {isLoading && (
