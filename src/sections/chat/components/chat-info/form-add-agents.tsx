@@ -115,7 +115,7 @@ export function FormAddAgents({
         disabled={options.length === 0}
         ListboxProps={{ style: { maxHeight: '10rem' } }}
         getOptionKey={(option) => option.id}
-        isOptionEqualToValue={(option, optionValue) => option.valueOf === optionValue.valueOf}
+        isOptionEqualToValue={(option, optionValue) => option.valueOf() !== optionValue.valueOf()}
         renderInput={(params) => (
           <TextField
             autoFocus
@@ -144,7 +144,6 @@ export function FormAddAgents({
           setInputValue(newInputValue);
         }}
       />
-
       {members?.length > 0 &&
         members.map(
           (user) =>

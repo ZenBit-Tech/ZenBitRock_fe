@@ -138,8 +138,8 @@ const ChatInfo = (): JSX.Element => {
         '&::-webkit-scrollbar': {
           display: 'none',
         },
-        '-ms-overflow-style': 'none',
-        'scrollbar-width': 'none',
+        msOverflowStyle: 'none',
+        scrollbarWidth: 'none',
       }}
     >
       {(isLoadingWhenGetChat || isLoadingWhenGetUsers || isLoadingWhenUpdate || isFetching) && (
