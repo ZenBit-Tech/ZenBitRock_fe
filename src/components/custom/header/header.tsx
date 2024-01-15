@@ -6,13 +6,13 @@ import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import { grey } from '@mui/material/colors';
 import { useTheme } from '@mui/material/styles';
-import { Link, Typography } from '@mui/material';
+import { CardActionArea, Link, Typography } from '@mui/material';
 import MessagesIndicator from 'components/custom/messages-indicator/messages-indicator';
 import { useTranslations } from 'hooks';
 import { AppRoute } from 'enums';
 import { UserProfileResponse } from 'types';
 import { HEADER, HeaderAvatar } from './lib';
-import { Logo } from './styles';
+import BackgroundImage from './images/header-logo.png';
 
 type Props = {
   user: UserProfileResponse | null;
@@ -36,7 +36,17 @@ const Header = ({ user }: Props): JSX.Element => {
         }}
       >
         <Container maxWidth={false} sx={{ height: 1, display: 'flex', alignItems: 'center' }}>
-          <Logo href={AppRoute.HOME_PAGE}>{t('Header.title')}</Logo>
+          <CardActionArea
+            href={AppRoute.MAIN_PAGE}
+            sx={{
+              height: '100%',
+              width: '140px',
+              backgroundImage: `url(${BackgroundImage.src})`,
+              backgroundSize: 'contain',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center',
+            }}
+          />
           <Box sx={{ flexGrow: 1 }} />
           {user && (
             <Box sx={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
