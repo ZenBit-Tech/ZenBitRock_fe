@@ -39,14 +39,15 @@ const defaultValues = {
   countOfBedrooms: null,
   totalAreaFrom: 0,
   totalAreaTo: 0,
-  priceRangeBuyFrom: ranges.PRICE_RANGE_BUY_MIN,
-  priceRangeBuyTo: ranges.PRICE_RANGE_BUY_MAX,
-  priceRangeRentFrom: ranges.PRICE_RANGE_RENT_MIN,
-  priceRangeRentTo: ranges.PRICE_RANGE_RENT_MAX,
+  priceRangeBuyFrom: 0,
+  priceRangeBuyTo: 0,
+  priceRangeRentFrom: 0,
+  priceRangeRentTo: 0,
   locations: null,
 };
 
 const DEBOUNCE_DELAY: number = 1000;
+const TYPE_OF_SOURCE: string = 'direct';
 
 export default function Form({ user }: Props): JSX.Element {
   const t = useTranslations('CreateLeadPage');
@@ -76,7 +77,7 @@ export default function Form({ user }: Props): JSX.Element {
   const methods = useForm({
     resolver: yupResolver(FormSchema),
     defaultValues,
-    mode: 'onChange',
+    mode: 'onTouched',
   });
 
   const {
@@ -91,10 +92,17 @@ export default function Form({ user }: Props): JSX.Element {
   const watchAllFields = watch();
 
   useEffect(() => {
-    setValue('priceRangeRentFrom', ranges.PRICE_RANGE_RENT_MIN);
-    setValue('priceRangeRentTo', ranges.PRICE_RANGE_RENT_MAX);
-    setValue('priceRangeBuyFrom', ranges.PRICE_RANGE_BUY_MIN);
-    setValue('priceRangeBuyTo', ranges.PRICE_RANGE_BUY_MAX);
+    if (watchAllFields.offeringType === QobrixLeadBuyRent.TO_RENT) {
+      setValue('priceRangeBuyFrom', ranges.PRICE_RANGE_BUY_MIN);
+      setValue('priceRangeBuyTo', ranges.PRICE_RANGE_BUY_MAX);
+      setValue('priceRangeRentFrom', 0);
+      setValue('priceRangeRentTo', 0);
+    } else {
+      setValue('priceRangeRentFrom', ranges.PRICE_RANGE_RENT_MIN);
+      setValue('priceRangeRentTo', ranges.PRICE_RANGE_RENT_MAX);
+      setValue('priceRangeBuyFrom', 0);
+      setValue('priceRangeBuyTo', 0);
+    }
   }, [watchAllFields.offeringType, setValue]);
 
   useEffect(() => {
@@ -116,13 +124,17 @@ export default function Form({ user }: Props): JSX.Element {
   }, [trigger, watchAllFields.totalAreaFrom, watchAllFields.totalAreaTo]);
 
   useEffect(() => {
-    trigger('priceRangeRentFrom');
-    trigger('priceRangeRentTo');
+    if (watchAllFields.priceRangeRentFrom !== 0 || watchAllFields.priceRangeRentTo !== 0) {
+      trigger('priceRangeRentFrom');
+      trigger('priceRangeRentTo');
+    }
   }, [trigger, watchAllFields.priceRangeRentFrom, watchAllFields.priceRangeRentTo]);
 
   useEffect(() => {
-    trigger('priceRangeBuyFrom');
-    trigger('priceRangeBuyTo');
+    if (watchAllFields.priceRangeBuyFrom !== 0 || watchAllFields.priceRangeBuyTo !== 0) {
+      trigger('priceRangeBuyFrom');
+      trigger('priceRangeBuyTo');
+    }
   }, [trigger, watchAllFields.priceRangeBuyFrom, watchAllFields.priceRangeBuyTo]);
 
   const onSubmit = handleSubmit(async (data): Promise<void> => {
@@ -155,6 +167,7 @@ export default function Form({ user }: Props): JSX.Element {
       covered_area_from_amount: totalAreaFrom || null,
       covered_area_to_amount: totalAreaTo || null,
       locations: locations?.value || null,
+      source: TYPE_OF_SOURCE,
     };
 
     if (offeringType === QobrixLeadBuyRent.TO_BUY) {
@@ -283,7 +296,7 @@ export default function Form({ user }: Props): JSX.Element {
                   name="totalAreaFrom"
                   type="number"
                   placeholder={t('totalAreaFromPlaceHolder')}
-                  sx={{ height: '60px', mr: '50px' }}
+                  sx={{ height: '70px', mr: '50px' }}
                   size="small"
                 />
 
@@ -291,7 +304,7 @@ export default function Form({ user }: Props): JSX.Element {
                   name="totalAreaTo"
                   type="number"
                   placeholder={t('totalAreaToPlaceHolder')}
-                  sx={{ height: '60px' }}
+                  sx={{ height: '70px' }}
                   size="small"
                 />
               </Block>
@@ -304,7 +317,7 @@ export default function Form({ user }: Props): JSX.Element {
                     name="priceRangeRentFrom"
                     type="number"
                     placeholder={t('priceRangeRentFromPlaceholder')}
-                    sx={{ height: '60px', mr: '50px' }}
+                    sx={{ height: '70px', mr: '50px' }}
                     size="small"
                   />
 
@@ -312,7 +325,7 @@ export default function Form({ user }: Props): JSX.Element {
                     name="priceRangeRentTo"
                     type="number"
                     placeholder={t('priceRangeRentToPlaceholder')}
-                    sx={{ height: '60px' }}
+                    sx={{ height: '70px' }}
                     size="small"
                   />
                 </Block>
@@ -322,7 +335,7 @@ export default function Form({ user }: Props): JSX.Element {
                     name="priceRangeBuyFrom"
                     type="number"
                     placeholder={t('priceRangeBuyFromPlaceholder')}
-                    sx={{ height: '60px', mr: '50px' }}
+                    sx={{ height: '70px', mr: '50px' }}
                     size="small"
                   />
 
@@ -330,7 +343,7 @@ export default function Form({ user }: Props): JSX.Element {
                     name="priceRangeBuyTo"
                     type="number"
                     placeholder={t('priceRangeBuyToPlaceholder')}
-                    sx={{ height: '60px' }}
+                    sx={{ height: '70px' }}
                     size="small"
                   />
                 </Block>
