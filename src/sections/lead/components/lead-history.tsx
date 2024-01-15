@@ -77,7 +77,7 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
       <Box
         sx={{
           backgroundColor: colors.PRIMARY_LIGHT_COLOR,
-          padding: '2rem 0.5rem',
+          padding: '1rem 0.5rem',
           position: 'relative',
           height: '100%',
           border: '1px solid black',
@@ -93,6 +93,7 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
             '&::after': {
               content: '""',
               position: 'absolute',
+              bottom: '-0.5rem',
               width: '100%',
               height: '1px',
               background: `linear-gradient(90deg, ${colors.PRIMARY_LIGHT_COLOR} 0%, ${colors.BUTTON_PRIMARY_COLOR} 50%, ${colors.PRIMARY_LIGHT_COLOR} 100%)`,
@@ -117,7 +118,7 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
               <Grid container direction="column" sx={{ width: '100%' }}>
                 <Typography
                   sx={{
-                    fontSize: '0.75rem',
+                    fontSize: '0.875rem',
                     fontWeight: 'bold',
                     textAlign: 'right',
                   }}
@@ -130,7 +131,7 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
               <Grid container direction="column" sx={{ width: '100%' }}>
                 <Typography
                   sx={{
-                    fontSize: '0.75rem',
+                    fontSize: '0.875rem',
                     fontWeight: 'bold',
                   }}
                 >
@@ -172,7 +173,7 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
                   <Grid container direction="column" sx={{ width: '100%' }}>
                     <Typography
                       sx={{
-                        fontSize: '0.75rem',
+                        fontSize: '0.875rem',
                         textAlign: 'right',
                       }}
                     >
@@ -186,7 +187,7 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
                   <Grid container direction="column" sx={{ width: '100%' }}>
                     <Typography
                       sx={{
-                        fontSize: '0.75rem',
+                        fontSize: '0.875rem',
                       }}
                     >
                       {element[2]}

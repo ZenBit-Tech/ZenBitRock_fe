@@ -90,6 +90,7 @@ export function InfoBlock({ property }: { property: QobrixPropertyDetailed }): J
             className="price"
             sx={{
               fontWeight: 'bold',
+              overflow: 'visible',
             }}
           >
             {fCurrency(price)}

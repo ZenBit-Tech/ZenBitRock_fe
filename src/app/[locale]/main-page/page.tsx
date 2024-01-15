@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 
 import { ProtectedRoute } from 'components/custom';
 import PropertiesList from 'components/custom/propertiesList';
@@ -51,17 +51,19 @@ function MainPage(): JSX.Element {
 
   return (
     <ProtectedRoute>
-      <Box sx={{ p: '10px', margin: '0 auto', maxWidth: '800px' }}>
-        <NotificationCenter t={t} />
-        <Typography variant="h3" sx={{ marginTop: 3 }}>
-          {t('myProperties')}
-        </Typography>
-        <PropertyFilter
-          setFilter={handleSetFilter}
-          setPropertyNameFilter={handleSetPropertyNameFilter}
-        />
-        <PropertiesList search={getCombinedFilter()} />
-      </Box>
+      <Container sx={{ pb: 8, px: 2 }}>
+        <Box sx={{ margin: '0 auto', maxWidth: '800px' }}>
+          <NotificationCenter t={t} />
+          <Typography variant="h3" sx={{ marginTop: 3 }}>
+            {t('myProperties')}
+          </Typography>
+          <PropertyFilter
+            setFilter={handleSetFilter}
+            setPropertyNameFilter={handleSetPropertyNameFilter}
+          />
+          <PropertiesList search={getCombinedFilter()} />
+        </Box>
+      </Container>
     </ProtectedRoute>
   );
 }

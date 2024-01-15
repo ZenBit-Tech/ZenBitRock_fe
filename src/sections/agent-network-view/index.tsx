@@ -30,7 +30,7 @@ export default function AgentNetworkView(): JSX.Element {
   const { id } = authUser;
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'lg'} sx={{ pt: '1rem', pb: 14 }}>
+    <Container maxWidth={settings.themeStretch ? false : 'lg'} sx={{ pb: 14 }}>
       <Typography variant="h3" sx={{ my: 3 }}>
         {t('pageTitle')}
       </Typography>

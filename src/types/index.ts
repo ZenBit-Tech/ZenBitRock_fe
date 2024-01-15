@@ -54,3 +54,4 @@ export {
 export { type ICreateGroupChatRequest } from './chat';
 export { type Message } from './chats';
 export { type IChatResponse, type IChatRequest } from './chat';
+export { type IContentResponse, type IContentUpdateRequest, type IContentItem } from './content';

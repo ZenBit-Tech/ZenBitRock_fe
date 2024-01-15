@@ -108,7 +108,7 @@ export default function FormAddGroupChat({ t, closeModalUp }: Props): JSX.Elemen
         >
           {t('addGroupBtnTxt')}
         </Button>
-        <Button type="reset" variant="contained" color="error" onClick={() => closeModalUp()}>
+        <Button type="reset" variant="contained" color="primary" onClick={() => closeModalUp()}>
           {t('cancelBtnTxt')}
         </Button>
       </Stack>

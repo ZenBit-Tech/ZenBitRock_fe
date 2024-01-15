@@ -138,8 +138,8 @@ const ChatInfo = (): JSX.Element => {
         '&::-webkit-scrollbar': {
           display: 'none',
         },
-        '-ms-overflow-style': 'none',
-        'scrollbar-width': 'none',
+        msOverflowStyle: 'none',
+        scrollbarWidth: 'none',
       }}
     >
       {(isLoadingWhenGetChat || isLoadingWhenGetUsers || isLoadingWhenUpdate || isFetching) && (
@@ -164,13 +164,17 @@ const ChatInfo = (): JSX.Element => {
         <Button
           title={t('back')}
           sx={{ padding: '0' }}
-          onClick={(): void => router.push(`${AppRoute.CHAT_PAGE}/${data?.id}`)}
+          onClick={(): void => router.push(`${AppRoute.CHATS_PAGE}/${data?.id}`)}
         >
           <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: colors.PRIMARY_DARK_COLOR }} />
         </Button>
         <Title variant="h3">{t('title')}</Title>
       </Box>
-      <Box sx={{ mx: '1rem' }}>
+      <Box
+        sx={{
+          mx: '1rem',
+        }}
+      >
         <Box
           sx={{
             display: 'flex',
@@ -180,11 +184,19 @@ const ChatInfo = (): JSX.Element => {
             mb: '1rem',
           }}
         >
-          <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>{`${t(
+          <Typography variant="subtitle2" sx={{ fontWeight: 'bold', whiteSpace: 'nowrap' }}>{`${t(
             'chatName'
           )}:`}</Typography>
           {data && (
-            <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
+            <Typography
+              variant="subtitle2"
+              sx={{
+                fontWeight: 'normal',
+                whiteSpace: 'nowrap',
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+              }}
+            >
               {data?.title}
             </Typography>
           )}
@@ -224,7 +236,7 @@ const ChatInfo = (): JSX.Element => {
             mb: '1.5rem',
           }}
         >
-          <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
+          <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
             {`${t('createdOn')}:`}
           </Typography>
           {data && data.createdAt && (
@@ -236,49 +248,6 @@ const ChatInfo = (): JSX.Element => {
         <Typography variant="subtitle2" sx={{ fontWeight: 'bold', mb: '1rem' }}>
           {t('chatMembers')}
         </Typography>
-        <Typography
-          variant="subtitle2"
-          sx={{ fontWeight: 'normal', mb: '1rem' }}
-        >{`1. ${firstName} ${lastName} (${t('owner')})`}</Typography>
-        {members &&
-          members?.length > 0 &&
-          members.map(
-            (user, idx: number) =>
-              user && (
-                <Box
-                  title={t('btnDeleteAgentFromList')}
-                  key={uuidv4()}
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    '&:not(:last-child)': {
-                      mb: '1rem',
-                    },
-                  }}
-                >
-                  <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>{`${
-                    idx + 2
-                  }. ${user?.label}`}</Typography>
-                  <Iconify
-                    icon="fluent:delete-28-regular"
-                    width="1.5rem"
-                    height="1.5rem"
-                    color={colors.ERROR_COLOR}
-                    sx={{
-                      opacity: '0.5',
-                      cursor: 'pointer',
-                      transition: 'all 200ms ease-out',
-                      '&:hover': {
-                        opacity: '1',
-                        transition: 'all 200ms ease-out',
-                      },
-                    }}
-                    onClick={() => handleClickDelete(user.id)}
-                  />
-                </Box>
-              )
-          )}
         <Link
           color="inherit"
           sx={{
@@ -303,6 +272,55 @@ const ChatInfo = (): JSX.Element => {
             {t('addAgentsToChat')}
           </Typography>
         </Link>
+
+        <Typography
+          variant="subtitle2"
+          sx={{ fontWeight: 'normal', mb: '1rem' }}
+        >{`1. ${firstName} ${lastName} (${t('owner')})`}</Typography>
+        {members &&
+          members?.length > 0 &&
+          members.map(
+            (user, idx: number) =>
+              user && (
+                <Box
+                  title={t('btnDeleteAgentFromList')}
+                  key={uuidv4()}
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    mb: '1rem',
+                  }}
+                >
+                  <Typography
+                    variant="subtitle2"
+                    sx={{
+                      fontWeight: 'normal',
+                      whiteSpace: 'nowrap',
+                      textOverflow: 'ellipsis',
+                      overflow: 'hidden',
+                    }}
+                  >{`${idx + 2}. ${user?.label}`}</Typography>
+                  <Iconify
+                    icon="fluent:delete-28-regular"
+                    width="1.5rem"
+                    height="1.5rem"
+                    color={colors.ERROR_COLOR}
+                    sx={{
+                      opacity: '0.5',
+                      cursor: 'pointer',
+                      minWidth: '1.5rem',
+                      transition: 'all 200ms ease-out',
+                      '&:hover': {
+                        opacity: '1',
+                        transition: 'all 200ms ease-out',
+                      },
+                    }}
+                    onClick={() => handleClickDelete(user.id)}
+                  />
+                </Box>
+              )
+          )}
       </Box>
       {data && userId === data?.owner?.id && (
         <Link

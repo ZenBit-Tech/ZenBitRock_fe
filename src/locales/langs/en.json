@@ -466,7 +466,7 @@
   "properties": {
     "title": "My properties",
     "alt": "Property photo",
-    "Description": "Description",
+    "description": "Tap the card to see details",
     "for_sale": "For Sale",
     "for_rent": "For Rent",
     "for_sale_and_rent": "For Sale and Rent",
@@ -683,7 +683,7 @@
     "btnDeleteAgentFromList": "Remove agent from group",
     "groupName": "Group name:",
     "results": "Chats found with",
-    "chatMembers": "Chat members",
+    "chatMembers": "Chat members:",
     "deleteChat": "Delete chat",
     "addAgentsToChat": "Add agents to chat",
     "createdOn": "Created on",
@@ -732,5 +732,17 @@
     "agents": "Agents",
     "messages": "Messages and Private chat initiation",
     "group": "Creating group chat"
+  },
+  "content": {
+    "content": "Content",
+    "toQuickStartGuideText": "Here you can find help with your activities in ZenBitRock",
+    "titleGoToQSG": "QuickStart Guide",
+    "videoTutorials": "Video tutorials",
+    "articlesAndTips": "Articles and Tips",
+    "lesson": "Lesson",
+    "viewed": "Viewed:",
+    "searchTopic": "Search topic",
+    "somethingWentWrong": "Something went wrong!",
+    "matchingResults": "Matching results"
   }
 }
