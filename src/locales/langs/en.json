@@ -720,6 +720,19 @@
   "noDataFound": {
     "results": "No Matching Results"
   },
+  "guidePage": {
+    "title": "QuickStart Guide",
+    "welcomeTxt": "ZenBitRock works with lots of agents that are open to new connections!",
+    "welcomeSubTxt": "You are one of them now :)",
+    "start": "Start guide",
+    "select": "(or select a topic below)",
+    "main": "Main page",
+    "profile": "My profile",
+    "leads": "Leads",
+    "agents": "Agents",
+    "messages": "Messages and Private chat initiation",
+    "group": "Creating group chat"
+  },
   "content": {
     "content": "Content",
     "toQuickStartGuideText": "Here you can find help with your activities in ZenBitRock",
