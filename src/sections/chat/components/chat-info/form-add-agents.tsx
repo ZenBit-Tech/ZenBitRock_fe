@@ -101,7 +101,19 @@ export function FormAddAgents({
   return (
     <Box
       component="form"
-      sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        '& > div > div > ul > li': {
+          transition: 'all 200ms ease-out',
+          backgroundColor: `${colors.PRIMARY_LIGHT_COLOR}!important`,
+          '&:hover': {
+            transition: 'all 200ms ease-out',
+            backgroundColor: `${colors.BUTTON_PRIMARY_COLOR_ALPHA}!important`,
+          },
+        },
+      }}
       onSubmit={handleSubmit(onSubmit)}
       noValidate
       autoComplete="off"
@@ -115,7 +127,7 @@ export function FormAddAgents({
         disabled={options.length === 0}
         ListboxProps={{ style: { maxHeight: '10rem' } }}
         getOptionKey={(option) => option.id}
-        isOptionEqualToValue={(option, optionValue) => option.valueOf() !== optionValue.valueOf()}
+        isOptionEqualToValue={(option, optionValue) => option !== optionValue.valueOf()}
         renderInput={(params) => (
           <TextField
             autoFocus
@@ -136,6 +148,7 @@ export function FormAddAgents({
         }}
         inputValue={inputValue}
         onInputChange={(event, newInputValue, reason) => {
+          // debugger;
           if (reason === 'reset') {
             setInputValue('');
 
