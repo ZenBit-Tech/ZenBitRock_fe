@@ -91,12 +91,6 @@ export default function Form({ user }: Props): JSX.Element {
 
   const watchAllFields = watch();
 
-  // useEffect(() => {
-  //   setValue('priceRangeRentFrom', ranges.PRICE_RANGE_RENT_MIN);
-  //   setValue('priceRangeRentTo', ranges.PRICE_RANGE_RENT_MAX);
-  //   setValue('priceRangeBuyFrom', ranges.PRICE_RANGE_BUY_MIN);
-  //   setValue('priceRangeBuyTo', ranges.PRICE_RANGE_BUY_MAX);
-  // }, [watchAllFields.offeringType, setValue]);
   useEffect(() => {
     if (watchAllFields.offeringType === QobrixLeadBuyRent.TO_RENT) {
       setValue('priceRangeBuyFrom', ranges.PRICE_RANGE_BUY_MIN);
