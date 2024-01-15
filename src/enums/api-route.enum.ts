@@ -35,6 +35,7 @@ const ApiRoute = {
   CHATS: '/chats',
   CHAT_WITH_ID: '/chats/id',
   CHECK_PRIVATE_CHAT: 'check-private-chat',
+  CONTENT: '/content',
 } as const;
 
 export { ApiRoute };

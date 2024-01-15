@@ -13,4 +13,5 @@ export const colors = {
   CHAT_MY_MESSAGE_BACKGROUND_COLOR: '#C8FAD6',
   ARROW_SECONDARY: '#919eab',
   SUN: '#FFD666',
+  BUTTON_PRIMARY_COLOR_ALPHA: 'rgba(0, 167, 111, 0.1)',
 };

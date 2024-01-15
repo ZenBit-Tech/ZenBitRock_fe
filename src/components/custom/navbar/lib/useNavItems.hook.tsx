@@ -68,7 +68,7 @@ const UseNavItems = () => {
         },
         {
           title: TranslationKey.CONTENT,
-          path: '#',
+          path: AppRoute.CONTENT_PAGE,
           icon: (
             <Iconify
               icon="game-icons:read"
