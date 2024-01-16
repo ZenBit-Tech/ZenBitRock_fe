@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IChatByIdResponse, IChatResponse, ICreatePrivateChatRequest } from 'types/chat';
+import { ChatInfoResponse } from 'types/chats';
+import { IChatResponse, ICreatePrivateChatRequest } from 'types/chat';
 import { ApiRoute, ChatEvent, StorageKey } from 'enums';
 import { ICreateGroupChatRequest, Message, IChatRequest } from 'types';
 import { createSocketFactory } from 'utils';
@@ -43,7 +44,7 @@ export const ChatApi = createApi({
       }),
     }),
 
-    getChatById: builder.query<IChatByIdResponse, string>({
+    getChatById: builder.query<ChatInfoResponse, string>({
       query: (chatId) => ({
         url: `${ApiRoute.CHATS}/${chatId}`,
         method: 'GET',
