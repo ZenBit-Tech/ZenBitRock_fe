@@ -29,6 +29,7 @@ export default function ChatView({
   messages,
 }: Props): JSX.Element {
   const t = useTranslations('privateChat');
+
   const router = useRouter();
 
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
@@ -43,6 +44,8 @@ export default function ChatView({
     () => user.members.find((member) => member.id !== selectedConversationId),
     [user.members, selectedConversationId]
   );
+
+  const isDeleted = useMemo(() => otherMember?.isDeleted || false, [otherMember]);
 
   const renderHead = (
     <Stack
@@ -65,7 +68,7 @@ export default function ChatView({
     >
       <ChatMessageList messages={chatMessages} user={user} me={selectedConversationId} />
 
-      <ChatMessageInput chatId={chatId} />
+      {!isDeleted && <ChatMessageInput chatId={chatId} disabled={isDeleted} />}
     </Stack>
   );
 
