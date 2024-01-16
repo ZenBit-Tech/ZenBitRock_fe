@@ -125,7 +125,9 @@ const ChatInfo = (): JSX.Element => {
     }
   };
 
-  return (
+  return isFetching ? (
+    <LoadingScreen marginTop="50%" />
+  ) : (
     <Box
       sx={{
         height: `calc(100dvh - ${NAV_HEADER_HEIGHT})`,
@@ -142,7 +144,7 @@ const ChatInfo = (): JSX.Element => {
         scrollbarWidth: 'none',
       }}
     >
-      {(isLoadingWhenGetChat || isLoadingWhenGetUsers || isLoadingWhenUpdate || isFetching) && (
+      {(isLoadingWhenGetChat || isLoadingWhenGetUsers || isLoadingWhenUpdate) && (
         <LoadingScreen
           sx={{
             position: 'absolute',
