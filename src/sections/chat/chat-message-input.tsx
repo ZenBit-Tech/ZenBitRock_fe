@@ -55,7 +55,7 @@ export default function ChatMessageInput({ disabled, chatId }: Props): JSX.Eleme
   }, [sendMessage]);
 
   if (!authUser) {
-    return <LoadingScreen />;
+    return <LoadingScreen sx={{ mt: 'calc(100vh / 2 - 65px)' }} />;
   }
 
   return (
