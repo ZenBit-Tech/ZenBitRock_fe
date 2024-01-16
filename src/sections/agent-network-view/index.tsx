@@ -24,7 +24,8 @@ export default function AgentNetworkView(): JSX.Element {
 
   const authUser = useSelector((state: RootState) => state.authSlice.user);
 
-  if (isLoading || !usersData || !authUser) return <LoadingScreen />;
+  if (isLoading || !usersData || !authUser)
+    return <LoadingScreen sx={{ mt: 'calc(100vh / 2 - 65px)' }} />;
   if (isError) return <Page500 />;
 
   const { id } = authUser;

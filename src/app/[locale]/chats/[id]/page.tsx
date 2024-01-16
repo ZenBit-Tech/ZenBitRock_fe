@@ -20,7 +20,7 @@ function ChatPage({ params }: Props): JSX.Element {
   const { data: chatMessages, isLoading: isLoadingMessages } = useGetMessagesQuery({ chatId });
 
   if (isFetching || !chatData || !authUser || isLoadingMessages) {
-    return <LoadingScreen />;
+    return <LoadingScreen sx={{ mt: 'calc(100vh / 2 - 65px)' }} />;
   }
 
   if (isError) {

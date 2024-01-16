@@ -14,7 +14,7 @@ const ChatPage = ({ params }: Props): JSX.Element => {
   const { data: messages, isLoading, isError } = useGetMessagesQuery({ chatId: params.id });
 
   if (isLoading) {
-    return <LoadingScreen />;
+    return <LoadingScreen sx={{ mt: 'calc(100vh / 2 - 65px)' }} />;
   }
 
   if (isError) {
