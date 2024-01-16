@@ -28,7 +28,7 @@ function ChatPage({ params }: Props): JSX.Element {
   }
   const { id } = authUser;
 
-  return <ChatView id={id} user={chatData} chatId={chatId} messages={chatMessages} />;
+  return <ChatView currentUserId={id} chatData={chatData} messages={chatMessages} />;
 }
 
 export default ChatPage;
