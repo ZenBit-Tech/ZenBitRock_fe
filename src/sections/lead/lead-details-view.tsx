@@ -1,23 +1,23 @@
 'use client';
 
 import { Box, Fab, Link, MenuItem, Select, Stack, Typography, useTheme } from '@mui/material';
-import Iconify from 'components/iconify';
-import { useCallback, useScrollToTop, useState, useTranslations } from 'hooks';
+import { useCallback, useState } from 'react';
+import { useScrollToTop, useTranslations } from 'hooks';
 import { QobrixLeadDetailsResponse } from 'types';
 import { colors } from 'constants/colors';
 import { GoBackPageTitile } from 'components/custom';
-import { MatchingPropertiesView } from './matching-properties-view';
+import { leadStatuses } from 'constants/leadStatuses';
+import { useUpdateLeadMutation } from 'store/api/qobrixApi';
+import { enqueueSnackbar } from 'components/snackbar';
+import Iconify from 'components/iconify';
 import {
   LeadDeleteComponent,
   LeadDetailsBudgetSection,
   LeadDetailsFeaturesSection,
   LeadDetailsSourceSection,
 } from './components';
-
 import { LeadHistorySection } from './components/lead-history';
-import { leadStatuses } from 'constants/leadStatuses';
-import { useUpdateLeadMutation } from 'store/api/qobrixApi';
-import { enqueueSnackbar } from 'components/snackbar';
+import { MatchingPropertiesView } from './matching-properties-view';
 
 type Props = {
   leadDetails: QobrixLeadDetailsResponse;
@@ -53,10 +53,6 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
   );
   const [updateLeadMutation] = useUpdateLeadMutation();
 
-  function closeModal(): void {
-    setOpenModal(!openModal);
-  }
-
   const handleStatusChange = async (status: string) => {
     const leadId = data.id;
 
@@ -75,6 +71,10 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
       enqueueSnackbar(errMessage, { variant: 'error' });
     }
   };
+
+  function closeModal(): void {
+    setOpenModal(!openModal);
+  }
 
   return (
     <Box sx={{ maxWidth: 800, margin: '0 auto', pb: 8 }}>
