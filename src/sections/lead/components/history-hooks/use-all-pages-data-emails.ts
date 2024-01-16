@@ -6,7 +6,7 @@ const START_PAGE: number = 1;
 export const useAllPagesEmailsData = (id: string) => {
   const [currentPage, setCurrentPage] = useState<number>(START_PAGE);
 
-  const { data } = useGetLeadEmailsQuery(
+  const { data, isFetching, isLoading } = useGetLeadEmailsQuery(
     {
       page: currentPage,
       id,
@@ -20,5 +20,5 @@ export const useAllPagesEmailsData = (id: string) => {
     }
   }, [data]);
 
-  return !data?.pagination.has_next_page ? data : null;
+  return { data: !data?.pagination.has_next_page ? data : null, isFetching, isLoading };
 };
