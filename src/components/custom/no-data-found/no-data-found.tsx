@@ -8,7 +8,7 @@ const NoDataFound = () => {
   const t = useTranslations('noDataFound');
 
   return (
-    <Stack spacing={1} alignItems="center">
+    <Stack spacing={1} alignItems="center" sx={{ pb: 10 }}>
       <img alt="empty content" src="/assets/icons/empty/ic_content.svg" />
       <Typography variant="h5">{t('results')}</Typography>
     </Stack>

@@ -9,30 +9,27 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { Button } from '@mui/material';
-import { IChatByIdResponse } from 'types/chat';
+import { ChatInfoResponse } from 'types/chats';
 import { Message } from 'types';
 import ChatMessageList from '../chat-message-list';
 import ChatMessageInput from '../chat-message-input';
 import ChatHeaderDetail from '../chat-header-detail';
+import ChatGroupHeader from '../chat-group-header';
 
 type Props = {
-  id: string;
-  user: IChatByIdResponse;
-  chatId: string;
+  currentUserId: string;
+  chatData: ChatInfoResponse;
   messages?: Message[];
 };
 
-export default function ChatView({
-  id: selectedConversationId,
-  user,
-  chatId,
-  messages,
-}: Props): JSX.Element {
+export default function ChatView({ currentUserId, chatData, messages }: Props): JSX.Element {
   const t = useTranslations('privateChat');
 
   const router = useRouter();
 
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
+
+  const isPrivate = Boolean(chatData.isPrivate);
 
   useEffect(() => {
     if (messages) {
@@ -41,8 +38,8 @@ export default function ChatView({
   }, [messages]);
 
   const otherMember = useMemo(
-    () => user.members.find((member) => member.id !== selectedConversationId),
-    [user.members, selectedConversationId]
+    () => chatData.members.find((member) => member.id !== currentUserId),
+    [chatData.members, currentUserId]
   );
 
   const isDeleted = useMemo(() => otherMember?.isDeleted || false, [otherMember]);
@@ -54,7 +51,8 @@ export default function ChatView({
       flexShrink={0}
       sx={{ pr: 1, pl: 2.5, py: 1, minHeight: 72, overflow: 'scroll' }}
     >
-      {otherMember ? <ChatHeaderDetail user={otherMember} /> : null}
+      {isPrivate && otherMember ? <ChatHeaderDetail user={otherMember} /> : null}
+      {!isPrivate && <ChatGroupHeader chatId={chatData.id} />}
     </Stack>
   );
 
@@ -66,9 +64,10 @@ export default function ChatView({
         overflow: 'hidden',
       }}
     >
-      <ChatMessageList messages={chatMessages} user={user} me={selectedConversationId} />
+      <ChatMessageList messages={chatMessages} me={currentUserId} />
 
       {!isDeleted && <ChatMessageInput chatId={chatId} disabled={isDeleted} />}
+
     </Stack>
   );
 

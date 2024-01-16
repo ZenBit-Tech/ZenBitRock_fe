@@ -125,7 +125,9 @@ const ChatInfo = (): JSX.Element => {
     }
   };
 
-  return (
+  return isFetching ? (
+    <LoadingScreen marginTop="50%" />
+  ) : (
     <Box
       sx={{
         height: `calc(100dvh - ${NAV_HEADER_HEIGHT})`,
@@ -142,7 +144,7 @@ const ChatInfo = (): JSX.Element => {
         scrollbarWidth: 'none',
       }}
     >
-      {(isLoadingWhenGetChat || isLoadingWhenGetUsers || isLoadingWhenUpdate || isFetching) && (
+      {(isLoadingWhenGetChat || isLoadingWhenGetUsers || isLoadingWhenUpdate) && (
         <LoadingScreen
           sx={{
             position: 'absolute',
@@ -273,10 +275,40 @@ const ChatInfo = (): JSX.Element => {
           </Typography>
         </Link>
 
-        <Typography
-          variant="subtitle2"
-          sx={{ fontWeight: 'normal', mb: '1rem' }}
-        >{`1. ${firstName} ${lastName} (${t('owner')})`}</Typography>
+        <Box
+          sx={{
+            mb: '1rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            width: '100%',
+          }}
+        >
+          <Typography
+            variant="body2"
+            sx={{
+              textAlign: 'right',
+              mr: '0.5rem',
+              fontWeight: 'normal',
+              minWidth: '1rem',
+            }}
+          >
+            1.
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              mr: '0.5rem',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              fontWeight: 'normal',
+            }}
+          >{`${firstName} ${lastName}`}</Typography>
+          <Typography variant="body2" sx={{ width: 'fit-content', fontWeight: 'normal' }}>{`(${t(
+            'owner'
+          )})`}</Typography>
+        </Box>
         {members &&
           members?.length > 0 &&
           members.map(
@@ -287,11 +319,21 @@ const ChatInfo = (): JSX.Element => {
                   key={uuidv4()}
                   sx={{
                     display: 'flex',
-                    justifyContent: 'space-between',
                     alignItems: 'center',
                     mb: '1rem',
                   }}
                 >
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      mr: '0.5rem',
+                      textAlign: 'right',
+                      fontWeight: 'normal',
+                      minWidth: '1rem',
+                    }}
+                  >
+                    {`${idx + 2}.`}
+                  </Typography>
                   <Typography
                     variant="subtitle2"
                     sx={{
@@ -299,8 +341,11 @@ const ChatInfo = (): JSX.Element => {
                       whiteSpace: 'nowrap',
                       textOverflow: 'ellipsis',
                       overflow: 'hidden',
+                      mr: 'auto',
                     }}
-                  >{`${idx + 2}. ${user?.label}`}</Typography>
+                  >
+                    {user?.label}
+                  </Typography>
                   <Iconify
                     icon="fluent:delete-28-regular"
                     width="1.5rem"

@@ -40,7 +40,7 @@ export default function ChatMessageInput({ addMessage, disabled }: Props): JSX.E
   );
 
   if (!authUser) {
-    return <LoadingScreen />;
+    return <LoadingScreen sx={{ mt: 'calc(100vh / 2 - 65px)' }} />;
   }
 
   return (

@@ -6,7 +6,7 @@ const START_PAGE: number = 1;
 export const useAllPagesStatusChangesData = (id: string) => {
   const [currentPage, setCurrentPage] = useState<number>(START_PAGE);
 
-  const { data } = useGetLeadStatusChangesQuery(
+  const { data, isFetching, isLoading } = useGetLeadStatusChangesQuery(
     {
       page: currentPage,
       id,
@@ -20,5 +20,5 @@ export const useAllPagesStatusChangesData = (id: string) => {
     }
   }, [data]);
 
-  return !data?.pagination.has_next_page ? data : null;
+  return { data: !data?.pagination.has_next_page ? data : null, isFetching, isLoading };
 };

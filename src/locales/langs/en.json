@@ -656,7 +656,8 @@
     "history": "Activities History",
     "date": "Date & Time",
     "activity": "Activity",
-    "open_history": "View History"
+    "open_history": "View History",
+    "error":"Something went wrong!"
   },
   "notFoundView": {
     "notFound": " Sorry, Page Not Found!",
@@ -679,7 +680,7 @@
     "addGroupBtnTxt": "Add group chat",
     "groupNameInputPlaceholder": "Enter agent name",
     "groupNameLabel": "Enter group name",
-    "groupNameInvalid": "Group name must contains 10 symbols minimum",
+    "groupNameInvalid": "Group name must contains from 2 to 15 symbols",
     "groupNameRequired": "Group name required",
     "btnDeleteAgentFromList": "Remove agent from group",
     "groupName": "Group name:",
@@ -695,7 +696,7 @@
     "title": "Chat info",
     "back": "Back",
     "doYouWantDeleteChat": "Do you want delete chat?",
-    "yesDelete": "Yes delete",
+    "yesDelete": "Yes, delete",
     "somethingWentWrong": "Something went wrong",
     "editGroupChatName": "Edit group chat name",
     "enterNewName": "Enter new name",

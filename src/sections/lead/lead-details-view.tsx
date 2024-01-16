@@ -1,20 +1,23 @@
 'use client';
 
-import { Box, Fab, Link, Stack, Typography, useTheme } from '@mui/material';
-import Iconify from 'components/iconify';
-import { useCallback, useScrollToTop, useState, useTranslations } from 'hooks';
+import { Box, Fab, Link, MenuItem, Select, Stack, Typography, useTheme } from '@mui/material';
+import { useCallback, useState } from 'react';
+import { useScrollToTop, useTranslations } from 'hooks';
 import { QobrixLeadDetailsResponse } from 'types';
 import { colors } from 'constants/colors';
 import { GoBackPageTitile } from 'components/custom';
-import { MatchingPropertiesView } from './matching-properties-view';
+import { leadStatuses } from 'constants/leadStatuses';
+import { useUpdateLeadMutation } from 'store/api/qobrixApi';
+import { enqueueSnackbar } from 'components/snackbar';
+import Iconify from 'components/iconify';
 import {
   LeadDeleteComponent,
   LeadDetailsBudgetSection,
   LeadDetailsFeaturesSection,
   LeadDetailsSourceSection,
 } from './components';
-
 import { LeadHistorySection } from './components/lead-history';
+import { MatchingPropertiesView } from './matching-properties-view';
 
 type Props = {
   leadDetails: QobrixLeadDetailsResponse;
@@ -32,6 +35,7 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
   };
 
   const { data } = leadDetails;
+
   const {
     contact_name_contact: contact,
     conversion_status_workflow_stage: workflow,
@@ -43,6 +47,30 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
     (count: number) => setMatchingPropertiesCount(count),
     [setMatchingPropertiesCount]
   );
+
+  const [selectedStatus, setSelectedStatus] = useState<string>(
+    leadDetails.data.conversion_status_workflow_stage.name
+  );
+  const [updateLeadMutation] = useUpdateLeadMutation();
+
+  const handleStatusChange = async (status: string) => {
+    const leadId = data.id;
+
+    try {
+      await updateLeadMutation({
+        id: leadId,
+        conversion_status: status,
+      });
+
+      if (status) {
+        setSelectedStatus(status);
+      }
+    } catch (error) {
+      const errMessage = t('error');
+
+      enqueueSnackbar(errMessage, { variant: 'error' });
+    }
+  };
 
   function closeModal(): void {
     setOpenModal(!openModal);
@@ -60,17 +88,30 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
             <Typography variant="h4" color="text.secondary">
               {contact.name}
             </Typography>
-            <Typography variant="body2" display="flex" gap="2px">
-              {`${t('status')} :`}
-              <Link
-                variant="subtitle2"
-                sx={{
-                  cursor: 'pointer',
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
+              <Typography variant="body2">{`${t('status')} :`}</Typography>
+              <Select
+                value={selectedStatus}
+                variant="standard"
+                onChange={(e) => handleStatusChange(e.target.value)}
+                sx={{ ml: 1, minWidth: '120px' }} // Adjust the styling as needed
+                renderValue={(selected) => {
+                  const foundStatus = Object.values(leadStatuses).find(
+                    (status) => status.id === selected
+                  );
+                  return foundStatus ? foundStatus.label : workflow.name;
                 }}
               >
-                {workflow.name}
-              </Link>
-            </Typography>
+                <MenuItem value={leadDetails.data.conversion_status_workflow_stage.name}>
+                  {leadDetails.data.conversion_status_workflow_stage.name}
+                </MenuItem>
+                {Object.entries(leadStatuses).map(([statusName, statusValue]) => (
+                  <MenuItem key={statusName} value={statusValue.id}>
+                    {statusValue.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Box>
             {propertyType && (
               <Typography variant="body2">{`${t('enquiryType')} : ${
                 propertyType.name

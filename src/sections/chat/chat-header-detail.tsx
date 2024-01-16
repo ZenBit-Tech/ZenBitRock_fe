@@ -14,7 +14,7 @@ export default function ChatHeaderDetail({ user: singleParticipant }: Props): JS
   const t = useTranslations('agents');
   
   if (!singleParticipant) {
-    return <LoadingScreen />;
+    return <LoadingScreen sx={{ mt: 'calc(100vh / 2 - 65px)' }} />;
   }
 
   const { avatarUrl, firstName, lastName, isDeleted } = singleParticipant;
