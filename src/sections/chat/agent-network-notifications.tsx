@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import { Box, Card, Divider, Typography } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import { CustomLink } from 'components/custom';
 import Iconify from 'components/iconify';
 import { AppRoute } from 'enums';

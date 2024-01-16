@@ -18,6 +18,8 @@ type Props = {
   user: UserProfileResponse | null;
 };
 
+const FULLED_ELEMENTS_WIDTH: string = '300px';
+
 const Header = ({ user }: Props): JSX.Element => {
   const theme = useTheme();
   const t = useTranslations('Home');
@@ -35,13 +37,28 @@ const Header = ({ user }: Props): JSX.Element => {
           },
         }}
       >
-        <Container maxWidth={false} sx={{ height: 1, display: 'flex', alignItems: 'center' }}>
+        <Container
+          maxWidth={false}
+          sx={{
+            height: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
           <Logo href={AppRoute.HOME_PAGE}>{t('Header.title')}</Logo>
-          <Box sx={{ flexGrow: 1 }} />
           {user && (
             <Box sx={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
               <Typography
-                sx={{ textAlign: 'right', color: theme.palette.primary.main, mr: '10px' }}
+                sx={{
+                  display: 'block',
+                  textAlign: 'right',
+                  color: theme.palette.primary.main,
+                  mr: '10px',
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  maxWidth: `calc(100vw - ${FULLED_ELEMENTS_WIDTH})`,
+                }}
               >{`${t('Header.greeting')}, ${
                 user.firstName ? `${user.firstName}` : t('Header.displayName')
               }!`}</Typography>

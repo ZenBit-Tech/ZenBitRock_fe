@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
 import { format } from 'date-fns';
-import { IChatByIdResponse } from 'types/chat';
 import { Message } from 'types';
 import { datesFormats } from 'constants/dates-formats';
 import Scrollbar from 'components/scrollbar';
@@ -11,7 +10,7 @@ import { useMessagesScroll } from './hooks';
 
 type Props = {
   messages: Message[];
-  user: IChatByIdResponse;
+
   me: string;
 };
 
@@ -19,7 +18,7 @@ type GroupedMessages = {
   [key: string]: Message[];
 };
 
-export default function ChatMessageList({ messages = [], user, me }: Props): JSX.Element {
+export default function ChatMessageList({ messages = [], me }: Props): JSX.Element {
   const { messagesEndRef } = useMessagesScroll(messages);
 
   const sortedMessages = useMemo(
