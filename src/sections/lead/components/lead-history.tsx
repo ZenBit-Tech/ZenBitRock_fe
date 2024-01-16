@@ -191,7 +191,7 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
           <Box
             sx={{
               overflowY: 'scroll',
-              height: 'calc(100% - 5rem)',
+              height: 'calc(100% - 7rem)',
               width: '100%',
               padding: '0',
               '&::-webkit-scrollbar': {
