@@ -5,13 +5,13 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import {
   Backdrop,
-  Button,
   CircularProgress,
   Typography,
   Box,
   IconButton,
   styled,
   Link,
+  Button,
 } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
@@ -26,6 +26,7 @@ import { AppDispatch } from 'store';
 import { patterns } from 'constants/patterns';
 import { useVerifyOldPasswordMutation } from 'store/api/resetPasswordApi';
 import { setPassword } from 'store/reducers/restorePasswordReducer';
+
 
 const StyledTextFiled = styled(TextField)`
   margin-bottom: 1.5 rem;
@@ -129,7 +130,7 @@ function VerifyOldPasswordForm(): JSX.Element {
             {t('forgotPass')}
           </Link>
         </Typography>
-        <Button type="submit" variant="contained" sx={{ my: '20px' }} fullWidth disabled={!isValid}>
+        <Button type="submit" variant="contained" color="primary" sx={{ my: '20px' }} fullWidth disabled={!isValid}>
           {t('buttonVerify')}
         </Button>
       </Box>

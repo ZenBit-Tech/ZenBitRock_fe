@@ -1,33 +1,25 @@
 'use client';
 
-import ReduxProvider from 'store/ReduxProvider';
-import { useMockedUser } from 'hooks/use-mocked-user';
-import { SnackbarProvider } from 'components/snackbar';
-import CustomBreadcrumbs from 'components/custom-breadcrumbs';
+import { Box } from '@mui/material';
 import Container from '@mui/material/Container';
+import ReduxProvider from 'store/ReduxProvider';
+import { SnackbarProvider } from 'components/snackbar';
 import { useSettingsContext } from 'components/settings';
 import { useTranslations } from 'next-intl';
-import { paths } from 'routes/paths';
+import { GoBackPageTitile } from 'components/custom';
 import Form from './form';
+
 
 export default function ResetPasswordView(): JSX.Element {
   const settings = useSettingsContext();
   const t = useTranslations('ResetPasswordPage');
-  const { user } = useMockedUser();
+
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'} sx={{ paddingTop: '1rem' }}>
-      <CustomBreadcrumbs
-        heading={t('pageTitle')}
-        links={[
-          {
-            name: `${t('backLink')}`,
-            href: paths.user.profile,
-          },
-          { name: user?.displayName },
-          { name: user?.email },
-        ]}
-      />
+      <Box sx={{ ml: 1, mr: 1 }}>
+        <GoBackPageTitile title={t('pageTitle')} />
+      </Box>
 
       <SnackbarProvider>
         <ReduxProvider>
