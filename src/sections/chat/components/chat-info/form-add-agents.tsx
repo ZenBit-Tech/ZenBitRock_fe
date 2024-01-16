@@ -148,7 +148,6 @@ export function FormAddAgents({
         }}
         inputValue={inputValue}
         onInputChange={(event, newInputValue, reason) => {
-          // debugger;
           if (reason === 'reset') {
             setInputValue('');
 
