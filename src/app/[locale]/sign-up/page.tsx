@@ -36,7 +36,7 @@ export default function SignUpPage({ params: { locale } }: Props) {
   }, [locale]);
 
   if (!data) {
-    return <LoadingScreen />;
+    return <LoadingScreen sx={{ mt: 'calc(100vh / 2 - 65px)' }} />;
   }
 
   return (
