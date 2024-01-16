@@ -6,7 +6,7 @@ const START_PAGE: number = 1;
 export const useAllPagesCallsData = (id: string) => {
   const [currentPage, setCurrentPage] = useState<number>(START_PAGE);
 
-  const { data } = useGetLeadCallsQuery(
+  const { data, isFetching, isLoading } = useGetLeadCallsQuery(
     {
       page: currentPage,
       id,
@@ -20,5 +20,5 @@ export const useAllPagesCallsData = (id: string) => {
     }
   }, [data]);
 
-  return !data?.pagination.has_next_page ? data : null;
+  return { data: !data?.pagination.has_next_page ? data : null, isFetching, isLoading };
 };

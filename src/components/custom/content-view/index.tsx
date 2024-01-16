@@ -130,7 +130,6 @@ function ContentView(): JSX.Element {
         <Typography
           variant="subtitle1"
           sx={{
-            maxHeight: '52px',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
           }}

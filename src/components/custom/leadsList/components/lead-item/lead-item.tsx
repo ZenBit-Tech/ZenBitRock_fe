@@ -49,6 +49,7 @@ export function Lead({ lead }: { lead: QobrixLeadItem }): JSX.Element {
             sx={{
               fontWeight: 'bold',
               width: '3rem',
+              minWidth: '3rem',
             }}
           >
             {t('source')}:
@@ -74,6 +75,7 @@ export function Lead({ lead }: { lead: QobrixLeadItem }): JSX.Element {
             sx={{
               fontWeight: 'bold',
               width: '3rem',
+              minWidth: '3rem',
             }}
           >
             {t('status')}:
@@ -93,11 +95,14 @@ export function Lead({ lead }: { lead: QobrixLeadItem }): JSX.Element {
             sx={{
               fontWeight: 'bold',
               width: '3rem',
+              minWidth: '3rem',
             }}
           >
             {t('contact')}:
           </TextStyled>
-          <TextStyled>{contactName}</TextStyled>
+          <TextStyled sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}>
+            {contactName}
+          </TextStyled>
         </Box>
         <Box
           sx={{

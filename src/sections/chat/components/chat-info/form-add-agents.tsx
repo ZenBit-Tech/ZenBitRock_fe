@@ -61,7 +61,13 @@ export function FormAddAgents({
   useEffect(() => {
     if (usersData) {
       const newOptions = usersData
-        .filter(({ id }) => id !== ownerId && !chatMembers.some((member) => id === member.id))
+        .filter(
+          ({ id, firstName, lastName }) =>
+            id !== ownerId &&
+            !chatMembers.some((member) => id === member.id) &&
+            firstName &&
+            lastName
+        )
         .map(({ firstName, lastName, id }) => ({ label: `${firstName} ${lastName}`, id }));
 
       setOptions(newOptions);
@@ -148,7 +154,6 @@ export function FormAddAgents({
         }}
         inputValue={inputValue}
         onInputChange={(event, newInputValue, reason) => {
-          // debugger;
           if (reason === 'reset') {
             setInputValue('');
 
