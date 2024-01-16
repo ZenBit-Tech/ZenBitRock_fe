@@ -80,15 +80,17 @@ export function FormAddAgents({
 
   const onSubmit = async (): Promise<void> => {
     try {
-      const { id } = await updateGroupChat({
-        id: chatId,
-        memberIds: members.map((member) => member.id),
-      }).unwrap();
+      if (ownerId) {
+        const { id } = await updateGroupChat({
+          id: chatId,
+          memberIds: [...members.map((member) => member.id), ownerId],
+        }).unwrap();
 
-      if (id) {
-        changedMembers(members?.map((member) => member.id));
-        refresh();
-        closeModalUp();
+        if (id) {
+          changedMembers(members?.map((member) => member.id));
+          refresh();
+          closeModalUp();
+        }
       }
     } catch (error) {
       enqueueSnackbar(`${t('somethingWentWrong')}: ${error.data.message}`, {
