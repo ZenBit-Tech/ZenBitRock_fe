@@ -655,7 +655,8 @@
     "history": "Activities History",
     "date": "Date & Time",
     "activity": "Activity",
-    "open_history": "View History"
+    "open_history": "View History",
+    "error":"Something went wrong!"
   },
   "notFoundView": {
     "notFound": " Sorry, Page Not Found!",
