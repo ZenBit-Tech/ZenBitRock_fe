@@ -18,7 +18,7 @@ import { ContentApi } from './content';
 
 const persistConfig = {
   key: 'store',
-  whitelist: ['restorePasswordSlice'],
+  whitelist: [''],
   storage,
 };
 
