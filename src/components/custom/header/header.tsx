@@ -28,7 +28,7 @@ const Header = ({ user }: Props): JSX.Element => {
 
   return (
     <AppBar
-      position="fixed"
+      position="sticky"
       sx={{
         borderBottom: `1px solid ${grey[900]}`,
         backgroundColor: theme.palette.primary.contrastText,
