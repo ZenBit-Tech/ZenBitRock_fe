@@ -66,8 +66,7 @@ export default function ChatView({ currentUserId, chatData, messages }: Props): 
     >
       <ChatMessageList messages={chatMessages} me={currentUserId} />
 
-      {!isDeleted && <ChatMessageInput chatId={chatId} disabled={isDeleted} />}
-
+      {!isDeleted && <ChatMessageInput chatId={chatData.id} disabled={isDeleted} />}
     </Stack>
   );
 
