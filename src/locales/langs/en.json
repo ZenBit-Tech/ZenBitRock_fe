@@ -719,5 +719,28 @@
   },
   "noDataFound": {
     "results": "No Matching Results"
+  },
+  "onboarding": {
+    "backButton": "Back",
+    "closeButton": "Close",
+    "lastButton": "Finish",
+    "nextButton": "Next",
+    "openDialogButton": "Open the dialog",
+    "skipButton": "Exit onboarding",
+    "step0": "Let`s start onboarding!",
+    "step1": "This is Main page. View notifications and properties here",
+    "step2": "Tap property card to view details",
+    "step3": "Tap Profile icon to view and edit profile",
+    "step4": "Tap View to see notifications",
+    "step5": "Tap Leads icon to view the Leads page",
+    "step6": "This is Leads page",
+    "step7": "Tap the lead to view details",
+    "step8": "Tap Agents icon to view the Agents page",
+    "step9": "This is Agents page. See all your colleagues here",
+    "step10": "Tap an agent to start chatting",
+    "step11": "Tap the logo to view the Chats page",
+    "step12": "This is Chats page. See all your chats here",
+    "step13": "Use this button to create a group chat",
+    "step14": "Tap on a chat to open it and start a conversation"
   }
 }

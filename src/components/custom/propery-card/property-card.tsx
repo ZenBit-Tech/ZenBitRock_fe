@@ -21,9 +21,10 @@ import {
 
 type Props = {
   property: QobrixProperty;
+  className: string;
 };
 
-const PropertyCard = ({ property }: Props) => {
+const PropertyCard = ({ property, className }: Props) => {
   const t = useTranslations('properties');
   const router = useRouter();
 
@@ -38,6 +39,7 @@ const PropertyCard = ({ property }: Props) => {
         width: '100%',
         marginBottom: '2rem',
       }}
+      className={className}
     >
       <Box
         sx={{

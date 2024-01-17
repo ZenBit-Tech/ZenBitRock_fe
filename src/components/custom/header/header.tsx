@@ -45,7 +45,7 @@ const Header = ({ user }: Props): JSX.Element => {
               >{`${t('Header.greeting')}, ${
                 user.firstName ? `${user.firstName}` : t('Header.displayName')
               }!`}</Typography>
-              <Link href={AppRoute.PROFILE_PAGE}>
+              <Link href={AppRoute.PROFILE_PAGE} className="onboarding-step-3">
                 <HeaderAvatar avatar={avatar} />
               </Link>
               <MessagesIndicator />

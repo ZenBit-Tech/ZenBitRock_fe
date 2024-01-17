@@ -1,12 +1,27 @@
-import { Container } from '@mui/material';
+import { Backdrop, CircularProgress, Container } from '@mui/material';
 import { Stack } from '@mui/system';
 import { useTranslations } from 'next-intl';
-import { GoBackPageTitile } from 'components/custom';
+import { useMount, useState } from 'hooks';
+import { GoBackPageTitile, Onboarding, useOnboardingContext, DELAY } from 'components/custom';
 import ChatsList from './chats-list';
 import AddGroupChatButton from './add-group-chat-button';
 
 export default function ChatsView(): JSX.Element {
   const t = useTranslations('ChatsPage');
+  const [showLoader, setLoader] = useState(true);
+  const {
+    setState,
+    state: { tourActive },
+  } = useOnboardingContext();
+
+  useMount(() => {
+    if (tourActive) {
+      setTimeout(() => {
+        setLoader(false);
+        setState({ run: true, stepIndex: 12 });
+      }, DELAY);
+    }
+  });
 
   const CHATS_EXAMPLE = [
     {
@@ -272,7 +287,13 @@ export default function ChatsView(): JSX.Element {
   ];
 
   return (
-    <Container sx={{ pb: 8, pt: 0, px: 2 }}>
+    <Container sx={{ pb: 8, pt: 0, px: 2 }} className="onboarding-step-12">
+      {showLoader && tourActive && (
+        <Backdrop open sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}>
+          <CircularProgress color="primary" />
+        </Backdrop>
+      )}
+      <Onboarding />
       <Stack
         direction="row"
         alignItems="center"

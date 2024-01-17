@@ -1,9 +1,11 @@
+// 'use client';
+
 import { NextIntlClientProvider } from 'next-intl';
 import 'modern-normalize/modern-normalize.css';
 import StyledComponentsRegistry from 'lib/registry';
 import { LocalizationProvider } from 'locales';
 import ToastContainerWrapper from 'components/toast-container';
-import { App } from 'components/custom';
+import { App, OnboardingProvider } from 'components/custom';
 import ThemeProvider from 'theme';
 import ReduxProvider from 'store/ReduxProvider';
 import { Locale } from 'locales/i18n.config';
@@ -45,7 +47,9 @@ export default async function RootLayout({
             <StyledComponentsRegistry>
               <NextIntlClientProvider locale={locale} messages={localeData}>
                 <ReduxProvider>
-                  <App>{children}</App>
+                  <OnboardingProvider>
+                    <App>{children}</App>
+                  </OnboardingProvider>
                 </ReduxProvider>
               </NextIntlClientProvider>
             </StyledComponentsRegistry>

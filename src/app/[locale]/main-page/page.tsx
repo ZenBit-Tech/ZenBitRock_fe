@@ -1,11 +1,9 @@
 'use client';
 
-import { Box, Typography } from '@mui/material';
-
-import { ProtectedRoute } from 'components/custom';
+import { Backdrop, Box, Button, CircularProgress, Typography } from '@mui/material';
+import { ProtectedRoute, Onboarding, useOnboardingContext, DELAY } from 'components/custom';
 import PropertiesList from 'components/custom/propertiesList';
-import { useCallback, useState, useTranslations } from 'hooks';
-
+import { useCallback, useMount, useState, useTranslations } from 'hooks';
 import { StorageKey } from 'enums';
 import { getMainPagePropertyFilter } from 'utils';
 import { getStorage } from 'hooks/use-local-storage';
@@ -18,6 +16,12 @@ function MainPage(): JSX.Element {
       : ''
   );
   const [propertyNameFilter, setPropertyNameFilter] = useState<string>('');
+  // change to true to show loader
+  const [showLoader, setLoader] = useState(false);
+  const {
+    setState,
+    state: { stepIndex, tourActive },
+  } = useOnboardingContext();
 
   const handleSetFilter = useCallback(
     (search: string) => {
@@ -49,9 +53,29 @@ function MainPage(): JSX.Element {
 
   const t = useTranslations('mainPage');
 
+  useMount(() => {
+    if (tourActive) {
+      setTimeout(() => {
+        setLoader(false);
+        setState({ run: true, stepIndex: 0 });
+      }, DELAY);
+    }
+  });
+
+  const handleClickStart = () => {
+    setState({ run: true, tourActive: true });
+  };
+
   return (
     <ProtectedRoute>
-      <Box sx={{ p: '10px', margin: '0 auto', maxWidth: '800px' }}>
+      <Button onClick={handleClickStart}>Start</Button>
+      {((showLoader && tourActive) || stepIndex === 6) && (
+        <Backdrop open sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}>
+          <CircularProgress color="primary" />
+        </Backdrop>
+      )}
+      <Onboarding />
+      <Box sx={{ p: '10px', margin: '0 auto', maxWidth: '800px' }} className="onboarding-step-1">
         <NotificationCenter t={t} />
         <Typography variant="h3" sx={{ marginTop: 3 }}>
           {t('myProperties')}
@@ -60,7 +84,7 @@ function MainPage(): JSX.Element {
           setFilter={handleSetFilter}
           setPropertyNameFilter={handleSetPropertyNameFilter}
         />
-        <PropertiesList search={getCombinedFilter()} />
+        <PropertiesList tourActive={tourActive} search={getCombinedFilter()} />
       </Box>
     </ProtectedRoute>
   );

@@ -3,9 +3,16 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { Button, Box, Typography, Container } from '@mui/material';
-import { GoBackPageTitile, ProtectedRoute } from 'components/custom';
+import { Button, Box, Typography, Container, Backdrop, CircularProgress } from '@mui/material';
+import {
+  DELAY,
+  GoBackPageTitile,
+  Onboarding,
+  ProtectedRoute,
+  useOnboardingContext,
+} from 'components/custom';
 import LeadsList from 'components/custom/leadsList';
+import { useMount } from 'hooks';
 import { AppRoute } from 'enums';
 import { toTitleCase } from 'utils';
 import { LeadsFilter } from '../leads-filter/leads-filter';
@@ -14,6 +21,11 @@ function Common(): JSX.Element {
   const [name, setName] = useState<string | undefined>(undefined);
   const [propertyId, setPropertyId] = useState<string | undefined>(undefined);
   const [filter, setFilter] = useState<string | undefined>(undefined);
+  const [showLoader, setLoader] = useState<boolean>(true);
+  const {
+    setState,
+    state: { tourActive, stepIndex },
+  } = useOnboardingContext();
 
   const t = useTranslations('leads');
 
@@ -35,9 +47,24 @@ function Common(): JSX.Element {
     })();
   }, [id, leads]);
 
+  useMount(() => {
+    if (tourActive) {
+      setTimeout(() => {
+        setLoader(false);
+        setState({ run: true, stepIndex: 6 });
+      }, DELAY);
+    }
+  });
+
   return (
     <ProtectedRoute>
-      <Container sx={{ pb: 8, px: 2 }}>
+      {((showLoader && tourActive) || stepIndex === 9) && (
+        <Backdrop open sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}>
+          <CircularProgress color="primary" />
+        </Backdrop>
+      )}
+      <Onboarding />
+      <Container sx={{ pb: 8, px: 2 }} className="onboarding-step-6">
         {propertyId && <GoBackPageTitile title={toTitleCase(t('leads'))} />}
         {!propertyId && (
           <Box
@@ -70,7 +97,7 @@ function Common(): JSX.Element {
         >
           <LeadsFilter getFilter={(searchString: string) => getFilter(searchString)} />
         </Box>
-        <LeadsList filter={filter} id={propertyId} name={name} />
+        <LeadsList tourActive={tourActive} filter={filter} id={propertyId} name={name} />
       </Container>
     </ProtectedRoute>
   );
