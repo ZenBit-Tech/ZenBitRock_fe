@@ -103,6 +103,7 @@ export const onboardingSteps: Step[] = [
   {
     content: <Typography variant="h4">{stepsText[16]}</Typography>,
     spotlightPadding: 0,
+    hideBackButton: true,
     placement: 'center',
     target: '.onboarding-step-16',
   },

@@ -1,6 +1,6 @@
 'use client';
 
-import { Backdrop, Box, Button, CircularProgress, Typography, Container } from '@mui/material';
+import { Backdrop, Box, CircularProgress, Typography, Container } from '@mui/material';
 import { ProtectedRoute, Onboarding, useOnboardingContext, DELAY } from 'components/custom';
 import PropertiesList from 'components/custom/propertiesList';
 import { useCallback, useMount, useState, useTranslations } from 'hooks';
@@ -60,10 +60,6 @@ function MainPage(): JSX.Element {
       }, DELAY);
     }
   });
-
-  const handleClickStart = () => {
-    setState({ run: true, tourActive: true });
-  };
 
   return (
     <ProtectedRoute>

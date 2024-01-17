@@ -22,6 +22,21 @@ export default function QuickStartGuideView(): JSX.Element {
     router.push(AppRoute.MAIN_PAGE);
   };
 
+  const handleStartGuideLeads = (): void => {
+    setState({ tourActive: true });
+    router.push(AppRoute.LEADS_PAGE);
+  };
+
+  const handleStartGuideAgents = (): void => {
+    setState({ tourActive: true });
+    router.push(AppRoute.AGENTS_PAGE);
+  };
+
+  const handleStartGuideChats = (): void => {
+    setState({ tourActive: true });
+    router.push(AppRoute.CHATS_PAGE);
+  };
+
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'} sx={{ pb: 14 }}>
       <Box sx={{ mb: 2 }}>
@@ -78,32 +93,18 @@ export default function QuickStartGuideView(): JSX.Element {
           fontWeight: 'fontWeightRegular',
         }}
       >
-        <Stack direction="row" sx={{ alignItems: 'center' }}>
-          <Iconify icon="fluent:home-24-filled" width={24} sx={{ mr: 2 }} />
-          <Link href="#">{t('main')}</Link>
-        </Stack>
-
-        <Stack direction="row" sx={{ alignItems: 'center' }}>
-          <Iconify icon="fluent:document-person-20-filled" width={24} sx={{ mr: 2 }} />
-          <Link href="#">{t('profile')}</Link>
-        </Stack>
-
         <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
           <Iconify icon="mdi:leads" width={24} />
-          <Link href="#">{t('leads')}</Link>
+          <Link onClick={handleStartGuideLeads}>{t('leads')}</Link>
         </Stack>
         <Stack direction="row" sx={{ alignItems: 'center' }}>
           <Iconify icon="f7:person-3-fill" width={24} sx={{ mr: 2 }} />
-          <Link href="#">{t('agents')}</Link>
+          <Link onClick={handleStartGuideAgents}>{t('agents')}</Link>
         </Stack>
 
         <Stack direction="row" sx={{ alignItems: 'center' }}>
           <Iconify icon="mdi:message-bubble" width={24} sx={{ mr: 2 }} minWidth={24} />
-          <Link href="#">{t('messages')}</Link>
-        </Stack>
-        <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
-          <Iconify icon="fluent-mdl2:add-group" width={24} />
-          <Link href="#">{t('group')}</Link>
+          <Link onClick={handleStartGuideChats}>{t('messages')}</Link>
         </Stack>
       </Stack>
     </Container>
