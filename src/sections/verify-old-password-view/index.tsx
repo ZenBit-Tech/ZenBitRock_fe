@@ -10,7 +10,6 @@ import { useMockedUser } from 'hooks/use-mocked-user';
 import { GoBackPageTitile } from 'components/custom';
 import Form from './form';
 
-
 export default function VerifyOldPasswordView(): JSX.Element {
   const settings = useSettingsContext();
   const t = useTranslations('ResetPasswordPage');

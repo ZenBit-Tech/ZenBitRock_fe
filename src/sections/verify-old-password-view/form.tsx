@@ -27,7 +27,6 @@ import { patterns } from 'constants/patterns';
 import { useVerifyOldPasswordMutation } from 'store/api/resetPasswordApi';
 import { setPassword } from 'store/reducers/restorePasswordReducer';
 
-
 const StyledTextFiled = styled(TextField)`
   margin-bottom: 1.5 rem;
 `;
@@ -130,7 +129,14 @@ function VerifyOldPasswordForm(): JSX.Element {
             {t('forgotPass')}
           </Link>
         </Typography>
-        <Button type="submit" variant="contained" color="primary" sx={{ my: '20px' }} fullWidth disabled={!isValid}>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          sx={{ my: '20px' }}
+          fullWidth
+          disabled={!isValid}
+        >
           {t('buttonVerify')}
         </Button>
       </Box>
