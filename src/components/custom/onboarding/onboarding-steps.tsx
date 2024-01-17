@@ -2,7 +2,7 @@ import { Typography } from '@mui/material';
 import { Step } from 'react-joyride';
 import i18n from 'locales/118n';
 
-const STEPS_COUNT = 16;
+const STEPS_COUNT = 17;
 
 const stepsText: string[] = [];
 
@@ -99,5 +99,11 @@ export const onboardingSteps: Step[] = [
     content: <Typography variant="h4">{stepsText[15]}</Typography>,
     spotlightPadding: 4,
     target: '.onboarding-step-15',
+  },
+  {
+    content: <Typography variant="h4">{stepsText[16]}</Typography>,
+    spotlightPadding: 0,
+    placement: 'center',
+    target: '.onboarding-step-16',
   },
 ];

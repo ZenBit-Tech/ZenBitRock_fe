@@ -34,7 +34,12 @@ const NotificationCenter = ({ t }: { t: Function }): JSX.Element => {
                 {t('noNewNotifications')}
               </Typography>
               <CustomLink href="#">
-                <Box component="span" display="flex" alignItems="center">
+                <Box
+                  component="span"
+                  display="flex"
+                  alignItems="center"
+                  className="onboarding-step-4"
+                >
                   {t('view')}
                   <Iconify icon="mingcute:right-line" width="15px" height="15x" color="black" />
                 </Box>

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Box, Button, Container, Link, Stack, Typography } from '@mui/material';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { MotivationIllustration } from 'assets/illustrations';
-import { GoBackPageTitile } from 'components/custom';
+import { GoBackPageTitile, useOnboardingContext } from 'components/custom';
 import Iconify from 'components/iconify';
 import { useSettingsContext } from 'components/settings';
 import { AppRoute } from 'enums';
@@ -14,6 +14,13 @@ export default function QuickStartGuideView(): JSX.Element {
   const t = useTranslations('guidePage');
   const settings = useSettingsContext();
   const router = useRouter();
+
+  const { setState } = useOnboardingContext();
+
+  const handleStartGuide = (): void => {
+    setState({ tourActive: true });
+    router.push(AppRoute.MAIN_PAGE);
+  };
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'} sx={{ pb: 14 }}>
@@ -56,7 +63,7 @@ export default function QuickStartGuideView(): JSX.Element {
           }}
           color="primary"
           startIcon={<MenuBookIcon />}
-          onClick={() => router.push(AppRoute.HOME_PAGE)}
+          onClick={handleStartGuide}
         >
           {t('start')}
         </Button>

@@ -16,8 +16,7 @@ function MainPage(): JSX.Element {
       : ''
   );
   const [propertyNameFilter, setPropertyNameFilter] = useState<string>('');
-  // change to true to show loader
-  const [showLoader, setLoader] = useState(false);
+  const [showLoader, setLoader] = useState(true);
   const {
     setState,
     state: { stepIndex, tourActive },
@@ -68,8 +67,7 @@ function MainPage(): JSX.Element {
 
   return (
     <ProtectedRoute>
-      <Container sx={{ pb: 8, px: 2 }}>
-        <Button onClick={handleClickStart}>Start</Button>
+      <Container sx={{ pb: 8, px: 2 }} className="onboarding-step-1">
         {((showLoader && tourActive) || stepIndex === 6) && (
           <Backdrop open sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}>
             <CircularProgress color="primary" />
