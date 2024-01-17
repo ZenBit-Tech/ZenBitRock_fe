@@ -18,7 +18,7 @@ export default function ChatsView(): JSX.Element {
     if (tourActive) {
       setTimeout(() => {
         setLoader(false);
-        setState({ run: true, stepIndex: 12 });
+        setState({ run: true, stepIndex: 11 });
       }, DELAY);
     }
   });
@@ -288,7 +288,7 @@ export default function ChatsView(): JSX.Element {
 
   return (
     <Container sx={{ pb: 8, pt: 0, px: 2 }} className="onboarding-step-12">
-      {((showLoader && tourActive) || stepIndex === 16) && (
+      {((showLoader && tourActive) || stepIndex === 15) && (
         <Backdrop open sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}>
           <CircularProgress color="primary" />
         </Backdrop>

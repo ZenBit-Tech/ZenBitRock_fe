@@ -106,7 +106,7 @@ function ContentView(): JSX.Element {
     if (tourActive) {
       setTimeout(() => {
         setLoader(false);
-        setState({ run: true, stepIndex: 16 });
+        setState({ run: true, stepIndex: 15 });
       }, DELAY);
     }
   });

@@ -33,7 +33,7 @@ export default function AgentNetworkView(): JSX.Element {
     if (tourActive) {
       setTimeout(() => {
         setLoader(false);
-        setState({ run: true, stepIndex: 9 });
+        setState({ run: true, stepIndex: 8 });
       }, DELAY);
     }
   });
@@ -48,7 +48,7 @@ export default function AgentNetworkView(): JSX.Element {
 
   return (
     <>
-      {((showLoader && tourActive) || stepIndex === 12) && (
+      {((showLoader && tourActive) || stepIndex === 11) && (
         <Backdrop open sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}>
           <CircularProgress color="primary" />
         </Backdrop>

@@ -64,7 +64,7 @@ function MainPage(): JSX.Element {
   return (
     <ProtectedRoute>
       <Container sx={{ pb: 8, px: 2 }} className="onboarding-step-1">
-        {((showLoader && tourActive) || stepIndex === 6) && (
+        {((showLoader && tourActive) || stepIndex === 5) && (
           <Backdrop open sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}>
             <CircularProgress color="primary" />
           </Backdrop>

@@ -61,19 +61,19 @@ export default function QuickStartGuideView(): JSX.Element {
       <Stack
         alignItems="center"
         justifyContent="center"
-        gap="1"
+        gap={3}
         padding="2"
         maxWidth="70%"
         margin="0 auto"
       >
         <MotivationIllustration />
+        <Typography textAlign="center"> {t('select')}</Typography>
+
         <Button
           type="submit"
           variant="contained"
           fullWidth
           sx={{
-            mb: '5px',
-            mt: '20px',
             padding: '14px',
           }}
           color="primary"
@@ -82,30 +82,6 @@ export default function QuickStartGuideView(): JSX.Element {
         >
           {t('start')}
         </Button>
-        <Typography sx={{ mb: 1 }}> {t('select')}</Typography>
-      </Stack>
-      <Stack
-        spacing={2}
-        sx={{
-          margin: '0 auto',
-          p: 3,
-          typography: 'h4',
-          fontWeight: 'fontWeightRegular',
-        }}
-      >
-        <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
-          <Iconify icon="mdi:leads" width={24} />
-          <Link onClick={handleStartGuideLeads}>{t('leads')}</Link>
-        </Stack>
-        <Stack direction="row" sx={{ alignItems: 'center' }}>
-          <Iconify icon="f7:person-3-fill" width={24} sx={{ mr: 2 }} />
-          <Link onClick={handleStartGuideAgents}>{t('agents')}</Link>
-        </Stack>
-
-        <Stack direction="row" sx={{ alignItems: 'center' }}>
-          <Iconify icon="mdi:message-bubble" width={24} sx={{ mr: 2 }} minWidth={24} />
-          <Link onClick={handleStartGuideChats}>{t('messages')}</Link>
-        </Stack>
       </Stack>
     </Container>
   );

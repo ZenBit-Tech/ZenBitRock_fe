@@ -46,19 +46,22 @@ export function Onboarding(): JSX.Element {
     if (action === 'reset' || action === 'skip' || type === 'tour:end') {
       setState({ run: false, stepIndex: 0, tourActive: false });
     }
-    if (type === 'step:after' && index === 5 && action === 'next') {
+    if (action === 'reset' || action === 'skip') {
+      router.push(AppRoute.CONTENT_PAGE);
+    }
+    if (type === 'step:after' && index === 4 && action === 'next') {
       setState({ run: false });
       router.push(AppRoute.LEADS_PAGE);
     }
-    if (type === 'step:after' && index === 8 && action === 'next') {
+    if (type === 'step:after' && index === 7 && action === 'next') {
       setState({ run: false });
       router.push(AppRoute.AGENTS_PAGE);
     }
-    if (type === 'step:after' && index === 11 && action === 'next') {
+    if (type === 'step:after' && index === 10 && action === 'next') {
       setState({ run: false });
       router.push(AppRoute.CHATS_PAGE);
     }
-    if (type === 'step:after' && index === 15 && action === 'next') {
+    if (type === 'step:after' && index === 14 && action === 'next') {
       setState({ run: false });
       router.push(AppRoute.CONTENT_PAGE);
     }
@@ -73,6 +76,8 @@ export function Onboarding(): JSX.Element {
       steps={steps}
       locale={LOCALE}
       showSkipButton
+      hideBackButton
+      showProgress
       disableScrolling
       disableCloseOnEsc
       disableOverlayClose

@@ -12,12 +12,6 @@ for (let i = 0; i < STEPS_COUNT; i += 1) {
 
 export const onboardingSteps: Step[] = [
   {
-    content: <Typography variant="h4">{stepsText[0]}</Typography>,
-    spotlightPadding: 0,
-    placement: 'center',
-    target: 'body',
-  },
-  {
     content: <Typography variant="h4">{stepsText[1]}</Typography>,
     spotlightPadding: 0,
     placement: 'center',
@@ -47,7 +41,6 @@ export const onboardingSteps: Step[] = [
   {
     content: <Typography variant="h4">{stepsText[6]}</Typography>,
     spotlightPadding: 0,
-    hideBackButton: true,
     placement: 'center',
     target: '.onboarding-step-6',
   },
@@ -64,7 +57,6 @@ export const onboardingSteps: Step[] = [
   {
     content: <Typography variant="h4">{stepsText[9]}</Typography>,
     spotlightPadding: 0,
-    hideBackButton: true,
     placement: 'center',
     target: '.onboarding-step-9',
   },
@@ -81,7 +73,6 @@ export const onboardingSteps: Step[] = [
   {
     content: <Typography variant="h4">{stepsText[12]}</Typography>,
     spotlightPadding: 0,
-    hideBackButton: true,
     placement: 'center',
     target: '.onboarding-step-12',
   },
@@ -103,7 +94,6 @@ export const onboardingSteps: Step[] = [
   {
     content: <Typography variant="h4">{stepsText[16]}</Typography>,
     spotlightPadding: 0,
-    hideBackButton: true,
     placement: 'center',
     target: '.onboarding-step-16',
   },

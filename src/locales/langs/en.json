@@ -747,11 +747,11 @@
     "step16": "Thank you for your attention!"
   },
   "guidePage": {
-    "title": "QuickStart Guide",
+    "title": "Tutorial",
     "welcomeTxt": "ZenBitRock works with lots of agents that are open to new connections!",
     "welcomeSubTxt": "You are one of them now :)",
-    "start": "Start guide",
-    "select": "(or select a topic below)",
+    "start": "See how",
+    "select": "Agent Network makes real estate agents united and collaborative",
     "main": "Main page",
     "profile": "My profile",
     "leads": "Leads",

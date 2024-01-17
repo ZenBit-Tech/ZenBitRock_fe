@@ -51,14 +51,14 @@ function Common(): JSX.Element {
     if (tourActive) {
       setTimeout(() => {
         setLoader(false);
-        setState({ run: true, stepIndex: 6 });
+        setState({ run: true, stepIndex: 5 });
       }, DELAY);
     }
   });
 
   return (
     <ProtectedRoute>
-      {((showLoader && tourActive) || stepIndex === 9) && (
+      {((showLoader && tourActive) || stepIndex === 8) && (
         <Backdrop open sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}>
           <CircularProgress color="primary" />
         </Backdrop>
