@@ -2,11 +2,10 @@
 
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { Box, Button, Container, Link, Stack, Typography } from '@mui/material';
+import { Box, Button, Container, Stack, Typography } from '@mui/material';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { MotivationIllustration } from 'assets/illustrations';
 import { GoBackPageTitile, useOnboardingContext } from 'components/custom';
-import Iconify from 'components/iconify';
 import { useSettingsContext } from 'components/settings';
 import { AppRoute } from 'enums';
 
@@ -20,21 +19,6 @@ export default function QuickStartGuideView(): JSX.Element {
   const handleStartGuide = (): void => {
     setState({ tourActive: true });
     router.push(AppRoute.MAIN_PAGE);
-  };
-
-  const handleStartGuideLeads = (): void => {
-    setState({ tourActive: true });
-    router.push(AppRoute.LEADS_PAGE);
-  };
-
-  const handleStartGuideAgents = (): void => {
-    setState({ tourActive: true });
-    router.push(AppRoute.AGENTS_PAGE);
-  };
-
-  const handleStartGuideChats = (): void => {
-    setState({ tourActive: true });
-    router.push(AppRoute.CHATS_PAGE);
   };
 
   return (
