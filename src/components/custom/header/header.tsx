@@ -27,7 +27,13 @@ const Header = ({ user }: Props): JSX.Element => {
   const avatar = user?.avatarUrl ? user?.avatarUrl : '';
 
   return (
-    <AppBar position="static" sx={{ borderBottom: `1px solid ${grey[900]}` }}>
+    <AppBar
+      position="sticky"
+      sx={{
+        borderBottom: `1px solid ${grey[900]}`,
+        backgroundColor: theme.palette.primary.contrastText,
+      }}
+    >
       <Toolbar
         disableGutters
         sx={{

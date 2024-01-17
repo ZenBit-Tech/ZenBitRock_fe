@@ -9,11 +9,9 @@ import { useTranslations } from 'next-intl';
 import { GoBackPageTitile } from 'components/custom';
 import Form from './form';
 
-
 export default function ResetPasswordView(): JSX.Element {
   const settings = useSettingsContext();
   const t = useTranslations('ResetPasswordPage');
-
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'} sx={{ paddingTop: '1rem' }}>
