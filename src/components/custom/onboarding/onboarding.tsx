@@ -83,6 +83,7 @@ export function Onboarding(): JSX.Element {
       disableOverlayClose
       hideCloseButton
       scrollToFirstStep
+      scrollOffset={75}
       styles={{
         options: {
           zIndex: 10000,
