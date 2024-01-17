@@ -29,7 +29,7 @@ const propertiesMockData = {
       price: 3000000,
       photo: '/api/v2/files/download/media/public/original/ab6d4b51-f324-46d7-8c85-213a36020930',
       name: 'Downtown view beautiful apartment',
-    }
+    },
   ],
   pagination: {
     page_count: 1,
@@ -37,9 +37,9 @@ const propertiesMockData = {
     has_next_page: false,
     has_prev_page: false,
     count: 3,
-    limit: 10
-  }
-}
+    limit: 10,
+  },
+};
 
 const leadMockData = {
   data: [
@@ -64,7 +64,6 @@ const leadMockData = {
       contactName: 'Lucy Brown',
       contactPhone: '+1 123 456 7890',
     },
-
   ],
   pagination: {
     page_count: 1,
@@ -72,9 +71,9 @@ const leadMockData = {
     has_next_page: false,
     has_prev_page: false,
     count: 3,
-    limit: 10
-  }
-}
+    limit: 10,
+  },
+};
 
 const agentsMockData = [
   {
@@ -82,7 +81,8 @@ const agentsMockData = [
     lastName: 'Pitt',
     country: 'US',
     city: 'New York',
-    avatarUrl: 'https://res.cloudinary.com/dwp6n7qqj/image/upload/v1705343929/ZenBitRock/qfncuvyrj3wgxxgppmmz.jpg',
+    avatarUrl:
+      'https://res.cloudinary.com/dwp6n7qqj/image/upload/v1705343929/ZenBitRock/qfncuvyrj3wgxxgppmmz.jpg',
     email: '',
     id: '1',
     isVerified: true,
@@ -99,7 +99,8 @@ const agentsMockData = [
     lastName: 'Sinatra',
     country: 'US',
     city: 'New York',
-    avatarUrl: 'https://res.cloudinary.com/dwp6n7qqj/image/upload/v1704393365/ZenBitRock/jyr6skdun0qlaklun3nr.jpg',
+    avatarUrl:
+      'https://res.cloudinary.com/dwp6n7qqj/image/upload/v1704393365/ZenBitRock/jyr6skdun0qlaklun3nr.jpg',
     email: '',
     id: '2',
     isVerified: true,
@@ -111,7 +112,7 @@ const agentsMockData = [
     avatarPublicId: '',
     qobrixAgentId: '',
   },
-]
+];
 
 const chatsMockData = [
   {
@@ -266,5 +267,4 @@ const chatsMockData = [
   },
 ];
 
-
-export { propertiesMockData, leadMockData, agentsMockData, chatsMockData }
+export { propertiesMockData, leadMockData, agentsMockData, chatsMockData };
