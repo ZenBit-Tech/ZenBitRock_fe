@@ -93,6 +93,7 @@ const agentsMockData = [
     description: '',
     avatarPublicId: '',
     qobrixAgentId: '',
+    isDeleted: false,
   },
   {
     firstName: 'Frank ',
@@ -111,6 +112,7 @@ const agentsMockData = [
     description: '',
     avatarPublicId: '',
     qobrixAgentId: '',
+    isDeleted: false,
   },
 ];
 
