@@ -17,9 +17,8 @@ export default function AgentListItem({
   handleClickResult,
   className,
 }: FollowerItemProps): JSX.Element {
-
   const t = useTranslations('agents');
-  
+
   const { firstName, lastName, country, city, avatarUrl, isDeleted } = agent;
 
   return (
