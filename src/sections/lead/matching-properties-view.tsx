@@ -66,7 +66,7 @@ const MatchingPropertiesView = ({ lead, setMatchingPropertiesCount }: Props) => 
               }}
             >
               {data.data.map((item: QobrixProperty) => (
-                <PropertyCard property={item} key={item.id} />
+                <PropertyCard className="" property={item} key={item.id} />
               ))}
             </List>
           </Stack>
