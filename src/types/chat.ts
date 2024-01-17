@@ -1,5 +1,3 @@
-import { UserChatResponse } from './user-backend';
-
 export type IChatItem = {
   id: string;
   type: string;
@@ -91,16 +89,6 @@ export type IChatResponse = {
     createdAt?: string;
     updatedAt?: string;
   };
-};
-
-export type IChatByIdResponse = {
-  id?: string;
-  isPrivate?: boolean;
-  owner?: { id: string | null };
-  members: UserChatResponse[];
-  title?: string;
-  createdAt?: string;
-  updatedAt?: string;
 };
 
 export type ICreateGroupChatResponse = { data: { id: string } };

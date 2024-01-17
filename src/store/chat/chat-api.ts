@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IChatByIdResponse, IChatResponse, ICreatePrivateChatRequest } from 'types/chat';
+import { ChatInfoResponse } from 'types/chats';
+import { IChatResponse, ICreatePrivateChatRequest } from 'types/chat';
 import { ApiRoute, ChatEvent, StorageKey } from 'enums';
 import { ICreateGroupChatRequest, Message, IChatRequest } from 'types';
 import { createSocketFactory } from 'utils';
@@ -43,7 +44,7 @@ export const ChatApi = createApi({
       }),
     }),
 
-    getChatById: builder.query<IChatByIdResponse, string>({
+    getChatById: builder.query<ChatInfoResponse, string>({
       query: (chatId) => ({
         url: `${ApiRoute.CHATS}/${chatId}`,
         method: 'GET',
@@ -63,17 +64,16 @@ export const ChatApi = createApi({
     }),
     getMessages: builder.query<Message[], { chatId: string }>({
       queryFn: () => ({ data: [] }),
+
       async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved, updateCachedData }) {
         try {
           await cacheDataLoaded;
 
           const socket = getSocket();
 
-          socket.on('connect', () => {
-            socket.emit(ChatEvent.RequestAllMessages, arg.chatId, (messages: Message[]) => {
-              updateCachedData((draft) => {
-                draft.splice(0, draft.length, ...messages);
-              });
+          socket.emit(ChatEvent.RequestAllMessages, arg.chatId, (messages: Message[]) => {
+            updateCachedData((draft) => {
+              draft.splice(0, draft.length, ...messages);
             });
           });
 
@@ -87,9 +87,7 @@ export const ChatApi = createApi({
 
           await cacheEntryRemoved;
 
-          socket.off('connect');
-          socket.off(ChatEvent.RequestAllMessages);
-          socket.off(ChatEvent.NewMessage);
+          socket.close();
         } catch (error) {
           throw error;
         }

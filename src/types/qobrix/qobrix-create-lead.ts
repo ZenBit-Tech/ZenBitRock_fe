@@ -16,6 +16,7 @@ export type QobrixCreateLead = {
   list_rental_price_from?: number | null;
   list_rental_price_to?: number | null;
   locations: LocationSelectOption['value'] | null;
+  source: string;
 };
 
 export type QobrixCreateLeadResponse = {

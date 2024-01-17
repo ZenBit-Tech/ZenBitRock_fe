@@ -1,6 +1,6 @@
 'use client';
 
-import { Backdrop, Box, Button, CircularProgress, Typography } from '@mui/material';
+import { Backdrop, Box, Button, CircularProgress, Typography, Container } from '@mui/material';
 import { ProtectedRoute, Onboarding, useOnboardingContext, DELAY } from 'components/custom';
 import PropertiesList from 'components/custom/propertiesList';
 import { useCallback, useMount, useState, useTranslations } from 'hooks';
@@ -68,24 +68,26 @@ function MainPage(): JSX.Element {
 
   return (
     <ProtectedRoute>
-      <Button onClick={handleClickStart}>Start</Button>
-      {((showLoader && tourActive) || stepIndex === 6) && (
-        <Backdrop open sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}>
-          <CircularProgress color="primary" />
-        </Backdrop>
-      )}
-      <Onboarding />
-      <Box sx={{ p: '10px', margin: '0 auto', maxWidth: '800px' }} className="onboarding-step-1">
-        <NotificationCenter t={t} />
-        <Typography variant="h3" sx={{ marginTop: 3 }}>
-          {t('myProperties')}
-        </Typography>
-        <PropertyFilter
-          setFilter={handleSetFilter}
-          setPropertyNameFilter={handleSetPropertyNameFilter}
-        />
-        <PropertiesList tourActive={tourActive} search={getCombinedFilter()} />
-      </Box>
+      <Container sx={{ pb: 8, px: 2 }}>
+        <Button onClick={handleClickStart}>Start</Button>
+        {((showLoader && tourActive) || stepIndex === 6) && (
+          <Backdrop open sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}>
+            <CircularProgress color="primary" />
+          </Backdrop>
+        )}
+        <Onboarding />
+        <Box sx={{ margin: '0 auto', maxWidth: '800px' }}>
+          <NotificationCenter t={t} />
+          <Typography variant="h3" sx={{ marginTop: 3 }}>
+            {t('myProperties')}
+          </Typography>
+          <PropertyFilter
+            setFilter={handleSetFilter}
+            setPropertyNameFilter={handleSetPropertyNameFilter}
+          />
+          <PropertiesList tourActive={tourActive} search={getCombinedFilter()} />
+        </Box>
+      </Container>
     </ProtectedRoute>
   );
 }

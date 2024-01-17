@@ -40,7 +40,8 @@ export default function AgentNetworkView(): JSX.Element {
 
   const authUser = useSelector((state: RootState) => state.authSlice.user);
 
-  if (isLoading || !usersData || !authUser) return <LoadingScreen />;
+  if (isLoading || !usersData || !authUser)
+    return <LoadingScreen sx={{ mt: 'calc(100vh / 2 - 65px)' }} />;
   if (isError) return <Page500 />;
 
   const { id } = authUser;
@@ -55,7 +56,7 @@ export default function AgentNetworkView(): JSX.Element {
       <Onboarding />
       <Container
         maxWidth={settings.themeStretch ? false : 'lg'}
-        sx={{ pt: '1rem', pb: 14 }}
+        sx={{ pb: 14 }}
         className="onboarding-step-9"
       >
         <Typography variant="h3" sx={{ my: 3 }}>

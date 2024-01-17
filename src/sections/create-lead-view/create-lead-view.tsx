@@ -10,7 +10,7 @@ export default function CreateLeadView(): JSX.Element {
   const authUser = useSelector((state: RootState) => state.authSlice.user);
 
   if (!authUser) {
-    return <LoadingScreen />;
+    return <LoadingScreen sx={{ mt: 'calc(100vh / 2 - 65px)' }} />;
   }
 
   return (

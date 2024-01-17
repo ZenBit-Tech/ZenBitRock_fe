@@ -10,7 +10,7 @@ type Props = {
 
 export default function ChatHeaderDetail({ user: singleParticipant }: Props): JSX.Element {
   if (!singleParticipant) {
-    return <LoadingScreen />;
+    return <LoadingScreen sx={{ mt: 'calc(100vh / 2 - 65px)' }} />;
   }
 
   const { avatarUrl, firstName, lastName } = singleParticipant;

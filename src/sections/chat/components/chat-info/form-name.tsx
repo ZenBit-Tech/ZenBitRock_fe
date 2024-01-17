@@ -106,7 +106,7 @@ export function FormName({ t, closeModalUp, chatId, refresh, oldName }: Props): 
         >
           {t('changeGroupChatName')}
         </Button>
-        <Button type="reset" variant="contained" color="error" onClick={() => closeModalUp()}>
+        <Button type="reset" variant="contained" color="primary" onClick={() => closeModalUp()}>
           {t('cancelBtnTxt')}
         </Button>
       </Stack>
