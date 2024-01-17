@@ -25,12 +25,16 @@ export const authApi = createApi({
         try {
           await queryFulfilled;
         } catch (err) {
-          if (err.error.data.statusCode === 401) {
+          if (err.error?.data && err.error.data?.statusCode === 401) {
             enqueueSnackbar(`${errMessages.SIGN_IN_ERR_MSG}`, {
               variant: 'error',
             });
-          } else {
+          } else if (err.error?.status === errMessages.FETCH_ERR) {
+            enqueueSnackbar(`${errMessages.SERVER_ERR}`, { variant: 'error' });
+          } else if (err.error?.data?.message) {
             enqueueSnackbar(`${err.error.data.message}`, { variant: 'error' });
+          } else {
+            enqueueSnackbar(`${errMessages.UNKNOWN_ERR}`, { variant: 'error' });
           }
         }
       },
@@ -46,10 +50,14 @@ export const authApi = createApi({
         try {
           await queryFulfilled;
         } catch (err) {
-          if (err.error.data.statusCode === 400) {
+          if (err.error?.data && err.error.data?.statusCode === 401) {
             enqueueSnackbar(`${errMessages.SIGN_UP_ERR_MSG}`, { variant: 'error' });
-          } else {
+          } else if (err.error?.status === errMessages.FETCH_ERR) {
+            enqueueSnackbar(`${errMessages.SERVER_ERR}`, { variant: 'error' });
+          } else if (err.error?.data?.message) {
             enqueueSnackbar(`${err.error.data.message}`, { variant: 'error' });
+          } else {
+            enqueueSnackbar(`${errMessages.UNKNOWN_ERR}`, { variant: 'error' });
           }
         }
       },
