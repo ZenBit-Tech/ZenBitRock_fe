@@ -1,7 +1,6 @@
 'use client';
 
 import Joyride, { CallBackProps } from 'react-joyride';
-import disableScroll from 'disable-scroll';
 import { useMemo, useTranslations, useMount, useRouter } from 'hooks';
 import { colors } from 'constants/colors';
 import { AppRoute } from 'enums';
@@ -19,12 +18,6 @@ export function Onboarding(): JSX.Element {
   } = useOnboardingContext();
 
   const router = useRouter();
-
-  if (run) {
-    disableScroll.on();
-  } else {
-    disableScroll.off();
-  }
 
   const LOCALE = useMemo(
     () => ({
@@ -64,6 +57,10 @@ export function Onboarding(): JSX.Element {
     if (type === 'step:after' && index === 11 && action === 'next') {
       setState({ run: false });
       router.push(AppRoute.CHATS_PAGE);
+    }
+    if (type === 'step:after' && index === 15 && action === 'next') {
+      setState({ run: false });
+      router.push(AppRoute.CONTENT_PAGE);
     }
   };
 

@@ -51,6 +51,9 @@ function Group({ items, config }: GroupProps) {
           case 1:
             className = 'onboarding-step-8';
             break;
+          case 4:
+            className = 'onboarding-step-15';
+            break;
           default:
             className = '';
         }
