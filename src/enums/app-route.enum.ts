@@ -25,7 +25,7 @@ const AppRoute = {
   AGENTS_PAGE: '/agents',
   CALENDAR_PAGE: '/calendar',
   CONTENT_PAGE: '/content',
-  QUICK_START_GUIDE_PAGE: '/quick-start-guide',
+  QUICK_START_GUIDE_PAGE: '/guide',
 } as const;
 
 export { AppRoute };
