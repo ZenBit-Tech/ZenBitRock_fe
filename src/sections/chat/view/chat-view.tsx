@@ -24,6 +24,7 @@ type Props = {
 
 export default function ChatView({ currentUserId, chatData, messages }: Props): JSX.Element {
   const t = useTranslations('privateChat');
+
   const router = useRouter();
 
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
@@ -40,6 +41,8 @@ export default function ChatView({ currentUserId, chatData, messages }: Props): 
     () => chatData.members.find((member) => member.id !== currentUserId),
     [chatData.members, currentUserId]
   );
+
+  const isDeleted = useMemo(() => otherMember?.isDeleted || false, [otherMember]);
 
   const renderHead = (
     <Stack
@@ -63,7 +66,7 @@ export default function ChatView({ currentUserId, chatData, messages }: Props): 
     >
       <ChatMessageList messages={chatMessages} me={currentUserId} />
 
-      <ChatMessageInput chatId={chatData.id} />
+      {!isDeleted && <ChatMessageInput chatId={chatData.id} disabled={isDeleted} />}
     </Stack>
   );
 

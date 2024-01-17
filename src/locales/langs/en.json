@@ -592,7 +592,8 @@
     "noNotificationsLabel": "no notifications",
     "more99": "more than 99 notifications",
     "notifications": "notifications",
-    "error": "Something went wrong!"
+    "error": "Something went wrong!",
+    "deleted": "(Account deleted)"
   },
   "page500": {
     "pageTitle": "500 Internal Server Error",
@@ -679,7 +680,7 @@
     "addGroupBtnTxt": "Add group chat",
     "groupNameInputPlaceholder": "Enter agent name",
     "groupNameLabel": "Enter group name",
-    "groupNameInvalid": "Group name must contains from 2 to 15 symbols",
+    "groupNameInvalid": "The group name should be 2 to 15 characters long, without Cyrillic characters.",
     "groupNameRequired": "Group name required",
     "btnDeleteAgentFromList": "Remove agent from group",
     "groupName": "Group name:",
@@ -694,7 +695,7 @@
     "chatName": "Chat name",
     "title": "Chat info",
     "back": "Back",
-    "doYouWantDeleteChat": "Do you want delete chat?",
+    "doYouWantDeleteChat": "Do you want to delete the chat?",
     "yesDelete": "Yes, delete",
     "somethingWentWrong": "Something went wrong",
     "editGroupChatName": "Edit group chat name",

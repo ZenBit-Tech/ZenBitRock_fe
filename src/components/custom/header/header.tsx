@@ -27,7 +27,13 @@ const Header = ({ user }: Props): JSX.Element => {
   const avatar = user?.avatarUrl ? user?.avatarUrl : '';
 
   return (
-    <AppBar position="static" sx={{ borderBottom: `1px solid ${grey[900]}` }}>
+    <AppBar
+      position="sticky"
+      sx={{
+        borderBottom: `1px solid ${grey[900]}`,
+        backgroundColor: theme.palette.primary.contrastText,
+      }}
+    >
       <Toolbar
         disableGutters
         sx={{
@@ -49,19 +55,25 @@ const Header = ({ user }: Props): JSX.Element => {
           <Logo href={AppRoute.HOME_PAGE}>{t('Header.title')}</Logo>
           {user && (
             <Box sx={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
-              <Typography
+              <Box
                 sx={{
-                  display: 'block',
-                  textAlign: 'right',
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                  gap: '0.375rem',
                   color: theme.palette.primary.main,
                   mr: '10px',
-                  textOverflow: 'ellipsis',
-                  overflow: 'hidden',
                   maxWidth: `calc(100vw - ${FULLED_ELEMENTS_WIDTH})`,
                 }}
-              >{`${t('Header.greeting')}, ${
-                user.firstName ? `${user.firstName}` : t('Header.displayName')
-              }!`}</Typography>
+              >
+                <Typography>{`${t('Header.greeting')},`}</Typography>
+                <Typography
+                  sx={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}
+                >
+                  {user.firstName ? `${user.firstName}!` : `${t('Header.displayName')}!`}
+                </Typography>
+              </Box>
               <Link href={AppRoute.PROFILE_PAGE} className="onboarding-step-3">
                 <HeaderAvatar avatar={avatar} />
               </Link>
