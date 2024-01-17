@@ -6,8 +6,10 @@ import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
 import { patterns } from 'constants/patterns';
 import { AppRoute } from 'enums';
-import { useRouter } from 'hooks';
+import { useRouter, useSelector } from 'hooks';
 import { useCreateGroupChatMutation } from 'store/chat';
+import { RootState } from 'store';
+import { UserProfileResponse } from 'types';
 
 type Props = {
   t: Function;
@@ -36,17 +38,25 @@ export default function FormAddGroupChat({ t, closeModalUp }: Props): JSX.Elemen
     },
   });
 
+  const authUser = useSelector((state: RootState) => state.authSlice.user);
+  const { id: ownerId }: { id: UserProfileResponse['id'] | null } = authUser || {
+    id: null,
+  };
+
   const onSubmit = async (data: FormValues): Promise<void> => {
     const { groupName } = data;
 
     try {
-      const { chat } = await createGroupChat({
-        title: groupName,
-        isPrivate: false,
-      }).unwrap();
+      if (ownerId) {
+        const { chat } = await createGroupChat({
+          title: groupName,
+          isPrivate: false,
+          memberIds: [ownerId],
+        }).unwrap();
 
-      if (chat) {
-        router.push(`${AppRoute.CHATS_PAGE}/${chat.id}/info`);
+        if (chat) {
+          router.push(`${AppRoute.CHATS_PAGE}/${chat.id}/info`);
+        }
       }
     } catch (error) {
       enqueueSnackbar(`${t('somethingWentWrong')}: ${error.data.message}`, {

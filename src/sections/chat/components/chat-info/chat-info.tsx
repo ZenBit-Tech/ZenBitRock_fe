@@ -62,15 +62,16 @@ const ChatInfo = (): JSX.Element => {
   useEffect(() => {
     if (data && !isLoadingWhenGetUsers && !isError) {
       setApiMembers(
-        data?.members?.map((member) => ({
-          label: `${usersData?.find((user) => user.id === member.id)?.firstName} ${usersData?.find(
-            (user) => user.id === member.id
-          )?.lastName}`,
-          id: member.id,
-        }))
+        data?.members
+          ?.filter(({ id }) => id !== userId)
+          .map((member) => ({
+            label: `${usersData?.find((user) => user.id === member.id)
+              ?.firstName} ${usersData?.find((user) => user.id === member.id)?.lastName}`,
+            id: member.id,
+          }))
       );
     }
-  }, [data, isLoadingWhenGetUsers, isError, usersData]);
+  }, [data, isLoadingWhenGetUsers, isError, usersData, userId]);
 
   useEffect(() => {
     setMembers(apiMembers);
@@ -101,10 +102,13 @@ const ChatInfo = (): JSX.Element => {
 
   const handleClickDelete = async (idToDelete: string): Promise<void> => {
     try {
-      await handleClickUpdate(
-        members?.filter((member) => member.id !== idToDelete).map((member) => member.id)
-      );
-      setMembers((prev) => prev && [...prev.filter((member) => member.id !== idToDelete)]);
+      if (members && userId) {
+        await handleClickUpdate([
+          ...members.filter((member) => member.id !== idToDelete).map((member) => member.id),
+          userId,
+        ]);
+        setMembers((prev) => prev && [...prev.filter((member) => member.id !== idToDelete)]);
+      }
     } catch (error) {
       enqueueSnackbar(`${t('somethingWentWrong')}: ${error.data.message}`, {
         variant: 'error',
@@ -468,7 +472,7 @@ const ChatInfo = (): JSX.Element => {
               chatMembers={members && members.length > 0 ? members : []}
               closeModalUp={() => closeModal('members')}
               changedMembers={(values: string[]) => {
-                handleClickUpdate(values);
+                if (userId) handleClickUpdate([...values, userId]);
               }}
               refresh={() => refetch()}
             />
