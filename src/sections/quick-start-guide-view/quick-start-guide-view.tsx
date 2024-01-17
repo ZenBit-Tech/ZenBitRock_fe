@@ -2,7 +2,15 @@
 
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { Box, Button, Container, Stack, Typography } from '@mui/material';
+import {
+  Backdrop,
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  Stack,
+  Typography,
+} from '@mui/material';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { MotivationIllustration } from 'assets/illustrations';
 import { GoBackPageTitile, useOnboardingContext } from 'components/custom';
@@ -14,7 +22,10 @@ export default function QuickStartGuideView(): JSX.Element {
   const settings = useSettingsContext();
   const router = useRouter();
 
-  const { setState } = useOnboardingContext();
+  const {
+    setState,
+    state: { tourActive },
+  } = useOnboardingContext();
 
   const handleStartGuide = (): void => {
     setState({ tourActive: true });
@@ -23,6 +34,11 @@ export default function QuickStartGuideView(): JSX.Element {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'} sx={{ pb: 14 }}>
+      {tourActive && (
+        <Backdrop open sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}>
+          <CircularProgress color="primary" />
+        </Backdrop>
+      )}
       <Box sx={{ mb: 2 }}>
         <Stack
           direction="row"
