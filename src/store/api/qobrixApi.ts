@@ -203,6 +203,7 @@ export const QobrixApi = createApi({
           leadId: lead.id,
           status: lead.status,
           source: lead.source,
+          lookingFor: lead.enquiry_type,
           contactName: lead.contact_name_contact?.name,
           contactEmail: lead.contact_name_contact?.email,
           contactId: lead.contact_name_contact?.id,

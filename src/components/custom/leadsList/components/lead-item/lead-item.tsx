@@ -11,9 +11,11 @@ import { QobrixLeadItem } from 'types';
 
 export function Lead({
   lead,
+  type,
   className,
 }: {
   lead: QobrixLeadItem;
+  type?: string;
   className: string;
 }): JSX.Element {
   const t = useTranslations('leads');
@@ -32,7 +34,6 @@ export function Lead({
         width: '100%',
         marginBottom: '2rem',
         padding: '1rem',
-        paddingLeft: '3rem',
         cursor: 'pointer',
       }}
       onClick={() => router.push(`${AppRoute.LEADS_PAGE}/${leadId}`)}
@@ -55,8 +56,8 @@ export function Lead({
           <TextStyled
             sx={{
               fontWeight: 'bold',
-              width: '3rem',
-              minWidth: '3rem',
+              minWidth: '5.5rem',
+              textAlign: 'right',
             }}
           >
             {t('source')}:
@@ -69,6 +70,28 @@ export function Lead({
             {source ? t(source) : t('null')}
           </TextStyled>
         </Box>
+        {type && (
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              gap: '2rem',
+              marginBottom: '1rem',
+            }}
+          >
+            <TextStyled
+              sx={{
+                fontWeight: 'bold',
+                minWidth: '5.5rem',
+                textAlign: 'right',
+              }}
+            >
+              {t('lookingFor')}:
+            </TextStyled>
+            <TextStyled>{type}</TextStyled>
+          </Box>
+        )}
         <Box
           sx={{
             display: 'flex',
@@ -81,8 +104,8 @@ export function Lead({
           <TextStyled
             sx={{
               fontWeight: 'bold',
-              width: '3rem',
-              minWidth: '3rem',
+              minWidth: '5.5rem',
+              textAlign: 'right',
             }}
           >
             {t('status')}:
@@ -101,8 +124,8 @@ export function Lead({
           <TextStyled
             sx={{
               fontWeight: 'bold',
-              width: '3rem',
-              minWidth: '3rem',
+              minWidth: '5.5rem',
+              textAlign: 'right',
             }}
           >
             {t('contact')}:
@@ -123,7 +146,8 @@ export function Lead({
           <TextStyled
             sx={{
               fontWeight: 'bold',
-              width: '3rem',
+              minWidth: '5.5rem',
+              textAlign: 'right',
             }}
           >
             {contactPhone ? t('phone') : t('email')}:

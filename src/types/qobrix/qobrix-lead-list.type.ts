@@ -3,6 +3,8 @@ type QobrixLeadItem = {
   leadId?: string;
   status: string;
   source: string | null;
+  enquiry_type?: string;
+  lookingFor?: string;
   contactName?: string;
   contactEmail?: string;
   contactId?: string;
