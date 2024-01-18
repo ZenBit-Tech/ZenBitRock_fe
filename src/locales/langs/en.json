@@ -656,7 +656,7 @@
     "date": "Date & Time",
     "activity": "Activity",
     "open_history": "View History",
-    "error":"Something went wrong!"
+    "error": "Something went wrong!"
   },
   "notFoundView": {
     "notFound": " Sorry, Page Not Found!",
@@ -745,5 +745,10 @@
     "searchTopic": "Search topic",
     "somethingWentWrong": "Something went wrong!",
     "matchingResults": "Matching results"
+  },
+  "notChatMember": {
+    "accessDenied": "Access Denied",
+    "notMember": "You do not have access to this chat",
+    "btnTxt": "Go to Home"
   }
 }
