@@ -38,47 +38,38 @@ export const FormSchema = Yup.object().shape<Shape<ICreateLeadData>>({
     .nullable()
     .required(i18n.t('CreateLeadPage.yupErrorMessageEnquiryType')),
   countOfBedrooms: Yup.mixed<ICountOfBedroomsValues>().nullable(),
-  totalAreaFrom: Yup.number()
-    .test({
-      name: 'min-max',
-      message: i18n.t('CreateLeadPage.yupErrorMessageTotalAreaFrom'),
-      test(value) {
-        if (value !== undefined)
-          return value >= ranges.TOTAL_AREA_MIN && value <= ranges.TOTAL_AREA_MAX;
-        else return true;
-      },
-    })
-    .test({
-      name: 'less-than & not-required',
-      message: i18n.t('CreateLeadPage.yupErrorMessageTotalAreaFrom'),
-      test(value) {
-        const { totalAreaTo } = this.parent;
+  totalAreaFrom: Yup.number().test({
+    name: 'min-max, more-than, not-required',
+    message: i18n.t('CreateLeadPage.yupErrorMessageTotalAreaFrom'),
+    test(value) {
+      const { totalAreaTo } = this.parent;
 
-        if (value !== undefined) return value < totalAreaTo || (value === 0 && totalAreaTo === 0);
-        else return true;
-      },
-    }),
-  totalAreaTo: Yup.number()
-    .test({
-      name: 'min-max',
-      message: i18n.t('CreateLeadPage.yupErrorMessageTotalAreaTo'),
-      test(value) {
-        if (value !== undefined)
-          return value >= ranges.TOTAL_AREA_MIN && value <= ranges.TOTAL_AREA_MAX;
-        else return true;
-      },
-    })
-    .test({
-      name: 'more-than & not-required',
-      message: i18n.t('CreateLeadPage.yupErrorMessageTotalAreaTo'),
-      test(value) {
-        const { totalAreaFrom } = this.parent;
+      if (value !== undefined)
+        return (
+          (value >= ranges.TOTAL_AREA_MIN &&
+            value <= ranges.TOTAL_AREA_MAX &&
+            value < totalAreaTo) ||
+          (value === 0 && totalAreaTo === 0)
+        );
+      else return true;
+    },
+  }),
+  totalAreaTo: Yup.number().test({
+    name: 'min-max, more-than, not-required',
+    message: i18n.t('CreateLeadPage.yupErrorMessageTotalAreaTo'),
+    test(value) {
+      const { totalAreaFrom } = this.parent;
 
-        if (value !== undefined)
-          return value > totalAreaFrom || (value === 0 && totalAreaFrom === 0);
-        else return true;
-      },
-    }),
+      if (value !== undefined)
+        return (
+          (value >= ranges.TOTAL_AREA_MIN &&
+            value <= ranges.TOTAL_AREA_MAX &&
+            value > totalAreaFrom) ||
+          (value === 0 && totalAreaFrom === 0)
+        );
+      else return true;
+    },
+  }),
   priceRangeRentFrom: Yup.number()
     .test({
       name: 'min-max',
@@ -150,6 +141,7 @@ export const FormSchema = Yup.object().shape<Shape<ICreateLeadData>>({
       },
     })
     .test({
+      name: 'more-than',
       message: i18n.t('CreateLeadPage.yupErrorMessagePriceRangeBuyTo'),
       test(value) {
         const { priceRangeBuyFrom } = this.parent;

@@ -60,8 +60,8 @@ export default function ChatsList({ chats, t }: Props) {
 
       {sortedChats.length ? (
         <Stack>
-          {sortedChats.map((chat) => (
-            <ChatItem key={chat.id} chat={chat} />
+          {sortedChats.map((chat, idx) => (
+            <ChatItem key={chat.id} chat={chat} className={idx === 0 ? 'onboarding-step-14' : ''} />
           ))}
 
           <Fab

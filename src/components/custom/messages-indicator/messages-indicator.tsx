@@ -34,6 +34,7 @@ const MessagesIndicator = (): JSX.Element | null => {
         p: '0',
         cursor: 'pointer',
       }}
+      className="onboarding-step-11"
       onClick={() => router.push(AppRoute.CHATS_PAGE)}
     >
       <IconButton

@@ -9,14 +9,16 @@ import { useGetPropertiesQuery } from 'store/api/qobrixApi';
 import { ListStyled } from 'components/custom/propertiesList/styles';
 import { PropertyCard } from 'components/custom/propery-card/property-card';
 import { NoDataFound } from '../no-data-found/no-data-found';
+import { propertiesMockData } from '../onboarding';
 
 export const FIRST_PAGE: number = 1;
 
 type Props = {
   search: string;
+  tourActive: boolean;
 };
 
-function PropertiesList({ search }: Props): JSX.Element {
+function PropertiesList({ search, tourActive }: Props): JSX.Element {
   const [page, setPage] = useState<number>(FIRST_PAGE);
   const [filter, setfilter] = useState<string>(search);
 
@@ -48,6 +50,8 @@ function PropertiesList({ search }: Props): JSX.Element {
     { refetchOnMountOrArgChange: true }
   );
 
+  const properties = tourActive ? propertiesMockData : data;
+
   return (
     <Box
       sx={{
@@ -58,9 +62,9 @@ function PropertiesList({ search }: Props): JSX.Element {
       }}
     >
       {error && enqueueSnackbar(t('error'), { variant: 'error' })}
-      {data?.data.length === 0 && <NoDataFound />}
+      {properties?.data.length === 0 && <NoDataFound />}
 
-      {data?.data.length !== 0 && (
+      {properties?.data.length !== 0 && (
         <ListStyled
           sx={{
             display: 'flex',
@@ -74,9 +78,15 @@ function PropertiesList({ search }: Props): JSX.Element {
           }}
         >
           <Typography variant="h5" sx={{ paddingBottom: 1 }}>{`${t('results')} ${
-            data?.pagination.count ?? 0
+            properties?.pagination.count ?? 0
           }`}</Typography>
-          {data?.data.map((item: QobrixProperty) => <PropertyCard property={item} key={item.id} />)}
+          {properties?.data.map((item: QobrixProperty, idx) => (
+            <PropertyCard
+              property={item}
+              key={item.id}
+              className={idx === 0 ? 'onboarding-step-2' : ''}
+            />
+          ))}
           {isFetching && <LoadingScreen />}
         </ListStyled>
       )}

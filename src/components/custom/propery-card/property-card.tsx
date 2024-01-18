@@ -21,9 +21,10 @@ import {
 
 type Props = {
   property: QobrixProperty;
+  className: string;
 };
 
-const PropertyCard = ({ property }: Props) => {
+const PropertyCard = ({ property, className }: Props) => {
   const t = useTranslations('properties');
   const router = useRouter();
 
@@ -39,6 +40,7 @@ const PropertyCard = ({ property }: Props) => {
         marginBottom: '2rem',
         cursor: 'pointer',
       }}
+      className={className}
       onClick={() => router.push(`${AppRoute.PROPERTY_PAGE}/${id}`)}
     >
       <Box

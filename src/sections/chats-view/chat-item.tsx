@@ -16,11 +16,12 @@ import { formatDistanceToNowStrict } from 'date-fns';
 
 type FollowerItemProps = {
   chat: IChatItem;
+  className: string;
 };
 
 const MAX_WORDS: number = 6;
 
-export default function ChatItem({ chat }: FollowerItemProps): JSX.Element {
+export default function ChatItem({ chat, className }: FollowerItemProps): JSX.Element {
   const router = useRouter();
   const { id, type, chatName, members, lastMessage, lastMessageDate, countOfUnreadMessages } = chat;
 
@@ -41,6 +42,7 @@ export default function ChatItem({ chat }: FollowerItemProps): JSX.Element {
         },
       }}
       onClick={handleClick}
+      className={className}
     >
       <Card
         sx={{
