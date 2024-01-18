@@ -13,7 +13,7 @@ interface ITaskChange {
 }
 
 export const useAllPagesTaskChangesData = (tasks: ILeadTaskChange[] | undefined) => {
-  const [trigger] = useLazyGetLeadTaskChangesQuery();
+  const [trigger, { isFetching, isLoading }] = useLazyGetLeadTaskChangesQuery();
 
   const [currentPage, setCurrentPage] = useState<number>(START_PAGE);
   const [taskChanges, setTaskChanges] = useState<ITaskChange[]>([]);
@@ -64,5 +64,5 @@ export const useAllPagesTaskChangesData = (tasks: ILeadTaskChange[] | undefined)
     fetchTaskData();
   }, [tasks, currentPage, trigger]);
 
-  return taskChanges;
+  return { taskChanges, isFetching, isLoading };
 };

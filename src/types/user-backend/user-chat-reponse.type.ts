@@ -14,6 +14,7 @@ type UserChatResponse = {
   avatarUrl: string;
   avatarPublicId: string;
   qobrixAgentId: string;
+  isDeleted: boolean;
 };
 
 export { type UserChatResponse };

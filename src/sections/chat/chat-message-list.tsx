@@ -2,16 +2,15 @@ import { useMemo } from 'react';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
 import { format } from 'date-fns';
-import { IChatByIdResponse } from 'types/chat';
 import { Message } from 'types';
 import { datesFormats } from 'constants/dates-formats';
 import Scrollbar from 'components/scrollbar';
-import { MockChatMessageItem } from 'components/custom';
+import { ChatMessageItem, MockChatMessageItem } from 'components/custom';
 import { useMessagesScroll } from './hooks';
 
 type Props = {
   messages: Message[];
-  user: IChatByIdResponse;
+  isPrivate: boolean;
   me: string;
 };
 
@@ -19,7 +18,7 @@ type GroupedMessages = {
   [key: string]: Message[];
 };
 
-export default function ChatMessageList({ messages = [], user, me }: Props): JSX.Element {
+export default function ChatMessageList({ messages = [], me, isPrivate }: Props): JSX.Element {
   const { messagesEndRef } = useMessagesScroll(messages);
 
   const sortedMessages = useMemo(
@@ -54,9 +53,13 @@ export default function ChatMessageList({ messages = [], user, me }: Props): JSX
             <Typography variant="subtitle2" align="center" sx={{ mb: 2 }}>
               {date}
             </Typography>
-            {groupMessages.map((message) => (
-              <MockChatMessageItem key={message.id} message={message} me={me} />
-            ))}
+            {groupMessages.map((message) =>
+              isPrivate ? (
+                <MockChatMessageItem key={message.id} message={message} me={me} />
+              ) : (
+                <ChatMessageItem key={message.id} message={message} />
+              )
+            )}
           </Box>
         ))}
       </Box>

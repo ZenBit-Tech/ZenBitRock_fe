@@ -14,10 +14,11 @@ import { UserApi } from './api/userApi';
 import { LeadApi } from './lead';
 import { MessageApi } from './message';
 import { ChatApi } from './chat';
+import { ContentApi } from './content';
 
 const persistConfig = {
   key: 'store',
-  whitelist: ['restorePasswordSlice'],
+  whitelist: [''],
   storage,
 };
 
@@ -33,6 +34,7 @@ const reducers = combineReducers({
   [LeadApi.reducerPath]: LeadApi.reducer,
   [MessageApi.reducerPath]: MessageApi.reducer,
   [ChatApi.reducerPath]: ChatApi.reducer,
+  [ContentApi.reducerPath]: ContentApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -53,7 +55,8 @@ export const store = configureStore({
       .concat(UserApi.middleware)
       .concat(LeadApi.middleware)
       .concat(MessageApi.middleware)
-      .concat(ChatApi.middleware),
+      .concat(ChatApi.middleware)
+      .concat(ContentApi.middleware),
 });
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

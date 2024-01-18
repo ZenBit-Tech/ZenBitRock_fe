@@ -71,6 +71,16 @@ export const QobrixApi = createApi({
         method: 'DELETE',
       }),
     }),
+    updateLead: builder.mutation<
+      QobrixCreateLeadResponse['data'],
+      { id: string; conversion_status: string }
+    >({
+      query: ({ id, conversion_status }) => ({
+        url: `${ApiRoute.QOBRIX_UPDATE_LEAD}/${id}`,
+        method: 'PATCH',
+        body: { conversion_status },
+      }),
+    }),
     createLead: builder.mutation<QobrixCreateLeadResponse['data'], QobrixCreateLead>({
       query: (body) => ({
         url: ApiRoute.QOBRIX_CREATE_LEAD,
@@ -398,6 +408,7 @@ export const {
   useUpdateContactMutation,
   useDeleteLeadMutation,
   useCreateLeadMutation,
+  useUpdateLeadMutation,
   useSearchLocationsQuery,
   useGetPropertiesQuery,
   useGetPropertyQuery,

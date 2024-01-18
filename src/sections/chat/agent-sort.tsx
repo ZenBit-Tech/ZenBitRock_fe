@@ -33,7 +33,7 @@ export default function AgentSort({ sort, sortOptions, onSort }: Props): JSX.Ele
             icon={popover.open ? 'eva:arrow-ios-upward-fill' : 'eva:arrow-ios-downward-fill'}
           />
         }
-        sx={{ fontWeight: 'fontWeightSemiBold', textTransform: 'capitalize', mb: 2 }}
+        sx={{ fontWeight: 'fontWeightSemiBold', textTransform: 'capitalize' }}
       >
         Sort By:
         <Box component="span" sx={{ ml: 0.5, fontWeight: 'fontWeightBold' }}>

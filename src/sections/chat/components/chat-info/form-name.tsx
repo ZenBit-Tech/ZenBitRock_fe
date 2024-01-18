@@ -12,13 +12,14 @@ type Props = {
   closeModalUp: () => void;
   chatId?: string;
   refresh: () => void;
+  oldName?: string;
 };
 
 type FormValues = {
   groupName: string;
 };
 
-export function FormName({ t, closeModalUp, chatId, refresh }: Props): JSX.Element {
+export function FormName({ t, closeModalUp, chatId, refresh, oldName }: Props): JSX.Element {
   const [updateGroupChat, { isLoading }] = useUpdateChatMutation();
 
   const { enqueueSnackbar } = useSnackbar();
@@ -31,7 +32,7 @@ export function FormName({ t, closeModalUp, chatId, refresh }: Props): JSX.Eleme
   } = useForm<FormValues>({
     mode: 'onTouched',
     defaultValues: {
-      groupName: '',
+      groupName: oldName,
     },
   });
 
@@ -105,7 +106,7 @@ export function FormName({ t, closeModalUp, chatId, refresh }: Props): JSX.Eleme
         >
           {t('changeGroupChatName')}
         </Button>
-        <Button type="reset" variant="contained" color="error" onClick={() => closeModalUp()}>
+        <Button type="reset" variant="contained" color="primary" onClick={() => closeModalUp()}>
           {t('cancelBtnTxt')}
         </Button>
       </Stack>

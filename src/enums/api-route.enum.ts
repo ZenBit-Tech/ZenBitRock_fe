@@ -16,6 +16,7 @@ const ApiRoute = {
   QOBRIX_DELETE_LEAD: '/opportunities',
   QOBRIX_PROPERY_TYPES: '/property-types',
   QOBRIX_CREATE_LEAD: '/opportunities',
+  QOBRIX_UPDATE_LEAD: '/opportunities',
   QOBRIX_SEARCH_LOCATIONS: '/locations/search',
   GET_ALL_AGENTS: '/user',
   QOBRIX_GET_PROPERTIES: '/properties',
@@ -35,6 +36,7 @@ const ApiRoute = {
   CHATS: '/chats',
   CHAT_WITH_ID: '/chats/id',
   CHECK_PRIVATE_CHAT: 'check-private-chat',
+  CONTENT: '/content',
 } as const;
 
 export { ApiRoute };

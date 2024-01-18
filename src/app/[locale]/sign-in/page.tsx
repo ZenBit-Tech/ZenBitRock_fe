@@ -62,7 +62,7 @@ export default function SignInPage({ params: { locale } }: Props) {
   };
 
   if (!data || !termsData) {
-    return <LoadingScreen />;
+    return <LoadingScreen sx={{ mt: 'calc(100vh / 2 - 65px)' }} />;
   }
 
   return (

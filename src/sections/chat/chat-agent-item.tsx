@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { Avatar, Card, ListItemButton, ListItemText } from '@mui/material';
 import Iconify from 'components/iconify/iconify';
 import { findCountryLabelByCode } from 'sections/verification-view/drop-box-data';
@@ -8,16 +9,20 @@ import MsgBadge from './chat-msg-badge';
 type FollowerItemProps = {
   agent: UserChatResponse;
   handleClickResult: (agent: UserChatResponse) => void;
+  className: string;
 };
 
 export default function AgentListItem({
   agent,
   handleClickResult,
+  className,
 }: FollowerItemProps): JSX.Element {
-  const { firstName, lastName, country, city, avatarUrl } = agent;
+  const t = useTranslations('agents');
+
+  const { firstName, lastName, country, city, avatarUrl, isDeleted } = agent;
 
   return (
-    <Card sx={{ mb: '5px' }}>
+    <Card sx={{ mb: '5px' }} className={className}>
       <ListItemButton
         sx={{
           display: 'flex',
@@ -37,11 +42,13 @@ export default function AgentListItem({
         </Avatar>
 
         <ListItemText
-          primary={`${firstName} ${lastName}`}
+          primary={`${firstName} ${lastName} ${isDeleted ? t('deleted') : ''}`}
           secondary={
             <>
               <Iconify icon="mingcute:location-fill" width={16} sx={{ flexShrink: 0, mr: 0.5 }} />
-              {`${findCountryLabelByCode(country)}, ${city}`}
+              <span style={{ overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
+                {`${findCountryLabelByCode(country)}, ${city}`}
+              </span>
             </>
           }
           primaryTypographyProps={{

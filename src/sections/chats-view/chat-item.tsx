@@ -10,6 +10,7 @@ import { countUnreadMessages, findLatestMessage, getOpponent } from './helpers';
 
 type FollowerItemProps = {
   chat: Chat;
+  className: string;
 };
 
 const MAX_CHARACTERS_TITLE: number = 15;
@@ -17,7 +18,7 @@ const MAX_WORDS_TITLE: number = 2;
 const MAX_WORDS_MESSAGE: number = 6;
 const MAX_CHARACTERS_MESSAGE: number = 20;
 
-export default function ChatItem({ chat }: FollowerItemProps): JSX.Element {
+export default function ChatItem({ chat, className }: FollowerItemProps): JSX.Element {
   const router = useRouter();
   const authState = useSelector(selectCurrentUser);
   const userId = authState.user ? authState.user.id : '';
@@ -47,6 +48,7 @@ export default function ChatItem({ chat }: FollowerItemProps): JSX.Element {
         },
       }}
       onClick={handleClick}
+      className={className}
     >
       <Card
         sx={{

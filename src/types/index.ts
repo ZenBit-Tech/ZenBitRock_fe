@@ -58,3 +58,4 @@ export {
   type IChatRequest,
 } from './chat';
 export { type Chat, type Message } from './chats';
+export { type IContentResponse, type IContentUpdateRequest, type IContentItem } from './content';

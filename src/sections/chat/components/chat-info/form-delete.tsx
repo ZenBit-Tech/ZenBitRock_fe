@@ -49,13 +49,13 @@ export function FormDelete({ t, closeModalUp, chatId }: Props): JSX.Element {
         <Button
           type="submit"
           variant="contained"
-          color="primary"
+          color="error"
           sx={{ mb: '1rem' }}
           onClick={handleClick}
         >
           {t('yesDelete')}
         </Button>
-        <Button type="reset" variant="contained" color="error" onClick={() => closeModalUp()}>
+        <Button type="reset" variant="contained" color="primary" onClick={() => closeModalUp()}>
           {t('cancelBtnTxt')}
         </Button>
       </Stack>

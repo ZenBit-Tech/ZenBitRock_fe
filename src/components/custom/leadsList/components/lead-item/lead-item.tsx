@@ -9,7 +9,13 @@ import { TextStyled } from 'components/custom/leadsList/styles';
 import { AppRoute } from 'enums';
 import { QobrixLeadItem } from 'types';
 
-export function Lead({ lead }: { lead: QobrixLeadItem }): JSX.Element {
+export function Lead({
+  lead,
+  className,
+}: {
+  lead: QobrixLeadItem;
+  className: string;
+}): JSX.Element {
   const t = useTranslations('leads');
   const router = useRouter();
 
@@ -17,6 +23,7 @@ export function Lead({ lead }: { lead: QobrixLeadItem }): JSX.Element {
 
   return (
     <Card
+      className={className}
       sx={{
         display: 'flex',
         justifyContent: 'center',
@@ -49,6 +56,7 @@ export function Lead({ lead }: { lead: QobrixLeadItem }): JSX.Element {
             sx={{
               fontWeight: 'bold',
               width: '3rem',
+              minWidth: '3rem',
             }}
           >
             {t('source')}:
@@ -74,6 +82,7 @@ export function Lead({ lead }: { lead: QobrixLeadItem }): JSX.Element {
             sx={{
               fontWeight: 'bold',
               width: '3rem',
+              minWidth: '3rem',
             }}
           >
             {t('status')}:
@@ -93,11 +102,14 @@ export function Lead({ lead }: { lead: QobrixLeadItem }): JSX.Element {
             sx={{
               fontWeight: 'bold',
               width: '3rem',
+              minWidth: '3rem',
             }}
           >
             {t('contact')}:
           </TextStyled>
-          <TextStyled>{contactName}</TextStyled>
+          <TextStyled sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}>
+            {contactName}
+          </TextStyled>
         </Box>
         <Box
           sx={{

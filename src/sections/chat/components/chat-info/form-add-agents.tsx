@@ -61,7 +61,13 @@ export function FormAddAgents({
   useEffect(() => {
     if (usersData) {
       const newOptions = usersData
-        .filter(({ id }) => id !== ownerId && !chatMembers.some((member) => id === member.id))
+        .filter(
+          ({ id, firstName, lastName }) =>
+            id !== ownerId &&
+            !chatMembers.some((member) => id === member.id) &&
+            firstName &&
+            lastName
+        )
         .map(({ firstName, lastName, id }) => ({ label: `${firstName} ${lastName}`, id }));
 
       setOptions(newOptions);
@@ -74,15 +80,17 @@ export function FormAddAgents({
 
   const onSubmit = async (): Promise<void> => {
     try {
-      const { id } = await updateGroupChat({
-        id: chatId,
-        memberIds: members.map((member) => member.id),
-      }).unwrap();
+      if (ownerId) {
+        const { id } = await updateGroupChat({
+          id: chatId,
+          memberIds: [...members.map((member) => member.id), ownerId],
+        }).unwrap();
 
-      if (id) {
-        changedMembers(members?.map((member) => member.id));
-        refresh();
-        closeModalUp();
+        if (id) {
+          changedMembers(members?.map((member) => member.id));
+          refresh();
+          closeModalUp();
+        }
       }
     } catch (error) {
       enqueueSnackbar(`${t('somethingWentWrong')}: ${error.data.message}`, {
@@ -101,7 +109,19 @@ export function FormAddAgents({
   return (
     <Box
       component="form"
-      sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        '& > div > div > ul > li': {
+          transition: 'all 200ms ease-out',
+          backgroundColor: `${colors.PRIMARY_LIGHT_COLOR}!important`,
+          '&:hover': {
+            transition: 'all 200ms ease-out',
+            backgroundColor: `${colors.BUTTON_PRIMARY_COLOR_ALPHA}!important`,
+          },
+        },
+      }}
       onSubmit={handleSubmit(onSubmit)}
       noValidate
       autoComplete="off"
@@ -115,7 +135,7 @@ export function FormAddAgents({
         disabled={options.length === 0}
         ListboxProps={{ style: { maxHeight: '10rem' } }}
         getOptionKey={(option) => option.id}
-        isOptionEqualToValue={(option, optionValue) => option.valueOf === optionValue.valueOf}
+        isOptionEqualToValue={(option, optionValue) => option !== optionValue.valueOf()}
         renderInput={(params) => (
           <TextField
             autoFocus
@@ -144,7 +164,6 @@ export function FormAddAgents({
           setInputValue(newInputValue);
         }}
       />
-
       {members?.length > 0 &&
         members.map(
           (user) =>
@@ -160,7 +179,16 @@ export function FormAddAgents({
                   },
                 }}
               >
-                <Typography sx={{ cursor: 'default' }}>{user?.label}</Typography>
+                <Typography
+                  sx={{
+                    cursor: 'default',
+                    whiteSpace: 'nowrap',
+                    textOverflow: 'ellipsis',
+                    overflow: 'hidden',
+                  }}
+                >
+                  {user?.label}
+                </Typography>
                 <Iconify
                   title={t('btnDeleteAgentFromList')}
                   icon="clarity:remove-line"
@@ -170,6 +198,7 @@ export function FormAddAgents({
                   sx={{
                     opacity: '0.5',
                     cursor: 'pointer',
+                    minWidth: '1.5rem',
                     transition: 'all 200ms ease-out',
                     '&:hover': {
                       opacity: '1',
@@ -202,7 +231,7 @@ export function FormAddAgents({
         >
           {t('addToChat')}
         </Button>
-        <Button type="reset" variant="contained" color="error" onClick={() => closeModalUp()}>
+        <Button type="reset" variant="contained" color="primary" onClick={() => closeModalUp()}>
           {t('cancelBtnTxt')}
         </Button>
       </Stack>

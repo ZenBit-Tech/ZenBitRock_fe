@@ -41,8 +41,10 @@ export default function ProfileCover({ name, avatarUrl }: IUserProfileCover) {
         sx={{
           alignItems: 'center',
           left: 24,
+          right: 24,
           bottom: { xs: 78, md: 68 },
           position: 'absolute',
+          maxWidth: '-webkit-fill-available',
         }}
       >
         <Avatar
@@ -72,6 +74,10 @@ export default function ProfileCover({ name, avatarUrl }: IUserProfileCover) {
           primary={name}
           primaryTypographyProps={{
             typography: 'h4',
+            noWrap: true,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
           }}
           secondaryTypographyProps={{
             mt: 0.5,

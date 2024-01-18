@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import ListItemText from '@mui/material/ListItemText';
@@ -9,11 +10,13 @@ type Props = {
 };
 
 export default function ChatHeaderDetail({ user: singleParticipant }: Props): JSX.Element {
+  const t = useTranslations('agents');
+
   if (!singleParticipant) {
-    return <LoadingScreen />;
+    return <LoadingScreen sx={{ mt: 'calc(100vh / 2 - 65px)' }} />;
   }
 
-  const { avatarUrl, firstName, lastName } = singleParticipant;
+  const { avatarUrl, firstName, lastName, isDeleted } = singleParticipant;
 
   const renderSingle = (
     <Stack flexGrow={1} direction="row" alignItems="center" spacing={2}>
@@ -23,7 +26,7 @@ export default function ChatHeaderDetail({ user: singleParticipant }: Props): JS
           : null}
       </Avatar>
 
-      <ListItemText primary={`${firstName} ${lastName}`} />
+      <ListItemText primary={`${firstName} ${lastName} ${isDeleted ? t('deleted') : ''}`} />
     </Stack>
   );
 

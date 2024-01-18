@@ -13,7 +13,7 @@ export const ListStyled = styled(List)`
 
 export const TextStyled = styled(Typography)`
   white-space: nowrap;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   @media (min-width: 1024px) {
     font-size: 1rem;
   }

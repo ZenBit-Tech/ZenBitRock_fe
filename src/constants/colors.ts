@@ -14,4 +14,5 @@ export const colors = {
   ARROW_SECONDARY: '#919eab',
   SUN: '#FFD666',
   TEXT_GREY_COLOR: '#637381',
+  BUTTON_PRIMARY_COLOR_ALPHA: 'rgba(0, 167, 111, 0.1)',
 };

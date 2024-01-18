@@ -21,9 +21,10 @@ import {
 
 type Props = {
   property: QobrixProperty;
+  className: string;
 };
 
-const PropertyCard = ({ property }: Props) => {
+const PropertyCard = ({ property, className }: Props) => {
   const t = useTranslations('properties');
   const router = useRouter();
 
@@ -37,7 +38,10 @@ const PropertyCard = ({ property }: Props) => {
         flexDirection: 'column',
         width: '100%',
         marginBottom: '2rem',
+        cursor: 'pointer',
       }}
+      className={className}
+      onClick={() => router.push(`${AppRoute.PROPERTY_PAGE}/${id}`)}
     >
       <Box
         sx={{
@@ -70,6 +74,7 @@ const PropertyCard = ({ property }: Props) => {
             fontWeight: 'bold',
             color: 'white',
             textShadow: '1px 1px 2px black',
+            fontSize: '1rem',
           }}
         >
           {fCurrency(Number(price))}
@@ -134,14 +139,9 @@ const PropertyCard = ({ property }: Props) => {
             {getCountries().find((object) => object.value === country)?.label}, {city}
           </TextMiddleStyled>
         )}
-        <LinkStyled
-          sx={{ padding: '14px', marginTop: 'auto' }}
-          variant="contained"
-          color="primary"
-          onClick={() => router.push(`${AppRoute.PROPERTY_PAGE}/${id}`)}
-        >
-          <TypographyStyled>{t('Description')}</TypographyStyled>
-          <Iconify icon="ri:arrow-right-s-line" height="auto" />
+        <LinkStyled sx={{ padding: '14px', marginTop: 'auto' }} variant="contained" color="primary">
+          <TypographyStyled>{t('description')}</TypographyStyled>
+          <Iconify icon="fluent:tap-single-32-regular" height="auto" />
         </LinkStyled>
       </Box>
     </Card>

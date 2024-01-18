@@ -5,13 +5,13 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import {
   Backdrop,
-  Button,
   CircularProgress,
   Typography,
   Box,
   IconButton,
   styled,
   Link,
+  Button,
 } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
@@ -129,7 +129,14 @@ function VerifyOldPasswordForm(): JSX.Element {
             {t('forgotPass')}
           </Link>
         </Typography>
-        <Button type="submit" variant="contained" sx={{ my: '20px' }} fullWidth disabled={!isValid}>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          sx={{ my: '20px' }}
+          fullWidth
+          disabled={!isValid}
+        >
           {t('buttonVerify')}
         </Button>
       </Box>

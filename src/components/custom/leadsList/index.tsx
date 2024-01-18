@@ -2,7 +2,7 @@
 
 import { Box, Fab, Typography } from '@mui/material';
 
-import { NoDataFound } from 'components/custom';
+import { NoDataFound, leadMockData } from 'components/custom';
 import ButtonClose from 'components/custom/button-close/button-close';
 import { Lead } from 'components/custom/leadsList/components';
 import {
@@ -26,11 +26,16 @@ interface LeadsListProps {
   filter: string | undefined;
   id: string | undefined;
   name: string | undefined;
+  tourActive: boolean;
 }
 
-function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
+function LeadsList({ filter, id, name, tourActive }: LeadsListProps): JSX.Element {
   const [page, setPage] = useState(FIRST_PAGE);
-  const [localFilter, setLocalFilter] = useState<string | undefined>();
+  const [localFilter, setLocalFilter] = useState<string | undefined>(
+    window.localStorage.getItem('leadsFilter')
+      ? (window.localStorage.getItem('leadsFilter') as string)
+      : undefined
+  );
 
   const t = useTranslations('leads');
   const { enqueueSnackbar } = useSnackbar();
@@ -49,22 +54,28 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
     },
   });
 
-  const { data, error, isFetching } = useGetLeadsQuery(
+  const { data, error, isFetching, refetch } = useGetLeadsQuery(
     { page, filter: localFilter, id },
     { refetchOnMountOrArgChange: true }
   );
+
+  useEffect(() => {
+    if (window.localStorage.getItem('leadsFilter')) {
+      refetch();
+    }
+  }, [refetch]);
 
   useEffect(() => {
     if (filter?.includes('firstcall')) {
       setPage(FIRST_PAGE);
       setLocalFilter(filter?.split('firstcall')[1]);
     } else if (filter === 'update') {
-      setLocalFilter(filter);
       setPage(FIRST_PAGE);
+      setLocalFilter(filter);
     }
   }, [filter]);
 
-  const leadsList = data?.data;
+  const leadsList = tourActive ? leadMockData?.data : data?.data;
 
   return (
     <Box
@@ -110,16 +121,21 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
             mb: '50px',
           }}
         >
-          {filter && leadsList?.length !== 0 && filter !== 'update' && (
-            <Typography variant="h5" sx={{ paddingBottom: 2 }} textAlign="center">
-              {t('results')}
-            </Typography>
-          )}
-          {leadsList?.map((lead: QobrixLeadItem) => <Lead lead={lead} key={uuidv4()} />)}
+          {localFilter &&
+            leadsList?.length !== 0 &&
+            localFilter !== 'update' &&
+            data?.pagination && (
+              <Typography variant="h5" sx={{ paddingBottom: 2 }} textAlign="center">
+                {` ${t('results')}: ${data.pagination.count}`}
+              </Typography>
+            )}
+          {leadsList?.map((lead: QobrixLeadItem, idx) => (
+            <Lead className={idx === 0 ? 'onboarding-step-7' : ''} lead={lead} key={uuidv4()} />
+          ))}
           {isFetching && <LoadingScreen />}
         </ListStyled>
       )}
-      {leadsList?.length === 0 && (filter || name) && !isFetching && <NoDataFound />}
+      {leadsList?.length === 0 && (localFilter || name) && !isFetching && <NoDataFound />}
       <Fab
         color="primary"
         aria-label="scroll to top"

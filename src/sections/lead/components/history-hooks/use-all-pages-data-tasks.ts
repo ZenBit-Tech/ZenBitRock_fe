@@ -6,7 +6,7 @@ const START_PAGE: number = 1;
 export const useAllPagesTasksData = (id: string) => {
   const [currentPage, setCurrentPage] = useState<number>(START_PAGE);
 
-  const { data } = useGetLeadTasksQuery(
+  const { data, isFetching, isLoading } = useGetLeadTasksQuery(
     {
       page: currentPage,
       id,
@@ -20,5 +20,5 @@ export const useAllPagesTasksData = (id: string) => {
     }
   }, [data]);
 
-  return !data?.pagination.has_next_page ? data : null;
+  return { data: !data?.pagination.has_next_page ? data : null, isFetching, isLoading };
 };

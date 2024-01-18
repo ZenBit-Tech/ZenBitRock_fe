@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { ChatView } from 'sections/chat/view';
-import { Page500 } from 'sections/error';
+import { NotChatMemberView, Page500 } from 'sections/error';
 import { LoadingScreen } from 'components/loading-screen';
 import { useGetChatByIdQuery, useGetMessagesQuery } from 'store/chat';
 import { useSelector } from 'react-redux';
@@ -20,7 +20,7 @@ function ChatPage({ params }: Props): JSX.Element {
   const { data: chatMessages, isLoading: isLoadingMessages } = useGetMessagesQuery({ chatId });
 
   if (isFetching || !chatData || !authUser || isLoadingMessages) {
-    return <LoadingScreen />;
+    return <LoadingScreen sx={{ mt: 'calc(100vh / 2 - 65px)' }} />;
   }
 
   if (isError) {
@@ -28,7 +28,13 @@ function ChatPage({ params }: Props): JSX.Element {
   }
   const { id } = authUser;
 
-  return <ChatView id={id} user={chatData} chatId={chatId} messages={chatMessages} />;
+  const isMember = Boolean(chatData.members.find((member) => member.id === id));
+
+  if (!isMember) {
+    return <NotChatMemberView />;
+  }
+
+  return <ChatView currentUserId={id} chatData={chatData} messages={chatMessages} />;
 }
 
 export default ChatPage;

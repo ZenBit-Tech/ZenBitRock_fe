@@ -39,10 +39,10 @@ const defaultValues = {
   countOfBedrooms: null,
   totalAreaFrom: 0,
   totalAreaTo: 0,
-  priceRangeBuyFrom: ranges.PRICE_RANGE_BUY_MIN,
-  priceRangeBuyTo: ranges.PRICE_RANGE_BUY_MAX,
-  priceRangeRentFrom: ranges.PRICE_RANGE_RENT_MIN,
-  priceRangeRentTo: ranges.PRICE_RANGE_RENT_MAX,
+  priceRangeBuyFrom: 0,
+  priceRangeBuyTo: 0,
+  priceRangeRentFrom: 0,
+  priceRangeRentTo: 0,
   locations: null,
 };
 
@@ -77,7 +77,7 @@ export default function Form({ user }: Props): JSX.Element {
   const methods = useForm({
     resolver: yupResolver(FormSchema),
     defaultValues,
-    mode: 'onChange',
+    mode: 'onTouched',
   });
 
   const {
@@ -92,10 +92,17 @@ export default function Form({ user }: Props): JSX.Element {
   const watchAllFields = watch();
 
   useEffect(() => {
-    setValue('priceRangeRentFrom', ranges.PRICE_RANGE_RENT_MIN);
-    setValue('priceRangeRentTo', ranges.PRICE_RANGE_RENT_MAX);
-    setValue('priceRangeBuyFrom', ranges.PRICE_RANGE_BUY_MIN);
-    setValue('priceRangeBuyTo', ranges.PRICE_RANGE_BUY_MAX);
+    if (watchAllFields.offeringType === QobrixLeadBuyRent.TO_RENT) {
+      setValue('priceRangeBuyFrom', ranges.PRICE_RANGE_BUY_MIN);
+      setValue('priceRangeBuyTo', ranges.PRICE_RANGE_BUY_MAX);
+      setValue('priceRangeRentFrom', 0);
+      setValue('priceRangeRentTo', 0);
+    } else {
+      setValue('priceRangeRentFrom', ranges.PRICE_RANGE_RENT_MIN);
+      setValue('priceRangeRentTo', ranges.PRICE_RANGE_RENT_MAX);
+      setValue('priceRangeBuyFrom', 0);
+      setValue('priceRangeBuyTo', 0);
+    }
   }, [watchAllFields.offeringType, setValue]);
 
   useEffect(() => {
@@ -117,13 +124,17 @@ export default function Form({ user }: Props): JSX.Element {
   }, [trigger, watchAllFields.totalAreaFrom, watchAllFields.totalAreaTo]);
 
   useEffect(() => {
-    trigger('priceRangeRentFrom');
-    trigger('priceRangeRentTo');
+    if (watchAllFields.priceRangeRentFrom !== 0 || watchAllFields.priceRangeRentTo !== 0) {
+      trigger('priceRangeRentFrom');
+      trigger('priceRangeRentTo');
+    }
   }, [trigger, watchAllFields.priceRangeRentFrom, watchAllFields.priceRangeRentTo]);
 
   useEffect(() => {
-    trigger('priceRangeBuyFrom');
-    trigger('priceRangeBuyTo');
+    if (watchAllFields.priceRangeBuyFrom !== 0 || watchAllFields.priceRangeBuyTo !== 0) {
+      trigger('priceRangeBuyFrom');
+      trigger('priceRangeBuyTo');
+    }
   }, [trigger, watchAllFields.priceRangeBuyFrom, watchAllFields.priceRangeBuyTo]);
 
   const onSubmit = handleSubmit(async (data): Promise<void> => {

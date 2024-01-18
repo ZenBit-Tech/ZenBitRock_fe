@@ -143,7 +143,14 @@ function ResetPasswordForm(): JSX.Element {
             autoComplete: 'new-password',
           }}
         />
-        <Button type="submit" variant="contained" sx={{ my: '20px' }} fullWidth disabled={!isValid}>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          sx={{ my: '20px' }}
+          fullWidth
+          disabled={!isValid}
+        >
           {t('buttonReset')}
         </Button>
       </Box>
