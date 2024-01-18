@@ -12,8 +12,10 @@ type FollowerItemProps = {
   chat: Chat;
 };
 
-const MAX_WORDS: number = 6;
-const MAX_CHARACTERS: number = 20;
+const MAX_CHARACTERS_TITLE: number = 15;
+const MAX_WORDS_TITLE: number = 2;
+const MAX_WORDS_MESSAGE: number = 6;
+const MAX_CHARACTERS_MESSAGE: number = 20;
 
 export default function ChatItem({ chat }: FollowerItemProps): JSX.Element {
   const router = useRouter();
@@ -58,7 +60,7 @@ export default function ChatItem({ chat }: FollowerItemProps): JSX.Element {
 
         <Stack sx={{ flex: 5 }}>
           <Typography variant="subtitle1" sx={{ textAlign: 'left', mb: '8px' }}>
-            {chatTitle}
+            {trimString(chatTitle, MAX_WORDS_TITLE, MAX_CHARACTERS_TITLE)}
           </Typography>
 
           <Typography
@@ -70,7 +72,7 @@ export default function ChatItem({ chat }: FollowerItemProps): JSX.Element {
               color: colors.TEXT_GREY_COLOR,
             }}
           >
-            {trimString(content || '', MAX_WORDS, MAX_CHARACTERS)}
+            {trimString(content || '', MAX_WORDS_MESSAGE, MAX_CHARACTERS_MESSAGE)}
           </Typography>
         </Stack>
 
