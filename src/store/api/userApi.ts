@@ -40,6 +40,13 @@ export const UserApi = createApi({
         body,
       }),
     }),
+    updateNotifications: builder.mutation<UserProfileResponse, IUserUpdateProfile>({
+      query: (body) => ({
+        url: ApiRoute.UPDATE_NOTIFICATIONS_STATUS,
+        method: 'PATCH',
+        body,
+      }),
+    }),
     setAvatar: builder.mutation<UserSetAvatarResponse, FormData>({
       query: (body) => ({
         url: ApiRoute.SET_AVATAR,
@@ -96,4 +103,5 @@ export const {
   useDeleteUserMutation,
   useDeleteAvatarMutation,
   useGetAllUsersMutation,
+  useUpdateNotificationsMutation,
 } = UserApi;

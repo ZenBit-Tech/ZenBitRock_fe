@@ -48,6 +48,7 @@ export type IUserUpdateProfile = {
   qobrixContactId?: string | null;
   description?: string | null;
   qobrixAgentId?: string | null;
+  receiveNotifications?: boolean | null;
 };
 
 export type IUserUpdateQobrix = {
