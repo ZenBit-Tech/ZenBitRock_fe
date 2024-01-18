@@ -140,14 +140,11 @@ export const ChatApi = createApi({
       async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved, updateCachedData }) {
         try {
           await cacheDataLoaded;
-
           const socket = getSocket();
 
-          socket.on('connect', () => {
-            socket.emit(ChatEvent.RequestAllChats, arg.userId, (chats: Chat[]) => {
-              updateCachedData((draft) => {
-                draft.splice(0, draft.length, ...chats);
-              });
+          socket.emit(ChatEvent.RequestAllChats, arg, (chats: Chat[]) => {
+            updateCachedData((draft) => {
+              draft.splice(0, draft.length, ...chats);
             });
           });
 
@@ -172,11 +169,9 @@ export const ChatApi = createApi({
           });
 
           await cacheEntryRemoved;
-
-          socket.off('connect');
-          socket.off(ChatEvent.RequestAllChats);
+          socket.close();
         } catch (error) {
-          console.error(error);
+          throw error;
         }
       },
     }),
