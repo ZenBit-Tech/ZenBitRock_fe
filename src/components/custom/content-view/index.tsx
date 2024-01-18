@@ -1,12 +1,12 @@
 'use client';
 
-import { Box, Button, Fab, Typography } from '@mui/material';
+import { Backdrop, Box, Button, CircularProgress, Fab, Typography } from '@mui/material';
 
-import { NoDataFound } from 'components/custom';
+import { DELAY, NoDataFound, Onboarding, useOnboardingContext } from 'components/custom';
 import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
 import { AppRoute } from 'enums';
-import { useEffect, useRouter, useScrollToTop, useState, useTranslations } from 'hooks';
+import { useEffect, useMount, useRouter, useScrollToTop, useState, useTranslations } from 'hooks';
 import { useGetContentMutation } from 'store/content';
 import { toTitleCase } from 'utils';
 import { ArticleList } from './components/article-list';
@@ -68,6 +68,7 @@ const MOCK = {
 
 function ContentView(): JSX.Element {
   const [filter, setFilter] = useState<string>('');
+  const [showLoader, setLoader] = useState(false);
 
   const t = useTranslations('content');
   const { enqueueSnackbar } = useSnackbar();
@@ -81,6 +82,10 @@ function ContentView(): JSX.Element {
   //   For mocking data - temporary commented!
   //   const [getContent, { data: content, error, isLoading }] = useGetContentMutation();
   const [getContent, { error, isLoading }] = useGetContentMutation();
+  const {
+    setState,
+    state: { tourActive },
+  } = useOnboardingContext();
   const content = MOCK.data;
 
   useEffect(() => {
@@ -97,6 +102,15 @@ function ContentView(): JSX.Element {
     }
   }, [error, enqueueSnackbar, t]);
 
+  useMount(() => {
+    if (tourActive) {
+      setTimeout(() => {
+        setLoader(false);
+        setState({ run: true, stepIndex: 15 });
+      }, DELAY);
+    }
+  });
+
   return (
     <Box
       sx={{
@@ -106,7 +120,14 @@ function ContentView(): JSX.Element {
         marginX: 'auto',
         transition: 'easy-in 200 display',
       }}
+      className="onboarding-step-16"
     >
+      {showLoader && tourActive && (
+        <Backdrop open sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}>
+          <CircularProgress color="primary" />
+        </Backdrop>
+      )}
+      <Onboarding />
       <Box
         sx={{
           display: 'flex',

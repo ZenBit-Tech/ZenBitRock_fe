@@ -42,15 +42,27 @@ type GroupProps = {
 function Group({ items, config }: GroupProps) {
   return (
     <>
-      {items.map((list) => (
-        <NavList
-          key={list.title + list.path}
-          data={list}
-          depth={1}
-          hasChild={!!list.children}
-          config={config}
-        />
-      ))}
+      {items.map((list, idx) => {
+        let className;
+        switch (idx) {
+          case 3:
+            className = 'onboarding-step-5';
+            break;
+          case 1:
+            className = 'onboarding-step-8';
+            break;
+          case 4:
+            className = 'onboarding-step-15';
+            break;
+          default:
+            className = '';
+        }
+        return (
+          <div className={className} key={list.title + list.path}>
+            <NavList data={list} depth={1} hasChild={!!list.children} config={config} />
+          </div>
+        );
+      })}
     </>
   );
 }

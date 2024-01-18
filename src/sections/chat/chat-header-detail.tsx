@@ -10,9 +10,8 @@ type Props = {
 };
 
 export default function ChatHeaderDetail({ user: singleParticipant }: Props): JSX.Element {
-
   const t = useTranslations('agents');
-  
+
   if (!singleParticipant) {
     return <LoadingScreen sx={{ mt: 'calc(100vh / 2 - 65px)' }} />;
   }

@@ -99,6 +99,7 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
                   const foundStatus = Object.values(leadStatuses).find(
                     (status) => status.id === selected
                   );
+
                   return foundStatus ? foundStatus.label : workflow.name;
                 }}
               >

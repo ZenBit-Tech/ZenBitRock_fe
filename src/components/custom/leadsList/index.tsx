@@ -2,7 +2,7 @@
 
 import { Box, Fab, Typography } from '@mui/material';
 
-import { NoDataFound } from 'components/custom';
+import { NoDataFound, leadMockData } from 'components/custom';
 import ButtonClose from 'components/custom/button-close/button-close';
 import { Lead } from 'components/custom/leadsList/components';
 import {
@@ -16,7 +16,7 @@ import { useSnackbar } from 'components/snackbar';
 import { colors } from 'constants/colors';
 import { AppRoute } from 'enums';
 import { useEffect, useInfinityScroll, useScrollToTop, useState, useTranslations } from 'hooks';
-import { useGetLeadsQuery } from 'store/api/qobrixApi';
+import { useGetLeadsQuery, useGetPropertyTypesQuery } from 'store/api/qobrixApi';
 import { QobrixLeadItem } from 'types';
 import uuidv4 from 'utils/uuidv4';
 
@@ -26,9 +26,10 @@ interface LeadsListProps {
   filter: string | undefined;
   id: string | undefined;
   name: string | undefined;
+  tourActive: boolean;
 }
 
-function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
+function LeadsList({ filter, id, name, tourActive }: LeadsListProps): JSX.Element {
   const [page, setPage] = useState(FIRST_PAGE);
   const [localFilter, setLocalFilter] = useState<string | undefined>(
     window.localStorage.getItem('leadsFilter')
@@ -52,6 +53,7 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
       }
     },
   });
+  const { data: types, isLoading } = useGetPropertyTypesQuery(undefined);
 
   const { data, error, isFetching, refetch } = useGetLeadsQuery(
     { page, filter: localFilter, id },
@@ -74,7 +76,7 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
     }
   }, [filter]);
 
-  const leadsList = data?.data;
+  const leadsList = tourActive ? leadMockData?.data : data?.data;
 
   return (
     <Box
@@ -128,11 +130,24 @@ function LeadsList({ filter, id, name }: LeadsListProps): JSX.Element {
                 {` ${t('results')}: ${data.pagination.count}`}
               </Typography>
             )}
-          {leadsList?.map((lead: QobrixLeadItem) => <Lead lead={lead} key={uuidv4()} />)}
-          {isFetching && <LoadingScreen />}
+          {leadsList?.map((lead: QobrixLeadItem, idx) => (
+            <Lead
+              className={idx === 0 ? 'onboarding-step-7' : ''}
+              lead={lead}
+              type={
+                types && types.data && types.data.find((type) => type.code === lead.lookingFor)
+                  ? types.data.find((type) => type.code === lead.lookingFor)?.name
+                  : undefined
+              }
+              key={uuidv4()}
+            />
+          ))}
+          {isFetching && isLoading && <LoadingScreen />}
         </ListStyled>
       )}
-      {leadsList?.length === 0 && (localFilter || name) && !isFetching && <NoDataFound />}
+      {leadsList?.length === 0 && (localFilter || name) && !isFetching && !isLoading && (
+        <NoDataFound />
+      )}
       <Fab
         color="primary"
         aria-label="scroll to top"

@@ -9,19 +9,20 @@ import MsgBadge from './chat-msg-badge';
 type FollowerItemProps = {
   agent: UserChatResponse;
   handleClickResult: (agent: UserChatResponse) => void;
+  className: string;
 };
 
 export default function AgentListItem({
   agent,
   handleClickResult,
+  className,
 }: FollowerItemProps): JSX.Element {
-
   const t = useTranslations('agents');
-  
+
   const { firstName, lastName, country, city, avatarUrl, isDeleted } = agent;
 
   return (
-    <Card sx={{ mb: '5px' }}>
+    <Card sx={{ mb: '5px' }} className={className}>
       <ListItemButton
         sx={{
           display: 'flex',

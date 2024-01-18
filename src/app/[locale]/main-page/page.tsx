@@ -1,11 +1,9 @@
 'use client';
 
-import { Box, Container, Typography } from '@mui/material';
-
-import { ProtectedRoute } from 'components/custom';
+import { Backdrop, Box, CircularProgress, Typography, Container } from '@mui/material';
+import { ProtectedRoute, Onboarding, useOnboardingContext, DELAY } from 'components/custom';
 import PropertiesList from 'components/custom/propertiesList';
-import { useCallback, useState, useTranslations } from 'hooks';
-
+import { useCallback, useMount, useState, useTranslations } from 'hooks';
 import { StorageKey } from 'enums';
 import { getMainPagePropertyFilter } from 'utils';
 import { getStorage } from 'hooks/use-local-storage';
@@ -18,6 +16,11 @@ function MainPage(): JSX.Element {
       : ''
   );
   const [propertyNameFilter, setPropertyNameFilter] = useState<string>('');
+  const [showLoader, setLoader] = useState(true);
+  const {
+    setState,
+    state: { stepIndex, tourActive },
+  } = useOnboardingContext();
 
   const handleSetFilter = useCallback(
     (search: string) => {
@@ -49,9 +52,24 @@ function MainPage(): JSX.Element {
 
   const t = useTranslations('mainPage');
 
+  useMount(() => {
+    if (tourActive) {
+      setTimeout(() => {
+        setLoader(false);
+        setState({ run: true, stepIndex: 0 });
+      }, DELAY);
+    }
+  });
+
   return (
     <ProtectedRoute>
-      <Container sx={{ pb: 8, px: 2 }}>
+      <Container sx={{ pb: 8, px: 2 }} className="onboarding-step-1">
+        {((showLoader && tourActive) || stepIndex === 5) && (
+          <Backdrop open sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}>
+            <CircularProgress color="primary" />
+          </Backdrop>
+        )}
+        <Onboarding />
         <Box sx={{ margin: '0 auto', maxWidth: '800px' }}>
           <NotificationCenter t={t} />
           <Typography variant="h3" sx={{ marginTop: 3 }}>
@@ -61,7 +79,7 @@ function MainPage(): JSX.Element {
             setFilter={handleSetFilter}
             setPropertyNameFilter={handleSetPropertyNameFilter}
           />
-          <PropertiesList search={getCombinedFilter()} />
+          <PropertiesList tourActive={tourActive} search={getCombinedFilter()} />
         </Box>
       </Container>
     </ProtectedRoute>
