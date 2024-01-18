@@ -75,7 +75,7 @@ function LeadsList({ filter, id, name, tourActive }: LeadsListProps): JSX.Elemen
     }
   }, [filter]);
 
-  const leadsList = tourActive ? leadMockData?.data : data?.data;
+  const leadsList = tourActive ? leadMockData : data;
 
   return (
     <Box
@@ -113,7 +113,7 @@ function LeadsList({ filter, id, name, tourActive }: LeadsListProps): JSX.Elemen
       <Box sx={{ display: 'none' }}>
         {error && enqueueSnackbar(t('error'), { variant: 'error' })}
       </Box>
-      {leadsList?.length !== 0 && (
+      {leadsList?.data.length !== 0 && (
         <ListStyled
           sx={{
             width: '100%',
@@ -122,20 +122,20 @@ function LeadsList({ filter, id, name, tourActive }: LeadsListProps): JSX.Elemen
           }}
         >
           {localFilter &&
-            leadsList?.length !== 0 &&
+            leadsList?.data.length !== 0 &&
             localFilter !== 'update' &&
-            data?.pagination && (
+            leadsList?.pagination && (
               <Typography variant="h5" sx={{ paddingBottom: 2 }} textAlign="center">
-                {` ${t('results')}: ${data.pagination.count}`}
+                {` ${t('results')}: ${leadsList.pagination.count}`}
               </Typography>
             )}
-          {leadsList?.map((lead: QobrixLeadItem, idx) => (
+          {leadsList?.data.map((lead: QobrixLeadItem, idx) => (
             <Lead className={idx === 0 ? 'onboarding-step-7' : ''} lead={lead} key={uuidv4()} />
           ))}
           {isFetching && <LoadingScreen />}
         </ListStyled>
       )}
-      {leadsList?.length === 0 && (localFilter || name) && !isFetching && <NoDataFound />}
+      {leadsList?.data.length === 0 && (localFilter || name) && !isFetching && <NoDataFound />}
       <Fab
         color="primary"
         aria-label="scroll to top"
