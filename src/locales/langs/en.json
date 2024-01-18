@@ -580,7 +580,8 @@
     "reset": "Reset all filters",
     "leads": "leads",
     "all": "Any",
-    "error": "Something went wrong!"
+    "error": "Something went wrong!",
+    "lookingFor": "Looking for"
   },
   "agents": {
     "pageTitle": "Agent network",
