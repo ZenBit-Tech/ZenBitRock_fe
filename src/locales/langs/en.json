@@ -771,5 +771,10 @@
     "searchTopic": "Search topic",
     "somethingWentWrong": "Something went wrong!",
     "matchingResults": "Matching results"
+  },
+  "notChatMember": {
+    "accessDenied": "Access Denied",
+    "notMember": "You do not have access to this chat",
+    "btnTxt": "Go to Home"
   }
 }
