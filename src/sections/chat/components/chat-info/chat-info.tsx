@@ -28,16 +28,10 @@ const ChatInfo = (): JSX.Element => {
   const authUser = useSelector((state: RootState) => state.authSlice.user);
   const {
     id: userId,
-    firstName,
-    lastName,
   }: {
     id: UserProfileResponse['id'] | null;
-    firstName: UserProfileResponse['firstName'] | null;
-    lastName: UserProfileResponse['lastName'] | null;
   } = authUser || {
     id: null,
-    firstName: null,
-    lastName: null,
   };
 
   const [getAllUsers, { data: usersData, isLoading: isLoadingWhenGetUsers, isError }] =
@@ -279,40 +273,42 @@ const ChatInfo = (): JSX.Element => {
           </Typography>
         </Link>
 
-        <Box
-          sx={{
-            mb: '1rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-            width: '100%',
-          }}
-        >
-          <Typography
-            variant="body2"
+        {data?.owner && (
+          <Box
             sx={{
-              textAlign: 'right',
-              mr: '0.5rem',
-              fontWeight: 'normal',
-              minWidth: '1rem',
+              mb: '1rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              width: '100%',
             }}
           >
-            1.
-          </Typography>
-          <Typography
-            variant="body2"
-            sx={{
-              mr: '0.5rem',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-              fontWeight: 'normal',
-            }}
-          >{`${firstName} ${lastName}`}</Typography>
-          <Typography variant="body2" sx={{ width: 'fit-content', fontWeight: 'normal' }}>{`(${t(
-            'owner'
-          )})`}</Typography>
-        </Box>
+            <Typography
+              variant="body2"
+              sx={{
+                textAlign: 'right',
+                mr: '0.5rem',
+                fontWeight: 'normal',
+                minWidth: '1rem',
+              }}
+            >
+              1.
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                mr: '0.5rem',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                fontWeight: 'normal',
+              }}
+            >{`${data.owner.firstName} ${data.owner.lastName}`}</Typography>
+            <Typography variant="body2" sx={{ width: 'fit-content', fontWeight: 'normal' }}>{`(${t(
+              'owner'
+            )})`}</Typography>
+          </Box>
+        )}
         {members &&
           members?.length > 0 &&
           members.map(
@@ -350,23 +346,25 @@ const ChatInfo = (): JSX.Element => {
                   >
                     {user?.label}
                   </Typography>
-                  <Iconify
-                    icon="fluent:delete-28-regular"
-                    width="1.5rem"
-                    height="1.5rem"
-                    color={colors.ERROR_COLOR}
-                    sx={{
-                      opacity: '0.5',
-                      cursor: 'pointer',
-                      minWidth: '1.5rem',
-                      transition: 'all 200ms ease-out',
-                      '&:hover': {
-                        opacity: '1',
+                  {data && userId === data?.owner?.id && (
+                    <Iconify
+                      icon="fluent:delete-28-regular"
+                      width="1.5rem"
+                      height="1.5rem"
+                      color={colors.ERROR_COLOR}
+                      sx={{
+                        opacity: '0.5',
+                        cursor: 'pointer',
+                        minWidth: '1.5rem',
                         transition: 'all 200ms ease-out',
-                      },
-                    }}
-                    onClick={() => handleClickDelete(user.id)}
-                  />
+                        '&:hover': {
+                          opacity: '1',
+                          transition: 'all 200ms ease-out',
+                        },
+                      }}
+                      onClick={() => handleClickDelete(user.id)}
+                    />
+                  )}
                 </Box>
               )
           )}
