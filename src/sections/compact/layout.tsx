@@ -13,7 +13,7 @@ export default function CompactLayout({ children }: Props): JSX.Element {
           py: 12,
           m: 'auto',
           maxWidth: 400,
-          minHeight: '100vh',
+          minHeight: '100%',
           textAlign: 'center',
           justifyContent: 'center',
         }}
