@@ -83,7 +83,7 @@ export type IChatResponse = {
   chat: {
     id?: string;
     isPrivate?: boolean;
-    owner?: { id: string | null };
+    owner?: { id: string; firstName: string; lastName: string };
     members?: { id: string }[] | [];
     title?: string;
     createdAt?: string;
