@@ -61,7 +61,7 @@ export default function ChatView({ currentUserId, chatData, messages }: Props): 
         overflow: 'hidden',
       }}
     >
-      <ChatMessageList messages={chatMessages} me={currentUserId} />
+      <ChatMessageList messages={chatMessages} me={currentUserId} isPrivate={isPrivate} />
 
       <ChatMessageInput chatId={chatData.id} />
     </Stack>
