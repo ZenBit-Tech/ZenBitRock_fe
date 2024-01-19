@@ -15,6 +15,7 @@ type UserProfileResponse = {
   avatarUrl: string;
   avatarPublicId: string;
   isDeleted: boolean;
+  receiveNotifications: boolean;
 };
 
 export { type UserProfileResponse };

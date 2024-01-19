@@ -4,6 +4,7 @@ const ApiRoute = {
   CONFIRM_RESTORE_PASSWORD: '/auth/restore-password',
   ADD_VERIFICATION_DATA: '/verification/update',
   UPDATE_PROFILE_DATA: '/user/update',
+  UPDATE_NOTIFICATIONS_STATUS: '/user/update-notifications',
   SET_AVATAR: '/user/set-avatar',
   DELETE_AVATAR: '/user/delete-avatar',
   GET_USER_BY_ID: '/user/id',
