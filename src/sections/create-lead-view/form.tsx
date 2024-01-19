@@ -72,7 +72,7 @@ export default function Form({ user }: Props): JSX.Element {
 
   const { push } = useRouter();
   const { enqueueSnackbar } = useSnackbar();
-  const { qobrixAgentId, qobrixContactId } = user;
+  const { qobrixAgentId, qobrixContactId, qobrixUserId } = user;
 
   const methods = useForm({
     resolver: yupResolver(FormSchema),
@@ -168,6 +168,7 @@ export default function Form({ user }: Props): JSX.Element {
       covered_area_to_amount: totalAreaTo || null,
       locations: locations?.value || null,
       source: TYPE_OF_SOURCE,
+      owner: qobrixUserId,
     };
 
     if (offeringType === QobrixLeadBuyRent.TO_BUY) {
