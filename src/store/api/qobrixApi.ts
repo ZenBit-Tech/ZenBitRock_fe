@@ -63,7 +63,7 @@ export const QobrixApi = createApi({
     }),
     addUserToGroup: builder.mutation<QobrixAddUserToGroupResponse, QobrixAddUserToGroupRequest>({
       query: ({ userId, groupId }) => ({
-        url: `${ApiRoute.QOBRIX_GROUPS}/${groupId}/${ApiRoute.QOBRIX_USERS}/${userId}`, // Подставьте ваш URL и параметры
+        url: `${ApiRoute.QOBRIX_GROUPS}/${groupId}/${ApiRoute.QOBRIX_USERS}/${userId}`,
         method: 'PUT',
       }),
     }),
