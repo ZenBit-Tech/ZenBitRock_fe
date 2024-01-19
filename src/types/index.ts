@@ -41,6 +41,10 @@ export {
   type ILeadTaskChangesResponse,
   type IHistory,
   type IHistoryItem,
+  type QobrixUserRequest,
+  type QobrixUserResponse,
+  type QobrixAddUserToGroupRequest,
+  type QobrixAddUserToGroupResponse,
 } from './qobrix';
 export { type ValueOf } from './value-of-type';
 export { type UserSetAvatarResponse, type UserProfileResponse } from './user-backend';

@@ -45,3 +45,8 @@ export {
   type IHistory,
   type IHistoryItem,
 } from './lead-history';
+export { type QobrixUserRequest, type QobrixUserResponse } from './qobrix-user';
+export {
+  type QobrixAddUserToGroupRequest,
+  type QobrixAddUserToGroupResponse,
+} from './qobrix-add-user-to-group';

@@ -18,6 +18,10 @@ import {
   ILeadTasksResponse,
   ILeadTaskChangesResponse,
   ILeadStatusChangesResponse,
+  QobrixUserResponse,
+  QobrixAddUserToGroupResponse,
+  QobrixAddUserToGroupRequest,
+  QobrixUserRequest,
 } from 'types';
 import { QobrixLocationsResponse } from 'types/qobrix/qobrix-locations';
 import { IUserUpdateQobrix } from 'types/user';
@@ -48,6 +52,19 @@ export const QobrixApi = createApi({
         url: ApiRoute.QOBRIX_CREATE_AGENT,
         method: 'POST',
         body,
+      }),
+    }),
+    createQobrixUser: builder.mutation<QobrixUserResponse['data'], QobrixUserRequest>({
+      query: (body) => ({
+        url: ApiRoute.QOBRIX_CREATE_USER,
+        method: 'POST',
+        body,
+      }),
+    }),
+    addUserToGroup: builder.mutation<QobrixAddUserToGroupResponse, QobrixAddUserToGroupRequest>({
+      query: ({ userId, groupId }) => ({
+        url: `${ApiRoute.QOBRIX_GROUPS}/${groupId}/${ApiRoute.QOBRIX_USERS}/${userId}`,
+        method: 'PUT',
       }),
     }),
     getPropertyTypes: builder.query<QobrixPropertyTypeResponse, undefined>({
@@ -405,6 +422,8 @@ export const {
   useLazyGetLeadTaskChangesQuery,
   useCreateContactMutation,
   useCreateAgentMutation,
+  useCreateQobrixUserMutation,
+  useAddUserToGroupMutation,
   useGetPropertyTypesQuery,
   useUpdateContactMutation,
   useDeleteLeadMutation,

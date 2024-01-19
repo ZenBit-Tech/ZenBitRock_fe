@@ -9,6 +9,7 @@ type UserProfileResponse = {
   phone: string;
   qobrixContactId: string;
   qobrixAgentId: string;
+  qobrixUserId: string;
   agencyName: string;
   description: string;
   country: string;
