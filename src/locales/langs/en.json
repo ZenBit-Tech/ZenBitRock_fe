@@ -581,7 +581,8 @@
     "leads": "leads",
     "all": "Any",
     "error": "Something went wrong!",
-    "lookingFor": "Looking for"
+    "lookingFor": "Looking for",
+    "contactMade": "Contact Made"
   },
   "agents": {
     "pageTitle": "Agent network",
