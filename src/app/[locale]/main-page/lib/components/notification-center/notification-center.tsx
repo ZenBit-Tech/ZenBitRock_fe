@@ -3,19 +3,28 @@
 import { Box, Card, Typography } from '@mui/material';
 import { CustomLink, useOnboardingContext } from 'components/custom';
 import Iconify from 'components/iconify';
-import { useState } from 'hooks';
+import { LoadingScreen } from 'components/loading-screen';
+import { useSelector, useState } from 'hooks';
+import { RootState } from 'store';
 
 const NotificationCenter = ({ t }: { t: Function }): JSX.Element => {
+  const authUser = useSelector((state: RootState) => state.authSlice.user);
+
   const [isVisible] = useState<boolean>(false);
   const {
     state: { tourActive },
   } = useOnboardingContext();
 
+  if (!authUser) {
+    return <LoadingScreen />;
+  }
+
+  const { receiveNotifications } = authUser;
+
   return (
     <>
-      {isVisible ||
-        (tourActive && (
-          <Card
+      {(isVisible && receiveNotifications) || tourActive ? (
+        <Card
             sx={{
               width: '100%',
               my: '2rem',
@@ -46,7 +55,7 @@ const NotificationCenter = ({ t }: { t: Function }): JSX.Element => {
               </CustomLink>
             </Box>
           </Card>
-        ))}
+        ) : null}
     </>
   );
 };

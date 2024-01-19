@@ -1,7 +1,6 @@
 'use client';
 
 import { Box, Fab, Typography } from '@mui/material';
-
 import { NoDataFound, leadMockData } from 'components/custom';
 import ButtonClose from 'components/custom/button-close/button-close';
 import { Lead } from 'components/custom/leadsList/components';
@@ -76,7 +75,7 @@ function LeadsList({ filter, id, name, tourActive }: LeadsListProps): JSX.Elemen
     }
   }, [filter]);
 
-  const leadsList = tourActive ? leadMockData?.data : data?.data;
+  const leadsList = tourActive ? leadMockData : data;
 
   return (
     <Box
@@ -114,7 +113,7 @@ function LeadsList({ filter, id, name, tourActive }: LeadsListProps): JSX.Elemen
       <Box sx={{ display: 'none' }}>
         {error && enqueueSnackbar(t('error'), { variant: 'error' })}
       </Box>
-      {leadsList?.length !== 0 && (
+      {leadsList?.data.length !== 0 && (
         <ListStyled
           sx={{
             width: '100%',
@@ -123,14 +122,14 @@ function LeadsList({ filter, id, name, tourActive }: LeadsListProps): JSX.Elemen
           }}
         >
           {localFilter &&
-            leadsList?.length !== 0 &&
+            leadsList?.data.length !== 0 &&
             localFilter !== 'update' &&
-            data?.pagination && (
+            leadsList?.pagination && (
               <Typography variant="h5" sx={{ paddingBottom: 2 }} textAlign="center">
-                {` ${t('results')}: ${data.pagination.count}`}
+                {` ${t('results')}: ${leadsList.pagination.count}`}
               </Typography>
             )}
-          {leadsList?.map((lead: QobrixLeadItem, idx) => (
+          {leadsList?.data.map((lead: QobrixLeadItem, idx) => (
             <Lead
               className={idx === 0 ? 'onboarding-step-7' : ''}
               lead={lead}
@@ -145,7 +144,7 @@ function LeadsList({ filter, id, name, tourActive }: LeadsListProps): JSX.Elemen
           {isFetching && isLoading && <LoadingScreen />}
         </ListStyled>
       )}
-      {leadsList?.length === 0 && (localFilter || name) && !isFetching && !isLoading && (
+      {leadsList?.data.length === 0 && (localFilter || name) && !isFetching && !isLoading && (
         <NoDataFound />
       )}
       <Fab

@@ -49,6 +49,7 @@ export type IUserUpdateProfile = {
   description?: string | null;
   qobrixAgentId?: string | null;
   qobtixUserId?: string | null;
+  receiveNotifications?: boolean | null;
 };
 
 export type IUserUpdateQobrix = {

@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslations } from 'next-intl';
+import { enqueueSnackbar } from 'notistack';
 import { Link, Switch, Theme } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -9,26 +10,22 @@ import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 import CardHeader from '@mui/material/CardHeader';
 import Iconify from 'components/iconify';
+import { LoadingScreen } from 'components/loading-screen';
 import { AppRoute } from 'enums';
 import { RootState } from 'store';
-import { LoadingScreen } from 'components/loading-screen';
+import { useUpdateNotificationsMutation } from 'store/api/userApi';
+import { IUserUpdateProfile } from 'types/user';
 import DeleteProfileDialog from './user-del-dialog';
 
 interface RenderProps {
   checked: boolean;
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
   theme: Theme;
+  id: string;
 }
 
-const RenderSettings = ({ checked, handleChange, theme }: RenderProps): JSX.Element => {
+const RenderSettings = ({ checked, handleChange, theme, id }: RenderProps): JSX.Element => {
   const t = useTranslations('editProfilePage');
-  const authUser = useSelector((state: RootState) => state.authSlice.user);
-
-  if (!authUser) {
-    return <LoadingScreen />;
-  }
-
-  const { id } = authUser;
 
   return (
     <Card>
@@ -73,18 +70,42 @@ const RenderSettings = ({ checked, handleChange, theme }: RenderProps): JSX.Elem
 };
 
 function ProfileSettings(): JSX.Element {
-  const [checked, setChecked] = useState<boolean>(true);
+  const t = useTranslations('editProfilePage');
+
   const theme = useTheme();
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const authUser = useSelector((state: RootState) => state.authSlice.user);
+
+  const [updateNotifications] = useUpdateNotificationsMutation();
+
+  const [checked, setChecked] = useState<boolean>(authUser ? authUser.receiveNotifications : false);
+
+  if (!authUser) {
+    return <LoadingScreen />;
+  }
+
+  const { id } = authUser;
+
+  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
     setChecked(event.target.checked);
+
+    const updatedUser: IUserUpdateProfile = {
+      userId: id,
+      receiveNotifications: event.target.checked ? true : false,
+    };
+
+    try {
+      await updateNotifications(updatedUser).unwrap();
+    } catch (error) {
+      enqueueSnackbar(`${t('errorText')}`, { variant: 'error' });
+    }
   };
 
   return (
     <Grid container spacing={3}>
       <Grid xs={12} md={12}>
         <Stack spacing={3}>
-          <RenderSettings checked={checked} handleChange={handleChange} theme={theme} />
+          <RenderSettings checked={checked} handleChange={handleChange} theme={theme} id={id} />
         </Stack>
       </Grid>
     </Grid>

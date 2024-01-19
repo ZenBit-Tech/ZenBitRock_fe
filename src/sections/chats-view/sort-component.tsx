@@ -1,8 +1,7 @@
 import { Box, Button, MenuItem } from '@mui/material';
 import Iconify from 'components/iconify';
 import CustomPopover, { usePopover } from 'components/custom-popover';
-import { IChatItem } from 'types/chat';
-import { Values } from './drop-box-data';
+import { Values } from './helpers/drop-box-data';
 
 type Props = {
   t: Function;
@@ -11,7 +10,7 @@ type Props = {
   sortOptions: Values[];
 };
 
-export default function SortComponent({ t, sort, sortOptions, onSort }: Props): JSX.Element {
+export function SortComponent({ t, sort, sortOptions, onSort }: Props): JSX.Element {
   const popover = usePopover();
 
   return (
@@ -51,20 +50,3 @@ export default function SortComponent({ t, sort, sortOptions, onSort }: Props): 
     </Box>
   );
 }
-
-export const sortChats = (chatsToSort: IChatItem[], sortByValue: string): IChatItem[] =>
-  [...chatsToSort].sort((a, b) => {
-    switch (sortByValue) {
-      case 'oldest':
-        return new Date(a.lastMessageDate).getTime() - new Date(b.lastMessageDate).getTime();
-
-      case 'nameIncrease':
-        return a.chatName.localeCompare(b.chatName);
-
-      case 'nameDecrease':
-        return b.chatName.localeCompare(a.chatName);
-
-      default:
-        return new Date(b.lastMessageDate).getTime() - new Date(a.lastMessageDate).getTime();
-    }
-  });

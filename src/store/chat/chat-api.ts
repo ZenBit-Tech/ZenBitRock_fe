@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ChatInfoResponse } from 'types/chats';
 import { IChatResponse, ICreatePrivateChatRequest } from 'types/chat';
 import { ApiRoute, ChatEvent, StorageKey } from 'enums';
-import { ICreateGroupChatRequest, Message, IChatRequest } from 'types';
+import { ICreateGroupChatRequest, Message, IChatRequest, Chat } from 'types';
 import { createSocketFactory } from 'utils';
 
 const getSocket = createSocketFactory();
@@ -133,6 +133,46 @@ export const ChatApi = createApi({
         body: { title, memberIds },
       }),
     }),
+    getChats: builder.query<Chat[], { userId: string }>({
+      queryFn: () => ({ data: [] }),
+      async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved, updateCachedData }) {
+        try {
+          await cacheDataLoaded;
+          const socket = getSocket();
+
+          socket.emit(ChatEvent.RequestAllChats, arg, (chats: Chat[]) => {
+            updateCachedData((draft) => {
+              draft.splice(0, draft.length, ...chats);
+            });
+          });
+
+          socket.on(ChatEvent.NewMessage, (message: Message) => {
+            updateCachedData((draft) => {
+              draft.forEach((existingChat) => {
+                if (existingChat.id === message.chat.id) {
+                  existingChat.messages.push(message);
+                }
+              });
+            });
+          });
+
+          socket.on(ChatEvent.NewChat, (chat: Chat) => {
+            updateCachedData((draft) => {
+              chat.members.forEach((member) => {
+                if (member.id === arg.userId) {
+                  draft.push(chat);
+                }
+              });
+            });
+          });
+
+          await cacheEntryRemoved;
+          socket.close();
+        } catch (error) {
+          throw error;
+        }
+      },
+    }),
   }),
 });
 
@@ -146,4 +186,5 @@ export const {
   useCreateChatMutation,
   useCheckPrivateChatQuery,
   useGetChatByIdQuery,
+  useGetChatsQuery,
 } = ChatApi;

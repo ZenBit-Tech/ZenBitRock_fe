@@ -1,6 +1,5 @@
 'use client';
 
-import { formatDistanceToNowStrict } from 'date-fns';
 import { Box, IconButton, Stack, Typography } from '@mui/material';
 import DoneIcon from '@mui/icons-material/Done';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
@@ -8,6 +7,7 @@ import { colors } from 'constants/colors';
 import { Message } from 'types';
 import { useSelector } from 'hooks';
 import { RootState } from 'store';
+import { formatDate } from 'services';
 
 type Props = {
   message: Message;
@@ -33,7 +33,7 @@ export function ChatMessageItem({ message }: Props): JSX.Element {
       <Stack
         sx={{
           p: 1.5,
-          minWidth: 50,
+          minWidth: 150,
           maxWidth: 250,
           borderRadius: 2,
           typography: 'body2',
@@ -73,9 +73,7 @@ export function ChatMessageItem({ message }: Props): JSX.Element {
               color: 'text.disabled',
             }}
           >
-            {formatDistanceToNowStrict(new Date(createdAt), {
-              addSuffix: true,
-            })}
+            {formatDate(createdAt)}
           </Typography>
 
           <IconButton size="small">{isRead ? <DoneAllIcon /> : <DoneIcon />}</IconButton>
