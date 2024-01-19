@@ -21,7 +21,7 @@ import {
   QobrixUserResponse,
   QobrixAddUserToGroupResponse,
   QobrixAddUserToGroupRequest,
-  QobrixUserRequest
+  QobrixUserRequest,
 } from 'types';
 import { QobrixLocationsResponse } from 'types/qobrix/qobrix-locations';
 import { IUserUpdateQobrix } from 'types/user';

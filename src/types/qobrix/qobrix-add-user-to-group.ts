@@ -1,4 +1,4 @@
-export type QobrixAddUserToGroupRequest = { userId: string, groupId: string }
+export type QobrixAddUserToGroupRequest = { userId: string; groupId: string };
 
 export type QobrixAddUserToGroupResponse = {
   data: {
@@ -7,5 +7,5 @@ export type QobrixAddUserToGroupResponse = {
     created_by: string;
     modified_by: string;
     id: string;
-  }
-}
+  };
+};

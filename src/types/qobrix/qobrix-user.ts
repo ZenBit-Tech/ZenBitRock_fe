@@ -2,7 +2,7 @@ export type QobrixUserRequest = {
   contact_id: string;
   username: string;
   active: boolean;
-}
+};
 
 export type QobrixUserResponse = {
   data: {
@@ -21,7 +21,7 @@ export type QobrixUserResponse = {
         first_name: string;
         email: string;
         phone_mobile: string;
-      }
-    }
-  }
-}
+      };
+    };
+  };
+};
