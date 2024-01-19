@@ -13,7 +13,7 @@ type FollowerItemProps = {
   className: string;
 };
 
-const MAX_CHARACTERS_TITLE: number = 15;
+const MAX_CHARACTERS_TITLE: number = 20;
 const MAX_WORDS_TITLE: number = 2;
 const MAX_WORDS_MESSAGE: number = 6;
 const MAX_CHARACTERS_MESSAGE: number = 20;
