@@ -19,7 +19,7 @@ const AppRoute = {
   CREATE_LEAD_PAGE: '/leads/create',
   LEADS_PAGE: '/leads',
   EDIT_PROFILE_PAGE: '/edit-profile',
-  CHAT_PAGE: '/chat',
+  CHAT_LIVE_PAGE: '/chats/live',
   CHATS_PAGE: '/chats',
   PROPERTY_PAGE: '/property',
   AGENTS_PAGE: '/agents',

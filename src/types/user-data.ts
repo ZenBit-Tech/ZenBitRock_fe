@@ -80,3 +80,35 @@ export type DeleteUserResponse = {
 };
 
 export type DeleteAvatarRequest = { userId: string; avatarPublicId: string };
+
+export type ChatMember = {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  email: string;
+  password: string;
+  isVerified: boolean;
+  verificationCode: string | null;
+  firstName: string;
+  lastName: string;
+  role: string | null;
+  gender: string | null;
+  dateOfBirth: string | null;
+  nationality: string | null;
+  identity: string | null;
+  status: string | null;
+  street: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+  country: string | null;
+  phone: string | null;
+  userDocumentUrl: string | null;
+  userDocumentPublicId: string | null;
+  avatarUrl: string | null;
+  avatarPublicId: string | null;
+  qobrixContactId: string | null;
+  qobrixAgentId: string | null;
+  agencyName: string | null;
+  description: string | null;
+};
