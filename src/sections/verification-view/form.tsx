@@ -22,7 +22,12 @@ import FormProvider, {
 import { datesFormats } from 'constants/dates-formats';
 import { selectCurrentUser } from 'store/auth/authReducer';
 import { VerificationData } from 'types/verification-data';
-import { useCreateAgentMutation, useCreateContactMutation } from 'store/api/qobrixApi';
+import {
+  useAddUserToGroupMutation,
+  useCreateAgentMutation,
+  useCreateContactMutation,
+  useCreateQobrixUserMutation,
+} from 'store/api/qobrixApi';
 import { useGetUserByIdMutation, useUpdateUserMutation } from 'store/api/userApi';
 import { useCreateVerificationMutation } from 'store/api/verificationApi';
 import { getRoles, getGenders, getIdentities, getStatuses, getCountries } from './drop-box-data';
@@ -53,6 +58,7 @@ const defaultValues = {
 };
 
 const FIVE_MEGABYTES: number = 5000000;
+const QOBRIX_GROUP_SALES_ID: string = '86f3ee23-3d37-458d-85d9-7da50b39a417';
 
 function formatDate(inputDate: Date): string {
   const year = inputDate.getFullYear();
@@ -74,6 +80,8 @@ export default function VerificationForm({ handleVerification }: Props): JSX.Ele
   const [createAgent] = useCreateAgentMutation();
   const [getUserById] = useGetUserByIdMutation();
   const [updateUser] = useUpdateUserMutation();
+  const [createQobrixUser] = useCreateQobrixUserMutation();
+  const [addUserToGroup] = useAddUserToGroupMutation();
 
   const [formFilled, setFormFilled] = useState<boolean>(true);
   const [activeRequestsCount, setActiveRequestsCount] = useState<number>(0);
@@ -197,9 +205,22 @@ export default function VerificationForm({ handleVerification }: Props): JSX.Ele
       const agent = await createAgent(agentData).unwrap();
       const { id: qobrixAgentId } = agent.data;
 
-      const newQobrixData = { userId, qobrixContactId, qobrixAgentId };
+      const qobrixUser = await createQobrixUser({
+        contact_id: qobrixContactId,
+        username: email,
+        active: true,
+      }).unwrap();
+
+      const { id: qobrixUserId } = qobrixUser.data;
+
+      const newQobrixData = { userId, qobrixContactId, qobrixAgentId, qobrixUserId };
 
       await updateUser(newQobrixData).unwrap();
+
+      await addUserToGroup({
+        userId: qobrixUserId,
+        groupId: QOBRIX_GROUP_SALES_ID,
+      }).unwrap();
 
       reset();
       handleVerification();
