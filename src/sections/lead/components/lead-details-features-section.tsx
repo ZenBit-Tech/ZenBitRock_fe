@@ -2,6 +2,7 @@ import { QobrixLead } from 'types';
 import { toTitleCase } from 'utils';
 import { Grid, Typography } from '@mui/material';
 import { useTranslations } from 'hooks';
+import { colors } from 'constants/colors';
 import { LeadFeaturesSectionKeys } from 'constants/lead-features-section-keys.const';
 import { LeadDetailsInfoBlock } from './lead-details-info-block';
 
@@ -12,10 +13,22 @@ const LeadDetailsFeaturesSection = ({ lead }: Props) => {
 
   return (
     <>
-      <Typography variant="h4" color="text.secondary">
+      <Typography variant="h5" color="text.secondary">
         {t('features')}
       </Typography>
-      <Grid container spacing={1}>
+      <Grid
+        container
+        spacing={1}
+        sx={{
+          '::after': {
+            width: '100%',
+            marginTop: 1,
+            content: '""',
+            height: '1px',
+            background: `linear-gradient(90deg, ${colors.PRIMARY_LIGHT_COLOR} 0%,${colors.BUTTON_PRIMARY_COLOR} 50%,${colors.PRIMARY_LIGHT_COLOR} 100%)`,
+          },
+        }}
+      >
         {LeadFeaturesSectionKeys.map((key) => {
           const value = lead[key];
 

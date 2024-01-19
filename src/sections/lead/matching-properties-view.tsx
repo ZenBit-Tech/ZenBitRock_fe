@@ -49,6 +49,7 @@ const MatchingPropertiesView = ({ lead, setMatchingPropertiesCount }: Props) => 
             p: 1,
             border: `1px solid ${theme.palette.primary.main}`,
             paddingBottom: '56px',
+            borderRadius: '8px',
           }}
         >
           <Stack spacing={1}>
