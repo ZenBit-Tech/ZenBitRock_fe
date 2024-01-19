@@ -9,7 +9,13 @@ type Props = {
 const LeadDetailsInfoBlock = ({ label, info, display = 'flex', grid }: Props): JSX.Element => (
   <>
     {!grid ? (
-      <Box sx={{ display: { xs: display, sm: 'block' }, alignItems: 'center', gap: 1 }}>
+      <Box
+        sx={{
+          display: { xs: display, sm: 'block' },
+          alignItems: 'center',
+          gap: 1,
+        }}
+      >
         <Typography variant="body2">{`${label} :`}</Typography>
         <Typography sx={{ wordWrap: 'break-word' }} variant="body2">
           {info}

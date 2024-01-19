@@ -106,7 +106,7 @@ export function LeadDeleteComponent({ id, t }: Props): JSX.Element {
             {t('cancelButton')}
           </Button>
 
-          <Button onClick={() => handleDeleteLead(id)} color="primary" variant="contained">
+          <Button onClick={() => handleDeleteLead(id)} color="error" variant="contained">
             {t('deleteLead')}
           </Button>
         </DialogActions>
