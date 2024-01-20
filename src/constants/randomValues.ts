@@ -5,4 +5,5 @@ export const randomValues = {
   MSG: 'Message',
   USER: 'User',
   ALL: 'all',
+  INFORMATIVE: 'informative',
 };

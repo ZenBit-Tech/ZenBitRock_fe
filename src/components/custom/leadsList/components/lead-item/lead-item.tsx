@@ -8,6 +8,7 @@ import { Box, Card } from '@mui/material';
 import { TextStyled } from 'components/custom/leadsList/styles';
 import { AppRoute } from 'enums';
 import { QobrixLeadItem } from 'types';
+import { randomValues } from 'constants/randomValues';
 
 export function Lead({
   lead,
@@ -110,7 +111,9 @@ export function Lead({
           >
             {t('status')}:
           </TextStyled>
-          <TextStyled>{t(status)}</TextStyled>{' '}
+          <TextStyled>
+            {status === randomValues.INFORMATIVE ? t('contactMade') : t(status)}
+          </TextStyled>{' '}
         </Box>
         <Box
           sx={{
