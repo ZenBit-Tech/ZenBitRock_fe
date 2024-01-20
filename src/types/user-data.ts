@@ -57,6 +57,7 @@ export type GetUserResponse = {
     id: string;
     identity: string;
     isVerified: boolean;
+    isDeleted: boolean;
     lastName: string;
     nationality: string;
     password: string;
@@ -111,4 +112,5 @@ export type ChatMember = {
   qobrixAgentId: string | null;
   agencyName: string | null;
   description: string | null;
+  isDeleted: boolean;
 };
