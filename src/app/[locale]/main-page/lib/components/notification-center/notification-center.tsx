@@ -25,37 +25,37 @@ const NotificationCenter = ({ t }: { t: Function }): JSX.Element => {
     <>
       {(isVisible && receiveNotifications) || tourActive ? (
         <Card
+          sx={{
+            width: '100%',
+            my: '2rem',
+            p: '1rem',
+          }}
+        >
+          <Typography variant="subtitle1">{t('notificationCenter')}</Typography>
+          <Box
             sx={{
-              width: '100%',
-              my: '2rem',
-              p: '1rem',
+              marginTop: '5px',
+              display: 'flex',
+              justifyContent: 'space-between',
             }}
           >
-            <Typography variant="subtitle1">{t('notificationCenter')}</Typography>
-            <Box
-              sx={{
-                marginTop: '5px',
-                display: 'flex',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
-                {t('noNewNotifications')}
-              </Typography>
-              <CustomLink href="#">
-                <Box
-                  component="span"
-                  display="flex"
-                  alignItems="center"
-                  className="onboarding-step-4"
-                >
-                  {t('view')}
-                  <Iconify icon="mingcute:right-line" width="15px" height="15x" color="black" />
-                </Box>
-              </CustomLink>
-            </Box>
-          </Card>
-        ) : null}
+            <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
+              {t('noNewNotifications')}
+            </Typography>
+            <CustomLink href="#">
+              <Box
+                component="span"
+                display="flex"
+                alignItems="center"
+                className="onboarding-step-4"
+              >
+                {t('view')}
+                <Iconify icon="mingcute:right-line" width="15px" height="15x" color="black" />
+              </Box>
+            </CustomLink>
+          </Box>
+        </Card>
+      ) : null}
     </>
   );
 };
