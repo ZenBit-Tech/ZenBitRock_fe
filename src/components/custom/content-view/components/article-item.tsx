@@ -1,4 +1,5 @@
 import { Box, Card, Checkbox, Link, Typography } from '@mui/material';
+import Image from 'components/image';
 import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
 import { useState } from 'hooks';
@@ -9,7 +10,7 @@ interface PropsArticleItem extends IContentItem {
   t: Function;
 }
 
-function ArticleItem({ id, title, link, checked, t }: PropsArticleItem): JSX.Element {
+function ArticleItem({ id, title, link, screenshot, checked, t }: PropsArticleItem): JSX.Element {
   const [checkBoxValue, setCheckBoxValue] = useState<boolean>(checked);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -54,11 +55,28 @@ function ArticleItem({ id, title, link, checked, t }: PropsArticleItem): JSX.Ele
     >
       <Card sx={{ p: '0.5rem', position: 'relative', mb: '1rem' }}>
         <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
-          <Box sx={{ flex: 8 }}>
+          <Box
+            sx={{
+              flex:
+                screenshot && (screenshot.includes('.png') || screenshot.includes('.jpg')) ? 4 : 8,
+              py: '0.5rem',
+            }}
+          >
             <Typography variant="subtitle2" sx={{ py: '0.5rem' }}>
               {title}
             </Typography>
           </Box>
+          {screenshot && (screenshot.includes('.png') || screenshot.includes('.jpg')) && (
+            <Box sx={{ flex: 4 }}>
+              <Image
+                src={screenshot}
+                width="100%"
+                alt={`Screenshot of ${link}`}
+                sx={{ objectFit: 'contain' }}
+              />
+            </Box>
+          )}
+
           <Box sx={{ flex: 1 }}>
             <Checkbox checked={checkBoxValue} />
           </Box>
