@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 import { Box, IconButton, Stack, Typography } from '@mui/material';
 import DoneIcon from '@mui/icons-material/Done';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export function MockChatMessageItem({ message, me }: Props): JSX.Element {
+  const t = useTranslations('agents');
   const { content, createdAt, owner, isRead } = message;
 
   const isMe = useMemo((): boolean => owner?.id === me, [owner?.id, me]);
@@ -45,7 +47,7 @@ export function MockChatMessageItem({ message, me }: Props): JSX.Element {
         }}
       >
         <Typography variant="body2" sx={{ wordWrap: 'break-word' }}>
-          {content}
+          {`${content} ${owner.isDeleted ? t('messageDeleted') : ''}`}
         </Typography>
 
         <Stack
