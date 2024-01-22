@@ -93,15 +93,15 @@ export const ChatApi = createApi({
         }
       },
     }),
-    getUnreadMessages: builder.query<number, void>({
-      query: () => 'getUnreadMessages',
+    getUnreadMessagesCount: builder.query<number, void>({
+      queryFn: () => ({ data: 0 }),
       async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved, updateCachedData }) {
         try {
           await cacheDataLoaded;
 
           const socket = getSocket();
 
-          socket.on(ChatEvent.RequestUnreadMessages, (unreadCount: number) => {
+          socket.emit('unreadCount', (unreadCount: number) => {
             updateCachedData((existingData: number | undefined) => {
               if (existingData !== undefined) {
                 return existingData + unreadCount;
@@ -113,7 +113,69 @@ export const ChatApi = createApi({
 
           await cacheEntryRemoved;
 
-          socket.off(ChatEvent.RequestUnreadMessages);
+          socket.off('unreadCount');
+        } catch (error) {
+          throw error;
+        }
+      },
+    }),
+
+    markMessageAsRead: builder.mutation<void, { messageId: string; chatId: string }>({
+      query: ({ messageId, chatId }) => ({
+        url: 'markAsRead',
+        method: 'POST',
+        body: { messageId, chatId },
+      }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const socket = getSocket();
+
+          socket.on('unreadCount', (unreadCount: number) => {
+            dispatch(
+              ChatApi.util.updateQueryData('getUnreadMessagesCountByChatId', arg, (draft) => {
+                if (draft !== undefined) {
+                  return draft + unreadCount;
+                }
+
+                return unreadCount;
+              })
+            );
+          });
+
+          await queryFulfilled;
+
+          socket.off('unreadCount');
+        } catch (error) {
+          console.error(error);
+        }
+      },
+    }),
+
+    getUnreadMessagesCountByChatId: builder.query<number, { chatId: string }>({
+      query: ({ chatId }) => ({
+        url: 'getUnreadCountByChatId',
+        method: 'GET',
+        params: { chatId },
+      }),
+      async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved, updateCachedData }) {
+        try {
+          await cacheDataLoaded;
+
+          const socket = getSocket();
+
+          socket.on('unreadCountByChatId', (unreadCount: number) => {
+            updateCachedData((existingData: number | undefined) => {
+              if (existingData !== undefined) {
+                return existingData + unreadCount;
+              }
+
+              return unreadCount;
+            });
+          });
+
+          await cacheEntryRemoved;
+
+          socket.off('unreadCountByChatId');
         } catch (error) {
           throw error;
         }
@@ -182,9 +244,11 @@ export const {
   useUpdateChatMutation,
   useGetMessagesQuery,
   useSendMessageMutation,
-  useGetUnreadMessagesQuery,
+  useGetUnreadMessagesCountQuery,
   useCreateChatMutation,
   useCheckPrivateChatQuery,
   useGetChatByIdQuery,
   useGetChatsQuery,
+  useMarkMessageAsReadMutation,
+  useGetUnreadMessagesCountByChatIdQuery,
 } = ChatApi;
