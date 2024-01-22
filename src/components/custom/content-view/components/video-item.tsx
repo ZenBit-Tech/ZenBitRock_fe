@@ -1,6 +1,5 @@
 import { Box, Card, Checkbox, Link, Typography } from '@mui/material';
 import Image from 'components/image';
-import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
 import { useState } from 'hooks';
 import { useUpdateContentCheckedMutation } from 'store/content';
@@ -15,7 +14,7 @@ function VideoItem({ id, idx, title, link, screenshot, checked, t }: PropsVideoI
   const [checkBoxValue, setCheckBoxValue] = useState<boolean>(checked);
   const { enqueueSnackbar } = useSnackbar();
 
-  const [updateContentChecked, { isLoading }] = useUpdateContentCheckedMutation();
+  const [updateContentChecked] = useUpdateContentCheckedMutation();
 
   async function handleChange(
     event: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -79,17 +78,6 @@ function VideoItem({ id, idx, title, link, screenshot, checked, t }: PropsVideoI
             <Checkbox checked={checkBoxValue} />
           </Box>
         </Box>
-        {isLoading && (
-          <LoadingScreen
-            sx={{
-              position: 'absolute',
-              top: 0,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              zIndex: '100',
-            }}
-          />
-        )}
       </Card>
     </Link>
   );
