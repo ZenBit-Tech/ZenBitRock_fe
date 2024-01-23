@@ -7,7 +7,8 @@ import DoneIcon from '@mui/icons-material/Done';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { colors } from 'constants/colors';
 import { Message } from 'types';
-import { convertDateToHelsinkiTime } from 'utils/format-time';
+import { formatDate } from 'services';
+
 
 type Props = {
   message: Message;
@@ -68,7 +69,7 @@ export function MockChatMessageItem({ message, me }: Props): JSX.Element {
               }),
             }}
           >
-            {convertDateToHelsinkiTime(createdAt)}
+            {formatDate(createdAt)}
           </Typography>
 
           {isMe && <IconButton size="small">{isRead ? <DoneAllIcon /> : <DoneIcon />}</IconButton>}
