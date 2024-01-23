@@ -7,6 +7,7 @@ import { useGetChatsQuery } from 'store/chat/chat-api';
 import ChatItem from './chat-item';
 import { Values, getSortOptions } from './helpers/drop-box-data';
 import { SortComponent } from './sort-component';
+import { sortChats } from './helpers';
 
 type Props = {
   t: Function;
@@ -44,7 +45,21 @@ export default function ChatsList({ t }: Props) {
     setSortBy(newValue);
   }, []);
 
-  const chats = tourActive ? chatsMockData.data : data || [];
+  const chatsData = data || [];
+
+  const filteredChats = chatsData.filter(
+    (chat) =>
+      chat.title?.toLowerCase().startsWith(searchParam.toLowerCase()) ||
+      chat.members.some(
+        (member) =>
+          member.firstName.toLowerCase().startsWith(searchParam.toLowerCase()) ||
+          member.lastName.toLowerCase().startsWith(searchParam.toLowerCase())
+      )
+  );
+
+  const sortedChats = sortChats(filteredChats || [], sortBy.value);
+
+  const chats = tourActive ? chatsMockData.data : sortedChats || [];
 
   if (isLoading) {
     return <LoadingScreen />;
