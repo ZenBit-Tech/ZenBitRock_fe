@@ -144,7 +144,6 @@ export const ChatApi = createApi({
             updateCachedData((draft) => {
               draft.splice(0, draft.length, ...chats);
             });
-            console.log(chats);
           });
 
           socket.on(ChatEvent.NewMessage, () => {
