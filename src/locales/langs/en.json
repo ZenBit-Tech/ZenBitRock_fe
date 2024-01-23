@@ -581,7 +581,8 @@
     "leads": "leads",
     "all": "Any",
     "error": "Something went wrong!",
-    "lookingFor": "Looking for"
+    "lookingFor": "Looking for",
+    "contactMade": "Contact Made"
   },
   "agents": {
     "pageTitle": "Agent network",
@@ -594,7 +595,9 @@
     "more99": "more than 99 notifications",
     "notifications": "notifications",
     "error": "Something went wrong!",
-    "deleted": "(Account deleted)"
+    "deleted": "(Account deleted)",
+    "messageDeleted": "Message deleted",
+    "InfoDeleted": "Info deleted"
   },
   "page500": {
     "pageTitle": "500 Internal Server Error",
@@ -701,7 +704,8 @@
     "somethingWentWrong": "Something went wrong",
     "editGroupChatName": "Edit group chat name",
     "enterNewName": "Enter new name",
-    "changeGroupChatName": "Change group chat name"
+    "changeGroupChatName": "Change group chat name",
+    "you": "you"
   },
   "privateChat": {
     "title": "Chat",
@@ -729,8 +733,8 @@
     "lastButton": "Finish",
     "nextButton": "Next",
     "openDialogButton": "Open the dialog",
-    "skipButton": "Exit onboarding",
-    "step0": "Let`s start onboarding!",
+    "skipButton": "Exit guide",
+    "step0": "Let`s start guide!",
     "step1": "This is Main page. View notifications and properties here",
     "step2": "Tap property card to view details",
     "step3": "Tap Profile icon to view and edit profile",
@@ -765,8 +769,8 @@
     "content": "Content",
     "toQuickStartGuideText": "Here you can find help with your activities in ZenBitRock",
     "titleGoToQSG": "QuickStart Guide",
-    "videoTutorials": "Video tutorials",
-    "articlesAndTips": "Articles and Tips",
+    "videoTitle": "Video tutorials",
+    "articleTitle": "Articles and Tips",
     "lesson": "Lesson",
     "viewed": "Viewed:",
     "searchTopic": "Search topic",
@@ -777,5 +781,19 @@
     "accessDenied": "Access Denied",
     "notMember": "You do not have access to this chat",
     "btnTxt": "Go to Home"
+  },
+  "tutorialPage": {
+    "title": "Tutorial",
+    "welcomeTxt": "Welcome to Zenbitrock - the wisest real estate app aimed at your professional success!",
+    "welcomeSubTxt": "You are one of them now :)",
+    "exit": "Exit",
+    "start": "Next",
+    "select": "Helping you is our priority! Click Next to view tutorial",
+    "main": "Main page",
+    "profile": "My profile",
+    "leads": "Leads",
+    "agents": "Agents",
+    "messages": "Messages and Private chat initiation",
+    "group": "Creating group chat"
   }
 }

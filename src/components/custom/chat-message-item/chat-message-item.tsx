@@ -5,7 +5,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { colors } from 'constants/colors';
 import { Message } from 'types';
-import { useSelector } from 'hooks';
+import { useSelector, useTranslations } from 'hooks';
 import { RootState } from 'store';
 import { formatDate } from 'services';
 
@@ -14,6 +14,7 @@ type Props = {
 };
 
 export function ChatMessageItem({ message }: Props): JSX.Element {
+  const t = useTranslations('agents');
   const user = useSelector((state: RootState) => state.authSlice.user);
 
   const { content, createdAt, owner, isRead } = message;
@@ -26,7 +27,7 @@ export function ChatMessageItem({ message }: Props): JSX.Element {
         display: 'flex',
         ...(isMe && { justifyContent: 'right' }),
         '&:not(:last-child)': {
-          mb: '5px',
+          mb: 2,
         },
       }}
     >
@@ -51,11 +52,11 @@ export function ChatMessageItem({ message }: Props): JSX.Element {
             color: 'text.disabled',
           }}
         >
-          {!isMe && name}
+          {!isMe && `${name} ${owner.isDeleted ? t('deleted') : ''}`}
         </Typography>
 
         <Typography variant="body2" sx={{ wordWrap: 'break-word' }}>
-          {content}
+          {`${content} ${owner.isDeleted ? t('messageDeleted') : ''}`}
         </Typography>
 
         <Stack
@@ -71,6 +72,9 @@ export function ChatMessageItem({ message }: Props): JSX.Element {
             variant="caption"
             sx={{
               color: 'text.disabled',
+              ...(!isMe && {
+                py: 1.1,
+              }),
             }}
           >
             {formatDate(createdAt)}

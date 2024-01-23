@@ -22,6 +22,7 @@ import {
   QobrixAddUserToGroupResponse,
   QobrixAddUserToGroupRequest,
   QobrixUserRequest,
+  QobrixGetAllGroupsResponse,
 } from 'types';
 import { QobrixLocationsResponse } from 'types/qobrix/qobrix-locations';
 import { IUserUpdateQobrix } from 'types/user';
@@ -59,6 +60,12 @@ export const QobrixApi = createApi({
         url: ApiRoute.QOBRIX_CREATE_USER,
         method: 'POST',
         body,
+      }),
+    }),
+    getAllGroups: builder.query<QobrixGetAllGroupsResponse, void>({
+      query: () => ({
+        url: `${ApiRoute.QOBRIX_GROUPS}`,
+        method: 'GET',
       }),
     }),
     addUserToGroup: builder.mutation<QobrixAddUserToGroupResponse, QobrixAddUserToGroupRequest>({
@@ -423,6 +430,7 @@ export const {
   useCreateContactMutation,
   useCreateAgentMutation,
   useCreateQobrixUserMutation,
+  useGetAllGroupsQuery,
   useAddUserToGroupMutation,
   useGetPropertyTypesQuery,
   useUpdateContactMutation,

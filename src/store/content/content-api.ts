@@ -26,9 +26,9 @@ export const ContentApi = createApi({
 
     updateContentChecked: builder.mutation<IContentResponse, IContentUpdateRequest>({
       query: (args) => ({
-        url: ApiRoute.CONTENT,
+        url: ApiRoute.CONTENT_CHECK.replace('id', args.id as string),
         method: 'PATCH',
-        body: args,
+        body: { checked: args.checked },
       }),
     }),
   }),

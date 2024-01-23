@@ -57,7 +57,11 @@ const ChatInfo = (): JSX.Element => {
     if (data && !isLoadingWhenGetUsers && !isError) {
       setApiMembers(
         data?.members
-          ?.filter(({ id }) => id !== userId)
+          ?.filter(
+            ({ id }) =>
+              (userId === data?.owner?.id && id !== userId) ||
+              (userId !== data?.owner?.id && id !== data?.owner?.id)
+          )
           .map((member) => ({
             label: `${usersData?.find((user) => user.id === member.id)
               ?.firstName} ${usersData?.find((user) => user.id === member.id)?.lastName}`,
@@ -306,7 +310,7 @@ const ChatInfo = (): JSX.Element => {
             >{`${data.owner.firstName} ${data.owner.lastName}`}</Typography>
             <Typography variant="body2" sx={{ width: 'fit-content', fontWeight: 'normal' }}>{`(${t(
               'owner'
-            )})`}</Typography>
+            )}${data && userId === data?.owner?.id ? ` - ${t('you')}` : ''})`}</Typography>{' '}
           </Box>
         )}
         {members &&
@@ -344,7 +348,7 @@ const ChatInfo = (): JSX.Element => {
                       mr: 'auto',
                     }}
                   >
-                    {user?.label}
+                    {`${user?.label}${data && userId === user.id ? ` (${t('you')})` : ''}`}{' '}
                   </Typography>
                   {data && userId === data?.owner?.id && (
                     <Iconify

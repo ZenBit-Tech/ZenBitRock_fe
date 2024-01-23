@@ -9,62 +9,8 @@ import { AppRoute } from 'enums';
 import { useEffect, useMount, useRouter, useScrollToTop, useState, useTranslations } from 'hooks';
 import { useGetContentMutation } from 'store/content';
 import { toTitleCase } from 'utils';
-import { ArticleList } from './components/article-list';
-import { VideoList } from './components/video-list';
+import { ContentList } from './components/content-list';
 import { ContentFilter } from './components';
-
-const MOCK = {
-  data: [
-    {
-      id: '01',
-      type: 'video',
-      title: 'My Profile',
-      link: 'https://www.youtube.com/watch?v=Gs069dndIYk',
-      screenshot: 'https://dummyimage.com/600x400/007867/black.jpg&text=Dummy+Image+1',
-      checked: true,
-    },
-    {
-      id: '02',
-      type: 'video',
-      title: 'My Leads',
-      link: 'https://www.youtube.com/watch?v=iPRSxwZBmcM',
-      screenshot: 'https://dummyimage.com/600x400/007867/black.jpg&text=Dummy+Image+2',
-      checked: false,
-    },
-    {
-      id: '03',
-      type: 'article',
-      title: 'Effective Lead Management: Pro Tips for Agents',
-      link: 'https://www.thebeaverton.com/2024/01/toronto-homeowners-outraged-at-50-property-tax-increase-encouraged-to-skip-avocado-toast-make-coffee-at-home/',
-      screenshot: undefined,
-      checked: true,
-    },
-    {
-      id: '04',
-      type: 'article',
-      title: 'Effective Lead Management: How to change Lead status',
-      link: 'https://www.thebeaverton.com/2024/01/oh-no-friend-from-high-school-debuts-5th-straight-incorrect-middle-east-take-on-facebook/',
-      screenshot: undefined,
-      checked: false,
-    },
-    {
-      id: '05',
-      type: 'article',
-      title: 'Viewing matching Leads',
-      link: 'https://www.thebeaverton.com/2024/01/the-9-people-that-own-all-of-torontos-real-estate-extremely-upset-about-property-tax-hike/',
-      screenshot: undefined,
-      checked: false,
-    },
-    {
-      id: '06',
-      type: 'article',
-      title: 'Creating Agent Group Chat',
-      link: 'https://www.thebeaverton.com/2024/01/man-with-dedicated-folder-for-back-of-the-head-selfies-definitely-not-balding/',
-      screenshot: undefined,
-      checked: false,
-    },
-  ],
-};
 
 function ContentView(): JSX.Element {
   const [filter, setFilter] = useState<string>('');
@@ -79,14 +25,13 @@ function ContentView(): JSX.Element {
   const scrollToTop = (): void => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-  //   For mocking data - temporary commented!
-  //   const [getContent, { data: content, error, isLoading }] = useGetContentMutation();
-  const [getContent, { error, isLoading }] = useGetContentMutation();
+
+  const [getContent, { data: content, error, isLoading }] = useGetContentMutation();
+
   const {
     setState,
     state: { tourActive },
   } = useOnboardingContext();
-  const content = MOCK.data;
 
   useEffect(() => {
     getContent();
@@ -189,17 +134,19 @@ function ContentView(): JSX.Element {
       )}
       <Box>
         {content && content.filter((item) => item.type === 'video').length > 0 && (
-          <VideoList
-            videos={content.filter((item) => item.type === 'video')}
+          <ContentList
+            contents={content.filter((item) => item.type === 'video')}
             filter={filter}
             t={t}
+            type="video"
           />
         )}
         {content && content.filter((item) => item.type === 'article').length > 0 && (
-          <ArticleList
-            articles={content.filter((item) => item.type === 'article')}
+          <ContentList
+            contents={content.filter((item) => item.type === 'article')}
             filter={filter}
             t={t}
+            type="article"
           />
         )}
       </Box>

@@ -1,21 +1,30 @@
 import { Box, Card, Checkbox, Link, Typography } from '@mui/material';
 import Image from 'components/image';
-import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
 import { useState } from 'hooks';
 import { useUpdateContentCheckedMutation } from 'store/content';
 import { IContentItem } from 'types';
 
-interface PropsVideoItem extends IContentItem {
+interface PropsContentItem extends IContentItem {
   idx: number;
   t: Function;
+  type: string;
 }
 
-function VideoItem({ id, idx, title, link, screenshot, checked, t }: PropsVideoItem): JSX.Element {
+function ContentItem({
+  id,
+  idx,
+  title,
+  link,
+  screenshot,
+  checked,
+  t,
+  type,
+}: PropsContentItem): JSX.Element {
   const [checkBoxValue, setCheckBoxValue] = useState<boolean>(checked);
   const { enqueueSnackbar } = useSnackbar();
 
-  const [updateContentChecked, { isLoading }] = useUpdateContentCheckedMutation();
+  const [updateContentChecked] = useUpdateContentCheckedMutation();
 
   async function handleChange(
     event: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -58,39 +67,38 @@ function VideoItem({ id, idx, title, link, screenshot, checked, t }: PropsVideoI
         sx={{ p: '0.5rem', position: 'relative', mb: '1rem', '&:last-child': { mb: '1.5rem' } }}
       >
         <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
-          <Box sx={{ flex: 4, py: '0.5rem' }}>
-            <Box sx={{ display: 'flex', gap: '0.375rem', alignItems: 'baseline', mb: '0.5rem' }}>
-              <Typography variant="subtitle2">{t('lesson')}</Typography>
-              <Typography variant="subtitle2">{idx + 1}:</Typography>
-            </Box>
+          <Box
+            sx={{
+              flex:
+                screenshot && (screenshot.includes('.png') || screenshot.includes('.jpg')) ? 4 : 8,
+              py: '0.5rem',
+            }}
+          >
+            {type === 'video' && (
+              <Box sx={{ display: 'flex', gap: '0.375rem', alignItems: 'baseline', mb: '0.5rem' }}>
+                <Typography variant="subtitle2">{t('lesson')}</Typography>
+                <Typography variant="subtitle2">{idx + 1}:</Typography>
+              </Box>
+            )}
             <Typography variant="subtitle2">{title}</Typography>
           </Box>
-          <Box sx={{ flex: 4 }}>
-            <Image
-              src={screenshot}
-              width="100%"
-              alt={`Screenshot of ${link}`}
-              sx={{ objectFit: 'contain' }}
-            />
-          </Box>
+          {screenshot && (screenshot.includes('.png') || screenshot.includes('.jpg')) && (
+            <Box sx={{ flex: 4 }}>
+              <Image
+                src={screenshot}
+                width="100%"
+                alt={`Screenshot of ${link}`}
+                sx={{ objectFit: 'contain' }}
+              />
+            </Box>
+          )}
           <Box sx={{ flex: 1 }}>
             <Checkbox checked={checkBoxValue} />
           </Box>
         </Box>
-        {isLoading && (
-          <LoadingScreen
-            sx={{
-              position: 'absolute',
-              top: 0,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              zIndex: '100',
-            }}
-          />
-        )}
       </Card>
     </Link>
   );
 }
 
-export { VideoItem };
+export { ContentItem };

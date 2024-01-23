@@ -159,6 +159,7 @@ const chatsMockData: Chats = {
           qobrixAgentId: null,
           agencyName: null,
           description: null,
+          isDeleted: false,
         },
         {
           id: 'a1c876bd-63eb-4bad-b573-e845feed6e7e',
@@ -192,6 +193,7 @@ const chatsMockData: Chats = {
           qobrixAgentId: null,
           agencyName: null,
           description: null,
+          isDeleted: false,
         },
       ],
       messages: [
@@ -267,6 +269,7 @@ const chatsMockData: Chats = {
           qobrixAgentId: null,
           agencyName: null,
           description: null,
+          isDeleted: false,
         },
         {
           id: 'a1c876bd-63eb-4bad-b573-e845feed6e7e',
@@ -300,6 +303,7 @@ const chatsMockData: Chats = {
           qobrixAgentId: null,
           agencyName: null,
           description: null,
+          isDeleted: false,
         },
       ],
       messages: [

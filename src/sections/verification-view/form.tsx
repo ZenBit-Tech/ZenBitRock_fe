@@ -27,6 +27,7 @@ import {
   useCreateAgentMutation,
   useCreateContactMutation,
   useCreateQobrixUserMutation,
+  useGetAllGroupsQuery,
 } from 'store/api/qobrixApi';
 import { useGetUserByIdMutation, useUpdateUserMutation } from 'store/api/userApi';
 import { useCreateVerificationMutation } from 'store/api/verificationApi';
@@ -58,7 +59,6 @@ const defaultValues = {
 };
 
 const FIVE_MEGABYTES: number = 5000000;
-const QOBRIX_GROUP_SALES_ID: string = '86f3ee23-3d37-458d-85d9-7da50b39a417';
 
 function formatDate(inputDate: Date): string {
   const year = inputDate.getFullYear();
@@ -81,6 +81,7 @@ export default function VerificationForm({ handleVerification }: Props): JSX.Ele
   const [getUserById] = useGetUserByIdMutation();
   const [updateUser] = useUpdateUserMutation();
   const [createQobrixUser] = useCreateQobrixUserMutation();
+  const { data: qobrixGroups } = useGetAllGroupsQuery();
   const [addUserToGroup] = useAddUserToGroupMutation();
 
   const [formFilled, setFormFilled] = useState<boolean>(true);
@@ -103,7 +104,7 @@ export default function VerificationForm({ handleVerification }: Props): JSX.Ele
     control,
     setValue,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, isValid },
   } = methods;
 
   const watchAllFields = watch();
@@ -157,6 +158,8 @@ export default function VerificationForm({ handleVerification }: Props): JSX.Ele
     formData.append('phone', phone as VerificationData['phone']);
 
     try {
+      const salesGroupId = qobrixGroups?.data.find((group) => group.name === 'Sales')?.id;
+
       await createVerification(formData).unwrap();
 
       const user = await getUserById({ id: userId }).unwrap();
@@ -219,7 +222,7 @@ export default function VerificationForm({ handleVerification }: Props): JSX.Ele
 
       await addUserToGroup({
         userId: qobrixUserId,
-        groupId: QOBRIX_GROUP_SALES_ID,
+        groupId: salesGroupId,
       }).unwrap();
 
       reset();
@@ -532,7 +535,7 @@ export default function VerificationForm({ handleVerification }: Props): JSX.Ele
               size="large"
               type="submit"
               loading={isSubmitting}
-              disabled={!formFilled}
+              disabled={!formFilled || !isValid}
               sx={{ mb: '90px' }}
             >
               {t('submitButton')}
