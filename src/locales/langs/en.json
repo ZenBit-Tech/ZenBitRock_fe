@@ -780,5 +780,19 @@
     "accessDenied": "Access Denied",
     "notMember": "You do not have access to this chat",
     "btnTxt": "Go to Home"
+  },
+  "tutorialPage": {
+    "title": "Tutorial",
+    "welcomeTxt": "Welcome to Zenbitrock - the wisest real estate app aimed at your professional success!",
+    "welcomeSubTxt": "You are one of them now :)",
+    "exit": "Exit",
+    "start": "Next",
+    "select": "Helping you is our priority! Click Next to view tutorial",
+    "main": "Main page",
+    "profile": "My profile",
+    "leads": "Leads",
+    "agents": "Agents",
+    "messages": "Messages and Private chat initiation",
+    "group": "Creating group chat"
   }
 }
