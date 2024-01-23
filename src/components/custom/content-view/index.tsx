@@ -9,8 +9,7 @@ import { AppRoute } from 'enums';
 import { useEffect, useMount, useRouter, useScrollToTop, useState, useTranslations } from 'hooks';
 import { useGetContentMutation } from 'store/content';
 import { toTitleCase } from 'utils';
-import { ArticleList } from './components/article-list';
-import { VideoList } from './components/video-list';
+import { ContentList } from './components/content-list';
 import { ContentFilter } from './components';
 
 function ContentView(): JSX.Element {
@@ -135,17 +134,19 @@ function ContentView(): JSX.Element {
       )}
       <Box>
         {content && content.filter((item) => item.type === 'video').length > 0 && (
-          <VideoList
-            videos={content.filter((item) => item.type === 'video')}
+          <ContentList
+            contents={content.filter((item) => item.type === 'video')}
             filter={filter}
             t={t}
+            type="video"
           />
         )}
         {content && content.filter((item) => item.type === 'article').length > 0 && (
-          <ArticleList
-            articles={content.filter((item) => item.type === 'article')}
+          <ContentList
+            contents={content.filter((item) => item.type === 'article')}
             filter={filter}
             t={t}
+            type="article"
           />
         )}
       </Box>
