@@ -704,7 +704,8 @@
     "somethingWentWrong": "Something went wrong",
     "editGroupChatName": "Edit group chat name",
     "enterNewName": "Enter new name",
-    "changeGroupChatName": "Change group chat name"
+    "changeGroupChatName": "Change group chat name",
+    "you": "you"
   },
   "privateChat": {
     "title": "Chat",
@@ -768,8 +769,8 @@
     "content": "Content",
     "toQuickStartGuideText": "Here you can find help with your activities in ZenBitRock",
     "titleGoToQSG": "QuickStart Guide",
-    "videoTutorials": "Video tutorials",
-    "articlesAndTips": "Articles and Tips",
+    "videoTitle": "Video tutorials",
+    "articleTitle": "Articles and Tips",
     "lesson": "Lesson",
     "viewed": "Viewed:",
     "searchTopic": "Search topic",
