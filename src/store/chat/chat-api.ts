@@ -86,8 +86,6 @@ export const ChatApi = createApi({
           });
 
           await cacheEntryRemoved;
-
-          socket.close();
         } catch (error) {
           throw error;
         }
@@ -167,7 +165,6 @@ export const ChatApi = createApi({
           });
 
           await cacheEntryRemoved;
-          socket.close();
         } catch (error) {
           throw error;
         }
