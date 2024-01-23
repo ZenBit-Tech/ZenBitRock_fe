@@ -64,7 +64,7 @@ export default function TutorialPage(): JSX.Element {
               padding: '14px',
             }}
             color="primary"
-          onClick={handleStartGuide}
+            onClick={handleStartGuide}
           >
             {t('start')}
           </Button>

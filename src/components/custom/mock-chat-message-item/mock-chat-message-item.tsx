@@ -9,7 +9,6 @@ import { colors } from 'constants/colors';
 import { Message } from 'types';
 import { formatDate } from 'services';
 
-
 type Props = {
   message: Message;
   me: string;
