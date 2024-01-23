@@ -4,17 +4,16 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { useGetProfileQuery } from 'store/auth';
-import { useState, useTranslations } from 'hooks';
+import { useTranslations, useRouter } from 'hooks';
+import { AppRoute } from 'enums';
 
 export function VerificationDoneView(): JSX.Element {
   const t = useTranslations('VerificationDonePage');
-  const [shouldFetchProfile, setShouldFetchProfile] = useState(false);
 
-  useGetProfileQuery(undefined, { skip: !shouldFetchProfile });
+  const router = useRouter();
 
   const handleClick = () => {
-    setShouldFetchProfile(true);
+    router.replace(AppRoute.TUTORIAL_PAGE);
   };
 
   return (

@@ -9,5 +9,5 @@ type Props = {
 };
 
 export default function VerificationLayout({ children }: Props): JSX.Element {
-  return <ProtectedRoute>{children}</ProtectedRoute>;
+  return <>{children}</>;
 }

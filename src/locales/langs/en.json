@@ -77,8 +77,8 @@
   },
   "VerificationDonePage": {
     "mainTitle": "KYC form",
-    "doneText": "AgentWise profile has been successfully created!",
-    "submitButton": "Go to main page"
+    "doneText": "AgentWise profile has been successfully created! Qobrix Sign in credentials have been sent to the email you provided.",
+    "submitButton": "Continue to site"
   },
   "RestorePasswordPage": {
     "title": "Restore password",
