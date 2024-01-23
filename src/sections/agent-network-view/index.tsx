@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import Container from '@mui/material/Container';
 import { Backdrop, CircularProgress, Typography } from '@mui/material';
 import { useEffect, useMount, useState } from 'hooks';
-import { useGetAllUsersMutation } from 'store/api/userApi';
+import { useGetSynchronizedUsersMutation } from 'store/api/userApi';
 import { RootState } from 'store';
 import { useSettingsContext } from 'components/settings';
 import { LoadingScreen } from 'components/loading-screen';
@@ -18,16 +18,19 @@ import { DELAY, Onboarding, agentsMockData, useOnboardingContext } from 'compone
 export default function AgentNetworkView(): JSX.Element {
   const t = useTranslations('agents');
   const settings = useSettingsContext();
-  const [getAllUsers, { data: usersData, isLoading, isError }] = useGetAllUsersMutation();
+  const [getSynchronizedUsers, { data: usersData, isLoading, isError }] =
+    useGetSynchronizedUsersMutation();
+
   const [showLoader, setLoader] = useState<boolean>(true);
   const {
     setState,
     state: { tourActive, stepIndex },
   } = useOnboardingContext();
 
+
   useEffect(() => {
-    getAllUsers();
-  }, [getAllUsers]);
+    getSynchronizedUsers();
+  }, [getSynchronizedUsers]);
 
   useMount(() => {
     if (tourActive) {
@@ -45,6 +48,7 @@ export default function AgentNetworkView(): JSX.Element {
   if (isError) return <Page500 />;
 
   const { id } = authUser;
+
 
   return (
     <>
