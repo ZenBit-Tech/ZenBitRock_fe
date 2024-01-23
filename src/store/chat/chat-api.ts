@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { ChatInfoResponse } from 'types/chats';
+import { Chat, ChatInfoResponse, Chats, ChatsRequest } from 'types/chats';
 import { IChatResponse, ICreatePrivateChatRequest } from 'types/chat';
 import { ApiRoute, ChatEvent, StorageKey } from 'enums';
-import { ICreateGroupChatRequest, Message, IChatRequest, Chat } from 'types';
+import { ICreateGroupChatRequest, Message, IChatRequest } from 'types';
 import { createSocketFactory } from 'utils';
 
 const getSocket = createSocketFactory();
@@ -86,8 +86,6 @@ export const ChatApi = createApi({
           });
 
           await cacheEntryRemoved;
-
-          socket.close();
         } catch (error) {
           throw error;
         }
@@ -159,7 +157,7 @@ export const ChatApi = createApi({
         body: { title, memberIds },
       }),
     }),
-    getChats: builder.query<Chat[], { userId: string }>({
+    getChats: builder.query<Chat[], ChatsRequest>({
       queryFn: () => ({ data: [] }),
       async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved, updateCachedData }) {
         try {
@@ -172,28 +170,39 @@ export const ChatApi = createApi({
             });
           });
 
-          socket.on(ChatEvent.NewMessage, (message: Message) => {
-            updateCachedData((draft) => {
-              draft.forEach((existingChat) => {
-                if (existingChat.id === message.chat.id) {
-                  existingChat.messages.push(message);
-                }
+          socket.on(ChatEvent.NewMessage, () => {
+            socket.emit(ChatEvent.RequestAllChats, arg, (chats: Chat[]) => {
+              updateCachedData((draft) => {
+                draft.splice(0, draft.length, ...chats);
               });
             });
           });
 
-          socket.on(ChatEvent.NewChat, (chat: Chat) => {
-            updateCachedData((draft) => {
-              chat.members.forEach((member) => {
-                if (member.id === arg.userId) {
-                  draft.push(chat);
-                }
+          socket.on(ChatEvent.NewChat, () => {
+            socket.emit(ChatEvent.RequestAllChats, arg, (chats: Chat[]) => {
+              updateCachedData((draft) => {
+                draft.splice(0, draft.length, ...chats);
+              });
+            });
+          });
+
+          socket.on(ChatEvent.ChatDeleted, () => {
+            socket.emit(ChatEvent.RequestAllChats, arg, (chats: Chat[]) => {
+              updateCachedData((draft) => {
+                draft.splice(0, draft.length, ...chats);
+              });
+            });
+          });
+
+          socket.on(ChatEvent.ChatUpdated, () => {
+            socket.emit(ChatEvent.RequestAllChats, arg, (chats: Chat[]) => {
+              updateCachedData((draft) => {
+                draft.splice(0, draft.length, ...chats);
               });
             });
           });
 
           await cacheEntryRemoved;
-          socket.close();
         } catch (error) {
           throw error;
         }

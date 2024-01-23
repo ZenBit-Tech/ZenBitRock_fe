@@ -13,10 +13,7 @@ export default function TutorialPage(): JSX.Element {
   const settings = useSettingsContext();
   const router = useRouter();
 
-  const {
-    setState,
-    state: { tourActive },
-  } = useOnboardingContext();
+  const { setState } = useOnboardingContext();
 
   const handleStartGuide = (): void => {
     setState({ tourActive: true });
@@ -64,7 +61,7 @@ export default function TutorialPage(): JSX.Element {
               padding: '14px',
             }}
             color="primary"
-          onClick={handleStartGuide}
+            onClick={handleStartGuide}
           >
             {t('start')}
           </Button>

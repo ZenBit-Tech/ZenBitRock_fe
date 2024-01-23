@@ -5,5 +5,5 @@ type Props = {
 };
 
 export default function TutorialLayout({ children }: Props): JSX.Element {
-  return <ProtectedRoute>{children}</ProtectedRoute>;
+  return <>{children}</>;
 }

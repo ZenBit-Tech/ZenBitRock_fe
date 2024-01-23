@@ -77,8 +77,8 @@
   },
   "VerificationDonePage": {
     "mainTitle": "KYC form",
-    "doneText": "AgentWise profile has been successfully created!",
-    "submitButton": "Go to main page"
+    "doneText": "AgentWise profile has been successfully created! Qobrix Sign in credentials have been sent to the email you provided.",
+    "submitButton": "Continue to site"
   },
   "RestorePasswordPage": {
     "title": "Restore password",
@@ -733,8 +733,8 @@
     "lastButton": "Finish",
     "nextButton": "Next",
     "openDialogButton": "Open the dialog",
-    "skipButton": "Exit onboarding",
-    "step0": "Let`s start onboarding!",
+    "skipButton": "Exit guide",
+    "step0": "Let`s start guide!",
     "step1": "This is Main page. View notifications and properties here",
     "step2": "Tap property card to view details",
     "step3": "Tap Profile icon to view and edit profile",

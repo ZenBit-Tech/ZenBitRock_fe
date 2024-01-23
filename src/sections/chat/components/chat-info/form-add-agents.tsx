@@ -130,7 +130,7 @@ export function FormAddAgents({
         noOptionsText={t('noMoreAgents')}
         disablePortal
         id="agents"
-        options={options}
+        options={options.filter((opt) => opt.label.toLowerCase() !== 'deleted user')}
         sx={{ width: '100%', mb: '1rem' }}
         disabled={options.length === 0}
         ListboxProps={{ style: { maxHeight: '10rem' } }}
