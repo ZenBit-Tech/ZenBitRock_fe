@@ -47,7 +47,7 @@ export default function AgentListItem({
             <>
               <Iconify icon="mingcute:location-fill" width={16} sx={{ flexShrink: 0, mr: 0.5 }} />
               <span style={{ overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
-                {`${findCountryLabelByCode(country)}, ${city}`}
+                {isDeleted ? t('InfoDeleted') : `${findCountryLabelByCode(country)}, ${city}`}
               </span>
             </>
           }

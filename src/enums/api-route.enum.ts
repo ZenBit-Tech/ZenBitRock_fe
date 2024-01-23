@@ -42,6 +42,7 @@ const ApiRoute = {
   CHECK_PRIVATE_CHAT: 'check-private-chat',
   CONTENT: '/content',
   GET_SYNCHRONIZED_USERS: 'user/get-synchronized-users',
+  CONTENT_CHECK: '/content/id/change-status',
 } as const;
 
 export { ApiRoute };

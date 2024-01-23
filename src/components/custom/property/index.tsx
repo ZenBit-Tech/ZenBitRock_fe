@@ -86,11 +86,12 @@ export default function Property({ id }: { id: string }): JSX.Element {
             sx={{ padding: '14px', marginBottom: '1.5rem' }}
             variant="contained"
             color="primary"
-            onClick={(): void =>
+            onClick={(): void => {
+              localStorage.removeItem('leadsFilter');
               router.push(
                 `${AppRoute.PROPERTY_PAGE}/${id}${AppRoute.LEADS_PAGE}/${propertyDetailed.name}`
-              )
-            }
+              );
+            }}
           >
             <TypographyStyled>{t('leads')}</TypographyStyled>
           </ButtonStyled>

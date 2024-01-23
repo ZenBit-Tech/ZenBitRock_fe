@@ -595,7 +595,9 @@
     "more99": "more than 99 notifications",
     "notifications": "notifications",
     "error": "Something went wrong!",
-    "deleted": "(Account deleted)"
+    "deleted": "(Account deleted)",
+    "messageDeleted": "Message deleted",
+    "InfoDeleted": "Info deleted"
   },
   "page500": {
     "pageTitle": "500 Internal Server Error",
