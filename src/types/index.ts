@@ -45,6 +45,7 @@ export {
   type QobrixUserResponse,
   type QobrixAddUserToGroupRequest,
   type QobrixAddUserToGroupResponse,
+  type QobrixGetAllGroupsResponse,
 } from './qobrix';
 export { type ValueOf } from './value-of-type';
 export { type UserSetAvatarResponse, type UserProfileResponse } from './user-backend';

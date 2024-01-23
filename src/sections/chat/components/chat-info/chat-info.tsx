@@ -310,7 +310,7 @@ const ChatInfo = (): JSX.Element => {
             >{`${data.owner.firstName} ${data.owner.lastName}`}</Typography>
             <Typography variant="body2" sx={{ width: 'fit-content', fontWeight: 'normal' }}>{`(${t(
               'owner'
-            )}${data && userId === data?.owner?.id ? ` - ${t('you')}` : ''})`}</Typography>
+            )}${data && userId === data?.owner?.id ? ` - ${t('you')}` : ''})`}</Typography>{' '}
           </Box>
         )}
         {members &&
@@ -348,7 +348,7 @@ const ChatInfo = (): JSX.Element => {
                       mr: 'auto',
                     }}
                   >
-                    {`${user?.label}${data && userId === user.id ? ` (${t('you')})` : ''}`}
+                    {`${user?.label}${data && userId === user.id ? ` (${t('you')})` : ''}`}{' '}
                   </Typography>
                   {data && userId === data?.owner?.id && (
                     <Iconify

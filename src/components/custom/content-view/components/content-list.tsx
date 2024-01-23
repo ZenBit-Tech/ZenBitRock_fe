@@ -1,21 +1,23 @@
 import { useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
 import { NoDataFound } from 'components/custom';
-import { ArticleItem, ContentSort } from 'components/custom/content-view/components';
+import { ContentSort, ContentItem } from 'components/custom/content-view/components';
 import sortContent from 'components/custom/content-view/utils/sortContent';
 import Iconify from 'components/iconify';
 import { CONTENT_SORT_OPTIONS } from 'constants/contentSortOptions';
 import { useState } from 'hooks';
 import { IContentItem } from 'types';
 
-function ArticleList({
-  articles,
+function ContentList({
+  contents,
   filter,
   t,
+  type,
 }: {
-  articles: IContentItem[];
+  contents: IContentItem[];
   filter: string;
   t: Function;
+  type: string;
 }): JSX.Element {
   const [sort, setSort] = useState<string>('nameAsc');
   const [isOpen, setIsOpen] = useState<boolean>(true);
@@ -23,10 +25,10 @@ function ArticleList({
   const sortedContent = useMemo<IContentItem[] | undefined>(
     () =>
       sortContent({
-        content: articles?.filter((article) => article.title.toLowerCase().includes(filter)),
+        content: contents?.filter((content) => content.title.toLowerCase().includes(filter)),
         sortType: sort,
       }),
-    [articles, sort, filter]
+    [contents, sort, filter]
   );
 
   return (
@@ -47,20 +49,20 @@ function ArticleList({
           }}
         >
           <Typography variant="h4" sx={{ flex: 5 }}>
-            {t('articlesAndTips')}
+            {t(`${type}Title`)}
           </Typography>
           <Box
             onClick={() => {
-              const articlesBox = document.getElementById('article__box');
+              const contentsBox = document.getElementById(`${type}__box`);
 
               setIsOpen(!isOpen);
               if (!isOpen) {
-                (articlesBox as HTMLDivElement).style.display = 'block';
-                articlesBox?.classList.add('slide-in-top');
-                articlesBox?.classList.remove('slide-out-top');
+                (contentsBox as HTMLDivElement).style.display = 'block';
+                contentsBox?.classList.add('slide-in-top');
+                contentsBox?.classList.remove('slide-out-top');
               } else {
-                articlesBox?.classList.remove('slide-in-top');
-                articlesBox?.classList.add('slide-out-top');
+                contentsBox?.classList.remove('slide-in-top');
+                contentsBox?.classList.add('slide-out-top');
               }
             }}
             sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
@@ -78,7 +80,7 @@ function ArticleList({
           {t('viewed')}
         </Typography>
       </Box>
-      <Box id="article__box">
+      <Box id={`${type}__box`}>
         <ContentSort sort={sort} sortOptions={CONTENT_SORT_OPTIONS} onSort={setSort} />
         {sortedContent && filter !== '' && (
           <Typography
@@ -93,16 +95,18 @@ function ArticleList({
         )}
         {sortedContent && sortedContent?.length > 0 ? (
           sortedContent
-            ?.filter((article) => article.title.toLowerCase().includes(filter))
-            .map(({ id, title, link, screenshot, checked }) => (
-              <ArticleItem
+            ?.filter((content) => content.title.toLowerCase().includes(filter))
+            .map(({ id, title, link, screenshot, checked }, idx) => (
+              <ContentItem
                 id={id}
+                idx={idx}
                 key={id}
                 title={title}
                 link={link}
                 screenshot={screenshot}
                 checked={checked}
                 t={t}
+                type={type}
               />
             ))
         ) : (
@@ -113,4 +117,4 @@ function ArticleList({
   );
 }
 
-export { ArticleList };
+export { ContentList };

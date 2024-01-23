@@ -5,12 +5,22 @@ import { useState } from 'hooks';
 import { useUpdateContentCheckedMutation } from 'store/content';
 import { IContentItem } from 'types';
 
-interface PropsVideoItem extends IContentItem {
+interface PropsContentItem extends IContentItem {
   idx: number;
   t: Function;
+  type: string;
 }
 
-function VideoItem({ id, idx, title, link, screenshot, checked, t }: PropsVideoItem): JSX.Element {
+function ContentItem({
+  id,
+  idx,
+  title,
+  link,
+  screenshot,
+  checked,
+  t,
+  type,
+}: PropsContentItem): JSX.Element {
   const [checkBoxValue, setCheckBoxValue] = useState<boolean>(checked);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -57,14 +67,22 @@ function VideoItem({ id, idx, title, link, screenshot, checked, t }: PropsVideoI
         sx={{ p: '0.5rem', position: 'relative', mb: '1rem', '&:last-child': { mb: '1.5rem' } }}
       >
         <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
-          <Box sx={{ flex: screenshot ? 4 : 8, py: '0.5rem' }}>
-            <Box sx={{ display: 'flex', gap: '0.375rem', alignItems: 'baseline', mb: '0.5rem' }}>
-              <Typography variant="subtitle2">{t('lesson')}</Typography>
-              <Typography variant="subtitle2">{idx + 1}:</Typography>
-            </Box>
+          <Box
+            sx={{
+              flex:
+                screenshot && (screenshot.includes('.png') || screenshot.includes('.jpg')) ? 4 : 8,
+              py: '0.5rem',
+            }}
+          >
+            {type === 'video' && (
+              <Box sx={{ display: 'flex', gap: '0.375rem', alignItems: 'baseline', mb: '0.5rem' }}>
+                <Typography variant="subtitle2">{t('lesson')}</Typography>
+                <Typography variant="subtitle2">{idx + 1}:</Typography>
+              </Box>
+            )}
             <Typography variant="subtitle2">{title}</Typography>
           </Box>
-          {screenshot && (
+          {screenshot && (screenshot.includes('.png') || screenshot.includes('.jpg')) && (
             <Box sx={{ flex: 4 }}>
               <Image
                 src={screenshot}
@@ -83,4 +101,4 @@ function VideoItem({ id, idx, title, link, screenshot, checked, t }: PropsVideoI
   );
 }
 
-export { VideoItem };
+export { ContentItem };

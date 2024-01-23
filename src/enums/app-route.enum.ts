@@ -26,6 +26,7 @@ const AppRoute = {
   CALENDAR_PAGE: '/calendar',
   CONTENT_PAGE: '/content',
   QUICK_START_GUIDE_PAGE: '/guide',
+  TUTORIAL_PAGE: '/tutorial-page',
 } as const;
 
 export { AppRoute };
