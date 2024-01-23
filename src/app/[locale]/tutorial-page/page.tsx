@@ -6,11 +6,22 @@ import { Box, Button, Container, Stack, Typography } from '@mui/material';
 import { MotivationIllustration } from 'assets/illustrations';
 import { useSettingsContext } from 'components/settings';
 import { AppRoute } from 'enums';
+import { useOnboardingContext } from 'components/custom';
 
 export default function TutorialPage(): JSX.Element {
   const t = useTranslations('tutorialPage');
   const settings = useSettingsContext();
   const router = useRouter();
+
+  const {
+    setState,
+    state: { tourActive },
+  } = useOnboardingContext();
+
+  const handleStartGuide = (): void => {
+    setState({ tourActive: true });
+    router.push(AppRoute.MAIN_PAGE);
+  };
 
   return (
     <Box
@@ -53,7 +64,7 @@ export default function TutorialPage(): JSX.Element {
               padding: '14px',
             }}
             color="primary"
-            onClick={() => router.push(AppRoute.QUICK_START_GUIDE_PAGE)}
+          onClick={handleStartGuide}
           >
             {t('start')}
           </Button>
