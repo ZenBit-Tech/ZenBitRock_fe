@@ -62,7 +62,7 @@ export const ChatApi = createApi({
         });
       },
     }),
-    getMessages: builder.query<Message[], { chatId: string; id: string | null }>({
+    getMessages: builder.query<Message[], { chatId: string }>({
       queryFn: () => ({ data: [] }),
 
       async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved, updateCachedData }) {
@@ -107,12 +107,12 @@ export const ChatApi = createApi({
       },
     }),
 
-    markMessageAsRead: builder.mutation<void, { messageId: string; chatId: string }>({
-      queryFn: async ({ messageId, chatId }) => {
+    markMessageAsRead: builder.mutation<void, { messageId: string }>({
+      queryFn: async ({ messageId }) => {
         const socket = getSocket();
 
         return new Promise<void>((resolve) => {
-          socket.emit(ChatEvent.RequestMarkAsRead, { messageId, chatId }, () => {
+          socket.emit(ChatEvent.RequestMarkAsRead, { messageId }, () => {
             resolve();
           });
         }).then();
