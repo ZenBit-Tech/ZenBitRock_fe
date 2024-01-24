@@ -6,7 +6,8 @@ import { Chat } from 'types';
 import { useSelector, useRouter } from 'hooks';
 import { selectCurrentUser } from 'store/auth/authReducer';
 import { colors } from 'constants/colors';
-import { countUnreadMessages, findLatestMessage, getOpponent } from './helpers';
+import { useGetUnreadMessagesCountByChatIdQuery } from 'store/chat';
+import { findLatestMessage, getOpponent } from './helpers';
 
 type FollowerItemProps = {
   chat: Chat;
@@ -25,7 +26,8 @@ export default function ChatItem({ chat, className }: FollowerItemProps): JSX.El
 
   const { id, isPrivate, title, messages, members } = chat;
 
-  const countOfUnreadMessages = countUnreadMessages(messages);
+  const { data: quantity } = useGetUnreadMessagesCountByChatIdQuery({ chatId: id });
+
   const lastMessage = findLatestMessage(messages);
 
   const { content, createdAt } = lastMessage || {};
@@ -79,7 +81,7 @@ export default function ChatItem({ chat, className }: FollowerItemProps): JSX.El
         </Stack>
 
         <Stack alignItems="center" sx={{ gap: '10px', minWidth: '65px', alignItems: 'center' }}>
-          <Badge badgeContent={countOfUnreadMessages} color="primary">
+          <Badge badgeContent={quantity} color="primary">
             <MailIcon />
           </Badge>
 

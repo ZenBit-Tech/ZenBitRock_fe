@@ -3,7 +3,7 @@ import Iconify from 'components/iconify';
 import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
 import { colors } from 'constants/colors';
-import { useEffect, useSelector, useState, useForm } from 'hooks';
+import { useEffect, useSelector, useState, useForm, useMemo } from 'hooks';
 import { RootState } from 'store';
 import { useGetAllUsersMutation } from 'store/api/userApi';
 import { useUpdateChatMutation } from 'store/chat';
@@ -106,6 +106,11 @@ export function FormAddAgents({
     setOptions((prev) => [...prev, { label, id }]);
   };
 
+  const filteredOptions = useMemo(
+    () => options.filter((opt) => opt.label.toLowerCase() !== 'deleted user'),
+    [options]
+  );
+
   return (
     <Box
       component="form"
@@ -130,9 +135,8 @@ export function FormAddAgents({
         noOptionsText={t('noMoreAgents')}
         disablePortal
         id="agents"
-        options={options.filter((opt) => opt.label.toLowerCase() !== 'deleted user')}
+        options={filteredOptions}
         sx={{ width: '100%', mb: '1rem' }}
-        disabled={options.length === 0}
         ListboxProps={{ style: { maxHeight: '10rem' } }}
         getOptionKey={(option) => option.id}
         isOptionEqualToValue={(option, optionValue) => option !== optionValue.valueOf()}
@@ -140,7 +144,7 @@ export function FormAddAgents({
           <TextField
             autoFocus
             {...params}
-            label={options.length > 0 ? t('searchPlaceholder') : t('noMoreAgents')}
+            label={filteredOptions.length > 0 ? t('searchPlaceholder') : t('noMoreAgents')}
           />
         )}
         value={value}

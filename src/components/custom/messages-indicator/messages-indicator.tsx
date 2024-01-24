@@ -11,7 +11,6 @@ import { useGetUnreadMessagesCountQuery } from 'store/chat';
 const MessagesIndicator = (): JSX.Element | null => {
   const { data: quantity } = useGetUnreadMessagesCountQuery();
 
-  console.log(quantity);
   const router = useRouter();
 
   const t = useTranslations('agents');

@@ -5,9 +5,10 @@ import DoneIcon from '@mui/icons-material/Done';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { colors } from 'constants/colors';
 import { Message } from 'types';
-import { useSelector, useTranslations } from 'hooks';
+import { useSelector, useTranslations, useEffect, useState } from 'hooks';
 import { RootState } from 'store';
 import { formatDate } from 'services';
+import { useMarkMessageAsReadMutation } from 'store/chat';
 
 type Props = {
   message: Message;
@@ -17,12 +18,48 @@ export function ChatMessageItem({ message }: Props): JSX.Element {
   const t = useTranslations('agents');
   const user = useSelector((state: RootState) => state.authSlice.user);
 
-  const { content, createdAt, owner, isRead } = message;
+  const { id, content, createdAt, owner, isRead } = message;
   const isMe = owner.id === user?.id;
   const name = `${owner.firstName} ${owner.lastName}`;
 
+  const [messageRef, setMessageRef] = useState<HTMLDivElement | null>(null);
+  const [isMessageInViewport, setIsMessageInViewport] = useState(false);
+  const [trigger] = useMarkMessageAsReadMutation();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsMessageInViewport(true);
+        }
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.5,
+      }
+    );
+
+    if (messageRef) {
+      observer.observe(messageRef);
+    }
+
+    return () => {
+      if (messageRef) {
+        observer.unobserve(messageRef);
+      }
+    };
+  }, [messageRef]);
+
+  useEffect(() => {
+    if (!isRead && isMessageInViewport && !isMe) {
+      trigger({ messageId: id });
+    }
+  }, [isRead, isMessageInViewport, trigger, id, isMe]);
+
   return (
     <Box
+      ref={(node) => setMessageRef(node as HTMLDivElement)}
       sx={{
         display: 'flex',
         ...(isMe && { justifyContent: 'right' }),
@@ -80,7 +117,7 @@ export function ChatMessageItem({ message }: Props): JSX.Element {
             {formatDate(createdAt)}
           </Typography>
 
-          <IconButton size="small">{isRead ? <DoneAllIcon /> : <DoneIcon />}</IconButton>
+          <IconButton size="small">{!isRead ? <DoneAllIcon /> : <DoneIcon />}</IconButton>
         </Stack>
       </Stack>
     </Box>
