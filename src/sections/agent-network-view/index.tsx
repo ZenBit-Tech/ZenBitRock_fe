@@ -27,7 +27,6 @@ export default function AgentNetworkView(): JSX.Element {
     state: { tourActive, stepIndex },
   } = useOnboardingContext();
 
-
   useEffect(() => {
     getSynchronizedUsers();
   }, [getSynchronizedUsers]);
@@ -48,7 +47,6 @@ export default function AgentNetworkView(): JSX.Element {
   if (isError) return <Page500 />;
 
   const { id } = authUser;
-
 
   return (
     <>

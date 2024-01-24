@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Chat, ChatInfoResponse, Chats, ChatsRequest } from 'types/chats';
+import { Chat, ChatInfoResponse, ChatsRequest } from 'types/chats';
 import { IChatResponse, ICreatePrivateChatRequest } from 'types/chat';
 import { ApiRoute, ChatEvent, StorageKey } from 'enums';
 import { ICreateGroupChatRequest, Message, IChatRequest } from 'types';
