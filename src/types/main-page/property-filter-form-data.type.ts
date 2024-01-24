@@ -13,6 +13,7 @@ type PropertyFilterFormData = {
       area?: string | undefined;
       subarea?: string | undefined;
     };
+    label?: string;
   } | null;
 };
 

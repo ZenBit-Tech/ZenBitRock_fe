@@ -8,3 +8,4 @@ export { getPropertyTypeFilter } from './getPropertyTypeFilter';
 export { getLocationFilter } from './getLocationFilter';
 export { getNameFilter } from './getNameFilter';
 export { getMainPagePropertyFilter } from './getMainPagePropertyFilter';
+export { getFilterString } from './getFilterString';
