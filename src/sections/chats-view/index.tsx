@@ -1,8 +1,8 @@
-import { Backdrop, CircularProgress, Container } from '@mui/material';
+import { Backdrop, CircularProgress, Container, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import { useTranslations } from 'next-intl';
 import { useMount, useState } from 'hooks';
-import { GoBackPageTitile, Onboarding, useOnboardingContext, DELAY } from 'components/custom';
+import { Onboarding, useOnboardingContext, DELAY } from 'components/custom';
 import ChatsList from './chats-list';
 import AddGroupChatButton from './add-group-chat-button';
 
@@ -36,10 +36,11 @@ export default function ChatsView(): JSX.Element {
         alignItems="center"
         justifyContent="space-between"
         justifyItems="center"
-        sx={{ mb: 2, ml: '-22px' }}
       >
         <Stack direction="row" alignItems="center" alignContent="center">
-          <GoBackPageTitile title={t('pageTitle')} />
+          <Typography variant="h3" sx={{ my: 3 }}>
+            {t('pageTitle')}
+          </Typography>
         </Stack>
 
         <AddGroupChatButton t={t} />
