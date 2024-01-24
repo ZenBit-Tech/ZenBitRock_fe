@@ -1,5 +1,6 @@
 import { Card, Avatar, Stack, Typography, Badge, CardActionArea } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
+import GroupIcon from '@mui/icons-material/Group';
 import { formatDate, trimString } from 'services';
 import { AppRoute } from 'enums';
 import { Chat } from 'types';
@@ -14,7 +15,7 @@ type FollowerItemProps = {
 };
 
 const MAX_CHARACTERS_TITLE: number = 20;
-const MAX_WORDS_TITLE: number = 2;
+const MAX_WORDS_TITLE: number = 4;
 const MAX_WORDS_MESSAGE: number = 6;
 const MAX_CHARACTERS_MESSAGE: number = 20;
 
@@ -60,10 +61,14 @@ export default function ChatItem({ chat, className }: FollowerItemProps): JSX.El
       >
         <Avatar alt={chatTitle} src={avatar} sx={{ width: 68, height: 68, mr: 2 }} />
 
-        <Stack sx={{ flex: 5 }}>
-          <Typography variant="subtitle1" sx={{ textAlign: 'left', mb: '8px' }}>
-            {trimString(chatTitle, MAX_WORDS_TITLE, MAX_CHARACTERS_TITLE)}
-          </Typography>
+        <Stack flex={5}>
+          <Stack flexDirection="row" gap={1}>
+            {!isPrivate && <GroupIcon />}
+
+            <Typography variant="subtitle1" sx={{ textAlign: 'left', mb: '8px' }}>
+              {trimString(chatTitle, MAX_WORDS_TITLE, MAX_CHARACTERS_TITLE)}
+            </Typography>
+          </Stack>
 
           <Typography
             variant="body2"
