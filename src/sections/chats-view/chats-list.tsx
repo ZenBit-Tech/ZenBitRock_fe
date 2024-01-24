@@ -1,5 +1,5 @@
 import { Box, Fab, Stack, TextField, Typography } from '@mui/material';
-import { useScrollToTop, useState, useCallback, useInfinityScroll } from 'hooks';
+import { useScrollToTop, useState, useCallback } from 'hooks';
 import { NoDataFound, chatsMockData, useOnboardingContext } from 'components/custom';
 import { Page500 } from 'sections/error';
 import { LoadingScreen } from 'components/loading-screen';
@@ -24,7 +24,7 @@ export default function ChatsList({ t }: Props) {
     state: { tourActive },
   } = useOnboardingContext();
 
-  const { data, isLoading, isError, isFetching } = useGetChatsQuery({
+  const { data, isLoading, isError } = useGetChatsQuery({
     page,
     limit: 100,
     sortType: sortBy.value,
@@ -87,9 +87,19 @@ export default function ChatsList({ t }: Props) {
 
       {chats.length ? (
         <Stack>
-          {chats.map((chat, idx) => (
-            <ChatItem key={chat.id} chat={chat} className={idx === 0 ? 'onboarding-step-14' : ''} />
-          ))}
+          {chats.map((chat, idx) => {
+            if (chat.messages.length || !chat.isPrivate) {
+              return (
+                <ChatItem
+                  key={chat.id}
+                  chat={chat}
+                  className={idx === 0 ? 'onboarding-step-14' : ''}
+                />
+              );
+            }
+
+            return null;
+          })}
 
           <Fab
             color="primary"
