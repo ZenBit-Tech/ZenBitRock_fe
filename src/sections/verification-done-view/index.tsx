@@ -4,16 +4,32 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { useTranslations, useRouter } from 'hooks';
+import { useSnackbar } from 'notistack';
+import { useUpdateUserMutation } from 'store/api/userApi';
+import { useTranslations, useRouter, useSelector } from 'hooks';
 import { AppRoute } from 'enums';
+import { RootState } from 'store';
 
 export function VerificationDoneView(): JSX.Element {
   const t = useTranslations('VerificationDonePage');
 
-  const router = useRouter();
+  const [updateUser] = useUpdateUserMutation();
 
-  const handleClick = () => {
-    router.replace(AppRoute.TUTORIAL_PAGE);
+  const router = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
+  const user = useSelector((state: RootState) => state.authSlice.user);
+
+  const handleClick = async (): Promise<void> => {
+    try {
+      await updateUser({ userId: user?.id, isNewbie: false }).unwrap();
+      router.replace(AppRoute.TUTORIAL_PAGE);
+    } catch (error) {
+      enqueueSnackbar(t('generalErrorMessage'), { variant: 'error' });
+
+      return error;
+    }
+
+    return undefined;
   };
 
   return (

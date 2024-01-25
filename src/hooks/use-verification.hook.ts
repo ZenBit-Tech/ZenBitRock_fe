@@ -11,6 +11,7 @@ const useVerification = ({ defaultRedirectPath }: Props) => {
   const user = useSelector((state: RootState) => state.authSlice.user);
   const isEmailVerified = user ? user.isVerified : false;
   const isKycFilled = user ? user.firstName && user.lastName : false;
+  const isUserNewbie = user ? user.isNewbie : false;
 
   let redirectPath = defaultRedirectPath;
 
@@ -18,11 +19,20 @@ const useVerification = ({ defaultRedirectPath }: Props) => {
     redirectPath = AppRoute.VERIFICATION_PAGE;
   }
 
+  if (user && isKycFilled && isUserNewbie) {
+    redirectPath = AppRoute.VERIFICATION_PAGE;
+  }
+
   if (user && !isEmailVerified) {
     redirectPath = AppRoute.VERIFY_PAGE;
   }
+
   if (user && isKycFilled && defaultRedirectPath === AppRoute.VERIFICATION_PAGE) {
-    redirectPath = isEmailVerified ? AppRoute.MAIN_PAGE : AppRoute.VERIFY_PAGE;
+    if (isEmailVerified && isUserNewbie) {
+      redirectPath === AppRoute.VERIFICATION_PAGE;
+    } else {
+      redirectPath = isEmailVerified ? AppRoute.MAIN_PAGE : AppRoute.VERIFY_PAGE;
+    }
   }
 
   if (user && isEmailVerified && defaultRedirectPath === AppRoute.VERIFY_PAGE) {
