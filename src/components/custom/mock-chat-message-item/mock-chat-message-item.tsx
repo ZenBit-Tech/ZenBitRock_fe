@@ -6,9 +6,9 @@ import DoneIcon from '@mui/icons-material/Done';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { colors } from 'constants/colors';
 import { useTranslations, useEffect, useState } from 'hooks';
-import { Message } from 'types';
 import { formatDate } from 'services';
 import { useMarkMessageAsReadMutation } from 'store/chat';
+import { Message } from 'types';
 
 type Props = {
   message: Message;
@@ -17,8 +17,9 @@ type Props = {
 
 export function MockChatMessageItem({ message, me }: Props): JSX.Element {
   const t = useTranslations('agents');
-  const { id, content, createdAt, owner, isRead } = message;
+  const { id, content, createdAt, owner, isReadBy } = message;
 
+  const isRead = isReadBy ? isReadBy.filter((user) => user.userId !== owner.id)[0].isRead : false;
   const isMe = useMemo((): boolean => owner?.id === me, [owner?.id, me]);
 
   const [messageRef, setMessageRef] = useState<HTMLDivElement | null>(null);
@@ -49,12 +50,11 @@ export function MockChatMessageItem({ message, me }: Props): JSX.Element {
       }
     };
   }, [messageRef]);
-
   useEffect(() => {
-    if (!isRead && isMessageInViewport && !isMe) {
+    if (!isRead && isMessageInViewport) {
       trigger({ messageId: id });
     }
-  }, [isRead, isMessageInViewport, trigger, id, isMe]);
+  }, [isRead, isMessageInViewport, trigger, id]);
 
   return (
     <Box

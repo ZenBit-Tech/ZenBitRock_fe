@@ -1,14 +1,13 @@
 'use client';
 
-import { Box, IconButton, Stack, Typography } from '@mui/material';
-import DoneIcon from '@mui/icons-material/Done';
-import DoneAllIcon from '@mui/icons-material/DoneAll';
+import { Box, Stack, Typography } from '@mui/material';
+import { getIsRead } from 'components/custom/content-view/utils/getIsRead';
 import { colors } from 'constants/colors';
-import { Message } from 'types';
 import { useSelector, useTranslations, useEffect, useState } from 'hooks';
-import { RootState } from 'store';
 import { formatDate } from 'services';
+import { RootState } from 'store';
 import { useMarkMessageAsReadMutation } from 'store/chat';
+import { Message } from 'types';
 
 type Props = {
   message: Message;
@@ -17,10 +16,19 @@ type Props = {
 export function ChatMessageItem({ message }: Props): JSX.Element {
   const t = useTranslations('agents');
   const user = useSelector((state: RootState) => state.authSlice.user);
+  const { id, content, createdAt, owner, isReadBy, chat } = message;
 
-  const { id, content, createdAt, owner, isRead } = message;
   const isMe = owner.id === user?.id;
   const name = `${owner.firstName} ${owner.lastName}`;
+
+  const isRead: boolean = getIsRead({
+    isReadBy,
+    isMe,
+    userId: user?.id,
+    messageId: id,
+    ownerId: owner.id,
+    chat,
+  });
 
   const [messageRef, setMessageRef] = useState<HTMLDivElement | null>(null);
   const [isMessageInViewport, setIsMessageInViewport] = useState(false);
@@ -52,10 +60,10 @@ export function ChatMessageItem({ message }: Props): JSX.Element {
   }, [messageRef]);
 
   useEffect(() => {
-    if (!isRead && isMessageInViewport && !isMe) {
+    if (!isRead && isMessageInViewport) {
       trigger({ messageId: id });
     }
-  }, [isRead, isMessageInViewport, trigger, id, isMe]);
+  }, [isRead, isMessageInViewport, trigger, id]);
 
   return (
     <Box
@@ -116,8 +124,6 @@ export function ChatMessageItem({ message }: Props): JSX.Element {
           >
             {formatDate(createdAt)}
           </Typography>
-
-          <IconButton size="small">{!isRead ? <DoneAllIcon /> : <DoneIcon />}</IconButton>
         </Stack>
       </Stack>
     </Box>
