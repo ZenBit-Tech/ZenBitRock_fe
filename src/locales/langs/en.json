@@ -77,7 +77,7 @@
   },
   "VerificationDonePage": {
     "mainTitle": "KYC form",
-    "doneText": "AgentWise profile has been successfully created! Qobrix Sign in credentials have been sent to the email you provided.",
+    "doneText": "AgentWise profile has been successfully created! Qobrix Sign in credentials have been sent to the email you provided. Activation link will be valid for 30 minutes",
     "submitButton": "Continue to site"
   },
   "RestorePasswordPage": {

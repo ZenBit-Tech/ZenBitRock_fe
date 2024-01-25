@@ -23,13 +23,13 @@ export function VerificationDoneView(): JSX.Element {
       maxWidth="600px"
       height="calc(100vh - 80px)"
       margin="0 auto"
-      sx={{ mt: -10, justifyContent: 'center', alignItems: 'center' }}
+      sx={{ mt: -10, justifyContent: 'center', alignItems: 'center', px: '25px' }}
       gridTemplateColumns={{
         xs: 'repeat(1, 1fr)',
         sm: 'repeat(1, 1fr)',
       }}
     >
-      <Stack spacing={5}>
+      <Stack spacing={5} alignItems="center">
         <Typography align="center" variant="h3" fontSize={16}>
           {t('doneText')}
         </Typography>
@@ -39,7 +39,7 @@ export function VerificationDoneView(): JSX.Element {
           variant="contained"
           color="primary"
           size="large"
-          style={{ marginBottom: '70px' }}
+          style={{ marginBottom: '70px', width: '200px' }}
           onClick={handleClick}
         >
           {t('submitButton')}
