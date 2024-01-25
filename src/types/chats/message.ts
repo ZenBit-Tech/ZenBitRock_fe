@@ -4,12 +4,13 @@ type Message = {
   content: string;
   chat: {
     id: string;
+    members: { id: string }[];
   };
   owner: UserProfileResponse;
   id: string;
   createdAt: string;
-  updatedAt: string;
-  isRead: boolean;
+  updatedAt?: string;
+  isReadBy: { messageId: string; userId: string; isRead: boolean }[];
 };
 
 export { type Message };

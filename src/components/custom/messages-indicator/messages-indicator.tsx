@@ -6,10 +6,10 @@ import { AppRoute } from 'enums';
 import { useRouter, useTranslations } from 'hooks';
 import { useMemo } from 'react';
 import MailIcon from '@mui/icons-material/Mail';
-import { useGetUnreadMessagesQuery } from 'store/chat';
+import { useGetUnreadMessagesCountQuery } from 'store/chat';
 
 const MessagesIndicator = (): JSX.Element | null => {
-  const { data: quantity } = useGetUnreadMessagesQuery();
+  const { data: quantity } = useGetUnreadMessagesCountQuery();
 
   const router = useRouter();
 

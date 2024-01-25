@@ -13,14 +13,4 @@ function findLatestMessage(messages: Message[]): Message | null {
   return sortedMessages[0];
 }
 
-function countUnreadMessages(messages: Message[]): number {
-  return messages.reduce((count, message) => {
-    if (!message.isRead) {
-      count += 1;
-    }
-
-    return count;
-  }, 0);
-}
-
-export { findLatestMessage, countUnreadMessages };
+export { findLatestMessage };

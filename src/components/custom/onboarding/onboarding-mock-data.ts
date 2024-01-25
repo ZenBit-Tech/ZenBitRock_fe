@@ -200,12 +200,19 @@ const chatsMockData: Chats = {
         {
           chat: {
             id: 'string',
+            members: [{ id: '1dc2676d-422e-40ca-a27f-dda258a2ea67' }],
           },
           id: '1dc2676d-4b6e-40ca-a27f-dda258a2ea67',
           createdAt: '2024-01-08T22:00:25.890Z',
           updatedAt: '2024-01-08T22:00:25.890Z',
           content: 'Love you!',
-          isRead: false,
+          isReadBy: [
+            {
+              messageId: '1dc2676d-4b6e-40ca-a27f-dda258a2ea67',
+              userId: 'a1c876bd-63eb-4bad-b573-e845feed6e7e',
+              isRead: true,
+            },
+          ],
           owner: {
             id: 'a1c876bd-63eb-4bad-b573-e845feed6e7e',
             email: 'peeetyaivanov@gmail.com',
@@ -310,12 +317,19 @@ const chatsMockData: Chats = {
         {
           chat: {
             id: 'string',
+            members: [{ id: '1dc2676d-423e-40ca-a27f-dda258a2ea67' }],
           },
           id: '1dc2676d-4b6e-40ca-a27f-dda258a2ea67',
           createdAt: '2024-01-08T22:00:25.890Z',
           updatedAt: '2024-01-08T22:00:25.890Z',
           content: 'To be or not to be...',
-          isRead: false,
+          isReadBy: [
+            {
+              messageId: '1dc2676d-4b6e-40ca-a27f-dda258a2ea67',
+              userId: 'a1c876bd-63eb-4bad-b573-e845feed6e7e',
+              isRead: true,
+            },
+          ],
           owner: {
             id: 'a1c876bd-63eb-4bad-b573-e845feed6e7e',
             email: 'peeetyaivanov@gmail.com',
@@ -341,12 +355,19 @@ const chatsMockData: Chats = {
         {
           chat: {
             id: 'string',
+            members: [{ id: '1dc2676d-424e-40ca-a27f-dda258a2ea67' }],
           },
           id: '1dc2676d-4b6e-40ca-a27f-dda258a2ea67',
           createdAt: '2024-01-08T22:00:25.890Z',
           updatedAt: '2024-01-08T22:00:25.890Z',
           content: 'Good',
-          isRead: false,
+          isReadBy: [
+            {
+              messageId: '1dc2676d-4b6e-40ca-a27f-dda258a2ea67',
+              userId: 'a1c876bd-63eb-4bad-b573-e845feed6e7e',
+              isRead: true,
+            },
+          ],
           owner: {
             id: 'a1c876bd-63eb-4bad-b573-e845feed6e7e',
             email: 'peeetyaivanov@gmail.com',

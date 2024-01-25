@@ -8,5 +8,7 @@ export {
   useUpdateChatMutation,
   useGetMessagesQuery,
   useSendMessageMutation,
-  useGetUnreadMessagesQuery,
+  useGetUnreadMessagesCountQuery,
+  useMarkMessageAsReadMutation,
+  useGetUnreadMessagesCountByChatIdQuery,
 } from 'store/chat/chat-api';
