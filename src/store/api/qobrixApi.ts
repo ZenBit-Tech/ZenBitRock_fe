@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { searchParams } from 'components/custom/property/helpers/searchParams';
 import { ApiRoute, StorageKey } from 'enums';
 import {
   QobrixAgentRequest,
@@ -166,6 +167,7 @@ export const QobrixApi = createApi({
           country: response?.data.country,
           city: response?.data.city,
           price: response?.data.list_selling_price_amount,
+          priceRental: response?.data.list_rental_price_amount,
           media: response?.data.media,
           description: response?.data.description,
           name: response?.data.name,
@@ -210,17 +212,16 @@ export const QobrixApi = createApi({
     }),
     getLeads: builder.query<
       QobrixLeadListResponse,
-      { page: number; filter: string | undefined; id: string | undefined }
+      {
+        page: number;
+        filter: string | undefined;
+        searchString: string | undefined | null;
+      }
     >({
       query: (arg) => ({
-        url: !arg.id
-          ? ApiRoute.QOBRIX_GET_LEADS
-          : ApiRoute.QOBRIX_GET_PROPERTY_LEADS.replace('id', arg.id),
+        url: ApiRoute.QOBRIX_GET_LEADS,
         method: 'GET',
-        params:
-          arg.filter && arg.filter !== 'update'
-            ? { page: arg.page, search: arg.filter }
-            : { page: arg.page },
+        params: searchParams(arg.page, arg.filter, arg.searchString),
       }),
       transformResponse: (response: QobrixLeadListResponse) => {
         response.data = response.data.map((lead) => ({

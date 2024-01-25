@@ -41,7 +41,10 @@ const PropertyCard = ({ property, className }: Props) => {
         cursor: 'pointer',
       }}
       className={className}
-      onClick={() => router.push(`${AppRoute.PROPERTY_PAGE}/${id}`)}
+      onClick={() => {
+        localStorage.removeItem('leadsByPropertySearch');
+        router.push(`${AppRoute.PROPERTY_PAGE}/${id}`);
+      }}
     >
       <Box
         sx={{

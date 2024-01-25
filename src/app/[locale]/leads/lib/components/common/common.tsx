@@ -97,7 +97,7 @@ function Common(): JSX.Element {
         >
           <LeadsFilter getFilter={(searchString: string) => getFilter(searchString)} />
         </Box>
-        <LeadsList tourActive={tourActive} filter={filter} id={propertyId} name={name} />
+        <LeadsList tourActive={tourActive} filter={filter} name={name} />
       </Container>
     </ProtectedRoute>
   );

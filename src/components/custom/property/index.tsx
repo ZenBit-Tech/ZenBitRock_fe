@@ -17,7 +17,8 @@ import { useSnackbar } from 'components/snackbar';
 import { backgroundImages } from 'constants/backgroundImgLinks';
 import { AppRoute } from 'enums';
 import { useGetPropertyQuery } from 'store/api/qobrixApi';
-import { GoBackPageTitile } from '../go-back-page-title/go-back-page-title';
+import { searchString } from 'components/custom/property/helpers/searchString';
+import { GoBackPageTitile } from 'components/custom/go-back-page-title/go-back-page-title';
 
 export default function Property({ id }: { id: string }): JSX.Element {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -39,6 +40,18 @@ export default function Property({ id }: { id: string }): JSX.Element {
   function closeModal(): void {
     setOpenModal(!openModal);
   }
+
+  const dataForSearchString = {
+    saleRent: propertyDetailed?.saleRent,
+    propertyType: propertyDetailed?.propertyType,
+    price: String(propertyDetailed?.price)?.split('.')[0],
+    priceRental: String(propertyDetailed?.priceRental)?.split('.')[0],
+    bedrooms: propertyDetailed?.bedrooms,
+    bathrooms: propertyDetailed?.bathrooms,
+    municipality: propertyDetailed?.municipality,
+    city: propertyDetailed?.city,
+    state: propertyDetailed?.state,
+  };
 
   return (
     <Wrapper
@@ -88,6 +101,10 @@ export default function Property({ id }: { id: string }): JSX.Element {
             color="primary"
             onClick={(): void => {
               localStorage.removeItem('leadsFilter');
+              localStorage.setItem(
+                'leadsByPropertySearch',
+                searchString(dataForSearchString).trim()
+              );
               router.push(
                 `${AppRoute.PROPERTY_PAGE}/${id}${AppRoute.LEADS_PAGE}/${propertyDetailed.name}`
               );
