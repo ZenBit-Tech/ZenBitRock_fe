@@ -6,6 +6,8 @@ type QobrixPropertyDetailed = {
   city: string;
   price?: number;
   list_selling_price_amount?: number;
+  priceRental?: number;
+  list_rental_price_amount?: number;
   media: {
     file: {
       href: string;

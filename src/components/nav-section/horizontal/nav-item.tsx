@@ -31,6 +31,11 @@ const NavItem = forwardRef<HTMLDivElement, Props>(
         disabled={disabled}
         config={config}
         {...other}
+        onClick={(event) => {
+          console.log('leads');
+          (event.target as HTMLElement).baseURI.includes('leads') &&
+            localStorage.removeItem('leadsByPropertySearch');
+        }}
       >
         {icon && (
           <StyledIcon
