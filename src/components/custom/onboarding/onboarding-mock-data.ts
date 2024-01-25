@@ -215,6 +215,7 @@ const chatsMockData: Chats = {
           ],
           owner: {
             id: 'a1c876bd-63eb-4bad-b573-e845feed6e7e',
+            isNewbie: false,
             email: 'peeetyaivanov@gmail.com',
             firstName: 'John',
             isVerified: true,
@@ -334,6 +335,7 @@ const chatsMockData: Chats = {
             id: 'a1c876bd-63eb-4bad-b573-e845feed6e7e',
             email: 'peeetyaivanov@gmail.com',
             isVerified: true,
+            isNewbie: false,
             firstName: 'John',
             lastName: 'Smith',
             role: 'individual_agent',
@@ -372,6 +374,7 @@ const chatsMockData: Chats = {
             id: 'a1c876bd-63eb-4bad-b573-e845feed6e7e',
             email: 'peeetyaivanov@gmail.com',
             isVerified: true,
+            isNewbie: false,
             firstName: 'John',
             lastName: 'Smith',
             role: 'individual_agent',
