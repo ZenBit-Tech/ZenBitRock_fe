@@ -72,7 +72,13 @@ function MainPage(): JSX.Element {
         <Onboarding />
         <Box sx={{ margin: '0 auto', maxWidth: '800px' }}>
           <NotificationCenter t={t} />
-          <Typography variant="h3" sx={{ marginTop: 3 }}>
+          <Typography
+            variant="h3"
+            sx={{
+              marginTop: 3,
+              marginBottom: 3,
+            }}
+          >
             {t('myProperties')}
           </Typography>
           <PropertyFilter
