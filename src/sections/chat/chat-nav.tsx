@@ -10,6 +10,7 @@ import { useCheckPrivateChatQuery, useCreateChatMutation } from 'store/chat';
 import { UserChatResponse } from 'types/user-backend';
 import { AppRoute } from 'enums';
 import { AGENTS_SORT_OPTIONS } from 'constants/agentsSortOptions';
+import { useGetChatsQuery } from 'store/chat/chat-api';
 import { ChatNavItemSkeleton } from './chat-skeleton';
 import ChatNavSearchResults from './chat-nav-search-results';
 import AgentListItem from './chat-agent-item';
@@ -40,6 +41,33 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
   const [sort, setSort] = useState<string>('nameAsc');
   const [selectedAgent, setSelectedAgent] = useState<UserChatResponse | null>(null);
   const [selectedAgentId, setSelectedAgentId] = useState('');
+
+  const {
+    data: chats,
+    isLoading,
+    isError,
+    isFetching,
+  } = useGetChatsQuery({
+    page: 1,
+    limit: 100,
+    sortType: '',
+    searchParam: '',
+  });
+
+  function getChatId(agentId: string): string | undefined {
+    let chatId;
+
+    if (
+      chats &&
+      chats?.filter((chat) => chat.isPrivate).some((chat) => chat.members[0].id === agentId)
+    ) {
+      chatId = chats
+        ?.filter((chat) => chat.isPrivate)
+        .find((chat) => chat.members[0].id === agentId)?.id;
+    }
+
+    return chatId;
+  }
 
   const { data: chatData } = useCheckPrivateChatQuery(selectedAgentId);
 
@@ -165,6 +193,7 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
                 key={agent.id}
                 agent={agent}
                 handleClickResult={handleClickResult}
+                chatId={getChatId(agent.id)}
                 className={idx === 0 ? 'onboarding-step-10' : ''}
               />
             ) : null

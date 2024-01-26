@@ -1,25 +1,34 @@
-import { useTranslations } from 'next-intl';
 import { Avatar, Card, ListItemButton, ListItemText } from '@mui/material';
 import Iconify from 'components/iconify/iconify';
+import { useTranslations, useState } from 'hooks';
 import { findCountryLabelByCode } from 'sections/verification-view/drop-box-data';
-import { randomValues } from 'constants/randomValues';
 import { UserChatResponse } from 'types/user-backend';
+import { useGetUnreadMessagesCountByChatIdQuery } from 'store/chat';
 import MsgBadge from './chat-msg-badge';
 
 type FollowerItemProps = {
   agent: UserChatResponse;
   handleClickResult: (agent: UserChatResponse) => void;
   className: string;
+  chatId?: string;
 };
 
 export default function AgentListItem({
   agent,
   handleClickResult,
   className,
+  chatId,
 }: FollowerItemProps): JSX.Element {
+  const [quantity, setQuentity] = useState<number | undefined>(0);
+
   const t = useTranslations('agents');
 
   const { firstName, lastName, country, city, avatarUrl, isDeleted } = agent;
+  const { data } = useGetUnreadMessagesCountByChatIdQuery({ chatId });
+
+  if (chatId) {
+    setQuentity(data);
+  }
 
   return (
     <Card sx={{ mb: '5px' }} className={className}>
@@ -65,7 +74,7 @@ export default function AgentListItem({
             color: 'text.disabled',
           }}
         />
-        <MsgBadge chatBadgeValue={randomValues.BADGE_TEMP_VALUE} />
+        <MsgBadge chatBadgeValue={quantity ? quantity : 0} />
       </ListItemButton>
     </Card>
   );

@@ -124,7 +124,7 @@ export const ChatApi = createApi({
       },
     }),
 
-    getUnreadMessagesCountByChatId: builder.query<number, { chatId: string }>({
+    getUnreadMessagesCountByChatId: builder.query<number, { chatId: string | undefined }>({
       queryFn: () => ({ data: 0 }),
       async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved, updateCachedData }) {
         try {
