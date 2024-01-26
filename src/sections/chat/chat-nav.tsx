@@ -42,12 +42,7 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
   const [selectedAgent, setSelectedAgent] = useState<UserChatResponse | null>(null);
   const [selectedAgentId, setSelectedAgentId] = useState('');
 
-  const {
-    data: chats,
-    isLoading,
-    isError,
-    isFetching,
-  } = useGetChatsQuery({
+  const { data: chats } = useGetChatsQuery({
     page: 1,
     limit: 100,
     sortType: '',
@@ -59,11 +54,14 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
 
     if (
       chats &&
-      chats?.filter((chat) => chat.isPrivate).some((chat) => chat.members[0].id === agentId)
+      chats
+        ?.filter((chat) => chat.isPrivate)
+        .some((chat) => chat.members.some((member) => member.id === agentId))
     ) {
+      console.log('click2');
       chatId = chats
         ?.filter((chat) => chat.isPrivate)
-        .find((chat) => chat.members[0].id === agentId)?.id;
+        .find((chat) => chat.members.some((member) => member.id === agentId))?.id;
     }
 
     return chatId;
