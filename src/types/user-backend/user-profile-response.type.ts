@@ -2,6 +2,7 @@ type UserProfileResponse = {
   email: string;
   id: string;
   isVerified: boolean;
+  isNewbie: boolean;
   firstName: string | null;
   lastName: string | null;
   role: string;

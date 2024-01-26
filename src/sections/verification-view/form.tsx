@@ -68,11 +68,7 @@ function formatDate(inputDate: Date): string {
   return `${year}-${month}-${day}`;
 }
 
-type Props = {
-  handleVerification: () => void;
-};
-
-export default function VerificationForm({ handleVerification }: Props): JSX.Element {
+export default function VerificationForm(): JSX.Element {
   const t = useTranslations('VerificationPage');
 
   const [createVerification] = useCreateVerificationMutation();
@@ -226,9 +222,6 @@ export default function VerificationForm({ handleVerification }: Props): JSX.Ele
       }).unwrap();
 
       reset();
-      handleVerification();
-
-      return undefined;
     } catch (error) {
       enqueueSnackbar(t('generalErrorMessage'), { variant: 'error' });
 
@@ -236,6 +229,8 @@ export default function VerificationForm({ handleVerification }: Props): JSX.Ele
     } finally {
       setActiveRequestsCount((prevCount) => prevCount - 1);
     }
+
+    return undefined;
   });
 
   const handleDropSingleFile = useCallback(

@@ -37,6 +37,7 @@ export type IUserProfile = {
 };
 
 export type IUserUpdateProfile = {
+  isNewbie?: boolean;
   city?: string | null;
   country?: string | null;
   about?: string | null;

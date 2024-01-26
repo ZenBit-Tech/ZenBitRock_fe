@@ -1,18 +1,12 @@
 'use client';
 
-import { useCallback, useState } from 'hooks';
+import { useSelector } from 'hooks';
 import { VerificationDoneView, VerificationView } from 'sections';
+import { RootState } from 'store';
 
 export default function VerificationPage(): JSX.Element {
-  const [verified, setVerified] = useState(false);
+  const user = useSelector((state: RootState) => state.authSlice.user);
+  const isKycFilled = user ? user.firstName && user.lastName : false;
 
-  const handleVerification = useCallback(() => {
-    setVerified(true);
-  }, [setVerified]);
-
-  return verified ? (
-    <VerificationDoneView />
-  ) : (
-    <VerificationView handleVerification={handleVerification} />
-  );
+  return isKycFilled ? <VerificationDoneView /> : <VerificationView />;
 }
