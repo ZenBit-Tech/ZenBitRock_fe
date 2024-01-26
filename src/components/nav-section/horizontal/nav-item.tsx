@@ -32,7 +32,6 @@ const NavItem = forwardRef<HTMLDivElement, Props>(
         config={config}
         {...other}
         onClick={(event) => {
-          console.log('leads');
           (event.target as HTMLElement).baseURI.includes('leads') &&
             localStorage.removeItem('leadsByPropertySearch');
         }}

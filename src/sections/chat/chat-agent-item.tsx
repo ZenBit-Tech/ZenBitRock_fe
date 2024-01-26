@@ -1,6 +1,6 @@
 import { Avatar, Card, ListItemButton, ListItemText } from '@mui/material';
 import Iconify from 'components/iconify/iconify';
-import { useTranslations, useState } from 'hooks';
+import { useTranslations, useState, useEffect } from 'hooks';
 import { findCountryLabelByCode } from 'sections/verification-view/drop-box-data';
 import { UserChatResponse } from 'types/user-backend';
 import { useGetUnreadMessagesCountByChatIdQuery } from 'store/chat';
@@ -26,9 +26,11 @@ export default function AgentListItem({
   const { firstName, lastName, country, city, avatarUrl, isDeleted } = agent;
   const { data } = useGetUnreadMessagesCountByChatIdQuery({ chatId });
 
-  if (chatId) {
-    setQuentity(data);
-  }
+  useEffect(() => {
+    if (chatId) {
+      setQuentity(data);
+    }
+  }, [chatId, data]);
 
   return (
     <Card sx={{ mb: '5px' }} className={className}>
