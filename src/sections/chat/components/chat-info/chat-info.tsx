@@ -36,7 +36,7 @@ const ChatInfo = (): JSX.Element => {
 
   const [getAllUsers, { data: usersData, isLoading: isLoadingWhenGetUsers, isError }] =
     useGetAllUsersMutation();
-  const [updateGroupChat, { isLoading: isLoadingWhenUpdate }] = useUpdateChatMutation();
+  const [updateGroupChatFirst, { isLoading: isLoadingWhenUpdate }] = useUpdateChatMutation();
 
   const router = useRouter();
   const pathsname = usePathname();
@@ -116,7 +116,7 @@ const ChatInfo = (): JSX.Element => {
 
   const handleClickUpdate = async (memberIds?: string[]): Promise<void> => {
     try {
-      await updateGroupChat({
+      await updateGroupChatFirst({
         id: data?.id,
         memberIds,
       }).unwrap();

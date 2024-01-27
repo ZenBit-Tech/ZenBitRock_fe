@@ -53,7 +53,7 @@ export function FormAddAgents({
     getAllUsers();
   }, [getAllUsers]);
 
-  const [updateGroupChat, { isLoading: isLoadingWhenUpdate }] = useUpdateChatMutation();
+  const [updateGroupChatSecond, { isLoading: isLoadingWhenUpdate }] = useUpdateChatMutation();
 
   const authUser = useSelector((state: RootState) => state.authSlice.user);
   const { id: ownerId }: { id: UserProfileResponse['id'] | null } = authUser || { id: null };
@@ -81,7 +81,7 @@ export function FormAddAgents({
   const onSubmit = async (): Promise<void> => {
     try {
       if (ownerId) {
-        const { id } = await updateGroupChat({
+        const { id } = await updateGroupChatSecond({
           id: chatId,
           memberIds: [...members.map((member) => member.id), ownerId],
         }).unwrap();

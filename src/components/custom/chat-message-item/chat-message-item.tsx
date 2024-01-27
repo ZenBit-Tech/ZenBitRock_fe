@@ -1,9 +1,13 @@
 'use client';
 
-import { Box, IconButton, Stack, Typography } from '@mui/material';
+import { Box, IconButton, List, ListItem, Stack, Typography } from '@mui/material';
 import DoneIcon from '@mui/icons-material/Done';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
-import { getIsRead } from 'components/custom/content-view/utils/getIsRead';
+import {
+  getIsRead,
+  getIsReadByMembers,
+  getReaders,
+} from 'components/custom/chat-message-item/utils';
 import { colors } from 'constants/colors';
 import { useSelector, useTranslations, useEffect, useState } from 'hooks';
 import { formatDate } from 'services';
@@ -11,6 +15,7 @@ import { RootState } from 'store';
 import { useMarkMessageAsReadMutation } from 'store/chat';
 import { Message } from 'types';
 import { useGetAllUsersMutation } from 'store/api/userApi';
+import ButtonClose from '../button-close/button-close';
 
 type Props = {
   message: Message;
@@ -144,18 +149,49 @@ export function ChatMessageItem({ message }: Props): JSX.Element {
           {isMe && (
             <IconButton onClick={() => handleIsReadClick()} size="small">
               {!isRead ? <DoneAllIcon /> : <DoneIcon />}
-              {isVisibleReaders && (
+              {/* {isVisibleReaders && (
                 <Box
                   sx={{
                     position: 'relative',
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%)',
+                    width: 150,
                   }}
                 >
+                  <ButtonClose width={'10px'} height={'10px'} />
+                  <List sx={{ width: '100%' }}>
+                    {getReaders({
+                      isReadBy,
+                      usersData,
+                      members: chat.members,
+                      ownerId: owner.id,
+                    }).map((memberName, memberId, isReadByMember) => (
+                      <ListItem
+                        key={id}
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          width: '100%',
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          {name}
+                        </Typography>
+                        {isReadByMember ? <DoneAllIcon /> : <DoneIcon />}
+                      </ListItem>
+                    ))}
+                  </List>
                   hello
                 </Box>
-              )}
+              )} */}
             </IconButton>
           )}
         </Stack>
