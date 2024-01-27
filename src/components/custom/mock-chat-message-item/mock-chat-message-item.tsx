@@ -107,7 +107,6 @@ export function MockChatMessageItem({ message, me }: Props): JSX.Element {
           >
             {formatDate(createdAt)}
           </Typography>
-
           {isMe && <IconButton size="small">{!isRead ? <DoneAllIcon /> : <DoneIcon />}</IconButton>}
         </Stack>
       </Stack>

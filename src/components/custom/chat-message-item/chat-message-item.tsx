@@ -1,6 +1,8 @@
 'use client';
 
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, IconButton, Stack, Typography } from '@mui/material';
+import DoneIcon from '@mui/icons-material/Done';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { getIsRead } from 'components/custom/content-view/utils/getIsRead';
 import { colors } from 'constants/colors';
 import { useSelector, useTranslations, useEffect, useState } from 'hooks';
@@ -8,15 +10,25 @@ import { formatDate } from 'services';
 import { RootState } from 'store';
 import { useMarkMessageAsReadMutation } from 'store/chat';
 import { Message } from 'types';
+import { useGetAllUsersMutation } from 'store/api/userApi';
 
 type Props = {
   message: Message;
 };
 
 export function ChatMessageItem({ message }: Props): JSX.Element {
+  const [isVisibleReaders, setIsVisibleReaders] = useState<boolean>(false);
   const t = useTranslations('agents');
   const user = useSelector((state: RootState) => state.authSlice.user);
   const { id, content, createdAt, owner, isReadBy, chat } = message;
+
+  const [getAllUsers, { data: usersData, isLoading: isloadingWhenGetUsers }] =
+    useGetAllUsersMutation();
+  // const { enqueueSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    getAllUsers();
+  }, [getAllUsers]);
 
   const isMe = owner.id === user?.id;
   const name = `${owner.firstName} ${owner.lastName}`;
@@ -65,6 +77,10 @@ export function ChatMessageItem({ message }: Props): JSX.Element {
     }
   }, [isRead, isMessageInViewport, trigger, id]);
 
+  function handleIsReadClick() {
+    setIsVisibleReaders(!isVisibleReaders);
+  }
+
   return (
     <Box
       ref={(node) => setMessageRef(node as HTMLDivElement)}
@@ -74,6 +90,7 @@ export function ChatMessageItem({ message }: Props): JSX.Element {
         '&:not(:last-child)': {
           mb: 2,
         },
+        position: 'relative',
       }}
     >
       <Stack
@@ -124,6 +141,23 @@ export function ChatMessageItem({ message }: Props): JSX.Element {
           >
             {formatDate(createdAt)}
           </Typography>
+          {isMe && (
+            <IconButton onClick={() => handleIsReadClick()} size="small">
+              {!isRead ? <DoneAllIcon /> : <DoneIcon />}
+              {isVisibleReaders && (
+                <Box
+                  sx={{
+                    position: 'relative',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%)',
+                  }}
+                >
+                  hello
+                </Box>
+              )}
+            </IconButton>
+          )}
         </Stack>
       </Stack>
     </Box>
