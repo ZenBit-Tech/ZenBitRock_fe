@@ -22,6 +22,7 @@ export default function ProfileCover({ name, avatarUrl }: IUserProfileCover) {
 
   const handleLogout = (): void => {
     localStorage.removeItem(StorageKey.TOKEN);
+    localStorage.removeItem(StorageKey.FILTER_STRING);
     dispatch(logoutUser());
   };
 

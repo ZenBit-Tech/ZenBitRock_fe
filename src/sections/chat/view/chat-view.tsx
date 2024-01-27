@@ -11,6 +11,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { Button } from '@mui/material';
 import { ChatInfoResponse } from 'types/chats';
 import { Message } from 'types';
+import { AppRoute } from 'enums';
 import ChatMessageList from '../chat-message-list';
 import ChatMessageInput from '../chat-message-input';
 import ChatHeaderDetail from '../chat-header-detail';
@@ -52,7 +53,7 @@ export default function ChatView({ currentUserId, chatData, messages }: Props): 
       sx={{ pr: 1, pl: 2.5, py: 1, minHeight: 72, overflow: 'scroll' }}
     >
       {isPrivate && otherMember ? <ChatHeaderDetail user={otherMember} /> : null}
-      {!isPrivate && <ChatGroupHeader chatId={chatData.id} />}
+      {!isPrivate && <ChatGroupHeader chatId={chatData.id} chatTitle={chatData.title} />}
     </Stack>
   );
 
@@ -73,7 +74,10 @@ export default function ChatView({ currentUserId, chatData, messages }: Props): 
   return (
     <Container sx={{ pb: '80px' }}>
       <Stack direction="row" alignItems="center">
-        <Button sx={{ p: 0 }} onClick={() => router.back()}>
+        <Button
+          sx={{ p: 0 }}
+          onClick={() => (isPrivate ? router.back() : router.push(AppRoute.CHATS_PAGE))}
+        >
           <KeyboardArrowLeftIcon sx={{ fontSize: '48px', color: 'black' }} />
         </Button>
 

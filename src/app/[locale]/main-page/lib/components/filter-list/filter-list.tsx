@@ -2,10 +2,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Box, Stack } from '@mui/material';
 import { useEffect, useForm, useLocalStorage, useState, useTranslations } from 'hooks';
+import { removeStorage, setStorage } from 'hooks/use-local-storage';
 import FormProvider, { RHFAutocomplete, RHFRadioGroup, RHFTextField } from 'components/hook-form';
 import { Block } from 'components/custom';
 import { useGetPropertyTypesQuery, useSearchLocationsQuery } from 'store/api/qobrixApi';
 import { getLocationOptions, getMainPagePropertyFilter } from 'utils';
+import { getFilterString } from 'utils/property-filters';
 import { LocationSelectOption, type PropertyFilterFormData } from 'types';
 import { StorageKey } from 'enums';
 import { BEDROOMS, getPropertyStatus, getRentOrSaleOption, FilterSchema } from './lib';
@@ -24,9 +26,10 @@ const defaultValues: PropertyFilterFormData = {
 
 type Props = {
   applyFilters: (filter: string) => void;
+  setFilterString: (filter: string) => void;
 };
 
-const FilterList = ({ applyFilters }: Props): JSX.Element => {
+const FilterList = ({ applyFilters, setFilterString }: Props): JSX.Element => {
   const [locationsInputValue, setLocationsInputValue] = useState<string>('');
   const [hasActiveFilters, setHasActiveFilters] = useState<boolean>(false);
 
@@ -111,9 +114,10 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
   const onSubmit = handleSubmit(async (formData) => {
     try {
       const filter = getMainPagePropertyFilter(formData);
-
       replace(formData);
       applyFilters(filter);
+      setFilterString(getFilterString(formData));
+      setStorage(StorageKey.FILTER_STRING, getFilterString(formData));
     } catch (error) {
       reset();
     }
@@ -122,6 +126,8 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
   const handleRemoveFilters = (): void => {
     replace(defaultValues);
     setHasActiveFilters(false);
+    setFilterString('');
+    removeStorage(StorageKey.FILTER_STRING);
     reset(defaultValues);
 
     const filter = getMainPagePropertyFilter(defaultValues);
