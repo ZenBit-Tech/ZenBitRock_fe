@@ -315,7 +315,7 @@ const ChatInfo = (): JSX.Element => {
         )}
         {members &&
           members?.length > 0 &&
-          members.map(
+          members.filter(member => member.label.toLowerCase() !== 'deleted user').map(
             (user, idx: number) =>
               user && (
                 <Box
