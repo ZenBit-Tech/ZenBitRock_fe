@@ -1,31 +1,36 @@
-import { Chat, Message } from 'types';
+import { Message } from 'types';
 import { UserChatResponse } from 'types/user-backend';
 
 type Props = {
   isReadBy: Message['isReadBy'];
-  usersData: UserChatResponse[];
-  members: Chat['members'];
-  ownerId: string;
-  chat: Message['chat'];
+  usersData: UserChatResponse[] | undefined;
+  members: string[];
+  userId: string | undefined;
 };
 
 type Answer = { memberId: string; memberName: string; isReadByMember: boolean };
 
-export function getReaders({ isReadBy, usersData, members, ownerId }: Props): Answer[] {
-  const readers: Answer[] = [];
+export function getReaders({ isReadBy, usersData, members, userId }: Props): Answer[] | undefined {
+  if (usersData && isReadBy) {
+    const readers: Answer[] = [];
 
-  members.forEach((member) => {
-    if (member.id !== ownerId) {
-      const reader: Answer = {};
-      const found = usersData.find((user) => user.id === member.id);
+    members.forEach((member) => {
+      const firstName = usersData.find((user) => user.id === member)?.firstName;
+      const lastName = usersData.find((user) => user.id === member)?.lastName;
 
-      reader.memberId = member.id;
-      reader.memberName = `${found?.firstName} ${found?.lastName}`;
-      reader.isReadByMember = isReadBy.find((item) => item.userId === member.id)?.isRead;
+      if (member !== userId && firstName && firstName.toLowerCase() !== 'deleted') {
+        const reader: Answer = {
+          memberId: member,
+          memberName: `${firstName} ${lastName}`,
+          isReadByMember: isReadBy.find((item) => item.userId === member)?.isRead || false,
+        };
 
-      readers.push(reader);
-    }
-  });
+        readers.push(reader);
+      }
+    });
 
-  return readers;
+    return readers;
+  }
+
+  return undefined;
 }

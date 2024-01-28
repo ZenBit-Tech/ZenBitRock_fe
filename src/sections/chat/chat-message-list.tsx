@@ -6,19 +6,26 @@ import { Message } from 'types';
 import { datesFormats } from 'constants/dates-formats';
 import Scrollbar from 'components/scrollbar';
 import { ChatMessageItem, MockChatMessageItem } from 'components/custom';
+import { UserChatResponse } from 'types/user-backend';
 import { useMessagesScroll } from './hooks';
 
 type Props = {
   messages: Message[];
   isPrivate: boolean;
   me: string;
+  usersData: UserChatResponse[] | undefined;
 };
 
 type GroupedMessages = {
   [key: string]: Message[];
 };
 
-export default function ChatMessageList({ messages = [], me, isPrivate }: Props): JSX.Element {
+export default function ChatMessageList({
+  messages = [],
+  me,
+  isPrivate,
+  usersData,
+}: Props): JSX.Element {
   const { messagesEndRef } = useMessagesScroll(messages);
 
   const sortedMessages = useMemo(
@@ -57,7 +64,7 @@ export default function ChatMessageList({ messages = [], me, isPrivate }: Props)
               isPrivate ? (
                 <MockChatMessageItem key={message.id} message={message} me={me} />
               ) : (
-                <ChatMessageItem key={message.id} message={message} />
+                <ChatMessageItem key={message.id} message={message} usersData={usersData} />
               )
             )}
           </Box>
