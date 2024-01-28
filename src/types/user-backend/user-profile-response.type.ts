@@ -1,6 +1,6 @@
 type UserProfileResponse = {
   email: string;
-  contactEmail: string;
+  contactEmail?: string;
   id: string;
   isVerified: boolean;
   isNewbie: boolean;
