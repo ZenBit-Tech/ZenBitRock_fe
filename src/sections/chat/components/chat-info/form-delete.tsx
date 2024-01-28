@@ -5,15 +5,32 @@ import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
 import { AppRoute } from 'enums';
 import { useRouter } from 'hooks';
-import { useDeleteChatMutation } from 'store/chat';
+import { useDeleteChatMutation, useUpdateChatMutation } from 'store/chat';
 
 type Props = {
   t: Function;
   closeModalUp: () => void;
   chatId?: string;
+  ownerId: string | undefined;
+  userId: string | null;
+  chatMembers: Member[] | undefined;
+  updateGroupChat: ReturnType<typeof useUpdateChatMutation>[0];
 };
 
-export function FormDelete({ t, closeModalUp, chatId }: Props): JSX.Element {
+type Member = {
+  label: string;
+  id: string;
+};
+
+export function FormDelete({
+  t,
+  closeModalUp,
+  chatId,
+  ownerId,
+  userId,
+  updateGroupChat,
+  chatMembers,
+}: Props): JSX.Element {
   const [deleteChat, { isLoading }] = useDeleteChatMutation();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -21,8 +38,15 @@ export function FormDelete({ t, closeModalUp, chatId }: Props): JSX.Element {
 
   const handleClick = async (): Promise<void> => {
     try {
-      if (chatId) await deleteChat({ id: chatId }).unwrap();
-
+      if (userId === ownerId) {
+        if (chatId) await deleteChat({ id: chatId }).unwrap();
+      } else if (chatMembers) {
+        closeModalUp();
+        await updateGroupChat({
+          id: chatId,
+          memberIds: chatMembers.map((member) => member.id).filter((member) => member !== userId),
+        }).unwrap();
+      }
       router.push(`${AppRoute.CHATS_PAGE}`);
     } catch (error) {
       enqueueSnackbar(`${t('somethingWentWrong')}: ${error.data.message}`, { variant: 'error' });
@@ -32,7 +56,7 @@ export function FormDelete({ t, closeModalUp, chatId }: Props): JSX.Element {
   return (
     <Box>
       <Typography variant="h3" sx={{ marginBottom: '1.5rem', textAlign: 'center' }}>
-        {t('doYouWantDeleteChat')}
+        {userId === ownerId ? t('doYouWantDeleteChat') : t('doYouWantLeaveChat')}
       </Typography>
       <Stack sx={{ mt: 5, position: 'relative' }}>
         {isLoading && (
@@ -53,7 +77,7 @@ export function FormDelete({ t, closeModalUp, chatId }: Props): JSX.Element {
           sx={{ mb: '1rem' }}
           onClick={handleClick}
         >
-          {t('yesDelete')}
+          {userId === ownerId ? t('yesDelete') : t('yesLeave')}
         </Button>
         <Button type="reset" variant="contained" color="primary" onClick={() => closeModalUp()}>
           {t('cancelBtnTxt')}

@@ -705,7 +705,10 @@
     "editGroupChatName": "Edit group chat name",
     "enterNewName": "Enter new name",
     "changeGroupChatName": "Change group chat name",
-    "you": "you"
+    "you": "you",
+    "leaveChat": "Leave chat",
+    "doYouWantLeaveChat": "Do you want to leave the chat?",
+    "yesLeave": "Yes, leave"
   },
   "privateChat": {
     "title": "Chat",

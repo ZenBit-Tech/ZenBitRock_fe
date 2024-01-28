@@ -3,26 +3,28 @@ import Iconify from 'components/iconify';
 import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
 import { colors } from 'constants/colors';
-import { useEffect, useSelector, useState, useForm, useMemo } from 'hooks';
-import { RootState } from 'store';
-import { useGetAllUsersMutation } from 'store/api/userApi';
+import { useEffect, useState, useForm, useMemo } from 'hooks';
 import { useUpdateChatMutation } from 'store/chat';
-import { UserProfileResponse } from 'types';
+import { UserChatResponse } from 'types/user-backend';
 import uuidv4 from 'utils/uuidv4';
 
 type Props = {
   t: Function;
-  chatMembers: Members;
+  chatMembers: Member[];
   closeModalUp: () => void;
   chatId?: string;
-  changedMembers: (values: string[]) => void;
+  ownerId: string | undefined;
+  changedMembers: (values: Member[]) => void;
+  updateGroupChat: ReturnType<typeof useUpdateChatMutation>[0];
   refresh: () => void;
+  usersData: UserChatResponse[] | undefined;
+  userId: string | null;
 };
 
-type Members = {
+type Member = {
   label: string;
   id: string;
-}[];
+};
 
 type Options = Option[];
 
@@ -36,27 +38,20 @@ export function FormAddAgents({
   chatMembers,
   closeModalUp,
   chatId,
+  ownerId,
   changedMembers,
+  updateGroupChat,
   refresh,
+  usersData,
+  userId,
 }: Props): JSX.Element {
   const [options, setOptions] = useState<Options>([]);
-  const [members, setMembers] = useState<Members>(chatMembers);
+  const [members, setMembers] = useState<Member[]>(chatMembers!);
 
   const [value, setValue] = useState<Option | null>(null);
   const [inputValue, setInputValue] = useState<string | undefined>('');
 
-  const [getAllUsers, { data: usersData, isLoading: isloadingWhenGetUsers }] =
-    useGetAllUsersMutation();
   const { enqueueSnackbar } = useSnackbar();
-
-  useEffect(() => {
-    getAllUsers();
-  }, [getAllUsers]);
-
-  const [updateGroupChatSecond, { isLoading: isLoadingWhenUpdate }] = useUpdateChatMutation();
-
-  const authUser = useSelector((state: RootState) => state.authSlice.user);
-  const { id: ownerId }: { id: UserProfileResponse['id'] | null } = authUser || { id: null };
 
   useEffect(() => {
     if (usersData) {
@@ -81,13 +76,13 @@ export function FormAddAgents({
   const onSubmit = async (): Promise<void> => {
     try {
       if (ownerId) {
-        const { id } = await updateGroupChatSecond({
+        const { id } = await updateGroupChat({
           id: chatId,
           memberIds: [...members.map((member) => member.id), ownerId],
         }).unwrap();
 
         if (id) {
-          changedMembers(members?.map((member) => member.id));
+          changedMembers(members);
           refresh();
           closeModalUp();
         }
@@ -193,29 +188,31 @@ export function FormAddAgents({
                 >
                   {user?.label}
                 </Typography>
-                <Iconify
-                  title={t('btnDeleteAgentFromList')}
-                  icon="clarity:remove-line"
-                  width="1.5rem"
-                  height="1.5rem"
-                  color={colors.ERROR_COLOR}
-                  sx={{
-                    opacity: '0.5',
-                    cursor: 'pointer',
-                    minWidth: '1.5rem',
-                    transition: 'all 200ms ease-out',
-                    '&:hover': {
-                      opacity: '1',
+                {userId && ownerId && userId === ownerId && (
+                  <Iconify
+                    title={t('btnDeleteAgentFromList')}
+                    icon="clarity:remove-line"
+                    width="1.5rem"
+                    height="1.5rem"
+                    color={colors.ERROR_COLOR}
+                    sx={{
+                      opacity: '0.5',
+                      cursor: 'pointer',
+                      minWidth: '1.5rem',
                       transition: 'all 200ms ease-out',
-                    },
-                  }}
-                  onClick={() => handleClickDelete(user)}
-                />
+                      '&:hover': {
+                        opacity: '1',
+                        transition: 'all 200ms ease-out',
+                      },
+                    }}
+                    onClick={() => handleClickDelete(user)}
+                  />
+                )}
               </Box>
             )
         )}
       <Stack sx={{ mt: 5, position: 'relative' }}>
-        {(isLoadingWhenUpdate || isloadingWhenGetUsers || !usersData || !authUser) && (
+        {!usersData && (
           <LoadingScreen
             sx={{
               position: 'absolute',

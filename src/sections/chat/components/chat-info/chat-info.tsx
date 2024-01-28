@@ -36,7 +36,7 @@ const ChatInfo = (): JSX.Element => {
 
   const [getAllUsers, { data: usersData, isLoading: isLoadingWhenGetUsers, isError }] =
     useGetAllUsersMutation();
-  const [updateGroupChatFirst, { isLoading: isLoadingWhenUpdate }] = useUpdateChatMutation();
+  const [updateGroupChat, { isLoading: isLoadingWhenUpdate }] = useUpdateChatMutation();
 
   const router = useRouter();
   const pathsname = usePathname();
@@ -116,7 +116,7 @@ const ChatInfo = (): JSX.Element => {
 
   const handleClickUpdate = async (memberIds?: string[]): Promise<void> => {
     try {
-      await updateGroupChatFirst({
+      await updateGroupChat({
         id: data?.id,
         memberIds,
       }).unwrap();
@@ -196,7 +196,7 @@ const ChatInfo = (): JSX.Element => {
         </Box>
         {data && userId === data?.owner?.id && (
           <Link
-            color="inherit"
+            color={colors.BUTTON_PRIMARY_COLOR}
             sx={{
               width: 'fit-content',
               cursor: 'pointer',
@@ -207,7 +207,7 @@ const ChatInfo = (): JSX.Element => {
               transition: 'all 200ms ease-out',
               mb: '1.5rem',
               '&:hover': {
-                color: colors.BUTTON_PRIMARY_COLOR,
+                color: colors.BUTTON_SECOND_COLOR,
                 transition: 'all 200ms ease-out',
                 textDecoration: 'underline',
               },
@@ -242,7 +242,7 @@ const ChatInfo = (): JSX.Element => {
           {t('chatMembers')}
         </Typography>
         <Link
-          color="inherit"
+          color={colors.BUTTON_PRIMARY_COLOR}
           sx={{
             width: 'fit-content',
             cursor: 'pointer',
@@ -253,7 +253,7 @@ const ChatInfo = (): JSX.Element => {
             marginBottom: '1rem',
             transition: 'all 200ms ease-out',
             '&:hover': {
-              color: colors.BUTTON_PRIMARY_COLOR,
+              color: colors.BUTTON_SECOND_COLOR,
               transition: 'all 200ms ease-out',
               textDecoration: 'underline',
             },
@@ -305,7 +305,10 @@ const ChatInfo = (): JSX.Element => {
         {members &&
           members?.length > 0 &&
           members
-            .filter((member) => member.label.toLowerCase() !== 'deleted user')
+            .filter(
+              (member) =>
+                member.label.toLowerCase() !== 'deleted user' && member.id !== data?.owner?.id
+            )
             .map(
               (user, idx: number) =>
                 user && (
@@ -364,33 +367,32 @@ const ChatInfo = (): JSX.Element => {
                 )
             )}
       </Box>
-      {data && userId === data?.owner?.id && (
-        <Link
-          color="inherit"
-          sx={{
-            width: 'fit-content',
-            cursor: 'pointer',
-            mt: 'auto',
-            mx: '1rem',
-            display: 'flex',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            gap: '0.5rem',
+      <Link
+        color={colors.ERROR_COLOR}
+        sx={{
+          opacity: '0.5',
+          width: 'fit-content',
+          cursor: 'pointer',
+          mt: 'auto',
+          mx: '1rem',
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          gap: '0.5rem',
+          transition: 'all 200ms ease-out',
+          '&:hover': {
+            opacity: '1',
             transition: 'all 200ms ease-out',
-            '&:hover': {
-              color: colors.ERROR_COLOR,
-              transition: 'all 200ms ease-out',
-              textDecoration: 'underline',
-            },
-          }}
-          onClick={(): void => setDeleteModal(!deleteModal)}
-        >
-          <Iconify icon="fluent:delete-28-regular" width="1.5rem" height="1rem" />
-          <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
-            {t('deleteChat')}
-          </Typography>
-        </Link>
-      )}
+            textDecoration: 'underline',
+          },
+        }}
+        onClick={() => setDeleteModal(!deleteModal)}
+      >
+        <Iconify icon="fluent:delete-28-regular" width="1.5rem" height="1rem" />
+        <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
+          {userId === data?.owner?.id ? t('deleteChat') : t('leaveChat')}
+        </Typography>
+      </Link>
       {nameModal && (
         <Modal
           open
@@ -462,12 +464,22 @@ const ChatInfo = (): JSX.Element => {
             <FormAddAgents
               t={t}
               chatId={data?.id}
+              ownerId={data?.owner?.id}
               chatMembers={members && members.length > 0 ? members : []}
               closeModalUp={() => closeModal('members')}
-              changedMembers={(values: string[]) => {
-                if (userId) handleClickUpdate([...values, userId]);
+              changedMembers={(values: { label: string; id: string }[]) => {
+                setMembers(() => [
+                  ...values,
+                  {
+                    label: `${data?.owner?.firstName} ${data?.owner?.lastName}`,
+                    id: data?.owner?.id || '',
+                  },
+                ]);
               }}
+              updateGroupChat={updateGroupChat}
               refresh={() => refetch()}
+              usersData={usersData}
+              userId={userId}
             />
           </Box>
         </Modal>
@@ -501,7 +513,15 @@ const ChatInfo = (): JSX.Element => {
               height="1.5rem"
               handleClose={() => closeModal('delete')}
             />
-            <FormDelete t={t} chatId={data?.id} closeModalUp={() => closeModal('delete')} />
+            <FormDelete
+              t={t}
+              chatId={data?.id}
+              closeModalUp={() => closeModal('delete')}
+              ownerId={data?.owner?.id}
+              userId={userId}
+              chatMembers={members}
+              updateGroupChat={updateGroupChat}
+            />
           </Box>
         </Modal>
       )}
