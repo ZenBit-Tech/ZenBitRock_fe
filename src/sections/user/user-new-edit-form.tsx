@@ -16,12 +16,12 @@ import {
   useSetAvatarMutation,
   useDeleteAvatarMutation,
 } from 'store/api/userApi';
-import { useUpdateContactMutation } from 'store/api/qobrixApi';
+import { useUpdateContactMutation, useUpdateAgentMutation } from 'store/api/qobrixApi';
 import ReduxProvider from 'store/ReduxProvider';
 import { useRouter } from 'routes/hooks';
 import { patterns } from 'constants/patterns';
 import { AppRoute } from 'enums';
-import { IUserUpdateProfile, IUserUpdateQobrix } from 'types/user';
+import { IAgentUpdateQobrix, IUserUpdateProfile, IUserUpdateQobrix } from 'types/user';
 import { fData } from 'utils/format-number';
 import { countries } from 'assets/data';
 import FormProvider, { RHFTextField, RHFUploadAvatar, RHFAutocomplete } from 'components/hook-form';
@@ -50,6 +50,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
 
   const [updateUser] = useUpdateUserMutation();
   const [updateContact] = useUpdateContactMutation();
+  const [updateAgent] = useUpdateAgentMutation();
   const [setAvatar] = useSetAvatarMutation();
   const [deleteAvatar] = useDeleteAvatarMutation();
 
@@ -68,7 +69,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
 
   const {
     agencyName: stateAgency,
-    email: stateEmail,
+    contactEmail: stateEmail,
     role: stateRole,
     country: stateCountry,
     city: stateCity,
@@ -80,6 +81,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
 
   const userId = user.id;
   const qobrixId = user.qobrixContactId;
+  const qobrixAgentId = user.qobrixAgentId;
 
   useEffect(() => {
     if (stateRole) {
@@ -169,6 +171,11 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
       role: updatedUser.role,
     };
 
+    const qobrixAgent: IAgentUpdateQobrix = {
+      description: updatedUser.description,
+      agent_type: updatedUser.role,
+    };
+
     try {
       const successMessage = t('updateText');
 
@@ -176,6 +183,7 @@ export default function UserNewEditForm({ user }: Props): JSX.Element {
 
       await updateUser(updatedUser).unwrap();
       await updateContact({ qobrixId, ...qobrixUser }).unwrap();
+      await updateAgent({ qobrixAgentId, ...qobrixAgent }).unwrap();
 
       if (avatar && avatar instanceof Blob) {
         formData.append('file', avatar);
