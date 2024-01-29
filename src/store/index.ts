@@ -1,7 +1,6 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
-import { persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+
 import { authApi, authReducer } from './auth';
 import { VerificationApi } from './api/verificationApi';
 import { tokenMiddleware } from './middlewares/token-middleware';
@@ -15,12 +14,7 @@ import { LeadApi } from './lead';
 import { MessageApi } from './message';
 import { ChatApi } from './chat';
 import { ContentApi } from './content';
-
-const persistConfig = {
-  key: 'store',
-  whitelist: [''],
-  storage,
-};
+import { NotificationApi } from './notification';
 
 const reducers = combineReducers({
   authSlice: authReducer,
@@ -35,12 +29,11 @@ const reducers = combineReducers({
   [MessageApi.reducerPath]: MessageApi.reducer,
   [ChatApi.reducerPath]: ChatApi.reducer,
   [ContentApi.reducerPath]: ContentApi.reducer,
+  [NotificationApi.reducerPath]: NotificationApi.reducer,
 });
 
-const persistedReducer = persistReducer(persistConfig, reducers);
-
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: reducers,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
@@ -56,7 +49,8 @@ export const store = configureStore({
       .concat(LeadApi.middleware)
       .concat(MessageApi.middleware)
       .concat(ChatApi.middleware)
-      .concat(ContentApi.middleware),
+      .concat(ContentApi.middleware)
+      .concat(NotificationApi.middleware),
 });
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

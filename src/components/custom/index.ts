@@ -11,6 +11,7 @@ export { ChatMessageItem } from './chat-message-item';
 export { MockChatMessageItem } from './mock-chat-message-item';
 export { NoDataFound } from './no-data-found/no-data-found';
 export { GoBackPageTitile } from './go-back-page-title/go-back-page-title';
+export { PageTitle } from './page-title/page-title';
 export {
   Onboarding,
   onboardingSteps,

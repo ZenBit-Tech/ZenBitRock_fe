@@ -798,5 +798,8 @@
     "agents": "Agents",
     "messages": "Messages and Private chat initiation",
     "group": "Creating group chat"
+  },
+  "notifications": {
+    "title": "Notifications"
   }
 }

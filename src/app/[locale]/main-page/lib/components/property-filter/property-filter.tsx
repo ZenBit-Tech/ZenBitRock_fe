@@ -18,7 +18,7 @@ const PropertyFilter = ({ setFilter, setPropertyNameFilter }: Props) => {
   const popover = usePopover();
 
   const inputRef = useRef<HTMLInputElement>();
-  
+
   const [filterString, setFilterString] = useState<string>(
     getStorage(StorageKey.FILTER_STRING) ? getStorage(StorageKey.FILTER_STRING) : ''
   );

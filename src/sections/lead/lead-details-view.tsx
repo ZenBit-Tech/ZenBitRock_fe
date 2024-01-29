@@ -4,11 +4,13 @@ import { Box, Fab, Link, MenuItem, Select, Stack, Typography, useTheme } from '@
 import { useCallback, useState } from 'react';
 import { useScrollToTop, useTranslations } from 'hooks';
 import { QobrixLeadDetailsResponse } from 'types';
+import { MobileLayout } from 'layouts';
 import { colors } from 'constants/colors';
 import { GoBackPageTitile } from 'components/custom';
 import { leadStatuses } from 'constants/leadStatuses';
 import { useUpdateLeadMutation } from 'store/api/qobrixApi';
 import { enqueueSnackbar } from 'components/snackbar';
+
 import Iconify from 'components/iconify';
 import {
   LeadDeleteComponent,
@@ -77,7 +79,7 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
   }
 
   return (
-    <Box sx={{ maxWidth: 800, margin: '0 auto', pb: 8 }}>
+    <MobileLayout>
       <Box sx={{ ml: 1, mr: 1 }}>
         <GoBackPageTitile title={t('title')} ml="-20px" />
       </Box>
@@ -193,7 +195,7 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
       >
         ↑
       </Fab>
-    </Box>
+    </MobileLayout>
   );
 };
 
