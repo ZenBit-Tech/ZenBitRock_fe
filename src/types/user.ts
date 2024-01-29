@@ -62,6 +62,13 @@ export type IUserUpdateQobrix = {
   qobrixId?: string | null;
 };
 
+export type IAgentUpdateQobrix = {
+  description?: string | null;
+  agent_type?: string | null;
+  agency?: string | null;
+  qobrixAgentId?: string | null;
+};
+
 export type IUserProfileFollower = {
   id: string;
   name: string;

@@ -26,7 +26,7 @@ import {
   QobrixGetAllGroupsResponse,
 } from 'types';
 import { QobrixLocationsResponse } from 'types/qobrix/qobrix-locations';
-import { IUserUpdateQobrix } from 'types/user';
+import { IAgentUpdateQobrix, IUserUpdateQobrix } from 'types/user';
 
 export const QobrixApi = createApi({
   reducerPath: 'QobrixApi',
@@ -86,6 +86,13 @@ export const QobrixApi = createApi({
     updateContact: builder.mutation<QobrixContactResponse['data'], IUserUpdateQobrix>({
       query: ({ qobrixId, ...body }) => ({
         url: `${ApiRoute.QOBRIX_CREATE_CONTACT}/${qobrixId}`,
+        method: 'PATCH',
+        body,
+      }),
+    }),
+    updateAgent: builder.mutation<QobrixAgentResponse['data'], IAgentUpdateQobrix>({
+      query: ({ qobrixAgentId, ...body }) => ({
+        url: `${ApiRoute.QOBRIX_CREATE_AGENT}/${qobrixAgentId}`,
         method: 'PATCH',
         body,
       }),
@@ -435,6 +442,7 @@ export const {
   useAddUserToGroupMutation,
   useGetPropertyTypesQuery,
   useUpdateContactMutation,
+  useUpdateAgentMutation,
   useDeleteLeadMutation,
   useCreateLeadMutation,
   useUpdateLeadMutation,
