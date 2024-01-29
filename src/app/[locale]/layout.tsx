@@ -20,6 +20,7 @@ export const metadata = {
       url: '/favicon/icon.ico',
     },
   ],
+  manifest: '/manifest.json',
 };
 
 type Props = {
