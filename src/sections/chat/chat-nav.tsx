@@ -58,7 +58,6 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
         ?.filter((chat) => chat.isPrivate)
         .some((chat) => chat.members.some((member) => member.id === agentId))
     ) {
-      console.log('click2');
       chatId = chats
         ?.filter((chat) => chat.isPrivate)
         .find((chat) => chat.members.some((member) => member.id === agentId))?.id;

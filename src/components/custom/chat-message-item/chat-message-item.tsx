@@ -1,19 +1,36 @@
 'use client';
 
-import { Box, Stack, Typography } from '@mui/material';
-import { getIsRead } from 'components/custom/content-view/utils/getIsRead';
+import { Box, IconButton, List, ListItem, Stack, Typography } from '@mui/material';
+import DoneIcon from '@mui/icons-material/Done';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import {
+  getIsRead,
+  getIsReadByMembers,
+  getReaders,
+} from 'components/custom/chat-message-item/utils';
 import { colors } from 'constants/colors';
 import { useSelector, useTranslations, useEffect, useState } from 'hooks';
 import { formatDate } from 'services';
 import { RootState } from 'store';
 import { useMarkMessageAsReadMutation } from 'store/chat';
 import { Message } from 'types';
+import { UserChatResponse } from 'types/user-backend';
+import ButtonClose from '../button-close/button-close';
 
 type Props = {
   message: Message;
+  usersData: UserChatResponse[] | undefined;
 };
 
-export function ChatMessageItem({ message }: Props): JSX.Element {
+export function ChatMessageItem({ message, usersData }: Props): JSX.Element {
+  const [isVisibleReaders, setIsVisibleReaders] = useState<boolean>(false);
+  const [readers, setReaders] = useState<
+    {
+      memberId: string;
+      memberName: string;
+      isReadByMember: boolean;
+    }[]
+  >();
   const t = useTranslations('agents');
   const user = useSelector((state: RootState) => state.authSlice.user);
   const { id, content, createdAt, owner, isReadBy, chat } = message;
@@ -65,6 +82,25 @@ export function ChatMessageItem({ message }: Props): JSX.Element {
     }
   }, [isRead, isMessageInViewport, trigger, id]);
 
+  function handleIsReadClick() {
+    setIsVisibleReaders(!isVisibleReaders);
+  }
+
+  useEffect(() => {
+    if (usersData && chat) {
+      const members = chat.members.map((member) => member.id);
+
+      setReaders(
+        getReaders({
+          isReadBy,
+          usersData,
+          members,
+          userId: user?.id,
+        })
+      );
+    }
+  }, [chat, isReadBy, user?.id, usersData]);
+
   return (
     <Box
       ref={(node) => setMessageRef(node as HTMLDivElement)}
@@ -87,6 +123,7 @@ export function ChatMessageItem({ message }: Props): JSX.Element {
           ...(isMe && {
             bgcolor: colors.CHAT_MY_MESSAGE_BACKGROUND_COLOR,
           }),
+          position: 'relative',
         }}
       >
         <Typography
@@ -124,6 +161,80 @@ export function ChatMessageItem({ message }: Props): JSX.Element {
           >
             {formatDate(createdAt)}
           </Typography>
+          {isMe && (
+            <>
+              <IconButton onClick={() => handleIsReadClick()} size="small">
+                {getIsReadByMembers({ isReadBy, userId: user?.id }) ? (
+                  <DoneAllIcon />
+                ) : (
+                  <DoneIcon />
+                )}
+              </IconButton>
+              {isVisibleReaders && readers && (
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: '0',
+                    left: '0',
+                    width: '100%',
+                    height: '100%',
+                    overflow: 'scroll',
+                    '&::-webkit-scrollbar': {
+                      display: 'none',
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                      display: 'none',
+                    },
+                  }}
+                >
+                  <ButtonClose
+                    width="10px"
+                    height="10px"
+                    top="5px"
+                    right="5px"
+                    handleClose={() => setIsVisibleReaders(!isVisibleReaders)}
+                  />
+                  <List
+                    sx={{
+                      width: '100%',
+                      backgroundColor: colors.PRIMARY_LIGHT_COLOR,
+                      border: `1px dashed ${colors.BUTTON_SECOND_COLOR}`,
+                      borderRadius: '10px',
+                    }}
+                  >
+                    {readers.map(({ memberName, memberId, isReadByMember }) => (
+                      <ListItem
+                        key={memberId}
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          width: '100%',
+                          p: '5px',
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                            fontSize: '10px',
+                          }}
+                        >
+                          {memberName}
+                        </Typography>
+                        {isReadByMember ? (
+                          <DoneAllIcon sx={{ height: '10px' }} />
+                        ) : (
+                          <DoneIcon sx={{ height: '10px' }} />
+                        )}
+                      </ListItem>
+                    ))}
+                  </List>
+                </Box>
+              )}
+            </>
+          )}
         </Stack>
       </Stack>
     </Box>

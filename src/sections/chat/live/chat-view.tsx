@@ -3,10 +3,11 @@
 import { Button, Card, Container, Stack, Typography } from '@mui/material';
 import useTheme from '@mui/system/useTheme';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import { useCallback, useRouter, useTranslations } from 'hooks';
+import { useCallback, useEffect, useRouter, useTranslations } from 'hooks';
 import { Message } from 'types';
 import { CustomLink } from 'components/custom';
 import { useSendMessageMutation } from 'store/chat';
+import { useGetAllUsersMutation } from 'store/api/userApi';
 import ChatMessageList from './chat-message-list';
 import ChatMessageInput from './chat-message-input';
 
@@ -21,6 +22,12 @@ export default function ChatView({ messages, chatId }: Props): JSX.Element {
   const router = useRouter();
   const theme = useTheme();
   const [sendMessage] = useSendMessageMutation();
+
+  const [getAllUsers, { data: usersData }] = useGetAllUsersMutation();
+
+  useEffect(() => {
+    getAllUsers();
+  }, [getAllUsers]);
 
   const addMessage = useCallback(
     (message: string) => {
@@ -52,7 +59,7 @@ export default function ChatView({ messages, chatId }: Props): JSX.Element {
         overflow: 'hidden',
       }}
     >
-      <ChatMessageList messages={messages} />
+      <ChatMessageList messages={messages} usersData={usersData} />
 
       <ChatMessageInput addMessage={addMessage} />
     </Stack>

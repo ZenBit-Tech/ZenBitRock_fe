@@ -5,17 +5,19 @@ import { format } from 'date-fns';
 import { datesFormats } from 'constants/dates-formats';
 import Scrollbar from 'components/scrollbar';
 import { ChatMessageItem } from 'components/custom';
+import { UserChatResponse } from 'types/user-backend';
 import useMessagesScroll from './use-messages-scroll';
 
 type Props = {
   messages: Message[];
+  usersData: UserChatResponse[] | undefined;
 };
 
 type GroupedMessages = {
   [key: string]: Message[];
 };
 
-export default function ChatMessageList({ messages }: Props): JSX.Element {
+export default function ChatMessageList({ messages, usersData }: Props): JSX.Element {
   const { messagesEndRef } = useMessagesScroll(messages);
 
   const sortedMessages = useMemo(
@@ -51,7 +53,7 @@ export default function ChatMessageList({ messages }: Props): JSX.Element {
               {date}
             </Typography>
             {groupMessages.map((message) => (
-              <ChatMessageItem message={message} key={message.id} />
+              <ChatMessageItem message={message} key={message.id} usersData={usersData} />
             ))}
           </Box>
         ))}
