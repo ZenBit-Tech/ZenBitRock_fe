@@ -114,6 +114,7 @@ const FilterList = ({ applyFilters, setFilterString }: Props): JSX.Element => {
   const onSubmit = handleSubmit(async (formData) => {
     try {
       const filter = getMainPagePropertyFilter(formData);
+
       replace(formData);
       applyFilters(filter);
       setFilterString(getFilterString(formData));
