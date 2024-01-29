@@ -1,10 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ChatEvent, StorageKey } from 'enums';
+import { getSocket } from 'store/app-socket-factory';
 import { AppNotification } from 'types';
-
-import { createSocketFactory } from 'utils';
-
-const getSocket = createSocketFactory();
 
 export const NotificationApi = createApi({
   reducerPath: 'NotificationApi',
@@ -27,6 +24,8 @@ export const NotificationApi = createApi({
       async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved, updateCachedData }) {
         try {
           await cacheDataLoaded;
+
+          console.log('GGGGGGGGGGGGGGGGGGG');
 
           const socket = getSocket();
 
@@ -52,7 +51,26 @@ export const NotificationApi = createApi({
         }
       },
     }),
+    deleteNotificationToUser: builder.mutation<boolean, { notificationId: string; userId: string }>(
+      {
+        queryFn: (notificationToUser: { notificationId: string; userId: string }) => {
+          const socket = getSocket();
+          const { notificationId, userId } = notificationToUser;
+
+          return new Promise((resolve) => {
+            socket.emit(
+              ChatEvent.DeleteNotificationToUser,
+              { notificationId, userId },
+              (deleteResult: boolean) => {
+                resolve({ data: deleteResult });
+              }
+            );
+          });
+        },
+        invalidatesTags: ['Notification'],
+      }
+    ),
   }),
 });
 
-export const { useGetNotificationsQuery } = NotificationApi;
+export const { useGetNotificationsQuery, useDeleteNotificationToUserMutation } = NotificationApi;

@@ -3,9 +3,7 @@ import { Chat, ChatInfoResponse, ChatsRequest } from 'types/chats';
 import { IChatResponse, ICreatePrivateChatRequest } from 'types/chat';
 import { ApiRoute, ChatEvent, StorageKey } from 'enums';
 import { ICreateGroupChatRequest, Message, IChatRequest } from 'types';
-import { createSocketFactory } from 'utils';
-
-const getSocket = createSocketFactory();
+import { getSocket } from 'store/app-socket-factory';
 
 export const ChatApi = createApi({
   reducerPath: 'ChatApi',
