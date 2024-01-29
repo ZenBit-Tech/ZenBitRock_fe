@@ -25,8 +25,6 @@ export const NotificationApi = createApi({
         try {
           await cacheDataLoaded;
 
-          console.log('GGGGGGGGGGGGGGGGGGG');
-
           const socket = getSocket();
 
           socket.emit(
