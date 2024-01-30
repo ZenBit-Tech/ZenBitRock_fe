@@ -356,6 +356,9 @@
     "notificationCenter": "Notification center",
     "noNewNotifications": "No new notifications",
     "view": "View",
+    "youHave": "You have",
+    "newNotifications": "new notifications",
+    "newNotification": "new notification",
     "filters": {
       "location": "Location",
       "propertyType": "Property type",
