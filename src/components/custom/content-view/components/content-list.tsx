@@ -125,7 +125,7 @@ function ContentList({
                 checked={checked}
                 t={t}
                 type={type}
-                isAdmin={isAdmin}
+                isAdmin={isAdmin ? isAdmin : false}
               />
             ))
         ) : (

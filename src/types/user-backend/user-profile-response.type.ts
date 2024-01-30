@@ -19,7 +19,7 @@ type UserProfileResponse = {
   avatarPublicId: string;
   isDeleted: boolean;
   receiveNotifications: boolean;
-  isAdmin: boolean;
+  isAdmin?: boolean;
 };
 
 export { type UserProfileResponse };
