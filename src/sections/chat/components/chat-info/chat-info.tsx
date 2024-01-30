@@ -307,7 +307,9 @@ const ChatInfo = (): JSX.Element => {
           members
             .filter(
               (member) =>
-                member.label.toLowerCase() !== 'deleted user' && member.id !== data?.owner?.id
+                member.label.toLowerCase() !== 'deleted user' &&
+                member.id !== data?.owner?.id &&
+                usersData?.find(({ id }) => id === member.id)?.qobrixUserId
             )
             .map(
               (user, idx: number) =>

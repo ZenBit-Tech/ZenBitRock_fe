@@ -102,8 +102,13 @@ export function FormAddAgents({
   };
 
   const filteredOptions = useMemo(
-    () => options.filter((opt) => opt.label.toLowerCase() !== 'deleted user'),
-    [options]
+    () =>
+      options.filter(
+        (opt) =>
+          opt.label.toLowerCase() !== 'deleted user' ||
+          usersData?.find(({ id }) => id === opt.id)?.qobrixUserId
+      ),
+    [options, usersData]
   );
 
   return (

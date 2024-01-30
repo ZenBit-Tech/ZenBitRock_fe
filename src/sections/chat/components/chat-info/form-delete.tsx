@@ -41,11 +41,11 @@ export function FormDelete({
       if (userId === ownerId) {
         if (chatId) await deleteChat({ id: chatId }).unwrap();
       } else if (chatMembers && userId !== ownerId) {
-        closeModalUp();
         await updateGroupChat({
           id: chatId,
           memberIds: chatMembers.map((member) => member.id).filter((member) => member !== userId),
         }).unwrap();
+        closeModalUp();
       }
       router.push(`${AppRoute.CHATS_PAGE}`);
     } catch (error) {
