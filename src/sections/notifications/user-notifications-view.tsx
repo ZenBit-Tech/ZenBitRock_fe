@@ -6,7 +6,6 @@ import { useDeleteNotificationToUserMutation, useGetNotificationsQuery } from 's
 import { Page500 } from 'sections/error';
 import { UserProfileResponse } from 'types';
 import { LoadingScreen } from 'components/loading-screen';
-import { Page500 } from 'sections/error';
 import { NotificationCard } from './components';
 
 type Props = {
