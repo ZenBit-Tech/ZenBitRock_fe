@@ -6,6 +6,7 @@ import { useDeleteNotificationToUserMutation, useGetNotificationsQuery } from 's
 import { Page500 } from 'sections/error';
 import { UserProfileResponse } from 'types';
 import { LoadingScreen } from 'components/loading-screen';
+import { Page500 } from 'sections/error';
 import { NotificationCard } from './components';
 
 type Props = {
@@ -15,7 +16,7 @@ type Props = {
 const UserNotificationsView = ({ user }: Props) => {
   const t = useTranslations('notifications');
 
-  const { data, isLoading } = useGetNotificationsQuery({
+  const { data, isLoading, isError } = useGetNotificationsQuery({
     userId: user.id,
   });
   const [deleteNotificationToUser] = useDeleteNotificationToUserMutation();
