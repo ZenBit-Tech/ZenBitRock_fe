@@ -12,7 +12,6 @@ import { useSettingsContext } from 'components/settings';
 import { LoadingScreen } from 'components/loading-screen';
 import ChatNav from 'sections/chat/chat-nav';
 import { Page500 } from 'sections/error';
-import { ChatNotifications } from 'sections/chat/agent-network-notifications';
 import { DELAY, Onboarding, agentsMockData, useOnboardingContext } from 'components/custom';
 
 export default function AgentNetworkView(): JSX.Element {
@@ -61,10 +60,9 @@ export default function AgentNetworkView(): JSX.Element {
         sx={{ pb: 14 }}
         className="onboarding-step-9"
       >
-        <Typography variant="h3" sx={{ my: 3 }}>
+        <Typography variant="h3" sx={{ mt: 3, mb: 1 }}>
           {t('pageTitle')}
         </Typography>
-        <ChatNotifications />
         <ChatNav agents={tourActive ? agentsMockData : usersData} loading={isLoading} id={id} />
       </Container>
     </>

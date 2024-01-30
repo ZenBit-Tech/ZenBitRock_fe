@@ -13,4 +13,5 @@ export const patterns = {
   about: /^[a-zA-Z0-9,.\-\s]{1,300}$/,
   agency: /^[a-zA-Z0-9,.\-\s]{2,30}$/,
   url: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?.+$/,
+  contentTitle: /^[a-zA-Z0-9\s\p{P}]{3,100}$/u,
 };

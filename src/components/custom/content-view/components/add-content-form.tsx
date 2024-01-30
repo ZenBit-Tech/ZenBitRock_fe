@@ -17,7 +17,7 @@ type Props = {
 type FormValues = {
   title: string;
   link: string;
-  screenshot: string;
+  thumbnail: string;
 };
 
 export default function AddContentForm({ t, closeModalUp, type }: Props): JSX.Element {
@@ -34,12 +34,13 @@ export default function AddContentForm({ t, closeModalUp, type }: Props): JSX.El
     defaultValues: {
       title: '',
       link: '',
-      screenshot: '',
+      thumbnail: '',
     },
   });
 
   const onSubmit = async (data: FormValues): Promise<void> => {
-    const preparedData = { ...data, type };
+    const { title, link, thumbnail: screenshot } = data;
+    const preparedData = { title, link, screenshot, type };
 
     try {
       await addContent(preparedData).unwrap();
@@ -67,8 +68,18 @@ export default function AddContentForm({ t, closeModalUp, type }: Props): JSX.El
       <TextField
         {...register('title', {
           required: t('titleRequired'),
+          pattern: {
+            value: patterns.contentTitle,
+            message: t('invalidTitle'),
+          },
         })}
-        sx={{ height: '80px', mb: '0.9rem' }}
+        sx={{
+          height: '80px',
+          mb: '1.1rem',
+          '& .MuiFormHelperText-root': {
+            marginTop: '0.1rem',
+          },
+        }}
         variant="outlined"
         label={t('title')}
         placeholder={t('titlePlaceholder')}
@@ -86,7 +97,7 @@ export default function AddContentForm({ t, closeModalUp, type }: Props): JSX.El
             message: t('invalidUrl'),
           },
         })}
-        sx={{ height: '80px', mb: '0.9rem' }}
+        sx={{ height: '80px', mb: '1.1rem' }}
         variant="outlined"
         label={t('link')}
         placeholder={t('linkPlaceholder')}
@@ -97,23 +108,24 @@ export default function AddContentForm({ t, closeModalUp, type }: Props): JSX.El
         autoComplete=""
       />
       <TextField
-        {...register('screenshot', {
+        {...register('thumbnail', {
+          required: t('thumbnailRequired'),
           pattern: {
             value: patterns.url,
             message: t('invalidUrl'),
           },
         })}
-        sx={{ height: '80px', mb: '0.9rem' }}
+        sx={{ height: '80px', mb: '1.1rem' }}
         variant="outlined"
         label={t('screenshot')}
         placeholder={t('screenshotPlaceholder')}
         type="text"
         fullWidth
-        error={Boolean(errors?.screenshot)}
-        helperText={errors?.screenshot && <div>{errors.screenshot.message}</div>}
+        error={Boolean(errors?.thumbnail)}
+        helperText={errors?.thumbnail && <div>{errors.thumbnail.message}</div>}
         autoComplete=""
       />
-      <Stack sx={{ mt: 5, position: 'relative' }}>
+      <Stack sx={{ position: 'relative' }}>
         {isLoading && (
           <LoadingScreen
             sx={{
