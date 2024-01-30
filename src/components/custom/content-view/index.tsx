@@ -7,14 +7,14 @@ import { LoadingScreen } from 'components/loading-screen';
 import { useSnackbar } from 'components/snackbar';
 import { AppRoute } from 'enums';
 import { useEffect, useMount, useRouter, useScrollToTop, useState, useTranslations } from 'hooks';
-import { useGetContentMutation } from 'store/content';
 import { toTitleCase } from 'utils';
+import { useGetContentQuery } from 'store/content/content-api';
 import { ContentList } from './components/content-list';
 import { ContentFilter } from './components';
 
 function ContentView(): JSX.Element {
   const [filter, setFilter] = useState<string>('');
-  const [showLoader, setLoader] = useState(false);
+  const [showLoader, setLoader] = useState<boolean>(false);
 
   const t = useTranslations('content');
   const { enqueueSnackbar } = useSnackbar();
@@ -26,16 +26,12 @@ function ContentView(): JSX.Element {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const [getContent, { data: content, error, isLoading }] = useGetContentMutation();
+  const { data: content, error, isLoading } = useGetContentQuery();
 
   const {
     setState,
     state: { tourActive },
   } = useOnboardingContext();
-
-  useEffect(() => {
-    getContent();
-  }, [getContent]);
 
   function getFilter(searchString: string): void {
     setFilter(searchString);

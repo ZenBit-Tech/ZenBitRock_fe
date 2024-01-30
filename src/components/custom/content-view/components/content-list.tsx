@@ -5,8 +5,11 @@ import { ContentSort, ContentItem } from 'components/custom/content-view/compone
 import sortContent from 'components/custom/content-view/utils/sortContent';
 import Iconify from 'components/iconify';
 import { CONTENT_SORT_OPTIONS } from 'constants/contentSortOptions';
-import { useState } from 'hooks';
+import { useSelector, useState } from 'hooks';
 import { IContentItem } from 'types';
+import { ContentType } from 'types/content';
+import { RootState } from 'store';
+import AddContentBtn from './add-content-btn';
 
 function ContentList({
   contents,
@@ -17,10 +20,12 @@ function ContentList({
   contents: IContentItem[];
   filter: string;
   t: Function;
-  type: string;
+  type: ContentType;
 }): JSX.Element {
   const [sort, setSort] = useState<string>('nameAsc');
   const [isOpen, setIsOpen] = useState<boolean>(true);
+  const authUser = useSelector((state: RootState) => state.authSlice.user);
+  const { isAdmin } = authUser || { isAdmin: false };
 
   const sortedContent = useMemo<IContentItem[] | undefined>(
     () =>
@@ -81,6 +86,20 @@ function ContentList({
         </Typography>
       </Box>
       <Box id={`${type}__box`}>
+        {isAdmin && (
+          <Box sx={{ display: 'flex', alignItems: 'center', p: '6px 8px' }}>
+            <Typography
+              variant="h6"
+              sx={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+            >
+              {t('addLink')}
+            </Typography>
+            <AddContentBtn type={type} />
+          </Box>
+        )}
         <ContentSort sort={sort} sortOptions={CONTENT_SORT_OPTIONS} onSort={setSort} />
         {sortedContent && filter !== '' && (
           <Typography
@@ -99,7 +118,6 @@ function ContentList({
             .map(({ id, title, link, screenshot, checked }, idx) => (
               <ContentItem
                 id={id}
-                idx={idx}
                 key={id}
                 title={title}
                 link={link}
@@ -107,6 +125,7 @@ function ContentList({
                 checked={checked}
                 t={t}
                 type={type}
+                isAdmin={isAdmin}
               />
             ))
         ) : (
