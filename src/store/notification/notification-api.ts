@@ -18,7 +18,19 @@ export const NotificationApi = createApi({
   tagTypes: ['Notification'],
   endpoints: (builder) => ({
     getNotifications: builder.query<AppNotification[], { userId: string }>({
-      queryFn: () => ({ data: [] }),
+      queryFn: (userId: { userId: string }) => {
+        const socket = getSocket();
+
+        return new Promise((resolve) => {
+          socket.emit(
+            ChatEvent.RequestAllNotifications,
+            userId,
+            (notifications: AppNotification[]) => {
+              resolve({ data: notifications });
+            }
+          );
+        });
+      },
       providesTags: ['Notification'],
 
       async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved, updateCachedData }) {
@@ -26,16 +38,6 @@ export const NotificationApi = createApi({
           await cacheDataLoaded;
 
           const socket = getSocket();
-
-          socket.emit(
-            ChatEvent.RequestAllNotifications,
-            arg,
-            (notifications: AppNotification[]) => {
-              updateCachedData((draft) => {
-                draft.splice(0, draft.length, ...notifications);
-              });
-            }
-          );
 
           socket.on(ChatEvent.NewNotification, (notification: AppNotification) => {
             updateCachedData((draft) => {
@@ -65,7 +67,7 @@ export const NotificationApi = createApi({
             );
           });
         },
-        invalidatesTags: ['Notification'],
+        invalidatesTags: (result, error, arg) => [{ type: 'Notification', userId: arg.userId }],
       }
     ),
   }),
