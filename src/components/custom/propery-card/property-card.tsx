@@ -28,7 +28,7 @@ const PropertyCard = ({ property, className }: Props) => {
   const t = useTranslations('properties');
   const router = useRouter();
 
-  const { id, saleRent, status, country, city, price, photo, name } = property;
+  const { id, saleRent, status, country, city, price, priceRental, photo, name } = property;
 
   return (
     <Card
@@ -80,7 +80,11 @@ const PropertyCard = ({ property, className }: Props) => {
             fontSize: '1rem',
           }}
         >
-          {fCurrency(Number(price))}
+          {price &&
+            priceRental &&
+            `${fCurrency(Number(price))} / ${fCurrency(Number(priceRental))}`}
+          {price && !priceRental && fCurrency(Number(price))}
+          {!price && priceRental && fCurrency(Number(priceRental))}
         </TextStyled>
       </Box>
       <Box

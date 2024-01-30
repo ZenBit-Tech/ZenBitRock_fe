@@ -144,6 +144,7 @@ export const QobrixApi = createApi({
           country: property.country,
           city: property.city,
           price: property.list_selling_price_amount,
+          priceRental: property.list_rental_price_amount,
           photo: property.media?.[0]?.file?.thumbnails?.medium || null,
         }));
 

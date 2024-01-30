@@ -20,6 +20,7 @@ export function MockChatMessageItem({ message, me }: Props): JSX.Element {
   const { id, content, createdAt, owner, isReadBy } = message;
 
   const isRead = isReadBy ? isReadBy.filter((user) => user.userId !== owner.id)[0].isRead : false;
+
   const isMe = useMemo((): boolean => owner?.id === me, [owner?.id, me]);
 
   const [messageRef, setMessageRef] = useState<HTMLDivElement | null>(null);
@@ -50,11 +51,12 @@ export function MockChatMessageItem({ message, me }: Props): JSX.Element {
       }
     };
   }, [messageRef]);
+
   useEffect(() => {
-    if (!isRead && isMessageInViewport) {
+    if (!isMe && !isRead && isMessageInViewport) {
       trigger({ messageId: id });
     }
-  }, [isRead, isMessageInViewport, trigger, id]);
+  }, [isRead, isMessageInViewport, trigger, id, isMe]);
 
   return (
     <Box

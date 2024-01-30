@@ -19,6 +19,7 @@ export function InfoBlock({ property }: { property: QobrixPropertyDetailed }): J
   const t = useTranslations('property');
   const {
     price,
+    priceRental,
     status,
     name,
     propertyType,
@@ -70,7 +71,7 @@ export function InfoBlock({ property }: { property: QobrixPropertyDetailed }): J
         p: '1.5rem',
       }}
     >
-      {name && price && (
+      {name && (price || priceRental) && (
         <Box
           sx={{
             display: 'flex',
@@ -93,7 +94,11 @@ export function InfoBlock({ property }: { property: QobrixPropertyDetailed }): J
               overflow: 'visible',
             }}
           >
-            {fCurrency(price)}
+            {price &&
+              priceRental &&
+              `${fCurrency(Number(price))} / ${fCurrency(Number(priceRental))}`}
+            {price && !priceRental && fCurrency(Number(price))}
+            {!price && priceRental && fCurrency(Number(priceRental))}
           </TextStyled>
         </Box>
       )}
@@ -128,7 +133,11 @@ export function InfoBlock({ property }: { property: QobrixPropertyDetailed }): J
       {propertyType && (
         <BoxDescriptionItem>
           <TypographyDescriptionLeft>{t('type')}</TypographyDescriptionLeft>
-          <TypographyDescriptionRight>{firstUpperCase(propertyType)}</TypographyDescriptionRight>
+          <TypographyDescriptionRight>
+            {propertyType.includes('_')
+              ? firstUpperCase(propertyType.split('_').join(' '))
+              : firstUpperCase(propertyType)}
+          </TypographyDescriptionRight>
         </BoxDescriptionItem>
       )}
       {internalAreaAmount && (
