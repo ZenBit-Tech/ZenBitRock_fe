@@ -27,6 +27,7 @@ const AppRoute = {
   CONTENT_PAGE: '/content',
   QUICK_START_GUIDE_PAGE: '/guide',
   TUTORIAL_PAGE: '/tutorial-page',
+  NOTIFICATIONS: '/notifications',
 } as const;
 
 export { AppRoute };
