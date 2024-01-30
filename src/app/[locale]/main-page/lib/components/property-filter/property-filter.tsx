@@ -80,7 +80,11 @@ const PropertyFilter = ({ setFilter, setPropertyNameFilter }: Props) => {
           <FilterList applyFilters={handleApplyFilters} setFilterString={setFilterString} />
         </CustomPopover>
       </Box>
-      {filterString ? <Typography variant="body1" sx={{mt: 1, p:0.5}}>{filterString}</Typography> : null}
+      {filterString ? (
+        <Typography variant="body1" sx={{ mt: 1, p: 0.5 }}>
+          {filterString}
+        </Typography>
+      ) : null}
     </>
   );
 };
