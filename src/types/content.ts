@@ -7,6 +7,15 @@ type IContentResponse = {
   checked: boolean;
 };
 
+export type ContentType = 'article' | 'video';
+
+type IContentAddRequest = {
+  title: string;
+  link: string;
+  screenshot?: string;
+  type: ContentType;
+};
+
 type IContentUpdateRequest = { id: string; checked: boolean };
 
 type IContentItem = {
@@ -17,4 +26,9 @@ type IContentItem = {
   checked: boolean;
 };
 
-export { type IContentResponse, type IContentUpdateRequest, type IContentItem };
+export {
+  type IContentResponse,
+  type IContentUpdateRequest,
+  type IContentItem,
+  type IContentAddRequest,
+};

@@ -15,7 +15,7 @@ type Props = {
 const UserNotificationsView = ({ user }: Props) => {
   const t = useTranslations('notifications');
 
-  const { data, isLoading, isError } = useGetNotificationsQuery({
+  const { data, isLoading } = useGetNotificationsQuery({
     userId: user.id,
   });
   const [deleteNotificationToUser] = useDeleteNotificationToUserMutation();

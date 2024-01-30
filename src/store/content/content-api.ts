@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ApiRoute, StorageKey } from 'enums';
 import { IContentResponse, IContentUpdateRequest } from 'types';
+import { IContentAddRequest } from 'types/content';
 
 export const ContentApi = createApi({
   reducerPath: 'ContentApi',
@@ -16,12 +17,12 @@ export const ContentApi = createApi({
   }),
   tagTypes: ['Get content'],
   endpoints: (builder) => ({
-    getContent: builder.mutation<IContentResponse[], void>({
+    getContent: builder.query<IContentResponse[], void>({
       query: () => ({
         url: ApiRoute.CONTENT,
         method: 'GET',
       }),
-      invalidatesTags: [{ type: 'Get content' }],
+      providesTags: ['Get content'],
     }),
 
     updateContentChecked: builder.mutation<IContentResponse, IContentUpdateRequest>({
@@ -31,7 +32,27 @@ export const ContentApi = createApi({
         body: { checked: args.checked },
       }),
     }),
+    addContent: builder.mutation<IContentResponse, IContentAddRequest>({
+      query: (contentData) => ({
+        url: ApiRoute.ADD_CONTENT,
+        method: 'POST',
+        body: contentData,
+      }),
+      invalidatesTags: [{ type: 'Get content' }],
+    }),
+    deleteContent: builder.mutation<void, string>({
+      query: (contentId) => ({
+        url: `${ApiRoute.CONTENT}/${contentId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: [{ type: 'Get content' }],
+    }),
   }),
 });
 
-export const { useGetContentMutation, useUpdateContentCheckedMutation } = ContentApi;
+export const {
+  useUpdateContentCheckedMutation,
+  useAddContentMutation,
+  useGetContentQuery,
+  useDeleteContentMutation,
+} = ContentApi;

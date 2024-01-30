@@ -1,5 +1,5 @@
 export {
-  useGetContentMutation,
+  useGetContentQuery,
   useUpdateContentCheckedMutation,
   ContentApi,
 } from 'store/content/content-api';
