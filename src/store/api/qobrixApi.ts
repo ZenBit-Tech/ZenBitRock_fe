@@ -175,8 +175,14 @@ export const QobrixApi = createApi({
           status: response?.data.status,
           country: response?.data.country,
           city: response?.data.city,
-          price: response?.data.list_selling_price_amount,
-          priceRental: response?.data.list_rental_price_amount,
+          price:
+            response?.data.sale_rent !== 'for_rent'
+              ? response?.data.list_selling_price_amount
+              : undefined,
+          priceRental:
+            response?.data.sale_rent !== 'for_sale'
+              ? response?.data.list_rental_price_amount
+              : undefined,
           media: response?.data.media,
           description: response?.data.description,
           name: response?.data.name,
