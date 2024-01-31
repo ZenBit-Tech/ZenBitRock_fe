@@ -18,9 +18,11 @@ const FilterSchema = Yup.object().shape({
     .shape({ label: Yup.string().required(), value: Yup.string().required() })
     .nullable(),
   priceRangeRentFrom: Yup.number()
+    .transform((value, originalValue) => (originalValue === '' ? 0 : value))
     .min(100, 'Min 100')
     .lessThan(Yup.ref('priceRangeRentTo'), 'Should be less than max value'),
   priceRangeRentTo: Yup.number()
+    .transform((value, originalValue) => (originalValue === '' ? 0 : value))
     .min(100, 'Min 100')
     .max(10000, 'Max 10000')
     .moreThan(Yup.ref('priceRangeRentFrom'), 'Should be more than min value'),

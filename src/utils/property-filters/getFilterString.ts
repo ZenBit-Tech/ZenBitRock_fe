@@ -1,6 +1,7 @@
 import { PropertyFilterFormData } from 'types';
 import { QobrixPropertySaleRent } from 'enums/qobrix';
 import { randomValues } from 'constants/randomValues';
+import { fieldFormats } from 'constants/fieldFormats';
 
 const formatSlash = (value: string) => {
   const words = value.toLowerCase().split('_');
@@ -55,16 +56,32 @@ const getFilterString = (formData: PropertyFilterFormData): string => {
     filters.push(`${randomValues.BEDROOMS}: ${bedrooms.value}`);
   }
   if (rentOrSale === QobrixPropertySaleRent.FOR_SALE && priceRangeSaleFrom) {
-    filters.push(`${randomValues.PRICE_FROM}: ${priceRangeSaleFrom}`);
+    filters.push(
+      `${randomValues.PRICE_FROM}: ${Number(priceRangeSaleFrom).toLocaleString(
+        fieldFormats.FORMAT_ZONE
+      )}`
+    );
   }
   if (rentOrSale === QobrixPropertySaleRent.FOR_SALE && priceRangeSaleTo) {
-    filters.push(`${randomValues.PRICE_TO}: ${priceRangeSaleTo}`);
+    filters.push(
+      `${randomValues.PRICE_TO}: ${Number(priceRangeSaleTo).toLocaleString(
+        fieldFormats.FORMAT_ZONE
+      )}`
+    );
   }
   if (rentOrSale === QobrixPropertySaleRent.FOR_RENT && priceRangeRentFrom) {
-    filters.push(`${randomValues.PRICE_FROM}: ${priceRangeRentFrom}`);
+    filters.push(
+      `${randomValues.PRICE_FROM}: ${Number(priceRangeRentFrom).toLocaleString(
+        fieldFormats.FORMAT_ZONE
+      )}`
+    );
   }
   if (rentOrSale === QobrixPropertySaleRent.FOR_RENT && priceRangeRentTo) {
-    filters.push(`${randomValues.PRICE_TO}: ${priceRangeRentTo}`);
+    filters.push(
+      `${randomValues.PRICE_TO}: ${Number(priceRangeRentTo).toLocaleString(
+        fieldFormats.FORMAT_ZONE
+      )}`
+    );
   }
 
   return filters.join(', ');
