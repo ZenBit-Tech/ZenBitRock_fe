@@ -45,15 +45,15 @@ export default async function RootLayout({
       <body>
         <ThemeProvider>
           <StyledComponentsRegistry>
-            <LocalizationProvider>
-              <NextIntlClientProvider locale={locale} messages={localeData}>
+            <NextIntlClientProvider locale={locale} messages={localeData}>
+              <LocalizationProvider>
                 <ReduxProvider>
                   <OnboardingProvider>
                     <App>{children}</App>
                   </OnboardingProvider>
                 </ReduxProvider>
-              </NextIntlClientProvider>
-            </LocalizationProvider>
+              </LocalizationProvider>
+            </NextIntlClientProvider>
           </StyledComponentsRegistry>
         </ThemeProvider>
 
