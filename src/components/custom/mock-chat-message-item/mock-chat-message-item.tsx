@@ -20,7 +20,7 @@ export function MockChatMessageItem({ message, me }: Props): JSX.Element {
   const { id, content, createdAt, owner, isReadBy } = message;
 
   const isRead = isReadBy ? isReadBy.filter((user) => user.userId !== owner.id)[0].isRead : false;
-  console.log(isReadBy);
+
   const isMe = useMemo((): boolean => owner?.id === me, [owner?.id, me]);
 
   const [messageRef, setMessageRef] = useState<HTMLDivElement | null>(null);
