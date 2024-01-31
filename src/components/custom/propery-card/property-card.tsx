@@ -78,13 +78,29 @@ const PropertyCard = ({ property, className }: Props) => {
             color: 'white',
             textShadow: '1px 1px 2px black',
             fontSize: '1rem',
+            textAlign: 'right',
           }}
         >
-          {price &&
-            priceRental &&
-            `${fCurrency(Number(price))} / ${fCurrency(Number(priceRental))}`}
-          {price && !priceRental && fCurrency(Number(price))}
-          {!price && priceRental && fCurrency(Number(priceRental))}
+          {price && priceRental && (
+            <>
+              <Box component="span" sx={{ display: 'block' }}>{`for sale: ${fCurrency(
+                Number(price)
+              )}`}</Box>
+              <Box component="span" sx={{ display: 'block' }}>{`for rent: ${fCurrency(
+                Number(priceRental)
+              )}`}</Box>
+            </>
+          )}
+          {price && !priceRental && (
+            <Box component="span" sx={{ display: 'block' }}>{`for sale: ${fCurrency(
+              Number(price)
+            )}`}</Box>
+          )}
+          {!price && priceRental && (
+            <Box component="span" sx={{ display: 'block' }}>{`for rent: ${fCurrency(
+              Number(priceRental)
+            )}`}</Box>
+          )}
         </TextStyled>
       </Box>
       <Box

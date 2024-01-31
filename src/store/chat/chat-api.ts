@@ -83,7 +83,13 @@ export const ChatApi = createApi({
             });
           });
 
-          socket.on(ChatEvent.RequestUnreadMessagesCountUpdated, () => {
+          socket.on(ChatEvent.RequestUnreadMessagesCountUpdated, (chatIdIn) => {
+            console.log(chatIdIn);
+            console.log(arg.chatId);
+            if (chatIdIn !== arg.chatId) {
+              return;
+            }
+            console.log('click message');
             socket.emit(ChatEvent.RequestAllMessages, arg, (messages: Message[]) => {
               updateCachedData((draft) => {
                 draft.splice(0, draft.length, ...messages);
@@ -110,8 +116,10 @@ export const ChatApi = createApi({
           });
 
           socket.on(ChatEvent.RequestUnreadMessagesCountUpdated, () => {
+            console.log('click all unread');
             socket.emit(ChatEvent.RequestUnreadMessagesCount, (unreadCount: number) => {
               updateCachedData((draft) => unreadCount);
+              console.log(unreadCount);
             });
           });
 
@@ -137,7 +145,14 @@ export const ChatApi = createApi({
             }
           );
 
-          socket.on(ChatEvent.RequestUnreadMessagesCountUpdated, () => {
+          socket.on(ChatEvent.RequestUnreadMessagesCountUpdated, (chatIdIn) => {
+            console.log(chatIdIn);
+            console.log(arg.chatId);
+
+            if (chatIdIn !== arg.chatId) {
+              return;
+            }
+            console.log('click chat');
             socket.emit(
               ChatEvent.RequestUnreadMessagesByIdCount,
               arg.chatId,

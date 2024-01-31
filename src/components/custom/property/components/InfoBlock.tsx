@@ -76,8 +76,9 @@ export function InfoBlock({ property }: { property: QobrixPropertyDetailed }): J
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
-            alignItems: 'center',
+            alignItems: 'baseline',
             marginBottom: '1.5rem',
+            textAlign: 'right',
           }}
         >
           <TextStyled
@@ -94,11 +95,26 @@ export function InfoBlock({ property }: { property: QobrixPropertyDetailed }): J
               overflow: 'visible',
             }}
           >
-            {price &&
-              priceRental &&
-              `${fCurrency(Number(price))} / ${fCurrency(Number(priceRental))}`}
-            {price && !priceRental && fCurrency(Number(price))}
-            {!price && priceRental && fCurrency(Number(priceRental))}
+            {price && priceRental && (
+              <>
+                <Box component="span" sx={{ display: 'block' }}>{`for sale: ${fCurrency(
+                  Number(price)
+                )}`}</Box>
+                <Box component="span" sx={{ display: 'block' }}>{`for rent: ${fCurrency(
+                  Number(priceRental)
+                )}`}</Box>
+              </>
+            )}
+            {price && !priceRental && (
+              <Box component="span" sx={{ display: 'block' }}>{`for sale: ${fCurrency(
+                Number(price)
+              )}`}</Box>
+            )}
+            {!price && priceRental && (
+              <Box component="span" sx={{ display: 'block' }}>{`for rent: ${fCurrency(
+                Number(priceRental)
+              )}`}</Box>
+            )}
           </TextStyled>
         </Box>
       )}
