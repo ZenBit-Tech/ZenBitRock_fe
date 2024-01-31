@@ -8,19 +8,26 @@ import { getNameFilter } from 'utils';
 import { StorageKey } from 'enums';
 import { colors } from 'constants/colors';
 import { FilterList } from '../filter-list/filter-list';
+import { getStorageKeyWithUserId } from '../filter-list/lib';
 
 type Props = {
   setFilter: (filter: string) => void;
-
   setPropertyNameFilter: (filter: string) => void;
+  userId: string;
 };
-const PropertyFilter = ({ setFilter, setPropertyNameFilter }: Props) => {
+
+const PropertyFilter = ({ setFilter, setPropertyNameFilter, userId }: Props) => {
   const popover = usePopover();
 
   const inputRef = useRef<HTMLInputElement>();
 
+  const propertyStringWithUserId: string = getStorageKeyWithUserId(
+    StorageKey.FILTER_STRING,
+    userId
+  );
+
   const [filterString, setFilterString] = useState<string>(
-    getStorage(StorageKey.FILTER_STRING) ? getStorage(StorageKey.FILTER_STRING) : ''
+    getStorage(propertyStringWithUserId) ? getStorage(propertyStringWithUserId) : ''
   );
 
   const handleApplyFilters = useCallback(
@@ -80,7 +87,11 @@ const PropertyFilter = ({ setFilter, setPropertyNameFilter }: Props) => {
           arrow="top-left"
           sx={{ width: '100%', mt: 1, overflow: 'scroll' }}
         >
-          <FilterList applyFilters={handleApplyFilters} setFilterString={setFilterString} />
+          <FilterList
+            userId={userId}
+            applyFilters={handleApplyFilters}
+            setFilterString={setFilterString}
+          />
         </CustomPopover>
       </Box>
     </>
