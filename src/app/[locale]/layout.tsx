@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import 'modern-normalize/modern-normalize.css';
 import StyledComponentsRegistry from 'lib/registry';
 import ToastContainerWrapper from 'components/toast-container';
+import { LocalizationProvider } from 'locales';
 import { App, OnboardingProvider } from 'components/custom';
 import ThemeProvider from 'theme';
 import ReduxProvider from 'store/ReduxProvider';
@@ -44,13 +45,15 @@ export default async function RootLayout({
       <body>
         <ThemeProvider>
           <StyledComponentsRegistry>
-            <NextIntlClientProvider locale={locale} messages={localeData}>
-              <ReduxProvider>
-                <OnboardingProvider>
-                  <App>{children}</App>
-                </OnboardingProvider>
-              </ReduxProvider>
-            </NextIntlClientProvider>
+            <LocalizationProvider>
+              <NextIntlClientProvider locale={locale} messages={localeData}>
+                <ReduxProvider>
+                  <OnboardingProvider>
+                    <App>{children}</App>
+                  </OnboardingProvider>
+                </ReduxProvider>
+              </NextIntlClientProvider>
+            </LocalizationProvider>
           </StyledComponentsRegistry>
         </ThemeProvider>
 
