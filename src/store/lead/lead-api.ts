@@ -62,6 +62,4 @@ export const LeadApi = createApi({
   }),
 });
 
-
-
 export const { useGetLeadDetailsQuery, useGetMatchingPropertiesQuery } = LeadApi;
