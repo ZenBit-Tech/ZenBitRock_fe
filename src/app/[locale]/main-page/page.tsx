@@ -7,9 +7,9 @@ import { useCallback, useMount, useSelector, useState, useTranslations } from 'h
 import { StorageKey } from 'enums';
 import { getMainPagePropertyFilter } from 'utils';
 import { getStorage } from 'hooks/use-local-storage';
+import { getStorageKeyWithUserId } from 'services';
 import { RootState } from 'store';
 import { NotificationCenter, PropertyFilter } from './lib';
-import { getStorageKeyWithUserId } from './lib/components/filter-list/lib';
 
 function MainPage(): JSX.Element {
   const authUser = useSelector((state: RootState) => state.authSlice.user);

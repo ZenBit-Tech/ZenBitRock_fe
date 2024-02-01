@@ -7,16 +7,11 @@ import FormProvider, { RHFAutocomplete, RHFRadioGroup, RHFTextField } from 'comp
 import { Block } from 'components/custom';
 import { useGetPropertyTypesQuery, useSearchLocationsQuery } from 'store/api/qobrixApi';
 import { getLocationOptions, getMainPagePropertyFilter } from 'utils';
+import { getStorageKeyWithUserId } from 'services';
 import { getFilterString } from 'utils/property-filters';
 import { LocationSelectOption, type PropertyFilterFormData } from 'types';
 import { StorageKey } from 'enums';
-import {
-  BEDROOMS,
-  getPropertyStatus,
-  getRentOrSaleOption,
-  FilterSchema,
-  getStorageKeyWithUserId,
-} from './lib';
+import { BEDROOMS, getPropertyStatus, getRentOrSaleOption, FilterSchema } from './lib';
 
 const defaultValues: PropertyFilterFormData = {
   location: null,
