@@ -23,6 +23,7 @@ export const LeadApi = createApi({
         method: 'GET',
       }),
     }),
+
     getMatchingProperties: builder.query<
       QobrixPropertyListResponse,
       { search: string; page: number; leadId: string }
@@ -60,5 +61,7 @@ export const LeadApi = createApi({
     }),
   }),
 });
+
+
 
 export const { useGetLeadDetailsQuery, useGetMatchingPropertiesQuery } = LeadApi;
