@@ -11,4 +11,5 @@ export {
   useGetUnreadMessagesCountQuery,
   useMarkMessageAsReadMutation,
   useGetUnreadMessagesCountByChatIdQuery,
+  useSetLikeMutation,
 } from 'store/chat/chat-api';

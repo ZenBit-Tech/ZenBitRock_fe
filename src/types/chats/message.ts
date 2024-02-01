@@ -11,6 +11,7 @@ type Message = {
   createdAt: string;
   updatedAt?: string;
   isReadBy: { messageId: string; userId: string; isRead: boolean }[];
+  likes: { messageId: string; userId: string; like: number }[];
 };
 
 export { type Message };

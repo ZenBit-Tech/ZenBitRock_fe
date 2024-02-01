@@ -15,6 +15,7 @@ const ChatEvent = {
   DeleteNotificationToUser: 'delete_notification_to_user',
   NotificationMarkAsRead: 'notification_mark_as_read',
   RequestNewNotificationsCount: 'request_new_notifications_count',
+  RequestSetLike: 'request_set_like',
 } as const;
 
 export { ChatEvent };

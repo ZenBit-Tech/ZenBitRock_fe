@@ -3,9 +3,16 @@
 import { Box, IconButton, List, ListItem, Stack, Typography } from '@mui/material';
 import DoneIcon from '@mui/icons-material/Done';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
+import FavoritIcon from '@mui/icons-material/Favorite';
+import FavoritBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
 import {
   getIsRead,
   getIsReadByMembers,
+  getLikes,
   getReaders,
 } from 'components/custom/chat-message-item/utils';
 import { colors } from 'constants/colors';
@@ -15,6 +22,7 @@ import { RootState } from 'store';
 import { useMarkMessageAsReadMutation } from 'store/chat';
 import { Message } from 'types';
 import { UserChatResponse } from 'types/user-backend';
+import Like from 'components/custom/mock-chat-message-item/like';
 import ButtonClose from '../button-close/button-close';
 
 type Props = {
@@ -31,9 +39,17 @@ export function ChatMessageItem({ message, usersData }: Props): JSX.Element {
       isReadByMember: boolean;
     }[]
   >();
+  const [allLikes, setAllLikes] = useState<
+    {
+      memberId: string;
+      memberName: string;
+      likeByMember: number;
+    }[]
+  >();
+
   const t = useTranslations('agents');
   const user = useSelector((state: RootState) => state.authSlice.user);
-  const { id, content, createdAt, owner, isReadBy, chat } = message;
+  const { id, content, createdAt, owner, isReadBy, chat, likes } = message;
 
   const isMe = owner.id === user?.id;
   const name = `${owner.firstName} ${owner.lastName}`;
@@ -98,20 +114,45 @@ export function ChatMessageItem({ message, usersData }: Props): JSX.Element {
           userId: user?.id,
         })
       );
+
+      setAllLikes(
+        getLikes({
+          likes,
+          usersData,
+          members,
+          userId: user?.id,
+        })
+      );
     }
-  }, [chat, isReadBy, user?.id, usersData]);
+  }, [chat, isReadBy, likes, user?.id, usersData]);
+
+  const icons = [
+    FavoritBorderIcon,
+    FavoritIcon,
+    ThumbUpIcon,
+    ThumbDownIcon,
+    SentimentSatisfiedAltIcon,
+    SentimentVeryDissatisfiedIcon,
+  ];
 
   return (
     <Box
       ref={(node) => setMessageRef(node as HTMLDivElement)}
       sx={{
         display: 'flex',
-        ...(isMe && { justifyContent: 'right' }),
+        alignItems: 'center',
+        flexDirection: 'row-reverse',
+        justifyContent: 'left',
+        ...(isMe && { justifyContent: 'right', flexDirection: 'row' }),
         '&:not(:last-child)': {
           mb: 2,
         },
+        position: 'relative',
       }}
     >
+      {!isMe && owner?.firstName?.toLowerCase() !== 'deleted' && (
+        <Like icons={icons} messageId={id} />
+      )}
       <Stack
         sx={{
           p: 1.5,
@@ -236,6 +277,48 @@ export function ChatMessageItem({ message, usersData }: Props): JSX.Element {
             </>
           )}
         </Stack>
+        {isMe && allLikes && (
+          <Box>
+            <List>
+              {allLikes.map(({ memberName, memberId, likeByMember }, idx) => (
+                <ListItem
+                  key={memberId + idx}
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    width: '100%',
+                    p: '5px',
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                      fontSize: '10px',
+                    }}
+                  >
+                    {memberName}
+                  </Typography>
+                  <Box
+                    component={icons[likeByMember]}
+                    sx={{
+                      color: colors.BUTTON_PRIMARY_COLOR,
+                      width: '1.75rem',
+                      minWidth: '1.75rem',
+
+                      height: '1.75rem',
+                      backgroundColor: colors.BUTTON_PRIMARY_COLOR_ALPHA,
+                      borderRadius: '50%',
+                      padding: '0.25rem',
+                    }}
+                  />
+                </ListItem>
+              ))}
+            </List>
+          </Box>
+        )}
       </Stack>
     </Box>
   );
