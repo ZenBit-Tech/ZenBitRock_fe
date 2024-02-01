@@ -2,7 +2,11 @@ import { Box, Stack } from '@mui/material';
 import { GoBackPageTitile } from 'components/custom';
 import { useCallback, useTranslations } from 'hooks';
 import { MobileLayout } from 'layouts';
-import { useDeleteNotificationToUserMutation, useGetNotificationsQuery } from 'store/notification';
+import {
+  useDeleteNotificationToUserMutation,
+  useGetNotificationsQuery,
+  useNotificationMarkAsReadMutation,
+} from 'store/notification';
 import { Page500 } from 'sections/error';
 import { UserProfileResponse } from 'types';
 import { LoadingScreen } from 'components/loading-screen';
@@ -19,12 +23,20 @@ const UserNotificationsView = ({ user }: Props) => {
     userId: user.id,
   });
   const [deleteNotificationToUser] = useDeleteNotificationToUserMutation();
+  const [NotificationMarkAsRead] = useNotificationMarkAsReadMutation();
 
   const handleDelete = useCallback(
     (notificationId: string, userId: string) => {
       deleteNotificationToUser({ notificationId, userId });
     },
     [deleteNotificationToUser]
+  );
+
+  const handleMarkAsRead = useCallback(
+    (notificationId: string, userId: string) => {
+      NotificationMarkAsRead({ notificationId, userId });
+    },
+    [NotificationMarkAsRead]
   );
 
   if (isLoading) {
@@ -48,6 +60,7 @@ const UserNotificationsView = ({ user }: Props) => {
                   key={notification.id}
                   userId={user.id}
                   handleDelete={handleDelete}
+                  handleMarkAsRead={handleMarkAsRead}
                 />
               ))}
           </Stack>
