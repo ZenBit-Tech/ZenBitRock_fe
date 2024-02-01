@@ -1,9 +1,13 @@
 import { Box, Fab, Stack, TextField, Typography } from '@mui/material';
-import { useScrollToTop, useState, useCallback } from 'hooks';
+import { useScrollToTop, useState, useCallback, useSelector } from 'hooks';
 import { NoDataFound, chatsMockData, useOnboardingContext } from 'components/custom';
 import { Page500 } from 'sections/error';
 import { LoadingScreen } from 'components/loading-screen';
 import { useGetChatsQuery } from 'store/chat/chat-api';
+import { getStorageKeyWithUserId } from 'services';
+import { StorageKey } from 'enums';
+import { RootState } from 'store';
+import { getStorage, setStorage } from 'hooks/use-local-storage';
 import ChatItem from './chat-item';
 import { Values, getSortOptions } from './helpers/drop-box-data';
 import { SortComponent } from './sort-component';
@@ -17,8 +21,16 @@ const FIRST_PAGE: number = 1;
 
 export default function ChatsList({ t }: Props) {
   const [page, setPage] = useState<number>(FIRST_PAGE);
-  const [searchParam, setSearchParam] = useState<string>('');
   const [sortBy, setSortBy] = useState<Values>(getSortOptions(t)[0]);
+  const authUser = useSelector((state: RootState) => state.authSlice.user);
+  const userId = authUser?.id || '';
+
+  const searchParamWithUserId: string = getStorageKeyWithUserId(
+    StorageKey.CHATS_SEARCH_PARAM,
+    userId
+  );
+
+  const [searchParam, setSearchParam] = useState<string>(getStorage(searchParamWithUserId) || '');
 
   const {
     state: { tourActive },
@@ -34,7 +46,10 @@ export default function ChatsList({ t }: Props) {
   const isVisible = useScrollToTop();
 
   const handleSearchChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchParam(event.target.value);
+    const data = event.target.value;
+
+    setSearchParam(data);
+    setStorage(searchParamWithUserId, data);
   }, []);
 
   const scrollToTop = (): void => {
