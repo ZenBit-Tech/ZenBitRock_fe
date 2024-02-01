@@ -9,7 +9,9 @@ type Props = {
 };
 
 const LeadDetailsPage = ({ params }: Props) => {
-  const { data, error } = useGetLeadDetailsQuery(params.id);
+  const { data, error } = useGetLeadDetailsQuery(params.id, {
+    refetchOnMountOrArgChange: true,
+  });
 
   if (error) {
     return <Page500 />;
@@ -18,7 +20,7 @@ const LeadDetailsPage = ({ params }: Props) => {
   if (!data) {
     return <LoadingScreen sx={{ mt: 'calc(100vh / 2 - 65px)' }} />;
   }
-
+ 
   return <LeadDetailsView leadDetails={data} />;
 };
 
