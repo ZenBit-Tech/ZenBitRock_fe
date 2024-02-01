@@ -41,7 +41,7 @@ export const NotificationApi = createApi({
 
           socket.on(ChatEvent.NewNotification, (notification: AppNotification) => {
             updateCachedData((draft) => {
-              draft.push(notification);
+              draft.unshift(notification);
             });
           });
 
