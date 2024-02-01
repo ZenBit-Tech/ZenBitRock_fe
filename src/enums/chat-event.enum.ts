@@ -16,6 +16,7 @@ const ChatEvent = {
   NotificationMarkAsRead: 'notification_mark_as_read',
   RequestNewNotificationsCount: 'request_new_notifications_count',
   RequestSetLike: 'request_set_like',
+  RequestSetLikeUpdated: 'request_set_like_updated',
 } as const;
 
 export { ChatEvent };

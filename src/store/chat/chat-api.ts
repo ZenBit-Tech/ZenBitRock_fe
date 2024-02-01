@@ -94,6 +94,17 @@ export const ChatApi = createApi({
             });
           });
 
+          socket.on(ChatEvent.RequestSetLikeUpdated, (chatIdIn) => {
+            if (chatIdIn !== arg.chatId) {
+              return;
+            }
+            socket.emit(ChatEvent.RequestAllMessages, arg, (messages: Message[]) => {
+              updateCachedData((draft) => {
+                draft.splice(0, draft.length, ...messages);
+              });
+            });
+          });
+
           await cacheEntryRemoved;
         } catch (error) {
           throw error;
