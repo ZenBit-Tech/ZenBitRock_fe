@@ -13,6 +13,8 @@ const ChatEvent = {
   NewNotification: 'new_nofification',
   RequestAllNotifications: 'request_all_notifications',
   DeleteNotificationToUser: 'delete_notification_to_user',
+  NotificationMarkAsRead: 'notification_mark_as_read',
+  RequestNewNotificationsCount: 'request_new_notifications_count',
 } as const;
 
 export { ChatEvent };
