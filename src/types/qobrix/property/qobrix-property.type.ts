@@ -11,7 +11,8 @@ type QobrixProperty = {
   city: string;
   price?: number;
   list_selling_price_amount?: number;
-  list_rental_price_amount?: number | null;
+  priceRental?: number;
+  list_rental_price_amount?: number;
   media?: { file: { thumbnails: { medium: string } } }[];
   photo: string | null;
 };

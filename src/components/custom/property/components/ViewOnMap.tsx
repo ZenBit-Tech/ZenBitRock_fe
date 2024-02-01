@@ -27,13 +27,17 @@ export function ViewOnMap({ coordinates, closeModal, openModal }: ViewOnMapProps
             title={t('close')}
             color={colors.BUTTON_PRIMARY_COLOR}
             icon="carbon:close-outline"
-            width="1.5rem"
-            height="1.5rem"
+            width="3rem"
+            height="3rem"
             sx={{
               position: 'absolute',
+              backgroundColor: colors.PRIMARY_LIGHT_COLOR,
+              padding: '0.5rem',
+              borderRadius: '50%',
               top: '2rem',
               right: '2rem',
               cursor: 'pointer',
+              boxShadow: `0px 0px 2px 2px ${colors.BUTTON_SECOND_COLOR}`,
               transition: 'all 200ms ease-out',
               '&:hover': {
                 color: colors.BUTTON_SECOND_COLOR,
