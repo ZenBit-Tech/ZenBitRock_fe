@@ -60,8 +60,6 @@ const PropertyFilter = ({ setFilter, setPropertyNameFilter, userId }: Props) => 
 
   return (
     <>
-      {filterString ? <Typography variant="body1">{filterString}</Typography> : null}
-
       <Box sx={{ marginTop: 2, display: 'flex', alignItems: 'center' }}>
         <TextField
           placeholder="Search by property name"
@@ -84,7 +82,6 @@ const PropertyFilter = ({ setFilter, setPropertyNameFilter, userId }: Props) => 
             ),
           }}
         />
-
         <IconButton sx={{ ml: 2 }} onClick={popover.onOpen}>
           <Iconify
             icon="mdi:filter"
@@ -107,6 +104,11 @@ const PropertyFilter = ({ setFilter, setPropertyNameFilter, userId }: Props) => 
           />
         </CustomPopover>
       </Box>
+      {filterString ? (
+        <Typography variant="body1" sx={{ mt: 1, p: 0.5 }}>
+          {filterString}
+        </Typography>
+      ) : null}
     </>
   );
 };

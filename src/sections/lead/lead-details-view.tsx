@@ -59,17 +59,14 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
     const leadId = data.id;
 
     try {
+      setSelectedStatus(status);
+
       await updateLeadMutation({
         id: leadId,
         conversion_status: status,
       });
-
-      if (status) {
-        setSelectedStatus(status);
-      }
     } catch (error) {
       const errMessage = t('error');
-
       enqueueSnackbar(errMessage, { variant: 'error' });
     }
   };
@@ -111,6 +108,7 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
                 <Typography variant="body2">{`${t('status')} :`}</Typography>
                 <Select
+                  key={selectedStatus}
                   value={selectedStatus}
                   variant="standard"
                   onChange={(e) => handleStatusChange(e.target.value)}
@@ -120,7 +118,9 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
                       (status) => status.id === selected
                     );
 
-                    return foundStatus ? foundStatus.label : workflow.name;
+                    return foundStatus
+                      ? foundStatus.label
+                      : leadDetails.data.conversion_status_workflow_stage.name;
                   }}
                 >
                   <MenuItem value={leadDetails.data.conversion_status_workflow_stage.name}>

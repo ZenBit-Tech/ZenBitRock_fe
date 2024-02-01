@@ -77,10 +77,10 @@ export function ChatMessageItem({ message, usersData }: Props): JSX.Element {
   }, [messageRef]);
 
   useEffect(() => {
-    if (!isRead && isMessageInViewport) {
+    if (!isMe && !isRead && isMessageInViewport) {
       trigger({ messageId: id });
     }
-  }, [isRead, isMessageInViewport, trigger, id]);
+  }, [isRead, isMessageInViewport, trigger, id, isMe]);
 
   function handleIsReadClick() {
     setIsVisibleReaders(!isVisibleReaders);

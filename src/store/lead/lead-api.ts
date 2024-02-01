@@ -23,6 +23,7 @@ export const LeadApi = createApi({
         method: 'GET',
       }),
     }),
+
     getMatchingProperties: builder.query<
       QobrixPropertyListResponse,
       { search: string; page: number; leadId: string }
@@ -36,7 +37,9 @@ export const LeadApi = createApi({
         response.data = response.data.map((property) => ({
           ...property,
           saleRent: property.sale_rent,
-          price: property.list_selling_price_amount,
+          price: property.sale_rent !== 'for_rent' ? property.list_selling_price_amount : undefined,
+          priceRental:
+            property.sale_rent !== 'for_sale' ? property.list_rental_price_amount : undefined,
           photo: property.media?.[0]?.file?.thumbnails?.medium || '',
         }));
 

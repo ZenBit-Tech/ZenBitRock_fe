@@ -7,7 +7,7 @@ import { LoadingScreen } from 'components/loading-screen';
 import { AppRoute } from 'enums';
 import { useSelector } from 'hooks';
 import { RootState } from 'store';
-import { useGetNotificationsQuery } from 'store/notification';
+import { useGetNewNotificationsCountQuery } from 'store/notification';
 
 type Props = {
   t: Function;
@@ -16,7 +16,7 @@ type Props = {
 const NotificationCenter = ({ t }: Props): JSX.Element => {
   const authUser = useSelector((state: RootState) => state.authSlice.user);
 
-  const { data } = useGetNotificationsQuery({
+  const { data } = useGetNewNotificationsCountQuery({
     userId: authUser?.id ?? '',
   });
 
@@ -28,7 +28,7 @@ const NotificationCenter = ({ t }: Props): JSX.Element => {
     return <LoadingScreen />;
   }
 
-  const isVisible = data?.length;
+  const isVisible = Boolean(data);
   const { receiveNotifications } = authUser;
 
   return (
@@ -49,14 +49,14 @@ const NotificationCenter = ({ t }: Props): JSX.Element => {
               justifyContent: 'space-between',
             }}
           >
-            {data?.length && (
+            {data && (
               <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
-                {`${t('youHave')} ${data.length} ${
-                  data.length === 1 ? t('newNotification') : t('newNotifications')
+                {`${t('youHave')} ${data} ${
+                  data === 1 ? t('newNotification') : t('newNotifications')
                 }`}
               </Typography>
             )}
-            {!data?.length && (
+            {!data && (
               <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
                 {t('noNewNotifications')}
               </Typography>

@@ -4,10 +4,10 @@ import { NextIntlClientProvider } from 'next-intl';
 import 'modern-normalize/modern-normalize.css';
 import StyledComponentsRegistry from 'lib/registry';
 import ToastContainerWrapper from 'components/toast-container';
-import { LocalizationProvider } from 'locales';
 import { App, OnboardingProvider } from 'components/custom';
 import ThemeProvider from 'theme';
 import ReduxProvider from 'store/ReduxProvider';
+import { LocalizationProvider } from 'locales';
 import { Locale } from 'locales/i18n.config';
 import './global.css';
 

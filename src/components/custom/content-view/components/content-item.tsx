@@ -33,10 +33,10 @@ function ContentItem({
   const [updateContentChecked] = useUpdateContentCheckedMutation();
   const linkRef = useRef(null);
 
-  const handleChange = useCallback(
-    (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-      if (event.target === linkRef.current && id && !checkBoxValue) {
-        setCheckBoxValue(true);
+  const handleChange = useCallback(() => {
+    if (!checkBoxValue) {
+      setCheckBoxValue(true);
+      if (id) {
         updateContentChecked({
           id,
           checked: true,
@@ -48,9 +48,8 @@ function ContentItem({
             });
           });
       }
-    },
-    [id, checkBoxValue, linkRef, updateContentChecked, enqueueSnackbar, t]
-  );
+    }
+  }, [id, checkBoxValue, updateContentChecked, enqueueSnackbar, t]);
 
   return (
     <>
@@ -63,25 +62,52 @@ function ContentItem({
         onClick={handleChange}
       >
         <Card
-          sx={{ p: '0.5rem', position: 'relative', mb: '1rem', '&:last-child': { mb: '1.5rem' } }}
+          sx={{
+            p: '0.5rem',
+            position: 'relative',
+            mb: '1rem',
+            '&:last-child': { mb: '1.5rem' },
+            display: 'flex',
+            flexDirection: 'column',
+          }}
         >
           <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
             <Box
               sx={{
+                minWidth: 0,
                 flex:
                   screenshot && (screenshot.includes('.png') || screenshot.includes('.jpg'))
                     ? 4
                     : 8,
-                py: '0.5rem',
+                pb: '0.5rem',
+                pt: { xs: 0, sm: '0.5rem' },
                 pl: '1rem',
               }}
             >
               {type === 'video' && (
                 <Box
-                  sx={{ display: 'flex', gap: '0.375rem', alignItems: 'baseline', mb: '0.5rem' }}
+                  sx={{
+                    display: 'flex',
+                    gap: '0.375rem',
+                    alignItems: 'baseline',
+                    mb: '0.5rem',
+                  }}
                 />
               )}
-              <Typography variant="subtitle2">{title}</Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  wordBreak: 'break-word',
+                  display: '-webkit-box',
+                  WebkitBoxOrient: 'vertical',
+                  WebkitLineClamp: 3,
+                  height: '4.4rem',
+                }}
+              >
+                {title}
+              </Typography>
             </Box>
             {screenshot && (screenshot.includes('.png') || screenshot.includes('.jpg')) && (
               <Box sx={{ flex: 4, py: '0.5rem' }}>

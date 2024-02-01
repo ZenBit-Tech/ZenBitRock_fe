@@ -9,7 +9,9 @@ type Props = {
 };
 
 const LeadDetailsPage = ({ params }: Props) => {
-  const { data, error } = useGetLeadDetailsQuery(params.id);
+  const { data, error } = useGetLeadDetailsQuery(params.id, {
+    refetchOnMountOrArgChange: true,
+  });
 
   if (error) {
     return <Page500 />;

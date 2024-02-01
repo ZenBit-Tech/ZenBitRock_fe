@@ -19,6 +19,7 @@ export function InfoBlock({ property }: { property: QobrixPropertyDetailed }): J
   const t = useTranslations('property');
   const {
     price,
+    priceRental,
     status,
     name,
     propertyType,
@@ -70,13 +71,14 @@ export function InfoBlock({ property }: { property: QobrixPropertyDetailed }): J
         p: '1.5rem',
       }}
     >
-      {name && price && (
+      {name && (price || priceRental) && (
         <Box
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
-            alignItems: 'center',
+            alignItems: 'baseline',
             marginBottom: '1.5rem',
+            textAlign: 'right',
           }}
         >
           <TextStyled
@@ -93,7 +95,26 @@ export function InfoBlock({ property }: { property: QobrixPropertyDetailed }): J
               overflow: 'visible',
             }}
           >
-            {fCurrency(price)}
+            {price && priceRental && (
+              <>
+                <Box component="span" sx={{ display: 'block' }}>{`for sale: ${fCurrency(
+                  Number(price)
+                )}`}</Box>
+                <Box component="span" sx={{ display: 'block' }}>{`for rent: ${fCurrency(
+                  Number(priceRental)
+                )}`}</Box>
+              </>
+            )}
+            {price && !priceRental && (
+              <Box component="span" sx={{ display: 'block' }}>{`for sale: ${fCurrency(
+                Number(price)
+              )}`}</Box>
+            )}
+            {!price && priceRental && (
+              <Box component="span" sx={{ display: 'block' }}>{`for rent: ${fCurrency(
+                Number(priceRental)
+              )}`}</Box>
+            )}
           </TextStyled>
         </Box>
       )}
@@ -128,7 +149,11 @@ export function InfoBlock({ property }: { property: QobrixPropertyDetailed }): J
       {propertyType && (
         <BoxDescriptionItem>
           <TypographyDescriptionLeft>{t('type')}</TypographyDescriptionLeft>
-          <TypographyDescriptionRight>{firstUpperCase(propertyType)}</TypographyDescriptionRight>
+          <TypographyDescriptionRight>
+            {propertyType.includes('_')
+              ? firstUpperCase(propertyType.split('_').join(' '))
+              : firstUpperCase(propertyType)}
+          </TypographyDescriptionRight>
         </BoxDescriptionItem>
       )}
       {internalAreaAmount && (
