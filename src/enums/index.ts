@@ -3,3 +3,4 @@ export { StorageKey } from './storage-key.enum';
 export { ApiRoute } from './api-route.enum';
 export { QobrixFilterKeysSaleRent } from './qobrix';
 export { ChatEvent } from './chat-event.enum';
+export { NotificationType } from './notification-type.enum';
