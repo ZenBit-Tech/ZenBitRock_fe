@@ -5,7 +5,7 @@ import { ProtectedRoute, Onboarding, useOnboardingContext, DELAY } from 'compone
 import PropertiesList from 'components/custom/propertiesList';
 import { useCallback, useMount, useSelector, useState, useTranslations } from 'hooks';
 import { StorageKey } from 'enums';
-import { getMainPagePropertyFilter } from 'utils';
+import { getMainPagePropertyFilter, getNameFilter } from 'utils';
 import { getStorage } from 'hooks/use-local-storage';
 import { getStorageKeyWithUserId } from 'services';
 import { RootState } from 'store';
@@ -19,13 +19,19 @@ function MainPage(): JSX.Element {
     StorageKey.PROPERTY_FILTER,
     userId
   );
+  const searchParamWithUserId: string = getStorageKeyWithUserId(
+    StorageKey.PROPERTIES_SEARCH_PARAM,
+    userId
+  );
 
   const [filter, setFilter] = useState<string>(
     getStorage(propertyFilterWithUserId)
       ? getMainPagePropertyFilter(getStorage(propertyFilterWithUserId))
       : ''
   );
-  const [propertyNameFilter, setPropertyNameFilter] = useState<string>('');
+  const [propertyNameFilter, setPropertyNameFilter] = useState<string>(
+    getStorage(searchParamWithUserId) ? getNameFilter(getStorage(searchParamWithUserId)) : ''
+  );
   const [showLoader, setLoader] = useState(true);
   const {
     setState,
@@ -94,6 +100,7 @@ function MainPage(): JSX.Element {
           <PropertyFilter
             userId={userId}
             setFilter={handleSetFilter}
+            searchParamWithUserId={searchParamWithUserId}
             setPropertyNameFilter={handleSetPropertyNameFilter}
           />
           <PropertiesList tourActive={tourActive} search={getCombinedFilter()} />

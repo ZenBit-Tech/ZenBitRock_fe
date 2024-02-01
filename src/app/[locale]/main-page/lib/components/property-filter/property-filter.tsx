@@ -13,18 +13,20 @@ import { FilterList } from '../filter-list/filter-list';
 type Props = {
   setFilter: (filter: string) => void;
   setPropertyNameFilter: (filter: string) => void;
+  searchParamWithUserId: string;
   userId: string;
 };
 
-const PropertyFilter = ({ setFilter, setPropertyNameFilter, userId }: Props) => {
+const PropertyFilter = ({
+  setFilter,
+  setPropertyNameFilter,
+  searchParamWithUserId,
+  userId,
+}: Props) => {
   const popover = usePopover();
 
   const inputRef = useRef<HTMLInputElement>();
 
-  const searchParamWithUserId: string = getStorageKeyWithUserId(
-    StorageKey.PROPERTIES_SEARCH_PARAM,
-    userId
-  );
   const propertyStringWithUserId: string = getStorageKeyWithUserId(
     StorageKey.FILTER_STRING,
     userId
