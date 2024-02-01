@@ -1,9 +1,9 @@
 import { Box, Card, IconButton, ListItemButton, Stack, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import { AppNotification } from 'types';
 import { useCallback } from 'hooks';
 import { formatDate } from 'services';
+import { getNotificationIcon } from '../helpers/getNotificationIcon.helper';
 
 type Props = {
   notification: AppNotification;
@@ -37,7 +37,7 @@ const NotificationCard = ({ notification, userId, handleDelete, handleMarkAsRead
               pt: 1,
             }}
           >
-            <GroupAddIcon color="primary" />
+            {getNotificationIcon(notification.type)}
             <Typography
               noWrap
               variant="caption"
