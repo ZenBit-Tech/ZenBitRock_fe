@@ -21,8 +21,14 @@ export default function ProfileCover({ name, avatarUrl }: IUserProfileCover) {
   const dispatch = useDispatch<AppDispatch>();
 
   const handleLogout = (): void => {
-    localStorage.removeItem(StorageKey.TOKEN);
-    localStorage.removeItem(StorageKey.FILTER_STRING);
+    const keysToRemove = [
+      StorageKey.TOKEN,
+      StorageKey.FILTER_STRING,
+      StorageKey.AGENTS_SEARCH_QUERY,
+    ];
+
+    keysToRemove.forEach((key) => localStorage.removeItem(key));
+
     dispatch(logoutUser());
   };
 
