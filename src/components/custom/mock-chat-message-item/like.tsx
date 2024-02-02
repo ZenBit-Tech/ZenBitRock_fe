@@ -8,11 +8,13 @@ import { useSetLikeMutation } from 'store/chat';
 export default function Like({
   icons,
   messageId,
+  like,
 }: {
   icons: OverridableComponent<SvgIconTypeMap>[];
   messageId: string;
+  like: number;
 }) {
-  const [likeNumber, setLikeNumber] = useState<number>(0);
+  const [likeNumber, setLikeNumber] = useState<number>(like);
   const [likes, setLikes] = useState<string>('');
   const [selectedLike, setSelectedLike] = useState<string>('');
 
@@ -64,7 +66,9 @@ export default function Like({
         )}
         <CloseRoundedIcon
           onClick={() => {
-            setLikes('slide-out-right');
+            if (likes !== '') {
+              setLikes('slide-out-right');
+            }
             setSelectedLike('scale-in-center');
           }}
           sx={{
@@ -94,7 +98,7 @@ export default function Like({
           marginLeft: '0.25rem',
           '&:hover, &:focus': { transform: 'scale(1.05)' },
           cursor: 'pointer',
-          //   opacity: '1',
+          opacity: '1',
         }}
       />
     </>

@@ -12,6 +12,7 @@ import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt
 import {
   getIsRead,
   getIsReadByMembers,
+  getLike,
   getLikes,
   getReaders,
 } from 'components/custom/chat-message-item/utils';
@@ -56,6 +57,15 @@ export function ChatMessageItem({ message, usersData }: Props): JSX.Element {
 
   const isRead: boolean = getIsRead({
     isReadBy,
+    isMe,
+    userId: user?.id,
+    messageId: id,
+    ownerId: owner.id,
+    chat,
+  });
+
+  const like: number = getLike({
+    likes,
     isMe,
     userId: user?.id,
     messageId: id,
@@ -151,7 +161,7 @@ export function ChatMessageItem({ message, usersData }: Props): JSX.Element {
       }}
     >
       {!isMe && owner?.firstName?.toLowerCase() !== 'deleted' && (
-        <Like icons={icons} messageId={id} />
+        <Like icons={icons} messageId={id} like={like} />
       )}
       <Stack
         sx={{
@@ -265,9 +275,36 @@ export function ChatMessageItem({ message, usersData }: Props): JSX.Element {
                           {memberName}
                         </Typography>
                         {isReadByMember ? (
-                          <DoneAllIcon sx={{ height: '10px' }} />
+                          <>
+                            {allLikes &&
+                              Number(
+                                allLikes.filter(
+                                  ({ memberId: memberLikeId }) => memberId === memberLikeId
+                                )[0].likeByMember
+                              ) !== 0 && (
+                                <Box
+                                  component={
+                                    icons[
+                                      Number(
+                                        allLikes.filter(
+                                          ({ memberId: memberLikeId }) => memberId === memberLikeId
+                                        )[0].likeByMember
+                                      )
+                                    ]
+                                  }
+                                  sx={{
+                                    color: colors.BUTTON_PRIMARY_COLOR,
+                                    width: '1rem',
+                                    height: '1rem',
+                                    marginRight: '0.5rem',
+                                    marginLeft: 'auto',
+                                  }}
+                                />
+                              )}
+                            <DoneAllIcon sx={{ height: '1rem' }} />
+                          </>
                         ) : (
-                          <DoneIcon sx={{ height: '10px' }} />
+                          <DoneIcon sx={{ height: '1rem' }} />
                         )}
                       </ListItem>
                     ))}
@@ -277,48 +314,6 @@ export function ChatMessageItem({ message, usersData }: Props): JSX.Element {
             </>
           )}
         </Stack>
-        {isMe && allLikes && (
-          <Box>
-            <List>
-              {allLikes.map(({ memberName, memberId, likeByMember }, idx) => (
-                <ListItem
-                  key={memberId + idx}
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    width: '100%',
-                    p: '5px',
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                      fontSize: '10px',
-                    }}
-                  >
-                    {memberName}
-                  </Typography>
-                  <Box
-                    component={icons[likeByMember]}
-                    sx={{
-                      color: colors.BUTTON_PRIMARY_COLOR,
-                      width: '1.75rem',
-                      minWidth: '1.75rem',
-
-                      height: '1.75rem',
-                      backgroundColor: colors.BUTTON_PRIMARY_COLOR_ALPHA,
-                      borderRadius: '50%',
-                      padding: '0.25rem',
-                    }}
-                  />
-                </ListItem>
-              ))}
-            </List>
-          </Box>
-        )}
       </Stack>
     </Box>
   );

@@ -22,7 +22,7 @@ export function getLikes({ likes, usersData, members, userId }: Props): Answer[]
         const reader: Answer = {
           memberId: member,
           memberName: `${firstName} ${lastName}`,
-          likeByMember: likes.find((item) => item.userId === member)?.like || 0,
+          likeByMember: Number(likes.find((item) => item.userId === member)?.like) || 0,
         };
 
         readers.push(reader);

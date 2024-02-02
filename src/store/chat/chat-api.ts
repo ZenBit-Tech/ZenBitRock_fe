@@ -190,7 +190,7 @@ export const ChatApi = createApi({
         const socket = getSocket();
 
         return new Promise<void>((resolve) => {
-          socket.emit(ChatEvent.RequestSetLike, arg.messageId, arg.like, () => {
+          socket.emit(ChatEvent.RequestSetLike, arg, () => {
             resolve();
           });
         }).then();

@@ -26,7 +26,7 @@ export function MockChatMessageItem({ message, me }: Props): JSX.Element {
   const t = useTranslations('agents');
   const { id, content, createdAt, owner, isReadBy, likes } = message;
 
-  const like = likes?.filter((emoji) => emoji.userId !== owner.id)[0].like;
+  const like = Number(likes?.filter((emoji) => emoji.userId !== owner.id)[0].like);
 
   const isRead = isReadBy ? isReadBy.filter((user) => user.userId !== owner.id)[0].isRead : false;
 
@@ -92,7 +92,7 @@ export function MockChatMessageItem({ message, me }: Props): JSX.Element {
         position: 'relative',
       }}
     >
-      {!isMe && <Like icons={icons} messageId={id} />}
+      {!isMe && <Like icons={icons} messageId={id} like={like} />}
       <Stack
         sx={{
           pt: 1.5,
@@ -108,33 +108,9 @@ export function MockChatMessageItem({ message, me }: Props): JSX.Element {
           }),
         }}
       >
-        <Stack
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <Typography variant="body2" sx={{ wordWrap: 'break-word' }}>
-            {`${content} ${owner.isDeleted ? t('messageDeleted') : ''}`}
-          </Typography>
-          {isMe && like && (
-            <Box
-              component={icons[like]}
-              sx={{
-                color: colors.BUTTON_PRIMARY_COLOR,
-                width: '1.75rem',
-                minWidth: '1.75rem',
-
-                height: '1.75rem',
-                backgroundColor: colors.BUTTON_PRIMARY_COLOR_ALPHA,
-                borderRadius: '50%',
-                padding: '0.25rem',
-              }}
-            />
-          )}
-        </Stack>
+        <Typography variant="body2" sx={{ wordWrap: 'break-word' }}>
+          {`${content} ${owner.isDeleted ? t('messageDeleted') : ''}`}
+        </Typography>
         <Stack
           sx={{
             display: 'flex',
@@ -155,7 +131,37 @@ export function MockChatMessageItem({ message, me }: Props): JSX.Element {
           >
             {formatDate(createdAt)}
           </Typography>
-          {isMe && <IconButton size="small">{isRead ? <DoneAllIcon /> : <DoneIcon />}</IconButton>}
+          {isMe && (
+            <IconButton size="small" sx={{ position: 'relative' }}>
+              {isRead ? (
+                <>
+                  <DoneAllIcon sx={{ zIndex: 1 }} />
+                  {isMe && like !== 0 && (
+                    <Box
+                      component={icons[like]}
+                      sx={{
+                        color: colors.BUTTON_PRIMARY_COLOR,
+                        width: '1.25rem',
+                        minWidth: '1.25rem',
+
+                        height: '1.25rem',
+                        backgroundColor: colors.BUTTON_PRIMARY_COLOR_ALPHA,
+                        borderRadius: '50%',
+                        padding: '0.125rem',
+                        position: 'absolute',
+                        top: '50%',
+                        right: '-0.75rem',
+                        transform: 'translateY(-50%)',
+                        zIndex: 0,
+                      }}
+                    />
+                  )}
+                </>
+              ) : (
+                <DoneIcon />
+              )}
+            </IconButton>
+          )}
         </Stack>
       </Stack>
     </Box>
