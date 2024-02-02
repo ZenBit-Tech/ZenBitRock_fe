@@ -3,7 +3,11 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { Box, Stack } from '@mui/material';
 import { useEffect, useForm, useLocalStorage, useState, useTranslations } from 'hooks';
 import { removeStorage, setStorage } from 'hooks/use-local-storage';
-import FormProvider, { RHFAutocomplete, RHFRadioGroup, RHFTextField } from 'components/hook-form';
+import FormProvider, {
+  RHFAutocomplete,
+  RHFRadioGroup,
+  RHFNumFormattedField,
+} from 'components/hook-form';
 import { Block } from 'components/custom';
 import { useGetPropertyTypesQuery, useSearchLocationsQuery } from 'store/api/qobrixApi';
 import { getLocationOptions, getMainPagePropertyFilter } from 'utils';
@@ -199,7 +203,7 @@ const FilterList = ({ applyFilters, setFilterString }: Props): JSX.Element => {
           <Block label={t('priceRange')} key={watchAllFields.rentOrSale}>
             {watchAllFields.rentOrSale === 'for_rent' ? (
               <Block sx={{ display: 'flex', flexDirection: 'row' }}>
-                <RHFTextField
+                <RHFNumFormattedField
                   name="priceRangeRentFrom"
                   type="number"
                   size="small"
@@ -207,7 +211,7 @@ const FilterList = ({ applyFilters, setFilterString }: Props): JSX.Element => {
                   sx={{ height: '60px', mr: '50px' }}
                 />
 
-                <RHFTextField
+                <RHFNumFormattedField
                   name="priceRangeRentTo"
                   type="number"
                   size="small"
@@ -217,7 +221,7 @@ const FilterList = ({ applyFilters, setFilterString }: Props): JSX.Element => {
               </Block>
             ) : (
               <Block sx={{ display: 'flex', flexDirection: 'row', gap: '0' }}>
-                <RHFTextField
+                <RHFNumFormattedField
                   name="priceRangeSaleFrom"
                   type="number"
                   size="small"
@@ -225,7 +229,7 @@ const FilterList = ({ applyFilters, setFilterString }: Props): JSX.Element => {
                   sx={{ height: '60px', mr: '50px' }}
                 />
 
-                <RHFTextField
+                <RHFNumFormattedField
                   name="priceRangeSaleTo"
                   type="number"
                   size="small"
