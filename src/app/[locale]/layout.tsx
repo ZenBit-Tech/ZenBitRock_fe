@@ -43,19 +43,20 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body>
-        <LocalizationProvider>
-          <ThemeProvider>
-            <StyledComponentsRegistry>
-              <NextIntlClientProvider locale={locale} messages={localeData}>
+        <ThemeProvider>
+          <StyledComponentsRegistry>
+            <NextIntlClientProvider locale={locale} messages={localeData}>
+              <LocalizationProvider>
                 <ReduxProvider>
                   <OnboardingProvider>
                     <App>{children}</App>
                   </OnboardingProvider>
                 </ReduxProvider>
-              </NextIntlClientProvider>
-            </StyledComponentsRegistry>
-          </ThemeProvider>
-        </LocalizationProvider>
+              </LocalizationProvider>
+            </NextIntlClientProvider>
+          </StyledComponentsRegistry>
+        </ThemeProvider>
+
         <ToastContainerWrapper />
       </body>
     </html>

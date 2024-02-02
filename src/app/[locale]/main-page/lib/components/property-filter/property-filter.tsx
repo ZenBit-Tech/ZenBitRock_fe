@@ -3,7 +3,8 @@ import { Box, IconButton, InputAdornment, TextField, Typography } from '@mui/mat
 import Iconify from 'components/iconify';
 import CustomPopover, { usePopover } from 'components/custom-popover';
 import { useCallback } from 'hooks';
-import { getStorage } from 'hooks/use-local-storage';
+import { getStorage, removeStorage, setStorage } from 'hooks/use-local-storage';
+import { getStorageKeyWithUserId } from 'services';
 import { getNameFilter } from 'utils';
 import { StorageKey } from 'enums';
 import { colors } from 'constants/colors';
@@ -11,16 +12,29 @@ import { FilterList } from '../filter-list/filter-list';
 
 type Props = {
   setFilter: (filter: string) => void;
-
   setPropertyNameFilter: (filter: string) => void;
+  searchParamWithUserId: string;
+  userId: string;
 };
-const PropertyFilter = ({ setFilter, setPropertyNameFilter }: Props) => {
+
+const PropertyFilter = ({
+  setFilter,
+  setPropertyNameFilter,
+  searchParamWithUserId,
+  userId,
+}: Props) => {
   const popover = usePopover();
 
   const inputRef = useRef<HTMLInputElement>();
 
+  const propertyStringWithUserId: string = getStorageKeyWithUserId(
+    StorageKey.FILTER_STRING,
+    userId
+  );
+
+  const [inputValue, setInputValue] = useState<string>(getStorage(searchParamWithUserId) || '');
   const [filterString, setFilterString] = useState<string>(
-    getStorage(StorageKey.FILTER_STRING) ? getStorage(StorageKey.FILTER_STRING) : ''
+    getStorage(propertyStringWithUserId) ? getStorage(propertyStringWithUserId) : ''
   );
 
   const handleApplyFilters = useCallback(
@@ -32,11 +46,18 @@ const PropertyFilter = ({ setFilter, setPropertyNameFilter }: Props) => {
   );
 
   const handleApplyPropetyNameFilter = useCallback(() => {
-    setPropertyNameFilter(getNameFilter(inputRef.current?.value ?? ''));
-  }, [setPropertyNameFilter]);
+    const searchParam = inputRef.current?.value ?? '';
+
+    setPropertyNameFilter(getNameFilter(searchParam));
+    setStorage(searchParamWithUserId, searchParam);
+  }, [searchParamWithUserId, setPropertyNameFilter]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.value) handleApplyPropetyNameFilter();
+    if (!event.target.value) {
+      handleApplyPropetyNameFilter();
+      removeStorage(searchParamWithUserId);
+    }
+    setInputValue(event.target.value);
   };
 
   return (
@@ -45,6 +66,7 @@ const PropertyFilter = ({ setFilter, setPropertyNameFilter }: Props) => {
         <TextField
           placeholder="Search by property name"
           type="search"
+          value={inputValue}
           sx={{ width: '85%' }}
           inputRef={inputRef}
           onChange={handleInputChange}
@@ -77,7 +99,11 @@ const PropertyFilter = ({ setFilter, setPropertyNameFilter }: Props) => {
           arrow="top-left"
           sx={{ width: '100%', mt: 1, overflow: 'scroll' }}
         >
-          <FilterList applyFilters={handleApplyFilters} setFilterString={setFilterString} />
+          <FilterList
+            userId={userId}
+            applyFilters={handleApplyFilters}
+            setFilterString={setFilterString}
+          />
         </CustomPopover>
       </Box>
       {filterString ? (

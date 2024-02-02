@@ -20,4 +20,8 @@ function removeDataFromLocalStorage(data: PropertyFilterFormData): void {
   });
 }
 
-export { saveDataToLocalStorage, removeDataFromLocalStorage };
+function getStorageKeyWithUserId(storageKey: string, userId: string): string {
+  return `${storageKey}ofUser${userId}`;
+}
+
+export { saveDataToLocalStorage, removeDataFromLocalStorage, getStorageKeyWithUserId };

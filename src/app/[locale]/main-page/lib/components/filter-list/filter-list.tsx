@@ -11,6 +11,7 @@ import FormProvider, {
 import { Block } from 'components/custom';
 import { useGetPropertyTypesQuery, useSearchLocationsQuery } from 'store/api/qobrixApi';
 import { getLocationOptions, getMainPagePropertyFilter } from 'utils';
+import { getStorageKeyWithUserId } from 'services';
 import { getFilterString } from 'utils/property-filters';
 import { LocationSelectOption, type PropertyFilterFormData } from 'types';
 import { StorageKey } from 'enums';
@@ -31,14 +32,24 @@ const defaultValues: PropertyFilterFormData = {
 type Props = {
   applyFilters: (filter: string) => void;
   setFilterString: (filter: string) => void;
+  userId: string;
 };
 
-const FilterList = ({ applyFilters, setFilterString }: Props): JSX.Element => {
+const FilterList = ({ applyFilters, setFilterString, userId }: Props): JSX.Element => {
   const [locationsInputValue, setLocationsInputValue] = useState<string>('');
   const [hasActiveFilters, setHasActiveFilters] = useState<boolean>(false);
 
-  const { state, replace } = useLocalStorage<PropertyFilterFormData>(
+  const propertyFilterWithUserId: string = getStorageKeyWithUserId(
     StorageKey.PROPERTY_FILTER,
+    userId
+  );
+  const propertyStringWithUserId: string = getStorageKeyWithUserId(
+    StorageKey.FILTER_STRING,
+    userId
+  );
+
+  const { state, replace } = useLocalStorage<PropertyFilterFormData>(
+    propertyFilterWithUserId,
     defaultValues
   );
 
@@ -122,7 +133,7 @@ const FilterList = ({ applyFilters, setFilterString }: Props): JSX.Element => {
       replace(formData);
       applyFilters(filter);
       setFilterString(getFilterString(formData));
-      setStorage(StorageKey.FILTER_STRING, getFilterString(formData));
+      setStorage(propertyStringWithUserId, getFilterString(formData));
     } catch (error) {
       reset();
     }
@@ -132,7 +143,7 @@ const FilterList = ({ applyFilters, setFilterString }: Props): JSX.Element => {
     replace(defaultValues);
     setHasActiveFilters(false);
     setFilterString('');
-    removeStorage(StorageKey.FILTER_STRING);
+    removeStorage(propertyStringWithUserId);
     reset(defaultValues);
 
     const filter = getMainPagePropertyFilter(defaultValues);
