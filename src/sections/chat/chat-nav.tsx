@@ -5,7 +5,7 @@ import { Fab, TextField } from '@mui/material';
 import { useRouter } from 'routes/hooks';
 import { useCheckPrivateChatQuery, useCreateChatMutation } from 'store/chat';
 import { UserChatResponse } from 'types/user-backend';
-import { AppRoute } from 'enums';
+import { AppRoute, StorageKey } from 'enums';
 import { AGENTS_SORT_OPTIONS } from 'constants/agentsSortOptions';
 import { useGetChatsQuery } from 'store/chat/chat-api';
 import { ChatNavItemSkeleton } from './chat-skeleton';
@@ -97,30 +97,37 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
 
   const handleSearchAgents = useCallback(
     (inputValue: string): void => {
-      setSearchAgents((prevState) => ({
-        ...prevState,
-        query: inputValue,
-      }));
-
       if (inputValue && agents) {
         const results = agents.filter((agent) => {
           if (agent.id !== id && agent.firstName) {
             const agentName = `${agent.firstName} ${agent.lastName}`;
-
             return agentName.toLowerCase().includes(inputValue.trim().toLowerCase());
           }
-
-          return null;
+          return false;
         });
 
+        setSearchAgents({
+          query: inputValue,
+          results,
+        });
+      } else {
         setSearchAgents((prevState) => ({
           ...prevState,
-          results,
+          query: inputValue,
         }));
       }
+
+      localStorage.setItem(StorageKey.AGENTS_SEARCH_QUERY, inputValue);
     },
     [agents, id]
   );
+
+  useEffect(() => {
+    const savedSearchQuery = localStorage.getItem(StorageKey.AGENTS_SEARCH_QUERY);
+    if (savedSearchQuery !== null) {
+      handleSearchAgents(savedSearchQuery);
+    }
+  }, [handleSearchAgents]);
 
   const handleClickResult = useCallback(
     (agent: UserChatResponse) => {
