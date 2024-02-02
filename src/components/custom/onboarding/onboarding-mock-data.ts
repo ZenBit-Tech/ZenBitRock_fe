@@ -213,6 +213,14 @@ const chatsMockData: Chats = {
               isRead: true,
             },
           ],
+          likes: [
+            {
+              messageId: '1dc2676d-4b6e-40ca-a27f-dda258a2ea67',
+              userId: 'a1c876bd-63eb-4bad-b573-e845feed6e7e',
+              like: 1,
+            },
+          ],
+
           owner: {
             id: 'a1c876bd-63eb-4bad-b573-e845feed6e7e',
             isNewbie: false,
@@ -331,6 +339,14 @@ const chatsMockData: Chats = {
               isRead: true,
             },
           ],
+          likes: [
+            {
+              messageId: '1dc2676d-4b6e-40ca-a27f-dda258a2ea67',
+              userId: 'a1c876bd-63eb-4bad-b573-e845feed6e7e',
+              like: 3,
+            },
+          ],
+
           owner: {
             id: 'a1c876bd-63eb-4bad-b573-e845feed6e7e',
             email: 'peeetyaivanov@gmail.com',
@@ -368,6 +384,13 @@ const chatsMockData: Chats = {
               messageId: '1dc2676d-4b6e-40ca-a27f-dda258a2ea67',
               userId: 'a1c876bd-63eb-4bad-b573-e845feed6e7e',
               isRead: true,
+            },
+          ],
+          likes: [
+            {
+              messageId: '1dc2676d-4b6e-40ca-a27f-dda258a2ea67',
+              userId: 'a1c876bd-63eb-4bad-b573-e845feed6e7e',
+              like: 4,
             },
           ],
           owner: {
