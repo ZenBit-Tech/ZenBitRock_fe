@@ -1,11 +1,8 @@
-import { useState, useCallback, useMemo, useEffect } from 'react';
-import { useTranslations } from 'next-intl';
+import { useScrollToTop, useTranslations, useState, useCallback, useMemo, useEffect } from 'hooks';
 import { enqueueSnackbar } from 'notistack';
-import TextField from '@mui/material/TextField';
 import { Container } from '@mui/system';
-import { Fab } from '@mui/material';
+import { Fab, TextField } from '@mui/material';
 import { useRouter } from 'routes/hooks';
-import { useScrollToTop } from 'hooks';
 import { useCheckPrivateChatQuery, useCreateChatMutation } from 'store/chat';
 import { UserChatResponse } from 'types/user-backend';
 import { AppRoute } from 'enums';
@@ -40,7 +37,6 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
 
   const [sort, setSort] = useState<string>('nameAsc');
   const [selectedAgent, setSelectedAgent] = useState<UserChatResponse | null>(null);
-  const [selectedAgentId, setSelectedAgentId] = useState('');
 
   const { data: chats } = useGetChatsQuery({
     page: 1,
@@ -66,7 +62,9 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
     return chatId;
   }
 
-  const { data: chatData } = useCheckPrivateChatQuery(selectedAgentId);
+  const { data: chatData } = useCheckPrivateChatQuery(selectedAgent?.id ?? '', {
+    refetchOnMountOrArgChange: true,
+  });
 
   const [createChat, { error }] = useCreateChatMutation();
 
@@ -127,9 +125,8 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
   const handleClickResult = useCallback(
     (agent: UserChatResponse) => {
       setSelectedAgent(agent);
-      setSelectedAgentId(agent.id);
     },
-    [setSelectedAgent, setSelectedAgentId]
+    [setSelectedAgent]
   );
 
   const sortedAgents = useMemo<UserChatResponse[] | undefined>(
@@ -189,7 +186,7 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
               <AgentListItem
                 key={agent.id}
                 agent={agent}
-                handleClickResult={handleClickResult}
+                userId={id}
                 chatId={getChatId(agent.id)}
                 className={idx === 0 ? 'onboarding-step-10' : ''}
               />
