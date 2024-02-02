@@ -45,7 +45,7 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
     searchParam: '',
   });
 
-  function getChatId(agentId: string): string | undefined {
+  const getChatId = (agentId: string): string | undefined => {
     let chatId;
 
     if (
@@ -60,7 +60,7 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
     }
 
     return chatId;
-  }
+  };
 
   const { data: chatData } = useCheckPrivateChatQuery(selectedAgent?.id ?? '', {
     refetchOnMountOrArgChange: true,
@@ -122,13 +122,6 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
     [agents, id]
   );
 
-  const handleClickResult = useCallback(
-    (agent: UserChatResponse) => {
-      setSelectedAgent(agent);
-    },
-    [setSelectedAgent]
-  );
-
   const sortedAgents = useMemo<UserChatResponse[] | undefined>(
     () =>
       sortAgents({
@@ -154,7 +147,7 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
     <ChatNavSearchResults
       query={searchAgents.query}
       results={searchAgents.results}
-      onClickResult={handleClickResult}
+      getChatId={getChatId}
       id={id}
     />
   );

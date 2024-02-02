@@ -1,11 +1,10 @@
 'use client';
 
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { useTranslations } from 'next-intl';
 import Container from '@mui/material/Container';
 import { Backdrop, CircularProgress, Typography } from '@mui/material';
-import { useEffect, useMount, useState } from 'hooks';
+import { useEffect, useMount, useState, useSelector } from 'hooks';
 import { useGetSynchronizedUsersMutation } from 'store/api/userApi';
 import { RootState } from 'store';
 import { useSettingsContext } from 'components/settings';
