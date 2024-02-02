@@ -101,7 +101,7 @@ export default function ChatsList({ t }: Props) {
       ) : null}
 
       {chats.length ? (
-        <Stack>
+        <Stack pb="45px">
           {chats.map((chat, idx) => {
             if (chat.messages.length || !chat.isPrivate) {
               return (
