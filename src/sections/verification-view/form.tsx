@@ -10,7 +10,7 @@ import Backdrop from '@mui/material/Backdrop';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 import Stack, { StackProps } from '@mui/material/Stack';
-import { useCallback, useEffect, useSelector, useState, useTranslations } from 'hooks';
+import { useCallback, useDispatch, useEffect, useSelector, useState, useTranslations } from 'hooks';
 
 import FormProvider, {
   RHFUpload,
@@ -20,8 +20,10 @@ import FormProvider, {
   RHFCheckbox,
 } from 'components/hook-form';
 import { datesFormats } from 'constants/dates-formats';
-import { selectCurrentUser } from 'store/auth/authReducer';
+import { errMessages } from 'constants/errMessages';
+import { delUserFromState, selectCurrentUser } from 'store/auth/authReducer';
 import { VerificationData } from 'types/verification-data';
+import { StorageKey } from 'enums';
 import {
   useAddUserToGroupMutation,
   useCreateAgentMutation,
@@ -29,7 +31,11 @@ import {
   useCreateQobrixUserMutation,
   useGetAllGroupsQuery,
 } from 'store/api/qobrixApi';
-import { useGetUserByIdMutation, useUpdateUserMutation } from 'store/api/userApi';
+import {
+  useDeleteUserMutation,
+  useGetUserByIdMutation,
+  useUpdateUserMutation,
+} from 'store/api/userApi';
 import { useCreateVerificationMutation } from 'store/api/verificationApi';
 import { getRoles, getGenders, getIdentities, getStatuses, getCountries } from './drop-box-data';
 import { FormSchema } from './schema';
@@ -79,7 +85,8 @@ export default function VerificationForm(): JSX.Element {
   const [createQobrixUser] = useCreateQobrixUserMutation();
   const { data: qobrixGroups } = useGetAllGroupsQuery();
   const [addUserToGroup] = useAddUserToGroupMutation();
-
+  const dispatch = useDispatch();
+  const [deleteUser] = useDeleteUserMutation();
   const [formFilled, setFormFilled] = useState<boolean>(true);
   const [activeRequestsCount, setActiveRequestsCount] = useState<number>(0);
 
@@ -189,15 +196,13 @@ export default function VerificationForm(): JSX.Element {
         post_code: zip,
         email,
         phone,
-        legacy_id: id,
       };
 
       const contact = await createContact(contactData).unwrap();
-      const { role: agentRole, legacy_id, id: qobrixContactId } = contact.data;
+      const { role: agentRole, id: qobrixContactId } = contact.data;
 
       const agentData = {
         agent_type: agentRole,
-        legacy_id,
         primary_contact: qobrixContactId,
       };
 
@@ -223,9 +228,26 @@ export default function VerificationForm(): JSX.Element {
 
       reset();
     } catch (error) {
-      enqueueSnackbar(t('generalErrorMessage'), { variant: 'error' });
+      if (error.data && error.data.errors) {
+        const errors = error.data.errors;
 
-      return error;
+        if (errors.some((err: string) => err.includes(errMessages.CRM_USER_ERR))) {
+          enqueueSnackbar(`${errMessages.CRM_ERR_SNACK}`, { variant: 'error' });
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+          try {
+            if (userId) await deleteUser({ id: userId }).unwrap();
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            dispatch(delUserFromState());
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            localStorage.removeItem(StorageKey.TOKEN);
+          } catch (error) {
+            enqueueSnackbar(t('generalErrorMessage'), { variant: 'error' });
+          }
+        }
+      } else {
+        enqueueSnackbar(t('generalErrorMessage'), { variant: 'error' });
+        return error;
+      }
     } finally {
       setActiveRequestsCount((prevCount) => prevCount - 1);
     }
