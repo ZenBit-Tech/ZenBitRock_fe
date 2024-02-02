@@ -1,28 +1,109 @@
 'use client';
 
-import { Box, IconButton, Stack, Typography } from '@mui/material';
+import { Box, IconButton, List, ListItem, Stack, Typography } from '@mui/material';
 import DoneIcon from '@mui/icons-material/Done';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
+import {
+  getIsRead,
+  getIsReadByMembers,
+  getReaders,
+} from 'components/custom/chat-message-item/utils';
 import { colors } from 'constants/colors';
-import { Message } from 'types';
-import { useSelector, useTranslations } from 'hooks';
-import { RootState } from 'store';
+import { useSelector, useTranslations, useEffect, useState } from 'hooks';
 import { formatDate } from 'services';
+import { RootState } from 'store';
+import { useMarkMessageAsReadMutation } from 'store/chat';
+import { Message } from 'types';
+import { UserChatResponse } from 'types/user-backend';
+import ButtonClose from '../button-close/button-close';
 
 type Props = {
   message: Message;
+  usersData: UserChatResponse[] | undefined;
 };
 
-export function ChatMessageItem({ message }: Props): JSX.Element {
+export function ChatMessageItem({ message, usersData }: Props): JSX.Element {
+  const [isVisibleReaders, setIsVisibleReaders] = useState<boolean>(false);
+  const [readers, setReaders] = useState<
+    {
+      memberId: string;
+      memberName: string;
+      isReadByMember: boolean;
+    }[]
+  >();
   const t = useTranslations('agents');
   const user = useSelector((state: RootState) => state.authSlice.user);
+  const { id, content, createdAt, owner, isReadBy, chat } = message;
 
-  const { content, createdAt, owner, isRead } = message;
   const isMe = owner.id === user?.id;
   const name = `${owner.firstName} ${owner.lastName}`;
 
+  const isRead: boolean = getIsRead({
+    isReadBy,
+    isMe,
+    userId: user?.id,
+    messageId: id,
+    ownerId: owner.id,
+    chat,
+  });
+
+  const [messageRef, setMessageRef] = useState<HTMLDivElement | null>(null);
+  const [isMessageInViewport, setIsMessageInViewport] = useState(false);
+  const [trigger] = useMarkMessageAsReadMutation();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsMessageInViewport(true);
+        }
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.5,
+      }
+    );
+
+    if (messageRef) {
+      observer.observe(messageRef);
+    }
+
+    return () => {
+      if (messageRef) {
+        observer.unobserve(messageRef);
+      }
+    };
+  }, [messageRef]);
+
+  useEffect(() => {
+    if (!isMe && !isRead && isMessageInViewport) {
+      trigger({ messageId: id });
+    }
+  }, [isRead, isMessageInViewport, trigger, id, isMe]);
+
+  function handleIsReadClick() {
+    setIsVisibleReaders(!isVisibleReaders);
+  }
+
+  useEffect(() => {
+    if (usersData && chat) {
+      const members = chat.members.map((member) => member.id);
+
+      setReaders(
+        getReaders({
+          isReadBy,
+          usersData,
+          members,
+          userId: user?.id,
+        })
+      );
+    }
+  }, [chat, isReadBy, user?.id, usersData]);
+
   return (
     <Box
+      ref={(node) => setMessageRef(node as HTMLDivElement)}
       sx={{
         display: 'flex',
         ...(isMe && { justifyContent: 'right' }),
@@ -42,6 +123,7 @@ export function ChatMessageItem({ message }: Props): JSX.Element {
           ...(isMe && {
             bgcolor: colors.CHAT_MY_MESSAGE_BACKGROUND_COLOR,
           }),
+          position: 'relative',
         }}
       >
         <Typography
@@ -79,8 +161,80 @@ export function ChatMessageItem({ message }: Props): JSX.Element {
           >
             {formatDate(createdAt)}
           </Typography>
-
-          <IconButton size="small">{isRead ? <DoneAllIcon /> : <DoneIcon />}</IconButton>
+          {isMe && (
+            <>
+              <IconButton onClick={() => handleIsReadClick()} size="small">
+                {getIsReadByMembers({ isReadBy, userId: user?.id }) ? (
+                  <DoneAllIcon />
+                ) : (
+                  <DoneIcon />
+                )}
+              </IconButton>
+              {isVisibleReaders && readers && (
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: '0',
+                    left: '0',
+                    width: '100%',
+                    height: '100%',
+                    overflow: 'scroll',
+                    '&::-webkit-scrollbar': {
+                      display: 'none',
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                      display: 'none',
+                    },
+                  }}
+                >
+                  <ButtonClose
+                    width="10px"
+                    height="10px"
+                    top="5px"
+                    right="5px"
+                    handleClose={() => setIsVisibleReaders(!isVisibleReaders)}
+                  />
+                  <List
+                    sx={{
+                      width: '100%',
+                      backgroundColor: colors.PRIMARY_LIGHT_COLOR,
+                      border: `1px dashed ${colors.BUTTON_SECOND_COLOR}`,
+                      borderRadius: '10px',
+                    }}
+                  >
+                    {readers.map(({ memberName, memberId, isReadByMember }) => (
+                      <ListItem
+                        key={memberId}
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          width: '100%',
+                          p: '5px',
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                            fontSize: '10px',
+                          }}
+                        >
+                          {memberName}
+                        </Typography>
+                        {isReadByMember ? (
+                          <DoneAllIcon sx={{ height: '10px' }} />
+                        ) : (
+                          <DoneIcon sx={{ height: '10px' }} />
+                        )}
+                      </ListItem>
+                    ))}
+                  </List>
+                </Box>
+              )}
+            </>
+          )}
         </Stack>
       </Stack>
     </Box>

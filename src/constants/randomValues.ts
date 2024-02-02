@@ -6,4 +6,10 @@ export const randomValues = {
   USER: 'User',
   ALL: 'all',
   INFORMATIVE: 'informative',
+  PARKING_LOT: 'parking_lot',
+  PRICE_FROM: 'price from',
+  PRICE_TO: 'price to',
+  TYPE: 'type',
+  STATUS: 'status',
+  BEDROOMS: 'bedrooms',
 };

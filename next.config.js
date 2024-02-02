@@ -1,4 +1,11 @@
-module.exports = {
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === 'development',
+});
+
+const nextConfig = withPWA({
   trailingSlash: true,
   env: {
     BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -21,7 +28,10 @@ module.exports = {
   compiler: {
     styledComponents: true,
   },
-};
+});
+
+module.exports = nextConfig;
+
 const withNextIntl = require('next-intl/plugin')();
 
 module.exports = withNextIntl({

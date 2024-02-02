@@ -1,7 +1,9 @@
 type UserProfileResponse = {
   email: string;
+  contactEmail?: string;
   id: string;
   isVerified: boolean;
+  isNewbie: boolean;
   firstName: string | null;
   lastName: string | null;
   role: string;
@@ -17,6 +19,7 @@ type UserProfileResponse = {
   avatarPublicId: string;
   isDeleted: boolean;
   receiveNotifications: boolean;
+  isAdmin?: boolean;
 };
 
 export { type UserProfileResponse };

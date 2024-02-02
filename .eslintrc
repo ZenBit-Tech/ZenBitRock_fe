@@ -34,6 +34,8 @@
     "no-restricted-exports": 0,
     "no-useless-catch": 0,
     "react/no-children-prop": 0,
+    "@typescript-eslint/no-shadow": 0,
+    "react-hooks/exhaustive-deps": 0,
     "react/react-in-jsx-scope": 0,
     "jsx-a11y/anchor-is-valid": 0,
     "react/no-array-index-key": 0,

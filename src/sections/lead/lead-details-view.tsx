@@ -4,11 +4,13 @@ import { Box, Fab, Link, MenuItem, Select, Stack, Typography, useTheme } from '@
 import { useCallback, useState } from 'react';
 import { useScrollToTop, useTranslations } from 'hooks';
 import { QobrixLeadDetailsResponse } from 'types';
+import { MobileLayout } from 'layouts';
 import { colors } from 'constants/colors';
 import { GoBackPageTitile } from 'components/custom';
 import { leadStatuses } from 'constants/leadStatuses';
 import { useUpdateLeadMutation } from 'store/api/qobrixApi';
 import { enqueueSnackbar } from 'components/snackbar';
+
 import Iconify from 'components/iconify';
 import {
   LeadDeleteComponent,
@@ -24,7 +26,6 @@ type Props = {
 };
 
 const LeadDetailsView = ({ leadDetails }: Props) => {
- 
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [matchingPropertiesCount, setMatchingPropertiesCount] = useState<number | null>(null);
   const t = useTranslations('leadDetailsPage');
@@ -58,16 +59,12 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
     const leadId = data.id;
 
     try {
-
       setSelectedStatus(status);
-      
+
       await updateLeadMutation({
         id: leadId,
         conversion_status: status,
       });
-
-      
-
     } catch (error) {
       const errMessage = t('error');
       enqueueSnackbar(errMessage, { variant: 'error' });
@@ -79,7 +76,7 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
   }
 
   return (
-    <Box sx={{ maxWidth: 800, margin: '0 auto', pb: 8 }}>
+    <MobileLayout>
       <Box sx={{ ml: 1, mr: 1 }}>
         <GoBackPageTitile title={t('title')} ml="-20px" />
       </Box>
@@ -120,8 +117,11 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
                     const foundStatus = Object.values(leadStatuses).find(
                       (status) => status.id === selected
                     );
-                    
-                    return foundStatus ? foundStatus.label : leadDetails.data.conversion_status_workflow_stage.name;
+
+                    return foundStatus
+                      ? foundStatus.label
+                      : leadDetails.data.conversion_status_workflow_stage.name;
+
                   }}
                 >
                   
@@ -194,7 +194,7 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
       >
         ↑
       </Fab>
-    </Box>
+    </MobileLayout>
   );
 };
 

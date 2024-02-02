@@ -13,6 +13,7 @@ import { findCountryLabelByCode } from 'sections/verification-view/drop-box-data
 import { RootState } from 'store';
 import Iconify from 'components/iconify';
 import { LoadingScreen } from 'components/loading-screen';
+import { agentRoles } from 'constants/agentRoles';
 
 const RenderAbout = (): JSX.Element => {
   const t = useTranslations('profilePage');
@@ -22,7 +23,7 @@ const RenderAbout = (): JSX.Element => {
     return <LoadingScreen />;
   }
 
-  const { agencyName, email, country, city, phone, description } = authUser;
+  const { agencyName, contactEmail: email, country, city, phone, description, role } = authUser;
 
   return (
     <Card>
@@ -42,7 +43,7 @@ const RenderAbout = (): JSX.Element => {
           <Link href={`mailto:${email}`}>{email}</Link>
         </Stack>
 
-        {agencyName && (
+        {agencyName && role !== agentRoles.AGENT && (
           <Stack direction="row" sx={{ typography: 'body2' }}>
             <Iconify icon="material-symbols-light:home-work-rounded" width={24} sx={{ mr: 2 }} />
             {agencyName}

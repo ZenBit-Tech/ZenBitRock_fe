@@ -39,21 +39,6 @@ const UseNavItems = () => {
           ),
         },
         {
-          title: TranslationKey.CALENDAR,
-          path: '#',
-          icon: (
-            <Iconify
-              icon="bxs:calendar"
-              width={1}
-              color={
-                AppRoute.CALENDAR_PAGE === pathname
-                  ? (theme) => theme.palette.primary.main
-                  : 'inherit'
-              }
-            />
-          ),
-        },
-        {
           title: TranslationKey.LEADS,
           path: AppRoute.LEADS_PAGE,
           icon: (

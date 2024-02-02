@@ -77,8 +77,8 @@
   },
   "VerificationDonePage": {
     "mainTitle": "KYC form",
-    "doneText": "AgentWise profile has been successfully created!",
-    "submitButton": "Go to main page"
+    "doneText": "AgentWise profile has been successfully created! Qobrix Sign in credentials have been sent to the email you provided. Activation link will be valid for 30 minutes",
+    "submitButton": "Continue to site"
   },
   "RestorePasswordPage": {
     "title": "Restore password",
@@ -179,7 +179,7 @@
       "item7Title": "Disclaimer of Warranties",
       "item7Text": "Our services are provided 'as is' and without warranties of any kind, either expressed or implied.",
       "item8Title": "Limitation of Liability",
-      "item8Text": "AgenWise is not liable for any direct or indirect damages that result from the use of our services or any interruptions, errors, or omissions in our services.",
+      "item8Text": "AgentWise is not liable for any direct or indirect damages that result from the use of our services or any interruptions, errors, or omissions in our services.",
       "item9Title": "Termination",
       "item9Text": "We reserve the right to terminate or suspend your access to our services at our discretion, without prior notice.",
       "item10Title": "Changes to Terms and Conditions",
@@ -279,11 +279,11 @@
     "update": "Change photo",
     "upload": "Upload photo",
     "aboutLabel": "About me",
-    "aboutPlaceholder": "I used to be an MI5 agent but I messed up my secrect misssion so now I work as property agent",
+    "aboutPlaceholder": "I used to be an MI5 agent but I messed up my secret mission so now I work as property agent",
     "city": "* City",
     "changePass": "Change password",
     "deleteProfile": "Delete profile",
-    "recieveNotifications": "Recieve push notifications ",
+    "recieveNotifications": "Receive notifications ",
     "settingsTitle": "Settings",
     "settingsSubtitle1": "Privacy settings",
     "settingsSubtitle2": "Notifications",
@@ -322,7 +322,7 @@
     "settingsSubtitle2": "Notifications",
     "changePass": "Change password",
     "deleteProfile": "Delete profile",
-    "recieveNotifications": "Recieve push notifications ",
+    "recieveNotifications": "Receive push notifications ",
     "editLink": "Edit profile",
     "agencyLink": "https://blagovist.ua/",
     "countryTxt": "Country",
@@ -356,6 +356,9 @@
     "notificationCenter": "Notification center",
     "noNewNotifications": "No new notifications",
     "view": "View",
+    "youHave": "You have",
+    "newNotifications": "new notifications",
+    "newNotification": "new notification",
     "filters": {
       "location": "Location",
       "propertyType": "Property type",
@@ -372,7 +375,7 @@
       "filterOptions": {
         "propertyStatus": {
           "pending": "Pending",
-          "avaliable": "Avaliable",
+          "avaliable": "Available",
           "reserved": "Reserved",
           "sold": "Sold",
           "rented": "Rented",
@@ -438,7 +441,7 @@
     "leadSourcePlaceholder": "A brief description where/who the lead has come from",
     "descriptionLabel": "Description (optional)",
     "descriptionPlaceholder": "A brief description of what the lead is looking for",
-    "countOfBedroomsLabel": "Miminum number of bedrooms (optional)",
+    "countOfBedroomsLabel": "Minimum number of bedrooms (optional)",
     "countOfBedroomsPlaceholder": "Choose one option",
     "totalAreaLabel": "Floor area  sq.m. (optional)",
     "totalAreaFromPlaceHolder": "From 10",
@@ -523,7 +526,7 @@
     "autonomous_heating_system": "Autonomous",
     "central_heating": "Central",
     "none": "None",
-    "electricity": "Electrycity",
+    "electricity": "Electricity",
     "reception": "Reception",
     "water": "Water",
     "air": "Air Condition",
@@ -541,7 +544,7 @@
     "elevator": "Elevator",
     "bedrooms": "Bedrooms",
     "bathrooms": "Bathrooms",
-    "livingrooms": "Livingrooms",
+    "livingrooms": "Living rooms",
     "kitchenType": "Kitchen Type",
     "petsAllowed": "Pets Allowed",
     "petsNotAllowed": "Pets Not Allowed",
@@ -705,7 +708,10 @@
     "editGroupChatName": "Edit group chat name",
     "enterNewName": "Enter new name",
     "changeGroupChatName": "Change group chat name",
-    "you": "you"
+    "you": "you",
+    "leaveChat": "Leave chat",
+    "doYouWantLeaveChat": "Do you want to leave the chat?",
+    "yesLeave": "Yes, leave"
   },
   "privateChat": {
     "title": "Chat",
@@ -745,11 +751,11 @@
     "step8": "Tap Agents icon to view the Agents page",
     "step9": "This is Agents page. See all your colleagues here",
     "step10": "Tap an agent to start chatting",
-    "step11": "Tap the logo to view the Chats page",
+    "step11": "Tap the Chats icon to view the Chats page",
     "step12": "This is Chats page. See all your chats here",
     "step13": "Use this button to create a group chat",
     "step14": "Tap on a chat to open it and start a conversation",
-    "step15": "Visit Content page for other useful informaiton",
+    "step15": "Visit Content page for other useful information",
     "step16": "Thank you for your attention!"
   },
   "guidePage": {
@@ -775,7 +781,23 @@
     "viewed": "Viewed:",
     "searchTopic": "Search topic",
     "somethingWentWrong": "Something went wrong!",
-    "matchingResults": "Matching results"
+    "matchingResults": "Matching results",
+    "addContent": "Add content",
+    "titleRequired": "Title is required",
+    "thumbnailRequired": "Thumbnail is required",
+    "linkRequired": "Link is required",
+    "title": "Title",
+    "link": "Link",
+    "screenshot": "Thumbnail",
+    "titlePlaceholder": "Enter title",
+    "linkPlaceholder": "Enter link",
+    "screenshotPlaceholder": "Enter thumbnail link",
+    "cancel": "Cancel",
+    "invalidUrl": "Invalid URL",
+    "invalidTitle": "Minimum 3 - maximum 100 characters, latin letters, numbers, special characters",
+    "deleteApprove": "Do you want to delete this content?",
+    "delete": "Delete",
+    "addLink": " Add new link:"
   },
   "notChatMember": {
     "accessDenied": "Access Denied",
@@ -784,7 +806,7 @@
   },
   "tutorialPage": {
     "title": "Tutorial",
-    "welcomeTxt": "Welcome to Zenbitrock - the wisest real estate app aimed at your professional success!",
+    "welcomeTxt": "Welcome to ZenBitRock - the wisest real estate app aimed at your professional success!",
     "welcomeSubTxt": "You are one of them now :)",
     "exit": "Exit",
     "start": "Next",
@@ -795,5 +817,8 @@
     "agents": "Agents",
     "messages": "Messages and Private chat initiation",
     "group": "Creating group chat"
+  },
+  "notifications": {
+    "title": "Notifications"
   }
 }

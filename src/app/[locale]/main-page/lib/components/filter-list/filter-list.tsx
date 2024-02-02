@@ -2,10 +2,17 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Box, Stack } from '@mui/material';
 import { useEffect, useForm, useLocalStorage, useState, useTranslations } from 'hooks';
-import FormProvider, { RHFAutocomplete, RHFRadioGroup, RHFTextField } from 'components/hook-form';
+import { removeStorage, setStorage } from 'hooks/use-local-storage';
+import FormProvider, {
+  RHFAutocomplete,
+  RHFRadioGroup,
+  RHFNumFormattedField,
+} from 'components/hook-form';
 import { Block } from 'components/custom';
 import { useGetPropertyTypesQuery, useSearchLocationsQuery } from 'store/api/qobrixApi';
 import { getLocationOptions, getMainPagePropertyFilter } from 'utils';
+import { getStorageKeyWithUserId } from 'services';
+import { getFilterString } from 'utils/property-filters';
 import { LocationSelectOption, type PropertyFilterFormData } from 'types';
 import { StorageKey } from 'enums';
 import { BEDROOMS, getPropertyStatus, getRentOrSaleOption, FilterSchema } from './lib';
@@ -24,14 +31,25 @@ const defaultValues: PropertyFilterFormData = {
 
 type Props = {
   applyFilters: (filter: string) => void;
+  setFilterString: (filter: string) => void;
+  userId: string;
 };
 
-const FilterList = ({ applyFilters }: Props): JSX.Element => {
+const FilterList = ({ applyFilters, setFilterString, userId }: Props): JSX.Element => {
   const [locationsInputValue, setLocationsInputValue] = useState<string>('');
   const [hasActiveFilters, setHasActiveFilters] = useState<boolean>(false);
 
-  const { state, replace } = useLocalStorage<PropertyFilterFormData>(
+  const propertyFilterWithUserId: string = getStorageKeyWithUserId(
     StorageKey.PROPERTY_FILTER,
+    userId
+  );
+  const propertyStringWithUserId: string = getStorageKeyWithUserId(
+    StorageKey.FILTER_STRING,
+    userId
+  );
+
+  const { state, replace } = useLocalStorage<PropertyFilterFormData>(
+    propertyFilterWithUserId,
     defaultValues
   );
 
@@ -114,6 +132,8 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
 
       replace(formData);
       applyFilters(filter);
+      setFilterString(getFilterString(formData));
+      setStorage(propertyStringWithUserId, getFilterString(formData));
     } catch (error) {
       reset();
     }
@@ -122,6 +142,8 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
   const handleRemoveFilters = (): void => {
     replace(defaultValues);
     setHasActiveFilters(false);
+    setFilterString('');
+    removeStorage(propertyStringWithUserId);
     reset(defaultValues);
 
     const filter = getMainPagePropertyFilter(defaultValues);
@@ -192,7 +214,7 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
           <Block label={t('priceRange')} key={watchAllFields.rentOrSale}>
             {watchAllFields.rentOrSale === 'for_rent' ? (
               <Block sx={{ display: 'flex', flexDirection: 'row' }}>
-                <RHFTextField
+                <RHFNumFormattedField
                   name="priceRangeRentFrom"
                   type="number"
                   size="small"
@@ -200,7 +222,7 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
                   sx={{ height: '60px', mr: '50px' }}
                 />
 
-                <RHFTextField
+                <RHFNumFormattedField
                   name="priceRangeRentTo"
                   type="number"
                   size="small"
@@ -210,7 +232,7 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
               </Block>
             ) : (
               <Block sx={{ display: 'flex', flexDirection: 'row', gap: '0' }}>
-                <RHFTextField
+                <RHFNumFormattedField
                   name="priceRangeSaleFrom"
                   type="number"
                   size="small"
@@ -218,7 +240,7 @@ const FilterList = ({ applyFilters }: Props): JSX.Element => {
                   sx={{ height: '60px', mr: '50px' }}
                 />
 
-                <RHFTextField
+                <RHFNumFormattedField
                   name="priceRangeSaleTo"
                   type="number"
                   size="small"

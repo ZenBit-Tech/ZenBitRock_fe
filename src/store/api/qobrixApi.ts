@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { searchParams } from 'components/custom/property/helpers/searchParams';
 import { ApiRoute, StorageKey } from 'enums';
 import {
   QobrixAgentRequest,
@@ -25,7 +26,7 @@ import {
   QobrixGetAllGroupsResponse,
 } from 'types';
 import { QobrixLocationsResponse } from 'types/qobrix/qobrix-locations';
-import { IUserUpdateQobrix } from 'types/user';
+import { IAgentUpdateQobrix, IUserUpdateQobrix } from 'types/user';
 
 export const QobrixApi = createApi({
   reducerPath: 'QobrixApi',
@@ -89,6 +90,13 @@ export const QobrixApi = createApi({
         body,
       }),
     }),
+    updateAgent: builder.mutation<QobrixAgentResponse['data'], IAgentUpdateQobrix>({
+      query: ({ qobrixAgentId, ...body }) => ({
+        url: `${ApiRoute.QOBRIX_CREATE_AGENT}/${qobrixAgentId}`,
+        method: 'PATCH',
+        body,
+      }),
+    }),
     deleteLead: builder.mutation<void, { id: string }>({
       query: ({ id }) => ({
         url: `${ApiRoute.QOBRIX_DELETE_LEAD}/${id}`,
@@ -135,7 +143,9 @@ export const QobrixApi = createApi({
           status: property.status,
           country: property.country,
           city: property.city,
-          price: property.list_selling_price_amount,
+          price: property.sale_rent !== 'for_rent' ? property.list_selling_price_amount : undefined,
+          priceRental:
+            property.sale_rent !== 'for_sale' ? property.list_rental_price_amount : undefined,
           photo: property.media?.[0]?.file?.thumbnails?.medium || null,
         }));
 
@@ -165,7 +175,14 @@ export const QobrixApi = createApi({
           status: response?.data.status,
           country: response?.data.country,
           city: response?.data.city,
-          price: response?.data.list_selling_price_amount,
+          price:
+            response?.data.sale_rent !== 'for_rent'
+              ? response?.data.list_selling_price_amount
+              : undefined,
+          priceRental:
+            response?.data.sale_rent !== 'for_sale'
+              ? response?.data.list_rental_price_amount
+              : undefined,
           media: response?.data.media,
           description: response?.data.description,
           name: response?.data.name,
@@ -210,17 +227,16 @@ export const QobrixApi = createApi({
     }),
     getLeads: builder.query<
       QobrixLeadListResponse,
-      { page: number; filter: string | undefined; id: string | undefined }
+      {
+        page: number;
+        filter: string | undefined;
+        searchString: string | undefined | null;
+      }
     >({
       query: (arg) => ({
-        url: !arg.id
-          ? ApiRoute.QOBRIX_GET_LEADS
-          : ApiRoute.QOBRIX_GET_PROPERTY_LEADS.replace('id', arg.id),
+        url: ApiRoute.QOBRIX_GET_LEADS,
         method: 'GET',
-        params:
-          arg.filter && arg.filter !== 'update'
-            ? { page: arg.page, search: arg.filter }
-            : { page: arg.page },
+        params: searchParams(arg.page, arg.filter, arg.searchString),
       }),
       transformResponse: (response: QobrixLeadListResponse) => {
         response.data = response.data.map((lead) => ({
@@ -434,6 +450,7 @@ export const {
   useAddUserToGroupMutation,
   useGetPropertyTypesQuery,
   useUpdateContactMutation,
+  useUpdateAgentMutation,
   useDeleteLeadMutation,
   useCreateLeadMutation,
   useUpdateLeadMutation,

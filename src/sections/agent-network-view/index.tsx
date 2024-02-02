@@ -6,19 +6,20 @@ import { useTranslations } from 'next-intl';
 import Container from '@mui/material/Container';
 import { Backdrop, CircularProgress, Typography } from '@mui/material';
 import { useEffect, useMount, useState } from 'hooks';
-import { useGetAllUsersMutation } from 'store/api/userApi';
+import { useGetSynchronizedUsersMutation } from 'store/api/userApi';
 import { RootState } from 'store';
 import { useSettingsContext } from 'components/settings';
 import { LoadingScreen } from 'components/loading-screen';
 import ChatNav from 'sections/chat/chat-nav';
 import { Page500 } from 'sections/error';
-import { ChatNotifications } from 'sections/chat/agent-network-notifications';
 import { DELAY, Onboarding, agentsMockData, useOnboardingContext } from 'components/custom';
 
 export default function AgentNetworkView(): JSX.Element {
   const t = useTranslations('agents');
   const settings = useSettingsContext();
-  const [getAllUsers, { data: usersData, isLoading, isError }] = useGetAllUsersMutation();
+  const [getSynchronizedUsers, { data: usersData, isLoading, isError }] =
+    useGetSynchronizedUsersMutation();
+
   const [showLoader, setLoader] = useState<boolean>(true);
   const {
     setState,
@@ -26,8 +27,8 @@ export default function AgentNetworkView(): JSX.Element {
   } = useOnboardingContext();
 
   useEffect(() => {
-    getAllUsers();
-  }, [getAllUsers]);
+    getSynchronizedUsers();
+  }, [getSynchronizedUsers]);
 
   useMount(() => {
     if (tourActive) {
@@ -59,10 +60,9 @@ export default function AgentNetworkView(): JSX.Element {
         sx={{ pb: 14 }}
         className="onboarding-step-9"
       >
-        <Typography variant="h3" sx={{ my: 3 }}>
+        <Typography variant="h3" sx={{ mt: 3, mb: 1 }}>
           {t('pageTitle')}
         </Typography>
-        <ChatNotifications />
         <ChatNav agents={tourActive ? agentsMockData : usersData} loading={isLoading} id={id} />
       </Container>
     </>

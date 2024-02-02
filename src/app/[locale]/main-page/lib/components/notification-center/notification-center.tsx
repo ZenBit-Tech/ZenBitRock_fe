@@ -4,13 +4,22 @@ import { Box, Card, Typography } from '@mui/material';
 import { CustomLink, useOnboardingContext } from 'components/custom';
 import Iconify from 'components/iconify';
 import { LoadingScreen } from 'components/loading-screen';
-import { useSelector, useState } from 'hooks';
+import { AppRoute } from 'enums';
+import { useSelector } from 'hooks';
 import { RootState } from 'store';
+import { useGetNewNotificationsCountQuery } from 'store/notification';
 
-const NotificationCenter = ({ t }: { t: Function }): JSX.Element => {
+type Props = {
+  t: Function;
+};
+
+const NotificationCenter = ({ t }: Props): JSX.Element => {
   const authUser = useSelector((state: RootState) => state.authSlice.user);
 
-  const [isVisible] = useState<boolean>(false);
+  const { data } = useGetNewNotificationsCountQuery({
+    userId: authUser?.id ?? '',
+  });
+
   const {
     state: { tourActive },
   } = useOnboardingContext();
@@ -19,6 +28,7 @@ const NotificationCenter = ({ t }: { t: Function }): JSX.Element => {
     return <LoadingScreen />;
   }
 
+  const isVisible = Boolean(data);
   const { receiveNotifications } = authUser;
 
   return (
@@ -39,10 +49,20 @@ const NotificationCenter = ({ t }: { t: Function }): JSX.Element => {
               justifyContent: 'space-between',
             }}
           >
-            <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
-              {t('noNewNotifications')}
-            </Typography>
-            <CustomLink href="#">
+            {data && (
+              <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
+                {`${t('youHave')} ${data} ${
+                  data === 1 ? t('newNotification') : t('newNotifications')
+                }`}
+              </Typography>
+            )}
+            {!data && (
+              <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
+                {t('noNewNotifications')}
+              </Typography>
+            )}
+
+            <CustomLink href={AppRoute.NOTIFICATIONS}>
               <Box
                 component="span"
                 display="flex"

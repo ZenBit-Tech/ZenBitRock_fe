@@ -20,7 +20,7 @@ const LeadDetailsPage = ({ params }: Props) => {
   if (!data) {
     return <LoadingScreen sx={{ mt: 'calc(100vh / 2 - 65px)' }} />;
   }
- 
+
   return <LeadDetailsView leadDetails={data} />;
 };
 

@@ -93,6 +93,13 @@ export const UserApi = createApi({
       }),
       invalidatesTags: [{ type: 'Get user by id' }],
     }),
+    getSynchronizedUsers: builder.mutation<UserChatResponse[], void>({
+      query: () => ({
+        url: ApiRoute.GET_SYNCHRONIZED_USERS,
+        method: 'GET',
+      }),
+      invalidatesTags: [{ type: 'Get user by id' }],
+    }),
   }),
 });
 
@@ -104,4 +111,5 @@ export const {
   useDeleteAvatarMutation,
   useGetAllUsersMutation,
   useUpdateNotificationsMutation,
+  useGetSynchronizedUsersMutation,
 } = UserApi;

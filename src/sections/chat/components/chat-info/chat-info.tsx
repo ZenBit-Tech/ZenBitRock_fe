@@ -127,7 +127,7 @@ const ChatInfo = (): JSX.Element => {
     }
   };
 
-  return isFetching ? (
+  return isFetching || isLoadingWhenGetChat || isLoadingWhenGetUsers || isLoadingWhenUpdate ? (
     <LoadingScreen marginTop="50%" />
   ) : (
     <Box
@@ -146,17 +146,6 @@ const ChatInfo = (): JSX.Element => {
         scrollbarWidth: 'none',
       }}
     >
-      {(isLoadingWhenGetChat || isLoadingWhenGetUsers || isLoadingWhenUpdate) && (
-        <LoadingScreen
-          sx={{
-            position: 'absolute',
-            top: '-400px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            zIndex: '100',
-          }}
-        />
-      )}
       <Box
         sx={{
           display: 'flex',
@@ -207,7 +196,7 @@ const ChatInfo = (): JSX.Element => {
         </Box>
         {data && userId === data?.owner?.id && (
           <Link
-            color="inherit"
+            color={colors.BUTTON_PRIMARY_COLOR}
             sx={{
               width: 'fit-content',
               cursor: 'pointer',
@@ -218,7 +207,7 @@ const ChatInfo = (): JSX.Element => {
               transition: 'all 200ms ease-out',
               mb: '1.5rem',
               '&:hover': {
-                color: colors.BUTTON_PRIMARY_COLOR,
+                color: colors.BUTTON_SECOND_COLOR,
                 transition: 'all 200ms ease-out',
                 textDecoration: 'underline',
               },
@@ -253,7 +242,7 @@ const ChatInfo = (): JSX.Element => {
           {t('chatMembers')}
         </Typography>
         <Link
-          color="inherit"
+          color={colors.BUTTON_PRIMARY_COLOR}
           sx={{
             width: 'fit-content',
             cursor: 'pointer',
@@ -264,7 +253,7 @@ const ChatInfo = (): JSX.Element => {
             marginBottom: '1rem',
             transition: 'all 200ms ease-out',
             '&:hover': {
-              color: colors.BUTTON_PRIMARY_COLOR,
+              color: colors.BUTTON_SECOND_COLOR,
               transition: 'all 200ms ease-out',
               textDecoration: 'underline',
             },
@@ -315,91 +304,97 @@ const ChatInfo = (): JSX.Element => {
         )}
         {members &&
           members?.length > 0 &&
-          members.map(
-            (user, idx: number) =>
-              user && (
-                <Box
-                  title={t('btnDeleteAgentFromList')}
-                  key={uuidv4()}
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    mb: '1rem',
-                  }}
-                >
-                  <Typography
-                    variant="body2"
+          members
+            .filter(
+              (member) =>
+                member.label.toLowerCase() !== 'deleted user' &&
+                member.id !== data?.owner?.id &&
+                usersData?.find(({ id }) => id === member.id)?.qobrixUserId
+            )
+            .map(
+              (user, idx: number) =>
+                user && (
+                  <Box
+                    title={t('btnDeleteAgentFromList')}
+                    key={uuidv4()}
                     sx={{
-                      mr: '0.5rem',
-                      textAlign: 'right',
-                      fontWeight: 'normal',
-                      minWidth: '1rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      mb: '1rem',
                     }}
                   >
-                    {`${idx + 2}.`}
-                  </Typography>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{
-                      fontWeight: 'normal',
-                      whiteSpace: 'nowrap',
-                      textOverflow: 'ellipsis',
-                      overflow: 'hidden',
-                      mr: 'auto',
-                    }}
-                  >
-                    {`${user?.label}${data && userId === user.id ? ` (${t('you')})` : ''}`}{' '}
-                  </Typography>
-                  {data && userId === data?.owner?.id && (
-                    <Iconify
-                      icon="fluent:delete-28-regular"
-                      width="1.5rem"
-                      height="1.5rem"
-                      color={colors.ERROR_COLOR}
+                    <Typography
+                      variant="body2"
                       sx={{
-                        opacity: '0.5',
-                        cursor: 'pointer',
-                        minWidth: '1.5rem',
-                        transition: 'all 200ms ease-out',
-                        '&:hover': {
-                          opacity: '1',
-                          transition: 'all 200ms ease-out',
-                        },
+                        mr: '0.5rem',
+                        textAlign: 'right',
+                        fontWeight: 'normal',
+                        minWidth: '1rem',
                       }}
-                      onClick={() => handleClickDelete(user.id)}
-                    />
-                  )}
-                </Box>
-              )
-          )}
+                    >
+                      {`${idx + 2}.`}
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{
+                        fontWeight: 'normal',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                        overflow: 'hidden',
+                        mr: 'auto',
+                      }}
+                    >
+                      {`${user?.label}${data && userId === user.id ? ` (${t('you')})` : ''}`}{' '}
+                    </Typography>
+                    {data && userId === data?.owner?.id && (
+                      <Iconify
+                        icon="fluent:delete-28-regular"
+                        width="1.5rem"
+                        height="1.5rem"
+                        color={colors.ERROR_COLOR}
+                        sx={{
+                          opacity: '0.5',
+                          cursor: 'pointer',
+                          minWidth: '1.5rem',
+                          transition: 'all 200ms ease-out',
+                          '&:hover': {
+                            opacity: '1',
+                            transition: 'all 200ms ease-out',
+                          },
+                        }}
+                        onClick={() => handleClickDelete(user.id)}
+                      />
+                    )}
+                  </Box>
+                )
+            )}
       </Box>
-      {data && userId === data?.owner?.id && (
-        <Link
-          color="inherit"
-          sx={{
-            width: 'fit-content',
-            cursor: 'pointer',
-            mt: 'auto',
-            mx: '1rem',
-            display: 'flex',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            gap: '0.5rem',
+      <Link
+        color={colors.ERROR_COLOR}
+        sx={{
+          opacity: '0.5',
+          width: 'fit-content',
+          cursor: 'pointer',
+          mt: 'auto',
+          mx: '1rem',
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          gap: '0.5rem',
+          transition: 'all 200ms ease-out',
+          '&:hover': {
+            opacity: '1',
             transition: 'all 200ms ease-out',
-            '&:hover': {
-              color: colors.ERROR_COLOR,
-              transition: 'all 200ms ease-out',
-              textDecoration: 'underline',
-            },
-          }}
-          onClick={(): void => setDeleteModal(!deleteModal)}
-        >
-          <Iconify icon="fluent:delete-28-regular" width="1.5rem" height="1rem" />
-          <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
-            {t('deleteChat')}
-          </Typography>
-        </Link>
-      )}
+            textDecoration: 'underline',
+          },
+        }}
+        onClick={() => setDeleteModal(!deleteModal)}
+      >
+        <Iconify icon="fluent:delete-28-regular" width="1.5rem" height="1rem" />
+        <Typography variant="subtitle2" sx={{ fontWeight: 'normal' }}>
+          {userId === data?.owner?.id ? t('deleteChat') : t('leaveChat')}
+        </Typography>
+      </Link>
       {nameModal && (
         <Modal
           open
@@ -471,12 +466,22 @@ const ChatInfo = (): JSX.Element => {
             <FormAddAgents
               t={t}
               chatId={data?.id}
+              ownerId={data?.owner?.id}
               chatMembers={members && members.length > 0 ? members : []}
               closeModalUp={() => closeModal('members')}
-              changedMembers={(values: string[]) => {
-                if (userId) handleClickUpdate([...values, userId]);
+              changedMembers={(values: { label: string; id: string }[]) => {
+                setMembers(() => [
+                  ...values,
+                  {
+                    label: `${data?.owner?.firstName} ${data?.owner?.lastName}`,
+                    id: data?.owner?.id || '',
+                  },
+                ]);
               }}
+              updateGroupChat={updateGroupChat}
               refresh={() => refetch()}
+              usersData={usersData}
+              userId={userId}
             />
           </Box>
         </Modal>
@@ -510,7 +515,15 @@ const ChatInfo = (): JSX.Element => {
               height="1.5rem"
               handleClose={() => closeModal('delete')}
             />
-            <FormDelete t={t} chatId={data?.id} closeModalUp={() => closeModal('delete')} />
+            <FormDelete
+              t={t}
+              chatId={data?.id}
+              closeModalUp={() => closeModal('delete')}
+              ownerId={data?.owner?.id}
+              userId={userId}
+              chatMembers={members}
+              updateGroupChat={updateGroupChat}
+            />
           </Box>
         </Modal>
       )}

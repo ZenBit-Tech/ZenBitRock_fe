@@ -6,16 +6,17 @@ import { AppRoute } from 'enums';
 
 type Props = {
   chatId: string;
+  chatTitle?: string;
 };
 
-export default function ChatGroupHeader({ chatId }: Props): JSX.Element {
+export default function ChatGroupHeader({ chatId, chatTitle }: Props): JSX.Element {
   const tChat = useTranslations('chat');
   const theme = useTheme();
 
   return (
     <>
       <Stack flexGrow={1} direction="row" alignItems="center" spacing={2}>
-        <Typography>{`${tChat('groupChat')} `}</Typography>
+        <Typography>{chatTitle ? chatTitle : tChat('groupChat')}</Typography>
         <CustomLink
           color={theme.palette.primary.main}
           href={`${AppRoute.CHATS_PAGE}/${chatId}/info`}

@@ -37,6 +37,7 @@ export type IUserProfile = {
 };
 
 export type IUserUpdateProfile = {
+  isNewbie?: boolean;
   city?: string | null;
   country?: string | null;
   about?: string | null;
@@ -59,6 +60,13 @@ export type IUserUpdateQobrix = {
   phone?: string | null;
   role?: string | null;
   qobrixId?: string | null;
+};
+
+export type IAgentUpdateQobrix = {
+  description?: string | null;
+  agent_type?: string | null;
+  agency?: string | null;
+  qobrixAgentId?: string | null;
 };
 
 export type IUserProfileFollower = {

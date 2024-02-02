@@ -1,12 +1,14 @@
 import { Card, Avatar, Stack, Typography, Badge, CardActionArea } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
+import GroupIcon from '@mui/icons-material/Group';
 import { formatDate, trimString } from 'services';
 import { AppRoute } from 'enums';
 import { Chat } from 'types';
 import { useSelector, useRouter } from 'hooks';
 import { selectCurrentUser } from 'store/auth/authReducer';
 import { colors } from 'constants/colors';
-import { countUnreadMessages, findLatestMessage, getOpponent } from './helpers';
+import { useGetUnreadMessagesCountByChatIdQuery } from 'store/chat';
+import { findLatestMessage, getOpponent } from './helpers';
 
 type FollowerItemProps = {
   chat: Chat;
@@ -14,7 +16,7 @@ type FollowerItemProps = {
 };
 
 const MAX_CHARACTERS_TITLE: number = 20;
-const MAX_WORDS_TITLE: number = 2;
+const MAX_WORDS_TITLE: number = 4;
 const MAX_WORDS_MESSAGE: number = 6;
 const MAX_CHARACTERS_MESSAGE: number = 20;
 
@@ -25,7 +27,8 @@ export default function ChatItem({ chat, className }: FollowerItemProps): JSX.El
 
   const { id, isPrivate, title, messages, members } = chat;
 
-  const countOfUnreadMessages = countUnreadMessages(messages);
+  const { data: quantity } = useGetUnreadMessagesCountByChatIdQuery({ chatId: id });
+
   const lastMessage = findLatestMessage(messages);
 
   const { content, createdAt } = lastMessage || {};
@@ -60,10 +63,14 @@ export default function ChatItem({ chat, className }: FollowerItemProps): JSX.El
       >
         <Avatar alt={chatTitle} src={avatar} sx={{ width: 68, height: 68, mr: 2 }} />
 
-        <Stack sx={{ flex: 5 }}>
-          <Typography variant="subtitle1" sx={{ textAlign: 'left', mb: '8px' }}>
-            {trimString(chatTitle, MAX_WORDS_TITLE, MAX_CHARACTERS_TITLE)}
-          </Typography>
+        <Stack flex={5}>
+          <Stack flexDirection="row" gap={1}>
+            {!isPrivate && <GroupIcon />}
+
+            <Typography variant="subtitle1" sx={{ textAlign: 'left', mb: '8px' }}>
+              {trimString(chatTitle, MAX_WORDS_TITLE, MAX_CHARACTERS_TITLE)}
+            </Typography>
+          </Stack>
 
           <Typography
             variant="body2"
@@ -79,7 +86,7 @@ export default function ChatItem({ chat, className }: FollowerItemProps): JSX.El
         </Stack>
 
         <Stack alignItems="center" sx={{ gap: '10px', minWidth: '65px', alignItems: 'center' }}>
-          <Badge badgeContent={countOfUnreadMessages} color="primary">
+          <Badge badgeContent={quantity} color="primary">
             <MailIcon />
           </Badge>
 

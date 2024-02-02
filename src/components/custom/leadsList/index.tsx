@@ -23,12 +23,11 @@ export const FIRST_PAGE: number = 1;
 
 interface LeadsListProps {
   filter: string | undefined;
-  id: string | undefined;
   name: string | undefined;
   tourActive: boolean;
 }
 
-function LeadsList({ filter, id, name, tourActive }: LeadsListProps): JSX.Element {
+function LeadsList({ filter, name, tourActive }: LeadsListProps): JSX.Element {
   const [page, setPage] = useState(FIRST_PAGE);
   const [localFilter, setLocalFilter] = useState<string | undefined>(
     window.localStorage.getItem('leadsFilter')
@@ -55,7 +54,13 @@ function LeadsList({ filter, id, name, tourActive }: LeadsListProps): JSX.Elemen
   const { data: types, isLoading } = useGetPropertyTypesQuery(undefined);
 
   const { data, error, isFetching, refetch } = useGetLeadsQuery(
-    { page, filter: localFilter, id },
+    {
+      page,
+      filter: localFilter,
+      searchString: localStorage.getItem('leadsByPropertySearch')
+        ? localStorage.getItem('leadsByPropertySearch')
+        : undefined,
+    },
     { refetchOnMountOrArgChange: true }
   );
 
@@ -98,7 +103,14 @@ function LeadsList({ filter, id, name, tourActive }: LeadsListProps): JSX.Elemen
           </TextStyled>
           <BoxStyledWithName>
             <TextStyled>{name}</TextStyled>
-            <LinkStyled href={AppRoute.LEADS_PAGE} title={t('reset')}>
+            <LinkStyled
+              onClick={() => {
+                localStorage.removeItem('leadsByPropertySearch');
+                localStorage.removeItem('leadsFilter');
+              }}
+              href={AppRoute.LEADS_PAGE}
+              title={t('reset')}
+            >
               <ButtonClose
                 bottom="-0.5rem"
                 right="-0.5rem"

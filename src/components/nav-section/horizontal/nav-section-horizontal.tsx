@@ -45,13 +45,13 @@ function Group({ items, config }: GroupProps) {
       {items.map((list, idx) => {
         let className;
         switch (idx) {
-          case 3:
+          case 2:
             className = 'onboarding-step-5';
             break;
           case 1:
             className = 'onboarding-step-8';
             break;
-          case 4:
+          case 3:
             className = 'onboarding-step-15';
             break;
           default:

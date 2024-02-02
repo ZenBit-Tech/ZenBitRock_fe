@@ -35,7 +35,7 @@ export type QobrixContactRequest = {
   post_code: string;
   email: string;
   phone: string;
-  legacy_id: string;
+  legacy_id?: string;
 };
 
 export type QobrixContactResponse = {

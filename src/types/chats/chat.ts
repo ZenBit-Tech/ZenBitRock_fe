@@ -11,4 +11,20 @@ type Chat = {
   members: ChatMember[];
 };
 
-export { type Chat };
+type Pagination = {
+  page_count: number;
+  current_page: number;
+  has_next_page: boolean;
+  has_prev_page: boolean;
+  count: number;
+  limit: number;
+};
+
+type Chats = {
+  data: Chat[];
+  pagination: Pagination;
+};
+
+type ChatsRequest = { page: number; limit: number; sortType: string; searchParam: string };
+
+export { type Chat, type Chats, type ChatsRequest, type Pagination };

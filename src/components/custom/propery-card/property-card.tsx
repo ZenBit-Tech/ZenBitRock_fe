@@ -28,7 +28,7 @@ const PropertyCard = ({ property, className }: Props) => {
   const t = useTranslations('properties');
   const router = useRouter();
 
-  const { id, saleRent, status, country, city, price, photo, name } = property;
+  const { id, saleRent, status, country, city, price, priceRental, photo, name } = property;
 
   return (
     <Card
@@ -41,7 +41,10 @@ const PropertyCard = ({ property, className }: Props) => {
         cursor: 'pointer',
       }}
       className={className}
-      onClick={() => router.push(`${AppRoute.PROPERTY_PAGE}/${id}`)}
+      onClick={() => {
+        localStorage.removeItem('leadsByPropertySearch');
+        router.push(`${AppRoute.PROPERTY_PAGE}/${id}`);
+      }}
     >
       <Box
         sx={{
@@ -75,9 +78,29 @@ const PropertyCard = ({ property, className }: Props) => {
             color: 'white',
             textShadow: '1px 1px 2px black',
             fontSize: '1rem',
+            textAlign: 'right',
           }}
         >
-          {fCurrency(Number(price))}
+          {price && priceRental && (
+            <>
+              <Box component="span" sx={{ display: 'block' }}>{`for sale: ${fCurrency(
+                Number(price)
+              )}`}</Box>
+              <Box component="span" sx={{ display: 'block' }}>{`for rent: ${fCurrency(
+                Number(priceRental)
+              )}`}</Box>
+            </>
+          )}
+          {price && !priceRental && (
+            <Box component="span" sx={{ display: 'block' }}>{`for sale: ${fCurrency(
+              Number(price)
+            )}`}</Box>
+          )}
+          {!price && priceRental && (
+            <Box component="span" sx={{ display: 'block' }}>{`for rent: ${fCurrency(
+              Number(priceRental)
+            )}`}</Box>
+          )}
         </TextStyled>
       </Box>
       <Box

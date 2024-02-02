@@ -17,7 +17,9 @@ function ChatPage({ params }: Props): JSX.Element {
   const { data: chatData, isFetching, isError } = useGetChatByIdQuery(chatId);
   const authUser = useSelector((state: RootState) => state.authSlice.user);
 
-  const { data: chatMessages, isLoading: isLoadingMessages } = useGetMessagesQuery({ chatId });
+  const { data: chatMessages, isLoading: isLoadingMessages } = useGetMessagesQuery({
+    chatId,
+  });
 
   if (isFetching || !chatData || !authUser || isLoadingMessages) {
     return <LoadingScreen sx={{ mt: 'calc(100vh / 2 - 65px)' }} />;
@@ -26,8 +28,8 @@ function ChatPage({ params }: Props): JSX.Element {
   if (isError) {
     return <Page500 />;
   }
-  const { id } = authUser;
 
+  const { id } = authUser;
   const isMember = Boolean(chatData.members.find((member) => member.id === id));
 
   if (!isMember) {

@@ -3,19 +3,35 @@
 import { Backdrop, Box, CircularProgress, Typography, Container } from '@mui/material';
 import { ProtectedRoute, Onboarding, useOnboardingContext, DELAY } from 'components/custom';
 import PropertiesList from 'components/custom/propertiesList';
-import { useCallback, useMount, useState, useTranslations } from 'hooks';
+import { useCallback, useMount, useSelector, useState, useTranslations } from 'hooks';
 import { StorageKey } from 'enums';
-import { getMainPagePropertyFilter } from 'utils';
+import { getMainPagePropertyFilter, getNameFilter } from 'utils';
 import { getStorage } from 'hooks/use-local-storage';
+import { getStorageKeyWithUserId } from 'services';
+import { RootState } from 'store';
 import { NotificationCenter, PropertyFilter } from './lib';
 
 function MainPage(): JSX.Element {
+  const authUser = useSelector((state: RootState) => state.authSlice.user);
+  const userId = authUser?.id || '';
+
+  const propertyFilterWithUserId: string = getStorageKeyWithUserId(
+    StorageKey.PROPERTY_FILTER,
+    userId
+  );
+  const searchParamWithUserId: string = getStorageKeyWithUserId(
+    StorageKey.PROPERTIES_SEARCH_PARAM,
+    userId
+  );
+
   const [filter, setFilter] = useState<string>(
-    getStorage(StorageKey.PROPERTY_FILTER)
-      ? getMainPagePropertyFilter(getStorage(StorageKey.PROPERTY_FILTER))
+    getStorage(propertyFilterWithUserId)
+      ? getMainPagePropertyFilter(getStorage(propertyFilterWithUserId))
       : ''
   );
-  const [propertyNameFilter, setPropertyNameFilter] = useState<string>('');
+  const [propertyNameFilter, setPropertyNameFilter] = useState<string>(
+    getStorage(searchParamWithUserId) ? getNameFilter(getStorage(searchParamWithUserId)) : ''
+  );
   const [showLoader, setLoader] = useState(true);
   const {
     setState,
@@ -25,14 +41,14 @@ function MainPage(): JSX.Element {
   const handleSetFilter = useCallback(
     (search: string) => {
       let defaultFilter = '';
-      const storedFilter = getStorage(StorageKey.PROPERTY_FILTER);
+      const storedFilter = getStorage(propertyFilterWithUserId);
 
       if (storedFilter) {
         defaultFilter = getMainPagePropertyFilter(storedFilter);
       }
       setFilter(search ? search : defaultFilter);
     },
-    [setFilter]
+    [setFilter, propertyFilterWithUserId]
   );
 
   const handleSetPropertyNameFilter = useCallback(
@@ -72,11 +88,19 @@ function MainPage(): JSX.Element {
         <Onboarding />
         <Box sx={{ margin: '0 auto', maxWidth: '800px' }}>
           <NotificationCenter t={t} />
-          <Typography variant="h3" sx={{ marginTop: 3 }}>
+          <Typography
+            variant="h3"
+            sx={{
+              marginTop: 3,
+              marginBottom: 3,
+            }}
+          >
             {t('myProperties')}
           </Typography>
           <PropertyFilter
+            userId={userId}
             setFilter={handleSetFilter}
+            searchParamWithUserId={searchParamWithUserId}
             setPropertyNameFilter={handleSetPropertyNameFilter}
           />
           <PropertiesList tourActive={tourActive} search={getCombinedFilter()} />

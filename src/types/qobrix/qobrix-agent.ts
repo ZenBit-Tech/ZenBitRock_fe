@@ -1,6 +1,6 @@
 export type QobrixAgentRequest = {
   agent_type: string;
-  legacy_id: string;
+  legacy_id?: string;
   primary_contact: string;
 };
 
