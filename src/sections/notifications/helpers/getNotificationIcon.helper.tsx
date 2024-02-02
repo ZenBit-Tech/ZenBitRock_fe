@@ -18,6 +18,7 @@ const getNotificationIcon = (notificatioinType: string): JSX.Element => {
     default:
       icon = <CircleNotificationsIcon color="primary" />;
   }
+
   return icon;
 };
 
