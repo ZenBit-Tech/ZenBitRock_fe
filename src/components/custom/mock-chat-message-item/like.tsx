@@ -14,7 +14,7 @@ export default function Like({
   messageId: string;
   like: number;
 }) {
-  const [likeNumber, setLikeNumber] = useState<number>(like);
+  const [likeNumber, setLikeNumber] = useState<number>(Number(like));
   const [likes, setLikes] = useState<string>('');
   const [selectedLike, setSelectedLike] = useState<string>('');
 
