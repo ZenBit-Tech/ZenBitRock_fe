@@ -81,7 +81,12 @@ function SignUpForm({ signUpPage }: SignUpProps) {
         label={signUpPage.Main.emailInput}
         placeholder={signUpPage.Main.emailInputPlaceholder}
         type="email"
-        sx={{ height: '80px' }}
+        sx={{
+          height: '80px',
+          '& .MuiFormHelperText-root': {
+            marginTop: 0,
+          },
+        }}
         autoFocus
         {...register('email', {
           required: signUpPage.Main.emailRequired,
@@ -99,7 +104,12 @@ function SignUpForm({ signUpPage }: SignUpProps) {
         label={signUpPage.Main.passwordInput}
         placeholder={signUpPage.Main.passwordInputPlaceholder}
         type={showPassword ? 'text' : 'password'}
-        sx={{ height: '80px' }}
+        sx={{
+          height: '80px',
+          '& .MuiFormHelperText-root': {
+            marginTop: 0,
+          },
+        }}
         {...register('password', {
           required: signUpPage.Main.passwordRequired,
           pattern: {
@@ -123,7 +133,12 @@ function SignUpForm({ signUpPage }: SignUpProps) {
         label={signUpPage.Main.repeatLabel}
         placeholder={signUpPage.Main.passwordInputPlaceholder}
         type={showRepeatPassword ? 'text' : 'password'}
-        sx={{ height: '80px' }}
+        sx={{
+          height: '80px',
+          '& .MuiFormHelperText-root': {
+            marginTop: 0,
+          },
+        }}
         {...register('repeatPassword', {
           required: signUpPage.Main.passwordRequired,
           validate: (value) => value === watch('password') || signUpPage.Main.unmatchPass,

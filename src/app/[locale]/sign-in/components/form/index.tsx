@@ -78,7 +78,13 @@ export default function LoginForm() {
             message: t('LoginForm.emailInvalid'),
           },
         })}
-        sx={{ height: '80px', mb: '0.9rem' }}
+        sx={{
+          height: '80px',
+          mb: '0.9rem',
+          '& .MuiFormHelperText-root': {
+            marginTop: 0,
+          },
+        }}
         variant="outlined"
         label={t('LoginForm.emailLabel')}
         placeholder={t('LoginForm.emailInputPlaceholder')}
@@ -97,7 +103,12 @@ export default function LoginForm() {
             message: t('LoginForm.minChar'),
           },
         })}
-        sx={{ height: '80px' }}
+        sx={{
+          height: '80px',
+          '& .MuiFormHelperText-root': {
+            marginTop: 0,
+          },
+        }}
         variant="outlined"
         placeholder={t('LoginForm.passwordInputPlaceholder')}
         label={t('LoginForm.passwordLabel')}
