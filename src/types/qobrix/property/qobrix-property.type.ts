@@ -9,10 +9,10 @@ type QobrixProperty = {
   status: string | null;
   country: string;
   city: string;
-  price?: number;
-  list_selling_price_amount?: number;
-  priceRental?: number;
-  list_rental_price_amount?: number;
+  price?: number | null;
+  list_selling_price_amount?: number | null;
+  priceRental?: number | null;
+  list_rental_price_amount?: number | null;
   media?: { file: { thumbnails: { medium: string } } }[];
   photo: string | null;
 };

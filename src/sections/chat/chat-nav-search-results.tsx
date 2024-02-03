@@ -73,6 +73,7 @@ export default function ChatNavSearchResults({
         variant="h6"
         sx={{
           px: 2.5,
+          mt: 1,
           mb: 2,
         }}
       >
