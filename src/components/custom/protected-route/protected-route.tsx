@@ -37,7 +37,7 @@ const ProtectedRoute: React.FC<Properties> = ({
   const isRenderingOnServer = (!authChecked && !user) || (user && pathname !== redirectPath);
 
   if (isRenderingOnServer) {
-    return <LoadingScreen />;
+    return <LoadingScreen sx={{ mt: 'calc(100vh / 2 - 65px)' }} />;
   }
 
   return <>{authChecked && user && children}</>;
