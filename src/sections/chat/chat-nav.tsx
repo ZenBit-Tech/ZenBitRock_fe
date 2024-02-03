@@ -1,11 +1,8 @@
 import { useScrollToTop, useTranslations, useState, useCallback, useMemo, useEffect } from 'hooks';
-import { enqueueSnackbar } from 'notistack';
 import { Container } from '@mui/system';
 import { Fab, TextField } from '@mui/material';
-import { useRouter } from 'routes/hooks';
-import { useCheckPrivateChatQuery, useCreateChatMutation } from 'store/chat';
 import { UserChatResponse } from 'types/user-backend';
-import { AppRoute, StorageKey } from 'enums';
+import { StorageKey } from 'enums';
 import { AGENTS_SORT_OPTIONS } from 'constants/agentsSortOptions';
 import { useGetChatsQuery } from 'store/chat/chat-api';
 import { ChatNavItemSkeleton } from './chat-skeleton';
@@ -21,8 +18,6 @@ type Props = {
 };
 
 export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
-  const router = useRouter();
-
   const t = useTranslations('agents');
 
   const isVisible = useScrollToTop();
@@ -36,7 +31,6 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
   });
 
   const [sort, setSort] = useState<string>('nameAsc');
-  const [selectedAgent, setSelectedAgent] = useState<UserChatResponse | null>(null);
 
   const { data: chats } = useGetChatsQuery({
     page: 1,
@@ -62,39 +56,6 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
     return chatId;
   };
 
-  const { data: chatData } = useCheckPrivateChatQuery(selectedAgent?.id ?? '', {
-    refetchOnMountOrArgChange: true,
-  });
-
-  const [createChat, { error }] = useCreateChatMutation();
-
-  useEffect(() => {
-    const createNewChat = async () => {
-      try {
-        if (selectedAgent) {
-          const response = await createChat({
-            title: selectedAgent.firstName,
-            memberIds: [selectedAgent.id, id],
-            isPrivate: true,
-          }).unwrap();
-
-          router.push(`${AppRoute.CHATS_PAGE}/${response.chat.id}`);
-        }
-      } catch (err) {
-        enqueueSnackbar(t('error'), { variant: 'error' });
-      }
-    };
-
-    if (error) {
-      enqueueSnackbar(t('error'), { variant: 'error' });
-    }
-    if (chatData && chatData.chatId === null && selectedAgent) {
-      createNewChat();
-    } else if (chatData && chatData.chatId) {
-      router.push(`${AppRoute.CHATS_PAGE}/${chatData.chatId}`);
-    }
-  }, [selectedAgent, chatData, createChat, router, t, id, error]);
-
   const handleSearchAgents = useCallback(
     (inputValue: string): void => {
       if (inputValue && agents) {
@@ -103,6 +64,7 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
             const agentName = `${agent.firstName} ${agent.lastName}`;
             return agentName.toLowerCase().includes(inputValue.trim().toLowerCase());
           }
+
           return false;
         });
 
@@ -124,6 +86,7 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
 
   useEffect(() => {
     const savedSearchQuery = localStorage.getItem(StorageKey.AGENTS_SEARCH_QUERY);
+
     if (savedSearchQuery !== null) {
       handleSearchAgents(savedSearchQuery);
     }
@@ -186,7 +149,6 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
               <AgentListItem
                 key={agent.id}
                 agent={agent}
-                userId={id}
                 chatId={getChatId(agent.id)}
                 className={idx === 0 ? 'onboarding-step-10' : ''}
               />

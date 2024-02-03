@@ -1,7 +1,7 @@
 export {
   useCreateChatMutation,
   useCreateGroupChatMutation,
-  useCheckPrivateChatQuery,
+  useCheckPrivateChatMutation,
   ChatApi,
   useDeleteChatMutation,
   useGetChatByIdQuery,

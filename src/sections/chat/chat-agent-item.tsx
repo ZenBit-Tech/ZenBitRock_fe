@@ -5,13 +5,12 @@ import { useTranslations, useState, useEffect, useCallback, useRouter } from 'ho
 import { AppRoute } from 'enums';
 import { findCountryLabelByCode } from 'sections/verification-view/drop-box-data';
 import { UserChatResponse } from 'types/user-backend';
-import { useCreateChatMutation, useGetUnreadMessagesCountByChatIdQuery } from 'store/chat';
+import { useGetUnreadMessagesCountByChatIdQuery, useCheckPrivateChatMutation } from 'store/chat';
 import MsgBadge from './chat-msg-badge';
 
 type FollowerItemProps = {
   agent: UserChatResponse;
   className: string;
-  userId: string;
   chatId?: string;
 };
 
@@ -19,16 +18,16 @@ export default function AgentListItem({
   agent,
   className,
   chatId,
-  userId,
 }: FollowerItemProps): JSX.Element {
   const [quantity, setQuentity] = useState<number | undefined>(0);
 
   const t = useTranslations('agents');
   const router = useRouter();
 
-  const { firstName, lastName, country, city, avatarUrl, isDeleted } = agent;
+  const { firstName, lastName, country, city, avatarUrl, isDeleted, id } = agent;
   const { data } = useGetUnreadMessagesCountByChatIdQuery({ chatId });
-  const [createChat] = useCreateChatMutation();
+
+  const [checkPrivateChat] = useCheckPrivateChatMutation();
 
   useEffect(() => {
     if (chatId) {
@@ -36,27 +35,15 @@ export default function AgentListItem({
     }
   }, [chatId, data]);
 
-  const handleClick = useCallback(() => {
-    const createNewChat = async () => {
-      try {
-        const response = await createChat({
-          title: firstName,
-          memberIds: [agent.id, userId],
-          isPrivate: true,
-        }).unwrap();
+  const handleClick = useCallback(async () => {
+    try {
+      const response = await checkPrivateChat(id).unwrap();
 
-        router.push(`${AppRoute.CHATS_PAGE}/${response.chat.id}`);
-      } catch (err) {
-        enqueueSnackbar(t('error'), { variant: 'error' });
-      }
-    };
-
-    if (!chatId) {
-      createNewChat();
-    } else {
-      router.push(`${AppRoute.CHATS_PAGE}/${chatId}`);
+      router.push(`${AppRoute.CHATS_PAGE}/${response.chatId}`);
+    } catch (err) {
+      enqueueSnackbar(t('error'), { variant: 'error' });
     }
-  }, [router, chatId, firstName, agent.id, userId, t, createChat]);
+  }, [router, id, t]);
 
   return (
     <Card sx={{ mb: '5px' }} className={className}>

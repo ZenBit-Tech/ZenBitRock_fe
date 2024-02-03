@@ -9,7 +9,7 @@ import { NoDataFound } from 'components/custom';
 import { enqueueSnackbar } from 'notistack';
 import { useRouter } from 'hooks';
 import { AppRoute } from 'enums';
-import { useCreateChatMutation } from 'store/chat';
+import { useCheckPrivateChatMutation } from 'store/chat';
 
 type Props = {
   query: string;
@@ -30,41 +30,19 @@ export default function ChatNavSearchResults({
   const totalResults = useMemo((): number => results.length, [results]);
   const notFound = useMemo((): boolean => !totalResults && !!query, [totalResults, query]);
 
-  const [createChat] = useCreateChatMutation();
+  const [checkPrivateChat] = useCheckPrivateChatMutation();
 
   const handleClick = useCallback(
-    ({
-      firstName,
-      userId,
-      chatId,
-      agentId,
-    }: {
-      firstName: string;
-      userId: string;
-      chatId: string | undefined;
-      agentId: string;
-    }) => {
-      const createNewChat = async () => {
-        try {
-          const response = await createChat({
-            title: firstName,
-            memberIds: [agentId, userId],
-            isPrivate: true,
-          }).unwrap();
+    async (agentId: string) => {
+      try {
+        const response = await checkPrivateChat(agentId).unwrap();
 
-          router.push(`${AppRoute.CHATS_PAGE}/${response.chat.id}`);
-        } catch (err) {
-          enqueueSnackbar(t('error'), { variant: 'error' });
-        }
-      };
-
-      if (!chatId) {
-        createNewChat();
-      } else {
-        router.push(`${AppRoute.CHATS_PAGE}/${chatId}`);
+        router.push(`${AppRoute.CHATS_PAGE}/${response.chatId}`);
+      } catch (err) {
+        enqueueSnackbar(t('error'), { variant: 'error' });
       }
     },
-    [router, t, createChat]
+    [router, t]
   );
 
   return (
@@ -88,14 +66,7 @@ export default function ChatNavSearchResults({
             id !== result.id ? (
               <ListItemButton
                 key={result.id}
-                onClick={() =>
-                  handleClick({
-                    firstName: result.firstName,
-                    chatId: getChatId(result.id),
-                    agentId: result.id,
-                    userId: id,
-                  })
-                }
+                onClick={() => handleClick(result.id)}
                 sx={{
                   px: 2.5,
                   py: 1.5,

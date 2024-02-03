@@ -112,7 +112,7 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
                   value={selectedStatus}
                   variant="standard"
                   onChange={(e) => handleStatusChange(e.target.value)}
-                  sx={{ ml: 1, minWidth: '120px' }} 
+                  sx={{ ml: 1, minWidth: '120px' }}
                   renderValue={(selected) => {
                     const foundStatus = Object.values(leadStatuses).find(
                       (status) => status.id === selected
@@ -121,10 +121,8 @@ const LeadDetailsView = ({ leadDetails }: Props) => {
                     return foundStatus
                       ? foundStatus.label
                       : leadDetails.data.conversion_status_workflow_stage.name;
-
                   }}
                 >
-                  
                   {Object.entries(leadStatuses).map(([statusName, statusValue]) => (
                     <MenuItem key={statusName} value={statusValue.id}>
                       {statusValue.label}

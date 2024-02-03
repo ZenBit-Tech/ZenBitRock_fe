@@ -35,7 +35,7 @@ export const ChatApi = createApi({
       }),
     }),
 
-    checkPrivateChat: builder.query<{ chatId: string | null }, string>({
+    checkPrivateChat: builder.mutation<{ chatId: string }, string>({
       query: (agentId) => ({
         url: `${ApiRoute.CHATS}/${ApiRoute.CHECK_PRIVATE_CHAT}/${agentId}`,
         method: 'GET',
@@ -265,7 +265,7 @@ export const {
   useSendMessageMutation,
   useGetUnreadMessagesCountQuery,
   useCreateChatMutation,
-  useCheckPrivateChatQuery,
+  useCheckPrivateChatMutation,
   useGetChatByIdQuery,
   useGetChatsQuery,
   useMarkMessageAsReadMutation,
