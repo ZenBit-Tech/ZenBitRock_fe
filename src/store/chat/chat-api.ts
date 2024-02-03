@@ -96,6 +96,17 @@ export const ChatApi = createApi({
             });
           });
 
+          socket.on(ChatEvent.RequestSetLikeUpdated, (chatIdIn) => {
+            if (chatIdIn !== arg.chatId) {
+              return;
+            }
+            socket.emit(ChatEvent.RequestAllMessages, arg, (messages: Message[]) => {
+              updateCachedData((draft) => {
+                draft.splice(0, draft.length, ...messages);
+              });
+            });
+          });
+
           await cacheEntryRemoved;
           socket.off(ChatEvent.NewMessage, handleNewMessage);
         } catch (error) {
@@ -177,6 +188,18 @@ export const ChatApi = createApi({
       },
     }),
 
+    setLike: builder.mutation<void, { messageId: string; like: number }>({
+      queryFn: async (arg: { messageId: string; like: number }) => {
+        const socket = getSocket();
+
+        return new Promise<void>((resolve) => {
+          socket.emit(ChatEvent.RequestSetLike, arg, () => {
+            resolve();
+          });
+        }).then();
+      },
+    }),
+
     deleteChat: builder.mutation<void, { id: string }>({
       query: ({ id }) => ({
         url: ApiRoute.CHAT_WITH_ID.replace('id', id),
@@ -247,4 +270,5 @@ export const {
   useGetChatsQuery,
   useMarkMessageAsReadMutation,
   useGetUnreadMessagesCountByChatIdQuery,
+  useSetLikeMutation,
 } = ChatApi;
