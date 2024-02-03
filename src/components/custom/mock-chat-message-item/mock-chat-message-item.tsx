@@ -26,7 +26,7 @@ export function MockChatMessageItem({ message, me }: Props): JSX.Element {
   const t = useTranslations('agents');
   const { id, content, createdAt, owner, isReadBy, likes } = message;
 
-  const like = Number(likes?.filter((emoji) => emoji.userId !== owner.id)[0].like);
+  const like = Number(likes?.filter((emoji) => emoji.userId !== owner.id)[0]?.like || 0);
 
   const isRead = isReadBy ? isReadBy.filter((user) => user.userId !== owner.id)[0].isRead : false;
 
