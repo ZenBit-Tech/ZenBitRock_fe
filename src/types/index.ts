@@ -62,6 +62,6 @@ export {
   type IChatResponse,
   type IChatRequest,
 } from './chat';
-export { type Chat, type Chats, type Message, type ChatsRequest, type Pagination } from './chats';
+export { type Chat, type Message } from './chats';
 export { type IContentResponse, type IContentUpdateRequest, type IContentItem } from './content';
 export { type AppNotification } from './notifications';

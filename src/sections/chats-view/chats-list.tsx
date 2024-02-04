@@ -82,7 +82,7 @@ export default function ChatsList({ t }: Props) {
 
   const sortedChats: Chat[] | [] = sortChats(filteredChats || [], sortBy.value);
 
-  const chats: Chat[] | [] = tourActive ? chatsMockData.data : sortedChats || [];
+  const chats: Chat[] | [] = tourActive ? chatsMockData : sortedChats || [];
 
   if (isLoading) {
     return <LoadingScreen />;

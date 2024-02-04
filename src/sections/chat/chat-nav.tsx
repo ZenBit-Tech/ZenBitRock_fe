@@ -42,12 +42,7 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
   const [selectedAgent, setSelectedAgent] = useState<UserChatResponse | null>(null);
   const [selectedAgentId, setSelectedAgentId] = useState('');
 
-  const { data: chats } = useGetChatsQuery({
-    page: 1,
-    limit: 100,
-    sortType: '',
-    searchParam: '',
-  });
+  const { data: chats } = useGetChatsQuery();
 
   function getChatId(agentId: string): string | undefined {
     let chatId;
