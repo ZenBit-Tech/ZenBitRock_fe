@@ -8,6 +8,7 @@ import { getStorageKeyWithUserId } from 'services';
 import { StorageKey } from 'enums';
 import { RootState } from 'store';
 import { getStorage, setStorage } from 'hooks/use-local-storage';
+import { Chat } from 'types';
 import ChatItem from './chat-item';
 import { Values, getSortOptions } from './helpers/drop-box-data';
 import { SortComponent } from './sort-component';
@@ -17,10 +18,7 @@ type Props = {
   t: Function;
 };
 
-const FIRST_PAGE: number = 1;
-
 export default function ChatsList({ t }: Props) {
-  const [page, setPage] = useState<number>(FIRST_PAGE);
   const [sortBy, setSortBy] = useState<Values>(getSortOptions(t)[0]);
   const authUser = useSelector((state: RootState) => state.authSlice.user);
   const userId = authUser?.id || '';
@@ -36,12 +34,7 @@ export default function ChatsList({ t }: Props) {
     state: { tourActive },
   } = useOnboardingContext();
 
-  const { data, isLoading, isError } = useGetChatsQuery({
-    page,
-    limit: 100,
-    sortType: sortBy.value,
-    searchParam,
-  });
+  const { data, isLoading, isError } = useGetChatsQuery();
 
   const isVisible = useScrollToTop();
 
@@ -60,22 +53,36 @@ export default function ChatsList({ t }: Props) {
     setSortBy(newValue);
   }, []);
 
-  const chatsData = data || [];
+  const chatsData: Chat[] | [] = data || [];
 
-  const filteredChats = chatsData.filter(
-    (chat) =>
-      chat.title?.toLowerCase().startsWith(searchParam.toLowerCase()) ||
-      chat.members.some(
-        (member) =>
-          !member.isDeleted &&
-          (member.firstName.toLowerCase().startsWith(searchParam.toLowerCase()) ||
-            member.lastName.toLowerCase().startsWith(searchParam.toLowerCase()))
-      )
-  );
+  const searchParamsArray =
+    searchParam.trim() !== '' ? searchParam.trim().toLowerCase().split(/\s+/) : [];
 
-  const sortedChats = sortChats(filteredChats || [], sortBy.value);
+  let filteredChats;
 
-  const chats = tourActive ? chatsMockData.data : sortedChats || [];
+  if (searchParamsArray.length) {
+    filteredChats = chatsData.filter(
+      (chat) =>
+        chat.title?.toLowerCase().includes(searchParam.toLowerCase()) ||
+        chat.members.some(
+          (member) =>
+            !member.isDeleted &&
+            searchParamsArray.every(
+              (searchWord) =>
+                member.firstName.toLowerCase().includes(searchWord) ||
+                member.lastName.toLowerCase().includes(searchWord)
+            )
+        )
+    );
+  } else if (!searchParam) {
+    filteredChats = data;
+  } else {
+    filteredChats = [];
+  }
+
+  const sortedChats: Chat[] | [] = sortChats(filteredChats || [], sortBy.value);
+
+  const chats: Chat[] | [] = tourActive ? chatsMockData : sortedChats || [];
 
   if (isLoading) {
     return <LoadingScreen />;
@@ -95,7 +102,7 @@ export default function ChatsList({ t }: Props) {
 
       <SortComponent t={t} sort={sortBy} onSort={handleSortBy} sortOptions={getSortOptions(t)} />
 
-      {searchParam && chats.length ? (
+      {searchParamsArray.length && chats.length ? (
         <Typography textAlign="center" variant="h6" sx={{ my: 1 }}>
           {`${t('results')} ${searchParam}:`}
         </Typography>

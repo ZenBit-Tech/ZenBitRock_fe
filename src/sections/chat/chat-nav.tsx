@@ -32,12 +32,7 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
 
   const [sort, setSort] = useState<string>('nameAsc');
 
-  const { data: chats } = useGetChatsQuery({
-    page: 1,
-    limit: 100,
-    sortType: '',
-    searchParam: '',
-  });
+  const { data: chats } = useGetChatsQuery();
 
   const getChatId = (agentId: string): string | undefined => {
     let chatId;
