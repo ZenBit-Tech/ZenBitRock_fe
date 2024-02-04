@@ -143,9 +143,8 @@ export const QobrixApi = createApi({
           status: property.status,
           country: property.country,
           city: property.city,
-          price: property.sale_rent !== 'for_rent' ? property.list_selling_price_amount : undefined,
-          priceRental:
-            property.sale_rent !== 'for_sale' ? property.list_rental_price_amount : undefined,
+          price: property.sale_rent !== 'for_rent' ? property.list_selling_price_amount : null,
+          priceRental: property.sale_rent !== 'for_sale' ? property.list_rental_price_amount : null,
           photo: property.media?.[0]?.file?.thumbnails?.medium || null,
         }));
 
@@ -178,11 +177,11 @@ export const QobrixApi = createApi({
           price:
             response?.data.sale_rent !== 'for_rent'
               ? response?.data.list_selling_price_amount
-              : undefined,
+              : null,
           priceRental:
             response?.data.sale_rent !== 'for_sale'
               ? response?.data.list_rental_price_amount
-              : undefined,
+              : null,
           media: response?.data.media,
           description: response?.data.description,
           name: response?.data.name,

@@ -467,7 +467,16 @@ const ChatInfo = (): JSX.Element => {
               t={t}
               chatId={data?.id}
               ownerId={data?.owner?.id}
-              chatMembers={members && members.length > 0 ? members : []}
+              chatMembers={
+                members && members.length > 0
+                  ? members.filter(
+                      (member) =>
+                        member.label.toLowerCase() !== 'deleted user' &&
+                        member.id !== data?.owner?.id &&
+                        usersData?.find(({ id }) => id === member.id)?.qobrixUserId
+                    )
+                  : []
+              }
               closeModalUp={() => closeModal('members')}
               changedMembers={(values: { label: string; id: string }[]) => {
                 setMembers(() => [

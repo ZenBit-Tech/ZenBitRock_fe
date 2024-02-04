@@ -63,9 +63,9 @@ function ContentItem({
       >
         <Card
           sx={{
-            p: '0.5rem',
+            py: '1rem',
+            px: '0.5rem',
             position: 'relative',
-            mb: '1rem',
             '&:last-child': { mb: '1.5rem' },
             display: 'flex',
             flexDirection: 'column',
@@ -79,8 +79,6 @@ function ContentItem({
                   screenshot && (screenshot.includes('.png') || screenshot.includes('.jpg'))
                     ? 4
                     : 8,
-                pb: '0.5rem',
-                pt: { xs: 0, sm: '0.5rem' },
                 pl: '1rem',
               }}
             >
@@ -90,7 +88,6 @@ function ContentItem({
                     display: 'flex',
                     gap: '0.375rem',
                     alignItems: 'baseline',
-                    mb: '0.5rem',
                   }}
                 />
               )}
@@ -110,7 +107,11 @@ function ContentItem({
               </Typography>
             </Box>
             {screenshot && (screenshot.includes('.png') || screenshot.includes('.jpg')) && (
-              <Box sx={{ flex: 4, py: '0.5rem' }}>
+              <Box
+                sx={{
+                  flex: 4,
+                }}
+              >
                 <Image
                   src={screenshot}
                   width="100%"
@@ -121,6 +122,7 @@ function ContentItem({
             )}
             <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <Checkbox
+                sx={{ mt: '-0.55rem' }}
                 checked={checkBoxValue}
                 onChange={(event) => {
                   setCheckBoxValue(event.target.checked);

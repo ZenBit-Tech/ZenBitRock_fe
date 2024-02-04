@@ -30,7 +30,9 @@ function ContentList({
   const sortedContent = useMemo<IContentItem[] | undefined>(
     () =>
       sortContent({
-        content: contents?.filter((content) => content.title.toLowerCase().includes(filter)),
+        content: contents?.filter((content) =>
+          content.title.toLowerCase().includes(filter.toLowerCase())
+        ),
         sortType: sort,
       }),
     [contents, sort, filter]
@@ -113,21 +115,19 @@ function ContentList({
           </Typography>
         )}
         {sortedContent && sortedContent?.length > 0 ? (
-          sortedContent
-            ?.filter((content) => content.title.toLowerCase().includes(filter))
-            .map(({ id, title, link, screenshot, checked }, idx) => (
-              <ContentItem
-                id={id}
-                key={id}
-                title={title}
-                link={link}
-                screenshot={screenshot}
-                checked={checked}
-                t={t}
-                type={type}
-                isAdmin={isAdmin ? isAdmin : false}
-              />
-            ))
+          sortedContent.map(({ id, title, link, screenshot, checked }, idx) => (
+            <ContentItem
+              id={id}
+              key={id}
+              title={title}
+              link={link}
+              screenshot={screenshot}
+              checked={checked}
+              t={t}
+              type={type}
+              isAdmin={isAdmin ? isAdmin : false}
+            />
+          ))
         ) : (
           <NoDataFound />
         )}

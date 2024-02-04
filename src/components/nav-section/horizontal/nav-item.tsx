@@ -15,7 +15,7 @@ type Props = NavItemProps & {
 
 const NavItem = forwardRef<HTMLDivElement, Props>(
   ({ item, depth, open, active, externalLink, config, ...other }, ref) => {
-    const { title, path, icon, info, children, disabled, caption, roles } = item;
+    const { title, path, icon, info, children, disabled, caption, roles, reset } = item;
 
     const t = useTranslations('Home.Header.navbar');
 
@@ -31,10 +31,7 @@ const NavItem = forwardRef<HTMLDivElement, Props>(
         disabled={disabled}
         config={config}
         {...other}
-        onClick={(event) => {
-          (event.target as HTMLElement).baseURI.includes('leads') &&
-            localStorage.removeItem('leadsByPropertySearch');
-        }}
+        onClick={() => reset === 'reset' && localStorage.removeItem('leadsByPropertySearch')}
       >
         {icon && (
           <StyledIcon

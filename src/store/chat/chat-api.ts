@@ -17,7 +17,7 @@ export const ChatApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Create chat'],
+  tagTypes: ['Create chat', 'AllChats'],
   endpoints: (builder) => ({
     createGroupChat: builder.mutation<IChatResponse, ICreateGroupChatRequest>({
       query: (body) => ({
@@ -35,7 +35,7 @@ export const ChatApi = createApi({
       }),
     }),
 
-    checkPrivateChat: builder.query<{ chatId: string | null }, string>({
+    checkPrivateChat: builder.mutation<{ chatId: string }, string>({
       query: (agentId) => ({
         url: `${ApiRoute.CHATS}/${ApiRoute.CHECK_PRIVATE_CHAT}/${agentId}`,
         method: 'GET',
@@ -75,13 +75,15 @@ export const ChatApi = createApi({
             });
           });
 
-          socket.on(ChatEvent.NewMessage, (message: Message) => {
+          const handleNewMessage = (message: Message) => {
             updateCachedData((draft) => {
               if (message.chat.id === arg.chatId) {
                 draft.push(message);
               }
             });
-          });
+          };
+
+          socket.on(ChatEvent.NewMessage, handleNewMessage);
 
           socket.on(ChatEvent.RequestUnreadMessagesCountUpdated, (chatIdIn) => {
             if (chatIdIn !== arg.chatId) {
@@ -94,7 +96,19 @@ export const ChatApi = createApi({
             });
           });
 
+          socket.on(ChatEvent.RequestSetLikeUpdated, (chatIdIn) => {
+            if (chatIdIn !== arg.chatId) {
+              return;
+            }
+            socket.emit(ChatEvent.RequestAllMessages, arg, (messages: Message[]) => {
+              updateCachedData((draft) => {
+                draft.splice(0, draft.length, ...messages);
+              });
+            });
+          });
+
           await cacheEntryRemoved;
+          socket.off(ChatEvent.NewMessage, handleNewMessage);
         } catch (error) {
           throw error;
         }
@@ -174,6 +188,18 @@ export const ChatApi = createApi({
       },
     }),
 
+    setLike: builder.mutation<void, { messageId: string; like: number }>({
+      queryFn: async (arg: { messageId: string; like: number }) => {
+        const socket = getSocket();
+
+        return new Promise<void>((resolve) => {
+          socket.emit(ChatEvent.RequestSetLike, arg, () => {
+            resolve();
+          });
+        }).then();
+      },
+    }),
+
     deleteChat: builder.mutation<void, { id: string }>({
       query: ({ id }) => ({
         url: ApiRoute.CHAT_WITH_ID.replace('id', id),
@@ -187,49 +213,62 @@ export const ChatApi = createApi({
         body: { title, memberIds },
       }),
     }),
+<<<<<<< HEAD
     getChats: builder.query<Chat[], void>({
       queryFn: () => ({ data: [] }),
+=======
+    getChats: builder.query<Chat[], ChatsRequest>({
+      queryFn: (arg: ChatsRequest) => {
+        const socket = getSocket();
+
+        return new Promise((resolve) => {
+          socket.emit(ChatEvent.RequestAllChats, arg, (chats: Chat[]) => {
+            resolve({ data: chats });
+          });
+        });
+      },
+>>>>>>> develop
       async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved, updateCachedData }) {
         try {
           await cacheDataLoaded;
           const socket = getSocket();
 
-          socket.emit(ChatEvent.RequestAllChats, arg, (chats: Chat[]) => {
-            updateCachedData((draft) => {
-              draft.splice(0, draft.length, ...chats);
-            });
-          });
-
-          socket.on(ChatEvent.NewMessage, () => {
+          const requestAllChats = () => {
             socket.emit(ChatEvent.RequestAllChats, arg, (chats: Chat[]) => {
               updateCachedData((draft) => {
                 draft.splice(0, draft.length, ...chats);
               });
             });
-          });
+          };
 
-          socket.on(ChatEvent.NewChat, () => {
-            socket.emit(ChatEvent.RequestAllChats, arg, (chats: Chat[]) => {
-              updateCachedData((draft) => {
-                draft.splice(0, draft.length, ...chats);
-              });
-            });
-          });
+          socket.on(ChatEvent.NewMessage, requestAllChats);
+          socket.on(ChatEvent.NewChat, requestAllChats);
+          socket.on(ChatEvent.ChatDeleted, requestAllChats);
+          socket.on(ChatEvent.ChatUpdated, requestAllChats);
 
-          socket.on(ChatEvent.ChatDeleted, () => {
-            socket.emit(ChatEvent.RequestAllChats, arg, (chats: Chat[]) => {
-              updateCachedData((draft) => {
-                draft.splice(0, draft.length, ...chats);
-              });
-            });
-          });
+          await cacheEntryRemoved;
 
-          socket.on(ChatEvent.ChatUpdated, () => {
-            socket.emit(ChatEvent.RequestAllChats, arg, (chats: Chat[]) => {
-              updateCachedData((draft) => {
-                draft.splice(0, draft.length, ...chats);
-              });
-            });
+          socket.off(ChatEvent.NewMessage, requestAllChats);
+          socket.off(ChatEvent.NewChat, requestAllChats);
+          socket.off(ChatEvent.ChatDeleted, requestAllChats);
+          socket.off(ChatEvent.ChatUpdated, requestAllChats);
+        } catch (error) {
+          throw error;
+        }
+      },
+      serializeQueryArgs: ({ queryArgs }) => '1',
+      providesTags: ['AllChats'],
+    }),
+    redirectToChats: builder.query<boolean, void>({
+      queryFn: () => ({ data: false }),
+      async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved, updateCachedData }) {
+        try {
+          await cacheDataLoaded;
+          const socket = getSocket();
+
+          socket.on(ChatEvent.RequestRedirectToChats, async () => {
+            await updateCachedData((draft) => true);
+            await updateCachedData((draft) => false);
           });
 
           await cacheEntryRemoved;
@@ -249,9 +288,11 @@ export const {
   useSendMessageMutation,
   useGetUnreadMessagesCountQuery,
   useCreateChatMutation,
-  useCheckPrivateChatQuery,
+  useCheckPrivateChatMutation,
   useGetChatByIdQuery,
   useGetChatsQuery,
   useMarkMessageAsReadMutation,
   useGetUnreadMessagesCountByChatIdQuery,
+  useSetLikeMutation,
+  useRedirectToChatsQuery,
 } = ChatApi;

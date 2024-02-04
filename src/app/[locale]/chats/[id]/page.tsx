@@ -1,11 +1,13 @@
 'use client';
 
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { LoadingScreen } from 'components/loading-screen';
+import { AppRoute } from 'enums';
+import { useRouter, useEffect } from 'hooks';
 import { ChatView } from 'sections/chat/view';
 import { NotChatMemberView, Page500 } from 'sections/error';
-import { LoadingScreen } from 'components/loading-screen';
-import { useGetChatByIdQuery, useGetMessagesQuery } from 'store/chat';
-import { useSelector } from 'react-redux';
+import { useGetChatByIdQuery, useGetMessagesQuery, useRedirectToChatsQuery } from 'store/chat';
 import { RootState } from 'store';
 
 type Props = {
@@ -20,6 +22,15 @@ function ChatPage({ params }: Props): JSX.Element {
   const { data: chatMessages, isLoading: isLoadingMessages } = useGetMessagesQuery({
     chatId,
   });
+
+  const { data: redirectToChats = false } = useRedirectToChatsQuery();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (redirectToChats && redirectToChats === true) {
+      router.push(AppRoute.CHATS_PAGE);
+    }
+  }, [redirectToChats, router]);
 
   if (isFetching || !chatData || !authUser || isLoadingMessages) {
     return <LoadingScreen sx={{ mt: 'calc(100vh / 2 - 65px)' }} />;

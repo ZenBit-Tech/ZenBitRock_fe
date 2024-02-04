@@ -1,7 +1,7 @@
 export {
   useCreateChatMutation,
   useCreateGroupChatMutation,
-  useCheckPrivateChatQuery,
+  useCheckPrivateChatMutation,
   ChatApi,
   useDeleteChatMutation,
   useGetChatByIdQuery,
@@ -11,4 +11,6 @@ export {
   useGetUnreadMessagesCountQuery,
   useMarkMessageAsReadMutation,
   useGetUnreadMessagesCountByChatIdQuery,
+  useSetLikeMutation,
+  useRedirectToChatsQuery,
 } from 'store/chat/chat-api';

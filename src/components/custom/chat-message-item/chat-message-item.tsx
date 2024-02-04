@@ -3,9 +3,17 @@
 import { Box, IconButton, List, ListItem, Stack, Typography } from '@mui/material';
 import DoneIcon from '@mui/icons-material/Done';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
+import FavoritIcon from '@mui/icons-material/Favorite';
+import FavoritBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
 import {
   getIsRead,
   getIsReadByMembers,
+  getLike,
+  getLikes,
   getReaders,
 } from 'components/custom/chat-message-item/utils';
 import { colors } from 'constants/colors';
@@ -15,6 +23,7 @@ import { RootState } from 'store';
 import { useMarkMessageAsReadMutation } from 'store/chat';
 import { Message } from 'types';
 import { UserChatResponse } from 'types/user-backend';
+import Like from 'components/custom/mock-chat-message-item/like';
 import ButtonClose from '../button-close/button-close';
 
 type Props = {
@@ -31,15 +40,32 @@ export function ChatMessageItem({ message, usersData }: Props): JSX.Element {
       isReadByMember: boolean;
     }[]
   >();
+  const [allLikes, setAllLikes] = useState<
+    {
+      memberId: string;
+      memberName: string;
+      likeByMember: number;
+    }[]
+  >();
+
   const t = useTranslations('agents');
   const user = useSelector((state: RootState) => state.authSlice.user);
-  const { id, content, createdAt, owner, isReadBy, chat } = message;
+  const { id, content, createdAt, owner, isReadBy, chat, likes } = message;
 
   const isMe = owner.id === user?.id;
   const name = `${owner.firstName} ${owner.lastName}`;
 
   const isRead: boolean = getIsRead({
     isReadBy,
+    isMe,
+    userId: user?.id,
+    messageId: id,
+    ownerId: owner.id,
+    chat,
+  });
+
+  const like: number = getLike({
+    likes,
     isMe,
     userId: user?.id,
     messageId: id,
@@ -98,20 +124,45 @@ export function ChatMessageItem({ message, usersData }: Props): JSX.Element {
           userId: user?.id,
         })
       );
+
+      setAllLikes(
+        getLikes({
+          likes,
+          usersData,
+          members,
+          userId: user?.id,
+        })
+      );
     }
-  }, [chat, isReadBy, user?.id, usersData]);
+  }, [chat, isReadBy, likes, user?.id, usersData]);
+
+  const icons = [
+    FavoritBorderIcon,
+    FavoritIcon,
+    ThumbUpIcon,
+    ThumbDownIcon,
+    SentimentSatisfiedAltIcon,
+    SentimentVeryDissatisfiedIcon,
+  ];
 
   return (
     <Box
       ref={(node) => setMessageRef(node as HTMLDivElement)}
       sx={{
         display: 'flex',
-        ...(isMe && { justifyContent: 'right' }),
+        alignItems: 'center',
+        flexDirection: 'row-reverse',
+        justifyContent: 'left',
+        ...(isMe && { justifyContent: 'right', flexDirection: 'row' }),
         '&:not(:last-child)': {
           mb: 2,
         },
+        position: 'relative',
       }}
     >
+      {!isMe && owner?.firstName?.toLowerCase() !== 'deleted' && (
+        <Like icons={icons} messageId={id} like={like} />
+      )}
       <Stack
         sx={{
           p: 1.5,
@@ -224,9 +275,36 @@ export function ChatMessageItem({ message, usersData }: Props): JSX.Element {
                           {memberName}
                         </Typography>
                         {isReadByMember ? (
-                          <DoneAllIcon sx={{ height: '10px' }} />
+                          <>
+                            {allLikes &&
+                              Number(
+                                allLikes.filter(
+                                  ({ memberId: memberLikeId }) => memberId === memberLikeId
+                                )[0].likeByMember
+                              ) !== 0 && (
+                                <Box
+                                  component={
+                                    icons[
+                                      Number(
+                                        allLikes.filter(
+                                          ({ memberId: memberLikeId }) => memberId === memberLikeId
+                                        )[0].likeByMember
+                                      )
+                                    ]
+                                  }
+                                  sx={{
+                                    color: colors.BUTTON_PRIMARY_COLOR,
+                                    width: '1rem',
+                                    height: '1rem',
+                                    marginRight: '0.5rem',
+                                    marginLeft: 'auto',
+                                  }}
+                                />
+                              )}
+                            <DoneAllIcon sx={{ height: '1rem' }} />
+                          </>
                         ) : (
-                          <DoneIcon sx={{ height: '10px' }} />
+                          <DoneIcon sx={{ height: '1rem' }} />
                         )}
                       </ListItem>
                     ))}

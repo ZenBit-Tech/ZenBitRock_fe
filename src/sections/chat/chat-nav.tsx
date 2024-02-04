@@ -1,14 +1,8 @@
-import { useState, useCallback, useMemo, useEffect } from 'react';
-import { useTranslations } from 'next-intl';
-import { enqueueSnackbar } from 'notistack';
-import TextField from '@mui/material/TextField';
+import { useScrollToTop, useTranslations, useState, useCallback, useMemo, useEffect } from 'hooks';
 import { Container } from '@mui/system';
-import { Fab } from '@mui/material';
-import { useRouter } from 'routes/hooks';
-import { useScrollToTop } from 'hooks';
-import { useCheckPrivateChatQuery, useCreateChatMutation } from 'store/chat';
+import { Fab, TextField } from '@mui/material';
 import { UserChatResponse } from 'types/user-backend';
-import { AppRoute } from 'enums';
+import { StorageKey } from 'enums';
 import { AGENTS_SORT_OPTIONS } from 'constants/agentsSortOptions';
 import { useGetChatsQuery } from 'store/chat/chat-api';
 import { ChatNavItemSkeleton } from './chat-skeleton';
@@ -24,8 +18,6 @@ type Props = {
 };
 
 export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
-  const router = useRouter();
-
   const t = useTranslations('agents');
 
   const isVisible = useScrollToTop();
@@ -39,12 +31,10 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
   });
 
   const [sort, setSort] = useState<string>('nameAsc');
-  const [selectedAgent, setSelectedAgent] = useState<UserChatResponse | null>(null);
-  const [selectedAgentId, setSelectedAgentId] = useState('');
 
   const { data: chats } = useGetChatsQuery();
 
-  function getChatId(agentId: string): string | undefined {
+  const getChatId = (agentId: string): string | undefined => {
     let chatId;
 
     if (
@@ -59,73 +49,43 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
     }
 
     return chatId;
-  }
-
-  const { data: chatData } = useCheckPrivateChatQuery(selectedAgentId);
-
-  const [createChat, { error }] = useCreateChatMutation();
-
-  useEffect(() => {
-    const createNewChat = async () => {
-      try {
-        if (selectedAgent) {
-          const response = await createChat({
-            title: selectedAgent.firstName,
-            memberIds: [selectedAgent.id, id],
-            isPrivate: true,
-          }).unwrap();
-
-          router.push(`${AppRoute.CHATS_PAGE}/${response.chat.id}`);
-        }
-      } catch (err) {
-        enqueueSnackbar(t('error'), { variant: 'error' });
-      }
-    };
-
-    if (error) {
-      enqueueSnackbar(t('error'), { variant: 'error' });
-    }
-    if (chatData && chatData.chatId === null && selectedAgent) {
-      createNewChat();
-    } else if (chatData && chatData.chatId) {
-      router.push(`${AppRoute.CHATS_PAGE}/${chatData.chatId}`);
-    }
-  }, [selectedAgent, chatData, createChat, router, t, id, error]);
+  };
 
   const handleSearchAgents = useCallback(
     (inputValue: string): void => {
-      setSearchAgents((prevState) => ({
-        ...prevState,
-        query: inputValue,
-      }));
-
       if (inputValue && agents) {
         const results = agents.filter((agent) => {
           if (agent.id !== id && agent.firstName) {
             const agentName = `${agent.firstName} ${agent.lastName}`;
-
             return agentName.toLowerCase().includes(inputValue.trim().toLowerCase());
           }
 
-          return null;
+          return false;
         });
 
+        setSearchAgents({
+          query: inputValue,
+          results,
+        });
+      } else {
         setSearchAgents((prevState) => ({
           ...prevState,
-          results,
+          query: inputValue,
         }));
       }
+
+      localStorage.setItem(StorageKey.AGENTS_SEARCH_QUERY, inputValue);
     },
     [agents, id]
   );
 
-  const handleClickResult = useCallback(
-    (agent: UserChatResponse) => {
-      setSelectedAgent(agent);
-      setSelectedAgentId(agent.id);
-    },
-    [setSelectedAgent, setSelectedAgentId]
-  );
+  useEffect(() => {
+    const savedSearchQuery = localStorage.getItem(StorageKey.AGENTS_SEARCH_QUERY);
+
+    if (savedSearchQuery !== null) {
+      handleSearchAgents(savedSearchQuery);
+    }
+  }, [handleSearchAgents]);
 
   const sortedAgents = useMemo<UserChatResponse[] | undefined>(
     () =>
@@ -152,7 +112,7 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
     <ChatNavSearchResults
       query={searchAgents.query}
       results={searchAgents.results}
-      onClickResult={handleClickResult}
+      getChatId={getChatId}
       id={id}
     />
   );
@@ -184,7 +144,6 @@ export default function ChatNav({ loading, agents, id }: Props): JSX.Element {
               <AgentListItem
                 key={agent.id}
                 agent={agent}
-                handleClickResult={handleClickResult}
                 chatId={getChatId(agent.id)}
                 className={idx === 0 ? 'onboarding-step-10' : ''}
               />

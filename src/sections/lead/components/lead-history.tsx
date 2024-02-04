@@ -39,6 +39,11 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
     isLoading: tasksLoading,
   } = useAllPagesTasksData(id);
   const {
+    taskChanges,
+    isFetching: taskChangesFetching,
+    isLoading: taskChangesLoading,
+  } = useAllPagesTaskChangesData(tasks?.data);
+  const {
     data: smses,
     isFetching: smsesFetching,
     isLoading: smsesLoading,
@@ -63,11 +68,6 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
     isFetching: statusChangesFetching,
     isLoading: statusChangesLoading,
   } = useAllPagesStatusChangesData(id);
-  const {
-    taskChanges,
-    isFetching: taskChangesFetching,
-    isLoading: taskChangesLoading,
-  } = useAllPagesTaskChangesData(tasks?.data);
 
   useEffect(() => {
     if (id) {
@@ -93,6 +93,8 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
   const loadingScreen =
     tasksFetching ||
     tasksLoading ||
+    taskChangesFetching ||
+    taskChangesLoading ||
     smsesFetching ||
     smsesLoading ||
     emailsFetching ||
@@ -102,9 +104,7 @@ const LeadHistorySection = ({ lead, closeModal, openModal }: Props): JSX.Element
     meetingsFetching ||
     meetingsLoading ||
     statusChangesFetching ||
-    statusChangesLoading ||
-    taskChangesFetching ||
-    taskChangesLoading;
+    statusChangesLoading;
 
   return (
     <Modal
