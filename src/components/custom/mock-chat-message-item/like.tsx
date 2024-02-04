@@ -25,6 +25,7 @@ export default function Like({
       <Box
         className={likes}
         sx={{
+          pointerEvents: 'none',
           opacity: '0',
           position: 'absolute',
           top: '50%',
