@@ -213,21 +213,16 @@ export const ChatApi = createApi({
         body: { title, memberIds },
       }),
     }),
-<<<<<<< HEAD
     getChats: builder.query<Chat[], void>({
-      queryFn: () => ({ data: [] }),
-=======
-    getChats: builder.query<Chat[], ChatsRequest>({
-      queryFn: (arg: ChatsRequest) => {
+      queryFn: () => {
         const socket = getSocket();
 
         return new Promise((resolve) => {
-          socket.emit(ChatEvent.RequestAllChats, arg, (chats: Chat[]) => {
+          socket.emit(ChatEvent.RequestAllChats, (chats: Chat[]) => {
             resolve({ data: chats });
           });
         });
       },
->>>>>>> develop
       async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved, updateCachedData }) {
         try {
           await cacheDataLoaded;
