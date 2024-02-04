@@ -214,11 +214,11 @@ export const ChatApi = createApi({
       }),
     }),
     getChats: builder.query<Chat[], void>({
-      queryFn: () => {
+      queryFn: (arg) => {
         const socket = getSocket();
 
         return new Promise((resolve) => {
-          socket.emit(ChatEvent.RequestAllChats, (chats: Chat[]) => {
+          socket.emit(ChatEvent.RequestAllChats, arg, (chats: Chat[]) => {
             resolve({ data: chats });
           });
         });
