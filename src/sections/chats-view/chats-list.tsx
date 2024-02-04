@@ -67,8 +67,9 @@ export default function ChatsList({ t }: Props) {
       chat.title?.toLowerCase().startsWith(searchParam.toLowerCase()) ||
       chat.members.some(
         (member) =>
-          member.firstName.toLowerCase().startsWith(searchParam.toLowerCase()) ||
-          member.lastName.toLowerCase().startsWith(searchParam.toLowerCase())
+          !member.isDeleted &&
+          (member.firstName.toLowerCase().startsWith(searchParam.toLowerCase()) ||
+            member.lastName.toLowerCase().startsWith(searchParam.toLowerCase()))
       )
   );
 
