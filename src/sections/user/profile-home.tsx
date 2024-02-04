@@ -18,7 +18,7 @@ import { agentRoles } from 'constants/agentRoles';
 const RenderAbout = (): JSX.Element => {
   const t = useTranslations('profilePage');
   const authUser = useSelector((state: RootState) => state.authSlice.user);
-  
+
   if (!authUser) {
     return <LoadingScreen />;
   }
