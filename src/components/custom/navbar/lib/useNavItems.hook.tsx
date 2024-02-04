@@ -41,6 +41,7 @@ const UseNavItems = () => {
         {
           title: TranslationKey.LEADS,
           path: AppRoute.LEADS_PAGE,
+          reset: 'reset',
           icon: (
             <Iconify
               icon="healthicons:people"
