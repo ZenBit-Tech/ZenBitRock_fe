@@ -40,10 +40,13 @@ export function FormDelete({
     try {
       if (userId === ownerId) {
         if (chatId) await deleteChat({ id: chatId }).unwrap();
-      } else if (chatMembers && userId !== ownerId) {
+      } else if (chatMembers && ownerId && userId !== ownerId) {
         await updateGroupChat({
           id: chatId,
-          memberIds: chatMembers.map((member) => member.id).filter((member) => member !== userId),
+          memberIds: [
+            ...chatMembers.map((member) => member.id).filter((member) => member !== userId),
+            ownerId,
+          ],
         }).unwrap();
         closeModalUp();
       }
