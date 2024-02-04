@@ -254,6 +254,24 @@ export const ChatApi = createApi({
       serializeQueryArgs: ({ queryArgs }) => '1',
       providesTags: ['AllChats'],
     }),
+    redirectToChats: builder.query<boolean, void>({
+      queryFn: () => ({ data: false }),
+      async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved, updateCachedData }) {
+        try {
+          await cacheDataLoaded;
+          const socket = getSocket();
+
+          socket.on(ChatEvent.RequestRedirectToChats, async () => {
+            await updateCachedData((draft) => true);
+            await updateCachedData((draft) => false);
+          });
+
+          await cacheEntryRemoved;
+        } catch (error) {
+          throw error;
+        }
+      },
+    }),
   }),
 });
 
@@ -271,4 +289,5 @@ export const {
   useMarkMessageAsReadMutation,
   useGetUnreadMessagesCountByChatIdQuery,
   useSetLikeMutation,
+  useRedirectToChatsQuery,
 } = ChatApi;
