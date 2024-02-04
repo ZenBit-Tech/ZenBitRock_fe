@@ -26,13 +26,7 @@ function ContentList({
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const authUser = useSelector((state: RootState) => state.authSlice.user);
   const { isAdmin } = authUser || { isAdmin: false };
-  // contents?.forEach((content) => {
-  //   console.log(content.title.toLowerCase());
-  //   console.log(filter.toLowerCase());
-  // });
-  console.log(
-    contents?.filter((content) => content.title.toLowerCase().includes(filter.toLowerCase()))
-  );
+
   const sortedContent = useMemo<IContentItem[] | undefined>(
     () =>
       sortContent({
