@@ -32,7 +32,7 @@ export type NavListProps = {
   disabled?: boolean;
   roles?: string[];
   children?: any;
-  reset: string;
+  reset?: string;
 };
 
 export type NavSectionProps = StackProps & {
