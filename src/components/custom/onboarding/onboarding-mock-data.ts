@@ -392,6 +392,6 @@ const chatsMockData = [
       },
     ],
   },
-]
+];
 
 export { propertiesMockData, leadMockData, agentsMockData, chatsMockData };
