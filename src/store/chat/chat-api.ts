@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Chat, ChatInfoResponse, ChatsRequest } from 'types/chats';
+import { Chat, ChatInfoResponse } from 'types/chats';
 import { IChatResponse, ICreatePrivateChatRequest } from 'types/chat';
 import { ApiRoute, ChatEvent, StorageKey } from 'enums';
 import { ICreateGroupChatRequest, Message, IChatRequest } from 'types';
@@ -187,7 +187,7 @@ export const ChatApi = createApi({
         body: { title, memberIds },
       }),
     }),
-    getChats: builder.query<Chat[], ChatsRequest>({
+    getChats: builder.query<Chat[], void>({
       queryFn: () => ({ data: [] }),
       async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved, updateCachedData }) {
         try {
