@@ -364,7 +364,7 @@
       "propertyType": "Property type",
       "propertyStatus": "Status",
       "priceRange": "Price range",
-      "bedrooms": "Bedrooms",
+      "bedrooms": "Min.Bedrooms",
       "apply": "Apply filters",
       "locationsPlaceholder": "Location search",
       "priceRangeRentFromPlaceholder": "Min",
