@@ -108,7 +108,9 @@ const PropertyFilter = ({
       </Box>
       {filterString ? (
         <Typography variant="body1" sx={{ mt: 1, p: 0.5 }}>
-          {filterString}
+          {filterString.includes('bedrooms')
+            ? filterString.replace('bedrooms', 'min.bedrooms')
+            : filterString}
         </Typography>
       ) : null}
     </>
